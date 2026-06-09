@@ -1,0 +1,49 @@
+---yaml
+title: Carve sample
+author: markup-carve
+---
+
+# Carve sample
+
+Carve uses visual mnemonics: /italic/ leans, *bold* is heavy, _underline_ sits
+below, ~strike~ runs through, and ==highlight== stands out. You also get
+^super^ and ,,sub,, plus inline `code`.
+
+%% this whole line is a comment
+
+## Lists interrupt paragraphs
+
+Post-Markdown reading flow means a list can follow a paragraph with no blank line:
+- first item
+- second item
+  - nested item
+- [ ] a task
+- [x] a done task
+
+1. ordered
+2. items
+
+## Quote and code
+
+> A blockquote line.
+> Continued.
+
+``` php
+echo (new \Carve\CarveConverter())->convert('# Hi');
+```
+
+## Table
+
+| Feature   | Carve        |
+|-----------|--------------|
+| Italic    | `/italic/`   |
+| Highlight | `==text==`   |
+
+## Links and references
+
+A [link](https://github.com/markup-carve/carve), a cross-reference to
+</#carve-sample>, and an implicit heading reference to [[Lists interrupt paragraphs]].
+
+::: note
+Admonitions use `::: name` ... `:::`.
+:::

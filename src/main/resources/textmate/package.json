@@ -1,0 +1,23 @@
+{
+  "name": "carve",
+  "displayName": "Carve",
+  "description": "Carve markup language support",
+  "version": "1.0.0",
+  "contributes": {
+    "languages": [
+      {
+        "id": "carve",
+        "aliases": ["Carve", "carve"],
+        "extensions": [".crv", ".carve"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "carve",
+        "scopeName": "text.carve",
+        "path": "./carve.tmLanguage.json"
+      }
+    ]
+  }
+}

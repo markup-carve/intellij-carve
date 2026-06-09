@@ -1,0 +1,68 @@
+package org.markupcarve.carve.settings
+
+import com.intellij.ide.BrowserUtil
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
+import com.intellij.openapi.options.BoundConfigurable
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.DialogPanel
+import com.intellij.ui.dsl.builder.*
+import javax.swing.event.HyperlinkEvent
+
+class CarveSettingsConfigurable(private val project: Project) : BoundConfigurable("Carve") {
+
+    private val settings get() = CarveSettings.getInstance(project)
+
+    override fun createPanel(): DialogPanel {
+        return panel {
+            buttonsGroup("Renderer:") {
+                row {
+                    radioButton("carve-js (JavaScript via GraalJS)", CarveRenderer.CARVE_JS)
+                        .comment("Default renderer, bundled with the plugin - no dependencies required")
+                }
+                row {
+                    radioButton("carve-php (PHP CLI)", CarveRenderer.CARVE_PHP)
+                        .comment("Requires markup-carve/carve-php installed in your project")
+                }
+            }.bind(settings::renderer)
+
+            group("PHP Settings") {
+                row {
+                    text(
+                        "Requires <a href=\"https://github.com/markup-carve/carve-php\">markup-carve/carve-php</a> " +
+                            "installed via Composer in your project:",
+                    ).applyToComponent {
+                        addHyperlinkListener { e ->
+                            if (e.eventType == HyperlinkEvent.EventType.ACTIVATED) {
+                                BrowserUtil.browse(e.url)
+                            }
+                        }
+                    }
+                }
+                row {
+                    text("<code>composer require markup-carve/carve-php</code>")
+                }
+                row("PHP executable:") {
+                    textFieldWithBrowseButton(
+                        "Select PHP Executable",
+                        project,
+                        FileChooserDescriptorFactory.createSingleFileDescriptor(),
+                    ).columns(COLUMNS_LARGE)
+                        .bindText(settings::phpPath)
+                        .comment("Path to PHP binary (default: php)")
+                }
+                row("Converter script:") {
+                    textFieldWithBrowseButton(
+                        "Select Carve Script",
+                        project,
+                        FileChooserDescriptorFactory.createSingleFileDescriptor("php"),
+                    ).columns(COLUMNS_LARGE)
+                        .bindText(settings::phpCarveScript)
+                        .comment(
+                            "Optional PHP script that reads stdin and outputs HTML. " +
+                                "Leave empty to use vendor/bin/carve or the built-in one-liner.",
+                        )
+                }
+            }
+        }
+    }
+}

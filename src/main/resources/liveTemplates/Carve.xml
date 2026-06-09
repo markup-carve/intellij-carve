@@ -1,0 +1,150 @@
+<templateSet group="Carve">
+    <!-- Headings -->
+    <template name="ch1" value="# $TEXT$&#10;$END$" description="Heading level 1" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ch2" value="## $TEXT$&#10;$END$" description="Heading level 2" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ch3" value="### $TEXT$&#10;$END$" description="Heading level 3" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ch4" value="#### $TEXT$&#10;$END$" description="Heading level 4" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ch5" value="##### $TEXT$&#10;$END$" description="Heading level 5" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ch6" value="###### $TEXT$&#10;$END$" description="Heading level 6" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+
+    <!-- Inline marks (Carve visual mnemonics) -->
+    <template name="cb" value="*$TEXT$*$END$" description="Bold (*strong*)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;bold&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ci" value="/$TEXT$/$END$" description="Italic (/emphasis/)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;italic&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cbi" value="/*$TEXT$*/$END$" description="Bold italic (/*...*/)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;bold italic&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cu" value="_$TEXT$_$END$" description="Underline (_underline_)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;underline&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cs" value="~$TEXT$~$END$" description="Strikethrough (~strike~)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;strike&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="chl" value="==$TEXT$==$END$" description="Highlight (==highlight==)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;highlight&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="csup" value="^$TEXT$^$END$" description="Superscript (^sup^)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;sup&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="csub" value=",,$TEXT$,,$END$" description="Subscript (,,sub,,)" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;sub&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cc" value="`$TEXT$`$END$" description="Inline code" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;code&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+
+    <!-- Links and images -->
+    <template name="clink" value="[$TEXT$]($URL$)$END$" description="Link" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;text&quot;" alwaysStopAt="true"/>
+        <variable name="URL" expression="" defaultValue="&quot;https://&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cimg" value="![$ALT$]($URL$)$END$" description="Image" toReformat="false" toShortenFQNames="false">
+        <variable name="ALT" expression="" defaultValue="&quot;alt&quot;" alwaysStopAt="true"/>
+        <variable name="URL" expression="" defaultValue="&quot;image.png&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cref" value="&lt;/#$ID$&gt;$END$" description="Cross-reference (&lt;/#id&gt;)" toReformat="false" toShortenFQNames="false">
+        <variable name="ID" expression="" defaultValue="&quot;id&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cwiki" value="[[$HEADING$]]$END$" description="Implicit heading reference ([[Heading]])" toReformat="false" toShortenFQNames="false">
+        <variable name="HEADING" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+
+    <!-- Blocks -->
+    <template name="ccode" value="``` $LANG$&#10;$BODY$&#10;```&#10;$END$" description="Fenced code block" toReformat="false" toShortenFQNames="false">
+        <variable name="LANG" expression="" defaultValue="&quot;php&quot;" alwaysStopAt="true"/>
+        <variable name="BODY" expression="" defaultValue="&quot;&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cquote" value="&gt; $TEXT$&#10;$END$" description="Blockquote" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;quote&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="chr" value="---&#10;$END$" description="Thematic break" toReformat="false" toShortenFQNames="false">
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cul" value="- $TEXT$&#10;$END$" description="Bullet list item" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;item&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="col" value="1. $TEXT$&#10;$END$" description="Ordered list item" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;item&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ctask" value="- [ ] $TEXT$&#10;$END$" description="Task list item" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;todo&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ctable" value="| $H1$ | $H2$ |&#10;|------|------|&#10;| $C1$ | $C2$ |&#10;$END$" description="Table" toReformat="false" toShortenFQNames="false">
+        <variable name="H1" expression="" defaultValue="&quot;Header 1&quot;" alwaysStopAt="true"/>
+        <variable name="H2" expression="" defaultValue="&quot;Header 2&quot;" alwaysStopAt="true"/>
+        <variable name="C1" expression="" defaultValue="&quot;Cell 1&quot;" alwaysStopAt="true"/>
+        <variable name="C2" expression="" defaultValue="&quot;Cell 2&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cdiv" value="::: $NAME$&#10;$BODY$&#10;:::&#10;$END$" description="Div / admonition" toReformat="false" toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="&quot;note&quot;" alwaysStopAt="true"/>
+        <variable name="BODY" expression="" defaultValue="&quot;&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+
+    <!-- Math -->
+    <template name="cmath" value="$DOLLAR$`$EXPR$`$END$" description="Inline math" toReformat="false" toShortenFQNames="false">
+        <variable name="DOLLAR" expression="enum(&quot;$&quot;)" defaultValue="&quot;$&quot;" alwaysStopAt="false"/>
+        <variable name="EXPR" expression="" defaultValue="&quot;x&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cmathb" value="$DOLLAR$$DOLLAR$`$EXPR$`$END$" description="Display math" toReformat="false" toShortenFQNames="false">
+        <variable name="DOLLAR" expression="enum(&quot;$&quot;)" defaultValue="&quot;$&quot;" alwaysStopAt="false"/>
+        <variable name="EXPR" expression="" defaultValue="&quot;x&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+
+    <!-- Comments and frontmatter -->
+    <template name="ccomment" value="%% $TEXT$$END$" description="Line comment" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;comment&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="ccommentb" value="%%%&#10;$TEXT$&#10;%%%&#10;$END$" description="Block comment" toReformat="false" toShortenFQNames="false">
+        <variable name="TEXT" expression="" defaultValue="&quot;comment&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+    <template name="cfront" value="---yaml&#10;$KEY$: $VALUE$&#10;---&#10;$END$" description="YAML frontmatter" toReformat="false" toShortenFQNames="false">
+        <variable name="KEY" expression="" defaultValue="&quot;title&quot;" alwaysStopAt="true"/>
+        <variable name="VALUE" expression="" defaultValue="&quot;&quot;" alwaysStopAt="true"/>
+        <context><option name="OTHER" value="true"/></context>
+    </template>
+</templateSet>

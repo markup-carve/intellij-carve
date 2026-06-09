@@ -1,0 +1,75 @@
+<idea-plugin>
+    <id>org.markupcarve.carve</id>
+    <name>Carve</name>
+    <vendor url="https://github.com/markup-carve">markup-carve</vendor>
+
+    <description><![CDATA[
+    <p>Carve markup language support for JetBrains IDEs.</p>
+
+    <h3>Features</h3>
+    <ul>
+        <li>Syntax highlighting via TextMate grammar</li>
+        <li>Live preview panel (split editor view)</li>
+        <li>IDE theme sync - preview follows dark/light mode</li>
+        <li>Export to HTML</li>
+        <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
+        <li>File type recognition for <code>.crv</code> and <code>.carve</code></li>
+    </ul>
+
+    <h3>About Carve</h3>
+    <p>Carve is a post-Markdown lightweight markup language that builds on Djot with
+    visual mnemonics (<code>/italic/</code>, <code>*bold*</code>, <code>_underline_</code>,
+    <code>~strike~</code>, <code>==highlight==</code>) and a Markdown-like reading flow.</p>
+
+    <p>More info: <a href="https://github.com/markup-carve/carve">github.com/markup-carve/carve</a></p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Carve"
+                implementationClass="org.markupcarve.carve.CarveFileType"
+                fieldName="INSTANCE"
+                language="Carve"
+                extensions="crv;carve"/>
+
+        <fileEditorProvider
+                implementation="org.markupcarve.carve.preview.CarvePreviewEditorProvider"/>
+
+        <toolWindow
+                id="Carve Preview"
+                anchor="right"
+                factoryClass="org.markupcarve.carve.preview.CarvePreviewToolWindowFactory"
+                icon="/icons/carve.svg"/>
+
+        <defaultLiveTemplates file="/liveTemplates/Carve.xml"/>
+
+        <projectConfigurable
+                instance="org.markupcarve.carve.settings.CarveSettingsConfigurable"
+                id="org.markupcarve.carve.settings"
+                displayName="Carve"
+                parentId="tools"/>
+
+        <projectService
+                serviceImplementation="org.markupcarve.carve.settings.CarveSettings"/>
+    </extensions>
+
+    <actions>
+        <action id="Carve.Preview"
+                class="org.markupcarve.carve.actions.TogglePreviewAction"
+                text="Toggle Carve Preview"
+                description="Show/hide Carve preview tool window"
+                icon="/icons/carve.svg">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift D"/>
+        </action>
+
+        <action id="Carve.ExportHtml"
+                class="org.markupcarve.carve.actions.ExportHtmlAction"
+                text="Export to HTML"
+                description="Export Carve file to HTML">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
