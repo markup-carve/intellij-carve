@@ -100,6 +100,8 @@ class ExportHtmlAction : AnAction() {
                     .admonition.example { border-color: #9b59b6; background: #f9f4fb; }
                     .admonition.quote { border-color: #95a5a6; background: #f7f9f9; }
                     .math.display { display: block; text-align: center; margin: 1em 0; }
+                    .featured { background: linear-gradient(90deg, #eaf4ff, transparent);
+                        border-left: 4px solid #3498db; padding: 0.3em 0.6em; border-radius: 4px; }
                     .error { color: #c0392b; font-weight: 600; }
                     .success { color: #27ae60; font-weight: 600; }
                     .warn { color: #b9770e; font-weight: 600; }
