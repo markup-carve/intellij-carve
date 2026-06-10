@@ -52,7 +52,7 @@ echo (new \Carve\CarveConverter())->convert('# Hi');
 
 ## Image with caption
 
-![Carve logo](logo.png)
+![Carve logo](logo.svg)
 ^ Figure 1: a caption attached with `^`
 
 ## Definition list
