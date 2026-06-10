@@ -2,13 +2,13 @@
 
 ## Building
 
-No Gradle wrapper is committed; use a local Gradle 8.5+ (CI installs it):
+Use the committed Gradle wrapper (`./gradlew`); it pins the Gradle version:
 
 ```bash
-gradle buildPlugin     # -> build/distributions/intellij-carve-*.zip
-gradle test            # run unit tests (incl. the GraalJS render test)
-gradle verifyPlugin    # plugin structure verification
-gradle runIde          # launch a sandbox IDE with the plugin
+./gradlew buildPlugin     # -> build/distributions/intellij-carve-*.zip
+./gradlew test            # run unit tests (incl. the GraalJS render test)
+./gradlew verifyPlugin    # plugin structure verification
+./gradlew runIde          # launch a sandbox IDE with the plugin
 ```
 
 Install the built zip via **Settings → Plugins → Install Plugin from Disk**.

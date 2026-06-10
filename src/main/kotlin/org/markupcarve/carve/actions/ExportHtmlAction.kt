@@ -69,12 +69,45 @@ class ExportHtmlAction : AnAction() {
                         font-family: 'JetBrains Mono', Consolas, monospace; }
                     pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
                     pre code { background: none; padding: 0; }
-                    blockquote { border-left: 4px solid #3498db; margin: 0; padding-left: 20px; color: #666; }
-                    table { border-collapse: collapse; width: 100%; }
-                    th, td { border: 1px solid #ddd; padding: 8px 12px; }
+                    blockquote { border-left: 4px solid #3498db; margin: 1em 0; padding: 0.5em 0 0.5em 20px; color: #666; }
+                    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+                    th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
                     th { background: #f8f9fa; }
+                    table caption { caption-side: bottom; font-size: 0.9em; color: #666; padding-top: 0.5em; }
                     mark { background: #fff3cd; }
+                    del { color: #dc3545; }
+                    ins { color: #28a745; text-decoration: none; border-bottom: 1px solid #28a745; }
+                    img { max-width: 100%; height: auto; }
+                    figure { margin: 1em 0; text-align: center; }
+                    figcaption { font-size: 0.9em; color: #666; margin-top: 0.5em; }
+                    dt { font-weight: bold; margin-top: 0.75em; }
+                    dd { margin: 0 0 0 2em; }
+                    abbr[title] { text-decoration: underline dotted; cursor: help; }
+                    .mention, .tag { display: inline-block; padding: 0 4px; border-radius: 4px; font-size: 0.95em; }
+                    .mention { background: #e7f0fb; color: #1c5fb4; }
+                    .tag { background: #eef3e7; color: #4a7a18; }
+                    [role="doc-endnotes"] { margin-top: 2em; font-size: 0.9em; color: #555; }
+                    [role="doc-noteref"], [role="doc-backlink"] { text-decoration: none; }
+                    [role="doc-backlink"] { margin-left: 0.4em; }
+                    .admonition { margin: 1em 0; padding: 0.75em 1em; border-left: 4px solid #3498db;
+                        border-radius: 4px; background: #f4f8fd; }
+                    .admonition > :first-child { margin-top: 0; }
+                    .admonition > :last-child { margin-bottom: 0; }
+                    .admonition-title { font-weight: 700; margin: 0 0 0.4em; }
+                    .admonition.tip, .admonition.success { border-color: #2ecc71; background: #f2fbf5; }
+                    .admonition.warning { border-color: #f39c12; background: #fef8ee; }
+                    .admonition.danger { border-color: #e74c3c; background: #fdf3f2; }
+                    .admonition.example { border-color: #9b59b6; background: #f9f4fb; }
+                    .admonition.quote { border-color: #95a5a6; background: #f7f9f9; }
+                    .math.display { display: block; text-align: center; margin: 1em 0; }
                 </style>
+                <script>
+                    window.MathJax = {
+                        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+                        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+                    };
+                </script>
+                <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
             </head>
             <body>
                 $content

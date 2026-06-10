@@ -197,8 +197,57 @@ class CarvePreviewPanel(
         li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.5em; }
         li > input[type="checkbox"] { margin-right: 0.5em; width: 1em; height: 1em; vertical-align: middle; }
         sup, sub { font-size: 0.75em; }
-        dt { font-weight: bold; margin-top: 1em; }
-        dd { margin-left: 2em; }
+        dl { margin: 1em 0; }
+        dt { font-weight: bold; margin-top: 0.75em; }
+        dd { margin: 0 0 0 2em; }
+        figure { margin: 1em 0; text-align: center; }
+        figure img { display: block; margin: 0 auto; }
+        figcaption { font-size: 0.9em; color: #666; margin-top: 0.5em; }
+        table caption { caption-side: bottom; font-size: 0.9em; color: #666; padding-top: 0.5em; }
+        body.dark figcaption, body.dark table caption { color: #aaa; }
+        abbr[title] { text-decoration: underline dotted; cursor: help; }
+        .mention strong, .tag strong { font-weight: 600; }
+        .mention, .tag {
+            display: inline-block;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        .mention { background: #e7f0fb; color: #1c5fb4; }
+        .tag { background: #eef3e7; color: #4a7a18; }
+        body.dark .mention { background: #1f3147; color: #8fc0f6; }
+        body.dark .tag { background: #28331f; color: #a9d36a; }
+        /* Footnotes (djot doc-* roles) */
+        [role="doc-endnotes"] { margin-top: 2em; font-size: 0.9em; color: #555; }
+        [role="doc-endnotes"] hr { margin-bottom: 1em; }
+        [role="doc-noteref"] { text-decoration: none; }
+        [role="doc-backlink"] { text-decoration: none; margin-left: 0.4em; }
+        body.dark [role="doc-endnotes"] { color: #aaa; }
+        /* Admonitions: aside.admonition.{type}; generic custom types render as div */
+        .admonition {
+            margin: 1em 0;
+            padding: 0.75em 1em;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+            background: #f4f8fd;
+        }
+        .admonition > :first-child { margin-top: 0; }
+        .admonition > :last-child { margin-bottom: 0; }
+        .admonition-title { font-weight: 700; margin: 0 0 0.4em; }
+        .admonition.note,    .admonition.info    { border-color: #3498db; background: #f4f8fd; }
+        .admonition.tip,     .admonition.success { border-color: #2ecc71; background: #f2fbf5; }
+        .admonition.warning                       { border-color: #f39c12; background: #fef8ee; }
+        .admonition.danger                        { border-color: #e74c3c; background: #fdf3f2; }
+        .admonition.example                       { border-color: #9b59b6; background: #f9f4fb; }
+        .admonition.quote                         { border-color: #95a5a6; background: #f7f9f9; }
+        body.dark .admonition { background: #20262e; }
+        body.dark .admonition.tip, body.dark .admonition.success { background: #1c2a20; }
+        body.dark .admonition.warning { background: #2c2718; }
+        body.dark .admonition.danger { background: #2c1d1b; }
+        body.dark .admonition.example { background: #261d2b; }
+        body.dark .admonition.quote { background: #23282a; }
+        /* Math spans rendered by MathJax */
+        .math.display { display: block; text-align: center; margin: 1em 0; }
         #content { min-height: 100px; }
     </style>
     <link id="hljs-light" rel="stylesheet"
@@ -210,6 +259,13 @@ class CarvePreviewPanel(
         body.dark pre code.hljs { background: #161b22; }
     </style>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body class="$themeClass">
     <div id="content">$initialHtml</div>
@@ -217,6 +273,7 @@ class CarvePreviewPanel(
         function updateContentHtml(html) {
             document.getElementById('content').innerHTML = html;
             highlightCode();
+            typesetMath();
         }
         function highlightCode() {
             if (typeof hljs !== 'undefined') {
@@ -225,8 +282,15 @@ class CarvePreviewPanel(
                 });
             }
         }
-        document.addEventListener('DOMContentLoaded', highlightCode);
-        if (document.readyState !== 'loading') { highlightCode(); }
+        function typesetMath() {
+            if (window.MathJax && MathJax.typesetPromise) {
+                if (MathJax.typesetClear) { MathJax.typesetClear(); }
+                MathJax.typesetPromise([document.getElementById('content')]);
+            }
+        }
+        function renderAll() { highlightCode(); typesetMath(); }
+        document.addEventListener('DOMContentLoaded', renderAll);
+        if (document.readyState !== 'loading') { renderAll(); }
     </script>
 </body>
 </html>

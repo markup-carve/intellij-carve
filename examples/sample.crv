@@ -6,14 +6,25 @@ author: markup-carve
 # Carve sample
 
 Carve uses visual mnemonics: /italic/ leans, *bold* is heavy, _underline_ sits
-below, ~strike~ runs through, and ==highlight== stands out. You also get
-^super^ and ,,sub,, plus inline `code`.
+below, ~strike~ runs through, and ==highlight== stands out. You also get ^super^
+and ,,sub,, plus inline `code`, a [link](https://github.com/markup-carve/carve),
+a [reference link][repo], an autolink <https://markup-carve.github.io>, and a
+footnote.[^fn]
 
-%% this whole line is a comment
+A mention @markup-carve and a #carve tag, plus an HTML abbreviation.
 
-## Lists interrupt paragraphs
+*[HTML]: HyperText Markup Language
+
+[^fn]: Footnotes are resolved by label and collected at the end.
+
+[repo]: https://github.com/markup-carve/carve
+
+%% this whole line is a comment, and so is the trailing one below
+
+## Lists interrupt paragraphs %% trailing comment
 
 Post-Markdown reading flow means a list can follow a paragraph with no blank line:
+
 - first item
 - second item
   - nested item
@@ -34,16 +45,48 @@ echo (new \Carve\CarveConverter())->convert('# Hi');
 
 ## Table
 
-| Feature   | Carve        |
-|-----------|--------------|
-| Italic    | `/italic/`   |
-| Highlight | `==text==`   |
+|= Feature   |= Carve     |
+| Italic     | `/italic/` |
+| Highlight  | `==text==` |
+^ Inline marks at a glance
 
-## Links and references
+## Image with caption
 
-A [link](https://github.com/markup-carve/carve), a cross-reference to
-</#carve-sample>, and an implicit heading reference to [[Lists interrupt paragraphs]].
+![Carve logo](logo.png)
+^ Figure 1: a caption attached with `^`
+
+## Definition list
+
+:: color
+:: colour
+:  The visual property of objects.
+
+## Math
+
+Inline $`E = mc^2` stays crisp; display math gets its own block:
+
+$$`\int_0^1 x\,dx = \tfrac{1}{2}`
+
+## Admonitions
 
 ::: note
-Admonitions use `::: name` ... `:::`.
+Heads up - canonical types render as `<aside class="admonition note">`.
 :::
+
+::: tip "Pro Tip"
+A quoted title becomes an `admonition-title`.
+:::
+
+::: hint "Custom"
+A non-canonical type renders as a generic `<div>` with that class.
+:::
+
+## Cross-reference and break
+
+See </#carve-sample> to jump back to the top.
+
+---
+
+Attributes attach to blocks too, as on the heading below.
+
+## Styled heading {.featured #styled}

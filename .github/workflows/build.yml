@@ -20,17 +20,15 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.5'
 
       - name: Build plugin
-        run: gradle --no-daemon buildPlugin
+        run: ./gradlew --no-daemon buildPlugin
 
       - name: Run tests
-        run: gradle --no-daemon test
+        run: ./gradlew --no-daemon test
 
       - name: Verify plugin structure
-        run: gradle --no-daemon verifyPlugin
+        run: ./gradlew --no-daemon verifyPlugin
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

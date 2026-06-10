@@ -19,14 +19,12 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.5'
 
       - name: Build plugin
-        run: gradle --no-daemon buildPlugin
+        run: ./gradlew --no-daemon buildPlugin
 
       - name: Publish to JetBrains Marketplace
-        run: gradle --no-daemon publishPlugin
+        run: ./gradlew --no-daemon publishPlugin
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
