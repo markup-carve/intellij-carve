@@ -43,12 +43,34 @@ Post-Markdown reading flow means a list can follow a paragraph with no blank lin
 echo (new \Carve\CarveConverter())->convert('# Hi');
 ```
 
-## Table
+## Tables
 
-|= Feature   |= Carve     |
-| Italic     | `/italic/` |
-| Highlight  | `==text==` |
+Header cells use `|=`; `|=>` right-aligns and `|=~` centers a column:
+
+|= Feature  |=> Marker |=~ Tier |
+| Italic     | `/x/`    | core   |
+| Highlight  | `==x==`  | core   |
 ^ Inline marks at a glance
+
+### Rowspan and colspan
+
+`^` extends the cell above (rowspan); `<` merges into the cell at left (colspan):
+
+|= Category |= Item   |=> Price |
+| Fruit      | Apple   | $1.00   |
+| ^          | Banana  | $0.50   |
+| Total      | <       | $1.50   |
+
+### A table inside a list item
+
+The `+` continuation marker attaches a block (kept flush-left) to a list item:
+
+- Quarterly revenue:
++
+|= Quarter |=> Revenue |
+| Q1        | 100       |
+| Q2        | 140       |
+- Next steps follow as an ordinary item.
 
 ## Image with caption
 
@@ -66,6 +88,13 @@ echo (new \Carve\CarveConverter())->convert('# Hi');
 Inline $`E = mc^2` stays crisp; display math gets its own block:
 
 $$`\int_0^1 x\,dx = \tfrac{1}{2}`
+
+## Inline extras
+
+A hard line break ends this line\
+and continues on the next. An inline span carries attributes:
+[flagged]{.featured #note-1}. Smart typography turns "quotes", -- dashes, and
+... into typographic forms automatically.
 
 ## Admonitions
 
@@ -90,3 +119,8 @@ See </#carve-sample> to jump back to the top.
 Attributes attach to blocks too, as on the heading below.
 
 ## Styled heading {.featured #styled}
+
+- [ ] a task
+  {.error}
+- [x] a done task
+  {.success}
