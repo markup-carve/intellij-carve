@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.markupcarve.carve</id>
     <name>Carve</name>
-    <vendor url="https://github.com/markup-carve">markup-carve</vendor>
+    <vendor email="dereuromark@gmail.com" url="https://github.com/markup-carve">markup-carve</vendor>
 
     <description><![CDATA[
     <p>Carve markup language support for JetBrains IDEs.</p>
@@ -25,6 +25,7 @@
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.textmate</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -33,6 +34,19 @@
                 fieldName="INSTANCE"
                 language="Carve"
                 extensions="crv;carve"/>
+
+        <!-- Editor syntax highlighting via the bundled TextMate engine. -->
+        <textmate.bundleProvider implementation="org.markupcarve.carve.CarveTextMateBundleProvider"/>
+        <!--
+          A custom file type otherwise shadows TextMate, so the TextMate highlighter
+          is bound explicitly to the Carve file type / language (the BAML / fss pattern).
+        -->
+        <editorHighlighterProvider
+                filetype="Carve"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
+        <lang.syntaxHighlighterFactory
+                language="Carve"
+                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
 
         <fileEditorProvider
                 implementation="org.markupcarve.carve.preview.CarvePreviewEditorProvider"/>

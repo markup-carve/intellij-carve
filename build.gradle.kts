@@ -21,6 +21,9 @@ intellij {
     // Build against IntelliJ IDEA Community so the plugin installs across the whole IDE family.
     version.set("2024.1")
     type.set("IC")
+    // The TextMate Bundles plugin (bundled + enabled in all IntelliJ IDEs) drives
+    // editor syntax highlighting; declare it so <depends> resolves and verifyPlugin passes.
+    plugins.set(listOf("org.jetbrains.plugins.textmate"))
     updateSinceUntilBuild.set(false)
 }
 
