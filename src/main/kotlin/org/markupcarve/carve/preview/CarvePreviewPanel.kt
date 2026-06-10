@@ -100,7 +100,14 @@ class CarvePreviewPanel(
         ApplicationManager.getApplication().executeOnPooledThread {
             val html = CarveConverter.toHtml(content, project)
             ApplicationManager.getApplication().invokeLater {
-                browser.loadHTML(createPreviewHtml(html, isDark))
+                // Load with the file's directory as the document URL so relative image
+                // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
+                val baseUrl = file.parent?.let { "file://${it.path}/preview.html" }
+                if (baseUrl != null) {
+                    browser.loadHTML(createPreviewHtml(html, isDark), baseUrl)
+                } else {
+                    browser.loadHTML(createPreviewHtml(html, isDark))
+                }
                 initialized = true
             }
         }
