@@ -14,6 +14,19 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
 - **File type** recognition for `.crv` and `.carve`
 
+## Screenshots
+
+| Live preview (split) | Syntax highlighting |
+|---|---|
+| ![Split editor with Carve source on the left and rendered HTML preview on the right](docs/screenshots/live-preview.png) | ![Carve source with visual-mnemonic syntax highlighting](docs/screenshots/highlighting.png) |
+
+| Theme sync (dark) | Settings |
+|---|---|
+| ![Live preview following the IDE dark theme](docs/screenshots/theme-dark.png) | ![Carve settings panel: PHP renderer and custom preview CSS](docs/screenshots/settings.png) |
+
+> Capture these into `docs/screenshots/` (PNG). The same images can be
+> uploaded to the JetBrains Marketplace listing.
+
 ## Requirements
 
 - JetBrains IDE 2024.1+
