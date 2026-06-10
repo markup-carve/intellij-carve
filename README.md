@@ -1,5 +1,8 @@
 # intellij-carve
 
+[![JetBrains Marketplace](https://img.shields.io/jetbrains/plugin/v/32204-carve.svg)](https://plugins.jetbrains.com/plugin/32204-carve)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/32204-carve.svg)](https://plugins.jetbrains.com/plugin/32204-carve)
+
 Carve markup language support for JetBrains IDEs (IntelliJ IDEA, PhpStorm,
 WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
