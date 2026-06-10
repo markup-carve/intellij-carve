@@ -30,6 +30,9 @@ jobs:
       - name: Verify plugin structure
         run: ./gradlew --no-daemon verifyPlugin
 
+      - name: Run Plugin Verifier
+        run: ./gradlew --no-daemon runPluginVerifier
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

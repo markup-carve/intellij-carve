@@ -24,6 +24,20 @@
     <p>More info: <a href="https://github.com/markup-carve/carve">github.com/markup-carve/carve</a></p>
     ]]></description>
 
+    <change-notes><![CDATA[
+    <h3>0.1.0</h3>
+    <p>Initial release.</p>
+    <ul>
+        <li>Syntax highlighting via TextMate grammar</li>
+        <li>Live preview panel with IDE theme sync and code highlighting</li>
+        <li>Export to HTML</li>
+        <li>Live templates for Carve's visual mnemonics</li>
+        <li>File type recognition for <code>.crv</code> and <code>.carve</code></li>
+        <li>carve-js (bundled, GraalJS) and carve-php preview renderers</li>
+        <li>Custom preview CSS</li>
+    </ul>
+    ]]></change-notes>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.textmate</depends>
 

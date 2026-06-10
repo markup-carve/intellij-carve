@@ -60,6 +60,12 @@ tasks {
         sinceBuild.set("241")
     }
 
+    runPluginVerifier {
+        // Check binary/API compatibility against the IDE versions the plugin claims
+        // to support (since-build 241 = 2024.1). Run via `./gradlew runPluginVerifier`.
+        ideVersions.set(listOf("IC-2024.1", "IC-2024.2", "IC-2024.3"))
+    }
+
     buildSearchableOptions {
         enabled = false
     }
