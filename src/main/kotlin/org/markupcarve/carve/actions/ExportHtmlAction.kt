@@ -100,6 +100,11 @@ class ExportHtmlAction : AnAction() {
                     .admonition.example { border-color: #9b59b6; background: #f9f4fb; }
                     .admonition.quote { border-color: #95a5a6; background: #f7f9f9; }
                     .math.display { display: block; text-align: center; margin: 1em 0; }
+                    .error { color: #c0392b; font-weight: 600; }
+                    .success { color: #27ae60; font-weight: 600; }
+                    .warn { color: #b9770e; font-weight: 600; }
+                    li:has(> .error), li:has(> input + .error) { background: #fdf3f2; border-radius: 4px; }
+                    li:has(> .success), li:has(> input + .success) { background: #f2fbf5; border-radius: 4px; }
                 </style>
                 <script>
                     window.MathJax = {

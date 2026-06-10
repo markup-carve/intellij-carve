@@ -255,6 +255,16 @@ class CarvePreviewPanel(
         body.dark .admonition.quote { background: #23282a; }
         /* Math spans rendered by MathJax */
         .math.display { display: block; text-align: center; margin: 1em 0; }
+        /* Status classes (carve [text]{.class} inline spans) */
+        .error { color: #c0392b; font-weight: 600; }
+        .success { color: #27ae60; font-weight: 600; }
+        .warn { color: #b9770e; font-weight: 600; }
+        li:has(> .error), li:has(> input + .error) { background: #fdf3f2; border-radius: 4px; }
+        li:has(> .success), li:has(> input + .success) { background: #f2fbf5; border-radius: 4px; }
+        body.dark .error { color: #ff8a7a; }
+        body.dark .success { color: #7fd99a; }
+        body.dark li:has(.error) { background: #2c1d1b; }
+        body.dark li:has(.success) { background: #1c2a20; }
         #content { min-height: 100px; }
     </style>
     <link id="hljs-light" rel="stylesheet"

@@ -120,7 +120,8 @@ Attributes attach to blocks too, as on the heading below.
 
 ## Styled heading {.featured #styled}
 
-- [ ] a task
-  {.error}
-- [x] a done task
-  {.success}
+Per-item classes ride an inline span (`[text]{.class}`); carve-js drops a bare
+`{.class}` line under an item, so the span form is what actually emits a class:
+
+- [ ] [needs fixing]{.error}
+- [x] [shipped]{.success}
