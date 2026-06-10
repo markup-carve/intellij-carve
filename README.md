@@ -16,16 +16,17 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 ## Screenshots
 
-| Live preview (split) | Syntax highlighting |
-|---|---|
-| ![Split editor with Carve source on the left and rendered HTML preview on the right](docs/screenshots/live-preview.png) | ![Carve source with visual-mnemonic syntax highlighting](docs/screenshots/highlighting.png) |
+**Live preview** - a split editor with Carve source on the left and the rendered HTML on the right:
 
-| Theme sync (dark) | Settings |
-|---|---|
-| ![Live preview following the IDE dark theme](docs/screenshots/theme-dark.png) | ![Carve settings panel: PHP renderer and custom preview CSS](docs/screenshots/settings.png) |
+![Split editor: Carve source on the left, rendered HTML preview on the right](docs/screenshots/live-preview.png)
 
-> Capture these into `docs/screenshots/` (PNG). The same images can be
-> uploaded to the JetBrains Marketplace listing.
+**Theme sync** - the preview follows the IDE's dark/light mode:
+
+![Carve split live preview in dark theme](docs/screenshots/theme-dark.png)
+
+**Syntax highlighting** - via the shared Carve TextMate grammar, including the visual mnemonics, tables, captions, admonitions, and math:
+
+![A .crv file with full Carve syntax highlighting](docs/screenshots/highlighting.png)
 
 ## Requirements
 
