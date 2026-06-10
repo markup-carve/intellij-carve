@@ -63,6 +63,25 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                         )
                 }
             }
+
+            group("Preview Styling") {
+                row("Custom CSS file:") {
+                    textFieldWithBrowseButton(
+                        "Select CSS File",
+                        project,
+                        FileChooserDescriptorFactory.createSingleFileDescriptor("css"),
+                    ).columns(COLUMNS_LARGE)
+                        .bindText(settings::customCssPath)
+                        .comment("Injected after the built-in styles, so your rules override them.")
+                }
+                row {
+                    comment(
+                        "A <code>carve-preview.css</code> next to the file or in the project root " +
+                            "(or <code>.carve/preview.css</code>) is picked up automatically. " +
+                            "Order: built-in &rarr; project file &rarr; this setting (last wins).",
+                    )
+                }
+            }
         }
     }
 }

@@ -66,6 +66,26 @@ Configurable via **Settings → Tools → Carve**:
   PHP and `composer require markup-carve/carve-php` in your project; uses
   `vendor/bin/carve` when present.
 
+### Custom preview CSS
+
+Style the preview with your own CSS. It is injected **after** the built-in
+styles, so rules of equal specificity override the defaults (the built-in
+type-specific and dark-mode rules use higher specificity - match it or use
+`!important` to win).
+
+Sources are concatenated in this order (last wins):
+
+1. `carve-preview.css` next to the open file
+2. `carve-preview.css` in the project root, or `.carve/preview.css`
+3. the **Custom CSS file** set in *Settings → Tools → Carve → Preview Styling*
+
+Example `carve-preview.css`:
+
+```css
+body { font-family: Georgia, serif; }
+.admonition.note { background: #eef; }
+```
+
 ## About Carve
 
 [Carve](https://github.com/markup-carve/carve) is a post-Markdown lightweight

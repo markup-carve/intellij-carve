@@ -22,6 +22,7 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
         var renderer: CarveRenderer = CarveRenderer.CARVE_JS,
         var phpPath: String = "php",
         var phpCarveScript: String = "",
+        var customCssPath: String = "",
     )
 
     private var state = State()
@@ -43,6 +44,10 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
     var phpCarveScript: String
         get() = state.phpCarveScript
         set(value) { state.phpCarveScript = value }
+
+    var customCssPath: String
+        get() = state.customCssPath
+        set(value) { state.customCssPath = value }
 
     companion object {
         fun getInstance(project: Project): CarveSettings =

@@ -12,7 +12,9 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.jcef.JBCefBrowser
 import com.intellij.util.messages.MessageBusConnection
 import org.markupcarve.carve.CarveConverter
+import org.markupcarve.carve.settings.CarveSettings
 import java.awt.BorderLayout
+import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -99,18 +101,43 @@ class CarvePreviewPanel(
         val isDark = isDarkTheme()
         ApplicationManager.getApplication().executeOnPooledThread {
             val html = CarveConverter.toHtml(content, project)
+            val css = userCss()
             ApplicationManager.getApplication().invokeLater {
                 // Load with the file's directory as the document URL so relative image
                 // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
                 val baseUrl = file.parent?.let { "file://${it.path}/preview.html" }
                 if (baseUrl != null) {
-                    browser.loadHTML(createPreviewHtml(html, isDark), baseUrl)
+                    browser.loadHTML(createPreviewHtml(html, isDark, css), baseUrl)
                 } else {
-                    browser.loadHTML(createPreviewHtml(html, isDark))
+                    browser.loadHTML(createPreviewHtml(html, isDark, css))
                 }
                 initialized = true
             }
         }
+    }
+
+    /**
+     * User-supplied CSS, concatenated so later sources override earlier ones:
+     * project `carve-preview.css` (file folder, then project root, then
+     * `.carve/preview.css`), then the settings "Custom CSS file". Injected after
+     * the built-in styles, so user rules of equal specificity win.
+     */
+    private fun userCss(): String {
+        val candidates = mutableListOf<File>()
+        file.parent?.path?.let { candidates += File(it, "carve-preview.css") }
+        project.basePath?.let { base ->
+            candidates += File(base, "carve-preview.css")
+            candidates += File(base, ".carve/preview.css")
+        }
+        CarveSettings.getInstance(project).customCssPath
+            .takeIf { it.isNotBlank() }
+            ?.let { candidates += File(it) }
+
+        val seen = HashSet<String>()
+        return candidates
+            .filter { it.isFile && seen.add(it.absolutePath) }
+            .mapNotNull { runCatching { it.readText() }.getOrNull() }
+            .joinToString("\n")
     }
 
     private fun updatePreview() {
@@ -141,8 +168,9 @@ class CarvePreviewPanel(
             .replace("\r\n", "\n")
             .replace("\r", "\n")
 
-    private fun createPreviewHtml(initialHtml: String, isDark: Boolean): String {
+    private fun createPreviewHtml(initialHtml: String, isDark: Boolean, userCss: String): String {
         val themeClass = if (isDark) "dark" else "light"
+        val userStyle = if (userCss.isBlank()) "" else "<style id=\"carve-user-css\">\n$userCss\n</style>"
         return """
 <!DOCTYPE html>
 <html>
@@ -291,6 +319,7 @@ class CarvePreviewPanel(
         };
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    $userStyle
 </head>
 <body class="$themeClass">
     <div id="content">$initialHtml</div>
