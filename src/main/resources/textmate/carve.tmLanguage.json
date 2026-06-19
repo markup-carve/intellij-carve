@@ -3,6 +3,7 @@
   "name": "Carve",
   "scopeName": "text.carve",
   "patterns": [
+    { "include": "#thematic-break" },
     { "include": "#frontmatter" },
     { "include": "#comments" },
     { "include": "#headings" },
@@ -32,8 +33,9 @@
     "frontmatter": {
       "patterns": [
         {
+          "comment": "Frontmatter open fence. The IntelliJ TextMate engine treats the document-start anchor `\\A` like line-start `^`, so a `\\A`-anchored bare `---` would also fire mid-document and swallow the rest of the file as frontmatter. To restore document-start semantics in a line-based engine, the open fence requires a typed format token (`---json`, `--- toml`, ...): a lone `---` line never triggers frontmatter and is left to the thematic-break rule (which runs first). A bare `---` open fence is therefore highlighted as a thematic break, matching the spec note that a bare `---` is frontmatter only when a closing `---` exists ahead -- a closer lookahead a line-based grammar cannot perform.",
           "name": "meta.frontmatter.carve",
-          "begin": "\\A(---)\\s*([A-Za-z0-9_-]+)?\\s*$",
+          "begin": "^(---)\\s*([A-Za-z0-9_-]+)\\s*$",
           "beginCaptures": {
             "1": { "name": "punctuation.definition.frontmatter.begin.carve" },
             "2": { "name": "entity.name.type.frontmatter.carve" }
@@ -43,6 +45,18 @@
             "1": { "name": "punctuation.definition.frontmatter.end.carve" }
           },
           "patterns": [{ "name": "string.unquoted.frontmatter.carve", "match": ".+" }]
+        }
+      ]
+    },
+    "thematic-break": {
+      "patterns": [
+        {
+          "comment": "A standalone line of three or more `-`, `*`, or `_` (optionally followed by trailing whitespace) is a thematic break. Listed before #frontmatter so a lone `---` line is claimed here rather than mis-detected as a frontmatter open fence (see #frontmatter).",
+          "name": "meta.separator.thematic-break.carve",
+          "match": "^(-{3,}|\\*{3,}|_{3,})\\s*$",
+          "captures": {
+            "1": { "name": "punctuation.definition.thematic-break.carve" }
+          }
         }
       ]
     },
