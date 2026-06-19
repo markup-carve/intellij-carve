@@ -67,6 +67,7 @@ object CarveCorpusCategories {
         "53-ordered-list-dialects",
         "54-ordered-marker-vs-prose",
         "56-editorial-markup",
+        "57-thematic-breaks",
         "58-cross-reference",
         "59-autolinks",
         "60-escapes",
@@ -164,11 +165,6 @@ object CarveCorpusCategories {
             "Paragraph-interruption by an abbreviation definition is a parser block-boundary behavior; the abbreviation-definition scope is covered by category 14.",
         "102-paragraph-trailing-whitespace" to
             "Trailing-whitespace stripping is a render-time normalization with no token-level highlight; the text carries only the root scope.",
-        "57-thematic-breaks" to
-            "The grammar has no thematic-break rule, so `***` / `___` / `---` breaks are not highlighted as such. " +
-            "Note: a mid-document `---` is additionally mis-detected as a frontmatter start because the IDE TextMate " +
-            "engine treats the frontmatter `begin` anchor `\\A` like line-start `^` rather than document-start; this is " +
-            "a grammar/highlighter bug tracked separately, not something to snapshot as correct behavior here.",
     )
 
     /**
