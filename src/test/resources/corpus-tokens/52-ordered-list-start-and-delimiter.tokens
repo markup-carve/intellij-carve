@@ -1,0 +1,6 @@
+3. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+third\n -> text.carve
+4. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+fourth\n -> text.carve

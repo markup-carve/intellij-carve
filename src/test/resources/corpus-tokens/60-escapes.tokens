@@ -1,0 +1,12 @@
+\\* -> text.carve constant.character.escape.carve
+lit -> text.carve
+\\* -> text.carve constant.character.escape.carve
+  -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+\\] -> text.carve constant.character.escape.carve
+  -> text.carve
+\\# -> text.carve constant.character.escape.carve
+h  -> text.carve
+\\@ -> text.carve constant.character.escape.carve
+u\n -> text.carve

@@ -1,0 +1,8 @@
+{ -> text.carve meta.attributes.carve
+.epigraph -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve punctuation.definition.quote.carve
+  -> text.carve markup.quote.carve
+To be or not to be. -> text.carve markup.quote.carve
+\n -> text.carve

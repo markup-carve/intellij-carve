@@ -1,0 +1,9 @@
+re -> text.carve
+{~view~} -> text.carve meta.attributes.carve
+ it, then  -> text.carve
+{~old~>new~} -> text.carve meta.attributes.carve
+, and  -> text.carve
+{= -> text.carve meta.attributes.carve
+mark -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+=} -> text.carve meta.attributes.carve
+ it.\n -> text.carve

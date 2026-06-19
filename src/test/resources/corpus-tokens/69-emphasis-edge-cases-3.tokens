@@ -1,0 +1,8 @@
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+old -> text.carve markup.strikethrough.carve markup.strikethrough.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+  -> text.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+new -> text.carve markup.highlight.carve markup.highlight.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+\n -> text.carve

@@ -1,0 +1,21 @@
+![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+a -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+  -> text.carve markup.table.caption.carve
+Abbildung #: erstes -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
+\n -> text.carve
+![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+b -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+b.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure #: first -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

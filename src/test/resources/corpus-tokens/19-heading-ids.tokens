@@ -1,0 +1,47 @@
+# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+Café Notes -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+Über uns -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+2024 Recap -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+## -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+Setup -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+## -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+Setup -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+#api-v2 -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+  -> text.carve markup.heading.carve
+API -> text.carve markup.heading.carve entity.name.section.carve
+\n -> text.carve
+\n -> text.carve
+See < -> text.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+#cafe-notes>, < -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+section-2024-recap -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+>, < -> text.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+#setup-2>, and < -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+api-v2 -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+>.\n -> text.carve

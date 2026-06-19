@@ -1,0 +1,4 @@
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+marked -> text.carve markup.highlight.carve markup.highlight.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+ here, but ==doubled== is literal.\n -> text.carve

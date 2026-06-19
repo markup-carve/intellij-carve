@@ -1,0 +1,3 @@
+\\a and \\« and a -> text.carve
+\\\\ -> text.carve constant.character.escape.carve
+b\n -> text.carve

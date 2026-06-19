@@ -1,0 +1,6 @@
+{ -> text.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+id -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+\n -> text.carve
+ .foo}\n -> text.carve
+Text\n -> text.carve

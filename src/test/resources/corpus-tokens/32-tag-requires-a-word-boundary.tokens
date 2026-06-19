@@ -1,0 +1,4 @@
+A  -> text.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+tag -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+ here, but not in foo#bar.\n -> text.carve

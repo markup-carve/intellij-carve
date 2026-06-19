@@ -1,0 +1,9 @@
+( -> text.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+x -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+) and a. -> text.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+b -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+\n -> text.carve

@@ -1,0 +1,12 @@
+--- -> text.carve meta.frontmatter.carve punctuation.definition.frontmatter.begin.carve
+\n -> text.carve meta.frontmatter.carve
+title: My Document -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+author: Jane Doe -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+date: 2026-03-15 -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+--- -> text.carve meta.frontmatter.carve punctuation.definition.frontmatter.end.carve
+\n -> text.carve meta.frontmatter.carve
+\n -> text.carve
+Content begins here.\n -> text.carve

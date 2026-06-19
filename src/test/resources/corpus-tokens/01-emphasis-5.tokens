@@ -1,0 +1,8 @@
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+bold with /italic/ inside -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+ and  -> text.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+italic with *bold* inside -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+\n -> text.carve

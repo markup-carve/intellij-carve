@@ -1,0 +1,4 @@
+foo  -> text.carve
+%% note -> text.carve comment.line.percent.carve
+\n -> text.carve
+bar\n -> text.carve

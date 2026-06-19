@@ -1,0 +1,14 @@
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+Build the image\n -> text.carve
++ -> text.carve markup.table.continuation.carve keyword.operator.table.continuation.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+sh -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+docker build -t app .\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+Push it\n -> text.carve

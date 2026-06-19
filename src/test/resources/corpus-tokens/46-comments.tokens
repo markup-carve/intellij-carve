@@ -1,0 +1,11 @@
+Visible.\n -> text.carve
+\n -> text.carve
+%% this line is a comment -> text.carve comment.line.percent.carve
+\n -> text.carve
+\n -> text.carve
+%%%\n -> text.carve comment.block.carve
+a hidden\n -> text.carve comment.block.carve
+block\n -> text.carve comment.block.carve
+%%%\n -> text.carve comment.block.carve
+\n -> text.carve
+Also visible.\n -> text.carve

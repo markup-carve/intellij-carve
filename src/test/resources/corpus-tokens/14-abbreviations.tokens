@@ -1,0 +1,10 @@
+The HTML spec is essential reading.\n -> text.carve
+\n -> text.carve
+* -> text.carve meta.abbreviation.definition.carve punctuation.definition.abbreviation.carve
+[ -> text.carve meta.abbreviation.definition.carve punctuation.definition.abbreviation.carve
+HTML -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> text.carve meta.abbreviation.definition.carve punctuation.definition.abbreviation.carve
+: -> text.carve meta.abbreviation.definition.carve punctuation.separator.carve
+  -> text.carve meta.abbreviation.definition.carve
+HyperText Markup Language -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> text.carve

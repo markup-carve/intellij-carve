@@ -1,0 +1,5 @@
+{ -> text.carve meta.attributes.carve
+.note -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+This paragraph gets the class.\n -> text.carve

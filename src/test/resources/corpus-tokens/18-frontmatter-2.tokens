@@ -1,0 +1,9 @@
+--- -> text.carve meta.frontmatter.carve punctuation.definition.frontmatter.begin.carve
+json -> text.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+{"title": "My Document"} -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+--- -> text.carve meta.frontmatter.carve punctuation.definition.frontmatter.end.carve
+\n -> text.carve meta.frontmatter.carve
+\n -> text.carve
+Content begins here.\n -> text.carve

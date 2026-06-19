@@ -1,0 +1,6 @@
++ -> text.carve markup.table.continuation.carve keyword.operator.table.continuation.carve
+ one -> text.carve markup.table.continuation.carve
+\n -> text.carve
++ -> text.carve markup.table.continuation.carve keyword.operator.table.continuation.carve
+ two -> text.carve markup.table.continuation.carve
+\n -> text.carve

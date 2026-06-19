@@ -1,0 +1,3 @@
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+\n -> text.carve markup.list.unnumbered.carve
+not a list\n -> text.carve

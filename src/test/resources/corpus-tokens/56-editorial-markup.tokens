@@ -1,0 +1,9 @@
+a  -> text.carve
+{+ins+} -> text.carve meta.attributes.carve
+  -> text.carve
+{-del-} -> text.carve meta.attributes.carve
+  -> text.carve
+{~old~>new~} -> text.carve meta.attributes.carve
+ b -> text.carve
+{# note #} -> text.carve meta.attributes.carve
+\n -> text.carve

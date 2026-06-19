@@ -1,0 +1,9 @@
+> -> text.carve markup.quote.carve punctuation.definition.quote.carve
+  -> text.carve markup.quote.carve
+quoted -> text.carve markup.quote.carve
+\n -> text.carve
++ -> text.carve markup.table.continuation.carve keyword.operator.table.continuation.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item\n -> text.carve

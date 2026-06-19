@@ -1,0 +1,3 @@
+- -> text.carve
+{+a+} -> text.carve meta.attributes.carve
+ text\n -> text.carve
