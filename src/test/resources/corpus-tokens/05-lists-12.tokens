@@ -1,0 +1,4 @@
+Die Frage ist x = 5\n -> text.carve
+* -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+3 + 17 wahr.\n -> text.carve

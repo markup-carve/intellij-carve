@@ -1,0 +1,5 @@
+See  -> text.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+[the docs](url) for more -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+ info.\n -> text.carve

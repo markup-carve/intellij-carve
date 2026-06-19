@@ -1,0 +1,5 @@
+H -> text.carve
+{,2,} -> text.carve meta.attributes.carve
+O and E=mc -> text.carve
+{^2^} -> text.carve meta.attributes.carve
+\n -> text.carve

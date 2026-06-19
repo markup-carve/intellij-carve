@@ -1,0 +1,5 @@
+Text hier\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+nur eins\n -> text.carve

@@ -56,6 +56,17 @@ tasks {
         }
     }
 
+    test {
+        // The shared-corpus snapshot tests read the pinned `spec` submodule from
+        // the project root and write goldens under src/test/resources. Pin the
+        // working directory so the lookup is stable regardless of how the test
+        // JVM is forked, and forward the golden-regeneration switch into it.
+        workingDir = rootDir
+        System.getProperty("carve.updateGoldens")?.let {
+            systemProperty("carve.updateGoldens", it)
+        }
+    }
+
     patchPluginXml {
         sinceBuild.set("241")
     }

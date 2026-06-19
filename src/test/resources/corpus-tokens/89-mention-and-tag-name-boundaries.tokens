@@ -1,0 +1,24 @@
+Ping  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john-doe -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+,  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john_doe -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+ and  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+.doe about  -> text.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+release-1 -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+.0 today.\n -> text.carve
+\n -> text.carve
+Reach  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+. That is  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+'s idea,  -> text.carve
+@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
+john -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+!\n -> text.carve

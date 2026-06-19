@@ -1,0 +1,10 @@
+{ -> text.carve meta.attributes.carve
+.todo -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+one\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+two\n -> text.carve

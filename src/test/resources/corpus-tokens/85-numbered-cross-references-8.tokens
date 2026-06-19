@@ -1,0 +1,20 @@
+{ -> text.carve meta.attributes.carve
+#lst-greet -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+python -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+def greet():\n -> text.carve markup.raw.block.fenced.code.carve
+    return 1\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+  -> text.carve markup.table.caption.carve
+Listing #: a greeting -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
+\n -> text.carve
+See </ -> text.carve
+# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
+lst-greet -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+>.\n -> text.carve

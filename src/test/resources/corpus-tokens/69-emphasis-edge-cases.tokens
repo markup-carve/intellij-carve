@@ -1,0 +1,8 @@
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+a -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+ and  -> text.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+\n -> text.carve

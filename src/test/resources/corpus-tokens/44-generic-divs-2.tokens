@@ -1,0 +1,9 @@
+::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+  -> text.carve markup.other.div.carve
+{ -> text.carve meta.attributes.carve
+.sidebar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+not a div\n -> text.carve
+::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+\n -> text.carve markup.other.div.carve

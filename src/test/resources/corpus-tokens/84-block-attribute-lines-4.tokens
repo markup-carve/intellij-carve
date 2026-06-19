@@ -1,0 +1,16 @@
+{ -> text.carve meta.attributes.carve
+.data -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ A  -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ B  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+ 1   -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+ 2   -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve

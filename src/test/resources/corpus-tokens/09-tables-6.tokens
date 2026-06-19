@@ -1,0 +1,36 @@
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Style     -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Sample       -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+ italic     -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+  -> text.carve markup.table.row.carve
+/ -> text.carve markup.table.row.carve markup.italic.carve punctuation.definition.italic.carve
+soft -> text.carve markup.table.row.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.table.row.carve markup.italic.carve punctuation.definition.italic.carve
+         -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+ strong     -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+  -> text.carve markup.table.row.carve
+* -> text.carve markup.table.row.carve markup.bold.carve punctuation.definition.bold.carve
+firm -> text.carve markup.table.row.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.table.row.carve markup.bold.carve punctuation.definition.bold.carve
+         -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+ code       -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+  -> text.carve markup.table.row.carve
+` -> text.carve markup.table.row.carve markup.raw.inline.carve punctuation.definition.raw.carve
+literal -> text.carve markup.table.row.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> text.carve markup.table.row.carve markup.raw.inline.carve punctuation.definition.raw.carve
+      -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+\n -> text.carve

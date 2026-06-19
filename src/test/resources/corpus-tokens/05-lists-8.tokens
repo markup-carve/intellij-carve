@@ -1,0 +1,8 @@
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[ ]  -> text.carve markup.list.unnumbered.carve constant.language.task-list.carve
+outer\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+inner\n -> text.carve

@@ -1,0 +1,6 @@
+a. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+apple\n -> text.carve
+b. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+banana\n -> text.carve

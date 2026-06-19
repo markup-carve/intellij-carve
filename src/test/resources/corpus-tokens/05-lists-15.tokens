@@ -1,0 +1,7 @@
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+parent\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+child\n -> text.carve

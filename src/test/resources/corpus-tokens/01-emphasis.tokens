@@ -1,0 +1,32 @@
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+italic -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+   -> text.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+bold -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+   -> text.carve
+/* -> text.carve markup.bold.italic.carve punctuation.definition.bold-italic.carve
+bold italic -> text.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> text.carve markup.bold.italic.carve punctuation.definition.bold-italic.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve punctuation.definition.underline.carve
+underline -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve punctuation.definition.underline.carve
+   -> text.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+strikethrough -> text.carve markup.strikethrough.carve markup.strikethrough.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+\n -> text.carve
+^ -> text.carve markup.superscript.carve punctuation.definition.superscript.carve
+super -> text.carve markup.superscript.carve markup.superscript.carve
+^ -> text.carve markup.superscript.carve punctuation.definition.superscript.carve
+   -> text.carve
+, -> text.carve markup.subscript.carve punctuation.definition.subscript.carve
+sub -> text.carve markup.subscript.carve markup.subscript.carve
+, -> text.carve markup.subscript.carve punctuation.definition.subscript.carve
+   -> text.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+highlight -> text.carve markup.highlight.carve markup.highlight.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+\n -> text.carve

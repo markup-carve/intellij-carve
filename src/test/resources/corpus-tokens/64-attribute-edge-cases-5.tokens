@@ -1,0 +1,10 @@
+![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+a -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+u -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+{ -> text.carve meta.attributes.carve
+k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+="{y} -> text.carve meta.attributes.carve
+" -> text.carve punctuation.definition.smartquote.carve
+}\n -> text.carve

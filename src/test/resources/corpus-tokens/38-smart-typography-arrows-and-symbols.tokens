@@ -1,0 +1,23 @@
+Flow: a  -> text.carve
+-> -> text.carve constant.character.typography.carve
+ b  -> text.carve
+<- -> text.carve constant.character.typography.carve
+ c  -> text.carve
+<-> -> text.carve constant.character.typography.carve
+ d  -> text.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+> e; x ! -> text.carve markup.highlight.carve markup.highlight.carve
+= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+ y, p  -> text.carve
+<= -> text.carve constant.character.typography.carve
+ q, r  -> text.carve
+>= -> text.carve constant.character.typography.carve
+ s,  -> text.carve
++- -> text.carve constant.character.typography.carve
+1.\n -> text.carve
+(c) -> text.carve constant.character.typography.carve
+ 2024,  -> text.carve
+(r) -> text.carve constant.character.typography.carve
+,  -> text.carve
+(tm) -> text.carve constant.character.typography.carve
+. Dates like 1/2/2024 stay literal.\n -> text.carve

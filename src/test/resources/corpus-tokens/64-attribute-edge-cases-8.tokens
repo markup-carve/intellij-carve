@@ -1,0 +1,8 @@
+: -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+kbd -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
+[ -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+x -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
+] -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+{k="{y} -> text.carve meta.extension.inline.carve meta.attributes.carve
+" -> text.carve punctuation.definition.smartquote.carve
+}\n -> text.carve

@@ -1,0 +1,13 @@
+![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+Apollo 11 -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+apollo.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+{ -> text.carve meta.attributes.carve
+.hero -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure 1: First moon landing -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

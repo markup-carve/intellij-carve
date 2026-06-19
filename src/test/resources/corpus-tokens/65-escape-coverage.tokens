@@ -1,0 +1,32 @@
+\\! -> text.carve constant.character.escape.carve
+\\ -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\\# -> text.carve constant.character.escape.carve
+\\$ -> text.carve
+\\% -> text.carve constant.character.escape.carve
+\\&\\' -> text.carve
+\\( -> text.carve constant.character.escape.carve
+\\) -> text.carve constant.character.escape.carve
+\\* -> text.carve constant.character.escape.carve
+\\+ -> text.carve constant.character.escape.carve
+\\, -> text.carve constant.character.escape.carve
+\\- -> text.carve constant.character.escape.carve
+\\. -> text.carve constant.character.escape.carve
+\\/ -> text.carve constant.character.escape.carve
+\\:\\; -> text.carve
+\\< -> text.carve constant.character.escape.carve
+\\= -> text.carve constant.character.escape.carve
+\\> -> text.carve constant.character.escape.carve
+\\? -> text.carve
+\\@ -> text.carve constant.character.escape.carve
+\\[ -> text.carve constant.character.escape.carve
+\\\\ -> text.carve constant.character.escape.carve
+\\] -> text.carve constant.character.escape.carve
+\\^ -> text.carve constant.character.escape.carve
+\\_ -> text.carve constant.character.escape.carve
+\\` -> text.carve constant.character.escape.carve
+\\{ -> text.carve constant.character.escape.carve
+\\| -> text.carve constant.character.escape.carve
+\\} -> text.carve constant.character.escape.carve
+\\~ -> text.carve constant.character.escape.carve
+ done\n -> text.carve

@@ -1,0 +1,9 @@
+> -> text.carve markup.quote.carve punctuation.definition.quote.carve
+  -> text.carve markup.quote.carve
+quote text -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+  -> text.carve markup.table.caption.carve
+Source: Someone -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

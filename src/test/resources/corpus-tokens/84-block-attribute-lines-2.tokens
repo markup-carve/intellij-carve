@@ -1,0 +1,27 @@
+{ -> text.carve meta.attributes.carve
+#id -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+=val} -> text.carve meta.attributes.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+.foo -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> text.carve meta.attributes.carve
+.bar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+=val2} -> text.carve meta.attributes.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+.baz -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+#id2 -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+Okay\n -> text.carve

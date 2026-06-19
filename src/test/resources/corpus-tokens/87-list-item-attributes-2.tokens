@@ -1,0 +1,7 @@
+3. -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> text.carve meta.attributes.carve
+k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+=v} -> text.carve meta.attributes.carve
+ A numbered item with id and key-value.\n -> text.carve

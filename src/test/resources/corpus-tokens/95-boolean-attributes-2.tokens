@@ -1,0 +1,5 @@
+{ -> text.carve meta.attributes.carve
+.callout -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+ open} -> text.carve meta.attributes.carve
+\n -> text.carve
+Details here.\n -> text.carve

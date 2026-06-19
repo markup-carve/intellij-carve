@@ -1,0 +1,8 @@
+\\/ -> text.carve constant.character.escape.carve
+literal -> text.carve
+\\/ -> text.carve constant.character.escape.carve
+ and  -> text.carve
+\\* -> text.carve constant.character.escape.carve
+not bold -> text.carve
+\\* -> text.carve constant.character.escape.carve
+\n -> text.carve

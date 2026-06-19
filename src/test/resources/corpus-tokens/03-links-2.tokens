@@ -1,0 +1,10 @@
+[ -> text.carve meta.link.inline.carve punctuation.definition.link.begin.carve
+Site -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve punctuation.definition.link.end.carve
+( -> text.carve meta.link.inline.carve punctuation.definition.metadata.begin.carve
+https://example.com -> text.carve meta.link.inline.carve markup.underline.link.carve
+ " -> text.carve meta.link.inline.carve
+Hover text -> text.carve meta.link.inline.carve string.quoted.double.link-title.carve
+" -> text.carve meta.link.inline.carve
+) -> text.carve meta.link.inline.carve punctuation.definition.metadata.end.carve
+\n -> text.carve

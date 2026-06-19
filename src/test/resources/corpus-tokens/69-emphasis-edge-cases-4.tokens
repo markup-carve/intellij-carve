@@ -1,0 +1,4 @@
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+a, b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+!\n -> text.carve

@@ -1,0 +1,3 @@
+Also visible.  -> text.carve
+%% this tail is a comment -> text.carve comment.line.percent.carve
+\n -> text.carve

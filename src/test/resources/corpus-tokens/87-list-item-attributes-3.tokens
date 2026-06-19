@@ -1,0 +1,5 @@
+a. -> text.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ An alpha item.\n -> text.carve
