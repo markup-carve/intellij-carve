@@ -31,7 +31,12 @@ intellij {
     type.set("IC")
     // The TextMate Bundles plugin (bundled + enabled in all IntelliJ IDEs) drives
     // editor syntax highlighting; declare it so <depends> resolves and verifyPlugin passes.
-    plugins.set(listOf("org.jetbrains.plugins.textmate"))
+    //
+    // LSP4IJ (RedHat) is the LSP client framework. It maps the bundled carve-lsp's
+    // capabilities (diagnostics, completion, folding, document symbols, hover,
+    // code actions, rename, formatting, semantic tokens) onto native IDE features.
+    // 0.20.1 supports since-build 242.0+, so it is compatible with 2024.3 (243).
+    plugins.set(listOf("org.jetbrains.plugins.textmate", "com.redhat.devtools.lsp4ij:0.20.1"))
     updateSinceUntilBuild.set(false)
 }
 

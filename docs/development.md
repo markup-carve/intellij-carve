@@ -26,10 +26,13 @@ src/main/
     actions/                 # export-to-HTML, toggle-preview
   resources/
     META-INF/plugin.xml
+    lsp/                     # bundled carve-js language server (generated)
+    kotlin/org/markupcarve/carve/lsp/  # lsp4ij factory + connection provider
     textmate/                # TextMate bundle (package.json, grammar, language config)
     js/carve.iife.js         # bundled carve-js renderer (generated)
     icons/, liveTemplates/
 tools/build-carve-bundle.sh  # regenerates js/carve.iife.js
+tools/build-lsp-bundle.sh    # regenerates lsp/server.js
 ```
 
 ## Bundled renderer (carve.iife.js)
@@ -48,6 +51,33 @@ tools/build-carve-bundle.sh ../carve-js
 
 The `gradle test` task exercises this bundle under GraalJS, so a broken or
 incompatible bundle fails CI.
+
+## Bundled language server (lsp/server.js)
+
+LSP features (diagnostics, completion, folding, document symbols, hover, code
+actions, rename, formatting, semantic tokens, code lenses) come from
+[carve-lsp](https://github.com/markup-carve/carve-lsp), a Node stdio language
+server, wired up through
+[LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij). The compiled server
+is bundled into the plugin as a single self-contained file
+(`src/main/resources/lsp/server.js`, all dependencies inlined by esbuild) and
+launched as `node lsp/server.js --stdio`. Only a `node` binary is needed at
+runtime - no `node_modules` are shipped.
+
+carve-lsp is not published to npm yet, so the bundle is generated from a local
+checkout and committed. To refresh it:
+
+```bash
+# carve-lsp checked out as a sibling; the script runs npm install + build for you
+tools/build-lsp-bundle.sh ../carve-lsp
+```
+
+The script records the carve-lsp commit in `src/main/resources/lsp/VERSION` and
+in a header comment in `server.js`, so a stale bundle is detectable (compare
+against carve-lsp HEAD). It also runs `node --check` on the result.
+
+The language server itself is not exercised headlessly by `gradle test`; verify
+it manually with `./gradlew runIde` (see the checklist in the PR / below).
 
 ## TextMate grammar
 

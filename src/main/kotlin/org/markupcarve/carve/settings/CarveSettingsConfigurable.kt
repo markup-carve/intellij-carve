@@ -64,6 +64,22 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                 }
             }
 
+            group("Language Server") {
+                row("Node.js executable:") {
+                    textFieldWithBrowseButton(
+                        FileChooserDescriptorFactory.createSingleLocalFileDescriptor()
+                            .withTitle("Select Node.js Executable"),
+                        project,
+                    ).columns(COLUMNS_LARGE)
+                        .bindText(settings::nodePath)
+                        .comment(
+                            "Path to the Node.js binary that runs the bundled Carve language " +
+                                "server (diagnostics, completion, folding, outline, code actions). " +
+                                "Leave empty to use <code>node</code> from your PATH.",
+                        )
+                }
+            }
+
             group("Preview Styling") {
                 row("Custom CSS file:") {
                     textFieldWithBrowseButton(

@@ -12,6 +12,21 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 - **Syntax highlighting** via TextMate grammar (shared with
   [vscode-carve](https://github.com/markup-carve/vscode-carve))
+- **Language Server features** via the bundled
+  [carve-lsp](https://github.com/markup-carve/carve-lsp) server (through
+  [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij)):
+  - **Diagnostics** - Djot/Markdown migration warnings (with quick fixes) and
+    semantic lint (broken cross-references, duplicate heading ids)
+  - **Completion** - context-aware suggestions
+  - **Code folding** for headings, blocks, and other foldable regions
+  - **Structure view + breadcrumbs** - a heading outline of the document
+  - **Quick fixes / intentions** - convert Djot/Markdown delimiters to Carve
+    (for example `**bold**` to `*bold*`, `_em_` to `/em/`, `{=x=}` to `==x==`)
+  - **Hover** documentation
+  - **Rename** refactoring
+  - **Reformat Code** (document formatting)
+  - **Semantic highlighting** (semantic tokens)
+  - **Code lenses** - footnote reference counts
 - **Live preview** panel (split editor view)
 - **IDE theme sync** - preview follows dark/light mode
 - **Code highlighting** in preview code blocks (highlight.js)
@@ -37,6 +52,13 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 - JetBrains IDE 2024.3+
 - Java 17+
+- [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij) plugin (installed
+  automatically as a dependency)
+- **Node.js** on your `PATH` (or configured in **Settings | Tools | Carve**) for
+  the language-server features (diagnostics, completion, folding, outline, code
+  actions). Syntax highlighting and preview work without Node.js; if Node.js is
+  missing, the plugin shows a notification and the LSP features stay disabled
+  instead of failing.
 
 ## Installation
 
