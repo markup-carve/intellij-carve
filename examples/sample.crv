@@ -125,3 +125,64 @@ Per-item classes ride an inline span (`[text]{.class}`); carve-js drops a bare
 
 - [ ] [needs fixing]{.error}
 - [x] [shipped]{.success}
+
+## Extension showcase
+
+Verifies the live-preview hydration: language badge, header caption, tabs,
+spoiler, details, mermaid, chart, and math (each should render in preview).
+
+A fenced block carries a language badge and a quoted-header caption bar:
+
+``` php "app/Service.php" [Service]
+<?php echo "hi";
+```
+
+A code group switches panels on tab click:
+
+::: code-group
+``` js [JavaScript]
+const x = 1;
+```
+``` ts [TypeScript]
+const x: number = 1;
+```
+:::
+
+A tab set:
+
+:::: tabs
+::: tab [First]
+First panel body.
+:::
+::: tab [Second]
+Second panel body.
+:::
+::::
+
+Inline spoiler blurs until clicked: :spoiler[hidden answer].
+
+::: spoiler "Block spoiler"
+The hidden block body.
+:::
+
+:::details "Disclosure"
+A native details/summary disclosure.
+:::
+
+A mermaid diagram:
+
+``` mermaid
+graph TD; A[Start] --> B{Choice}; B -->|yes| C[Do it]; B -->|no| D[Skip];
+```
+
+A chart:
+
+``` chart
+{"type":"bar","data":{"labels":["Q1","Q2","Q3"],"datasets":[{"label":"Sales","data":[12,19,7]}]}}
+```
+
+Display math: ``` math `` and inline math $`a^2 + b^2 = c^2`$.
+
+``` math
+\int_0^1 x^2 \, dx = \frac{1}{3}
+```
