@@ -62,14 +62,59 @@ object CarveConverter {
                         ?: return errorHtml("Carve renderer error", "Global 'carve' not found in bundle.")
                     val fn = carveGlobal.getMember("carveToHtml")
                         ?: return errorHtml("Carve renderer error", "'carveToHtml' not found in bundle.")
-                    // Pass the source as a polyglot argument - no string interpolation, no injection.
-                    fn.execute(carve).asString()
+                    // Build the options object (with the showcase extension set) inside
+                    // the bundle's own context, so the extension factories come from the
+                    // same Carve build that renders. Defined as a global helper once per
+                    // context, then invoked with the source as a polyglot argument - no
+                    // string interpolation of the user's Carve, so no injection.
+                    val optionsBuilder = context.eval(
+                        Source.newBuilder("js", CARVE_OPTIONS_JS, "carve-options.js").build(),
+                    )
+                    val options = optionsBuilder.execute()
+                    fn.execute(carve, options).asString()
                 }
         } catch (e: Exception) {
             LOG.warn("Carve JS render failed", e)
             errorHtml("Carve render error", e.message ?: e.toString())
         }
     }
+
+    /**
+     * Returns a `carveToHtml` options object enabling the showcase extension
+     * set the Carve docs site renders with (see carve-js
+     * `docs/.vitepress/carve-extensions.js`): authoring constructs and inline
+     * sugar that work zero-config and are safe in an embedded preview.
+     *
+     * One deliberate deviation from the docs-site list: this plugin uses
+     * `headingReference` rather than `wikilinks` for `[[Heading]]`. The plugin's
+     * own `cwiki` live template and README document `[[Heading]]` as an implicit
+     * heading reference (resolving to the local `#id`), whereas `wikilinks`
+     * would render it as an off-document wiki page link - making the plugin's
+     * own template produce a broken-looking link in preview.
+     *
+     * Each factory is called fresh per render. Diagram presets that need a
+     * client-side JS library to paint (mermaid, chart) emit their container
+     * markup here; the preview surface decides whether to load those libraries.
+     * Factories absent from the bundle are skipped so an older bundle still
+     * renders core Carve rather than throwing.
+     */
+    private val CARVE_OPTIONS_JS = """
+        (function () {
+          var names = [
+            'details', 'mermaid', 'mathBlock', 'spoiler', 'chart',
+            'headingReference', 'autolink', 'codeGroup', 'tabs', 'listTable',
+            'headingPermalinks', 'citations', 'externalLinks'
+          ];
+          var exts = [];
+          for (var i = 0; i < names.length; i++) {
+            var factory = carve[names[i]];
+            if (typeof factory === 'function') {
+              exts.push(factory());
+            }
+          }
+          return { extensions: exts };
+        })
+    """.trimIndent()
 
     private fun errorHtml(title: String, message: String): String {
         val safe = message
