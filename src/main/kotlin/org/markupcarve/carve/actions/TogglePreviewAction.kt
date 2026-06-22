@@ -1,5 +1,6 @@
 package org.markupcarve.carve.actions
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -18,4 +19,6 @@ class TogglePreviewAction : AnAction() {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
         e.presentation.isEnabledAndVisible = CarveFileType.matches(file?.extension)
     }
+
+    override fun getActionUpdateThread() = ActionUpdateThread.BGT
 }
