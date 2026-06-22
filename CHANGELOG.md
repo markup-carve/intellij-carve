@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Added
+
+- LSP support via LSP4IJ, backed by the bundled carve-lsp server: diagnostics,
+  completion, code folding, structure/outline and breadcrumbs, hover, quick
+  fixes/intentions (Djot/Markdown to Carve migrations), rename, formatting,
+  semantic highlighting, and code lenses. Requires Node.js on the PATH (or set
+  in Settings | Tools | Carve).
+- Preview rendering for the extension set: code groups/tabs, inline and block
+  spoilers, Mermaid diagrams, and Chart.js charts.
+- Code-block language badges and filename header bars in the preview.
+
+### Changed
+
+- Refreshed the bundled carve-js renderer (list tables, math blocks,
+  details/disclosure, and the latest core fixes).
+- Highlighting updated for the latest syntax: block headers (`"..."`) and
+  grouping labels (`[...]`) on code fences and `:::` divs, and GFM `|---|`
+  delimiter rows.
+- Preview re-renders all extensions live as you type (single hydration pass on
+  load and after every edit).
+- Minimum supported IDE raised to 2024.3 (build 243). 2024.1 and 2024.2 are no
+  longer supported.
+
+### Fixed
+
+- The `chl` and `csub` live templates inserted doubled delimiters (`==`/`,,`);
+  corrected to the canonical single `=`/`,`.
+- The preview no longer raises a read-access threading error when editing or
+  pasting.
+- Modernized deprecated platform API usage (file-chooser fields, JBCef browser,
+  action update thread).
+
 ## [0.1.0]
 
 Initial release.
@@ -24,5 +58,6 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/markup-carve/intellij-carve/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/markup-carve/intellij-carve/releases/tag/0.1.0
