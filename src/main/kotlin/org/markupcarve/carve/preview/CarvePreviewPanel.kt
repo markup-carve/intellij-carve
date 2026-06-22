@@ -34,7 +34,7 @@ class CarvePreviewPanel(
 ) : Disposable {
 
     private val panel = JPanel(BorderLayout())
-    private val browser = JBCefBrowser()
+    private val browser = JBCefBrowser.createBuilder().build()
     private val updatePending = AtomicBoolean(false)
     private val updateTimer: Timer
     private var initialized = false

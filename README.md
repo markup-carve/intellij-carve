@@ -35,7 +35,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 ## Requirements
 
-- JetBrains IDE 2024.1+
+- JetBrains IDE 2024.3+
 - Java 17+
 
 ## Installation

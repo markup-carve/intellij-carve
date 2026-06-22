@@ -15,11 +15,19 @@ dependencies {
     // Server-side Carve rendering for export + preview (runs the bundled carve.iife.js).
     implementation("org.graalvm.js:js:23.0.2")
     implementation("org.graalvm.js:js-scriptengine:23.0.2")
+
+    // JUnit 4 for the corpus snapshot tests. Declared explicitly because the 2024.3+
+    // platform no longer puts JUnit 4 on the plugin test classpath by default.
+    testImplementation("junit:junit:4.13.2")
 }
 
 intellij {
     // Build against IntelliJ IDEA Community so the plugin installs across the whole IDE family.
-    version.set("2024.1")
+    // 2024.3 is the lowest SDK that exposes the descriptor-first
+    // Row.textFieldWithBrowseButton(descriptor, project) overload; the old
+    // title-and-descriptor combined overload was deprecated (ERROR level) in that
+    // cycle, so the plugin now builds against (and requires) 243+ - see sinceBuild.
+    version.set("2024.3")
     type.set("IC")
     // The TextMate Bundles plugin (bundled + enabled in all IntelliJ IDEs) drives
     // editor syntax highlighting; declare it so <depends> resolves and verifyPlugin passes.
@@ -68,13 +76,21 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("241")
+        // 243 (2024.3): the descriptor-first Row.textFieldWithBrowseButton overload
+        // we now call is a new platform method that does not exist on the 2024.1/2024.2
+        // Row interface, so the plugin can no longer claim compatibility below 243.
+        sinceBuild.set("243")
     }
 
     runPluginVerifier {
         // Check binary/API compatibility against the IDE versions the plugin claims
-        // to support (since-build 241 = 2024.1). Run via `./gradlew runPluginVerifier`.
-        ideVersions.set(listOf("IC-2024.1", "IC-2024.2", "IC-2024.3"))
+        // to support (since-build 243 = 2024.3) plus newer trains, so a Marketplace
+        // flag like the 262 build is caught here. Run via `./gradlew runPluginVerifier`.
+        // TODO: add "IC-2026.2" once that release train resolves in the verifier's
+        // product-releases list (it is not yet available as a stable string).
+        ideVersions.set(
+            listOf("IC-2024.3", "IC-2025.1", "IC-2025.2"),
+        )
     }
 
     buildSearchableOptions {

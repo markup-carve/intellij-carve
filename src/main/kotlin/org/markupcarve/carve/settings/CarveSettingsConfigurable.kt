@@ -43,18 +43,18 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                 }
                 row("PHP executable:") {
                     textFieldWithBrowseButton(
-                        "Select PHP Executable",
+                        FileChooserDescriptorFactory.createSingleLocalFileDescriptor()
+                            .withTitle("Select PHP Executable"),
                         project,
-                        FileChooserDescriptorFactory.createSingleFileDescriptor(),
                     ).columns(COLUMNS_LARGE)
                         .bindText(settings::phpPath)
                         .comment("Path to PHP binary (default: php)")
                 }
                 row("Converter script:") {
                     textFieldWithBrowseButton(
-                        "Select Carve Script",
+                        FileChooserDescriptorFactory.createSingleFileDescriptor("php")
+                            .withTitle("Select Carve Script"),
                         project,
-                        FileChooserDescriptorFactory.createSingleFileDescriptor("php"),
                     ).columns(COLUMNS_LARGE)
                         .bindText(settings::phpCarveScript)
                         .comment(
@@ -67,9 +67,9 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
             group("Preview Styling") {
                 row("Custom CSS file:") {
                     textFieldWithBrowseButton(
-                        "Select CSS File",
+                        FileChooserDescriptorFactory.createSingleFileDescriptor("css")
+                            .withTitle("Select CSS File"),
                         project,
-                        FileChooserDescriptorFactory.createSingleFileDescriptor("css"),
                     ).columns(COLUMNS_LARGE)
                         .bindText(settings::customCssPath)
                         .comment("Injected after the built-in styles, so your rules override them.")
