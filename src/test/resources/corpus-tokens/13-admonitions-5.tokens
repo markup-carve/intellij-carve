@@ -1,7 +1,7 @@
 ::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
   -> text.carve markup.other.div.carve
 tip -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
+\n -> text.carve markup.other.div.carve
 Quick steps:\n -> text.carve
 \n -> text.carve
 - -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
