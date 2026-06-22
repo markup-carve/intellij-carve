@@ -64,8 +64,8 @@ Type a prefix and press `Tab` to expand:
 |--------|------------|
 | `ch1`-`ch6` | Headings |
 | `cb`, `ci`, `cbi` | Bold `*…*`, italic `/…/`, bold-italic `/*…*/` |
-| `cu`, `cs`, `chl` | Underline `_…_`, strike `~…~`, highlight `==…==` |
-| `csup`, `csub`, `cc` | Superscript `^…^`, subscript `,,…,,`, inline code |
+| `cu`, `cs`, `chl` | Underline `_…_`, strike `~…~`, highlight `=…=` |
+| `csup`, `csub`, `cc` | Superscript `^…^`, subscript `,…,`, inline code |
 | `clink`, `cimg` | Link, image |
 | `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[[Heading]]` |
 | `ccode`, `cquote`, `chr` | Fenced code block, blockquote, thematic break |
