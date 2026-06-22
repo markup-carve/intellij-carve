@@ -1,4 +1,8 @@
-```php [NPM]\n -> text.carve
-npm install x\n -> text.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+  -> text.carve markup.raw.block.fenced.code.carve
+[NPM] -> text.carve markup.raw.block.fenced.code.carve entity.name.label.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+npm install x\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
