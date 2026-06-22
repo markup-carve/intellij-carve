@@ -9,6 +9,10 @@
     <h3>Features</h3>
     <ul>
         <li>Syntax highlighting via TextMate grammar</li>
+        <li>Language Server features via the bundled carve-lsp server (LSP4IJ):
+            diagnostics, completion, code folding, structure/outline, hover,
+            quick fixes/intentions, rename, formatting, and semantic highlighting
+            (requires Node.js)</li>
         <li>Live preview panel (split editor view)</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
         <li>Export to HTML</li>
@@ -25,6 +29,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
+    <h3>Unreleased</h3>
+    <ul>
+        <li>LSP client (LSP4IJ) backed by the bundled carve-lsp server: diagnostics,
+            completion, code folding, structure/outline + breadcrumbs, hover, quick
+            fixes/intentions (Djot/Markdown to Carve), rename, formatting, semantic
+            highlighting, and code lenses. Requires Node.js on the PATH (or set in
+            Settings | Tools | Carve).</li>
+    </ul>
     <h3>0.1.0</h3>
     <p>Initial release.</p>
     <ul>
@@ -40,8 +52,10 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.textmate</depends>
+    <depends>com.redhat.devtools.lsp4ij</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Carve" displayType="BALLOON"/>
         <fileType
                 name="Carve"
                 implementationClass="org.markupcarve.carve.CarveFileType"
@@ -81,6 +95,23 @@
 
         <projectService
                 serviceImplementation="org.markupcarve.carve.settings.CarveSettings"/>
+    </extensions>
+
+    <!--
+      Language Server Protocol client (lsp4ij). The bundled carve-lsp Node server
+      provides diagnostics, completion, folding, document symbols (Structure view),
+      hover, code actions / quick fixes, rename, formatting, semantic tokens, and
+      code lenses. lsp4ij maps each capability onto the matching native IDE feature.
+    -->
+    <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+        <server id="carveLanguageServer"
+                name="Carve Language Server"
+                factoryClass="org.markupcarve.carve.lsp.CarveLanguageServerFactory">
+            <description>Carve markup language server (diagnostics, completion, folding, outline, code actions).</description>
+        </server>
+        <languageMapping language="Carve"
+                         serverId="carveLanguageServer"
+                         languageId="carve"/>
     </extensions>
 
     <actions>
