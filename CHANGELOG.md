@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Added
+
+- LSP client: diagnostics, completion, folding, structure view, and code actions
+  via carve-lsp.
+- Thematic-break highlighting in the grammar.
+
+### Fixed
+
+- Frontmatter over-match in the grammar.
+- Preview fidelity for code groups, spoilers, mermaid, charts, and language labels.
+
+### Changed
+
+- Refreshed renderer bundle and grammar for the latest Carve syntax.
+- Modernized deprecated platform API for plugin verifier build 262 compatibility.
+
 ## [0.1.0]
 
 Initial release.
@@ -24,5 +42,6 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/markup-carve/intellij-carve/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/markup-carve/intellij-carve/releases/tag/0.1.0
