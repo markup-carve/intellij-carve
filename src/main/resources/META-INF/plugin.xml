@@ -29,13 +29,27 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    <h3>Unreleased</h3>
+    <h3>0.1.1</h3>
     <ul>
-        <li>LSP client (LSP4IJ) backed by the bundled carve-lsp server: diagnostics,
+        <li>LSP support (LSP4IJ) backed by the bundled carve-lsp server: diagnostics,
             completion, code folding, structure/outline + breadcrumbs, hover, quick
             fixes/intentions (Djot/Markdown to Carve), rename, formatting, semantic
             highlighting, and code lenses. Requires Node.js on the PATH (or set in
             Settings | Tools | Carve).</li>
+        <li>Preview renders the full extension set: code groups/tabs, inline and block
+            spoilers, Mermaid diagrams, Chart.js charts, and code-block language badges
+            and filename headers - all re-rendering live as you type.</li>
+        <li>Refreshed bundled carve-js renderer: list tables, math blocks,
+            details/disclosure, and the latest core fixes.</li>
+        <li>Highlighting updated for the latest syntax: block headers (<code>"..."</code>)
+            and grouping labels (<code>[...]</code>) on code fences and <code>:::</code>
+            divs, and GFM <code>|---|</code> delimiter rows.</li>
+        <li>Minimum supported IDE raised to 2024.3 (build 243); 2024.1 and 2024.2 are no
+            longer supported.</li>
+        <li>Fixed: <code>chl</code>/<code>csub</code> live templates inserted doubled
+            delimiters; corrected to the canonical single <code>=</code>/<code>,</code>.</li>
+        <li>Fixed: preview no longer raises a threading error when editing or pasting.</li>
+        <li>Modernized deprecated platform API usage.</li>
     </ul>
     <h3>0.1.0</h3>
     <p>Initial release.</p>
