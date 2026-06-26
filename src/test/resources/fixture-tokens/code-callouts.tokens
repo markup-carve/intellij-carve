@@ -3,7 +3,7 @@
 result = compute()  <1>\n -> text.carve markup.raw.block.fenced.code.carve
 log(result)         <2>\n -> text.carve markup.raw.block.fenced.code.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
-\n -> text.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
 \n -> text.carve
 < -> text.carve markup.callout.annotation.carve punctuation.definition.callout.carve
 1 -> text.carve markup.callout.annotation.carve constant.numeric.callout.carve
