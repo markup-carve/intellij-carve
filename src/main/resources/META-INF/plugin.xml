@@ -17,7 +17,7 @@
         <li>IDE theme sync - preview follows dark/light mode</li>
         <li>Export to HTML</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
-        <li>File type recognition for <code>.crv</code> and <code>.carve</code></li>
+        <li>File type recognition for <code>.crv</code></li>
     </ul>
 
     <h3>About Carve</h3>
@@ -58,7 +58,7 @@
         <li>Live preview panel with IDE theme sync and code highlighting</li>
         <li>Export to HTML</li>
         <li>Live templates for Carve's visual mnemonics</li>
-        <li>File type recognition for <code>.crv</code> and <code>.carve</code></li>
+        <li>File type recognition for <code>.crv</code></li>
         <li>carve-js (bundled, GraalJS) and carve-php preview renderers</li>
         <li>Custom preview CSS</li>
     </ul>
@@ -75,7 +75,7 @@
                 implementationClass="org.markupcarve.carve.CarveFileType"
                 fieldName="INSTANCE"
                 language="Carve"
-                extensions="crv;carve"/>
+                extensions="crv"/>
 
         <!-- Editor syntax highlighting via the bundled TextMate engine. -->
         <textmate.bundleProvider implementation="org.markupcarve.carve.CarveTextMateBundleProvider"/>

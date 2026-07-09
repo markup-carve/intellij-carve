@@ -32,7 +32,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 - **Code highlighting** in preview code blocks (highlight.js)
 - **Export to HTML**
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
-- **File type** recognition for `.crv` and `.carve`
+- **File type** recognition for `.crv`
 
 ## Screenshots
 
@@ -73,7 +73,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 ## Usage
 
-1. Open any `.crv` or `.carve` file - the editor opens in split view (source + preview).
+1. Open any `.crv` file - the editor opens in split view (source + preview).
 2. The preview updates live as you type.
 3. Right-click for **Export to HTML**.
 4. Press `Ctrl+Shift+D` to toggle the Carve preview tool window.

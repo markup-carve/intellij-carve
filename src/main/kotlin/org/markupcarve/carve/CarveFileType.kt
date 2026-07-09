@@ -10,7 +10,7 @@ object CarveFileType : LanguageFileType(CarveLanguage) {
     override fun getIcon(): Icon = CarveIcons.FILE
 
     /** Recognized Carve file extensions (lowercase, no dot). */
-    val EXTENSIONS: Set<String> = setOf("carve", "crv")
+    val EXTENSIONS: Set<String> = setOf("crv")
 
     /** True when the given file extension belongs to Carve. */
     fun matches(extension: String?): Boolean =
