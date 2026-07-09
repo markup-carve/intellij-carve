@@ -20,7 +20,7 @@ class CarvePreviewToolWindowFactory : ToolWindowFactory, DumbAware {
         val contentFactory = ContentFactory.getInstance()
 
         val placeholderPanel = JPanel(BorderLayout()).apply {
-            add(JLabel("Open a .carve file to see preview", JLabel.CENTER), BorderLayout.CENTER)
+            add(JLabel("Open a .crv file to see preview", JLabel.CENTER), BorderLayout.CENTER)
         }
         toolWindow.contentManager.addContent(
             contentFactory.createContent(placeholderPanel, "", false),

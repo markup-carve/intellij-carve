@@ -8,7 +8,7 @@
       {
         "id": "carve",
         "aliases": ["Carve", "carve"],
-        "extensions": [".crv", ".carve"],
+        "extensions": [".crv"],
         "configuration": "./language-configuration.json"
       }
     ],
