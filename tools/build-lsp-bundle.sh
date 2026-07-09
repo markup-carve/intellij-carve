@@ -41,9 +41,13 @@ out_dir="$here/src/main/resources/lsp"
 out="$out_dir/server.js"
 mkdir -p "$out_dir"
 
-npx --yes esbuild "$carve_lsp/dist/server.js" \
+# Run esbuild from inside the carve-lsp checkout so the module path comments
+# and __commonJS keys it emits are checkout-relative (dist/..., node_modules/...)
+# instead of embedding machine-local paths from wherever the script happens to
+# be invoked.
+(cd "$carve_lsp" && npx --yes esbuild dist/server.js \
   --bundle --platform=node --format=cjs --target=node18 \
-  --legal-comments=none --outfile="$out"
+  --legal-comments=none --outfile="$out")
 
 # Record the carve-lsp commit this bundle was built from, so staleness is
 # detectable later (compare against carve-lsp HEAD). Written as a sibling

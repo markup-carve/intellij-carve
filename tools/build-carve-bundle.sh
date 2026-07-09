@@ -22,9 +22,12 @@ if [ ! -f "$carve_js/dist/index.js" ]; then
 fi
 
 out="$here/src/main/resources/js/carve.iife.js"
-npx --yes esbuild "$carve_js/dist/index.js" \
+# Run esbuild from inside the carve-js checkout so the module path comments it
+# emits are checkout-relative (dist/...) instead of embedding machine-local
+# paths from wherever the script happens to be invoked.
+(cd "$carve_js" && npx --yes esbuild dist/index.js \
   --bundle --format=iife --global-name=carve --platform=neutral \
-  --legal-comments=none --outfile="$out"
+  --legal-comments=none --outfile="$out")
 
 # Record the carve-js commit this bundle was built from, so staleness is
 # detectable later (compare against carve-js HEAD). Prepended as a JS comment.
