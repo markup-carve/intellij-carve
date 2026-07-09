@@ -25,8 +25,12 @@ out="$here/src/main/resources/js/carve.iife.js"
 # Run esbuild from inside the carve-js checkout so the module path comments it
 # emits are checkout-relative (dist/...) instead of embedding machine-local
 # paths from wherever the script happens to be invoked.
+# --target=es2020 keeps the output digestible for GraalJS, and the banner
+# polyfills TextEncoder/TextDecoder, which GraalJS does not provide.
 (cd "$carve_js" && npx --yes esbuild dist/index.js \
   --bundle --format=iife --global-name=carve --platform=neutral \
+  --target=es2020 \
+  --banner:js="$(cat "$here/tools/graaljs-polyfill.js")" \
   --legal-comments=none --outfile="$out")
 
 # Record the carve-js commit this bundle was built from, so staleness is
