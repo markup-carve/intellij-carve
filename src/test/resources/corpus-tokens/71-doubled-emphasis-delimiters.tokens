@@ -1,13 +1,1 @@
-* -> text.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-a -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-* ~ -> text.carve
-~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
-b -> text.carve markup.strikethrough.carve markup.strikethrough.carve
-~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
-~ ^ -> text.carve
-^ -> text.carve markup.superscript.carve punctuation.definition.superscript.carve
-c -> text.carve markup.superscript.carve markup.superscript.carve
-^ -> text.carve markup.superscript.carve punctuation.definition.superscript.carve
-^\n -> text.carve
+**a** ~~b~~ ^^c^^\n -> text.carve

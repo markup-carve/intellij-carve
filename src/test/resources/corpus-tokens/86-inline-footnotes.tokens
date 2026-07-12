@@ -1,8 +1,8 @@
-A note^[see  -> text.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-later -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-] inline. And a ref -> text.carve
+A note -> text.carve
+^[ -> text.carve punctuation.definition.footnote.carve
+see *later* -> text.carve string.other.footnote.inline.carve
+] -> text.carve punctuation.definition.footnote.carve
+ inline. And a ref -> text.carve
 [ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
 ^ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
 a -> text.carve constant.other.reference.footnote.carve constant.other.footnote.carve

@@ -1,12 +1,16 @@
 - -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-[-] dropped\n -> text.carve
+[-]  -> text.carve markup.list.unnumbered.carve constant.language.task-list.carve
+dropped\n -> text.carve
 - -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-[_] paused\n -> text.carve
+[_]  -> text.carve markup.list.unnumbered.carve constant.language.task-list.carve
+paused\n -> text.carve
 - -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-[>] deferred\n -> text.carve
+[>]  -> text.carve markup.list.unnumbered.carve constant.language.task-list.carve
+deferred\n -> text.carve
 - -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-[?] maybe\n -> text.carve
+[?]  -> text.carve markup.list.unnumbered.carve constant.language.task-list.carve
+maybe\n -> text.carve
