@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-12
+
+### Changed
+
+- **The `.carve` file extension is no longer registered; `.crv` is the only
+  Carve extension.** Rename any `.carve` files to `.crv`.
+
+### Added
+
+- Syntax highlighting for citations (`[@key]` groups: keys, integral `+`,
+  per-item modifiers, separators) and code callouts (`<N>` markers on
+  annotation lines and at end of line), with a hand-authored fixture snapshot
+  test class alongside the corpus goldens
+
 ### Fixed
 
 - TextMate grammar: `#critic-markup` and `#emphasis` now run before `#attributes`,
@@ -21,6 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TextMate grammar: word-boundary guards on bare `*bold*`, `~strike~`, `^sup^`
   so intraword delimiters stay literal per spec (fixture corpus asserted the
   old bold behavior as a golden - the corpus text itself says "stay literal")
+- Vendored JS bundles no longer leak machine-local build paths in module
+  comments; both bundles rebuilt from their pinned source commits
 
 ## [0.1.1]
 
