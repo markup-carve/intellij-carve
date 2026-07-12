@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- TextMate grammar: `#critic-markup` and `#emphasis` now run before `#attributes`,
+  which was consuming `{+ins+}` / `{-del-}` / `{~old~>new~}` / `{#comment#}` and
+  every brace-emphasis form
+- TextMate grammar: brace forms `{=highlight=}`, `{,sub,}`, `{^sup^}` tokenize
+- TextMate grammar: cross-references (`</#id>`) get their own link scope instead
+  of leaking into the `#tag` rule; inline footnotes (`^[...]`), hard breaks
+  (trailing backslash) and `:: term` definition lines tokenize
+- TextMate grammar: extended task states `[-] [_] [>] [?]`; a lone `+`
+  list-attach marker is no longer stolen by the table-continuation rule
+- TextMate grammar: word-boundary guards on bare `*bold*`, `~strike~`, `^sup^`
+  so intraword delimiters stay literal per spec (fixture corpus asserted the
+  old bold behavior as a golden - the corpus text itself says "stay literal")
+
 ## [0.1.1]
 
 ### Added

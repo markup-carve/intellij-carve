@@ -1,3 +1,5 @@
 - -> text.carve
-{+a+} -> text.carve meta.attributes.carve
+{+ -> text.carve markup.inserted.critic.carve punctuation.definition.critic.carve
+a -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve punctuation.definition.critic.carve
  text\n -> text.carve

@@ -1,9 +1,19 @@
 a  -> text.carve
-{+ins+} -> text.carve meta.attributes.carve
+{+ -> text.carve markup.inserted.critic.carve punctuation.definition.critic.carve
+ins -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve punctuation.definition.critic.carve
   -> text.carve
-{-del-} -> text.carve meta.attributes.carve
+{- -> text.carve markup.deleted.critic.carve punctuation.definition.critic.carve
+del -> text.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> text.carve markup.deleted.critic.carve punctuation.definition.critic.carve
   -> text.carve
-{~old~>new~} -> text.carve meta.attributes.carve
+{~ -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
+old -> text.carve markup.changed.critic.carve markup.deleted.carve
+~> -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
+new -> text.carve markup.changed.critic.carve markup.inserted.carve
+~} -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
  b -> text.carve
-{# note #} -> text.carve meta.attributes.carve
+{# -> text.carve comment.block.critic.carve punctuation.definition.critic.carve
+ note  -> text.carve comment.block.critic.carve comment.block.content.carve
+#} -> text.carve comment.block.critic.carve punctuation.definition.critic.carve
 \n -> text.carve

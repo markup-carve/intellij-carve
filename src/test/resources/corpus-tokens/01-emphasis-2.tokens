@@ -1,5 +1,1 @@
-foo -> text.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-bar -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-baz and a/b/c stay literal.\n -> text.carve
+foo*bar*baz and a/b/c stay literal.\n -> text.carve

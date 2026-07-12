@@ -1,5 +1,11 @@
-:: color\n -> text.carve
-:: colour\n -> text.carve
+:: -> text.carve punctuation.definition.list.begin.carve
+  -> text.carve
+color -> text.carve markup.list.definition.term.carve
+\n -> text.carve
+:: -> text.carve punctuation.definition.list.begin.carve
+  -> text.carve
+colour -> text.carve markup.list.definition.term.carve
+\n -> text.carve
 : -> text.carve markup.list.definition.carve punctuation.definition.list.begin.carve
    -> text.carve markup.list.definition.carve
 The visual property of objects.\n -> text.carve

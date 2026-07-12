@@ -2,7 +2,7 @@
 x -> text.carve markup.highlight.carve markup.highlight.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
  and  -> text.carve
-{= -> text.carve meta.attributes.carve
-y -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=} -> text.carve meta.attributes.carve
+{= -> text.carve punctuation.definition.highlight.carve
+y -> text.carve markup.highlight.carve
+=} -> text.carve punctuation.definition.highlight.carve
  both mark.\n -> text.carve

@@ -19,7 +19,8 @@
 Table #: Stock -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
-See </ -> text.carve
-# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
-tbl-r -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
->.\n -> text.carve
+See  -> text.carve
+</# -> text.carve punctuation.definition.link.begin.carve
+tbl-r -> text.carve markup.underline.link.cross-reference.carve
+> -> text.carve punctuation.definition.link.end.carve
+.\n -> text.carve
