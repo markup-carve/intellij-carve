@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **LSP4IJ is now an optional dependency.** The plugin loads with only syntax
+  highlighting, live preview, HTML export and live templates when LSP4IJ is not
+  installed; the language-server features (diagnostics, completion, outline,
+  hover, code actions, rename, formatting, semantic tokens) activate when the
+  [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij) plugin is present.
+  Previously LSP4IJ was a hard dependency, so the IDE refused to load the plugin
+  until it was installed. The LSP4IJ extension points moved to an optional
+  `carve-lsp.xml` config file.
+
 ## [0.1.2] - 2026-07-12
 
 ### Changed

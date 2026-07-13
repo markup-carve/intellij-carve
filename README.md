@@ -52,13 +52,16 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 - JetBrains IDE 2024.3+
 - Java 17+
-- [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij) plugin (installed
-  automatically as a dependency)
+- [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij) plugin — **optional**.
+  The plugin loads with syntax highlighting, live preview, HTML export and live
+  templates without it. Install LSP4IJ (from the Marketplace) to enable the
+  language-server features below. Installing Carve from the Marketplace offers to
+  install LSP4IJ alongside it.
 - **Node.js** on your `PATH` (or configured in **Settings | Tools | Carve**) for
   the language-server features (diagnostics, completion, folding, outline, code
-  actions). Syntax highlighting and preview work without Node.js; if Node.js is
-  missing, the plugin shows a notification and the LSP features stay disabled
-  instead of failing.
+  actions) — these also require LSP4IJ. Syntax highlighting and preview work
+  without Node.js or LSP4IJ; if Node.js is missing, the plugin shows a
+  notification and the LSP features stay disabled instead of failing.
 
 ## Installation
 

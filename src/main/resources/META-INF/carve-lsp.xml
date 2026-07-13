@@ -1,0 +1,22 @@
+<idea-plugin>
+    <!--
+      Optional LSP4IJ integration. This config file is loaded ONLY when the
+      LSP4IJ plugin (com.redhat.devtools.lsp4ij) is installed (see the optional
+      <depends> in plugin.xml), so the core plugin - syntax highlighting, live
+      preview, HTML export, live templates, file-type recognition - works without
+      it. When LSP4IJ is present, the bundled carve-lsp Node server adds
+      diagnostics, completion, folding, document symbols (Structure view), hover,
+      code actions / quick fixes, rename, formatting, semantic tokens and code
+      lenses; lsp4ij maps each capability onto the matching native IDE feature.
+    -->
+    <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+        <server id="carveLanguageServer"
+                name="Carve Language Server"
+                factoryClass="org.markupcarve.carve.lsp.CarveLanguageServerFactory">
+            <description>Carve markup language server (diagnostics, completion, folding, outline, code actions).</description>
+        </server>
+        <languageMapping language="Carve"
+                         serverId="carveLanguageServer"
+                         languageId="carve"/>
+    </extensions>
+</idea-plugin>
