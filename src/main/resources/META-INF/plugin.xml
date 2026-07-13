@@ -9,10 +9,10 @@
     <h3>Features</h3>
     <ul>
         <li>Syntax highlighting via TextMate grammar</li>
-        <li>Language Server features via the bundled carve-lsp server (LSP4IJ):
-            diagnostics, completion, code folding, structure/outline, hover,
-            quick fixes/intentions, rename, formatting, and semantic highlighting
-            (requires Node.js)</li>
+        <li>Language Server features via the bundled carve-lsp server (optional -
+            install the LSP4IJ plugin to enable; requires Node.js): diagnostics,
+            completion, code folding, structure/outline, hover, quick
+            fixes/intentions, rename, formatting, and semantic highlighting</li>
         <li>Live preview panel (split editor view)</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
         <li>Export to HTML</li>
@@ -66,7 +66,13 @@
 
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.textmate</depends>
-    <depends>com.redhat.devtools.lsp4ij</depends>
+    <!--
+      LSP4IJ is optional: the core plugin (highlighting, preview, export,
+      templates) loads without it. When installed, carve-lsp.xml wires the
+      language-server features. This avoids forcing users to install LSP4IJ just
+      to get syntax highlighting and preview.
+    -->
+    <depends optional="true" config-file="carve-lsp.xml">com.redhat.devtools.lsp4ij</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Carve" displayType="BALLOON"/>
@@ -112,21 +118,10 @@
     </extensions>
 
     <!--
-      Language Server Protocol client (lsp4ij). The bundled carve-lsp Node server
-      provides diagnostics, completion, folding, document symbols (Structure view),
-      hover, code actions / quick fixes, rename, formatting, semantic tokens, and
-      code lenses. lsp4ij maps each capability onto the matching native IDE feature.
+      The LSP4IJ extension points (Carve language server + language mapping) live
+      in the optional carve-lsp.xml, loaded only when LSP4IJ is installed. See the
+      optional <depends config-file="carve-lsp.xml"> above.
     -->
-    <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
-        <server id="carveLanguageServer"
-                name="Carve Language Server"
-                factoryClass="org.markupcarve.carve.lsp.CarveLanguageServerFactory">
-            <description>Carve markup language server (diagnostics, completion, folding, outline, code actions).</description>
-        </server>
-        <languageMapping language="Carve"
-                         serverId="carveLanguageServer"
-                         languageId="carve"/>
-    </extensions>
 
     <actions>
         <action id="Carve.Preview"
