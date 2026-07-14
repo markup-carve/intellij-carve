@@ -942,6 +942,7 @@
       ]
     },
     "emphasis": {
+      "comment": "The bare emphasis delimiter set is `/ * _ ~ =`. Superscript and subscript are braced-only (`{^sup^}` / `{,sub,}`): a bare `^text^` or `,text,` is literal text and gets no emphasis scope, so no rule matches them here. The caret keeps its other, unrelated roles (line-start `^ ` captions, table header rowspan `^` cells, `^[...]` inline footnotes), which are matched by their own rules outside this emphasis group.",
       "patterns": [
         {
           "match": "(\\{=)(?=\\S)([^\\n]*?)(=\\})",
@@ -1072,36 +1073,6 @@
             },
             "3": {
               "name": "punctuation.definition.highlight.carve"
-            }
-          }
-        },
-        {
-          "name": "markup.superscript.carve",
-          "match": "(?<![\\w^])(\\^)(?=\\S)([^\\s^\\n]+?)(\\^)(?![\\w^])",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.superscript.carve"
-            },
-            "2": {
-              "name": "markup.superscript.carve"
-            },
-            "3": {
-              "name": "punctuation.definition.superscript.carve"
-            }
-          }
-        },
-        {
-          "name": "markup.subscript.carve",
-          "match": "(?<![\\w,])(,)(?=\\S)([^,\\n]+?)(?<=\\S)(,)(?![\\w,])",
-          "captures": {
-            "1": {
-              "name": "punctuation.definition.subscript.carve"
-            },
-            "2": {
-              "name": "markup.subscript.carve"
-            },
-            "3": {
-              "name": "punctuation.definition.subscript.carve"
             }
           }
         }
