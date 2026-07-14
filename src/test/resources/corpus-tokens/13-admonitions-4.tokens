@@ -1,11 +1,11 @@
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-  -> text.carve keyword.operator.div.carve
-tip -> text.carve keyword.operator.div.carve entity.name.type.div.carve
-  -> text.carve keyword.operator.div.carve
-"Pro Tip" -> text.carve keyword.operator.div.carve string.quoted.double.carve
-  -> text.carve keyword.operator.div.carve
-[Build] -> text.carve keyword.operator.div.carve entity.name.label.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+  -> text.carve markup.other.div.carve
+tip -> text.carve markup.other.div.carve entity.name.type.div.carve
+  -> text.carve markup.other.div.carve
+"Pro Tip" -> text.carve markup.other.div.carve string.quoted.double.carve
+  -> text.carve markup.other.div.carve
+[Build] -> text.carve markup.other.div.carve entity.name.label.carve
 \n -> text.carve
 Save early, save often.\n -> text.carve
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+\n -> text.carve markup.other.div.carve

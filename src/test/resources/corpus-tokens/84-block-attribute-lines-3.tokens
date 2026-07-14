@@ -1,6 +1,6 @@
 { -> text.carve
-# -> text.carve entity.name.tag.carve punctuation.definition.tag.carve
-id -> text.carve entity.name.tag.carve variable.parameter.tag.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+id -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
 \n -> text.carve
  .foo}\n -> text.carve
 Text\n -> text.carve

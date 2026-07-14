@@ -1,24 +1,24 @@
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
-          -> text.carve keyword.operator.table.row.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Diameter (km)  -> text.carve keyword.operator.table.row.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Size vs Earth  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+          -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Diameter (km)  -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Size vs Earth  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Mercury  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 4,879.4          -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 38%             -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Mercury  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 4,879.4          -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 38%             -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Venus    -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 12,104           -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 95%             -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Venus    -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 12,104           -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 95%             -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

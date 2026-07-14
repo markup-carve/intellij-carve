@@ -1,9 +1,9 @@
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-  -> text.carve keyword.operator.div.carve
-note -> text.carve keyword.operator.div.carve entity.name.type.div.carve
-  -> text.carve keyword.operator.div.carve
-"Install *now* via `npm`" -> text.carve keyword.operator.div.carve string.quoted.double.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+  -> text.carve markup.other.div.carve
+note -> text.carve markup.other.div.carve entity.name.type.div.carve
+  -> text.carve markup.other.div.carve
+"Install *now* via `npm`" -> text.carve markup.other.div.carve string.quoted.double.carve
+\n -> text.carve markup.other.div.carve
 Body.\n -> text.carve
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+\n -> text.carve markup.other.div.carve

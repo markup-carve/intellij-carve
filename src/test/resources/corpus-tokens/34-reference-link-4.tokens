@@ -1,5 +1,5 @@
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
 [ref]: /url\n -> text.carve
 \n -> text.carve
 See  -> text.carve

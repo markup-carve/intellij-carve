@@ -9,9 +9,9 @@ def greet():\n -> text.carve markup.raw.block.fenced.code.carve
     return 1\n -> text.carve markup.raw.block.fenced.code.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Listing #: a greeting -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Listing #: a greeting -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 See  -> text.carve

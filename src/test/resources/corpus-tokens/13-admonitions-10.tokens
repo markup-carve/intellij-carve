@@ -1,14 +1,14 @@
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-  -> text.carve keyword.operator.div.carve
-tip -> text.carve keyword.operator.div.carve entity.name.type.div.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+  -> text.carve markup.other.div.carve
+tip -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve markup.other.div.carve
 Quick steps:\n -> text.carve
 \n -> text.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
 read the docs\n -> text.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
 run the demo\n -> text.carve
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+\n -> text.carve markup.other.div.carve

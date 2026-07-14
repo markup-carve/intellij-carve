@@ -64,12 +64,19 @@ class TextMateScopeVisibilityTest {
         )
 
         /**
-         * Allowed to be uncolored: `meta.*` are structural containers (their children carry
-         * the color, per TextMate convention), and these content scopes have no mappable root
-         * in IntelliJ at all - only their delimiters can be colored.
+         * Allowed to be uncolored, for two distinct reasons:
+         *
+         * - **Containers** (`meta.*`, `markup.list.*`, `markup.table.*`, `markup.other.*`,
+         *   `markup.callout.*`) span whole rows/blocks including ordinary text. Colouring them
+         *   would paint normal table cells and list content as operators; their *children* -
+         *   the delimiter captures - carry the color instead. This is the TextMate convention,
+         *   and getting it wrong is exactly what a review caught here.
+         * - **Content** (`string.*`, `markup.raw.*`, `markup.quote`, sub/superscript, math)
+         *   has no mappable root in IntelliJ for a custom language at all, so only the
+         *   surrounding delimiters can be colored.
          */
         val ALLOWED_UNCOLORED = Regex(
-            "^(meta\\.|string\\.|markup\\.(raw|quote|subscript|superscript|other\\.math|callout\\.annotation))",
+            "^(meta\\.|string\\.|markup\\.(raw|quote|subscript|superscript|other|callout|list|table))",
         )
     }
 }

@@ -1,8 +1,8 @@
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
-[ ]  -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.task-list.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[ ]  -> text.carve markup.list.unnumbered.carve keyword.operator.task-list.carve
 outer\n -> text.carve
-   -> text.carve keyword.operator.list.unnumbered.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
+   -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
 inner\n -> text.carve

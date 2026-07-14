@@ -1,9 +1,9 @@
-iv. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+iv. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 four\n -> text.carve
-v. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+v. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 five\n -> text.carve
-vi. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+vi. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 six\n -> text.carve

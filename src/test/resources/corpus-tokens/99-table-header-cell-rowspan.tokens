@@ -1,22 +1,22 @@
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- H  -> text.carve keyword.operator.table.row.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- G  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ H  -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ G  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
-  -> text.carve keyword.operator.table.row.carve
-^ -> text.carve keyword.operator.table.row.carve keyword.operator.table.rowspan.carve
-  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- b  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+  -> text.carve markup.table.row.carve
+^ -> text.carve markup.table.row.carve keyword.operator.table.rowspan.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
-  -> text.carve keyword.operator.table.row.carve
-^ -> text.carve keyword.operator.table.row.carve keyword.operator.table.rowspan.carve
-  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- c  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+  -> text.carve markup.table.row.carve
+^ -> text.carve markup.table.row.carve keyword.operator.table.rowspan.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ c  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

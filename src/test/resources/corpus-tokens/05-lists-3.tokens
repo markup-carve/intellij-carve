@@ -1,9 +1,9 @@
-1. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+1. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 first\n -> text.carve
-2. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+2. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 second\n -> text.carve
-3. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.numbered.carve
+3. -> text.carve markup.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.numbered.carve
 third\n -> text.carve

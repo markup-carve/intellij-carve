@@ -1,8 +1,8 @@
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- Value  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ Value  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- ^2^    -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ ^2^    -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

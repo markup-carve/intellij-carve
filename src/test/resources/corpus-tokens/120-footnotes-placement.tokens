@@ -10,12 +10,12 @@ b -> text.carve entity.name.reference.footnote.carve constant.numeric.footnote.c
 ] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 .\n -> text.carve
 \n -> text.carve
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-  -> text.carve keyword.operator.div.carve
-footnotes -> text.carve keyword.operator.div.carve entity.name.type.div.carve
-\n -> text.carve keyword.operator.div.carve
-::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
-\n -> text.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+  -> text.carve markup.other.div.carve
+footnotes -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve markup.other.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+\n -> text.carve markup.other.div.carve
 \n -> text.carve
 ## -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve

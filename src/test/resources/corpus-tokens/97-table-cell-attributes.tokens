@@ -1,21 +1,21 @@
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
-{ -> text.carve keyword.operator.table.row.carve meta.attributes.carve
-.highlight -> text.carve keyword.operator.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve keyword.operator.table.row.carve meta.attributes.carve
- Total  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 99  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+{ -> text.carve markup.table.row.carve meta.attributes.carve
+.highlight -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve markup.table.row.carve meta.attributes.carve
+ Total  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 99  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
---- -> text.carve keyword.operator.table.row.separator.carve keyword.operator.table.separator.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
---- -> text.carve keyword.operator.table.row.separator.carve keyword.operator.table.separator.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
+--- -> text.carve markup.table.row.separator.carve keyword.operator.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
+--- -> text.carve markup.table.row.separator.carve keyword.operator.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- a  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- b  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ a  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

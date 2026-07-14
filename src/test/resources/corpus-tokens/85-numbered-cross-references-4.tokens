@@ -2,21 +2,21 @@
 #tbl-r -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Item  -> text.carve keyword.operator.table.row.carve
-|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
- Qty  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Item  -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+ Qty  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- Apple  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 3  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ Apple  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 3  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Table #: Stock -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Table #: Stock -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 See  -> text.carve

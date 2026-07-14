@@ -6,9 +6,9 @@ color -> text.carve keyword.operator.list.definition.term.carve
   -> text.carve
 colour -> text.carve keyword.operator.list.definition.term.carve
 \n -> text.carve
-: -> text.carve keyword.operator.list.definition.carve keyword.operator.list.begin.carve
-   -> text.carve keyword.operator.list.definition.carve
+: -> text.carve markup.list.definition.carve keyword.operator.list.begin.carve
+   -> text.carve markup.list.definition.carve
 The visual property of objects.\n -> text.carve
-: -> text.carve keyword.operator.list.definition.carve keyword.operator.list.begin.carve
-   -> text.carve keyword.operator.list.definition.carve
+: -> text.carve markup.list.definition.carve keyword.operator.list.begin.carve
+   -> text.carve markup.list.definition.carve
 A pigment or paint.\n -> text.carve

@@ -8,8 +8,8 @@ john_doe -> text.carve entity.name.mention.carve variable.parameter.mention.carv
 @ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
 john -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 .doe about  -> text.carve
-# -> text.carve entity.name.tag.carve punctuation.definition.tag.carve
-release-1 -> text.carve entity.name.tag.carve variable.parameter.tag.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+release-1 -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
 .0 today.\n -> text.carve
 \n -> text.carve
 Reach  -> text.carve

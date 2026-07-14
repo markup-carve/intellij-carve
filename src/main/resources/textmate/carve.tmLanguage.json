@@ -244,7 +244,7 @@
     "divs": {
       "patterns": [
         {
-          "name": "keyword.operator.div.carve",
+          "name": "markup.other.div.carve",
           "match": "^\\s*(:::+)\\s*([^\\s{\\[\"]+)?\\s*(?:(\"[^\"]*\")\\s*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])\\s*(\"[^\"]*\")?)?",
           "captures": {
             "1": {
@@ -273,7 +273,7 @@
       "patterns": [
         {
           "comment": "GFM delimiter/alignment row: a whole line of only pipes, dashes, optional alignment colons, and whitespace (e.g. `|---|---|`, `|:---:|`). Gated by a full-row lookahead so an ordinary data cell that merely contains dashes is NOT mis-scoped. Note: TextMate rules are line-local and do not track table position, so a dash/colon-only row that is NOT the parser's second-row delimiter is also highlighted here -- rare and cosmetic.",
-          "name": "keyword.operator.table.row.separator.carve",
+          "name": "markup.table.row.separator.carve",
           "begin": "^(?=\\s*\\|(?:[ \\t]*:?-+:?[ \\t]*\\|)+[ \\t]*$)",
           "end": "$",
           "patterns": [
@@ -292,7 +292,7 @@
           ]
         },
         {
-          "name": "keyword.operator.table.row.carve",
+          "name": "markup.table.row.carve",
           "begin": "^(?=\\s*\\|)",
           "end": "$",
           "patterns": [
@@ -350,7 +350,7 @@
           ]
         },
         {
-          "name": "keyword.operator.table.continuation.carve",
+          "name": "markup.table.continuation.carve",
           "match": "^(\\+)(.*\\|\\s*)$",
           "captures": {
             "1": {
@@ -359,7 +359,7 @@
           }
         },
         {
-          "name": "keyword.operator.table.caption.carve",
+          "name": "markup.table.caption.carve",
           "match": "^\\s*(\\^)\\s+(.+)$",
           "captures": {
             "1": {
@@ -411,7 +411,7 @@
         },
         {
           "comment": "A lone `+` at the marker column is the list-continuation marker, not a bullet (`+` is never a bullet in Carve).",
-          "name": "keyword.operator.list.continuation.carve",
+          "name": "markup.list.continuation.carve",
           "match": "^(\\s*)(\\+)(\\s*)$",
           "captures": {
             "2": {
@@ -420,7 +420,7 @@
           }
         },
         {
-          "name": "keyword.operator.list.unnumbered.carve",
+          "name": "markup.list.unnumbered.carve",
           "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first.",
           "match": "^(\\s*)([-*])(\\s+)((?:[-*]\\s+)*)(\\[[ xX\\-_>?]\\]\\s+)?",
           "captures": {
@@ -437,7 +437,7 @@
         },
         {
           "comment": "Ordered markers use a trailing `.` or `)` only. A parenthesized `(1)` / `(a)` form is NOT a marker in Carve (it is too easily confused with prose), so no leading `(`.",
-          "name": "keyword.operator.list.numbered.carve",
+          "name": "markup.list.numbered.carve",
           "match": "^(\\s*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdmIVXLCDM]+[.)])\\s+",
           "captures": {
             "2": {
@@ -446,7 +446,7 @@
           }
         },
         {
-          "name": "keyword.operator.list.definition.carve",
+          "name": "markup.list.definition.carve",
           "match": "^(\\s*)(:)\\s+",
           "captures": {
             "2": {
@@ -676,7 +676,7 @@
         },
         {
           "comment": "Trailing callout marker inside a code line: <N> at the end of the line (optionally preceded by whitespace).",
-          "name": "keyword.operator.callout.marker.carve",
+          "name": "markup.callout.marker.carve",
           "match": "(<)([0-9]+)(>)\\s*$",
           "captures": {
             "1": {
@@ -1169,7 +1169,7 @@
           }
         },
         {
-          "name": "entity.name.tag.carve",
+          "name": "entity.name.tag.hashtag.carve",
           "match": "(?<!\\w)(#)([A-Za-z0-9_][A-Za-z0-9_-]*)",
           "captures": {
             "1": {

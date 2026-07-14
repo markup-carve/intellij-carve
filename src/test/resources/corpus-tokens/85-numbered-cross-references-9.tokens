@@ -7,9 +7,9 @@ $$ -> text.carve markup.other.math.display.carve keyword.operator.math.carve
 E = mc^2 -> text.carve markup.other.math.display.carve markup.other.math.content.carve
 ` -> text.carve markup.other.math.display.carve keyword.operator.raw.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Equation #: mass-energy -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Equation #: mass-energy -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 See  -> text.carve

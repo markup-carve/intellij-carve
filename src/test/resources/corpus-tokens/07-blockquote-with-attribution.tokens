@@ -2,7 +2,7 @@
   -> text.carve markup.quote.carve
 Stay hungry, stay foolish. -> text.carve markup.quote.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Steve Jobs -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Steve Jobs -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

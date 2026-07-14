@@ -1,18 +1,18 @@
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- Name  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- Age  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ Name  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ Age  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
-:----- -> text.carve keyword.operator.table.row.separator.carve keyword.operator.table.separator.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
-----: -> text.carve keyword.operator.table.row.separator.carve keyword.operator.table.separator.carve
-| -> text.carve keyword.operator.table.row.separator.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
+:----- -> text.carve markup.table.row.separator.carve keyword.operator.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
+----: -> text.carve markup.table.row.separator.carve keyword.operator.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- Alice  -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
- 28   -> text.carve keyword.operator.table.row.carve
-| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ Alice  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+ 28   -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

@@ -4,9 +4,9 @@ a -> text.carve meta.image.inline.carve string.other.image.alt.carve
 a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Abbildung #: erstes -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Abbildung #: erstes -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 ![ -> text.carve meta.image.inline.carve keyword.operator.image.begin.carve
@@ -15,7 +15,7 @@ b -> text.carve meta.image.inline.carve string.other.image.alt.carve
 b.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Figure #: first -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure #: first -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

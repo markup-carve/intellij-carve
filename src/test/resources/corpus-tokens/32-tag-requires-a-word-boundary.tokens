@@ -1,4 +1,4 @@
 A  -> text.carve
-# -> text.carve entity.name.tag.carve punctuation.definition.tag.carve
-tag -> text.carve entity.name.tag.carve variable.parameter.tag.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
  here, but not in foo#bar.\n -> text.carve

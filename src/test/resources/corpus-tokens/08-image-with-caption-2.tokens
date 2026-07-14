@@ -7,7 +7,7 @@ apollo.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.car
 .hero -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-^ -> text.carve keyword.operator.table.caption.carve keyword.operator.caption.carve
-  -> text.carve keyword.operator.table.caption.carve
-Figure 1: First moon landing -> text.carve keyword.operator.table.caption.carve string.unquoted.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure 1: First moon landing -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

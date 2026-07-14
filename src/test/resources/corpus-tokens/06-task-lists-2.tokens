@@ -1,16 +1,16 @@
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
-[-]  -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.task-list.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[-]  -> text.carve markup.list.unnumbered.carve keyword.operator.task-list.carve
 dropped\n -> text.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
-[_]  -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.task-list.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[_]  -> text.carve markup.list.unnumbered.carve keyword.operator.task-list.carve
 paused\n -> text.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
-[>]  -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.task-list.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[>]  -> text.carve markup.list.unnumbered.carve keyword.operator.task-list.carve
 deferred\n -> text.carve
-- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
-  -> text.carve keyword.operator.list.unnumbered.carve
-[?]  -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.task-list.carve
+- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[?]  -> text.carve markup.list.unnumbered.carve keyword.operator.task-list.carve
 maybe\n -> text.carve
