@@ -5,7 +5,7 @@ He paused  -> text.carve
  fast -> text.carve
 ... -> text.carve constant.character.entity.typography.carve
   -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 Stop! -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
  it's over.\n -> text.carve

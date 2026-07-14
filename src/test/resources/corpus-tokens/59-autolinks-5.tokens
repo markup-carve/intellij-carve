@@ -1,4 +1,4 @@
-< -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+< -> text.carve meta.link.autolink.carve keyword.control.link.carve
 http://a.com/ -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+> -> text.carve meta.link.autolink.carve keyword.control.link.carve
 \n -> text.carve

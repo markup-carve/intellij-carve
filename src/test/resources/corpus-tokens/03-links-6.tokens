@@ -1,6 +1,6 @@
-< -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+< -> text.carve meta.link.autolink.carve keyword.control.link.carve
 https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+> -> text.carve meta.link.autolink.carve keyword.control.link.carve
 { -> text.carve meta.attributes.carve
 .ext -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve

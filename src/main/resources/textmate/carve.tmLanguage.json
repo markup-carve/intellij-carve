@@ -100,7 +100,7 @@
           "begin": "^(---)\\s*([A-Za-z0-9_-]+)\\s*$",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.frontmatter.begin.carve"
+              "name": "keyword.control.frontmatter.begin.carve"
             },
             "2": {
               "name": "entity.name.type.frontmatter.carve"
@@ -109,7 +109,7 @@
           "end": "^(---)\\s*$",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.frontmatter.end.carve"
+              "name": "keyword.control.frontmatter.end.carve"
             }
           },
           "patterns": [
@@ -129,7 +129,7 @@
           "match": "^(-{3,}|\\*{3,}|_{3,})\\s*$",
           "captures": {
             "1": {
-              "name": "keyword.operator.thematic-break.carve"
+              "name": "keyword.control.thematic-break.carve"
             }
           }
         }
@@ -171,7 +171,7 @@
           "match": "^(#{1,6})(\\s+)(.+)$",
           "captures": {
             "1": {
-              "name": "keyword.operator.heading.carve"
+              "name": "keyword.control.heading.carve"
             },
             "3": {
               "name": "entity.name.section.carve",
@@ -192,7 +192,7 @@
           "begin": "^(`{3,}|~{3,})[ \\t]*([^`~\\s\\[\"]+)?[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.raw.begin.carve"
+              "name": "keyword.control.raw.begin.carve"
             },
             "2": {
               "name": "entity.name.type.language.carve"
@@ -213,7 +213,7 @@
           "end": "^(`{3,}|~{3,})\\s*$",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.raw.end.carve"
+              "name": "keyword.control.raw.end.carve"
             }
           }
         }
@@ -226,7 +226,7 @@
           "begin": "^(%{3,})\\s*([^\\s]+)?\\s*$",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.raw.begin.carve"
+              "name": "keyword.control.raw.begin.carve"
             },
             "2": {
               "name": "entity.name.type.language.carve"
@@ -235,7 +235,7 @@
           "end": "^(%{3,})\\s*$",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.raw.end.carve"
+              "name": "keyword.control.raw.end.carve"
             }
           }
         }
@@ -248,7 +248,7 @@
           "match": "^\\s*(:::+)\\s*([^\\s{\\[\"]+)?\\s*(?:(\"[^\"]*\")\\s*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])\\s*(\"[^\"]*\")?)?",
           "captures": {
             "1": {
-              "name": "keyword.operator.div.carve"
+              "name": "keyword.control.div.carve"
             },
             "2": {
               "name": "entity.name.type.div.carve"
@@ -281,13 +281,13 @@
               "match": "(?<=\\|)[ \\t]*(:?-+:?)[ \\t]*(?=\\|)",
               "captures": {
                 "1": {
-                  "name": "keyword.operator.table.separator.carve"
+                  "name": "keyword.control.table.separator.carve"
                 }
               }
             },
             {
               "match": "\\|",
-              "name": "keyword.operator.separator.table.carve"
+              "name": "keyword.control.separator.table.carve"
             }
           ]
         },
@@ -298,13 +298,13 @@
           "patterns": [
             {
               "match": "\\|=",
-              "name": "keyword.operator.table.header.carve"
+              "name": "keyword.control.table.header.carve"
             },
             {
               "match": "(?<=\\|)\\s*(\\^)\\s*(?=\\|)",
               "captures": {
                 "1": {
-                  "name": "keyword.operator.table.rowspan.carve"
+                  "name": "keyword.control.table.rowspan.carve"
                 }
               }
             },
@@ -312,13 +312,13 @@
               "match": "(?<=\\|)\\s*(<)\\s*(?=\\|)",
               "captures": {
                 "1": {
-                  "name": "keyword.operator.table.colspan.carve"
+                  "name": "keyword.control.table.colspan.carve"
                 }
               }
             },
             {
               "match": "\\|",
-              "name": "keyword.operator.separator.table.carve"
+              "name": "keyword.control.separator.table.carve"
             },
             {
               "include": "#trailing-comment-cell"
@@ -354,7 +354,7 @@
           "match": "^(\\+)(.*\\|\\s*)$",
           "captures": {
             "1": {
-              "name": "keyword.operator.table.continuation.carve"
+              "name": "keyword.control.table.continuation.carve"
             }
           }
         },
@@ -363,7 +363,7 @@
           "match": "^\\s*(\\^)\\s+(.+)$",
           "captures": {
             "1": {
-              "name": "keyword.operator.caption.carve"
+              "name": "keyword.control.caption.carve"
             },
             "2": {
               "name": "string.unquoted.caption.carve",
@@ -384,7 +384,7 @@
           "begin": "^\\s*(>+)\\s?",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.quote.carve"
+              "name": "keyword.control.quote.carve"
             }
           },
           "end": "$",
@@ -402,7 +402,7 @@
           "match": "^(\\s*)(::)(\\s+)(.*)$",
           "captures": {
             "2": {
-              "name": "keyword.operator.list.begin.carve"
+              "name": "keyword.control.list.begin.carve"
             },
             "4": {
               "name": "entity.name.tag.definition.term.carve"
@@ -415,7 +415,7 @@
           "match": "^(\\s*)(\\+)(\\s*)$",
           "captures": {
             "2": {
-              "name": "keyword.operator.list.continuation.carve"
+              "name": "keyword.control.list.continuation.carve"
             }
           }
         },
@@ -425,13 +425,13 @@
           "match": "^(\\s*)([-*])(\\s+)((?:[-*]\\s+)*)(\\[[ xX\\-_>?]\\]\\s+)?",
           "captures": {
             "2": {
-              "name": "keyword.operator.list.begin.carve"
+              "name": "keyword.control.list.begin.carve"
             },
             "4": {
-              "name": "keyword.operator.list.begin.carve"
+              "name": "keyword.control.list.begin.carve"
             },
             "5": {
-              "name": "keyword.operator.task-list.carve"
+              "name": "keyword.control.task-list.carve"
             }
           }
         },
@@ -441,7 +441,7 @@
           "match": "^(\\s*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdmIVXLCDM]+[.)])\\s+",
           "captures": {
             "2": {
-              "name": "keyword.operator.list.begin.carve"
+              "name": "keyword.control.list.begin.carve"
             }
           }
         },
@@ -450,7 +450,7 @@
           "match": "^(\\s*)(:)\\s+",
           "captures": {
             "2": {
-              "name": "keyword.operator.list.begin.carve"
+              "name": "keyword.control.list.begin.carve"
             }
           }
         }
@@ -475,19 +475,19 @@
           "match": "^\\s*(\\*)(\\[)([A-Z][A-Z0-9]*)(\\])(:)\\s+(.*)$",
           "captures": {
             "1": {
-              "name": "keyword.operator.abbreviation.carve"
+              "name": "keyword.control.abbreviation.carve"
             },
             "2": {
-              "name": "keyword.operator.abbreviation.carve"
+              "name": "keyword.control.abbreviation.carve"
             },
             "3": {
               "name": "entity.name.abbreviation.carve"
             },
             "4": {
-              "name": "keyword.operator.abbreviation.carve"
+              "name": "keyword.control.abbreviation.carve"
             },
             "5": {
-              "name": "keyword.operator.separator.carve"
+              "name": "keyword.control.separator.carve"
             },
             "6": {
               "name": "string.unquoted.abbreviation.carve"
@@ -504,16 +504,16 @@
           "match": "(\\[)([^\\]]+)(\\])(\\()([^\\s)]+)(?:\\s+\"((?:[^\"\\\\]|\\\\.)*)\")?(\\))",
           "captures": {
             "1": {
-              "name": "keyword.operator.link.begin.carve"
+              "name": "keyword.control.link.begin.carve"
             },
             "2": {
               "name": "string.other.link.title.carve"
             },
             "3": {
-              "name": "keyword.operator.link.end.carve"
+              "name": "keyword.control.link.end.carve"
             },
             "4": {
-              "name": "keyword.operator.metadata.begin.carve"
+              "name": "keyword.control.metadata.begin.carve"
             },
             "5": {
               "name": "markup.underline.link.carve"
@@ -522,7 +522,7 @@
               "name": "string.quoted.double.link-title.carve"
             },
             "7": {
-              "name": "keyword.operator.metadata.end.carve"
+              "name": "keyword.control.metadata.end.carve"
             }
           }
         },
@@ -543,13 +543,13 @@
           "match": "(\\[)([^\\^\\]][^\\]]*)(\\])(?=\\{)",
           "captures": {
             "1": {
-              "name": "keyword.operator.span.begin.carve"
+              "name": "keyword.control.span.begin.carve"
             },
             "2": {
               "name": "string.other.span.carve"
             },
             "3": {
-              "name": "keyword.operator.span.end.carve"
+              "name": "keyword.control.span.end.carve"
             }
           }
         }
@@ -563,7 +563,7 @@
           "match": "(!\\[)([^\\]]*)(\\]\\()([^\\s)]+)(?:\\s+\"((?:[^\"\\\\]|\\\\.)*)\")?(\\))",
           "captures": {
             "1": {
-              "name": "keyword.operator.image.begin.carve"
+              "name": "keyword.control.image.begin.carve"
             },
             "2": {
               "name": "string.other.image.alt.carve"
@@ -584,13 +584,13 @@
           "match": "(\\^\\[)([^\\]\\n]*)(\\])",
           "captures": {
             "1": {
-              "name": "keyword.operator.footnote.carve"
+              "name": "keyword.control.footnote.carve"
             },
             "2": {
               "name": "string.other.footnote.inline.carve"
             },
             "3": {
-              "name": "keyword.operator.footnote.carve"
+              "name": "keyword.control.footnote.carve"
             }
           }
         },
@@ -599,16 +599,16 @@
           "match": "(\\[)(\\^)([^\\]]+)(\\])",
           "captures": {
             "1": {
-              "name": "keyword.operator.footnote.carve"
+              "name": "keyword.control.footnote.carve"
             },
             "2": {
-              "name": "keyword.operator.footnote.carve"
+              "name": "keyword.control.footnote.carve"
             },
             "3": {
               "name": "variable.parameter.footnote.carve"
             },
             "4": {
-              "name": "keyword.operator.footnote.carve"
+              "name": "keyword.control.footnote.carve"
             }
           }
         }
@@ -623,22 +623,22 @@
           "begin": "(?<!!)(?<![\\\\])(\\[)(\\+)?(?=[^\\]\\n]*@[A-Za-z0-9_][^\\]\\n]*\\](?!\\(|\\[|\\{))",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.citation.begin.carve"
+              "name": "keyword.control.citation.begin.carve"
             },
             "2": {
-              "name": "keyword.operator.citation.integral.carve"
+              "name": "keyword.control.citation.integral.carve"
             }
           },
           "end": "(\\])(?!\\(|\\[|\\{)",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.citation.end.carve"
+              "name": "keyword.control.citation.end.carve"
             }
           },
           "patterns": [
             {
               "comment": "Optional -/+ per-item modifier immediately before the @key",
-              "name": "keyword.operator.citation.modifier.carve",
+              "name": "keyword.control.citation.modifier.carve",
               "match": "(?<=^|;|\\[|\\+)\\s*(-)"
             },
             {
@@ -648,7 +648,7 @@
             },
             {
               "comment": "Semicolon item separator",
-              "name": "keyword.operator.separator.citation.carve",
+              "name": "keyword.control.separator.citation.carve",
               "match": ";"
             }
           ]
@@ -664,13 +664,13 @@
           "match": "^(\\s*)(<)([0-9]+)(>)(?=\\s)",
           "captures": {
             "2": {
-              "name": "keyword.operator.callout.carve"
+              "name": "keyword.control.callout.carve"
             },
             "3": {
               "name": "constant.numeric.callout.carve"
             },
             "4": {
-              "name": "keyword.operator.callout.carve"
+              "name": "keyword.control.callout.carve"
             }
           }
         },
@@ -680,13 +680,13 @@
           "match": "(<)([0-9]+)(>)\\s*$",
           "captures": {
             "1": {
-              "name": "keyword.operator.callout.carve"
+              "name": "keyword.control.callout.carve"
             },
             "2": {
               "name": "constant.numeric.callout.carve"
             },
             "3": {
-              "name": "keyword.operator.callout.carve"
+              "name": "keyword.control.callout.carve"
             }
           }
         }
@@ -739,22 +739,22 @@
           "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)(\\{=)([A-Za-z_][\\w-]*)(\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             },
             "2": {
               "name": "markup.raw.inline.content.carve"
             },
             "3": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             },
             "4": {
-              "name": "keyword.operator.raw.format.begin.carve"
+              "name": "keyword.control.raw.format.begin.carve"
             },
             "5": {
               "name": "entity.name.type.format.carve"
             },
             "6": {
-              "name": "keyword.operator.raw.format.end.carve"
+              "name": "keyword.control.raw.format.end.carve"
             }
           }
         }
@@ -767,13 +767,13 @@
           "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
           "captures": {
             "1": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             },
             "2": {
               "name": "markup.raw.inline.content.carve"
             },
             "3": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             }
           }
         }
@@ -786,16 +786,16 @@
           "begin": "(\\$\\$)(`+)",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.math.carve"
+              "name": "keyword.control.math.carve"
             },
             "2": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             }
           },
           "end": "(\\2)",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             }
           },
           "contentName": "markup.other.math.content.carve"
@@ -805,16 +805,16 @@
           "begin": "(\\$)(`+)",
           "beginCaptures": {
             "1": {
-              "name": "keyword.operator.math.carve"
+              "name": "keyword.control.math.carve"
             },
             "2": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             }
           },
           "end": "(\\2)",
           "endCaptures": {
             "1": {
-              "name": "keyword.operator.raw.carve"
+              "name": "keyword.control.raw.carve"
             }
           },
           "contentName": "markup.other.math.content.carve"
@@ -828,13 +828,13 @@
           "match": "(<)([a-zA-Z][a-zA-Z0-9+.\\-]*:[^>\\s]+)(>)",
           "captures": {
             "1": {
-              "name": "keyword.operator.link.carve"
+              "name": "keyword.control.link.carve"
             },
             "2": {
               "name": "markup.underline.link.carve"
             },
             "3": {
-              "name": "keyword.operator.link.carve"
+              "name": "keyword.control.link.carve"
             }
           }
         },
@@ -843,13 +843,13 @@
           "match": "(<)([A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,})(>)",
           "captures": {
             "1": {
-              "name": "keyword.operator.link.carve"
+              "name": "keyword.control.link.carve"
             },
             "2": {
               "name": "markup.underline.link.carve"
             },
             "3": {
-              "name": "keyword.operator.link.carve"
+              "name": "keyword.control.link.carve"
             }
           }
         }
@@ -862,19 +862,19 @@
           "match": "(:)([a-zA-Z][\\w-]*)(\\[)([^\\]]*)(\\])(\\{[^}]*\\})?",
           "captures": {
             "1": {
-              "name": "keyword.operator.extension.carve"
+              "name": "keyword.control.extension.carve"
             },
             "2": {
               "name": "entity.name.function.extension.carve"
             },
             "3": {
-              "name": "keyword.operator.extension.carve"
+              "name": "keyword.control.extension.carve"
             },
             "4": {
               "name": "string.unquoted.extension.carve"
             },
             "5": {
-              "name": "keyword.operator.extension.carve"
+              "name": "keyword.control.extension.carve"
             },
             "6": {
               "name": "meta.attributes.carve"
@@ -890,13 +890,13 @@
           "match": "(\\{\\+)([^}]*)(\\+\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             },
             "2": {
               "name": "markup.inserted.carve"
             },
             "3": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             }
           }
         },
@@ -905,13 +905,13 @@
           "match": "(\\{-)([^}]*)(- \\}|\\-\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             },
             "2": {
               "name": "markup.deleted.carve"
             },
             "3": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             }
           }
         },
@@ -920,19 +920,19 @@
           "match": "(\\{~)([^~]*)(~>)([^~]*)(~\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             },
             "2": {
               "name": "markup.deleted.carve"
             },
             "3": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             },
             "4": {
               "name": "markup.inserted.carve"
             },
             "5": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             }
           }
         },
@@ -941,13 +941,13 @@
           "match": "(\\{#)([^}]*)(#\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             },
             "2": {
               "name": "comment.block.content.carve"
             },
             "3": {
-              "name": "keyword.operator.critic.carve"
+              "name": "keyword.control.critic.carve"
             }
           }
         }
@@ -960,13 +960,13 @@
           "match": "(\\{=)(?=\\S)([^\\n]*?)(=\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.highlight.carve"
+              "name": "keyword.control.highlight.carve"
             },
             "2": {
               "name": "markup.changed.carve"
             },
             "3": {
-              "name": "keyword.operator.highlight.carve"
+              "name": "keyword.control.highlight.carve"
             }
           }
         },
@@ -974,13 +974,13 @@
           "match": "(\\{,)(?=\\S)([^,\\n]+?)(,\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.subscript.carve"
+              "name": "keyword.control.subscript.carve"
             },
             "2": {
               "name": "markup.subscript.carve"
             },
             "3": {
-              "name": "keyword.operator.subscript.carve"
+              "name": "keyword.control.subscript.carve"
             }
           }
         },
@@ -988,13 +988,13 @@
           "match": "(\\{\\^)(?=\\S)([^\\n]*?)(\\^\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.superscript.carve"
+              "name": "keyword.control.superscript.carve"
             },
             "2": {
               "name": "markup.superscript.carve"
             },
             "3": {
-              "name": "keyword.operator.superscript.carve"
+              "name": "keyword.control.superscript.carve"
             }
           }
         },
@@ -1004,13 +1004,13 @@
           "match": "(\\{\\*)(?=\\S)([^\\n]*?)(\\*\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.bold.carve"
+              "name": "keyword.control.bold.carve"
             },
             "2": {
               "name": "markup.bold.carve"
             },
             "3": {
-              "name": "keyword.operator.bold.carve"
+              "name": "keyword.control.bold.carve"
             }
           }
         },
@@ -1020,13 +1020,13 @@
           "match": "(\\{/)(?=\\S)([^\\n]*?)(/\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.italic.carve"
+              "name": "keyword.control.italic.carve"
             },
             "2": {
               "name": "markup.italic.carve"
             },
             "3": {
-              "name": "keyword.operator.italic.carve"
+              "name": "keyword.control.italic.carve"
             }
           }
         },
@@ -1036,13 +1036,13 @@
           "match": "(\\{_)(?=\\S)([^\\n]*?)(_\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.underline.carve"
+              "name": "keyword.control.underline.carve"
             },
             "2": {
               "name": "markup.underline.text.carve"
             },
             "3": {
-              "name": "keyword.operator.underline.carve"
+              "name": "keyword.control.underline.carve"
             }
           }
         },
@@ -1052,13 +1052,13 @@
           "match": "(\\{~)(?=\\S)([^\\n]*?)(~\\})",
           "captures": {
             "1": {
-              "name": "keyword.operator.strike.carve"
+              "name": "keyword.control.strike.carve"
             },
             "2": {
               "name": "markup.deleted.carve"
             },
             "3": {
-              "name": "keyword.operator.strike.carve"
+              "name": "keyword.control.strike.carve"
             }
           }
         },
@@ -1067,13 +1067,13 @@
           "match": "(/\\*)(?=\\S)([^*]+)(\\*/)",
           "captures": {
             "1": {
-              "name": "keyword.operator.bold-italic.carve"
+              "name": "keyword.control.bold-italic.carve"
             },
             "2": {
               "name": "markup.bold.italic.carve"
             },
             "3": {
-              "name": "keyword.operator.bold-italic.carve"
+              "name": "keyword.control.bold-italic.carve"
             }
           }
         },
@@ -1082,13 +1082,13 @@
           "match": "(?<![\\w*])(\\*)(?=\\S)([^*\\n]+?)(?<=\\S)(\\*)(?![\\w*])",
           "captures": {
             "1": {
-              "name": "keyword.operator.bold.carve"
+              "name": "keyword.control.bold.carve"
             },
             "2": {
               "name": "markup.bold.carve"
             },
             "3": {
-              "name": "keyword.operator.bold.carve"
+              "name": "keyword.control.bold.carve"
             }
           }
         },
@@ -1097,13 +1097,13 @@
           "match": "(?<![\\w/])(/)(?=\\S)([^/\\n]+?)(?<=\\S)(/)(?![\\w/])",
           "captures": {
             "1": {
-              "name": "keyword.operator.italic.carve"
+              "name": "keyword.control.italic.carve"
             },
             "2": {
               "name": "markup.italic.carve"
             },
             "3": {
-              "name": "keyword.operator.italic.carve"
+              "name": "keyword.control.italic.carve"
             }
           }
         },
@@ -1112,13 +1112,13 @@
           "match": "(?<![\\w_])(_)(?=\\S)([^_\\n]+?)(?<=\\S)(_)(?![\\w_])",
           "captures": {
             "1": {
-              "name": "keyword.operator.underline.carve"
+              "name": "keyword.control.underline.carve"
             },
             "2": {
               "name": "markup.underline.text.carve"
             },
             "3": {
-              "name": "keyword.operator.underline.carve"
+              "name": "keyword.control.underline.carve"
             }
           }
         },
@@ -1127,13 +1127,13 @@
           "match": "(?<![\\w~])(~)(?=\\S)([^~\\n]+?)(?<=\\S)(~)(?![\\w~])",
           "captures": {
             "1": {
-              "name": "keyword.operator.strike.carve"
+              "name": "keyword.control.strike.carve"
             },
             "2": {
               "name": "markup.deleted.carve"
             },
             "3": {
-              "name": "keyword.operator.strike.carve"
+              "name": "keyword.control.strike.carve"
             }
           }
         },
@@ -1142,13 +1142,13 @@
           "match": "(?<![\\w=])(=)(?=\\S)([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
           "captures": {
             "1": {
-              "name": "keyword.operator.highlight.carve"
+              "name": "keyword.control.highlight.carve"
             },
             "2": {
               "name": "markup.changed.carve"
             },
             "3": {
-              "name": "keyword.operator.highlight.carve"
+              "name": "keyword.control.highlight.carve"
             }
           }
         }
@@ -1161,7 +1161,7 @@
           "match": "(?<![\\w.])(@)([A-Za-z0-9_][A-Za-z0-9_-]*)",
           "captures": {
             "1": {
-              "name": "keyword.operator.mention.carve"
+              "name": "keyword.control.mention.carve"
             },
             "2": {
               "name": "variable.parameter.mention.carve"
@@ -1197,7 +1197,7 @@
           "match": "\\.\\.\\.|---|--|<->|<-|->|=>|!=|<=|>=|\\+-|\\(c\\)|\\(r\\)|\\(tm\\)"
         },
         {
-          "name": "keyword.operator.smartquote.carve",
+          "name": "keyword.control.smartquote.carve",
           "match": "\""
         }
       ]
@@ -1206,13 +1206,13 @@
       "match": "(</#)([^>\\s]+)(>)",
       "captures": {
         "1": {
-          "name": "keyword.operator.link.begin.carve"
+          "name": "keyword.control.link.begin.carve"
         },
         "2": {
           "name": "markup.underline.link.cross-reference.carve"
         },
         "3": {
-          "name": "keyword.operator.link.end.carve"
+          "name": "keyword.control.link.end.carve"
         }
       }
     },

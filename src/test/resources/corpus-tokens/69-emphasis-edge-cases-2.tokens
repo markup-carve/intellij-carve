@@ -1,4 +1,4 @@
-* -> text.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
 a `x` b -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
 \n -> text.carve

@@ -1,15 +1,15 @@
 re -> text.carve
-{~ -> text.carve markup.deleted.carve keyword.operator.strike.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
 view -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.operator.strike.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
  it, then  -> text.carve
-{~ -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
 old -> text.carve markup.changed.critic.carve markup.deleted.carve
-~> -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
 new -> text.carve markup.changed.critic.carve markup.inserted.carve
-~} -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
 , and  -> text.carve
-{= -> text.carve keyword.operator.highlight.carve
+{= -> text.carve keyword.control.highlight.carve
 mark -> text.carve markup.changed.carve
-=} -> text.carve keyword.operator.highlight.carve
+=} -> text.carve keyword.control.highlight.carve
  it.\n -> text.carve

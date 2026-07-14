@@ -1,6 +1,6 @@
-[ -> text.carve meta.span.inline.carve keyword.operator.span.begin.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
 label -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.operator.span.end.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
 { -> text.carve meta.attributes.carve
 key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
 =c  -> text.carve meta.attributes.carve

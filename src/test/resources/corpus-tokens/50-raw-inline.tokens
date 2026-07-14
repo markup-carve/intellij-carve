@@ -1,15 +1,15 @@
 Use  -> text.carve
-` -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.carve
+` -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
 <br> -> text.carve markup.raw.inline.passthrough.carve markup.raw.inline.content.carve
-` -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.carve
-{= -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.format.begin.carve
+` -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
+{= -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.begin.carve
 html -> text.carve markup.raw.inline.passthrough.carve entity.name.type.format.carve
-} -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.format.end.carve
+} -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.end.carve
  to break, and  -> text.carve
-` -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.carve
+` -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
 \\foo -> text.carve markup.raw.inline.passthrough.carve markup.raw.inline.content.carve
-` -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.carve
-{= -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.format.begin.carve
+` -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
+{= -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.begin.carve
 latex -> text.carve markup.raw.inline.passthrough.carve entity.name.type.format.carve
-} -> text.carve markup.raw.inline.passthrough.carve keyword.operator.raw.format.end.carve
+} -> text.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.end.carve
  is dropped.\n -> text.carve

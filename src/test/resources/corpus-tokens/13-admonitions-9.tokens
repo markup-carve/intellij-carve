@@ -1,7 +1,7 @@
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 warning -> text.carve markup.other.div.carve entity.name.type.div.carve
 \n -> text.carve markup.other.div.carve
 Mind the gap.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
 \n -> text.carve markup.other.div.carve

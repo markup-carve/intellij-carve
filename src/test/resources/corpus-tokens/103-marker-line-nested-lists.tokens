@@ -1,12 +1,12 @@
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
--  -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+-  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
 A\n -> text.carve
    -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 B\n -> text.carve
    -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 C\n -> text.carve

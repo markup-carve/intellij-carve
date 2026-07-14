@@ -1,28 +1,28 @@
-[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+[ -> text.carve entity.name.citation.carve keyword.control.citation.begin.carve
 @smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
+] -> text.carve entity.name.citation.carve keyword.control.citation.end.carve
 \n -> text.carve
-[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
-+ -> text.carve entity.name.citation.carve keyword.operator.citation.integral.carve
+[ -> text.carve entity.name.citation.carve keyword.control.citation.begin.carve
++ -> text.carve entity.name.citation.carve keyword.control.citation.integral.carve
 @jones1999 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
+] -> text.carve entity.name.citation.carve keyword.control.citation.end.carve
 \n -> text.carve
-[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+[ -> text.carve entity.name.citation.carve keyword.control.citation.begin.carve
 @doe2021 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-; -> text.carve entity.name.citation.carve keyword.operator.separator.citation.carve
+; -> text.carve entity.name.citation.carve keyword.control.separator.citation.carve
   -> text.carve entity.name.citation.carve
 @roe2022 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
+] -> text.carve entity.name.citation.carve keyword.control.citation.end.carve
 \n -> text.carve
-[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+[ -> text.carve entity.name.citation.carve keyword.control.citation.begin.carve
 @smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
 , p. 42 -> text.carve entity.name.citation.carve
-] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
+] -> text.carve entity.name.citation.carve keyword.control.citation.end.carve
 \n -> text.carve
-[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+[ -> text.carve entity.name.citation.carve keyword.control.citation.begin.carve
 @smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-; -> text.carve entity.name.citation.carve keyword.operator.separator.citation.carve
- - -> text.carve entity.name.citation.carve keyword.operator.citation.modifier.carve
+; -> text.carve entity.name.citation.carve keyword.control.separator.citation.carve
+ - -> text.carve entity.name.citation.carve keyword.control.citation.modifier.carve
 @jones1999 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
-] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
+] -> text.carve entity.name.citation.carve keyword.control.citation.end.carve
 \n -> text.carve

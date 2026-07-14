@@ -1,19 +1,19 @@
 a  -> text.carve
-{+ -> text.carve markup.inserted.critic.carve keyword.operator.critic.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
 ins -> text.carve markup.inserted.critic.carve markup.inserted.carve
-+} -> text.carve markup.inserted.critic.carve keyword.operator.critic.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
   -> text.carve
-{- -> text.carve markup.deleted.critic.carve keyword.operator.critic.carve
+{- -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
 del -> text.carve markup.deleted.critic.carve markup.deleted.carve
--} -> text.carve markup.deleted.critic.carve keyword.operator.critic.carve
+-} -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
   -> text.carve
-{~ -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
 old -> text.carve markup.changed.critic.carve markup.deleted.carve
-~> -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
 new -> text.carve markup.changed.critic.carve markup.inserted.carve
-~} -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
  b -> text.carve
-{# -> text.carve comment.block.critic.carve keyword.operator.critic.carve
+{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
  note  -> text.carve comment.block.critic.carve comment.block.content.carve
-#} -> text.carve comment.block.critic.carve keyword.operator.critic.carve
+#} -> text.carve comment.block.critic.carve keyword.control.critic.carve
 \n -> text.carve

@@ -1,10 +1,10 @@
 Intro\n -> text.carve
 \n -> text.carve
-> -> text.carve markup.quote.carve keyword.operator.quote.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
 Stay hungry -> text.carve markup.quote.carve
 \n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
 Steve Jobs -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

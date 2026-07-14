@@ -1,36 +1,36 @@
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Category  -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Item     -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Price  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  Fruit      -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  Apple     -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  $1      -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-^ -> text.carve markup.table.row.carve keyword.operator.table.rowspan.carve
+^ -> text.carve markup.table.row.carve keyword.control.table.rowspan.carve
           -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  Banana    -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  $0.50   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  Total      -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-< -> text.carve markup.table.row.carve keyword.operator.table.colspan.carve
+< -> text.carve markup.table.row.carve keyword.control.table.colspan.carve
          -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  $1.50   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
