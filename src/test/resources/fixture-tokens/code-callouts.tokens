@@ -1,15 +1,15 @@
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 result = compute()  <1>\n -> text.carve markup.raw.block.fenced.code.carve
 log(result)         <2>\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 \n -> text.carve
-< -> text.carve markup.callout.annotation.carve keyword.operator.callout.carve
+< -> text.carve markup.callout.annotation.carve keyword.control.callout.carve
 1 -> text.carve markup.callout.annotation.carve constant.numeric.callout.carve
-> -> text.carve markup.callout.annotation.carve keyword.operator.callout.carve
+> -> text.carve markup.callout.annotation.carve keyword.control.callout.carve
  The main computation.\n -> text.carve
-< -> text.carve markup.callout.annotation.carve keyword.operator.callout.carve
+< -> text.carve markup.callout.annotation.carve keyword.control.callout.carve
 2 -> text.carve markup.callout.annotation.carve constant.numeric.callout.carve
-> -> text.carve markup.callout.annotation.carve keyword.operator.callout.carve
+> -> text.carve markup.callout.annotation.carve keyword.control.callout.carve
  Diagnostic output.\n -> text.carve

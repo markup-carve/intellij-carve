@@ -1,9 +1,9 @@
 H -> text.carve
-{, -> text.carve keyword.operator.subscript.carve
+{, -> text.carve keyword.control.subscript.carve
 2 -> text.carve markup.subscript.carve
-,} -> text.carve keyword.operator.subscript.carve
+,} -> text.carve keyword.control.subscript.carve
 O and E=mc -> text.carve
-{^ -> text.carve keyword.operator.superscript.carve
+{^ -> text.carve keyword.control.superscript.carve
 2 -> text.carve markup.superscript.carve
-^} -> text.carve keyword.operator.superscript.carve
+^} -> text.carve keyword.control.superscript.carve
 \n -> text.carve

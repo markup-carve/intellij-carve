@@ -1,8 +1,8 @@
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
   -> text.carve markup.raw.block.fenced.code.carve
 "src/Auth.php" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 $ok = true;\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

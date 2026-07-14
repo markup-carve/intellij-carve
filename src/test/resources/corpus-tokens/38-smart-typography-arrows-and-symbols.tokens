@@ -5,9 +5,9 @@ Flow: a  -> text.carve
  c  -> text.carve
 <-> -> text.carve constant.character.entity.typography.carve
  d  -> text.carve
-= -> text.carve markup.changed.carve keyword.operator.highlight.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
 > e; x ! -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.operator.highlight.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
  y, p  -> text.carve
 <= -> text.carve constant.character.entity.typography.carve
  q, r  -> text.carve

@@ -4,8 +4,8 @@ k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
 "{y}" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
 \n -> text.carve markup.other.div.carve
 body\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
 \n -> text.carve markup.other.div.carve

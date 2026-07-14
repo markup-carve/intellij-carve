@@ -1,18 +1,18 @@
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 +\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  a  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  b  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  c  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  d  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 next\n -> text.carve

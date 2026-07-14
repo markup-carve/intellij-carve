@@ -1,4 +1,4 @@
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 [ref]: /url\n -> text.carve
 \n -> text.carve

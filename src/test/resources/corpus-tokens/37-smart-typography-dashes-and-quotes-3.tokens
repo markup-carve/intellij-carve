@@ -1,31 +1,31 @@
 } -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 q -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 ) -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 q -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 ] -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 q -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 . -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 q -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 , -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 q -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 a -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 b\n -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve

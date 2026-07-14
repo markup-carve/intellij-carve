@@ -1,5 +1,5 @@
 Hey  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 alice -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 , see  -> text.carve
 # -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve

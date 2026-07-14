@@ -15,7 +15,14 @@
                 factoryClass="org.markupcarve.carve.lsp.CarveLanguageServerFactory">
             <description>Carve markup language server (diagnostics, completion, folding, outline, code actions).</description>
         </server>
-        <languageMapping language="Carve"
+        <!--
+          Map by FILE TYPE, not by language. Carve files are highlighted through the
+          TextMate engine and have no PSI ParserDefinition, so their PSI language is not
+          "Carve" - a <languageMapping language="Carve"> therefore never matches and lsp4ij
+          reports "no file type mapping configured", leaving the server inactive. The file
+          type ("Carve", from CarveFileType) is unambiguous and needs no PSI, so it matches.
+        -->
+        <fileTypeMapping fileType="Carve"
                          serverId="carveLanguageServer"
                          languageId="carve"/>
     </extensions>

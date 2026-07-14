@@ -1,4 +1,4 @@
 Write me@example.com or ping  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 markus -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 .\n -> text.carve

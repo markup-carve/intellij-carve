@@ -1,7 +1,7 @@
-$ -> text.carve markup.other.math.inline.carve keyword.operator.math.carve
-` -> text.carve markup.other.math.inline.carve keyword.operator.raw.carve
+$ -> text.carve markup.other.math.inline.carve keyword.control.math.carve
+` -> text.carve markup.other.math.inline.carve keyword.control.raw.carve
 a^2 -> text.carve markup.other.math.inline.carve markup.other.math.content.carve
-` -> text.carve markup.other.math.inline.carve keyword.operator.raw.carve
+` -> text.carve markup.other.math.inline.carve keyword.control.raw.carve
 { -> text.carve meta.attributes.carve
 .boxed -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
   -> text.carve meta.attributes.carve

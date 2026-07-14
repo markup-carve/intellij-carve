@@ -1,8 +1,8 @@
-< -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+< -> text.carve meta.link.autolink.carve keyword.control.link.carve
 https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve keyword.operator.link.carve
+> -> text.carve meta.link.autolink.carve keyword.control.link.carve
  and  -> text.carve
-< -> text.carve meta.link.autolink.email.carve keyword.operator.link.carve
+< -> text.carve meta.link.autolink.email.carve keyword.control.link.carve
 a@b.com -> text.carve meta.link.autolink.email.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.email.carve keyword.operator.link.carve
+> -> text.carve meta.link.autolink.email.carve keyword.control.link.carve
 \n -> text.carve

@@ -1,8 +1,8 @@
 ```js title= -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 x -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve
 code\n -> text.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

@@ -1,4 +1,4 @@
-# -> text.carve markup.heading.carve keyword.operator.heading.carve
+# -> text.carve markup.heading.carve keyword.control.heading.carve
   -> text.carve markup.heading.carve
 H {???} -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve

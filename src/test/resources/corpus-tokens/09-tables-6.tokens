@@ -1,36 +1,36 @@
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Style     -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Sample       -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  italic     -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-/ -> text.carve markup.table.row.carve markup.italic.carve keyword.operator.italic.carve
+/ -> text.carve markup.table.row.carve markup.italic.carve keyword.control.italic.carve
 soft -> text.carve markup.table.row.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.table.row.carve markup.italic.carve keyword.operator.italic.carve
+/ -> text.carve markup.table.row.carve markup.italic.carve keyword.control.italic.carve
          -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  strong     -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-* -> text.carve markup.table.row.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
 firm -> text.carve markup.table.row.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.table.row.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
          -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  code       -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-` -> text.carve markup.table.row.carve markup.raw.inline.carve keyword.operator.raw.carve
+` -> text.carve markup.table.row.carve markup.raw.inline.carve keyword.control.raw.carve
 literal -> text.carve markup.table.row.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.table.row.carve markup.raw.inline.carve keyword.operator.raw.carve
+` -> text.carve markup.table.row.carve markup.raw.inline.carve keyword.control.raw.carve
       -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.operator.separator.table.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve

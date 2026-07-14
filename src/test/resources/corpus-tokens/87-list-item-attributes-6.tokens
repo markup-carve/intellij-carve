@@ -1,5 +1,5 @@
 - -> text.carve
-{+ -> text.carve markup.inserted.critic.carve keyword.operator.critic.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
 a -> text.carve markup.inserted.critic.carve markup.inserted.carve
-+} -> text.carve markup.inserted.critic.carve keyword.operator.critic.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
  text\n -> text.carve

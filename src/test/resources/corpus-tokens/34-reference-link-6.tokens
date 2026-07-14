@@ -9,7 +9,7 @@ r -> text.carve meta.link.reference.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 /url -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
   -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 Title -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \n -> text.carve

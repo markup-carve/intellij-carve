@@ -1,11 +1,11 @@
 Ping  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john-doe -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 ,  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john_doe -> text.carve entity.name.mention.carve variable.parameter.mention.carve
  and  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 .doe about  -> text.carve
 # -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
@@ -13,12 +13,12 @@ release-1 -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.car
 .0 today.\n -> text.carve
 \n -> text.carve
 Reach  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 . That is  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 's idea,  -> text.carve
-@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
 john -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 !\n -> text.carve

@@ -1,6 +1,6 @@
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
 [First] -> text.carve markup.other.div.carve entity.name.label.carve
 \n -> text.carve markup.other.div.carve
 First panel.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.operator.div.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
 \n -> text.carve markup.other.div.carve

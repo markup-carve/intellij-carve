@@ -1,6 +1,6 @@
 \\! -> text.carve constant.character.escape.carve
 \\ -> text.carve
-" -> text.carve keyword.operator.smartquote.carve
+" -> text.carve keyword.control.smartquote.carve
 \\# -> text.carve constant.character.escape.carve
 \\$ -> text.carve
 \\% -> text.carve constant.character.escape.carve

@@ -1,12 +1,12 @@
 A note -> text.carve
-^[ -> text.carve keyword.operator.footnote.carve
+^[ -> text.carve keyword.control.footnote.carve
 see *later* -> text.carve string.other.footnote.inline.carve
-] -> text.carve keyword.operator.footnote.carve
+] -> text.carve keyword.control.footnote.carve
  inline. And a ref -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 .\n -> text.carve
 \n -> text.carve
 [^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve

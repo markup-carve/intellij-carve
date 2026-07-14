@@ -1,14 +1,14 @@
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 fruit\n -> text.carve
    -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 apples\n -> text.carve
    -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 oranges\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.operator.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 vegetables\n -> text.carve

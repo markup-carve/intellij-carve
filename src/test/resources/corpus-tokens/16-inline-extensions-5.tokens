@@ -1,6 +1,6 @@
-: -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
+: -> text.carve meta.extension.inline.carve keyword.control.extension.carve
 foo -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
-[ -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
+[ -> text.carve meta.extension.inline.carve keyword.control.extension.carve
 a [b -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
-] -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
+] -> text.carve meta.extension.inline.carve keyword.control.extension.carve
  c]\n -> text.carve

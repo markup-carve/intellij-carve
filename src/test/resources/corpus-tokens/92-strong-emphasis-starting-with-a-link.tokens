@@ -1,5 +1,5 @@
 See  -> text.carve
-* -> text.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
 [the docs](url) for more -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.operator.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
  info.\n -> text.carve

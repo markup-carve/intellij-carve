@@ -1,8 +1,8 @@
 Carve has footnotes. -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 fn -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 \n -> text.carve
 \n -> text.carve
 [^fn]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve

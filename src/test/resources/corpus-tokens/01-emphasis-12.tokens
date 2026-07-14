@@ -1,13 +1,13 @@
 foo -> text.carve
-{* -> text.carve markup.bold.carve keyword.operator.bold.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
 bar -> text.carve markup.bold.carve markup.bold.carve
-*} -> text.carve markup.bold.carve keyword.operator.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
 baz and my -> text.carve
-{_ -> text.carve markup.underline.text.carve keyword.operator.underline.carve
+{_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
 path -> text.carve markup.underline.text.carve markup.underline.text.carve
-_} -> text.carve markup.underline.text.carve keyword.operator.underline.carve
+_} -> text.carve markup.underline.text.carve keyword.control.underline.carve
 name and a -> text.carve
-{/ -> text.carve markup.italic.carve keyword.operator.italic.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
 b -> text.carve markup.italic.carve markup.italic.carve
-/} -> text.carve markup.italic.carve keyword.operator.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
 c\n -> text.carve

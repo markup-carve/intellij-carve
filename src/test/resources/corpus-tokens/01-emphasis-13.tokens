@@ -1,8 +1,8 @@
-{/ -> text.carve markup.italic.carve keyword.operator.italic.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
 a/b -> text.carve markup.italic.carve markup.italic.carve
-/} -> text.carve markup.italic.carve keyword.operator.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
  and  -> text.carve
-{/ -> text.carve markup.italic.carve keyword.operator.italic.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
 italic *bold* -> text.carve markup.italic.carve markup.italic.carve
-/} -> text.carve markup.italic.carve keyword.operator.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
 \n -> text.carve
