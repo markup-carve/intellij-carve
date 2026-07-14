@@ -95,4 +95,24 @@ class CarveConverterTest {
         val html = CarveConverter.toHtml(carve)
         assertTrue("fence block header should render a title attribute: $html", html.contains("hello.js"))
     }
+
+    @Test
+    fun testSourceLineStampsAnchorsForScrollSync() {
+        // The preview scrolls in step with the editor by jumping to the nearest preceding
+        // data-source-line anchor, so the renderer must actually stamp them when asked.
+        val carve = "# One\n\npara\n\n# Two\n"
+        val html = CarveConverter.toHtml(carve, sourceLine = true)
+
+        assertTrue("blocks should carry data-source-line: $html", html.contains("data-source-line="))
+        assertTrue("first block is line 1: $html", html.contains("data-source-line=\"1\""))
+        // The second heading starts on line 5 (1-based), not line 1.
+        assertTrue("later blocks carry their own line: $html", html.contains("data-source-line=\"5\""))
+    }
+
+    @Test
+    fun testSourceLineOffByDefaultKeepsExportClean() {
+        // HTML export must not carry preview-only anchors.
+        val html = CarveConverter.toHtml("# One\n\npara\n")
+        assertTrue("export should have no anchors: $html", !html.contains("data-source-line"))
+    }
 }

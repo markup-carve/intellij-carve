@@ -27,7 +27,14 @@ object CarveConverter {
             ?: ""
     }
 
-    fun toHtml(carve: String, project: Project? = null): String {
+    /**
+     * @param sourceLine when true, carve-js stamps each top-level block with
+     *   `data-source-line="{n}"` (1-based). The preview uses those anchors to scroll in
+     *   step with the editor. Off by default so HTML export stays clean. The carve-php
+     *   renderer has no equivalent option, so scroll sync simply does nothing there -
+     *   the preview still renders, it just has no anchors to jump to.
+     */
+    fun toHtml(carve: String, project: Project? = null, sourceLine: Boolean = false): String {
         if (project != null && CarveSettings.getInstance(project).renderer == CarveRenderer.CARVE_PHP) {
             val settings = CarveSettings.getInstance(project)
             val result = CarvePhpConverter.toHtml(
@@ -43,10 +50,10 @@ object CarveConverter {
             return errorHtml("Carve PHP error", error)
         }
 
-        return toHtmlWithJs(carve)
+        return toHtmlWithJs(carve, sourceLine)
     }
 
-    private fun toHtmlWithJs(carve: String): String {
+    private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String {
         if (carveJs.isEmpty()) {
             return errorHtml("Carve renderer unavailable", "Bundled carve.iife.js is missing from the plugin.")
         }
@@ -70,7 +77,7 @@ object CarveConverter {
                     val optionsBuilder = context.eval(
                         Source.newBuilder("js", CARVE_OPTIONS_JS, "carve-options.js").build(),
                     )
-                    val options = optionsBuilder.execute()
+                    val options = optionsBuilder.execute(sourceLine)
                     fn.execute(carve, options).asString()
                 }
         } catch (e: Exception) {
@@ -99,7 +106,7 @@ object CarveConverter {
      * renders core Carve rather than throwing.
      */
     private val CARVE_OPTIONS_JS = """
-        (function () {
+        (function (sourceLine) {
           var names = [
             'details', 'mermaid', 'mathBlock', 'spoiler', 'chart',
             'headingReference', 'autolink', 'codeGroup', 'tabs', 'listTable',
@@ -112,7 +119,7 @@ object CarveConverter {
               exts.push(factory());
             }
           }
-          return { extensions: exts };
+          return { extensions: exts, sourceLine: !!sourceLine };
         })
     """.trimIndent()
 
