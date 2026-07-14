@@ -6,9 +6,10 @@ author: markup-carve
 # Carve sample
 
 Carve uses visual mnemonics: /italic/ leans, *bold* is heavy, _underline_ sits
-below, ~strike~ runs through, and =highlight= stands out. You also get ^super^
-and ,sub, plus inline `code`, a [link](https://github.com/markup-carve/carve),
-a [reference link][repo], an autolink <https://markup-carve.github.io>, and a
+below, ~strike~ runs through, and =highlight= stands out. Superscript and
+subscript are braced-only, so they can attach mid-word: E=mc{^2^} and H{,2,}O.
+Plus inline `code`, a [link](https://github.com/markup-carve/carve), a
+[reference link][repo], an autolink <https://markup-carve.github.io>, and a
 footnote.[^fn]
 
 A mention @markup-carve and a #carve tag, plus an HTML abbreviation.

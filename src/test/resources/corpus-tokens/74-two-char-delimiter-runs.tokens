@@ -2,8 +2,4 @@
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
 z -> text.carve markup.highlight.carve markup.highlight.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
-  -> text.carve
-, -> text.carve markup.subscript.carve punctuation.definition.subscript.carve
-w -> text.carve markup.subscript.carve markup.subscript.carve
-, -> text.carve markup.subscript.carve punctuation.definition.subscript.carve
-\n -> text.carve
+ ,w,\n -> text.carve

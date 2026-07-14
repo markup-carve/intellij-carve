@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Superscript and subscript are braced-only (`{^sup^}` / `{,sub,}`); bare
+  `^sup^` and `,sub,` no longer exist** (upstream spec change, markup-carve/carve#259).
+  A bare `^` or `,` is literal text, so the bare emphasis delimiter set is now
+  `/ * _ ~ =`. The TextMate grammar no longer highlights the bare forms, and the
+  `csup` / `csub` live templates now insert the braced forms. Line-start `^ `
+  captions, table header rowspan `^` cells and `^[...]` inline footnotes are
+  unaffected.
 - **LSP4IJ is now an optional dependency.** The plugin loads with only syntax
   highlighting, live preview, HTML export and live templates when LSP4IJ is not
   installed; the language-server features (diagnostics, completion, outline,

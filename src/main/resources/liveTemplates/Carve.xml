@@ -50,11 +50,11 @@
         <variable name="TEXT" expression="" defaultValue="&quot;highlight&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="csup" value="^$TEXT$^$END$" description="Superscript (^sup^)" toReformat="false" toShortenFQNames="false">
+    <template name="csup" value="{^$TEXT$^}$END$" description="Superscript ({^sup^})" toReformat="false" toShortenFQNames="false">
         <variable name="TEXT" expression="" defaultValue="&quot;sup&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="csub" value=",$TEXT$,$END$" description="Subscript (,sub,)" toReformat="false" toShortenFQNames="false">
+    <template name="csub" value="{,$TEXT$,}$END$" description="Subscript ({,sub,})" toReformat="false" toShortenFQNames="false">
         <variable name="TEXT" expression="" defaultValue="&quot;sub&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
