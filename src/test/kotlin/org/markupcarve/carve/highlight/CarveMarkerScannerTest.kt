@@ -67,12 +67,13 @@ class CarveMarkerScannerTest {
     }
 
     @Test
-    fun orderedMarkersMatchTheGrammar() {
-        // Grammar ordered marker is digits + dot only.
+    fun orderedMarkerForms() {
+        // Digits or letters (roman included), with `.` or `)`.
         assertEquals(listOf("10." to CarveColors.LIST_MARKER), covered("10. item\n"))
-        // Not `1)`, not `iv)`, not `(1)` - those stay prose (TextMate leaves them too).
-        assertTrue(scan("1) item\n").isEmpty())
-        assertTrue(scan("iv) item\n").isEmpty())
+        assertEquals(listOf("1)" to CarveColors.LIST_MARKER), covered("1) item\n"))
+        assertEquals(listOf("iv)" to CarveColors.LIST_MARKER), covered("iv) item\n"))
+        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a. item\n"))
+        // A parenthesized counter is prose, not a marker.
         assertTrue(scan("(1) explain\n").isEmpty())
     }
 

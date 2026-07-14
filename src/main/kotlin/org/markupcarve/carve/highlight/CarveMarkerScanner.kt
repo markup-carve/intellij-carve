@@ -21,9 +21,9 @@ object CarveMarkerScanner {
     private val DIV = Regex("""^\s*(:{3,})""")
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
     private val BULLET = Regex("""^(\s*)([-*](?:\s+[-*])*)(?=\s)""")
-    // Ordered markers, matching the grammar exactly: digits + dot only (`1.`, `10.`). Not `1)`,
-    // not `iv)`, not `(1)` - those stay prose, as TextMate leaves them.
-    private val ORDERED = Regex("""^(\s*)(\d+\.)(?=\s)""")
+    // Ordered markers the spec recognizes: digits or letters (roman included), then `.` or `)`
+    // - `1.`, `10.`, `1)`, `a.`, `iv)`. A parenthesized `(1)` is prose and must stay literal.
+    private val ORDERED = Regex("""^(\s*)([0-9]+[.)]|[A-Za-z]+[.)])(?=\s)""")
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
