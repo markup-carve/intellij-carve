@@ -21,8 +21,15 @@ dependencies {
     // JDKs removed - on a current JBR that threw NoSuchMethodError while building the
     // polyglot Context, so the live preview failed to render at all. js-scriptengine is
     // dropped: we use the Context API directly, never javax.script.
+    // Depend on the real jars, NOT the org.graalvm.polyglot:js-community aggregator:
+    // that module is pom-packaging, so Gradle puts the .pom itself on the runtime
+    // classpath. The IntelliJ test JVM's coroutines javaagent opens every classpath
+    // entry as a jar, chokes on the .pom, and aborts the JVM (SIGABRT, "processing of
+    // -javaagent failed"). js-language + truffle-runtime pull the same closure
+    // (truffle-api, regex, icu4j, truffle-compiler) without any pom artifact.
     implementation("org.graalvm.polyglot:polyglot:24.2.1")
-    implementation("org.graalvm.polyglot:js-community:24.2.1")
+    implementation("org.graalvm.js:js-language:24.2.1")
+    implementation("org.graalvm.truffle:truffle-runtime:24.2.1")
 
     // JUnit 4 for the corpus snapshot tests. Declared explicitly because the 2024.3+
     // platform no longer puts JUnit 4 on the plugin test classpath by default.
