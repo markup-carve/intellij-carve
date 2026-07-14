@@ -1,9 +1,7 @@
-Visit  -> text.carve
-< -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
-https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
- or write  -> text.carve
-< -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
-hello@example.com -> text.carve meta.link.autolink.email.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
-.\n -> text.carve
+[t](/url  -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+ti\\ -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+tle -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+)\n -> text.carve

@@ -1,0 +1,4 @@
+x\n -> text.carve
+  %% indented comment -> text.carve comment.line.percent.carve
+\n -> text.carve
+y\n -> text.carve

@@ -18,8 +18,15 @@ _ -> text.carve markup.underline.text.carve punctuation.definition.underline.car
 strikethrough -> text.carve markup.strikethrough.carve markup.strikethrough.carve
 ~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
 \n -> text.carve
-^super^  ,sub,   -> text.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
 highlight -> text.carve markup.highlight.carve markup.highlight.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+   -> text.carve
+{^ -> text.carve punctuation.definition.superscript.carve
+super -> text.carve markup.superscript.carve
+^} -> text.carve punctuation.definition.superscript.carve
+   -> text.carve
+{, -> text.carve punctuation.definition.subscript.carve
+sub -> text.carve markup.subscript.carve
+,} -> text.carve punctuation.definition.subscript.carve
 \n -> text.carve

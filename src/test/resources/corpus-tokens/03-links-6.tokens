@@ -1,4 +1,7 @@
-\\[ -> text.carve constant.character.escape.carve
-not a link -> text.carve
-\\] -> text.carve constant.character.escape.carve
-(https://example.com)\n -> text.carve
+< -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
+> -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+{ -> text.carve meta.attributes.carve
+.ext -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve

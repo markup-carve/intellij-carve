@@ -1,0 +1,4 @@
+{ -> text.carve meta.attributes.carve
+'q' -> text.carve meta.attributes.carve string.quoted.single.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve

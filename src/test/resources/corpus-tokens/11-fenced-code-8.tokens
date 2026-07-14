@@ -1,9 +1,7 @@
-```` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
-markdown -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+  -> text.carve markup.raw.block.fenced.code.carve
+"notes.txt" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
-```python\n -> text.carve markup.raw.block.fenced.code.carve
-print("hi")\n -> text.carve markup.raw.block.fenced.code.carve
+remember the milk\n -> text.carve markup.raw.block.fenced.code.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-```` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

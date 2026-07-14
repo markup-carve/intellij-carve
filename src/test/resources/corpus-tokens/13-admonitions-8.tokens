@@ -1,0 +1,6 @@
+::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+[First] -> text.carve markup.other.div.carve entity.name.label.carve
+\n -> text.carve markup.other.div.carve
+First panel.\n -> text.carve
+::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+\n -> text.carve markup.other.div.carve

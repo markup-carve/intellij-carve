@@ -1,0 +1,14 @@
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"from the attribute line" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+  -> text.carve markup.raw.block.fenced.code.carve
+"from the header" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+code\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve

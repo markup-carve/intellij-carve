@@ -1,1 +1,25 @@
-the '70s and '24' and 'word'\n -> text.carve
+a= -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+b -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+: -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+- -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+/ -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+( -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+)\n -> text.carve
