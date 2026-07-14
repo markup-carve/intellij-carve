@@ -1,6 +1,8 @@
-re -> text.carve
-{~view~} -> text.carve meta.attributes.carve
- it, then  -> text.carve
+re{ -> text.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+view -> text.carve markup.strikethrough.carve markup.strikethrough.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+} it, then  -> text.carve
 {~ -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
 old -> text.carve markup.changed.critic.carve markup.deleted.carve
 ~> -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve

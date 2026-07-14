@@ -3,5 +3,4 @@ a -> text.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve meta.image.inline.carve
 /i -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
-{???} -> text.carve meta.attributes.carve
-\n -> text.carve
+{???}\n -> text.carve

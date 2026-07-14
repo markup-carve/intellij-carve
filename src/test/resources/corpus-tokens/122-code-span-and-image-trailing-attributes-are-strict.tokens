@@ -1,5 +1,4 @@
 ` -> text.carve markup.raw.inline.carve punctuation.definition.raw.carve
 x -> text.carve markup.raw.inline.carve markup.raw.inline.content.carve
 ` -> text.carve markup.raw.inline.carve punctuation.definition.raw.carve
-{2=v} -> text.carve meta.attributes.carve
-\n -> text.carve
+{2=v}\n -> text.carve
