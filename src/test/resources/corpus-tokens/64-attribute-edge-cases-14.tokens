@@ -1,10 +1,8 @@
 [ -> text.carve meta.span.inline.carve punctuation.definition.span.begin.carve
 x -> text.carve meta.span.inline.carve string.other.span.carve
 ] -> text.carve meta.span.inline.carve punctuation.definition.span.end.carve
-{.123} -> text.carve meta.attributes.carve
- and  -> text.carve
+{.123} and  -> text.carve
 [ -> text.carve meta.span.inline.carve punctuation.definition.span.begin.carve
 y -> text.carve meta.span.inline.carve string.other.span.carve
 ] -> text.carve meta.span.inline.carve punctuation.definition.span.end.carve
-{12=v} -> text.carve meta.attributes.carve
-\n -> text.carve
+{12=v}\n -> text.carve

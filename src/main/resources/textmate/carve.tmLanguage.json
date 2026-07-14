@@ -421,12 +421,16 @@
         },
         {
           "name": "markup.list.unnumbered.carve",
-          "match": "^(\\s*)([-*])\\s+(\\[[ xX\\-_>?]\\]\\s+)?",
+          "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first.",
+          "match": "^(\\s*)([-*])(\\s+)((?:[-*]\\s+)*)(\\[[ xX\\-_>?]\\]\\s+)?",
           "captures": {
             "2": {
               "name": "punctuation.definition.list.begin.carve"
             },
-            "3": {
+            "4": {
+              "name": "punctuation.definition.list.begin.carve"
+            },
+            "5": {
               "name": "constant.language.task-list.carve"
             }
           }
@@ -496,7 +500,8 @@
       "patterns": [
         {
           "name": "meta.link.inline.carve",
-          "match": "(\\[)([^\\]]+)(\\])(\\()([^\\s)]+)(?:\\s+\"([^\"]+)\")?(\\))",
+          "comment": "The optional title may be empty (`[x](u \"\")`) and may contain escaped quotes (`\"ti\\\"tle\"`), so the title run allows backslash escapes and zero characters.",
+          "match": "(\\[)([^\\]]+)(\\])(\\()([^\\s)]+)(?:\\s+\"((?:[^\"\\\\]|\\\\.)*)\")?(\\))",
           "captures": {
             "1": {
               "name": "punctuation.definition.link.begin.carve"
@@ -554,7 +559,8 @@
       "patterns": [
         {
           "name": "meta.image.inline.carve",
-          "match": "(!\\[)([^\\]]*)(\\]\\()([^\\s)]+)(?:\\s+\"([^\"]+)\")?(\\))",
+          "comment": "The optional title may be empty and may contain escaped quotes; see the inline-link rule.",
+          "match": "(!\\[)([^\\]]*)(\\]\\()([^\\s)]+)(?:\\s+\"((?:[^\"\\\\]|\\\\.)*)\")?(\\))",
           "captures": {
             "1": {
               "name": "punctuation.definition.image.begin.carve"
@@ -690,7 +696,13 @@
       "patterns": [
         {
           "name": "meta.attributes.carve",
-          "match": "\\{[^}\\n]+\\}",
+          "comment": "The empty / whitespace-only block is a blessed EMPTY attribute block only when it directly abuts the `]` of a span (grammar.ebnf: `[text]{}` / `[text]{ }` -> bare `<span>`). Elsewhere it is literal: on its own line (corpus 123) and after an image or link destination (corpus 75-3). The `(?<=\\])` guard encodes exactly that adjacency.",
+          "match": "(?<=\\])(\\{)(\\s*)(\\})"
+        },
+        {
+          "name": "meta.attributes.carve",
+          "comment": "Strict identifier (spec PART 9 S14, corpus 122): a class/id/key may not start with a digit, so `{2=v}` stays literal text. An unquoted value may still contain dots and colons (corpus 110); a quoted value may contain braces and backslash-escaped quotes (corpus 64-3/64-9/64-11); a bare `{}` is literal (corpus 123).",
+          "match": "(\\{)(\\s*(?:[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?:[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)(\\})",
           "captures": {
             "0": {
               "patterns": [
@@ -708,11 +720,11 @@
                 },
                 {
                   "name": "string.quoted.double.attribute.carve",
-                  "match": "\"[^\"]*\""
+                  "match": "\"(?:[^\"\\\\]|\\\\.)*\""
                 },
                 {
                   "name": "string.quoted.single.attribute.carve",
-                  "match": "'[^']*'"
+                  "match": "'(?:[^'\\\\]|\\\\.)*'"
                 }
               ]
             }
