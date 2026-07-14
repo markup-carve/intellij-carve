@@ -1181,8 +1181,8 @@
           }
         },
         {
-          "name": "constant.character.emoji.carve",
-          "match": ":[A-Za-z0-9_+-]+:"
+          "name": "constant.language.symbol.carve",
+          "match": "(?<!\\w):[A-Za-z0-9+-][\\w+-]*:"
         }
       ]
     },
