@@ -43,3 +43,33 @@ jobs:
           name: intellij-carve
           path: build/distributions/*.zip
           if-no-files-found: error
+
+  # The `test` task above forks on the IDE's bundled JBR, so it only ever exercises that
+  # one JDK. The live preview runs GraalJS, and Truffle breaks on newer JDKs (23.0.2 called
+  # sun.misc.Unsafe.ensureClassInitialized, removed in JDK 24+) - which shipped to users
+  # with a green build. Boot a polyglot context on the JDKs users actually run.
+  graal-jdk-smoke:
+    name: GraalJS boots on JDK ${{ matrix.jdk }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: ['21', '24']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDKs
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            ${{ matrix.jdk }}
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Boot GraalJS on JDK ${{ matrix.jdk }}
+        run: ./gradlew --no-daemon graalSmoke -PgraalSmokeJdk=${{ matrix.jdk }}

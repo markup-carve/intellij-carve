@@ -36,6 +36,29 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
 }
 
+// Regression guard for the GraalJS/JDK breakage. The IntelliJ `test` task forks on the
+// IDE's bundled JBR, so it only ever exercises that one JDK - which is how a Truffle that
+// called the (since-removed) sun.misc.Unsafe.ensureClassInitialized shipped to users with
+// a fully green build. This boots a polyglot context under an explicit, newer JDK instead.
+// CI runs it across a JDK matrix; see .github/workflows/build.yml.
+val javaToolchainService = extensions.getByType<JavaToolchainService>()
+
+val graalSmoke by tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Boot a GraalJS polyglot context under an explicit JDK toolchain."
+    mainClass.set("org.markupcarve.carve.GraalSmokeKt")
+    classpath = sourceSets["test"].runtimeClasspath
+    javaLauncher.set(
+        javaToolchainService.launcherFor {
+            languageVersion.set(
+                JavaLanguageVersion.of(
+                    providers.gradleProperty("graalSmokeJdk").getOrElse("21").toInt(),
+                ),
+            )
+        },
+    )
+}
+
 intellij {
     // Build against IntelliJ IDEA Community so the plugin installs across the whole IDE family.
     // 2024.3 is the lowest SDK that exposes the descriptor-first
