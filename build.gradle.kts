@@ -1,11 +1,14 @@
+import org.jetbrains.changelog.Changelog
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.changelog") version "2.2.1"
 }
 
 group = "org.markupcarve"
-version = "0.1.2"
+version = "0.1.3"
 
 repositories {
     mavenCentral()
@@ -13,12 +16,47 @@ repositories {
 
 dependencies {
     // Server-side Carve rendering for export + preview (runs the bundled carve.iife.js).
-    implementation("org.graalvm.js:js:23.0.2")
-    implementation("org.graalvm.js:js-scriptengine:23.0.2")
+    // GraalJS via the modern polyglot coordinates. The old org.graalvm.js:js:23.0.2 line
+    // shipped a Truffle that calls sun.misc.Unsafe.ensureClassInitialized, which recent
+    // JDKs removed - on a current JBR that threw NoSuchMethodError while building the
+    // polyglot Context, so the live preview failed to render at all. js-scriptengine is
+    // dropped: we use the Context API directly, never javax.script.
+    // Depend on the real jars, NOT the org.graalvm.polyglot:js-community aggregator:
+    // that module is pom-packaging, so Gradle puts the .pom itself on the runtime
+    // classpath. The IntelliJ test JVM's coroutines javaagent opens every classpath
+    // entry as a jar, chokes on the .pom, and aborts the JVM (SIGABRT, "processing of
+    // -javaagent failed"). js-language + truffle-runtime pull the same closure
+    // (truffle-api, regex, icu4j, truffle-compiler) without any pom artifact.
+    implementation("org.graalvm.polyglot:polyglot:24.2.1")
+    implementation("org.graalvm.js:js-language:24.2.1")
+    implementation("org.graalvm.truffle:truffle-runtime:24.2.1")
 
     // JUnit 4 for the corpus snapshot tests. Declared explicitly because the 2024.3+
     // platform no longer puts JUnit 4 on the plugin test classpath by default.
     testImplementation("junit:junit:4.13.2")
+}
+
+// Regression guard for the GraalJS/JDK breakage. The IntelliJ `test` task forks on the
+// IDE's bundled JBR, so it only ever exercises that one JDK - which is how a Truffle that
+// called the (since-removed) sun.misc.Unsafe.ensureClassInitialized shipped to users with
+// a fully green build. This boots a polyglot context under an explicit, newer JDK instead.
+// CI runs it across a JDK matrix; see .github/workflows/build.yml.
+val javaToolchainService = extensions.getByType<JavaToolchainService>()
+
+val graalSmoke by tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Boot a GraalJS polyglot context under an explicit JDK toolchain."
+    mainClass.set("org.markupcarve.carve.GraalSmokeKt")
+    classpath = sourceSets["test"].runtimeClasspath
+    javaLauncher.set(
+        javaToolchainService.launcherFor {
+            languageVersion.set(
+                JavaLanguageVersion.of(
+                    providers.gradleProperty("graalSmokeJdk").getOrElse("21").toInt(),
+                ),
+            )
+        },
+    )
 }
 
 intellij {
@@ -85,6 +123,23 @@ tasks {
         // we now call is a new platform method that does not exist on the 2024.1/2024.2
         // Row interface, so the plugin can no longer claim compatibility below 243.
         sinceBuild.set("243")
+
+        // Marketplace "What's new" renders <change-notes> from the plugin.xml inside the
+        // uploaded ZIP - it does not read GitHub releases. Generate it from CHANGELOG.md
+        // so the notes can never drift from the release again (0.1.2 shipped with 0.1.1's
+        // notes because the hand-maintained block was never updated).
+        changeNotes.set(
+            provider {
+                with(changelog) {
+                    renderItem(
+                        (getOrNull(project.version.toString()) ?: getUnreleased())
+                            .withHeader(false)
+                            .withEmptySections(false),
+                        Changelog.OutputType.HTML,
+                    )
+                }
+            },
+        )
     }
 
     runPluginVerifier {
