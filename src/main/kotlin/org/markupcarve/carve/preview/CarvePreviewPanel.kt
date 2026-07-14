@@ -64,6 +64,19 @@ class CarvePreviewPanel(
     private var pageReady = false
 
     /**
+     * This file's document, resolved once under a read action.
+     *
+     * [VisibleAreaListener] fires on the EDT outside any read action, and
+     * `FileDocumentManager.getDocument()` is model access - calling it there throws
+     * "Read access is allowed from inside read-action only". Resolving the document once
+     * here keeps the listener free of any model lookup: comparing `editor.document` to a
+     * cached reference needs no read action.
+     */
+    private val document = ReadAction.compute<com.intellij.openapi.editor.Document?, RuntimeException> {
+        FileDocumentManager.getInstance().getDocument(file)
+    }
+
+    /**
      * Scrolls the preview in step with the editor.
      *
      * The multicaster fires for every editor, so only events for *this* file's document are
@@ -74,9 +87,7 @@ class CarvePreviewPanel(
      */
     private val visibleAreaListener = VisibleAreaListener { event ->
         val editor = event.editor
-        if (editor.document != FileDocumentManager.getInstance().getDocument(file)) {
-            return@VisibleAreaListener
-        }
+        if (editor.document != document) return@VisibleAreaListener
         scrollPreviewToLine(topVisibleLine(editor))
     }
 
@@ -107,8 +118,7 @@ class CarvePreviewPanel(
         }
         updateTimer.isRepeats = false
 
-        FileDocumentManager.getInstance().getDocument(file)
-            ?.addDocumentListener(documentListener, this)
+        document?.addDocumentListener(documentListener, this)
 
         messageBusConnection = ApplicationManager.getApplication().messageBus.connect(this)
         messageBusConnection.subscribe(
@@ -145,8 +155,10 @@ class CarvePreviewPanel(
      * never moves.
      */
     private fun syncFromEditor() {
-        val document = FileDocumentManager.getInstance().getDocument(file) ?: return
-        val editor = EditorFactory.getInstance().getEditors(document, project).firstOrNull() ?: return
+        val doc = document ?: return
+        val editor = ReadAction.compute<com.intellij.openapi.editor.Editor?, RuntimeException> {
+            EditorFactory.getInstance().getEditors(doc, project).firstOrNull()
+        } ?: return
         scrollPreviewToLine(topVisibleLine(editor))
     }
 
