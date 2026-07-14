@@ -1,5 +1,8 @@
-{/a/b/} and { -> text.carve
-/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+{/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+a/b -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve punctuation.definition.italic.carve
+ and  -> text.carve
+{/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
 italic *bold* -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
-}\n -> text.carve
+/} -> text.carve markup.italic.carve punctuation.definition.italic.carve
+\n -> text.carve

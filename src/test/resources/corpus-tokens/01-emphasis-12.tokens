@@ -1,11 +1,13 @@
-foo{ -> text.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+foo -> text.carve
+{* -> text.carve markup.bold.carve punctuation.definition.bold.carve
 bar -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
-}baz and my -> text.carve
-{_path_} -> text.carve meta.attributes.carve
-name and a{ -> text.carve
-/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
+*} -> text.carve markup.bold.carve punctuation.definition.bold.carve
+baz and my -> text.carve
+{_ -> text.carve markup.underline.text.carve punctuation.definition.underline.carve
+path -> text.carve markup.underline.text.carve markup.underline.text.carve
+_} -> text.carve markup.underline.text.carve punctuation.definition.underline.carve
+name and a -> text.carve
+{/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
 b -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve punctuation.definition.italic.carve
-}c\n -> text.carve
+/} -> text.carve markup.italic.carve punctuation.definition.italic.carve
+c\n -> text.carve
