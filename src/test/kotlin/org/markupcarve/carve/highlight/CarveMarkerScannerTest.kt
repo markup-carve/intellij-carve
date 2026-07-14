@@ -67,9 +67,21 @@ class CarveMarkerScannerTest {
     }
 
     @Test
-    fun multiDigitAndLetterOrderedMarkers() {
+    fun orderedMarkersMatchTheGrammar() {
+        // Grammar ordered marker is digits + dot only.
         assertEquals(listOf("10." to CarveColors.LIST_MARKER), covered("10. item\n"))
-        assertEquals(listOf("iv)" to CarveColors.LIST_MARKER), covered("iv) item\n"))
+        // Not `1)`, not `iv)`, not `(1)` - those stay prose (TextMate leaves them too).
+        assertTrue(scan("1) item\n").isEmpty())
+        assertTrue(scan("iv) item\n").isEmpty())
+        assertTrue(scan("(1) explain\n").isEmpty())
+    }
+
+    @Test
+    fun nestedBulletChainColorsEachMarker() {
+        assertEquals(
+            listOf("-" to CarveColors.LIST_MARKER, "-" to CarveColors.LIST_MARKER),
+            covered("- - item\n"),
+        )
     }
 
     @Test

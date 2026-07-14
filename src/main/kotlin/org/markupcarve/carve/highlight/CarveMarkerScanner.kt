@@ -19,9 +19,11 @@ object CarveMarkerScanner {
     private val HEADING = Regex("""^(#{1,6})(?=\s|$)""")
     private val QUOTE = Regex("""^\s*(>+)""")
     private val DIV = Regex("""^\s*(:{3,})""")
-    private val BULLET = Regex("""^(\s*)([-*])(?=\s)""")
-    // Multi-digit / multi-letter ordered markers: `10.`, `iv)`, `a)` - as the grammar allows.
-    private val ORDERED = Regex("""^(\s*)(\(?[0-9]+[.)]|\(?[A-Za-z]+[.)])(?=\s)""")
+    // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
+    private val BULLET = Regex("""^(\s*)([-*](?:\s+[-*])*)(?=\s)""")
+    // Ordered markers, matching the grammar exactly: digits + dot only (`1.`, `10.`). Not `1)`,
+    // not `iv)`, not `(1)` - those stay prose, as TextMate leaves them.
+    private val ORDERED = Regex("""^(\s*)(\d+\.)(?=\s)""")
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
@@ -59,7 +61,14 @@ object CarveMarkerScanner {
             QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
             DIV.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.DIV_MARKER) }
             CONTINUATION.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.CONTINUATION_MARKER) }
-            BULLET.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
+            BULLET.find(line)?.let { m ->
+                val chain = m.groups[2]!!.range
+                for (i in chain.first..chain.last) {
+                    if (line[i] == '-' || line[i] == '*') {
+                        spans += Span(TextRange(lineStart + i, lineStart + i + 1), CarveColors.LIST_MARKER)
+                    }
+                }
+            }
             ORDERED.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
 
             // Table pipes: only on a line shaped like a table row (leading/trailing pipe, or a
