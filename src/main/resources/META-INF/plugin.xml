@@ -61,6 +61,21 @@
                 language="Carve"
                 implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
 
+        <!--
+          A minimal PSI (single-token) so an Annotator runs on .crv files; without any
+          ParserDefinition the file is plain text and no Carve annotator fires. TextMate still
+          owns base editor highlighting; the annotator layers distinct, user-customizable
+          colours onto the structural markers that TextMate collapses to one keyword colour.
+        -->
+        <lang.parserDefinition
+                language="Carve"
+                implementationClass="org.markupcarve.carve.lang.CarveParserDefinition"/>
+        <annotator
+                language="Carve"
+                implementationClass="org.markupcarve.carve.highlight.CarveAnnotator"/>
+        <colorSettingsPage
+                implementation="org.markupcarve.carve.highlight.CarveColorSettingsPage"/>
+
         <fileEditorProvider
                 implementation="org.markupcarve.carve.preview.CarvePreviewEditorProvider"/>
 
