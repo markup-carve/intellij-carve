@@ -1,11 +1,14 @@
+import org.jetbrains.changelog.Changelog
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.changelog") version "2.2.1"
 }
 
 group = "org.markupcarve"
-version = "0.1.2"
+version = "0.1.3"
 
 repositories {
     mavenCentral()
@@ -13,8 +16,13 @@ repositories {
 
 dependencies {
     // Server-side Carve rendering for export + preview (runs the bundled carve.iife.js).
-    implementation("org.graalvm.js:js:23.0.2")
-    implementation("org.graalvm.js:js-scriptengine:23.0.2")
+    // GraalJS via the modern polyglot coordinates. The old org.graalvm.js:js:23.0.2 line
+    // shipped a Truffle that calls sun.misc.Unsafe.ensureClassInitialized, which recent
+    // JDKs removed - on a current JBR that threw NoSuchMethodError while building the
+    // polyglot Context, so the live preview failed to render at all. js-scriptengine is
+    // dropped: we use the Context API directly, never javax.script.
+    implementation("org.graalvm.polyglot:polyglot:24.2.1")
+    implementation("org.graalvm.polyglot:js-community:24.2.1")
 
     // JUnit 4 for the corpus snapshot tests. Declared explicitly because the 2024.3+
     // platform no longer puts JUnit 4 on the plugin test classpath by default.
@@ -85,6 +93,23 @@ tasks {
         // we now call is a new platform method that does not exist on the 2024.1/2024.2
         // Row interface, so the plugin can no longer claim compatibility below 243.
         sinceBuild.set("243")
+
+        // Marketplace "What's new" renders <change-notes> from the plugin.xml inside the
+        // uploaded ZIP - it does not read GitHub releases. Generate it from CHANGELOG.md
+        // so the notes can never drift from the release again (0.1.2 shipped with 0.1.1's
+        // notes because the hand-maintained block was never updated).
+        changeNotes.set(
+            provider {
+                with(changelog) {
+                    renderItem(
+                        (getOrNull(project.version.toString()) ?: getUnreleased())
+                            .withHeader(false)
+                            .withEmptySections(false),
+                        Changelog.OutputType.HTML,
+                    )
+                }
+            },
+        )
     }
 
     runPluginVerifier {

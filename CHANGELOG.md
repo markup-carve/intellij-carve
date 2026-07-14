@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-07-14
+
+### Fixed
+
+- **Live preview no longer fails to render on current IDE builds.** The bundled GraalJS
+  (`org.graalvm.js:js:23.0.2`) shipped a Truffle runtime that calls
+  `sun.misc.Unsafe.ensureClassInitialized`, a JDK-internal method removed in recent JDKs.
+  On a current JBR this threw `NoSuchMethodError` while building the polyglot context, so
+  opening a `.crv` file produced no preview. Moved to the modern polyglot coordinates
+  (`org.graalvm.polyglot:polyglot` + `js-community` 24.2.1).
+- **Marketplace "What's new" no longer drifts from the release.** `<change-notes>` is now
+  generated from `CHANGELOG.md` at build time instead of being hand-maintained in
+  `plugin.xml` - 0.1.2 shipped carrying 0.1.1's notes because the block was never updated.
+
 ### Changed
 
 - **Superscript and subscript are braced-only (`{^sup^}` / `{,sub,}`); bare
