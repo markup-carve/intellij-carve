@@ -4,9 +4,9 @@
 #x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 code\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

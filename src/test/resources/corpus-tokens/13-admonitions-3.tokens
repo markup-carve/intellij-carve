@@ -1,9 +1,9 @@
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
-  -> text.carve markup.other.div.carve
-hint -> text.carve markup.other.div.carve entity.name.type.div.carve
-  -> text.carve markup.other.div.carve
-"Heads up" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve markup.other.div.carve
+::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
+  -> text.carve keyword.operator.div.carve
+hint -> text.carve keyword.operator.div.carve entity.name.type.div.carve
+  -> text.carve keyword.operator.div.carve
+"Heads up" -> text.carve keyword.operator.div.carve string.quoted.double.carve
+\n -> text.carve keyword.operator.div.carve
 Custom call-out.\n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
-\n -> text.carve markup.other.div.carve
+::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
+\n -> text.carve keyword.operator.div.carve

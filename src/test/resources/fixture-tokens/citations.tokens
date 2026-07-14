@@ -1,28 +1,28 @@
-[ -> text.carve markup.citation.carve punctuation.definition.citation.begin.carve
-@smith2020 -> text.carve markup.citation.carve variable.other.citation.key.carve
-] -> text.carve markup.citation.carve punctuation.definition.citation.end.carve
+[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+@smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
 \n -> text.carve
-[ -> text.carve markup.citation.carve punctuation.definition.citation.begin.carve
-+ -> text.carve markup.citation.carve keyword.operator.citation.integral.carve
-@jones1999 -> text.carve markup.citation.carve variable.other.citation.key.carve
-] -> text.carve markup.citation.carve punctuation.definition.citation.end.carve
+[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
++ -> text.carve entity.name.citation.carve keyword.operator.citation.integral.carve
+@jones1999 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
 \n -> text.carve
-[ -> text.carve markup.citation.carve punctuation.definition.citation.begin.carve
-@doe2021 -> text.carve markup.citation.carve variable.other.citation.key.carve
-; -> text.carve markup.citation.carve punctuation.separator.citation.carve
-  -> text.carve markup.citation.carve
-@roe2022 -> text.carve markup.citation.carve variable.other.citation.key.carve
-] -> text.carve markup.citation.carve punctuation.definition.citation.end.carve
+[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+@doe2021 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+; -> text.carve entity.name.citation.carve keyword.operator.separator.citation.carve
+  -> text.carve entity.name.citation.carve
+@roe2022 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
 \n -> text.carve
-[ -> text.carve markup.citation.carve punctuation.definition.citation.begin.carve
-@smith2020 -> text.carve markup.citation.carve variable.other.citation.key.carve
-, p. 42 -> text.carve markup.citation.carve
-] -> text.carve markup.citation.carve punctuation.definition.citation.end.carve
+[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+@smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+, p. 42 -> text.carve entity.name.citation.carve
+] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
 \n -> text.carve
-[ -> text.carve markup.citation.carve punctuation.definition.citation.begin.carve
-@smith2020 -> text.carve markup.citation.carve variable.other.citation.key.carve
-; -> text.carve markup.citation.carve punctuation.separator.citation.carve
- - -> text.carve markup.citation.carve keyword.operator.citation.modifier.carve
-@jones1999 -> text.carve markup.citation.carve variable.other.citation.key.carve
-] -> text.carve markup.citation.carve punctuation.definition.citation.end.carve
+[ -> text.carve entity.name.citation.carve keyword.operator.citation.begin.carve
+@smith2020 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+; -> text.carve entity.name.citation.carve keyword.operator.separator.citation.carve
+ - -> text.carve entity.name.citation.carve keyword.operator.citation.modifier.carve
+@jones1999 -> text.carve entity.name.citation.carve variable.parameter.citation.key.carve
+] -> text.carve entity.name.citation.carve keyword.operator.citation.end.carve
 \n -> text.carve

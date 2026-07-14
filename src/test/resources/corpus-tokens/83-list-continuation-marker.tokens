@@ -1,14 +1,14 @@
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 Build the image\n -> text.carve
-+ -> text.carve markup.list.continuation.carve punctuation.definition.list.continuation.carve
-\n -> text.carve markup.list.continuation.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
++ -> text.carve keyword.operator.list.continuation.carve keyword.operator.list.continuation.carve
+\n -> text.carve keyword.operator.list.continuation.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 sh -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 docker build -t app .\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 Push it\n -> text.carve

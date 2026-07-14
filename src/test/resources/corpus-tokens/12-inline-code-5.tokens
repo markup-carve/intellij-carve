@@ -1,4 +1,4 @@
 text\n -> text.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 code\n -> text.carve markup.raw.block.fenced.code.carve

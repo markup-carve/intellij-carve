@@ -1,7 +1,7 @@
 Liste:\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 eins\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 zwei\n -> text.carve

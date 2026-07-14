@@ -1,7 +1,7 @@
-1. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.numbered.carve
+1. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.numbered.carve
 outer\n -> text.carve
-   -> text.carve markup.list.numbered.carve
-1. -> text.carve markup.list.numbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.numbered.carve
+   -> text.carve keyword.operator.list.numbered.carve
+1. -> text.carve keyword.operator.list.numbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.numbered.carve
 inner\n -> text.carve

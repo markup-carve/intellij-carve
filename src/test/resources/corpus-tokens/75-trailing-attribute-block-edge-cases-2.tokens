@@ -1,4 +1,4 @@
-![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+![ -> text.carve meta.image.inline.carve keyword.operator.image.begin.carve
 a -> text.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve meta.image.inline.carve
 /i -> text.carve meta.image.inline.carve markup.underline.link.image.carve

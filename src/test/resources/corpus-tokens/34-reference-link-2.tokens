@@ -2,14 +2,14 @@ Read the  -> text.carve
 [ -> text.carve meta.link.reference.carve
 intro -> text.carve meta.link.reference.carve string.other.link.title.carve
 ][ -> text.carve meta.link.reference.carve
-x -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+x -> text.carve meta.link.reference.carve entity.name.reference.link.carve
 ] -> text.carve meta.link.reference.carve
 { -> text.carve meta.attributes.carve
 .ext -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve
  first.\n -> text.carve
 \n -> text.carve
-[x]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[x]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 /intro -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
 \n -> text.carve

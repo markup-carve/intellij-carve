@@ -1,7 +1,7 @@
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 apples\n -> text.carve
 \n -> text.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 oranges\n -> text.carve

@@ -1,12 +1,12 @@
-# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+# -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 H -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
 \n -> text.carve
-[ -> text.carve meta.link.inline.carve punctuation.definition.link.begin.carve
+[ -> text.carve meta.link.inline.carve keyword.operator.link.begin.carve
 see </#H> -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve punctuation.definition.link.end.carve
-( -> text.carve meta.link.inline.carve punctuation.definition.metadata.begin.carve
+] -> text.carve meta.link.inline.carve keyword.operator.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.operator.metadata.begin.carve
 /outer -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve punctuation.definition.metadata.end.carve
+) -> text.carve meta.link.inline.carve keyword.operator.metadata.end.carve
 \n -> text.carve

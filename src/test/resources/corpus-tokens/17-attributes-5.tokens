@@ -2,9 +2,9 @@
 .todo -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 one\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
+- -> text.carve keyword.operator.list.unnumbered.carve keyword.operator.list.begin.carve
+  -> text.carve keyword.operator.list.unnumbered.carve
 two\n -> text.carve

@@ -1,25 +1,25 @@
 a= -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 b -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 \n -> text.carve
 : -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 q -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 \n -> text.carve
 - -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 q -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 \n -> text.carve
 / -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 q -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 \n -> text.carve
 ( -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 q -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 )\n -> text.carve

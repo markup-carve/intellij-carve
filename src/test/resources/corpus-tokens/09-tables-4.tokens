@@ -1,14 +1,14 @@
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
- Symbol  -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.operator.table.header.carve
- Meaning   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
+ Symbol  -> text.carve keyword.operator.table.row.carve
+|= -> text.carve keyword.operator.table.row.carve keyword.operator.table.header.carve
+ Meaning   -> text.carve keyword.operator.table.row.carve
+| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve
-| -> text.carve markup.table.row.carve punctuation.separator.table.carve
- \\ -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve punctuation.separator.table.carve
-       -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve punctuation.separator.table.carve
- pipe char  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve punctuation.separator.table.carve
+| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+ \\ -> text.carve keyword.operator.table.row.carve
+| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+       -> text.carve keyword.operator.table.row.carve
+| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
+ pipe char  -> text.carve keyword.operator.table.row.carve
+| -> text.carve keyword.operator.table.row.carve keyword.operator.separator.table.carve
 \n -> text.carve

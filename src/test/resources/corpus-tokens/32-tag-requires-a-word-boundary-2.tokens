@@ -1,7 +1,7 @@
 Issue  -> text.carve
-# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
-123 -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+# -> text.carve entity.name.tag.carve punctuation.definition.tag.carve
+123 -> text.carve entity.name.tag.carve variable.parameter.tag.carve
  and  -> text.carve
-# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
-v2 -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+# -> text.carve entity.name.tag.carve punctuation.definition.tag.carve
+v2 -> text.carve entity.name.tag.carve variable.parameter.tag.carve
  here.\n -> text.carve

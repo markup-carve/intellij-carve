@@ -1,7 +1,7 @@
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
-  -> text.carve markup.other.div.carve
-warning -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
+  -> text.carve keyword.operator.div.carve
+warning -> text.carve keyword.operator.div.carve entity.name.type.div.carve
+\n -> text.carve keyword.operator.div.carve
 Mind the gap.\n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
-\n -> text.carve markup.other.div.carve
+::: -> text.carve keyword.operator.div.carve keyword.operator.div.carve
+\n -> text.carve keyword.operator.div.carve

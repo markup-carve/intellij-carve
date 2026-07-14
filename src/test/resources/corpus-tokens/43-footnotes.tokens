@@ -1,11 +1,11 @@
 Carve has footnotes. -> text.carve
-[ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-^ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-fn -> text.carve constant.other.reference.footnote.carve constant.other.footnote.carve
-] -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+fn -> text.carve entity.name.reference.footnote.carve constant.numeric.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 \n -> text.carve
 \n -> text.carve
-[^fn]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[^fn]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 Defined -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
  anywhere; resolved by label.\n -> text.carve

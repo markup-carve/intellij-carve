@@ -1,9 +1,9 @@
-# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+# -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 H1 -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
 \n -> text.carve
-### -> text.carve markup.heading.carve punctuation.definition.heading.carve
+### -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 H3 -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve

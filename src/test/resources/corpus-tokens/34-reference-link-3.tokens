@@ -1,4 +1,4 @@
-> -> text.carve markup.quote.carve punctuation.definition.quote.carve
+> -> text.carve markup.quote.carve keyword.operator.quote.carve
   -> text.carve markup.quote.carve
 [ref]: /url -> text.carve markup.quote.carve
 \n -> text.carve
@@ -7,6 +7,6 @@ See  -> text.carve
 [ -> text.carve meta.link.reference.carve
 it -> text.carve meta.link.reference.carve string.other.link.title.carve
 ][ -> text.carve meta.link.reference.carve
-ref -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+ref -> text.carve meta.link.reference.carve entity.name.reference.link.carve
 ] -> text.carve meta.link.reference.carve
 .\n -> text.carve

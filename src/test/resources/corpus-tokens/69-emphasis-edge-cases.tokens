@@ -1,8 +1,8 @@
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
 a -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
  and  -> text.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
 b -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
 \n -> text.carve

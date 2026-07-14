@@ -1,9 +1,9 @@
 before\n -> text.carve
 \n -> text.carve
-%%%% -> text.carve markup.raw.block.carve punctuation.definition.raw.begin.carve
+%%%% -> text.carve markup.raw.block.carve keyword.operator.raw.begin.carve
 \n -> text.carve markup.raw.block.carve
 hidden %%% inner fence stays hidden\n -> text.carve markup.raw.block.carve
-%%%% -> text.carve markup.raw.block.carve punctuation.definition.raw.end.carve
+%%%% -> text.carve markup.raw.block.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.carve
 \n -> text.carve
 after\n -> text.carve

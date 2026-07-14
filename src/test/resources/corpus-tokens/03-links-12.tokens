@@ -1,7 +1,7 @@
-[ -> text.carve meta.link.inline.carve punctuation.definition.link.begin.carve
+[ -> text.carve meta.link.inline.carve keyword.operator.link.begin.carve
 pre <http://h> post -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve punctuation.definition.link.end.carve
-( -> text.carve meta.link.inline.carve punctuation.definition.metadata.begin.carve
+] -> text.carve meta.link.inline.carve keyword.operator.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.operator.metadata.begin.carve
 /u -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve punctuation.definition.metadata.end.carve
+) -> text.carve meta.link.inline.carve keyword.operator.metadata.end.carve
 \n -> text.carve

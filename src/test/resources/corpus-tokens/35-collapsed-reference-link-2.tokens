@@ -7,7 +7,7 @@ Other -> text.carve meta.link.reference.carve string.other.link.title.carve
 } -> text.carve meta.attributes.carve
  for details.\n -> text.carve
 \n -> text.carve
-[Other]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[Other]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 /other -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
 \n -> text.carve

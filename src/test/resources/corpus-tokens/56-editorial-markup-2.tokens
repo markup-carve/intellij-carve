@@ -1,8 +1,8 @@
-= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
-x -> text.carve markup.highlight.carve markup.highlight.carve
-= -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
+= -> text.carve markup.changed.carve keyword.operator.highlight.carve
+x -> text.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.changed.carve keyword.operator.highlight.carve
  and  -> text.carve
-{= -> text.carve punctuation.definition.highlight.carve
-y -> text.carve markup.highlight.carve
-=} -> text.carve punctuation.definition.highlight.carve
+{= -> text.carve keyword.operator.highlight.carve
+y -> text.carve markup.changed.carve
+=} -> text.carve keyword.operator.highlight.carve
  both mark.\n -> text.carve
