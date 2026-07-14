@@ -1,4 +1,4 @@
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
   -> text.carve markup.raw.block.fenced.code.carve
 "src/Auth.php" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
@@ -6,5 +6,5 @@ php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.c
 [Composer] -> text.carve markup.raw.block.fenced.code.carve entity.name.label.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 composer require x\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

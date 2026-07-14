@@ -1,19 +1,19 @@
 [ -> text.carve meta.link.reference.carve
 x -> text.carve meta.link.reference.carve string.other.link.title.carve
 ][ -> text.carve meta.link.reference.carve
-y -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+y -> text.carve meta.link.reference.carve entity.name.reference.link.carve
 ] -> text.carve meta.link.reference.carve
 \n -> text.carve
 \n -> text.carve
-[y]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[y]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 /u -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
   -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 a\\ -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 b\\ -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 c -> text.carve
-" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve keyword.operator.smartquote.carve
 \n -> text.carve

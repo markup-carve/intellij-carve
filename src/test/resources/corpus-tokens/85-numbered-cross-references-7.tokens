@@ -1,10 +1,10 @@
-![ -> text.carve meta.image.inline.carve punctuation.definition.image.begin.carve
+![ -> text.carve meta.image.inline.carve keyword.operator.image.begin.carve
 price -> text.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve meta.image.inline.carve
 p.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
 \n -> text.carve
-^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
   -> text.carve markup.table.caption.carve
 Costs \\# units -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

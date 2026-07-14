@@ -1,15 +1,15 @@
 A note -> text.carve
-^[ -> text.carve punctuation.definition.footnote.carve
+^[ -> text.carve keyword.operator.footnote.carve
 see *later* -> text.carve string.other.footnote.inline.carve
-] -> text.carve punctuation.definition.footnote.carve
+] -> text.carve keyword.operator.footnote.carve
  inline. And a ref -> text.carve
-[ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-^ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-a -> text.carve constant.other.reference.footnote.carve constant.other.footnote.carve
-] -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 .\n -> text.carve
 \n -> text.carve
-[^a]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 reference -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
  body.\n -> text.carve

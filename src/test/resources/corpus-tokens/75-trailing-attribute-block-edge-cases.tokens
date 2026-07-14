@@ -1,6 +1,6 @@
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
 x -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve punctuation.definition.bold.carve
+* -> text.carve markup.bold.carve keyword.operator.bold.carve
 { -> text.carve meta.attributes.carve
 .real -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve

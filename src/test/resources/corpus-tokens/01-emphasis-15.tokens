@@ -1,15 +1,15 @@
 re -> text.carve
-{~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
-view -> text.carve markup.strikethrough.carve markup.strikethrough.carve
-~} -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+{~ -> text.carve markup.deleted.carve keyword.operator.strike.carve
+view -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.operator.strike.carve
  it, then  -> text.carve
-{~ -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
+{~ -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
 old -> text.carve markup.changed.critic.carve markup.deleted.carve
-~> -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
+~> -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
 new -> text.carve markup.changed.critic.carve markup.inserted.carve
-~} -> text.carve markup.changed.critic.carve punctuation.definition.critic.carve
+~} -> text.carve markup.changed.critic.carve keyword.operator.critic.carve
 , and  -> text.carve
-{= -> text.carve punctuation.definition.highlight.carve
-mark -> text.carve markup.highlight.carve
-=} -> text.carve punctuation.definition.highlight.carve
+{= -> text.carve keyword.operator.highlight.carve
+mark -> text.carve markup.changed.carve
+=} -> text.carve keyword.operator.highlight.carve
  it.\n -> text.carve

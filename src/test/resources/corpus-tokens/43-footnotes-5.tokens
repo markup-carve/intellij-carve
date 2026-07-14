@@ -1,16 +1,16 @@
 See -> text.carve
-[ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-^ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-m -> text.carve constant.other.reference.footnote.carve constant.other.footnote.carve
-] -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+m -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
  and again -> text.carve
-[ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-^ -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
-m -> text.carve constant.other.reference.footnote.carve constant.other.footnote.carve
-] -> text.carve constant.other.reference.footnote.carve punctuation.definition.footnote.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
+m -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 .\n -> text.carve
 \n -> text.carve
-[^m]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[^m]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 One -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
  note, two refs.\n -> text.carve

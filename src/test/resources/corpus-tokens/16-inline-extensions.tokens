@@ -1,7 +1,7 @@
 Press  -> text.carve
-: -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+: -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
 kbd -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
-[ -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+[ -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
 Ctrl+C -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
-] -> text.carve meta.extension.inline.carve punctuation.definition.extension.carve
+] -> text.carve meta.extension.inline.carve keyword.operator.extension.carve
  to copy.\n -> text.carve

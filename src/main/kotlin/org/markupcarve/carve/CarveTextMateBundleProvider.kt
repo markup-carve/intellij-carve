@@ -35,7 +35,7 @@ class CarveTextMateBundleProvider : TextMateBundleProvider {
     }
 
     private companion object {
-        const val BUNDLE_VERSION = "0.2.1"
+        const val BUNDLE_VERSION = "0.3.0"
         val BUNDLE_FILES = listOf(
             "package.json",
             "carve.tmLanguage.json",

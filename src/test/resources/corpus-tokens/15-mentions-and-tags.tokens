@@ -1,7 +1,7 @@
 Hey  -> text.carve
-@ -> text.carve constant.other.symbol.mention.carve punctuation.definition.mention.carve
-alice -> text.carve constant.other.symbol.mention.carve variable.other.mention.carve
+@ -> text.carve entity.name.mention.carve keyword.operator.mention.carve
+alice -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 , see  -> text.carve
-# -> text.carve constant.other.symbol.tag.carve punctuation.definition.tag.carve
-release-1 -> text.carve constant.other.symbol.tag.carve variable.other.tag.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+release-1 -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
 .0.\n -> text.carve

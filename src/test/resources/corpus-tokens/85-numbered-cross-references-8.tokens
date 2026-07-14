@@ -2,20 +2,20 @@
 #lst-greet -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 python -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 def greet():\n -> text.carve markup.raw.block.fenced.code.carve
     return 1\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
-^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
   -> text.carve markup.table.caption.carve
 Listing #: a greeting -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 See  -> text.carve
-</# -> text.carve punctuation.definition.link.begin.carve
+</# -> text.carve keyword.operator.link.begin.carve
 lst-greet -> text.carve markup.underline.link.cross-reference.carve
-> -> text.carve punctuation.definition.link.end.carve
+> -> text.carve keyword.operator.link.end.carve
 .\n -> text.carve

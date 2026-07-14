@@ -1,4 +1,4 @@
-< -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+< -> text.carve meta.link.autolink.carve keyword.operator.link.carve
 http://a.com/<script -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+> -> text.carve meta.link.autolink.carve keyword.operator.link.carve
 >\n -> text.carve

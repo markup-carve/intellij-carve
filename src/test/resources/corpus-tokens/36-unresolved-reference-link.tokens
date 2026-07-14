@@ -2,6 +2,6 @@ A  -> text.carve
 [ -> text.carve meta.link.reference.carve
 missing -> text.carve meta.link.reference.carve string.other.link.title.carve
 ][ -> text.carve meta.link.reference.carve
-nope -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+nope -> text.carve meta.link.reference.carve entity.name.reference.link.carve
 ] -> text.carve meta.link.reference.carve
  ref stays literal.\n -> text.carve

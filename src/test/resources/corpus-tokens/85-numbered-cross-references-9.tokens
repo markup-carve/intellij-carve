@@ -2,18 +2,18 @@
 #eq-emc -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-$$ -> text.carve markup.other.math.display.carve punctuation.definition.math.carve
-` -> text.carve markup.other.math.display.carve punctuation.definition.raw.carve
+$$ -> text.carve markup.other.math.display.carve keyword.operator.math.carve
+` -> text.carve markup.other.math.display.carve keyword.operator.raw.carve
 E = mc^2 -> text.carve markup.other.math.display.carve markup.other.math.content.carve
-` -> text.carve markup.other.math.display.carve punctuation.definition.raw.carve
+` -> text.carve markup.other.math.display.carve keyword.operator.raw.carve
 \n -> text.carve
-^ -> text.carve markup.table.caption.carve punctuation.definition.caption.carve
+^ -> text.carve markup.table.caption.carve keyword.operator.caption.carve
   -> text.carve markup.table.caption.carve
 Equation #: mass-energy -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
 \n -> text.carve
 See  -> text.carve
-</# -> text.carve punctuation.definition.link.begin.carve
+</# -> text.carve keyword.operator.link.begin.carve
 eq-emc -> text.carve markup.underline.link.cross-reference.carve
-> -> text.carve punctuation.definition.link.end.carve
+> -> text.carve keyword.operator.link.end.carve
 .\n -> text.carve

@@ -1,7 +1,7 @@
 Text -> text.carve
-^[ -> text.carve punctuation.definition.footnote.carve
+^[ -> text.carve keyword.operator.footnote.carve
 note -> text.carve string.other.footnote.inline.carve
-] -> text.carve punctuation.definition.footnote.carve
+] -> text.carve keyword.operator.footnote.carve
 { -> text.carve meta.attributes.carve
 .ref -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve

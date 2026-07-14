@@ -4,12 +4,12 @@ title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
 "attr title" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
   -> text.carve markup.other.div.carve
 note -> text.carve markup.other.div.carve entity.name.type.div.carve
   -> text.carve markup.other.div.carve
 "opener title" -> text.carve markup.other.div.carve string.quoted.double.carve
 \n -> text.carve markup.other.div.carve
 Body.\n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
 \n -> text.carve markup.other.div.carve

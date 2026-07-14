@@ -1,6 +1,6 @@
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 =html -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 <custom-el>Verbatim HTML</custom-el>\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

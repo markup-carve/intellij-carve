@@ -1,11 +1,11 @@
 [ -> text.carve meta.link.reference.carve
 r -> text.carve meta.link.reference.carve string.other.link.title.carve
 ][ -> text.carve meta.link.reference.carve
-r -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+r -> text.carve meta.link.reference.carve entity.name.reference.link.carve
 ] -> text.carve meta.link.reference.carve
 \n -> text.carve
 \n -> text.carve
-[r]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+[r]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 a -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
  b c\n -> text.carve

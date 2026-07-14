@@ -1,7 +1,7 @@
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
 \n -> text.carve markup.other.div.carve
 A plain box.\n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
 \n -> text.carve markup.other.div.carve
 \n -> text.carve
 { -> text.carve meta.attributes.carve
@@ -10,8 +10,8 @@ A plain box.\n -> text.carve
 .sidebar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
 \n -> text.carve markup.other.div.carve
 A div with attributes.\n -> text.carve
-::: -> text.carve markup.other.div.carve punctuation.definition.div.carve
+::: -> text.carve markup.other.div.carve keyword.operator.div.carve
 \n -> text.carve markup.other.div.carve

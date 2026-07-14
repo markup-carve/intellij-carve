@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Structural markers are highlighted instead of looking like literal text.** The `+` list
+  continuation, `::` / `:` definition lists, `:::` divs, list bullets, table pipes, fences and
+  every other delimiter were tokenized correctly but scoped under `markup.list.*` and
+  `punctuation.definition.*` - roots that IntelliJ's TextMate engine does not map to any
+  color, so they rendered as plain text. Re-scoped the markers onto roots IntelliJ actually
+  maps (`keyword.operator.*`, `entity.name.*`, `variable.parameter.*`), which takes the
+  grammar from 38 colored scopes to 103. A new test pins the rule so a new scope cannot
+  silently become invisible again.
+
 - **Live preview no longer fails to render on current IDE builds.** The bundled GraalJS
   (`org.graalvm.js:js:23.0.2`) shipped a Truffle runtime that calls
   `sun.misc.Unsafe.ensureClassInitialized`, a JDK-internal method removed in recent JDKs.

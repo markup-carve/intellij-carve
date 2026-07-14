@@ -1,8 +1,8 @@
-< -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+< -> text.carve meta.link.autolink.carve keyword.operator.link.carve
 https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+> -> text.carve meta.link.autolink.carve keyword.operator.link.carve
  and  -> text.carve
-< -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
+< -> text.carve meta.link.autolink.email.carve keyword.operator.link.carve
 a@b.com -> text.carve meta.link.autolink.email.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
+> -> text.carve meta.link.autolink.email.carve keyword.operator.link.carve
 \n -> text.carve

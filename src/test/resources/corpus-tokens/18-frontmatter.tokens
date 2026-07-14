@@ -1,9 +1,9 @@
---- -> text.carve meta.separator.thematic-break.carve punctuation.definition.thematic-break.carve
+--- -> text.carve meta.separator.thematic-break.carve keyword.operator.thematic-break.carve
 \n -> text.carve meta.separator.thematic-break.carve
 title: My Document\n -> text.carve
 author: Jane Doe\n -> text.carve
 date: 2026-03-15\n -> text.carve
---- -> text.carve meta.separator.thematic-break.carve punctuation.definition.thematic-break.carve
+--- -> text.carve meta.separator.thematic-break.carve keyword.operator.thematic-break.carve
 \n -> text.carve meta.separator.thematic-break.carve
 \n -> text.carve
 Content begins here.\n -> text.carve

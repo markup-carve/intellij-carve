@@ -1,9 +1,9 @@
 a -> text.carve
---- -> text.carve constant.character.typography.carve
+--- -> text.carve constant.character.entity.typography.carve
 - b -> text.carve
---- -> text.carve constant.character.typography.carve
--- -> text.carve constant.character.typography.carve
+--- -> text.carve constant.character.entity.typography.carve
+-- -> text.carve constant.character.entity.typography.carve
  c -> text.carve
---- -> text.carve constant.character.typography.carve
---- -> text.carve constant.character.typography.carve
+--- -> text.carve constant.character.entity.typography.carve
+--- -> text.carve constant.character.entity.typography.carve
 \n -> text.carve

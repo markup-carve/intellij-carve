@@ -1,8 +1,8 @@
-[ -> text.carve meta.span.inline.carve punctuation.definition.span.begin.carve
+[ -> text.carve meta.span.inline.carve keyword.operator.span.begin.carve
 x -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve punctuation.definition.span.end.carve
+] -> text.carve meta.span.inline.carve keyword.operator.span.end.carve
 {.123} and  -> text.carve
-[ -> text.carve meta.span.inline.carve punctuation.definition.span.begin.carve
+[ -> text.carve meta.span.inline.carve keyword.operator.span.begin.carve
 y -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve punctuation.definition.span.end.carve
+] -> text.carve meta.span.inline.carve keyword.operator.span.end.carve
 {12=v}\n -> text.carve

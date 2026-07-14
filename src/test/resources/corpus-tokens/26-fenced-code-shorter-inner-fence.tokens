@@ -1,7 +1,7 @@
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.begin.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 line\n -> text.carve markup.raw.block.fenced.code.carve
 ``\n -> text.carve markup.raw.block.fenced.code.carve
 still code\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.operator.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

@@ -1,9 +1,9 @@
 H -> text.carve
-{, -> text.carve punctuation.definition.subscript.carve
+{, -> text.carve keyword.operator.subscript.carve
 2 -> text.carve markup.subscript.carve
-,} -> text.carve punctuation.definition.subscript.carve
+,} -> text.carve keyword.operator.subscript.carve
 O and E=mc -> text.carve
-{^ -> text.carve punctuation.definition.superscript.carve
+{^ -> text.carve keyword.operator.superscript.carve
 2 -> text.carve markup.superscript.carve
-^} -> text.carve punctuation.definition.superscript.carve
+^} -> text.carve keyword.operator.superscript.carve
 \n -> text.carve

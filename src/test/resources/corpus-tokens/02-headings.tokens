@@ -1,12 +1,12 @@
-# -> text.carve markup.heading.carve punctuation.definition.heading.carve
+# -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 Welcome -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
-## -> text.carve markup.heading.carve punctuation.definition.heading.carve
+## -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 Getting started -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
-### -> text.carve markup.heading.carve punctuation.definition.heading.carve
+### -> text.carve markup.heading.carve keyword.operator.heading.carve
   -> text.carve markup.heading.carve
 Setup -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
