@@ -104,6 +104,23 @@ class CarveMarkerScannerTest {
     }
 
     @Test
+    fun malformedFenceOpenerDoesNotSuppressMarkersBelow() {
+        // `title="x"` is not valid fence info, so the line is not a fence and the heading
+        // below must still be coloured.
+        val text = "```js title=\"x\"\n# heading\n"
+        assertEquals(listOf("#" to CarveColors.HEADING_MARKER), covered(text))
+    }
+
+    @Test
+    fun pipeInsideInlineCodeIsNotATableSeparator() {
+        // The three outer pipes are separators; the one inside `a|b` is code content.
+        assertEquals(
+            List(3) { "|" to CarveColors.TABLE_PIPE },
+            covered("| `a|b` | c |\n"),
+        )
+    }
+
+    @Test
     fun headingInsideFenceIsNotColored() {
         val text = "# real heading\n\n```\n# fake\n```\n"
         val keys = CarveMarkerScanner.scan(text).map { it.key }

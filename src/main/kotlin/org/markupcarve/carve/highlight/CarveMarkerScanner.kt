@@ -16,6 +16,11 @@ object CarveMarkerScanner {
     data class Span(val range: TextRange, val key: TextAttributesKey)
 
     private val FENCE = Regex("""^(\s*)(`{3,}|~{3,})""")
+    // A valid opener: fence run, then an optional lang word, optional "title", optional [attrs].
+    // Anything else (e.g. ```js title="x") is not a fence line, so it must not toggle fence state.
+    private val FENCE_OPEN_INFO = Regex("""^\s*(`{3,}|~{3,})\s*=?[A-Za-z0-9_-]*\s*("[^"\n]*")?\s*(\[[^\]\n]*\])?\s*$""")
+    // A closer is a bare fence run on its own line.
+    private val FENCE_CLOSE = Regex("""^\s*(`{3,}|~{3,})\s*$""")
     private val HEADING = Regex("""^(#{1,6})(?=\s|$)""")
     private val QUOTE = Regex("""^\s*(>+)""")
     private val DIV = Regex("""^\s*(:{3,})""")
@@ -45,15 +50,20 @@ object CarveMarkerScanner {
                 val marker = fence.groupValues[2]
                 val g = fence.groups[2]!!
                 if (!inFence) {
-                    spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
-                    inFence = true; fenceChar = marker[0]; fenceLen = marker.length
-                } else if (marker[0] == fenceChar && marker.length >= fenceLen) {
-                    // A same-char run at least as long as the opener closes the block; a shorter
-                    // run is code content, so only the real closer is a fence marker.
+                    // Only a well-formed opener starts a fenced block; a malformed one
+                    // (```js title="x") is prose and must not suppress markers below it.
+                    if (FENCE_OPEN_INFO.matches(line)) {
+                        spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
+                        inFence = true; fenceChar = marker[0]; fenceLen = marker.length
+                        continue
+                    }
+                } else if (FENCE_CLOSE.matches(line) && marker[0] == fenceChar && marker.length >= fenceLen) {
+                    // A bare same-char run at least as long as the opener closes the block; a
+                    // shorter run, or one with trailing content, is code - not a closer.
                     spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
                     inFence = false; fenceChar = null; fenceLen = 0
+                    continue
                 }
-                continue
             }
             if (inFence) continue
 
@@ -72,9 +82,11 @@ object CarveMarkerScanner {
             ORDERED.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
 
             // Table pipes: only on a line shaped like a table row (leading/trailing pipe, or a
-            // `+ ... |` continuation), so a stray `|` in prose is left alone.
+            // `+ ... |` continuation), and never a `|` inside an inline `code` span - that pipe
+            // is cell content and belongs to TextMate's code colour.
             if (TABLE_ROW.containsMatchIn(line)) {
                 for (m in PIPE.findAll(line)) {
+                    if (insideInlineCode(line, m.range.first)) continue
                     spans += Span(TextRange(lineStart + m.range.first, lineStart + m.range.first + 1), CarveColors.TABLE_PIPE)
                 }
             }
@@ -85,6 +97,13 @@ object CarveMarkerScanner {
 
     private fun range(lineStart: Int, r: IntRange): TextRange =
         TextRange(lineStart + r.first, lineStart + r.last + 1)
+
+    /** True when [index] on [line] falls inside a backtick inline-code span. */
+    private fun insideInlineCode(line: String, index: Int): Boolean {
+        var inCode = false
+        for (i in 0 until index) if (line[i] == '`') inCode = !inCode
+        return inCode
+    }
 
     /** Splits into (lineText, absoluteStartOffset) pairs; newline handling is `\n`-based. */
     private fun splitKeepingOffsets(text: String): List<Pair<String, Int>> {
