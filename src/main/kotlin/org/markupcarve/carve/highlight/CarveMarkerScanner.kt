@@ -20,14 +20,20 @@ object CarveMarkerScanner {
     private val QUOTE = Regex("""^\s*(>+)""")
     private val DIV = Regex("""^\s*(:{3,})""")
     private val BULLET = Regex("""^(\s*)([-*])(?=\s)""")
-    private val ORDERED = Regex("""^(\s*)(\(?[0-9A-Za-z][.)])(?=\s)""")
-    private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s|$|.*\|)""")
+    // Multi-digit / multi-letter ordered markers: `10.`, `iv)`, `a)` - as the grammar allows.
+    private val ORDERED = Regex("""^(\s*)(\(?[0-9]+[.)]|\(?[A-Za-z]+[.)])(?=\s)""")
+    // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
+    private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
+    // A table row starts or ends with a pipe (standard leading/trailing `|`), or is a `+ ... |`
+    // continuation row. Prose like `choose a | b | c` matches none of these.
+    private val TABLE_ROW = Regex("""^\s*(\||\+.*\|)|\|\s*$""")
 
     fun scan(text: String): List<Span> {
         val spans = ArrayList<Span>()
         var inFence = false
-        var fenceMarker: String? = null
+        var fenceChar: Char? = null
+        var fenceLen = 0
 
         for (rawLine in splitKeepingOffsets(text)) {
             val (line, lineStart) = rawLine
@@ -36,11 +42,14 @@ object CarveMarkerScanner {
             if (fence != null) {
                 val marker = fence.groupValues[2]
                 val g = fence.groups[2]!!
-                spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
                 if (!inFence) {
-                    inFence = true; fenceMarker = marker.take(1)
-                } else if (fenceMarker != null && marker.startsWith(fenceMarker!!)) {
-                    inFence = false; fenceMarker = null
+                    spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
+                    inFence = true; fenceChar = marker[0]; fenceLen = marker.length
+                } else if (marker[0] == fenceChar && marker.length >= fenceLen) {
+                    // A same-char run at least as long as the opener closes the block; a shorter
+                    // run is code content, so only the real closer is a fence marker.
+                    spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
+                    inFence = false; fenceChar = null; fenceLen = 0
                 }
                 continue
             }
@@ -53,11 +62,12 @@ object CarveMarkerScanner {
             BULLET.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
             ORDERED.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
 
-            // Table pipes: only when the line carries at least two (a real row), to avoid
-            // colouring a stray `|` in prose.
-            val pipes = PIPE.findAll(line).toList()
-            if (pipes.size >= 2) {
-                for (m in pipes) spans += Span(TextRange(lineStart + m.range.first, lineStart + m.range.first + 1), CarveColors.TABLE_PIPE)
+            // Table pipes: only on a line shaped like a table row (leading/trailing pipe, or a
+            // `+ ... |` continuation), so a stray `|` in prose is left alone.
+            if (TABLE_ROW.containsMatchIn(line)) {
+                for (m in PIPE.findAll(line)) {
+                    spans += Span(TextRange(lineStart + m.range.first, lineStart + m.range.first + 1), CarveColors.TABLE_PIPE)
+                }
             }
 
         }

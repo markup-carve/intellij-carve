@@ -27,7 +27,8 @@ class CarveMarkerScannerTest {
 
     @Test
     fun continuationIsNotABullet() {
-        assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+ more\n"))
+        // A lone `+` is a continuation, not a list bullet (bullets are `-` / `*`).
+        assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
     }
 
     @Test
@@ -52,6 +53,41 @@ class CarveMarkerScannerTest {
         val spans = covered(text)
         // Two fence markers, nothing from the body (no heading marker for the `#` inside).
         assertEquals(listOf("```" to CarveColors.FENCE_MARKER, "```" to CarveColors.FENCE_MARKER), spans)
+    }
+
+    @Test
+    fun plusFollowedByProseIsNotAContinuation() {
+        // Only a lone `+` line, or a `+ ... |` table row, is a continuation.
+        assertTrue(scan("+ not a continuation\n").isEmpty())
+        assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
+        assertEquals(
+            listOf("+" to CarveColors.CONTINUATION_MARKER, "|" to CarveColors.TABLE_PIPE),
+            covered("+ x |\n"),
+        )
+    }
+
+    @Test
+    fun multiDigitAndLetterOrderedMarkers() {
+        assertEquals(listOf("10." to CarveColors.LIST_MARKER), covered("10. item\n"))
+        assertEquals(listOf("iv)" to CarveColors.LIST_MARKER), covered("iv) item\n"))
+    }
+
+    @Test
+    fun prosePipesAreNotTableSeparators() {
+        assertTrue(scan("choose a | b | c here\n").isEmpty())
+        // A real row (leading + trailing pipe) is coloured.
+        assertEquals(
+            List(3) { "|" to CarveColors.TABLE_PIPE },
+            covered("| a | b |\n"),
+        )
+    }
+
+    @Test
+    fun shorterFenceRunInsideLongerBlockIsCodeNotACloser() {
+        // Opener ```` (4). An inner ``` (3) is code content, not a closer.
+        val text = "````\n```\n# still code\n````\n"
+        val keys = CarveMarkerScanner.scan(text).map { it.key }
+        assertEquals(listOf(CarveColors.FENCE_MARKER, CarveColors.FENCE_MARKER), keys)
     }
 
     @Test
