@@ -3,18 +3,24 @@ package org.markupcarve.carve.preview
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.colors.EditorColorsListener
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
+import com.intellij.openapi.editor.event.VisibleAreaListener
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.jcef.JBCefBrowser
 import com.intellij.util.messages.MessageBusConnection
+import org.cef.browser.CefBrowser
+import org.cef.browser.CefFrame
+import org.cef.handler.CefLoadHandlerAdapter
 import org.markupcarve.carve.CarveConverter
 import org.markupcarve.carve.settings.CarveSettings
 import java.awt.BorderLayout
+import java.awt.Point
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
@@ -45,8 +51,54 @@ class CarvePreviewPanel(
         override fun documentChanged(event: DocumentEvent) = scheduleUpdate()
     }
 
+    /** Last line pushed to the preview, so an unchanged scroll does not re-run JS. */
+    private var lastSyncedLine = -1
+
+    /**
+     * `loadHTML` is asynchronous, so `initialized` only means "we asked the browser to load" -
+     * `window.carveScrollToLine` may not exist yet. Scrolling is therefore gated on the CEF
+     * load-end callback instead; otherwise the first sync silently no-ops while still being
+     * cached, and the preview sits unsynced until the editor moves to a different line.
+     */
+    @Volatile
+    private var pageReady = false
+
+    /**
+     * Scrolls the preview in step with the editor.
+     *
+     * The multicaster fires for every editor, so only events for *this* file's document are
+     * acted on. The editor's top visible line maps onto the nearest preceding
+     * `data-source-line` anchor in the rendered HTML (stamped by carve-js when
+     * `sourceLine` is on). One-way, editor -> preview: syncing back would need a scroll
+     * listener on the browser and risks a feedback loop for no real gain.
+     */
+    private val visibleAreaListener = VisibleAreaListener { event ->
+        val editor = event.editor
+        if (editor.document != FileDocumentManager.getInstance().getDocument(file)) {
+            return@VisibleAreaListener
+        }
+        scrollPreviewToLine(topVisibleLine(editor))
+    }
+
+    /** Editor's top visible line, 1-based to match `data-source-line`. */
+    private fun topVisibleLine(editor: com.intellij.openapi.editor.Editor): Int =
+        editor.xyToLogicalPosition(Point(0, editor.scrollingModel.visibleArea.y)).line + 1
+
     init {
         panel.add(browser.component, BorderLayout.CENTER)
+
+        // The page is only scrollable once its script has actually run.
+        browser.jbCefClient.addLoadHandler(
+            object : CefLoadHandlerAdapter() {
+                override fun onLoadEnd(cefBrowser: CefBrowser?, frame: CefFrame?, httpStatusCode: Int) {
+                    if (frame?.isMain == false) return
+                    pageReady = true
+                    lastSyncedLine = -1 // fresh page: nothing has been synced to it yet
+                    ApplicationManager.getApplication().invokeLater { syncFromEditor() }
+                }
+            },
+            browser.cefBrowser,
+        )
 
         updateTimer = Timer(300) {
             if (updatePending.getAndSet(false)) {
@@ -64,7 +116,38 @@ class CarvePreviewPanel(
             EditorColorsListener { updateTheme() },
         )
 
+        EditorFactory.getInstance().eventMulticaster
+            .addVisibleAreaListener(visibleAreaListener, this)
+
         loadPreviewShell()
+    }
+
+    /**
+     * Deliberately caches [lastSyncedLine] only *after* the call actually dispatches. Caching
+     * it while the shell is still loading would swallow the first real sync: the JS never ran,
+     * yet a later event for the same line would be deduped away and the preview would sit
+     * unsynced until the editor happened to move to a different line.
+     */
+    private fun scrollPreviewToLine(line: Int) {
+        if (!pageReady) return
+        if (line == lastSyncedLine) return
+        lastSyncedLine = line
+        browser.cefBrowser.executeJavaScript(
+            "window.carveScrollToLine && window.carveScrollToLine($line);",
+            browser.cefBrowser.url,
+            0,
+        )
+    }
+
+    /**
+     * Aligns the preview with the editor once the shell is up - the preview can be opened on a
+     * document that is already scrolled, and no visible-area event fires for a viewport that
+     * never moves.
+     */
+    private fun syncFromEditor() {
+        val document = FileDocumentManager.getInstance().getDocument(file) ?: return
+        val editor = EditorFactory.getInstance().getEditors(document, project).firstOrNull() ?: return
+        scrollPreviewToLine(topVisibleLine(editor))
     }
 
     val component: JComponent get() = panel
@@ -120,11 +203,12 @@ class CarvePreviewPanel(
         val content = readDocumentText() ?: ""
         val isDark = isDarkTheme()
         ApplicationManager.getApplication().executeOnPooledThread {
-            val html = CarveConverter.toHtml(content, project)
+            val html = CarveConverter.toHtml(content, project, sourceLine = true)
             val css = userCss()
             ApplicationManager.getApplication().invokeLater {
                 // Load with the file's directory as the document URL so relative image
                 // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
+                pageReady = false
                 val baseUrl = file.parent?.let { "file://${it.path}/preview.html" }
                 if (baseUrl != null) {
                     browser.loadHTML(createPreviewHtml(html, isDark, css), baseUrl)
@@ -168,7 +252,7 @@ class CarvePreviewPanel(
         ApplicationManager.getApplication().executeOnPooledThread {
             val content = readDocumentText()
                 ?: return@executeOnPooledThread
-            val html = CarveConverter.toHtml(content, project)
+            val html = CarveConverter.toHtml(content, project, sourceLine = true)
             val escaped = escapeForJs(html)
             ApplicationManager.getApplication().invokeLater {
                 browser.cefBrowser.executeJavaScript(
@@ -176,6 +260,12 @@ class CarvePreviewPanel(
                     browser.cefBrowser.url,
                     0,
                 )
+                // The swap replaces every anchor and can change the height of content above the
+                // viewport, so the browser's old pixel offset no longer means the same line.
+                // Drop the dedupe and re-align, otherwise an edit that leaves the editor's top
+                // line unchanged would leave the preview stale until the user scrolls elsewhere.
+                lastSyncedLine = -1
+                syncFromEditor()
             }
         }
     }
@@ -505,6 +595,28 @@ class CarvePreviewPanel(
         }
 
         function root() { return document.getElementById('content'); }
+
+        // Scroll sync: carve-js stamps every top-level block with data-source-line (1-based),
+        // so we scroll to the last block that starts at or before the editor's top visible
+        // line. Called from the editor's VisibleAreaListener. A no-op when the markup has no
+        // anchors (e.g. the carve-php renderer, which cannot emit them).
+        window.carveScrollToLine = function (line) {
+            var nodes = root().querySelectorAll('[data-source-line]');
+            if (!nodes.length) return;
+            var target = null;
+            for (var i = 0; i < nodes.length; i++) {
+                if (parseInt(nodes[i].getAttribute('data-source-line'), 10) <= line) {
+                    target = nodes[i];
+                } else {
+                    break;
+                }
+            }
+            if (target) {
+                target.scrollIntoView({ block: 'start' });
+            } else {
+                window.scrollTo(0, 0);
+            }
+        };
 
         function hydrate() {
             tagCodeBlocks();

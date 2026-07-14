@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3] - 2026-07-14
 
+### Added
+
+- **The preview scrolls in step with the editor.** carve-js stamps each top-level block with
+  `data-source-line`, and the preview jumps to the nearest preceding anchor as the editor's
+  visible area moves. One-way (editor to preview) - syncing back would need a browser scroll
+  listener and risks a feedback loop. Anchors are preview-only, so HTML export stays clean;
+  with the carve-php renderer (which cannot emit them) the preview simply does not scroll.
+
 ### Fixed
 
 - **Structural markers are highlighted instead of looking like literal text.** The `+` list
