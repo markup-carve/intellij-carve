@@ -1,10 +1,10 @@
 :: -> text.carve keyword.operator.list.begin.carve
   -> text.carve
-color -> text.carve keyword.operator.list.definition.term.carve
+color -> text.carve entity.name.tag.definition.term.carve
 \n -> text.carve
 :: -> text.carve keyword.operator.list.begin.carve
   -> text.carve
-colour -> text.carve keyword.operator.list.definition.term.carve
+colour -> text.carve entity.name.tag.definition.term.carve
 \n -> text.carve
 : -> text.carve markup.list.definition.carve keyword.operator.list.begin.carve
    -> text.carve markup.list.definition.carve

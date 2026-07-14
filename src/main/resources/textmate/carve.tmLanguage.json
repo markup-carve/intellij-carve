@@ -405,7 +405,7 @@
               "name": "keyword.operator.list.begin.carve"
             },
             "4": {
-              "name": "keyword.operator.list.definition.term.carve"
+              "name": "entity.name.tag.definition.term.carve"
             }
           }
         },
