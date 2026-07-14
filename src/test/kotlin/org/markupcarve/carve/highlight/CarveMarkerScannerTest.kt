@@ -68,12 +68,12 @@ class CarveMarkerScannerTest {
 
     @Test
     fun orderedMarkerForms() {
-        // Digits or letters (roman included), with `.` or `)`.
+        // Digit run or single letter, with `.` or `)`.
         assertEquals(listOf("10." to CarveColors.LIST_MARKER), covered("10. item\n"))
         assertEquals(listOf("1)" to CarveColors.LIST_MARKER), covered("1) item\n"))
-        assertEquals(listOf("iv)" to CarveColors.LIST_MARKER), covered("iv) item\n"))
         assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a. item\n"))
-        // A parenthesized counter is prose, not a marker.
+        // Prose must not be recoloured: a multi-letter word, or a parenthesized counter.
+        assertTrue(scan("Note. This is prose\n").isEmpty())
         assertTrue(scan("(1) explain\n").isEmpty())
     }
 

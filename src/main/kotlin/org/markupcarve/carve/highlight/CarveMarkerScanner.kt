@@ -26,9 +26,11 @@ object CarveMarkerScanner {
     private val DIV = Regex("""^\s*(:{3,})""")
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
     private val BULLET = Regex("""^(\s*)([-*](?:\s+[-*])*)(?=\s)""")
-    // Ordered markers the spec recognizes: digits or letters (roman included), then `.` or `)`
-    // - `1.`, `10.`, `1)`, `a.`, `iv)`. A parenthesized `(1)` is prose and must stay literal.
-    private val ORDERED = Regex("""^(\s*)([0-9]+[.)]|[A-Za-z]+[.)])(?=\s)""")
+    // Ordered markers: a digit run or a single letter, then `.` or `)` - `1.`, `10.`, `1)`,
+    // `a.`, `b)`. A multi-letter word (`Note.`) is prose, and a parenthesized `(1)` is not a
+    // marker; both stay literal. (A single letter matches the reference lexer; multi-letter
+    // alpha/roman lists are rejected to avoid recolouring ordinary "Word." sentence starts.)
+    private val ORDERED = Regex("""^(\s*)([0-9]+[.)]|[A-Za-z][.)])(?=\s)""")
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
