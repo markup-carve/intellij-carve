@@ -16,12 +16,18 @@
             <description>Carve markup language server (diagnostics, completion, folding, outline, code actions).</description>
         </server>
         <!--
-          Map by FILE TYPE, not by language. Carve files are highlighted through the
+          Bind the server to .crv files by FILE NAME, and by FILE TYPE as a backup.
+          NOT by <languageMapping language="Carve">: Carve files are highlighted through the
           TextMate engine and have no PSI ParserDefinition, so their PSI language is not
-          "Carve" - a <languageMapping language="Carve"> therefore never matches and lsp4ij
-          reports "no file type mapping configured", leaving the server inactive. The file
-          type ("Carve", from CarveFileType) is unambiguous and needs no PSI, so it matches.
+          resolved as "Carve", the language mapping never matches, and lsp4ij reports
+          "no file type mapping configured" - leaving the server inactive (no diagnostics,
+          completion, ...). The file-name pattern matches purely on the name, independent of
+          file type / language / PSI, so it cannot be shadowed; the file-type mapping is a
+          redundant second route via CarveFileType (name "Carve").
         -->
+        <fileNamePatternMapping patterns="*.crv"
+                                serverId="carveLanguageServer"
+                                languageId="carve"/>
         <fileTypeMapping fileType="Carve"
                          serverId="carveLanguageServer"
                          languageId="carve"/>
