@@ -1,7 +1,7 @@
 Text -> text.carve
 [ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 ^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
-a -> text.carve entity.name.reference.footnote.carve constant.numeric.footnote.carve
+a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
 ] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 { -> text.carve meta.attributes.carve
 .ref -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve

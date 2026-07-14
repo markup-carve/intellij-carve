@@ -1,7 +1,7 @@
 Carve has footnotes. -> text.carve
 [ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 ^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
-fn -> text.carve entity.name.reference.footnote.carve constant.numeric.footnote.carve
+fn -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
 ] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 \n -> text.carve
 \n -> text.carve

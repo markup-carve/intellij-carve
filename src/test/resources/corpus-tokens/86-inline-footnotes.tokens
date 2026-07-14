@@ -5,7 +5,7 @@ see *later* -> text.carve string.other.footnote.inline.carve
  inline. And a ref -> text.carve
 [ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 ^ -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
-a -> text.carve entity.name.reference.footnote.carve constant.numeric.footnote.carve
+a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
 ] -> text.carve entity.name.reference.footnote.carve keyword.operator.footnote.carve
 .\n -> text.carve
 \n -> text.carve

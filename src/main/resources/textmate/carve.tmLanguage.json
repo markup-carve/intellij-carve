@@ -605,7 +605,7 @@
               "name": "keyword.operator.footnote.carve"
             },
             "3": {
-              "name": "constant.numeric.footnote.carve"
+              "name": "variable.parameter.footnote.carve"
             },
             "4": {
               "name": "keyword.operator.footnote.carve"
@@ -620,7 +620,7 @@
         {
           "name": "entity.name.citation.carve",
           "comment": "Match the whole citation bracket [+?...@key...] that is NOT followed by (, [, or { (which would make it a link, ref-link, or span). A lookahead for @ inside the brackets discriminates from plain spans and footnote refs.",
-          "begin": "(?<!!)(?<![\\\\])(\\[)(\\+)?(?=[^\\]\\n]*@[A-Za-z0-9_])",
+          "begin": "(?<!!)(?<![\\\\])(\\[)(\\+)?(?=[^\\]\\n]*@[A-Za-z0-9_][^\\]\\n]*\\](?!\\(|\\[|\\{))",
           "beginCaptures": {
             "1": {
               "name": "keyword.operator.citation.begin.carve"
