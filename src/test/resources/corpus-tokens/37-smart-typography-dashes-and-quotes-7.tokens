@@ -1,0 +1,9 @@
+a -> text.carve
+--- -> text.carve constant.character.typography.carve
+- b -> text.carve
+--- -> text.carve constant.character.typography.carve
+-- -> text.carve constant.character.typography.carve
+ c -> text.carve
+--- -> text.carve constant.character.typography.carve
+--- -> text.carve constant.character.typography.carve
+\n -> text.carve

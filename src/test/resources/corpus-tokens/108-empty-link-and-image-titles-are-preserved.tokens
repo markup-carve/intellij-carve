@@ -1,0 +1,4 @@
+[x](u  -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve punctuation.definition.smartquote.carve
+)\n -> text.carve

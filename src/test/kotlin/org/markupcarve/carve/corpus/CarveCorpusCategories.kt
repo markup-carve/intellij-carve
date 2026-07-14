@@ -100,6 +100,17 @@ object CarveCorpusCategories {
         "100-block-quote-continuation-marker",
         "101-heading-marker-column-zero",
         "83-list-continuation-marker",
+        "103-marker-line-nested-lists",
+        "107-link-destination-stops-at-the-first-parenthesis",
+        "108-empty-link-and-image-titles-are-preserved",
+        "110-unquoted-attribute-values-may-contain-dots-and-colons",
+        "112-adjacent-attribute-blocks-on-one-line-merge",
+        "120-footnotes-placement",
+        "122-code-span-and-image-trailing-attributes-are-strict",
+        "123-a-bare-attribute-block-on-its-own-line-is-literal",
+        "124-a-backslash-in-a-link-destination-is-a-literal-character",
+        "125-autolink-display-keeps-the-raw-content",
+        "126-editorial-markup-takes-a-trailing-attribute",
     )
 
     /**
@@ -165,6 +176,32 @@ object CarveCorpusCategories {
             "Paragraph-interruption by an abbreviation definition is a parser block-boundary behavior; the abbreviation-definition scope is covered by category 14.",
         "102-paragraph-trailing-whitespace" to
             "Trailing-whitespace stripping is a render-time normalization with no token-level highlight; the text carries only the root scope.",
+        "104-blocked-span-marker-renders-as-empty-cell" to
+            "Whether a blocked `^`/`<` span marker collapses to an empty cell is render-time cell merging; both marker scopes are covered by category 10.",
+        "105-colspan-marker-scans-left-past-a-consumed-cell" to
+            "Colspan target resolution across consumed cells is render-time cell merging; the `<` marker scope is covered by category 10.",
+        "106-security-hardening" to
+            "URL-scheme and attribute sanitization is a render-time security behavior; the grammar has no notion of a blocked scheme and highlights link, autolink and attribute syntax identically either way (categories 03/17/59).",
+        "109-cross-references-resolve-inside-footnote-bodies" to
+            "Cross-reference resolution inside a footnote body is a document-level link-resolution behavior; the crossref and footnote scopes are covered by categories 58 and 43.",
+        "111-a-pipe-pair-with-no-cell-is-not-a-table" to
+            "Rejecting a lone `||` as a table needs the block parser's delimiter-row lookahead; a line/regex grammar cannot make that decision, so there is no meaningful token stream to pin.",
+        "113-a-continuation-row-needs-a-body-row" to
+            "Requiring a body row before a `+` continuation row is a block-parser precondition; the continuation marker scope is covered by categories 83/100.",
+        "114-fence-opener-with-a-nested-list-body-inside-a-list-item" to
+            "Container-in-list-item nesting and fence-close matching are block-parser behaviors; the div opener/closer and list marker scopes are covered by categories 44 and 05.",
+        "115-footnote-definition-inside-a-container-is-collected" to
+            "Hoisting a footnote definition out of a container is a document-collection behavior; the footnote definition scope is covered by category 43.",
+        "116-cyclic-cross-reference-resolves-to-one-level" to
+            "Cycle breaking in cross-reference resolution is a render-time guard; the crossref scope is covered by category 58.",
+        "117-trojan-source-heading-ids-are-nfc-normalized-and-strip-invisible-controls" to
+            "Heading-id derivation (NFC normalization, invisible-control stripping) is render-time; the heading scopes are covered by categories 02/19.",
+        "118-trojan-source-rendered-text-and-code-strip-bidi-override-controls" to
+            "Bidi-override stripping happens on rendered output; the invisible controls carry no token scope of their own and inline code is covered by category 12.",
+        "119-scheme-probe-strips-unicode-whitespace" to
+            "Unicode-whitespace stripping before the scheme probe is render-time sanitization; the reference definition and reference link scopes are covered by categories 34-36.",
+        "121-classes-are-deduplicated" to
+            "Class deduplication happens when attributes are applied at render time; the attribute scopes are covered by categories 17/64.",
     )
 
     /**

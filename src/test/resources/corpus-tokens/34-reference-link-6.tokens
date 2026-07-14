@@ -1,0 +1,15 @@
+[ -> text.carve meta.link.reference.carve
+r -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+r -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+] -> text.carve meta.link.reference.carve
+\n -> text.carve
+\n -> text.carve
+[r]: -> text.carve meta.link.reference.definition.carve constant.other.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+/url -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+Title -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve

@@ -1,9 +1,31 @@
+} -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+) -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+] -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+. -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+, -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+q -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
 a -> text.carve
---- -> text.carve constant.character.typography.carve
-- b -> text.carve
---- -> text.carve constant.character.typography.carve
--- -> text.carve constant.character.typography.carve
- c -> text.carve
---- -> text.carve constant.character.typography.carve
---- -> text.carve constant.character.typography.carve
+" -> text.carve punctuation.definition.smartquote.carve
+b\n -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+" -> text.carve punctuation.definition.smartquote.carve
 \n -> text.carve

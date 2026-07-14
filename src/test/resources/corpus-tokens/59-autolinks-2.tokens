@@ -1,0 +1,4 @@
+< -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+http://a.com/<script -> text.carve meta.link.autolink.carve markup.underline.link.carve
+> -> text.carve meta.link.autolink.carve punctuation.definition.link.carve
+>\n -> text.carve

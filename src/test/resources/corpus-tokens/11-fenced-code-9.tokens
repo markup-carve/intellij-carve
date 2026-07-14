@@ -1,6 +1,8 @@
 ``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+js -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+  -> text.carve markup.raw.block.fenced.code.carve
+"*.config.js" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
-# not a heading\n -> text.carve markup.raw.block.fenced.code.carve
-/not italic/  *not bold*  #notatag\n -> text.carve markup.raw.block.fenced.code.carve
+export default {}\n -> text.carve markup.raw.block.fenced.code.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

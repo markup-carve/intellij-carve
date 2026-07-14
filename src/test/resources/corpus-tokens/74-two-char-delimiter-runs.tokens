@@ -1,5 +1,9 @@
-==x== ,,y,,  -> text.carve
+==x== ~~y~~  -> text.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
 z -> text.carve markup.highlight.carve markup.highlight.carve
 = -> text.carve markup.highlight.carve punctuation.definition.highlight.carve
- ,w,\n -> text.carve
+  -> text.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+w -> text.carve markup.strikethrough.carve markup.strikethrough.carve
+~ -> text.carve markup.strikethrough.carve punctuation.definition.strike.carve
+\n -> text.carve

@@ -1,0 +1,6 @@
+('q')\n -> text.carve
+['q']\n -> text.carve
+='q'\n -> text.carve
+:'q'\n -> text.carve
+-'q'\n -> text.carve
+/'q'\n -> text.carve

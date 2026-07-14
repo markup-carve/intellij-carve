@@ -1,0 +1,11 @@
+- -> text.carve markup.list.unnumbered.carve punctuation.definition.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[ref]: /url\n -> text.carve
+\n -> text.carve
+See  -> text.carve
+[ -> text.carve meta.link.reference.carve
+it -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+ref -> text.carve meta.link.reference.carve constant.other.reference.link.carve
+] -> text.carve meta.link.reference.carve
+.\n -> text.carve

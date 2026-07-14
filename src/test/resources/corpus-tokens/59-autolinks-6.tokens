@@ -1,0 +1,5 @@
+<a@b>  -> text.carve
+< -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
+a@b.com -> text.carve meta.link.autolink.email.carve markup.underline.link.carve
+> -> text.carve meta.link.autolink.email.carve punctuation.definition.link.carve
+ <x@y:z>\n -> text.carve

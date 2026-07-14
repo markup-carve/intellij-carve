@@ -1,0 +1,6 @@
+~~~ -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+yaml -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+key: value\n -> text.carve markup.raw.block.fenced.code.carve
+~~~ -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve

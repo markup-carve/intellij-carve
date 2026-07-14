@@ -1,0 +1,8 @@
+```js title= -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+x -> text.carve
+" -> text.carve punctuation.definition.smartquote.carve
+\n -> text.carve
+code\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve punctuation.definition.raw.begin.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
