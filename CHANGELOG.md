@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Distinct, customizable colours for structural markers, with a Color Scheme page.** TextMate
+  gave every marker (`#`, `-`, `+`, `:::`, `|`, `>`, code fences) the same keyword colour. A new
+  annotator now colours each one differently - each default drawn from a semantic scheme colour so
+  it matches the active theme (a fence marker takes the code/string colour, and so on) - and every
+  colour is editable in Settings | Editor | Color Scheme | Carve. Code, strings, comments, emphasis
+  and links are left to TextMate, so files still look familiar.
+
+### Added
+
 - **The preview scrolls in step with the editor.** carve-js stamps each top-level block with
   `data-source-line`, and the preview jumps to the nearest preceding anchor as the editor's
   visible area moves. One-way (editor to preview) - syncing back would need a browser scroll
