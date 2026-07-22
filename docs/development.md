@@ -83,12 +83,29 @@ it manually with `./gradlew runIde` (see the checklist in the PR / below).
 
 Editor syntax highlighting uses the TextMate bundle in
 `src/main/resources/textmate/`. The grammar (`carve.tmLanguage.json`) is
-committed and shared with [vscode-carve](https://github.com/markup-carve/vscode-carve)
-(scope `text.carve`). To refresh it to the latest upstream version:
+committed here and is *related to* - but deliberately not identical to -
+[vscode-carve](https://github.com/markup-carve/vscode-carve)'s copy (scope
+`text.carve`).
+
+Two differences are by design:
+
+1. **Scope names.** This plugin uses `keyword.control.*` where vscode-carve uses
+   `punctuation.definition.*`, because the IDE's TextMate bridge colours
+   `keyword.control.*` out of the box. Suffixes are kept identical.
+2. **Plugin-only rules.** `cross-reference`, `hard-break` and `thematic-break`
+   are highlighted here and not upstream.
+
+Because of that, the grammar must **never** be overwritten with the upstream
+file - doing so would rewrite every scope name and delete the plugin-only rules.
+Port upstream changes by hand. To see what currently differs:
 
 ```bash
-gradle downloadGrammar   # overwrites the committed grammar; commit the result
+gradle checkGrammarDrift   # read-only; never edits the grammar
 ```
+
+It reports three categories - plugin-only rules (expected), structurally
+diverged shared rules (human judgement), and upstream-only rules (features this
+plugin is missing) - and fails only on the last, actionable category.
 
 ## Shared-corpus highlighter conformance
 

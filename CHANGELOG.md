@@ -16,6 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   rules, like inline code, which are line-bounded and cannot leak.
 - Table cells now highlight raw inline, inline literals and math, which were
   missing from the cell pattern list.
+- **The `downloadGrammar` task no longer destroys the committed grammar.** It
+  streamed vscode-carve's grammar straight over `carve.tmLanguage.json`, but the
+  two copies deliberately diverge: running it rewrote all 111 `keyword.control.*`
+  scope names to `punctuation.definition.*`, deleted the three plugin-only rules
+  (`cross-reference`, `hard-break`, `thematic-break`) and clobbered 13 of the 28
+  shared rules. It is replaced by a read-only `checkGrammarDrift` task that
+  normalizes the scope-name convention, reports plugin-only, diverged and
+  upstream-only rules separately, and fails only on the actionable last category.
+  `downloadGrammar` remains as an alias for the safe check. The intended deltas
+  are documented in `build.gradle.kts` and `docs/development.md`.
 
 ### Added
 

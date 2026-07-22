@@ -86,25 +86,150 @@ val textmateDir = "src/main/resources/textmate"
 val grammarUrl =
     "https://raw.githubusercontent.com/markup-carve/vscode-carve/main/syntaxes/carve.tmLanguage.json"
 
-tasks {
-    // Manual refresh task: pulls the latest grammar from vscode-carve and overwrites
-    // the committed copy. Not wired into the build so a network hiccup never breaks it;
-    // run `./gradlew downloadGrammar` and commit the result to stay in lockstep.
-    register("downloadGrammar") {
-        description = "Refreshes the committed TextMate grammar from vscode-carve"
-        group = "build"
+// ---------------------------------------------------------------------------
+// Grammar drift: intended, permanent deltas from the vscode-carve upstream copy
+// ---------------------------------------------------------------------------
+// This plugin carries its OWN copy of the Carve TextMate grammar. It is NOT a
+// mirror of vscode-carve's and must never be overwritten with it. There used to
+// be a `downloadGrammar` task that streamed upstream straight over the committed
+// file; running it would have (measured against upstream on 2026-07-22):
+//
+//   * rewritten all 111 `keyword.control.*` scope names to `punctuation.definition.*`
+//   * DELETED the 3 rules only this plugin has (cross-reference, hard-break,
+//     thematic-break)
+//   * clobbered 13 of the 28 shared rules, which have structurally diverged
+//
+// Two deltas are BY DESIGN and are encoded below:
+//
+//  1. Scope-name convention. The IDE's TextMate bridge colours `keyword.control.*`
+//     out of the box, so this grammar uses that prefix where vscode-carve uses
+//     `punctuation.definition.*`. The suffix after the prefix is kept identical,
+//     which is what makes an automated comparison possible at all.
+//  2. Plugin-only rules. Three constructs are highlighted here and not upstream.
+//
+// Anything else is genuine drift and should be reconciled by HAND, preserving the
+// two deltas above. `checkGrammarDrift` reports it; it never edits the grammar.
+val upstreamScopePrefix = "punctuation.definition."
+val intellijScopePrefix = "keyword.control."
+val pluginOnlyGrammarRules = setOf("cross-reference", "hard-break", "thematic-break")
 
-        val outputFile = file("$textmateDir/carve.tmLanguage.json")
-        outputs.file(outputFile)
+tasks {
+    // Read-only drift report against vscode-carve's grammar. This task CANNOT modify
+    // the committed grammar: it writes the fetched copy to the build directory only.
+    // Deliberately not wired into `check`/CI - it needs network, and upstream moving
+    // is not a reason for this build to fail.
+    register("checkGrammarDrift") {
+        description = "Reports drift between the committed TextMate grammar and vscode-carve (read-only)"
+        group = "verification"
+
+        val localFile = file("$textmateDir/carve.tmLanguage.json")
+        val scratchFile = layout.buildDirectory.file("grammar-drift/upstream.tmLanguage.json")
+        inputs.file(localFile)
+        outputs.file(scratchFile)
 
         doLast {
-            uri(grammarUrl).toURL().openStream().use { input ->
-                outputFile.outputStream().use { output ->
-                    input.copyTo(output)
+            val scratch = scratchFile.get().asFile
+            scratch.parentFile.mkdirs()
+
+            // Fail loudly on a fetch problem. A drift checker that silently reports
+            // "no drift" because it could not reach the network is worse than none.
+            try {
+                uri(grammarUrl).toURL().openStream().use { input ->
+                    scratch.outputStream().use { output -> input.copyTo(output) }
                 }
+            } catch (e: Exception) {
+                throw GradleException(
+                    "Could not fetch the upstream grammar from $grammarUrl: ${e.message}. " +
+                        "Drift was NOT checked (this is a hard failure, not a pass).",
+                )
             }
-            println("Downloaded grammar to $outputFile")
+            if (scratch.length() == 0L) {
+                throw GradleException("Upstream grammar fetched empty from $grammarUrl; drift was NOT checked.")
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            fun parseRepository(f: File): Map<String, Any?> {
+                val root = groovy.json.JsonSlurper().parse(f, "UTF-8") as Map<String, Any?>
+                return (root["repository"] as? Map<String, Any?>).orEmpty()
+            }
+
+            // Rewrite upstream's scope-name convention to this plugin's, so the
+            // comparison is apples-to-apples instead of 111 false differences.
+            fun normalize(node: Any?): Any? =
+                when (node) {
+                    is Map<*, *> ->
+                        node.entries.associate { (k, v) ->
+                            k to
+                                if (k == "name" && v is String) {
+                                    v.replace(upstreamScopePrefix, intellijScopePrefix)
+                                } else {
+                                    normalize(v)
+                                }
+                        }
+                    is List<*> -> node.map { normalize(it) }
+                    else -> node
+                }
+
+            val local = parseRepository(localFile)
+            val upstream = parseRepository(scratch).mapValues { (_, v) -> normalize(v) }
+
+            val upstreamOnly = (upstream.keys - local.keys).sorted()
+            val pluginOnly = (local.keys - upstream.keys).sorted()
+            val shared = (local.keys intersect upstream.keys).sorted()
+            val diverged =
+                shared.filter { rule ->
+                    groovy.json.JsonOutput.toJson(local[rule]) != groovy.json.JsonOutput.toJson(upstream[rule])
+                }
+
+            println("Grammar drift vs vscode-carve (read-only - this task never edits the committed grammar)")
+            println("  This plugin's grammar intentionally diverges from upstream; reconcile by hand.")
+            println("  local rules: ${local.size}   upstream rules: ${upstream.size}   shared: ${shared.size}")
+
+            println("\n  Plugin-only rules (expected - this plugin highlights these, upstream does not):")
+            pluginOnly.forEach { r ->
+                val expected = if (r in pluginOnlyGrammarRules) "by design" else "UNDECLARED - add to pluginOnlyGrammarRules or remove"
+                println("    - $r ($expected)")
+            }
+            if (pluginOnly.isEmpty()) println("    (none)")
+
+            println("\n  Structurally diverged shared rules (needs human judgement, not auto-fixable):")
+            diverged.forEach { println("    ~ $it") }
+            if (diverged.isEmpty()) println("    (none)")
+
+            println("\n  Upstream-only rules (ACTIONABLE - features this plugin is missing):")
+            upstreamOnly.forEach { println("    + $it") }
+            if (upstreamOnly.isEmpty()) println("    (none)")
+
+            val undeclared = pluginOnly.filterNot { it in pluginOnlyGrammarRules }
+            if (upstreamOnly.isNotEmpty() || undeclared.isNotEmpty()) {
+                throw GradleException(
+                    buildString {
+                        append("Actionable grammar drift. ")
+                        if (upstreamOnly.isNotEmpty()) {
+                            append("Missing upstream rules: ${upstreamOnly.joinToString(", ")}. ")
+                        }
+                        if (undeclared.isNotEmpty()) {
+                            append("Undeclared plugin-only rules: ${undeclared.joinToString(", ")}. ")
+                        }
+                        append(
+                            "Port them BY HAND into $localFile, keeping the $intellijScopePrefix " +
+                                "scope convention. Never copy the upstream file over it.",
+                        )
+                    },
+                )
+            }
         }
+    }
+
+    // Kept so existing muscle memory and docs do not resurrect the old behaviour.
+    // It now runs the SAME read-only check - it never overwrites the grammar.
+    register("downloadGrammar") {
+        description = "Deprecated alias for checkGrammarDrift (no longer overwrites the grammar)"
+        group = "verification"
+        // The safety message lives in checkGrammarDrift's own header, because a
+        // dependency runs to completion first: if it fails on actionable drift, no
+        // action defined here would ever execute.
+        dependsOn("checkGrammarDrift")
     }
 
     test {
