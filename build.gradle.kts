@@ -106,12 +106,27 @@ val grammarUrl =
 //     `punctuation.definition.*`. The suffix after the prefix is kept identical,
 //     which is what makes an automated comparison possible at all.
 //  2. Plugin-only rules. Three constructs are highlighted here and not upstream.
+//  3. Rule GROUPING. Upstream splits some constructs into their own repository
+//     rules where this grammar folds them into a broader one. The constructs are
+//     highlighted identically; only the rule name differs. A name-based diff would
+//     otherwise report these as missing features forever, which would make the
+//     actionable category permanently non-empty and train everyone to ignore it.
 //
 // Anything else is genuine drift and should be reconciled by HAND, preserving the
-// two deltas above. `checkGrammarDrift` reports it; it never edits the grammar.
+// three deltas above. `checkGrammarDrift` reports it; it never edits the grammar.
 val upstreamScopePrefix = "punctuation.definition."
 val intellijScopePrefix = "keyword.control."
 val pluginOnlyGrammarRules = setOf("cross-reference", "hard-break", "thematic-break")
+
+// Upstream rule name -> the local rule that already covers it. Every entry here
+// MUST be backed by a fixture in src/test/resources/fixtures/ that pins the
+// construct's scopes, so this map cannot be used to silence a real gap: if the
+// coverage ever regresses, the fixture test fails. `braced-emphasis.crv` pins
+// both entries below (`{^x^}`, `{,x,}`, `{*x*}`, `{/x/}`, `{_x_}`, `{~x~}`).
+val upstreamRulesCoveredLocally = mapOf(
+    "forced-emphasis" to "emphasis",
+    "sup-sub" to "emphasis",
+)
 
 tasks {
     // Read-only drift report against vscode-carve's grammar. This task CANNOT modify
@@ -196,17 +211,24 @@ tasks {
             diverged.forEach { println("    ~ $it") }
             if (diverged.isEmpty()) println("    (none)")
 
+            val coveredElsewhere = upstreamOnly.filter { it in upstreamRulesCoveredLocally }
+            val trulyMissing = upstreamOnly.filterNot { it in upstreamRulesCoveredLocally }
+
+            println("\n  Upstream rules folded into a broader local rule (expected - same constructs, different grouping):")
+            coveredElsewhere.forEach { println("    = $it (covered by '${upstreamRulesCoveredLocally[it]}', pinned by a fixture)") }
+            if (coveredElsewhere.isEmpty()) println("    (none)")
+
             println("\n  Upstream-only rules (ACTIONABLE - features this plugin is missing):")
-            upstreamOnly.forEach { println("    + $it") }
-            if (upstreamOnly.isEmpty()) println("    (none)")
+            trulyMissing.forEach { println("    + $it") }
+            if (trulyMissing.isEmpty()) println("    (none)")
 
             val undeclared = pluginOnly.filterNot { it in pluginOnlyGrammarRules }
-            if (upstreamOnly.isNotEmpty() || undeclared.isNotEmpty()) {
+            if (trulyMissing.isNotEmpty() || undeclared.isNotEmpty()) {
                 throw GradleException(
                     buildString {
                         append("Actionable grammar drift. ")
-                        if (upstreamOnly.isNotEmpty()) {
-                            append("Missing upstream rules: ${upstreamOnly.joinToString(", ")}. ")
+                        if (trulyMissing.isNotEmpty()) {
+                            append("Missing upstream rules: ${trulyMissing.joinToString(", ")}. ")
                         }
                         if (undeclared.isNotEmpty()) {
                             append("Undeclared plugin-only rules: ${undeclared.joinToString(", ")}. ")

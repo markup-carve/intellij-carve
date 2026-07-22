@@ -1,0 +1,4 @@
+Superscript mc{^2^} and subscript H{,2,}O are intraword.
+Forced {*bold*} and {/italic/} and {_underline_} and {~strike~}.
+Forced highlight {=mark=} too.
+A boolean attribute block {disabled} is not a forced span.

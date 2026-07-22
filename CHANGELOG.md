@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **`checkGrammarDrift` no longer reports two phantom missing features.** It
+  compares upstream and local rules by name, and upstream splits the braced
+  forced-emphasis and superscript/subscript forms into their own `forced-emphasis`
+  and `sup-sub` rules where this grammar folds them into `emphasis`. The
+  constructs were always highlighted; only the grouping differed. The check now
+  declares that grouping delta explicitly, so the actionable category is empty
+  when nothing is actually missing rather than permanently non-empty. Each
+  declared entry must be backed by a fixture, so the declaration cannot be used
+  to hide a genuine gap.
 - **Unclosed inline literal and math openers no longer leak.** Both rules matched
   with an open-ended begin/end pair, so typing `` !` `` or `` $` `` without its
   closer highlighted every following paragraph as literal or math content until
