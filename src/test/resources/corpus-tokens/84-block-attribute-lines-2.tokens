@@ -4,7 +4,9 @@
 \n -> text.carve
 { -> text.carve meta.attributes.carve
 key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=val} -> text.carve meta.attributes.carve
+= -> text.carve meta.attributes.carve
+val -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
 \n -> text.carve
 { -> text.carve meta.attributes.carve
 .foo -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
@@ -14,7 +16,9 @@ key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
 \n -> text.carve
 { -> text.carve meta.attributes.carve
 key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=val2} -> text.carve meta.attributes.carve
+= -> text.carve meta.attributes.carve
+val2 -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
 \n -> text.carve
 { -> text.carve meta.attributes.carve
 .baz -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve

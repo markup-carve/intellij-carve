@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **A div fence opening on a list marker is highlighted again.** `- ::: note` is
+  corpus-pinned (corpus 114) but the div rule was anchored past the bullet, so the
+  whole opener — fence, type word and any title — fell through to plain text. The
+  rule now consumes an optional bullet prefix and scopes it as a list marker.
+- **A definition-list term no longer swallows the rest of its line.** The term
+  line captured everything after `::` into one term scope, so a trailing
+  `%% comment` and any inline markup inside the term were absorbed and never
+  tokenized. Only the marker is scoped now, mirroring the single-colon rule.
+- **An unquoted attribute value containing dots keeps its value scope.** In
+  `{k=v.w}` the `.w` was scoped as a *class* rather than part of the value —
+  the behaviour corpus 110 exists to pin. Unquoted values are now consumed whole.
+  This also fixes values that previously went entirely unscoped, such as
+  `{lang=en-US}`.
+- Table alignment colons in a GFM delimiter row now get their own scope, so
+  `|:---:|` distinguishes the alignment markers from the dash run.
+- **`checkGrammarDrift` reports far less noise.** It compared `comment` prose,
+  which cannot affect tokenization, and normalized only one of the several
+  scope-name conventions this grammar deliberately differs by. Comments are now
+  stripped before comparing and the remaining convention families are mapped, so
+  the report shows genuine structural drift. Divergent shared rules dropped from
+  13 to 7, and the 7 that remain are real differences rather than naming noise.
+  The `frontmatter` rule, which must differ because IntelliJ's TextMate engine
+  treats `\A` like `^`, is now declared as intentional and pinned by a fixture.
 - **`checkGrammarDrift` no longer reports two phantom missing features.** It
   compares upstream and local rules by name, and upstream splits the braced
   forced-emphasis and superscript/subscript forms into their own `forced-emphasis`

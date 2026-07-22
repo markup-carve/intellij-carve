@@ -8,5 +8,7 @@ a^2 -> text.carve markup.other.math.inline.carve markup.other.math.content.carve
 #eq1 -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
   -> text.carve meta.attributes.carve
 data-k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=v} -> text.carve meta.attributes.carve
+= -> text.carve meta.attributes.carve
+v -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
 \n -> text.carve
