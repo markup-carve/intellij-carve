@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Syntax highlighting for the inline literal.** A `!` before a verbatim backtick span
+  (`` !`/kaet/` ``) renders its content as ordinary prose rather than code, so notation that
+  collides with the bare emphasis delimiters - phonemic transcription, glob patterns, paths -
+  needs no per-character escaping. The markers are highlighted like the surrounding verbatim
+  family, and a trailing `{…}` stays a separate attribute block.
+
 ## [0.1.3] - 2026-07-14
 
 ### Added
