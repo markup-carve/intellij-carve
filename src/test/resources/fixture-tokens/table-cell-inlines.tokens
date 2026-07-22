@@ -1,0 +1,54 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+[ -> text.carve markup.table.row.carve entity.name.citation.carve keyword.control.citation.begin.carve
+@key -> text.carve markup.table.row.carve entity.name.citation.carve variable.parameter.citation.key.carve
+] -> text.carve markup.table.row.carve entity.name.citation.carve keyword.control.citation.end.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+@ -> text.carve markup.table.row.carve entity.name.mention.carve keyword.control.mention.carve
+user -> text.carve markup.table.row.carve entity.name.mention.carve variable.parameter.mention.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+# -> text.carve markup.table.row.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag -> text.carve markup.table.row.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+:tada: -> text.carve markup.table.row.carve constant.character.entity.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+^[ -> text.carve markup.table.row.carve meta.footnote.inline.carve keyword.control.footnote.carve
+a note -> text.carve markup.table.row.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> text.carve markup.table.row.carve meta.footnote.inline.carve keyword.control.footnote.carve
+  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+An inline footnote  -> text.carve
+^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+with  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+emphasis -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+ and  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+` -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.raw.inline.carve keyword.control.raw.carve
+code -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.raw.inline.carve keyword.control.raw.carve
+] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ here.\n -> text.carve
+An escaped bracket  -> text.carve
+^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+a  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+\\] -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve constant.character.escape.carve
+ b -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ stays open.\n -> text.carve
