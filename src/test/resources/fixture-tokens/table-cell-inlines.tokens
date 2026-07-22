@@ -52,3 +52,9 @@ a  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
  b -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
 ] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
  stays open.\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ \\^[x]  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ ok  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve

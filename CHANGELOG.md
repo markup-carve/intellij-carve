@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   spec (`inline_footnote = '^[', inline_content, ']'`). The existing
   `string.other.footnote.inline.carve` content scope is preserved, and the
   one-line bound means an unclosed `^[` still cannot leak into later paragraphs.
+- **An escaped `\^[` is no longer highlighted as a footnote.** The inline
+  footnote opener now refuses a backslash-escaped caret, so the documented
+  literal form `\^[x]` stays plain text even in a table cell, where the
+  top-level escape rule is not in scope.
 - **Table cells highlight footnotes, citations, mentions, tags and symbols.**
   The table-row pattern list omitted `#footnotes`, `#citations` and
   `#mentions-tags`, so `| ^[note] |`, `| [key] |`, `| user |`, `| #tag |` and
