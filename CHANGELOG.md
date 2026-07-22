@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Unclosed inline literal and math openers no longer leak.** Both rules matched
+  with an open-ended begin/end pair, so typing `` !` `` or `` $` `` without its
+  closer highlighted every following paragraph as literal or math content until
+  the next backtick run anywhere in the file. Both are now closed-span match
+  rules, like inline code, which are line-bounded and cannot leak.
+- Table cells now highlight raw inline, inline literals and math, which were
+  missing from the cell pattern list.
+
 ### Added
 
 - **Syntax highlighting for the inline literal.** A `!` before a verbatim backtick span
