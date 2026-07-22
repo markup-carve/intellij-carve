@@ -1,0 +1,7 @@
+| [@key] | @user |
+| #tag | :tada: |
+| ^[a note] | x |
+
+An inline footnote ^[with *emphasis* and `code`] here.
+An escaped bracket ^[a \] b] stays open.
+| \^[x] | ok |

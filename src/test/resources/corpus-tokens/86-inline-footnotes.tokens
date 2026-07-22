@@ -1,7 +1,10 @@
 A note -> text.carve
-^[ -> text.carve keyword.control.footnote.carve
-see *later* -> text.carve string.other.footnote.inline.carve
-] -> text.carve keyword.control.footnote.carve
+^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+see  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+later -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
  inline. And a ref -> text.carve
 [ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 ^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve

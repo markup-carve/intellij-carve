@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Inline footnote content is parsed as inline markup.** `^[...]` used a flat
+  match, so its whole body was one opaque span: nested emphasis and code inside a
+  note did not highlight, and a backslash-escaped bracket such as `^[a \] b]`
+  terminated the note early, leaving the rest of the line unstyled. The rule is
+  now a line-bounded `begin`/`end` whose content is inline-parsed, matching the
+  spec (`inline_footnote = '^[', inline_content, ']'`). The existing
+  `string.other.footnote.inline.carve` content scope is preserved, and the
+  one-line bound means an unclosed `^[` still cannot leak into later paragraphs.
+- **An escaped `\^[` is no longer highlighted as a footnote.** The inline
+  footnote opener now refuses a backslash-escaped caret, so the documented
+  literal form `\^[x]` stays plain text even in a table cell, where the
+  top-level escape rule is not in scope.
+- **Table cells highlight footnotes, citations, mentions, tags and symbols.**
+  The table-row pattern list omitted `#footnotes`, `#citations` and
+  `#mentions-tags`, so `| ^[note] |`, `| [key] |`, `| user |`, `| #tag |` and
+  `| :tada: |` were left unscoped inside a table even though all of them
+  highlight correctly elsewhere.
+
 - **A div fence opening on a list marker is highlighted again.** `- ::: note` is
   corpus-pinned (corpus 114) but the div rule was anchored past the bullet, so the
   whole opener — fence, type word and any title — fell through to plain text. The
