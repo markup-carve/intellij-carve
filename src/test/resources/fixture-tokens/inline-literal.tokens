@@ -1,0 +1,36 @@
+The word cat is  -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+/kaet/ -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+ in IPA.\n -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+/kaet/ -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+{ -> text.carve meta.attributes.carve
+.ipa -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+a<b> -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+ and  -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+*not bold* -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+\n -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+`` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+a`b -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+`` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+ widens the fence.\n -> text.carve
+An image  -> text.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+alt -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+/u -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+ still binds to the bracket.\n -> text.carve
