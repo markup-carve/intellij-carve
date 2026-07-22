@@ -1,0 +1,34 @@
+Superscript mc -> text.carve
+{^ -> text.carve keyword.control.superscript.carve
+2 -> text.carve markup.superscript.carve
+^} -> text.carve keyword.control.superscript.carve
+ and subscript H -> text.carve
+{, -> text.carve keyword.control.subscript.carve
+2 -> text.carve markup.subscript.carve
+,} -> text.carve keyword.control.subscript.carve
+O are intraword.\n -> text.carve
+Forced  -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+bold -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+ and  -> text.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
+italic -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
+ and  -> text.carve
+{_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+underline -> text.carve markup.underline.text.carve markup.underline.text.carve
+_} -> text.carve markup.underline.text.carve keyword.control.underline.carve
+ and  -> text.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+strike -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
+.\n -> text.carve
+Forced highlight  -> text.carve
+{= -> text.carve keyword.control.highlight.carve
+mark -> text.carve markup.changed.carve
+=} -> text.carve keyword.control.highlight.carve
+ too.\n -> text.carve
+A boolean attribute block  -> text.carve
+{disabled} -> text.carve meta.attributes.carve
+ is not a forced span.\n -> text.carve
