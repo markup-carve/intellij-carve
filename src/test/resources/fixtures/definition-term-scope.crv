@@ -1,0 +1,4 @@
+:: term %% a trailing comment
+:  definition body
+:: a /styled/ term
+:  another definition

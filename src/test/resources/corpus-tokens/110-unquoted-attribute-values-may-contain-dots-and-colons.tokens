@@ -3,7 +3,7 @@ a -> text.carve meta.span.inline.carve string.other.span.carve
 ] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
 { -> text.carve meta.attributes.carve
 k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=v -> text.carve meta.attributes.carve
-.w -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+= -> text.carve meta.attributes.carve
+v.w -> text.carve meta.attributes.carve string.unquoted.attribute.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve

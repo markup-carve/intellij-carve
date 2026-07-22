@@ -114,9 +114,39 @@ val grammarUrl =
 //
 // Anything else is genuine drift and should be reconciled by HAND, preserving the
 // three deltas above. `checkGrammarDrift` reports it; it never edits the grammar.
-val upstreamScopePrefix = "punctuation.definition."
+// Scope-name convention deltas, applied to UPSTREAM before comparing. Each entry is
+// a whole-family rename where the suffix after the prefix is identical on both sides,
+// so a mapping can only ever equate scopes that already mean the same thing: if the
+// suffixes differ at all, the rule still reports as diverged. A one-off scope with no
+// family pattern is deliberately NOT mapped - that is where a mapping could mask a
+// real scope-name bug rather than silence a naming convention.
+val upstreamScopeConventions =
+    listOf(
+        // The IDE's TextMate bridge colours `keyword.control.*` out of the box, so this
+        // grammar uses it wherever upstream reaches for a punctuation/operator category.
+        "punctuation.definition." to "keyword.control.",
+        "punctuation.separator." to "keyword.control.separator.",
+        "keyword.operator." to "keyword.control.",
+        "constant.language.task-list." to "keyword.control.task-list.",
+        // Named things: this grammar prefers the entity/variable families the IDE themes.
+        "constant.other.reference." to "entity.name.reference.",
+        "variable.other." to "variable.parameter.",
+        "constant.character.typography." to "constant.character.entity.typography.",
+    )
 val intellijScopePrefix = "keyword.control."
 val pluginOnlyGrammarRules = setOf("cross-reference", "hard-break", "thematic-break")
+
+// Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as
+// `upstreamRulesCoveredLocally`: every entry must be pinned by a fixture, so declaring
+// a rule here can never hide a later regression in it.
+val divergedByDesign =
+    mapOf(
+        "frontmatter" to
+            "IntelliJ's TextMate engine treats the document-start anchor \\A like ^, so upstream's " +
+                "\\A-anchored bare `---` open fence would fire mid-document and swallow the rest of the " +
+                "file. This grammar requires a typed format token (`---toml`) instead. Cost: a BARE `---` " +
+                "frontmatter fence is highlighted as a thematic break. Pinned by frontmatter-typed.crv.",
+    )
 
 // Upstream rule name -> the local rule that already covers it. Every entry here
 // MUST be backed by a fixture in src/test/resources/fixtures/ that pins the
@@ -168,15 +198,31 @@ tasks {
                 return (root["repository"] as? Map<String, Any?>).orEmpty()
             }
 
-            // Rewrite upstream's scope-name convention to this plugin's, so the
-            // comparison is apples-to-apples instead of 111 false differences.
+            // `comment` keys are prose for humans and have ZERO effect on tokenization,
+            // so a rule whose only difference is its comment is not drift. Stripping them
+            // on BOTH sides is what stops the report flagging rules that behave identically.
+            fun stripComments(node: Any?): Any? =
+                when (node) {
+                    is Map<*, *> ->
+                        node.entries
+                            .filterNot { (k, _) -> k == "comment" }
+                            .associate { (k, v) -> k to stripComments(v) }
+                    is List<*> -> node.map { stripComments(it) }
+                    else -> node
+                }
+
+            // Rewrite upstream's scope-name conventions to this plugin's, so the comparison
+            // is apples-to-apples instead of a hundred-odd false differences.
             fun normalize(node: Any?): Any? =
                 when (node) {
                     is Map<*, *> ->
                         node.entries.associate { (k, v) ->
                             k to
                                 if (k == "name" && v is String) {
-                                    v.replace(upstreamScopePrefix, intellijScopePrefix)
+                                    upstreamScopeConventions
+                                        .firstOrNull { (from, _) -> v.startsWith(from) }
+                                        ?.let { (from, to) -> to + v.removePrefix(from) }
+                                        ?: v
                                 } else {
                                     normalize(v)
                                 }
@@ -185,8 +231,8 @@ tasks {
                     else -> node
                 }
 
-            val local = parseRepository(localFile)
-            val upstream = parseRepository(scratch).mapValues { (_, v) -> normalize(v) }
+            val local = parseRepository(localFile).mapValues { (_, v) -> stripComments(v) }
+            val upstream = parseRepository(scratch).mapValues { (_, v) -> stripComments(normalize(v)) }
 
             val upstreamOnly = (upstream.keys - local.keys).sorted()
             val pluginOnly = (local.keys - upstream.keys).sorted()
@@ -207,9 +253,16 @@ tasks {
             }
             if (pluginOnly.isEmpty()) println("    (none)")
 
+            val divergedByChoice = diverged.filter { it in divergedByDesign }
+            val divergedUnexplained = diverged.filterNot { it in divergedByDesign }
+
+            println("\n  Shared rules diverged BY DESIGN (expected - engine constraint, pinned by a fixture):")
+            divergedByChoice.forEach { println("    = $it: ${divergedByDesign[it]}") }
+            if (divergedByChoice.isEmpty()) println("    (none)")
+
             println("\n  Structurally diverged shared rules (needs human judgement, not auto-fixable):")
-            diverged.forEach { println("    ~ $it") }
-            if (diverged.isEmpty()) println("    (none)")
+            divergedUnexplained.forEach { println("    ~ $it") }
+            if (divergedUnexplained.isEmpty()) println("    (none)")
 
             val coveredElsewhere = upstreamOnly.filter { it in upstreamRulesCoveredLocally }
             val trulyMissing = upstreamOnly.filterNot { it in upstreamRulesCoveredLocally }

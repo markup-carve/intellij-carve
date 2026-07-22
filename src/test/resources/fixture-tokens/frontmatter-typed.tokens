@@ -1,0 +1,9 @@
+--- -> text.carve meta.frontmatter.carve keyword.control.frontmatter.begin.carve
+toml -> text.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+title = "Typed frontmatter is recognized" -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> text.carve meta.frontmatter.carve
+--- -> text.carve meta.frontmatter.carve keyword.control.frontmatter.end.carve
+\n -> text.carve meta.frontmatter.carve
+\n -> text.carve
+Body text.\n -> text.carve

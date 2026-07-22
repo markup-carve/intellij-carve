@@ -7,5 +7,7 @@ some text -> text.carve meta.span.inline.carve string.other.span.carve
 #note -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
   -> text.carve meta.attributes.carve
 key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-=val} -> text.carve meta.attributes.carve
+= -> text.carve meta.attributes.carve
+val -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
 \n -> text.carve

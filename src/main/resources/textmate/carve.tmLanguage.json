@@ -248,24 +248,28 @@
       "patterns": [
         {
           "name": "markup.other.div.carve",
-          "match": "^\\s*(:::+)\\s*([^\\s{\\[\"]+)?\\s*(?:(\"[^\"]*\")\\s*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])\\s*(\"[^\"]*\")?)?",
+          "comment": "A div fence may open directly after a list marker (`- ::: note`), which is corpus-pinned (corpus 114), so an optional bullet prefix is consumed here and scoped as a list marker.",
+          "match": "^\\s*(?:([-*])[ \\t]+)?(:::+)\\s*([^\\s{\\[\"]+)?\\s*(?:(\"[^\"]*\")\\s*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])\\s*(\"[^\"]*\")?)?",
           "captures": {
             "1": {
-              "name": "keyword.control.div.carve"
+              "name": "keyword.control.list.begin.carve"
             },
             "2": {
-              "name": "entity.name.type.div.carve"
+              "name": "keyword.control.div.carve"
             },
             "3": {
-              "name": "string.quoted.double.carve"
+              "name": "entity.name.type.div.carve"
             },
             "4": {
-              "name": "entity.name.label.carve"
+              "name": "string.quoted.double.carve"
             },
             "5": {
               "name": "entity.name.label.carve"
             },
             "6": {
+              "name": "entity.name.label.carve"
+            },
+            "7": {
               "name": "string.quoted.double.carve"
             }
           }
@@ -281,10 +285,17 @@
           "end": "$",
           "patterns": [
             {
-              "match": "(?<=\\|)[ \\t]*(:?-+:?)[ \\t]*(?=\\|)",
+              "comment": "Separator cell: leading/trailing alignment colons get a dedicated alignment scope; the dash run stays the separator punctuation.",
+              "match": "(?<=\\|)[ \\t]*(:?)(-+)(:?)[ \\t]*(?=\\|)",
               "captures": {
                 "1": {
+                  "name": "keyword.control.table.alignment.carve"
+                },
+                "2": {
                   "name": "keyword.control.table.separator.carve"
+                },
+                "3": {
+                  "name": "keyword.control.table.alignment.carve"
                 }
               }
             },
@@ -411,13 +422,12 @@
     "lists": {
       "patterns": [
         {
-          "match": "^(\\s*)(::)(\\s+)(.*)$",
+          "comment": "Definition-list TERM line: a leading `::` marker. Only the marker is scoped (mirroring the single-colon definition rule below), so a trailing `%% comment` and any inline markup in the term still tokenize normally. Matched before the single-colon rule; `::` never collides with a `:::+` fenced div, which needs three colons.",
+          "name": "markup.list.definition.term.carve",
+          "match": "^(\\s*)(::)(\\s+)",
           "captures": {
             "2": {
               "name": "keyword.control.list.begin.carve"
-            },
-            "4": {
-              "name": "entity.name.tag.definition.term.carve"
             }
           }
         },
@@ -737,6 +747,11 @@
                 {
                   "name": "string.quoted.single.attribute.carve",
                   "match": "'(?:[^'\\\\]|\\\\.)*'"
+                },
+                {
+                  "comment": "An unquoted value may contain dots and colons (`k=v.w`, corpus 110); consume it whole so the dot is not mistaken for a class.",
+                  "name": "string.unquoted.attribute.carve",
+                  "match": "(?<==)[^\\s\"'}]+"
                 }
               ]
             }

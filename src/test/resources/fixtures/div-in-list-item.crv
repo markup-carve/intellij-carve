@@ -1,0 +1,9 @@
+- ::: note
+  - para text
+  :::
+* ::: warning "Title"
+  body
+  :::
+::: note
+plain div, no bullet
+:::

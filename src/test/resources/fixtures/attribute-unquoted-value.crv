@@ -1,0 +1,4 @@
+[text]{k=v.w}
+[text]{#id .cls k=a.b.c}
+[text]{lang=en-US}
+[text]{k="quoted.value" .real-class}
