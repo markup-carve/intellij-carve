@@ -15,9 +15,13 @@ bundled renderer, grammar updates, and the release process.
 
 ## Making changes
 
-- **Editor highlighting** comes from the TextMate grammar shared with
-  [vscode-carve](https://github.com/markup-carve/vscode-carve). Fix grammar
-  issues there, then run `./gradlew downloadGrammar` here and commit the result.
+- **Editor highlighting** comes from this plugin's own TextMate grammar, which is
+  related to [vscode-carve](https://github.com/markup-carve/vscode-carve)'s but
+  **intentionally diverges** from it (different scope-name convention, plus rules
+  only this plugin has). Never overwrite it with the upstream file. Fix shared
+  grammar issues upstream first, then port the change here by hand, keeping the
+  `keyword.control.*` scope names. Run `./gradlew checkGrammarDrift` to see what
+  differs - it is read-only and never edits the grammar.
 - **Preview/export rendering** uses the bundled `carve.iife.js`
   (`@markup-carve/carve` on GraalJS) or the carve-php CLI. Regenerate the bundle
   with `tools/build-carve-bundle.sh` when carve-js changes.
