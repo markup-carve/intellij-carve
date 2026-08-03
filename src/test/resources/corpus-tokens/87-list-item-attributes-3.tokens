@@ -1,4 +1,4 @@
-a. -> text.carve
+a. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
 { -> text.carve meta.attributes.carve
 .c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve

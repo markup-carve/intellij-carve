@@ -1,0 +1,7 @@
+. first
+. second
+
+1. explicit
+. continues the same list
+
+.{#x} attributed
