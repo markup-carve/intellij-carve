@@ -31,6 +31,22 @@ class CarveMarkerScannerTest {
         assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
     }
 
+    /**
+     * A `>` marker takes a space, or stands alone on its line. Verified against
+     * carve-rs: every shape below except the last two renders as a paragraph.
+     * `>>` is not a nested marker - that is written `> > x`, a space per marker -
+     * and a TAB does not separate (markup-carve/carve#525).
+     */
+    @Test
+    fun quoteMarkerNeedsASpace() {
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(">no space\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(">>x\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(">> x\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(">\tx\n"))
+        assertEquals(listOf(">" to CarveColors.QUOTE_MARKER), covered(">\n"))
+        assertEquals(listOf(">" to CarveColors.QUOTE_MARKER), covered("> real quote\n"))
+    }
+
     @Test
     fun divAndQuote() {
         assertEquals(listOf(":::" to CarveColors.DIV_MARKER), covered("::: note\n"))
