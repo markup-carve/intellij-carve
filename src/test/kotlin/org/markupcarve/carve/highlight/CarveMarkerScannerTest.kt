@@ -37,6 +37,30 @@ class CarveMarkerScannerTest {
      * `>>` is not a nested marker - that is written `> > x`, a space per marker -
      * and a TAB does not separate (markup-carve/carve#525).
      */
+    /**
+     * MARKER REQUIRES CONTENT (markup-carve/carve#513).  A marker alone on its
+     * line is prose, and trailing whitespace is not content: carve-rs renders
+     * both `#` and `#<space>` as `<p>#</p>`.
+     *
+     * The separator is a space or tab, never any other Unicode space, so a
+     * heading whose content starts with NBSP is still a heading.
+     */
+    @Test
+    fun blockMarkersNeedContent() {
+        val none = emptyList<Pair<String, TextAttributesKey>>()
+        assertEquals(none, covered("#\n"))
+        assertEquals(none, covered("# \n"))
+        assertEquals(none, covered("-\n"))
+        assertEquals(none, covered("- \n"))
+        assertEquals(none, covered("1.\n"))
+        assertEquals(none, covered("1. \n"))
+
+        assertEquals(listOf("#" to CarveColors.HEADING_MARKER), covered("# H\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("- item\n"))
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1. item\n"))
+        assertEquals(listOf("#" to CarveColors.HEADING_MARKER), covered("# \u00a0Title\n"))
+    }
+
     @Test
     fun quoteMarkerNeedsASpace() {
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(">no space\n"))

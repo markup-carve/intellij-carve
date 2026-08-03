@@ -1,3 +1,2 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-\n -> text.carve markup.list.unnumbered.carve
+-\n -> text.carve
 not a list\n -> text.carve
