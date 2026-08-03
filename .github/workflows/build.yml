@@ -31,6 +31,13 @@ jobs:
       - name: Run tests
         run: ./gradlew --no-daemon test
 
+      # Separate from the test task on purpose: this one reaches the network, so
+      # a failure means the vendored battery is stale (or GitHub is down), not
+      # that the grammar is wrong. Keeping it out of `test` also means a local
+      # run never needs a clone.
+      - name: The vendored block battery still matches carve-grammars
+        run: ./tools/check-battery-drift.sh
+
       - name: Verify plugin structure
         run: ./gradlew --no-daemon verifyPlugin
 
