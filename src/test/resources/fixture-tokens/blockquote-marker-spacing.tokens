@@ -1,0 +1,20 @@
+>no space\n -> text.carve
+\n -> text.carve
+>>x\n -> text.carve
+\n -> text.carve
+>> x\n -> text.carve
+\n -> text.carve
+>\tx\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+real quote -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> nested -> text.carve markup.quote.carve
+\n -> text.carve

@@ -22,7 +22,12 @@ object CarveMarkerScanner {
     // A closer is a bare fence run on its own line.
     private val FENCE_CLOSE = Regex("""^\s*(`{3,}|~{3,})\s*$""")
     private val HEADING = Regex("""^(#{1,6})(?=\s|$)""")
-    private val QUOTE = Regex("""^\s*(>+)""")
+    // A `>` marker takes a SPACE, or stands alone on its line. Not `>+`, and not
+    // `\s`: verified against carve-rs, `>no space`, `>>x`, `>> x` and `>\tx` are
+    // all paragraphs - nesting is written `> > x`, a space per marker, and a tab
+    // does not separate (markup-carve/carve#525). Matching a run colored the
+    // marker in `>>= operator` and `>=3 items`, which the language calls prose.
+    private val QUOTE = Regex("""^[ \t]*(>)(?= |$)""")
     private val DIV = Regex("""^\s*(:{3,})""")
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
     private val BULLET = Regex("""^(\s*)([-*](?:\s+[-*])*)(?=\s)""")
