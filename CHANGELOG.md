@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **A blockquote marker takes a space** (#42). markup-carve/carve#525 made the
+  separator mandatory, and two code paths carried the old rule: the bundled
+  TextMate grammar and `CarveMarkerScanner.QUOTE`, which drives the annotator -
+  the highlighting a user actually sees. Verified against carve-rs: `>no space`,
+  `>>x`, `>> x` and `>\tx` all render as paragraphs, `>>` is not a nested marker
+  (that is `> > x`, a space per marker), and a tab does not separate. The spec
+  pin moved 8 commits in the same change, which is what surfaced it.
+
 - **The spec submodule is current again** (#38). It sat at 392 corpus documents
   while the spec had 529, so the coverage matrix and the token-stream goldens
   were measuring a July language. Fifty-five new categories are classified:
