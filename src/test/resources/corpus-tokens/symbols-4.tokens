@@ -1,0 +1,6 @@
+Launch  -> text.carve
+:rocket: -> text.carve constant.character.entity.carve
+{ -> text.carve meta.attributes.carve
+.big -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ now.\n -> text.carve

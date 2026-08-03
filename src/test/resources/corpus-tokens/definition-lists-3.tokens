@@ -1,0 +1,9 @@
+:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.definition.term.carve
+term\n -> text.carve
+: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
+   -> text.carve markup.list.definition.carve
+A first paragraph,\n -> text.carve
++ -> text.carve markup.list.continuation.carve keyword.control.list.continuation.carve
+\n -> text.carve markup.list.continuation.carve
+then a flush-left block joined with +.\n -> text.carve

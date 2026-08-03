@@ -7,7 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- **The spec submodule is current again** (#38). It sat at 392 corpus documents
+  while the spec had 529, so the coverage matrix and the token-stream goldens
+  were measuring a July language. Fifty-five new categories are classified:
+  `symbols` and `inline-literal` are COVERED (the only ones producing
+  `constant.character.entity` and `markup.raw.inline.literal` scopes under this
+  grammar), the other 47 are SKIP with a reason naming the covered category
+  their tokens already come from. Three entries were upstream renames, not
+  removals, and each keeps its side of the matrix: `emoji` -> `symbols`,
+  `link-destination-stops-at-the-first-parenthesis` ->
+  `link-destination-parentheses-balance`, `multi-line-headings` ->
+  `single-line-headings`. Twenty-five goldens are new and ten changed; all ten
+  are upstream edits to the example text, verified file by file against the old
+  submodule, not grammar regressions.
+
 ### Fixed
+
+- **An orphaned golden can no longer rot unnoticed.** The snapshot test only
+  fails on goldens it looks for, so a renamed category left its old `.tokens`
+  file behind with nothing reading it - three had accumulated. A new check in
+  the coverage-matrix test fails on any golden with no corpus file behind it.
 
 - **Inline footnote content is parsed as inline markup.** `^[...]` used a flat
   match, so its whole body was one opaque span: nested emphasis and code inside a

@@ -52,6 +52,33 @@ class CarveCorpusCoverageMatrixTest {
         assertTrue("A category must be either COVERED or SKIP, not both: $overlap", overlap.isEmpty())
     }
 
+    /**
+     * A golden with no corpus file behind it is dead weight: nothing reads it,
+     * so nothing notices when the construct it pinned stops being highlighted.
+     * Three were left behind by the bump that renamed `emoji` to `symbols` and
+     * `link-destination-stops-at-the-first-parenthesis` to
+     * `link-destination-parentheses-balance` - the snapshot test only fails on
+     * goldens it LOOKS for, so a renamed category silently orphans its own.
+     */
+    @Test
+    fun noGoldenIsOrphaned() {
+        val live = CarveCorpus.crvFiles().map { CarveCorpusCategories.slugOf(it.name) }.toSet()
+        val goldens = CarveCorpusSnapshotTest.goldensDirectory
+        if (!goldens.isDirectory) return
+        val orphaned = goldens.listFiles { f: java.io.File -> f.name.endsWith(".tokens") }
+            .orEmpty()
+            .map { it.name.removeSuffix(".tokens") }
+            .filter { it !in live }
+            .sorted()
+        if (orphaned.isNotEmpty()) {
+            fail(
+                "Golden token files with no corpus file behind them (delete after a submodule " +
+                    "bump renames or removes a category):\n" +
+                    orphaned.joinToString("\n") { "  - $it.tokens" },
+            )
+        }
+    }
+
     @Test
     fun everySkipHasAReason() {
         val blank = CarveCorpusCategories.SKIP.filterValues { it.isBlank() }.keys

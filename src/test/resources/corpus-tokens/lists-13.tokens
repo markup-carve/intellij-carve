@@ -1,7 +1,8 @@
-Liste:\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-eins\n -> text.carve
+a\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-zwei\n -> text.carve
+b\n -> text.carve
