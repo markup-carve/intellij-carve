@@ -73,8 +73,11 @@ class CarveCorpusSnapshotTest(
             File(root, "src/test/resources/corpus-tokens")
         }
 
+        // Named by SLUG, not by the corpus file name: the leading number is the
+        // spec's ordering, and keying goldens on it renamed all 286 of them on
+        // every upstream renumbering.
         private fun goldenFile(crvName: String): File =
-            File(goldensDir, crvName.removeSuffix(".crv") + ".tokens")
+            File(goldensDir, CarveCorpusCategories.slugOf(crvName) + ".tokens")
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
