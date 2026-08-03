@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **A marker alone on its line is prose** (#44). MARKER REQUIRES CONTENT (markup-carve/carve#513) was in the rules already, written `\s+`, and `\s` matches the line's own newline - so the requirement never bit. `-`, `- `, `1.`, `1. `, `::` and `:: ` all scoped as markers where carve-rs renders every one as a paragraph. Two code paths carried it here: the bundled grammar and `CarveMarkerScanner`, which drives the annotator. The guard is a line-end lookahead rather than `(?=\S)`, because only spaces and tabs separate a marker from its content: `#  Title` with a leading no-break space is still a heading. `- [ ] ` with nothing after it is a plain bullet holding the literal `[ ]`, not a checkbox.
 - **A blockquote marker takes a space** (#42). markup-carve/carve#525 made the
   separator mandatory, and two code paths carried the old rule: the bundled
   TextMate grammar and `CarveMarkerScanner.QUOTE`, which drives the annotator -
