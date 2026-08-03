@@ -62,6 +62,9 @@ class CarveCorpusSnapshotTest(
         private val updateGoldens: Boolean =
             System.getProperty("carve.updateGoldens", "false").toBoolean()
 
+        /** Where goldens live, for the orphan check in the coverage-matrix test. */
+        val goldensDirectory: File get() = goldensDir
+
         /** Where goldens are written and read. Located next to the test source tree. */
         private val goldensDir: File by lazy {
             // Walk up to the project root, then into the test resources directory.

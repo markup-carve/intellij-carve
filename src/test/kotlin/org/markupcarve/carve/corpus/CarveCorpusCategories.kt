@@ -38,6 +38,7 @@ object CarveCorpusCategories {
         "tables-with-rowspan-and-colspan",
         "fenced-code",
         "inline-code",
+        "inline-literal",
         "admonitions",
         "abbreviations",
         "mentions-and-tags",
@@ -63,7 +64,7 @@ object CarveCorpusCategories {
         "comments",
         "raw-blocks",
         "raw-inline",
-        "emoji",
+        "symbols",
         "ordered-list-start-and-delimiter",
         "ordered-list-dialects",
         "ordered-marker-vs-prose",
@@ -102,7 +103,7 @@ object CarveCorpusCategories {
         "heading-marker-column-zero",
         "list-continuation-marker",
         "marker-line-nested-lists",
-        "link-destination-stops-at-the-first-parenthesis",
+        "link-destination-parentheses-balance",
         "empty-link-and-image-titles-are-preserved",
         "unquoted-attribute-values-may-contain-dots-and-colons",
         "adjacent-attribute-blocks-on-one-line-merge",
@@ -122,6 +123,100 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        "abbreviation-definition-separator-must-be-a-space" to
+            "Separator strictness is parsing: the definition either matches or stays prose. The matching case is pinned by `abbreviations`; the other has no token by definition.",
+        "abbreviation-title-escapes-its-markup-characters" to
+            "Escaping changes the rendered title text, not the scopes - one unquoted string token either way, pinned by `abbreviations`.",
+        "adjacent-slash-and-underscore-emphasis-nest" to
+            "Nesting order between two emphasis kinds; both scopes are pinned by `emphasis`, and there is no token for which delimiter won.",
+        "bold-italic-delimiter-needs-content" to
+            "Negative case: an empty bold-italic run stays literal. The absence of a scope is the point; the positive form is pinned by `emphasis`.",
+        "emphasis-opener-slash-adjacency" to
+            "Flanking decides whether a delimiter opens; the resulting tokens are the ones `emphasis` pins.",
+        "emphasis-span-closes-before-a-following-delimiter" to
+            "Which delimiter closes a run is parsing; the span tokens are pinned by `emphasis`.",
+        "all-space-verbatim-content" to
+            "Whitespace-only verbatim content is still one raw-inline run, pinned by `inline-code` and `inline-literal`.",
+        "trailing-whitespace-boundaries" to
+            "Where a verbatim run's content starts and ends. Both run kinds it exercises are pinned by `inline-code` and `inline-literal`.",
+        "widened-verbatim-fences" to
+            "A wider fence changes the delimiter length, not the scope; the run kinds are pinned by `inline-code`, `inline-literal` and `math`.",
+        "fence-folds-as-lazy-inline-code-above-the-content-column" to
+            "Whether a fence opens a block or folds into a paragraph is block context, which a line-based grammar does not have; the list tokens are pinned by `lists`.",
+        "comment-fence-with-trailing-text" to
+            "The trailing text is inside the comment either way - one comment token, pinned by `comments`.",
+        "unterminated-comment-fence" to
+            "An unterminated fence runs to end of file, which the `comments` snapshot already shows; there is no separate scope for \"never closed\".",
+        "unclaimed-openers-stay-literal" to
+            "Negative case: a colon no symbol or extension claims stays prose. The claimed forms are pinned by `symbols`.",
+        "attribute-block-after-a-mention-stays-literal" to
+            "Whether the braces bind to the mention is parsing; the mention and attribute tokens are pinned by `mentions-and-tags` and `attributes`.",
+        "attribute-braces-on-a-list-item-marker-line" to
+            "A marker line with attributes produces the marker tokens and the attribute tokens, both pinned by `lists` and `attributes`.",
+        "attribute-order-on-an-unwrapped-heading" to
+            "Which attribute lands on which element is render-time; the tokens are pinned by `attribute-edge-cases`.",
+        "only-the-id-hoists-to-the-section-wrapper" to
+            "Hoisting is a render-time placement decision with no token of its own; the id and class scopes are pinned by `attributes`.",
+        "indented-attribute-line-stays-literal" to
+            "Negative case: an indented attribute line is prose. A line-based grammar cannot tell that from a valid attribute line inside a list item (markup-carve/carve-grammars#71), so it scopes as an attribute block here deliberately.",
+        "leading-attribute-brace-before-an-inline-span-stays-literal" to
+            "Negative case for brace binding; the attribute tokens are pinned by `attributes`.",
+        "image-trailing-attribute-is-strict-about-the-glue" to
+            "Glue strictness decides whether the braces bind; the image and attribute tokens are pinned by `image-with-caption` and `attributes`.",
+        "unresolved-footnote-reference-with-a-trailing-attribute-stays-literal" to
+            "Resolution is a later pass and carries no scope; the reference and attribute tokens are pinned by `footnotes` and `attributes`.",
+        "footnote-definition-requires-an-inline-body" to
+            "A body-less definition stays prose; the well-formed case is pinned by `footnotes`.",
+        "footnote-definition-separator-must-be-a-space" to
+            "Separator strictness is parsing; the definition tokens are pinned by `footnotes`.",
+        "link-reference-definition-separator-must-be-a-space" to
+            "Separator strictness is parsing; the definition tokens are pinned by `reference-link`.",
+        "indented-reference-and-footnote-definitions-stay-literal" to
+            "Negative case: indented definitions are prose. Same line-based limitation as the other indented categories; the tokens are pinned by `reference-link` and `footnotes`.",
+        "implicit-heading-references-with-no-definition" to
+            "Whether a reference resolves to a heading is a later pass; the heading and reference tokens are pinned by `headings` and `reference-link`.",
+        "headings-inside-containers-are-not-wrapped" to
+            "Section wrapping is render-time structure; inside a container the heading produces the tokens `headings` pins.",
+        "indented-colon-fence-blocks-stay-literal" to
+            "Negative case: an indented colon fence opens nothing, but the line-based grammar scopes it as an admonition deliberately (markup-carve/carve-grammars#71).",
+        "below-content-column-div-body-in-a-list-item-stays-literal" to
+            "Whether the body is inside the div depends on the content column, which needs block context; the div and list tokens are pinned by `admonitions` and `lists`.",
+        "colon-fence-as-a-block-opener-in-a-list-item" to
+            "The opener produces the same tokens wherever it sits, pinned by `admonitions`.",
+        "opaque-spans-inside-a-container" to
+            "Opacity is about what the renderer descends into; the fence and div tokens are pinned by `fenced-code` and `admonitions`.",
+        "blocks-that-render-to-nothing" to
+            "Rendering to nothing is a render-time outcome; the blocks still scope, and those scopes are pinned by `comments`, `definition-lists` and `abbreviations`.",
+        "indented-image-and-caption-stay-literal" to
+            "Negative case for indented blocks; the image and caption tokens are pinned by `image-with-caption`.",
+        "bare-dot-ordered-markers" to
+            "The bare `.` is an ordered marker and scopes as one - the same numbered-list token `lists` pins. Which value it starts at is not a highlighting distinction.",
+        "definition-list-as-a-first-class-block-opener" to
+            "Opening a list with no preceding paragraph is block structure; the term and definition tokens are pinned by `definition-lists`.",
+        "under-indented-definition-attaches-over-indented-definition-folds" to
+            "Attachment depends on the content column, which needs block context; the tokens are pinned by `definition-lists`.",
+        "wrapped-definition-term-continuation-below-the-content-column-strips-leading-whitespace" to
+            "Whitespace stripping on a continuation line changes the text, not the scopes, which `definition-lists` pins.",
+        "nested-item-looseness-does-not-propagate-to-the-outer-item" to
+            "Looseness decides whether the renderer wraps item content in a paragraph; no token, and the list tokens are pinned by `lists`.",
+        "outer-item-with-an-internal-blank-before-an-attached-block-is-loose" to
+            "The same looseness question from the blank-line side; no token either way.",
+        "post-blank-list-continuation-content-column-model" to
+            "The content column is block context; the marker tokens are pinned by `list-continuation-marker`.",
+        "tight-list-item-keeps-trailing-text-after-a-block-bare" to
+            "Where trailing text attaches is block structure; the list and div tokens are pinned by `lists` and `admonitions`.",
+        "sublist-marker-interrupts-a-continuation-paragraph" to
+            "Whether a marker opens a sublist or folds into the paragraph is block context; both marker kinds are pinned by `lists`.",
+        "indented-ordered-marker-content-column-includes-the-marker-indent" to
+            "A content-column rule with no token of its own; the marker tokens are pinned by `lists` and `list-continuation-marker`.",
+        "thematic-break-requires-contiguous-markers" to
+            "Negative case: a non-contiguous run is not a break. The grammar reads the valid form as a break and the invalid one as list markers or prose; neither adds a scope.",
+        "table-as-a-block-opener-in-a-list-item" to
+            "A table opens with the same row tokens wherever it sits, pinned by `tables`.",
+        "table-row-closing-pipe" to
+            "Whether the closing pipe is required is row parsing; the separator token is pinned by `tables`.",
+        "quote-flanking-after-an-escaped-character" to
+            "Flanking decides which smart quote is produced; the escape and quote tokens are pinned by `escape-coverage` and `smart-typography-dashes-and-quotes`.",
         "table-column-alignment" to
             "Column alignment is a render-time table attribute; the grammar marks `|=` header rows " +
             "and pipes but does not derive per-column alignment, so there is no distinct token to snapshot.",
@@ -163,8 +258,8 @@ object CarveCorpusCategories {
             "Whether a block opener interrupts an open paragraph is a parser block-boundary behavior; the opener scopes themselves are covered by their own categories.",
         "blockquote-lazy-continuation" to
             "Lazy continuation folds a non-`>` line into the quote at parse time; the grammar scopes only the `>` marker line (category 07).",
-        "multi-line-headings" to
-            "Multi-line heading bodies are a parser behavior; the grammar's heading rule is single-line by design (column-0 `#` only, see category 101).",
+        "single-line-headings" to
+            "A heading produces the same marker and title tokens the covered heading categories already pin. Renamed upstream from multi-line-headings when carve#451 made headings end at the newline: the category now asserts the opposite rule, and still has no token-level signal.",
         "blockquote-lazy-continuation-stops-at-a-fenced-block" to
             "A parser block-boundary edge of lazy continuation; no distinct highlighting scope beyond the quote and code-fence scopes already covered.",
         "list-lazy-continuation" to

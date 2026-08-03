@@ -1,0 +1,16 @@
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+'q' -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve
+\n -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+hello -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+\n -> text.carve
+\n -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+'nested' -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+\n -> text.carve
+\n -> text.carve
+a*'q'*\n -> text.carve

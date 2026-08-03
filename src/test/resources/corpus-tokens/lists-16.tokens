@@ -1,10 +1,7 @@
-Intro\n -> text.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-Stay hungry -> text.carve markup.quote.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-Steve Jobs -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
+Liste:\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+eins\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+zwei\n -> text.carve

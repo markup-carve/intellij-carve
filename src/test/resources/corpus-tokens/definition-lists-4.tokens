@@ -1,0 +1,7 @@
+:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.definition.term.carve
+term\n -> text.carve
+: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
+   -> text.carve markup.list.definition.carve
+A definition wrapped\n -> text.carve
+onto the next line.\n -> text.carve

@@ -1,0 +1,6 @@
+The word cat is  -> text.carve
+! -> text.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+/kaet/ -> text.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> text.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+ in IPA.\n -> text.carve
