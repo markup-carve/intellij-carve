@@ -21,7 +21,12 @@ object CarveMarkerScanner {
     private val FENCE_OPEN_INFO = Regex("""^\s*(`{3,}|~{3,})\s*=?[A-Za-z0-9_-]*\s*("[^"\n]*")?\s*(\[[^\]\n]*\])?\s*$""")
     // A closer is a bare fence run on its own line.
     private val FENCE_CLOSE = Regex("""^\s*(`{3,}|~{3,})\s*$""")
-    private val HEADING = Regex("""^(#{1,6})(?=\s|$)""")
+    // MARKER REQUIRES CONTENT: `#` and `#<space>` are prose, not headings
+    // (markup-carve/carve#513). carve-rs renders both as `<p>#</p>`. The
+    // separator is a space or tab, never a newline, and never any other Unicode
+    // space: `#<space><NBSP>H` IS a heading, so the guard is a line-end
+    // lookahead rather than `\S`.
+    private val HEADING = Regex("""^(#{1,6})(?=[ \t])(?![ \t]*$)""")
     // A `>` marker takes a SPACE, or stands alone on its line. Not `>+`, and not
     // `\s`: verified against carve-rs, `>no space`, `>>x`, `>> x` and `>\tx` are
     // all paragraphs - nesting is written `> > x`, a space per marker, and a tab
@@ -30,12 +35,12 @@ object CarveMarkerScanner {
     private val QUOTE = Regex("""^[ \t]*(>)(?= |$)""")
     private val DIV = Regex("""^\s*(:{3,})""")
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
-    private val BULLET = Regex("""^(\s*)([-*](?:\s+[-*])*)(?=\s)""")
+    private val BULLET = Regex("""^([ \t]*)([-*](?:[ \t]+[-*])*)(?=[ \t])(?![ \t]*$)""")
     // Ordered markers: a digit run or a single letter, then `.` or `)` - `1.`, `10.`, `1)`,
     // `a.`, `b)`. A multi-letter word (`Note.`) is prose, and a parenthesized `(1)` is not a
     // marker; both stay literal. (A single letter matches the reference lexer; multi-letter
     // alpha/roman lists are rejected to avoid recolouring ordinary "Word." sentence starts.)
-    private val ORDERED = Regex("""^(\s*)([0-9]+[.)]|[A-Za-z][.)])(?=\s)""")
+    private val ORDERED = Regex("""^([ \t]*)([0-9]+[.)]|[A-Za-z][.)])(?=[ \t])(?![ \t]*$)""")
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
