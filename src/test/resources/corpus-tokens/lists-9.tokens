@@ -2,7 +2,7 @@
   -> text.carve markup.list.numbered.carve
 one\n -> text.carve
 \n -> text.carve
-   -> text.carve markup.quote.carve
+    -> text.carve markup.quote.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
 q -> text.carve markup.quote.carve

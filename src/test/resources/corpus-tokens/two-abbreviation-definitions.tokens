@@ -1,0 +1,18 @@
+* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+HTML -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> text.carve meta.abbreviation.definition.carve
+HyperText Markup Language -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> text.carve
+* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+CSS -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> text.carve meta.abbreviation.definition.carve
+Cascading Style Sheets -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> text.carve
+\n -> text.carve
+HTML and CSS.\n -> text.carve

@@ -1,5 +1,8 @@
-text\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[ ]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+outer\n -> text.carve
    -> text.carve markup.list.unnumbered.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-item\n -> text.carve
+inner\n -> text.carve

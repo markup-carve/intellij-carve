@@ -1,7 +1,14 @@
 1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.numbered.carve
-outer\n -> text.carve
-    -> text.carve markup.list.numbered.carve
-1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+setup\n -> text.carve
+    -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+clone\n -> text.carve
+    -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+install\n -> text.carve
+2. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.numbered.carve
-inner\n -> text.carve
+build\n -> text.carve
