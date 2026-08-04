@@ -1,5 +1,4 @@
-text\n -> text.carve
-   -> text.carve markup.list.unnumbered.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
-item\n -> text.carve
+> q\n -> text.carve
+lazy\n -> text.carve

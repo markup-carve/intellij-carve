@@ -1,0 +1,18 @@
+* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+A -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> text.carve meta.abbreviation.definition.carve
+a -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> text.carve
+* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+A -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> text.carve meta.abbreviation.definition.carve
+b -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> text.carve
+\n -> text.carve
+A here.\n -> text.carve

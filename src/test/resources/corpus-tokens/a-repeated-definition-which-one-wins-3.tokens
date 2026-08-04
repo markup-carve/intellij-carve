@@ -1,0 +1,16 @@
+see  -> text.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+f -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> text.carve
+\n -> text.carve
+[^f]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+one -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve
+\n -> text.carve
+[^f]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+two -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve

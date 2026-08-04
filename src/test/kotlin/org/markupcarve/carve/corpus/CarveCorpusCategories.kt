@@ -26,6 +26,25 @@ object CarveCorpusCategories {
      * token-stream snapshots generated from every matching corpus `.crv` file.
      */
     val COVERED: Set<String> = linkedSetOf(
+        // The golden pins line ONE: `::<TAB>term` carries no marker scope, which
+        // is the rule this category exists for and what #50 fixed.
+        //
+        // It does NOT bless line two. `:  d` is scoped as a definition
+        // description there, and the engines render the whole document as one
+        // paragraph - with no term above it, the `:` line is a lazy
+        // continuation. A line-oriented grammar cannot see that the term line
+        // was disqualified by its tab, and vscode-carve's snapshot has the
+        // identical false positive. Tracked in markup-carve/carve-grammars#91.
+        //
+        // COVERED rather than SKIP, unlike the other line-based false
+        // positives below (markup-carve/carve-grammars#71): in those the whole
+        // document is a negative case with nothing to assert, and here line one
+        // carries the rule. Skipping would drop the only corpus-level
+        // assertion this repo has for it.
+        "a-marker-separator-is-a-space-never-a-tab",
+        "a-flush-left-line-needs-an-open-paragraph-to-fold-into",
+        "a-repeated-definition-which-one-wins",
+        "two-abbreviation-definitions",
         "emphasis",
         "headings",
         "links",

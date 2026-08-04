@@ -1,0 +1,4 @@
+. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+>\n -> text.carve
+X\n -> text.carve

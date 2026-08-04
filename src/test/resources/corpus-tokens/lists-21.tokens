@@ -5,3 +5,8 @@ outer\n -> text.carve
 1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.numbered.carve
 inner\n -> text.carve
+lazy\n -> text.carve
+    -> text.carve markup.list.numbered.carve
+2. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+sibling\n -> text.carve

@@ -1,12 +1,10 @@
-1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.numbered.carve
-outer\n -> text.carve
-    -> text.carve markup.list.numbered.carve
-1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.numbered.carve
-inner\n -> text.carve
-lazy\n -> text.carve
-    -> text.carve markup.list.numbered.carve
-2. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.numbered.carve
-sibling\n -> text.carve
+Intro\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+Stay hungry -> text.carve markup.quote.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Steve Jobs -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
