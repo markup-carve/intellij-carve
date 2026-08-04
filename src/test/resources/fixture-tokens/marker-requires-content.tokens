@@ -62,3 +62,70 @@ cap -> text.carve markup.table.caption.carve string.unquoted.caption.carve
   -> text.carve markup.list.unnumbered.carve
 [x]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
 done\n -> text.carve
+\n -> text.carve
+1. -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+. -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+1. -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+{ -> text.carve meta.attributes.carve
+.y -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ item\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+ item\n -> text.carve
+\n -> text.carve
+. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+ attributed\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"a}b" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+ item\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+'a}b' -> text.carve meta.attributes.carve string.quoted.single.attribute.carve
+} -> text.carve meta.attributes.carve
+ item\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"a\\"b" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+ item\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+  -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+bold -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve
