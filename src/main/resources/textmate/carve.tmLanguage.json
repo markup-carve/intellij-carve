@@ -479,7 +479,7 @@
         },
         {
           "name": "meta.abbreviation.definition.carve",
-          "match": "^\\s*(\\*)(\\[)([A-Z][A-Z0-9]*)(\\])(:)\\s+(.*)$",
+          "match": "^\\s*(\\*)(\\[)([A-Za-z0-9]+)(\\])(:)\\s+(.*)$",
           "captures": {
             "1": {
               "name": "keyword.control.abbreviation.carve"
