@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **A bullet glued to an attribute block is a marker, and both marker rules validate the payload** (markup-carve/carve-grammars#126). The ordered rule learned the glued form; the bundled grammar's bullet rule beside it never did, so `-{#x} item`, `*{.c} item` and `-{title="a}b"} item` went uncoloured on lines that ARE list items. Three corpus goldens pinned the wrong answer.
+
+  Copying the ordered guard verbatim would have coloured `-{+a+} text` as a list, where it renders as a paragraph - `{+a+}` is an insertion span, not attributes. So the guard requires valid attribute syntax and both branches share it; the ordered rule had the same hole. Identifiers are strict (PART 9 §14) and admit no colon, matching carve-js and `CarveMarkerScanner`, which has validated the payload since #55.
+
+  Known limitation, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped; the bullet is. Eleven shapes are pinned in the `bullet-glued-attributes` fixture, both outcomes.
+
 - **A mixed-case roman run is not an ordered marker** (markup-carve/carve-grammars#118). The bundled grammar spelled a roman run as one class, `[ivxlcdmIVXLCDM]+`, which matches any mixture of the two cases - so `Vim. text`, `Mix. text` and `Ix. text` coloured as lists where carve-js renders paragraphs. Those are the shape of a word starting a sentence, which is the risk the rule was written to avoid: it names `Note.` as the case to keep literal, and `Note` falls outside the class while `Vim` does not. Not a length rule - `mix.`, `civil.` and `did.` DO open lists, and so do `ivx.` and `IVX.` - so the fix is two classes. `CarveMarkerScanner` already used the split form (#55), so this closes the last disagreement between the two paths on roman markers.
 
 - **The annotator highlights a marker glued to an attribute block, the bare dot, and roman runs** (#55). `CarveMarkerScanner` is the second place this repo carries the marker rules, and its bullet and ordered patterns demanded a space straight after the marker - so `1.{#x} item` and `-{#x} [x] done` got no marker colour on a line that IS a list item, where the bundled grammar colours it. The same pattern was missing the bare dot (markup-carve/carve#472) and roman runs, both of which the grammar carries, so the two paths disagreed on `. first` and `iv. fourth`.

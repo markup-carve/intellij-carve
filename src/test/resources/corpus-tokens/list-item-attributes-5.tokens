@@ -1,1 +1,2 @@
--{} A bare item via the empty block.\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{} A bare item via the empty block.\n -> text.carve
