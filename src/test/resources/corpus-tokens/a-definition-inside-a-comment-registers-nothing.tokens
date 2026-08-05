@@ -1,0 +1,9 @@
+%%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+[r]: /u\n -> text.carve comment.block.carve
+%%% -> text.carve comment.block.carve
+\n -> text.carve
+[ -> text.carve meta.link.reference.carve
+r -> text.carve meta.link.reference.carve string.other.link.title.carve
+][] -> text.carve meta.link.reference.carve
+\n -> text.carve

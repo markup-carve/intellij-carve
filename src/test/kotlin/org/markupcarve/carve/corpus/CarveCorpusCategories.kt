@@ -132,6 +132,45 @@ object CarveCorpusCategories {
         "a-backslash-in-a-link-destination-is-a-literal-character",
         "autolink-display-keeps-the-raw-content",
         "editorial-markup-takes-a-trailing-attribute",
+        "a-caret-is-a-reference-label-not-an-empty-footnote",
+        "a-collapsed-image-reference-uses-its-alt-text-as-the-label",
+        "a-comment-fence-is-a-comment-at-any-column-too",
+        "a-comment-is-recognized-at-any-column",
+        "a-definition-inside-a-comment-registers-nothing",
+        "a-marker-attribute-may-hold-a-quoted-brace",
+        "a-quote-marker-is-plus-a-space-and-a-lazy-line-keeps-its-own-text",
+        "a-reference-image-takes-a-caption",
+        "an-image-takes-a-reference-the-way-a-link-does",
+        "trailing-attributes-on-a-link-reference-definition",
+        // The comment scope has to survive a non-zero column: ` %% c` under a list item is
+        // still comment.line.percent, which is the rule and is decided on the line.
+        "a-comment-is-recognized-at-any-column",
+        // Same rule for the fence form: comment.block regardless of the column it opens at.
+        "a-comment-fence-is-a-comment-at-any-column-too",
+        // The definition text carries the comment scope rather than a definition scope, which
+        // is exactly what "registers nothing" looks like at token level.
+        "a-definition-inside-a-comment-registers-nothing",
+        // `1.{title='a}b'} item` keeps the `}` inside a quoted string and still opens a
+        // numbered list - a lexical decision, and one tree-sitter-carve#81 gets wrong.
+        "a-marker-attribute-may-hold-a-quoted-brace",
+        // Whether `[^]` scopes as a reference label or a footnote marker is decided by the
+        // characters on the line.
+        "a-caret-is-a-reference-label-not-an-empty-footnote",
+        // The collapsed form scopes its own text as the reference label, which is a lexical
+        // property of the run.
+        "a-collapsed-image-reference-uses-its-alt-text-as-the-label",
+        // An image reference gets the reference scopes a link reference gets; a grammar that
+        // handled only links would show the difference here.
+        "an-image-takes-a-reference-the-way-a-link-does",
+        // The caption line after a reference image takes the caption scopes - a line-level
+        // decision that depends on what the line above was.
+        "a-reference-image-takes-a-caption",
+        // The attribute run at the end of a definition line scopes as attributes rather than
+        // as part of the destination.
+        "trailing-attributes-on-a-link-reference-definition",
+        // The marker-plus-space requirement is lexical; the lazy line's own scopes are what
+        // the golden pins.
+        "a-quote-marker-is-plus-a-space-and-a-lazy-line-keeps-its-own-text",
     )
 
     /**
@@ -317,6 +356,72 @@ object CarveCorpusCategories {
             "Unicode-whitespace stripping before the scheme probe is render-time sanitization; the reference definition and reference link scopes are covered by categories 34-36.",
         "classes-are-deduplicated" to
             "Class deduplication happens when attributes are applied at render time; the attribute scopes are covered by categories 17/64.",
+        "a-blank-after-a-comment-still-ends-the-item" to
+            "Whether the item ends is block context; the comment and list tokens are pinned by `comments` and `lists`.",
+        "a-comment-ends-the-paragraph-it-sits-under" to
+            "Paragraph termination is block context; the tokens are the ones `comments` pins.",
+        "a-comment-fence-at-column-0-ends-the-item-a-line-does-not" to
+            "Which form ends the item is block context; both comment forms are pinned by `comments` and `nested-comment-fences`.",
+        "a-comment-fence-under-a-nested-item-does-not-close-it-either" to
+            "Container nesting is block context; the fence tokens are pinned by `nested-comment-fences`.",
+        "a-comment-under-a-nested-item-does-not-close-it" to
+            "Same block-context rule for the line form; tokens pinned by `comments`.",
+        "an-invisible-line-does-not-cancel-a-blank-line-separation" to
+            "Blank-line bookkeeping across a comment is block context, with no token of its own.",
+        "a-block-attribute-line-inside-a-quote-ends-the-paragraph-above-it" to
+            "Paragraph termination inside a container is block context; the quote and attribute tokens are pinned by `block-attribute-lines` and `quotes`.",
+        "a-floating-attribute-stops-at-the-item-boundary" to
+            "Where an attribute line stops applying is block context; the attribute tokens are pinned by `list-item-attributes`.",
+        "openers-past-the-nesting-cap-are-one-paragraph" to
+            "A depth limit is a parser resource bound; the div tokens are pinned by `generic-divs`.",
+        "a-definition-below-every-content-column-folds-as-text" to
+            "Which column a definition must start at is block context; the reference tokens are pinned by `reference-links`.",
+        "a-definition-inside-a-container-is-collected-at-that-container-s-content-column" to
+            "Content-column arithmetic inside a container, invisible to a line-based grammar.",
+        "a-definition-below-a-footnote-body-s-column-is-the-document-s-own-text" to
+            "Footnote-body column arithmetic; the definition and footnote tokens are pinned by `footnotes` and `reference-links`.",
+        "a-definition-on-a-footnote-body-s-continuation-line-is-collected" to
+            "Same arithmetic, positive case; no token distinguishes where the definition was collected.",
+        "a-definition-past-a-footnote-body-s-column-is-the-body-s-own-text" to
+            "Same arithmetic, third column; tokens identical either way.",
+        "a-footnote-body-s-own-column-is-two-and-a-third-column-is-its-text" to
+            "The body's own column is block context; the footnote tokens are pinned by `footnotes`.",
+        "a-flush-left-line-after-a-footnote-definition-belongs-to-the-document" to
+            "Whether a flush-left line continues the body or leaves it is block context.",
+        "a-footnote-body-holds-blocks-and-they-render-where-they-were-written" to
+            "Where the body's blocks render is a rendering property; each block's tokens are pinned by its own category.",
+        "a-nested-list-in-a-footnote-body-stays-nested" to
+            "Nesting inside a body is block context; the list tokens are pinned by `lists`.",
+        "a-heading-in-a-footnote-body-takes-an-id-but-no-section-wrapper" to
+            "The section wrapper is a rendering decision; the heading tokens are pinned by `headings`.",
+        "an-attribute-line-inside-a-footnote-body-attaches-inside-it" to
+            "What the attribute line attaches to is block context; the tokens are pinned by `block-attribute-lines`.",
+        "an-abbreviation-at-a-list-item-s-content-column-is-still-not-a-definition" to
+            "Document-level-only recognition is block context; the abbreviation tokens are pinned by `abbreviations`.",
+        "an-abbreviation-definition-is-recognized-only-at-document-level" to
+            "Negative case inside a quote: no abbreviation scope appears, and the absence is the point.",
+        "a-list-item-does-not-define-an-abbreviation-either" to
+            "Same negative case under a list item; the grammar emits no abbreviation scope.",
+        "a-collapsed-reference-is-matched-by-the-label-the-author-wrote" to
+            "Label matching is resolution; the reference tokens are pinned by `reference-links`.",
+        "an-unresolved-image-reference-stays-literal" to
+            "Whether a reference resolves is not a token property; both forms scope identically.",
+        "an-unresolved-reference-image-takes-no-caption" to
+            "The caption is dropped during resolution, so the tokens are the same as the resolved case pinned by `a-reference-image-takes-a-caption`.",
+        "one-definition-serves-a-link-and-an-image" to
+            "One definition serving two references is resolution; the tokens are two ordinary reference runs.",
+        "a-heading-id-keeps-a-non-ascii-space" to
+            "Generated ids are not tokens; the heading tokens are pinned by `headings`.",
+        "a-heading-reference-folds-unicode-normalization-but-not-compatibility" to
+            "Normalization happens in the reference index, with no token-level signal.",
+        "a-combined-bold-italic-span-may-cross-a-line" to
+            "The document tokenizes as plain text end to end: a line-based grammar cannot carry an emphasis run across a newline, so there is no scope to assert.",
+        "a-description-line-needs-a-term-above-it" to
+            "The grammar scopes `:  [r]: /u` as a definition-list marker although no term precedes it, so the golden would bless a false positive. Same line-based limit as markup-carve/carve-grammars#91, which the tab case records.",
+        "a-div-does-not-define-an-abbreviation-either" to
+            "MEASURED FALSE POSITIVE: the grammar scopes `*[HTML]: Hyper Text` inside a div as meta.abbreviation.definition, where the spec says a div defines nothing. Tracked in markup-carve/carve-grammars#125; a golden here would pin the wrong answer.",
+        "a-tag-inside-a-literal-brace-run-is-still-a-tag" to
+            "MEASURED FALSE NEGATIVE: `# H {#id .cls}` scopes entirely as heading text, so the tag inside the literal brace run gets no tag scope. Tracked in markup-carve/carve-grammars#125.",
     )
 
     /**

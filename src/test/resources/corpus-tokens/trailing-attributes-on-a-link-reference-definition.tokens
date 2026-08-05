@@ -1,0 +1,21 @@
+[ -> text.carve meta.link.reference.carve
+Example -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+ex -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+ and  -> text.carve
+[ -> text.carve meta.link.reference.carve
+again -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+ex -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+\n -> text.carve
+\n -> text.carve
+[ex]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+https://example.com -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> text.carve
+{ -> text.carve meta.attributes.carve
+.external -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
