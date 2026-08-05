@@ -1,0 +1,12 @@
+[^]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+/u -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve
+\n -> text.carve
+see  -> text.carve
+[ -> text.carve meta.link.reference.carve
+text -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+^ -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+.\n -> text.carve

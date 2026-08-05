@@ -1,0 +1,16 @@
+! -> text.carve
+[ -> text.carve meta.link.reference.carve
+a -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+ok -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+cap -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
+\n -> text.carve
+[ok]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+/p.png -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve

@@ -1,0 +1,19 @@
+{ -> text.carve meta.attributes.carve
+.a -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+[ex]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+/u -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> text.carve
+{ -> text.carve meta.attributes.carve
+.b -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.link.reference.carve
+E -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+ex -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+ and text\n -> text.carve
