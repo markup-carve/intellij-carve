@@ -169,4 +169,110 @@ class CarveMarkerScannerTest {
             keys,
         )
     }
+
+    /**
+     * A marker may be GLUED to an attribute block, and then the required space comes
+     * after the block. Both patterns demanded the space immediately, so the annotator
+     * left the marker uncoloured on a line that IS a list item - the bundled grammar
+     * colours it (markup-carve/intellij-carve#55). Every shape below was run through
+     * carve-js.
+     */
+    @Test
+    fun markerGluedToAnAttributeBlock() {
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{#x} item\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{#x} item\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{#x} [x] done\n"))
+        assertEquals(listOf("." to CarveColors.LIST_MARKER), covered(".{#x} item\n"))
+    }
+
+    @Test
+    fun anAttributeValueMayHoldABrace() {
+        // The block is spelled out rather than skipped with a `\{[^}]*\}` run: a quoted
+        // value may contain `}` and may escape its own quote, and both of these are list
+        // items. A short run stops at the inner brace and loses the marker.
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{title=\"a}b\"} item\n"))
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{title='a}b'} item\n"))
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{title=\"a\\\"b\"} item\n"))
+    }
+
+    @Test
+    fun anAttributeBlockWithNoContentAfterItIsNotAMarker() {
+        // MARKER REQUIRES CONTENT applies past the block too: `1.{#x}` alone is a
+        // paragraph (#54), and two glued blocks are a paragraph even with content.
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{#x}\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{#x}\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{#x}{.y} item\n"))
+    }
+
+    /**
+     * The bare dot continues an ordered sequence and is the only marker allowed to drop
+     * its value (markup-carve/carve#472). The grammar carried it; this did not.
+     */
+    @Test
+    fun bareDotIsAMarker() {
+        assertEquals(listOf("." to CarveColors.LIST_MARKER), covered(". first\n"))
+        // Not a marker without the separator, and not with nothing after it.
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(".5 million\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered(". \n"))
+    }
+
+    /**
+     * Roman runs, which the grammar carried and this did not. A run is CASE-CONSISTENT:
+     * `ivx.` and `IVX.` are lists, `Vim.` and `Mix.` are paragraphs. Checked against
+     * carve-js, which is also why this does not copy the grammar's single mixed-case
+     * class - that colours `Vim. text` as a list.
+     */
+    @Test
+    fun romanRunsAreMarkersWhenTheCaseIsConsistent() {
+        assertEquals(listOf("iv." to CarveColors.LIST_MARKER), covered("iv. fourth\n"))
+        assertEquals(listOf("IV." to CarveColors.LIST_MARKER), covered("IV. fourth\n"))
+        assertEquals(listOf("xi)" to CarveColors.LIST_MARKER), covered("xi) eleventh\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("Vim. text\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("Mix. text\n"))
+        // A multi-letter non-roman word was already prose and stays prose.
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("Note. text\n"))
+    }
+
+    /**
+     * An invalid payload means the `{` is literal content and the line is prose - a
+     * brace-delimited run is not enough. Checked against carve-js; the two bundled
+     * TextMate grammars disagree with each other on this set, and neither is right.
+     */
+    @Test
+    fun anInvalidGluedPayloadIsNotAMarker() {
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{2=v} text\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{bad!!} text\n"))
+        // `{+a+}` is an insertion span, not attributes.
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{+a+} text\n"))
+        // The other direction: bare keys ARE attributes (two booleans), so this IS a
+        // list item and the marker is coloured.
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{not attrs} text\n"))
+        // An empty block is valid and attaches nothing.
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{} text\n"))
+    }
+
+    /**
+     * The identifier is STRICT (spec PART 9 §14). Every shape here was run through
+     * carve-js; the dash-first and colon forms are paragraphs, which is easy to get
+     * wrong in both directions - the highlighting grammars admit a colon in a key.
+     */
+    @Test
+    fun theGluedPayloadUsesStrictIdentifiers() {
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{data-x=y} item\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{_k} item\n"))
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{#a-b} item\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{--flag} item\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{#-id} item\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{a:b} item\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{a:b=v} item\n"))
+    }
+
+    @Test
+    fun theUnattributedFormsAreUntouched() {
+        // The boundary: widening the guard must not change the plain markers.
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("- item\n"))
+        assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1. item\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.\n"))
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("- \n"))
+    }
 }

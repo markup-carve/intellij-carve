@@ -34,13 +34,52 @@ object CarveMarkerScanner {
     // marker in `>>= operator` and `>=3 items`, which the language calls prose.
     private val QUOTE = Regex("""^[ \t]*(>)(?= |$)""")
     private val DIV = Regex("""^\s*(:{3,})""")
+    // A marker may be GLUED to an attribute block, and then the required space comes
+    // after the block, not after the marker (`1.{#x} item`, `-{#x} [x] done`). Both
+    // patterns below demanded the space immediately, so the annotator left the marker
+    // uncoloured on a line that IS a list item - the bundled grammar colours it
+    // (markup-carve/intellij-carve#55).
+    //
+    // The block is spelled out rather than skipped with `\{[^}]*\}`: a value may hold a
+    // `}` inside quotes and may escape its own quote, so a short run stops in the wrong
+    // place and rejects `1.{title="a}b"} item`, which is a valid item (#54).
+    //
+    // The payload must be VALID attribute syntax, not merely brace-delimited: an invalid
+    // one means the `{` is literal content and the line is prose. `1.{2=v} text`,
+    // `1.{+a+} text` and `1.{bad!!} text` are all paragraphs, while `-{not attrs} text`
+    // is a list item with two boolean attributes - checked against carve-js, and the two
+    // bundled grammars disagree with each other on exactly this set. An identifier is
+    // STRICT (spec PART 9 §14): a class, id or key starts with a letter or `_` and then
+    // takes letters, digits, `_` and `-`. Nothing else - `1.{2=v}` (digit first),
+    // `-{--flag}` and `1.{#-id}` (dash first) and `-{a:b}` (colon) are all paragraphs,
+    // while `1.{data-x=y}`, `-{_k}` and `1.{#a-b}` are list items. The highlighting
+    // grammars admit a colon in a key; carve-js does not, and it is the arbiter here.
+    private const val ATTR_ITEM =
+        """(?:[.#][A-Za-z_][\w-]*|[A-Za-z_][\w-]*""" +
+            """(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}]+))?)"""
+    private const val ATTR_BLOCK = """\{\s*(?:$ATTR_ITEM(?:\s+$ATTR_ITEM)*\s*)?\}"""
+    // Content is still REQUIRED after the block: `1.{#x}` alone is a paragraph (#54).
+    private val AFTER_MARKER = """(?:(?=[ \t])|(?=$ATTR_BLOCK[ \t]+[^ \t\n]))(?![ \t]*$)"""
+
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
-    private val BULLET = Regex("""^([ \t]*)([-*](?:[ \t]+[-*])*)(?=[ \t])(?![ \t]*$)""")
-    // Ordered markers: a digit run or a single letter, then `.` or `)` - `1.`, `10.`, `1)`,
-    // `a.`, `b)`. A multi-letter word (`Note.`) is prose, and a parenthesized `(1)` is not a
-    // marker; both stay literal. (A single letter matches the reference lexer; multi-letter
-    // alpha/roman lists are rejected to avoid recolouring ordinary "Word." sentence starts.)
-    private val ORDERED = Regex("""^([ \t]*)([0-9]+[.)]|[A-Za-z][.)])(?=[ \t])(?![ \t]*$)""")
+    private val BULLET = Regex("""^([ \t]*)([-*](?:[ \t]+[-*])*)$AFTER_MARKER""")
+    // Ordered markers: a digit run, a single letter or a roman run, then `.` or `)` -
+    // `1.`, `10.`, `1)`, `a.`, `b)`, `iv.`, `XI)` - plus the BARE DOT, which continues an
+    // ordered sequence and is the only marker allowed to drop its value
+    // (markup-carve/carve#472). A multi-letter non-roman word (`Note.`) is prose, and a
+    // parenthesized `(1)` is not a marker; both stay literal.
+    //
+    // Roman and the bare dot were missing here while the bundled grammar carried both,
+    // so the annotator disagreed with the highlighter on `iv. fourth` and `. first`.
+    // Verified against carve-js: both open an `<ol>`, and `Note. text` stays a paragraph.
+    //
+    // A roman run is CASE-CONSISTENT: two classes, not one `[ivxlcdmIVXLCDM]`. Mixed case
+    // is prose - `Vim. text` and `Mix. text` are paragraphs where `ivx.` and `IVX.` are
+    // lists, checked against carve-js. The bundled grammar uses the mixed class and
+    // colours `Vim. text` as a list; this deliberately does not copy that.
+    private val ORDERED = Regex(
+        """^([ \t]*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\.)$AFTER_MARKER""",
+    )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val PIPE = Regex("""(?<!\\)\|""")
