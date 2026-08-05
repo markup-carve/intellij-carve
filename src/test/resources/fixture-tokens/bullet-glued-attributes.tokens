@@ -1,0 +1,57 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+ an attributed bullet\n -> text.carve
+\n -> text.carve
+* -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ an attributed star bullet\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{} an empty block attaches nothing\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{not attrs} -> text.carve meta.attributes.carve
+ bare keys are two boolean attributes\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"a}b" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+ a brace inside a quoted value\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ [x] a task item carrying a class\n -> text.carve
+\n -> text.carve
+- -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+- -> text.carve
+{ -> text.carve meta.attributes.carve
+#x -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> text.carve meta.attributes.carve
+{ -> text.carve meta.attributes.carve
+.y -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ two glued blocks are prose even with content\n -> text.carve
+\n -> text.carve
+- -> text.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+a -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+ an insertion span is not attributes\n -> text.carve
+\n -> text.carve
+-{2=v} a digit-first key is not an attribute\n -> text.carve
+\n -> text.carve
+-{a:b} a colon is not an identifier character\n -> text.carve
