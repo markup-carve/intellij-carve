@@ -1,0 +1,27 @@
+iv. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+lower roman\n -> text.carve
+\n -> text.carve
+IV. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+upper roman\n -> text.carve
+\n -> text.carve
+ivx. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+a longer lower run\n -> text.carve
+\n -> text.carve
+IVX. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+a longer upper run\n -> text.carve
+\n -> text.carve
+mix. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+a word made only of roman letters\n -> text.carve
+\n -> text.carve
+Vim. mixed case is prose\n -> text.carve
+\n -> text.carve
+Mix. mixed case is prose\n -> text.carve
+\n -> text.carve
+Ix. two letters, mixed case, prose\n -> text.carve
+\n -> text.carve
+Note. an ordinary sentence start\n -> text.carve
