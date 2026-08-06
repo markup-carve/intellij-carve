@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **The preview and HTML export render on a current engine again** (#62). The bundled `carve.iife.js` was built from carve-js `d0febc95` on 14 July and was 363 commits behind. Measured through the artifact rather than the recorded commit, it rendered **140 of carve `main`'s 690 corpus documents differently**, and 110 of the 610 in this plugin's own pinned corpus. None of them threw, so the preview showed wrong HTML with nothing to indicate it. Rebuilt from `3d95e948`: 0 of 690.
+
+  The language server bundle moved from carve-lsp `156681d1` to `14320242`, taking its engine from carve-js `e28acbf1` to the published `0.1.2` - 140 of 690 down to 91. That is not parity. carve-lsp pins the published package exactly, so the remainder needs a carve-js release and is tracked as markup-carve/carve#608.
+
+  Two documents still differ from this repo's pinned corpus, both recorded by name: one whose golden changed upstream after the spec pin (the engine is right, the pin is old), and one with 100 nested containers that overflows the GraalJS host stack - the same bundle renders it correctly under Node, so the limit is the plugin's JS host rather than the engine.
+
 - **A bullet glued to an attribute block is a marker, and both marker rules validate the payload** (markup-carve/carve-grammars#126). The ordered rule learned the glued form; the bundled grammar's bullet rule beside it never did, so `-{#x} item`, `*{.c} item` and `-{title="a}b"} item` went uncoloured on lines that ARE list items. Three corpus goldens pinned the wrong answer.
 
   Copying the ordered guard verbatim would have coloured `-{+a+} text` as a list, where it renders as a paragraph - `{+a+}` is an insertion span, not attributes. So the guard requires valid attribute syntax and both branches share it; the ordered rule had the same hole. Identifiers are strict (PART 9 §14) and admit no colon, matching carve-js and `CarveMarkerScanner`, which has validated the payload since #55.

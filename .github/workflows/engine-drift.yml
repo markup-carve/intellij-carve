@@ -1,0 +1,149 @@
+name: Engine drift
+
+# The two engine bundles under src/main/resources are vendored artifacts, and
+# nothing watched them. `bump-downstream` in markup-carve/carve discovers work
+# through `.gitmodules`, and there is no submodule for either engine here, so
+# that automation cannot see this repo at all. The preview bundle reached 363
+# commits behind - rendering 140 of 690 corpus documents differently, none of
+# them throwing - before anyone measured it (#62).
+#
+# Two questions, deliberately kept apart:
+#
+#   1. Is the recorded provenance real and how far behind is it? Cheap, and it
+#      is the first thing that goes stale. The build scripts have always written
+#      these headers; this is the job that reads them.
+#   2. What does the vendored artifact actually DO? A commit distance is a
+#      proxy; the corpus is the measurement. 363 commits can mean nothing, and
+#      ten can mean a broken construct, so the gate below counts DOCUMENTS.
+#
+# `./gradlew test` already runs the offline half of both (CarveBundleCorpusTest
+# against the pinned corpus, CarveBundleProvenanceTest against the headers).
+# This workflow is the part that needs the network, so it stays out of the build
+# and off the pull_request trigger.
+
+on:
+  schedule:
+    # 06:00 UTC daily, an hour after spec-drift, so the two reports do not
+    # interleave in the run list.
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+env:
+  # How many corpus documents the vendored preview bundle may render
+  # differently from carve `main` before this fails.
+  #
+  # Not zero: carve `main` adds corpus documents daily, and a document pinning a
+  # rule written after the bundle was built is expected to differ for a day or
+  # two - failing on that would only teach people to ignore the job. Not large
+  # either: the state nobody noticed was 140. Ten is roughly a week of upstream
+  # golden churn at the observed rate (one existing golden changed across the 84
+  # commits measured when this was written), so a bundle that is genuinely
+  # falling behind trips this well before it becomes another 140.
+  DRIFT_MAX_DOCUMENTS: 10
+
+jobs:
+  provenance:
+    name: The recorded provenance is real
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out carve-js
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve-js
+          path: upstream/carve-js
+          fetch-depth: 0
+
+      - name: Check out carve-lsp
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve-lsp
+          path: upstream/carve-lsp
+          fetch-depth: 0
+
+      - name: Read the headers the build scripts wrote
+        run: |
+          set -euo pipefail
+
+          # A recorded commit that is not on the upstream default branch is a
+          # hard failure, not a lag report: it means the bundle came from an
+          # unmerged or rewritten branch and cannot be reproduced from anything
+          # public. Same rule spec-drift.yml applies to the spec pin.
+          check() {
+            local label="$1" file="$2" pattern="$3" repo="$4"
+            local rev
+            rev="$(grep -m1 -oP "$pattern" "$file" || true)"
+            if [ -z "$rev" ]; then
+              echo "::error::${file} records no ${label} commit - the provenance header is missing or was hand-edited"
+              return 1
+            fi
+            echo "${label}: ${rev}"
+            if ! git -C "upstream/${repo}" cat-file -e "${rev}^{commit}" 2>/dev/null; then
+              echo "::error::${file} records ${label} ${rev}, which is not a commit in markup-carve/${repo}"
+              return 1
+            fi
+            if ! git -C "upstream/${repo}" merge-base --is-ancestor "$rev" origin/main; then
+              echo "::error::${label} ${rev} is not on main, so the bundle came from an unmerged or rewritten branch"
+              return 1
+            fi
+            local behind
+            behind="$(git -C "upstream/${repo}" rev-list --count "${rev}..origin/main")"
+            echo "  $(git -C "upstream/${repo}" log -1 --format='%ci %s' "$rev")"
+            echo "  markup-carve/${repo} main is ${behind} commit(s) ahead"
+            if [ "$behind" -gt 0 ]; then
+              echo "::warning::${label} is ${behind} commit(s) behind markup-carve/${repo} main"
+            fi
+          }
+
+          rc=0
+          check carve-js src/main/resources/js/carve.iife.js \
+            '(?<=Bundled from markup-carve/carve-js commit )[0-9a-f]{40}' carve-js || rc=1
+          check carve-lsp src/main/resources/lsp/server.js \
+            '(?<=Bundled from markup-carve/carve-lsp commit )[0-9a-f]{40}' carve-lsp || rc=1
+
+          # The engine inside the language-server bundle is whatever carve-lsp
+          # itself pins. It pins the PUBLISHED package exactly (carve-lsp
+          # 465a0d5), so this line is reported, never gated here: closing that
+          # gap needs a carve-js release, which is markup-carve/carve#608 and
+          # not something this repo can do.
+          engine="$(grep -m1 -oP '(?<=// carve-js dependency ).+' src/main/resources/lsp/server.js || true)"
+          echo "language server carries engine: ${engine:-MISSING}"
+          if [ -z "$engine" ] || [ "$engine" = "commit unknown" ]; then
+            echo "::error::lsp/server.js records no usable carve-js reference ('${engine}') - rebuild with tools/build-lsp-bundle.sh"
+            rc=1
+          fi
+          exit "$rc"
+
+  corpus:
+    name: The vendored bundle still renders carve main's corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out the corpus from carve main
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve
+          path: carve-main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Render every corpus document through the vendored bundle
+        run: |
+          set -euo pipefail
+          out="$(node tools/corpus-through-bundle.mjs \
+            src/main/resources/js/carve.iife.js \
+            carve-main/tests/corpus --list | tee /dev/stderr)"
+          documents="$(printf '%s\n' "$out" | sed -n 's/^documents=//p')"
+          wrong="$(printf '%s\n' "$out" | sed -n 's/^wrong=//p')"
+          echo "the vendored preview bundle renders ${wrong} of ${documents} carve main documents differently"
+          if [ "$wrong" -gt "${DRIFT_MAX_DOCUMENTS}" ]; then
+            echo "::error::${wrong} of ${documents} corpus documents render differently, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. Rebuild with 'tools/build-carve-bundle.sh ../carve-js' and commit the result."
+            exit 1
+          fi
+          if [ "$wrong" -gt 0 ]; then
+            echo "::warning::${wrong} of ${documents} corpus documents render differently (tolerance ${DRIFT_MAX_DOCUMENTS})"
+          fi
