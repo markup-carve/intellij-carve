@@ -49,6 +49,21 @@ checkout and committed. To refresh it:
 tools/build-carve-bundle.sh ../carve-js
 ```
 
+A second argument writes the bundle somewhere else instead of over the vendored
+one. `engine-drift.yml` uses it to build a throwaway REFERENCE bundle from
+carve-js `main` through this same recipe, so it can report how much of the
+measured drift a rebuild here would actually fix:
+
+```bash
+tools/build-carve-bundle.sh ../carve-js /tmp/reference.iife.js
+node tools/corpus-through-bundle.mjs src/main/resources/js/carve.iife.js \
+  ../carve/tests/corpus --list --reference /tmp/reference.iife.js
+```
+
+`wrong=` is the vendored bundle against carve `main`; `reference_wrong=` is
+carve-js `main` against the same corpus, which is upstream engine debt this repo
+cannot close; `attributable=` is the difference, and the only one gated.
+
 The `gradle test` task exercises this bundle under GraalJS, so a broken or
 incompatible bundle fails CI.
 

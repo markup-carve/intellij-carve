@@ -8,12 +8,20 @@
 # runs on GraalJS for preview and HTML export.
 #
 # Usage:
-#   tools/build-carve-bundle.sh [path-to-carve-js]
+#   tools/build-carve-bundle.sh [path-to-carve-js] [output-file]
+#
+# The output path defaults to the vendored bundle. engine-drift.yml passes a
+# temporary one so it can build a REFERENCE bundle from carve-js `main` through
+# this same recipe and diff the two measurements - see corpus-through-bundle.mjs
+# for why that comparison is the one worth gating on. Reusing this script rather
+# than repeating the esbuild flags there is the point: a reference built with
+# different flags would measure the flags, not the engine.
 #
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")/.." && pwd)"
 carve_js="${1:-$here/../carve-js}"
+out="${2:-$here/src/main/resources/js/carve.iife.js}"
 
 if [ ! -f "$carve_js/dist/index.js" ]; then
   echo "carve-js dist not found at $carve_js/dist/index.js" >&2
@@ -21,7 +29,11 @@ if [ ! -f "$carve_js/dist/index.js" ]; then
   exit 1
 fi
 
-out="$here/src/main/resources/js/carve.iife.js"
+# esbuild runs from inside the carve-js checkout (below), so a relative output
+# path would land there rather than where the caller meant. Absolutise it first.
+mkdir -p "$(dirname "$out")"
+out="$(cd "$(dirname "$out")" && pwd)/$(basename "$out")"
+
 # Run esbuild from inside the carve-js checkout so the module path comments it
 # emits are checkout-relative (dist/...) instead of embedding machine-local
 # paths from wherever the script happens to be invoked.
