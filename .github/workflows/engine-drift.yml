@@ -14,7 +14,11 @@ name: Engine drift
 #      these headers; this is the job that reads them.
 #   2. What does the vendored artifact actually DO? A commit distance is a
 #      proxy; the corpus is the measurement. 363 commits can mean nothing, and
-#      ten can mean a broken construct, so the gate below counts DOCUMENTS.
+#      ten can mean a broken construct, so the gate below counts DOCUMENTS -
+#      specifically, documents a rebuild here would fix, measured by rendering
+#      the same corpus through a bundle built from carve-js `main` and taking
+#      the difference. See DRIFT_MAX_DOCUMENTS for why the raw count is the
+#      wrong number to gate on.
 #
 # `./gradlew test` already runs the offline half of both (CarveBundleCorpusTest
 # against the pinned corpus, CarveBundleProvenanceTest against the headers).
@@ -30,15 +34,24 @@ on:
 
 env:
   # How many corpus documents the vendored preview bundle may render
-  # differently from carve `main` before this fails.
+  # differently from carve `main` THAT A BUNDLE BUILT FROM carve-js `main` GETS
+  # RIGHT, before this fails.
   #
-  # Not zero: carve `main` adds corpus documents daily, and a document pinning a
-  # rule written after the bundle was built is expected to differ for a day or
-  # two - failing on that would only teach people to ignore the job. Not large
-  # either: the state nobody noticed was 140. Ten is roughly a week of upstream
-  # golden churn at the observed rate (one existing golden changed across the 84
-  # commits measured when this was written), so a bundle that is genuinely
-  # falling behind trips this well before it becomes another 140.
+  # The qualifier is the whole design, and it was learned the hard way. This
+  # gate first read the raw count, and that count is two lags added together:
+  # the vendored bundle behind carve-js, plus carve-js behind carve. The day
+  # after it landed, carve `main` merged thirteen spec commits carve-js had not
+  # implemented; the bundle was rebuilt from carve-js `main` and STILL rendered
+  # 22 of 797 documents differently, because the engine itself had not caught up
+  # (markup-carve/carve-js is where that lands, and the published-release half
+  # is markup-carve/carve#608). A gate that fails with a remediation the repo
+  # cannot perform gets its tolerance raised until it means nothing.
+  #
+  # So the number below counts only what rebuilding here actually fixes. Not
+  # zero: carve-js merges through the day, and a bundle committed this morning
+  # legitimately trails a fix merged this afternoon. Not large either - the
+  # state nobody noticed was 140 documents this repo could have fixed by
+  # rebuilding, and ten is a comfortable fraction of that.
   DRIFT_MAX_DOCUMENTS: 10
 
 jobs:
@@ -127,23 +140,52 @@ jobs:
           repository: markup-carve/carve
           path: carve-main
 
+      - name: Check out carve-js
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve-js
+          path: upstream/carve-js
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # The reference the vendored bundle is judged against: the same corpus,
+      # the same build recipe, but carve-js `main` instead of whatever commit
+      # was vendored. Built through tools/build-carve-bundle.sh deliberately -
+      # a reference assembled with different esbuild flags would measure the
+      # flags rather than the engine.
+      - name: Build a reference bundle from carve-js main
+        run: |
+          set -euo pipefail
+          (cd upstream/carve-js && npm ci && npm run build)
+          tools/build-carve-bundle.sh upstream/carve-js "$RUNNER_TEMP/reference.iife.js"
 
       - name: Render every corpus document through the vendored bundle
         run: |
           set -euo pipefail
           out="$(node tools/corpus-through-bundle.mjs \
             src/main/resources/js/carve.iife.js \
-            carve-main/tests/corpus --list | tee /dev/stderr)"
-          documents="$(printf '%s\n' "$out" | sed -n 's/^documents=//p')"
-          wrong="$(printf '%s\n' "$out" | sed -n 's/^wrong=//p')"
+            carve-main/tests/corpus --list \
+            --reference "$RUNNER_TEMP/reference.iife.js" | tee /dev/stderr)"
+          field() { printf '%s\n' "$out" | sed -n "s/^$1=//p"; }
+          documents="$(field documents)"
+          wrong="$(field wrong)"
+          reference_wrong="$(field reference_wrong)"
+          attributable="$(field attributable)"
+
           echo "the vendored preview bundle renders ${wrong} of ${documents} carve main documents differently"
-          if [ "$wrong" -gt "${DRIFT_MAX_DOCUMENTS}" ]; then
-            echo "::error::${wrong} of ${documents} corpus documents render differently, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. Rebuild with 'tools/build-carve-bundle.sh ../carve-js' and commit the result."
+          echo "a bundle built from carve-js main renders ${reference_wrong} of them differently"
+          echo "so ${attributable} are attributable to this repo's vendored bundle being stale"
+
+          if [ "$reference_wrong" -gt 0 ]; then
+            echo "::notice::carve-js main itself renders ${reference_wrong} of ${documents} carve main documents differently. That is upstream engine debt and rebuilding here cannot close it."
+          fi
+
+          if [ "$attributable" -gt "${DRIFT_MAX_DOCUMENTS}" ]; then
+            echo "::error::${attributable} of ${documents} corpus documents render differently through the vendored bundle but correctly through carve-js main, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. Rebuild with 'tools/build-carve-bundle.sh ../carve-js' and commit the result."
             exit 1
           fi
-          if [ "$wrong" -gt 0 ]; then
-            echo "::warning::${wrong} of ${documents} corpus documents render differently (tolerance ${DRIFT_MAX_DOCUMENTS})"
+          if [ "$attributable" -gt 0 ]; then
+            echo "::warning::${attributable} of ${documents} corpus documents would be fixed by rebuilding the vendored bundle (tolerance ${DRIFT_MAX_DOCUMENTS})"
           fi
