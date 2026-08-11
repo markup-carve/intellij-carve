@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-08-11
+
 ### Changed
 
 - **The preview and HTML export render on a current engine again** (#62). The bundled `carve.iife.js` was built from carve-js `d0febc95` on 14 July and was 363 commits behind. Measured through the artifact rather than the recorded commit, it rendered **140 of carve `main`'s 690 corpus documents differently**, and 110 of the 610 in this plugin's own pinned corpus. None of them threw, so the preview showed wrong HTML with nothing to indicate it. Rebuilt from `3d95e948`: 0 of 690.
