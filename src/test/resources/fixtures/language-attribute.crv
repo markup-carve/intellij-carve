@@ -1,0 +1,14 @@
+[x]{:fr} a span carrying a language
+
+{:de}
+a block-attribute line carrying a language
+
+-{:fr} a bullet glued to a language attribute
+
+1.{:fr} an ordered marker glued to a language attribute
+
+[y]{:zh-Hant .hl} a language beside a class
+
+[z]{:} the empty form
+
+[w]{:toolongtag} nine characters is not a subtag

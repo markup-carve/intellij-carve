@@ -1,0 +1,48 @@
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+:fr -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve meta.attributes.carve
+ a span carrying a language\n -> text.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+:de -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+a block-attribute line carrying a language\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+:fr -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve meta.attributes.carve
+ a bullet glued to a language attribute\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+:fr -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve meta.attributes.carve
+ an ordered marker glued to a language attribute\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+y -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+:zh-Hant -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+  -> text.carve meta.attributes.carve
+.hl -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ a language beside a class\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+z -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+: -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve meta.attributes.carve
+ the empty form\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+w -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{:toolongtag} nine characters is not a subtag\n -> text.carve
