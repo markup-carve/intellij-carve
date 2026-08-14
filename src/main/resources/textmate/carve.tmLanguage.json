@@ -736,9 +736,9 @@
             "0": {
               "patterns": [
                 {
-                  "comment": "The language attribute (markup-carve/carve#1114) is the one item that opens with a colon. It goes FIRST: the key rule below admits a leading colon but needs an `=` after it, so `:fr` would otherwise fall through every rule and keep only the anonymous meta scope.",
+                  "comment": "The language attribute (markup-carve/carve#1114) is the one item that opens with a colon. It goes FIRST: the key rule below admits a leading colon but needs an `=` after it, so `:fr` would otherwise fall through every rule and keep only the anonymous meta scope. The lookbehind is what keeps it an ITEM: an unquoted value may itself begin with a colon (`{key=:fr}`), and that colon starts at the same offset as the value rule's match, so without the boundary the first-listed language rule would claim it.",
                   "name": "entity.other.attribute-name.language.carve",
-                  "match": ":(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?"
+                  "match": "(?<=[{\\s]):(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?"
                 },
                 {
                   "name": "entity.other.attribute-name.id.carve",
