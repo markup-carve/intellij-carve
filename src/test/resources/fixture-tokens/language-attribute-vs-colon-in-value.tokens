@@ -1,0 +1,29 @@
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+a -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+:fr -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+b -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"a:b" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+c -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+url -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+https://example.com -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
