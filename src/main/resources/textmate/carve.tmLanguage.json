@@ -19,6 +19,9 @@
       "include": "#code-blocks"
     },
     {
+      "include": "#figure-group"
+    },
+    {
       "include": "#divs"
     },
     {
@@ -217,6 +220,115 @@
               "name": "keyword.control.raw.end.carve"
             }
           }
+        }
+      ]
+    },
+    "figure-group": {
+      "patterns": [
+        {
+          "name": "markup.other.figure-group.carve",
+          "comment": "Composite figure (PART 9 §4c, markup-carve/carve#1215; tracked as markup-carve/carve-grammars#222). The kind word `figure` is RESERVED among the `:::` types: a BARE opener - the fence, its separator, the word `figure`, and NOTHING else - is ONE figure of ordered panels, not the generic Tier-2 container, so it carries its own scope and this rule sits BEFORE `#divs` in the document pattern list. The `[ \\t]*$` tail is the whole distinction: an opener carrying a quoted title or a `[label]` (`::: figure \"T\"`, `::: figure [g]`) does not match here at all and falls through to `#divs`, which is the generic container the clause says it stays - both spellings keep the exact scopes they had before this rule existed. THE SEPARATOR IS A SPACE RUN, never a tab (grammar.ebnf PART 7, MARKER SEPARATORS; corpus 254 renders `:::<TAB>note` as a paragraph), so it is spelled ` +` and NOT `[ \\t]+`; a tab-separated `:::<TAB>figure` falls to `#divs` and reads exactly as it does today. Trailing whitespace after the kind word is insignificant and may be a tab. GROUPS DO NOT NEST: a bare `::: figure` at ANY depth inside an open group is a generic container (PART 9 §4c), which this rule gets for free by leaving itself out of its own `patterns` - `#divs` is a flat per-line `match` and recurses into no pattern list, so it cannot re-reach this rule from any depth. That is why there is no `divs-in-group` twin here, unlike carve-grammars' TextMate copy whose generic container is itself begin/end and therefore needs one. The closer backreferences the opener's colon run (`\\1`), so it closes on an EXACT length match - PART 9 §12's colon-fence depth rule, and the reason a bare `:::` line inside a `:::: figure` group does not close it. A group left open at end of input closes there, like any container. THE GROUP CAPTION NEEDS NO RULE: it is an ordinary `^ ` line one line below the CLOSING fence, which the caption rule already claims at the document level. That claim is an OVER-APPROXIMATION and stays one - a `^ ` line after any other `:::` closer is ordinary paragraph content in the language, but it sits outside this rule's begin/end span, so no amount of container state here can tell the two apart. RESIDUAL: an opener carrying a bullet prefix (`- ::: figure`, corpus 114) is not matched here and falls to `#divs`; a line-based grammar has no list-item content column, and under-colouring the rare case is the side every block rule in this file already picks.",
+          "begin": "^[ \\t]*(:{3,}) +(figure)[ \\t]*$",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.div.carve"
+            },
+            "2": {
+              "name": "entity.name.type.figure-group.carve"
+            }
+          },
+          "end": "^[ \\t]*(\\1)[ \\t]*$",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.div.carve"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#thematic-break"
+            },
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#headings"
+            },
+            {
+              "include": "#code-blocks"
+            },
+            {
+              "include": "#divs"
+            },
+            {
+              "include": "#tables"
+            },
+            {
+              "include": "#block-quotes"
+            },
+            {
+              "include": "#lists"
+            },
+            {
+              "include": "#definitions"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#footnotes"
+            },
+            {
+              "include": "#citations"
+            },
+            {
+              "include": "#code-callouts"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#inline-code"
+            },
+            {
+              "include": "#trailing-comment"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#cross-reference"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "include": "#extension-inline"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            },
+            {
+              "include": "#hard-break"
+            }
+          ]
         }
       ]
     },

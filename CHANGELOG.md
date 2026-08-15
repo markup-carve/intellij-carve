@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.1.4] - 2026-08-11
+### Added
+
+- **A bare `::: figure` highlights as a composite figure, not as a generic container** (PART 9 §4c, markup-carve/carve#1215; tracked as markup-carve/carve-grammars#222). The kind word `figure` is reserved among the `:::` types: a bare opener - the fence, its separator, the word `figure`, and nothing else - is one figure of ordered panels. It now carries `markup.other.figure-group.carve` over the whole container and `entity.name.type.figure-group.carve` on the kind word, so the editor can tell it from the div it used to look exactly like.
+
+  The distinction lives in the tail of one line and the tail is all that decides it. `::: figure "A title"` and `::: figure [g]` are not that production at all, so they keep every scope they had. So does `:::<TAB>figure`: the separator is a space run, never a tab (PART 7, corpus 254 renders that line as a paragraph), so the rule is spelled with a space run rather than the `[ \t]+` the generic rules beside it use.
+
+  Groups do not nest. A bare `::: figure` at any depth inside an open group is a generic container, which falls out of the rule leaving itself out of its own body: the generic container here is a per-line rule that recurses into no pattern list, so it cannot reach back to the group rule from any depth.
+
+  The group caption after the closing fence already scoped as a caption and still does. That claim is an over-approximation shared with every Carve TextMate grammar - a `^ ` line after any other `:::` closer gets it too - and it is not fixable with container state, because the caption sits one line *past* the closer, outside the span any begin/end rule can hold. markup-carve/carve-grammars#222 expected this repo's stateful model to pin the caption exactly; measured, it cannot, and the no-nesting rule is what the state buys instead.
 
 ### Changed
 

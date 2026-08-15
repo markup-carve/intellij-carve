@@ -1,0 +1,33 @@
+::: figure
+![one](a.png)
+^ (a) One
+
+![two](b.png)
+^ (b) Two
+:::
+^ Figure #: Group caption
+
+::: figure "A titled figure div"
+![one](a.png)
+:::
+^ Not a group caption
+
+::: figure [g]
+![two](b.png)
+:::
+
+:::	figure
+tab separated, a paragraph in the language
+:::
+
+:::: figure
+![outer](a.png)
+::: figure
+![inner](b.png)
+:::
+::::
+
+::: note
+body
+:::
+^ Ordinary paragraph after a note closer
