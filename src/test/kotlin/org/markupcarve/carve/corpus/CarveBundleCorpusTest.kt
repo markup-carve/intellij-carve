@@ -48,14 +48,13 @@ class CarveBundleCorpusTest {
      * the reason this repo grew a 363-commit gap in the first place.
      */
     private val expectedDivergences: Map<String, String> = linkedMapOf(
-        // The `spec` pin (afd6cc5c) predates the rule change that moved this
-        // golden: upstream now keeps the trailing `tail` line inside the list
-        // item instead of closing the item and emitting `<p>tail</p>`. The
-        // engine implements the newer rule, so the ENGINE is right and the
-        // PIN is old. It clears itself when the spec submodule is next bumped,
-        // which is a deliberate review here (see spec-drift.yml).
-        "86-list-lazy-continuation-9" to
-            "spec pin predates the upstream golden change for the lazy-continuation tail",
+        // Empty, and that is the assertion. The one entry that used to live
+        // here was `86-list-lazy-continuation-9`, where the spec pin predated
+        // the rule change that moved the golden and the engine was already
+        // right - it cleared itself when the submodule was bumped, exactly as
+        // its own note said it would. An empty map means the vendored bundle
+        // and the pinned corpus agree on all 1131 documents; a new entry is a
+        // claim that needs a reason of the same shape.
     )
 
     /**
@@ -90,10 +89,29 @@ class CarveBundleCorpusTest {
 
         // A truncated or half-checked-out corpus would otherwise let this pass
         // by having nothing to compare - the check has to be able to fail.
+        //
+        // EQUALITY, not a floor. This was `pairs.size >= 500` against a corpus
+        // of 1131, so it passed with more than half the documents absent, which
+        // is the condition it exists to reject. The reference is the corpus's
+        // own source rather than a number recorded here; see
+        // CarveCorpus.declaredSize.
+        val declared = CarveCorpus.declaredSize()
         assertTrue(
-            "Only ${pairs.size} corpus pair(s) found under ${corpus?.path}. " +
-                CarveCorpus.MISSING_MESSAGE,
-            pairs.size >= 500,
+            "No ::: compare blocks found under spec/resources/examples. " +
+                "spec/tests/corpus is generated from those pages, so without them there is no " +
+                "independent statement of how big the corpus should be and this check would be " +
+                "comparing the corpus against itself. " + CarveCorpus.MISSING_MESSAGE,
+            declared != null,
+        )
+        assertEquals(
+            "${pairs.size} corpus pair(s) found under ${corpus?.path}, but the spec's example " +
+                "pages declare $declared. Every ::: compare block in " +
+                "spec/resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, " +
+                "so a difference means the corpus checked out here is not the one those pages " +
+                "describe - a truncated submodule, or a corpus that needs regenerating upstream. " +
+                "It does not mean this run was clean.",
+            declared,
+            pairs.size,
         )
 
         val diverging = linkedMapOf<String, String>()

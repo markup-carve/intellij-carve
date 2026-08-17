@@ -5,16 +5,41 @@ name: Spec drift
 # corpus fell 178 commits behind - three weeks - while the coverage matrix and
 # 286 golden token streams kept a green tick over an old language (#38).
 #
-# Reported, not gated: bumping the spec is a deliberate review here - new
-# categories need a COVERED/SKIP decision and the regenerated goldens want
-# reading - so failing on lag would only teach people to ignore the job. It DOES
-# fail if the pin is not a commit on carve main.
+# DISTANCE IS REPORTED; AGE IS GATED. Those are two different questions and the
+# original version of this file only asked the first one, which is why a green
+# tick here meant no more than "the pinned revision exists and is on main".
+#
+# Failing on distance would be wrong. Bumping the spec is a deliberate review -
+# new categories need a COVERED/SKIP decision and the regenerated goldens want
+# reading - and carve merges through the day, so a distance gate goes red the
+# morning after every upstream commit for something nobody should drop what they
+# are doing to chase. A gate that is red every day is not read.
+#
+# Age is a different claim, and it is one this repository can act on: the pin is
+# in this repository, the review is a job for this repository, and nothing
+# upstream has to happen first. So the pin may fall any number of commits behind
+# and still pass, and it may not go STALE. That is the failure the reported
+# state needed and did not get: 318 commits and twelve days behind, with a green
+# tick on every run (#69).
+#
+# It still fails if the pin is not a commit on carve main - carve has rewritten
+# history before, and an unreachable pin is a fresh clone that cannot build.
 
 on:
   schedule:
     # 05:00 UTC daily, after the spec has had a night to settle.
     - cron: "0 5 * * *"
   workflow_dispatch:
+
+env:
+  # How old the pinned spec commit may be before this fails.
+  #
+  # Ten days, chosen against the state that prompted the gate rather than picked
+  # round: the pin sat twelve days behind, so a ceiling that would have passed it
+  # would not be a gate. It is also comfortably longer than a review cycle, so
+  # the ordinary rhythm of bumping the submodule when a category or a golden
+  # actually needs attention never sees it.
+  SPEC_MAX_AGE_DAYS: 10
 
 jobs:
   spec-pin:
@@ -48,4 +73,15 @@ jobs:
           echo "carve main is ${behind} commit(s) ahead; corpus ${corpus} -> ${latest} documents"
           if [ "${behind}" -gt 0 ]; then
             echo "::warning::the spec submodule is ${behind} commit(s) behind carve main (corpus ${corpus} vs ${latest})"
+          fi
+
+          # The committer date, not the author date: a rebased or cherry-picked
+          # commit keeps its author date and would report an age it never had on
+          # main.
+          committed="$(git -C carve-spec log -1 --format=%ct "${rev}")"
+          age_days=$(( ( $(date -u +%s) - committed ) / 86400 ))
+          echo "the pinned commit is ${age_days} day(s) old (limit ${SPEC_MAX_AGE_DAYS})"
+          if [ "${age_days}" -gt "${SPEC_MAX_AGE_DAYS}" ]; then
+            echo "::error::the spec submodule pins a commit ${age_days} days old, over the limit of ${SPEC_MAX_AGE_DAYS}. Bump it and work through what the bump surfaces: 'git -C spec fetch origin && git -C spec checkout origin/main && git add spec && ./gradlew test' resolves the coverage matrix, then regenerate the goldens with -Dcarve.updateGoldens=true and read the diff. The corpus is ${corpus} documents here against ${latest} on main."
+            exit 1
           fi

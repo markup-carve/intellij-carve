@@ -1,0 +1,23 @@
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+HTML -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+abbr -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"HyperText Markup Language" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+  -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+Noon -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+time -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"12:00" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+  -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+Tab -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{kbd} -> text.carve meta.attributes.carve
+\n -> text.carve

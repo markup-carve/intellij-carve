@@ -1,0 +1,11 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+a\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+b\n -> text.carve
+   -> text.carve markup.list.continuation.carve
++ -> text.carve markup.list.continuation.carve keyword.control.list.continuation.carve
+\n -> text.carve markup.list.continuation.carve
+  c\n -> text.carve

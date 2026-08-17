@@ -3,6 +3,5 @@ widget -> text.carve meta.extension.inline.carve entity.name.function.extension.
 [ -> text.carve meta.extension.inline.carve keyword.control.extension.carve
 x -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
 ] -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-{k="{y} -> text.carve meta.extension.inline.carve meta.attributes.carve
-" -> text.carve keyword.control.smartquote.carve
-}\n -> text.carve
+{#i .c k=v} -> text.carve meta.extension.inline.carve meta.attributes.carve
+\n -> text.carve
