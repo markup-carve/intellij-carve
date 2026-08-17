@@ -99,8 +99,56 @@ for (const name of names) {
   pairs.push({ name, expected, source: readFileSync(resolve(corpusDir, `${name}.crv`), 'utf8') })
 }
 
-if (pairs.length === 0) {
-  console.error(`No corpus pairs found under ${corpusDir}`)
+// EQUALITY, not a floor. `pairs.length === 0` only rejects a corpus that is
+// entirely absent; a corpus checked out half way reports every remaining
+// document identical and reads as a clean run, with the diverging ones simply
+// missing. Counting the corpus directory to decide how big the corpus should be
+// would move both sides together and guard nothing, and a hardcoded number goes
+// stale the day an example lands upstream - so the reference is the corpus's
+// SOURCE. tests/corpus is generated from the `::: compare` blocks in
+// resources/examples/{core,extensions,edge-cases}.md, one block per pair, and
+// both live in the same checkout.
+const examplesDir = resolve(corpusDir, '..', '..', 'resources', 'examples')
+let declared = 0
+for (const page of ['core.md', 'extensions.md', 'edge-cases.md']) {
+  const path = resolve(examplesDir, page)
+  let text
+  try {
+    text = readFileSync(path, 'utf8')
+  } catch {
+    // Not a soft skip: without this page there is no independent statement of
+    // how big the corpus should be, and a corpus check with nothing to compare
+    // against is the shape of check this file exists to replace.
+    console.error(`No corpus source page at ${path}; tests/corpus is generated from these pages, so if the spec moved them this guard has to move with them`)
+    process.exit(2)
+  }
+  // Mirrors the generator's state machine rather than grepping: a `::: compare`
+  // line inside an already-open block is content, not a second pair, and a
+  // block closes on a bare marker line.
+  let marker = null
+  for (const raw of text.split('\n')) {
+    const line = raw.trim()
+    if (marker !== null) {
+      if (line === marker) marker = null
+      continue
+    }
+    const m = /^(:{3,})\s+compare(\s+\S.*)?$/.exec(line)
+    if (m !== null) {
+      declared++
+      marker = m[1]
+    }
+  }
+}
+if (declared === 0) {
+  console.error(`The corpus source pages under ${examplesDir} declare no ::: compare blocks at all; that is a wiring problem, not a corpus of size zero`)
+  process.exit(2)
+}
+if (pairs.length !== declared) {
+  console.error(
+    `${pairs.length} corpus pairs found under ${corpusDir}, but the spec's example pages declare ${declared}. ` +
+      'Every ::: compare block in resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, so a ' +
+      'difference means the corpus checked out here is not the one those pages describe. It does not mean this run was clean.',
+  )
   process.exit(2)
 }
 

@@ -1,0 +1,13 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item\n -> text.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+  [r]: /url\n -> text.carve comment.block.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.link.reference.carve
+r -> text.carve meta.link.reference.carve string.other.link.title.carve
+][] -> text.carve meta.link.reference.carve
+\n -> text.carve

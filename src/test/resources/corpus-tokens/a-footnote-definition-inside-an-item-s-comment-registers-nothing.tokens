@@ -1,0 +1,15 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item\n -> text.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+  [^f]: note body\n -> text.carve comment.block.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve
+\n -> text.carve
+text -> text.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+f -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> text.carve

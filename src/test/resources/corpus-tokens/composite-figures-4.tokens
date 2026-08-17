@@ -1,0 +1,20 @@
+::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
+  -> text.carve markup.other.figure-group.carve
+figure -> text.carve markup.other.figure-group.carve entity.name.type.figure-group.carve
+\n -> text.carve markup.other.figure-group.carve
+![ -> text.carve markup.other.figure-group.carve meta.image.inline.carve keyword.control.image.begin.carve
+lone -> text.carve markup.other.figure-group.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve markup.other.figure-group.carve meta.image.inline.carve
+l.png -> text.carve markup.other.figure-group.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve markup.other.figure-group.carve meta.image.inline.carve
+\n -> text.carve markup.other.figure-group.carve
+^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.other.figure-group.carve markup.table.caption.carve
+The only panel -> text.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve markup.other.figure-group.carve
+::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure #: One panel is valid -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

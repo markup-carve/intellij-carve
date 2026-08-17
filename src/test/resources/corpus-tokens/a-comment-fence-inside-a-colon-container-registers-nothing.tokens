@@ -1,0 +1,18 @@
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+note -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve markup.other.div.carve
+Body.\n -> text.carve
+\n -> text.carve
+%%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+[r]: /url\n -> text.carve comment.block.carve
+%%% -> text.carve comment.block.carve
+\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve markup.other.div.carve
+\n -> text.carve
+[ -> text.carve meta.link.reference.carve
+r -> text.carve meta.link.reference.carve string.other.link.title.carve
+][] -> text.carve meta.link.reference.carve
+\n -> text.carve

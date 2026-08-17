@@ -1,6 +1,6 @@
-: -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-foo -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
-[ -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-bar -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
-] -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-\n -> text.carve
+Press  -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+Ctrl+C -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{kbd} -> text.carve meta.attributes.carve
+ to copy.\n -> text.carve

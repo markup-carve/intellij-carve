@@ -45,6 +45,55 @@ object CarveCorpus {
     fun categories(): List<String> =
         crvFiles().map { CarveCorpusCategories.categoryOf(it.name) }.distinct().sorted()
 
+    /**
+     * How many documents the corpus is SUPPOSED to hold, derived from something
+     * other than the corpus directory.
+     *
+     * A test that counts the corpus to decide how big the corpus should be
+     * moves both sides of the comparison together and guards nothing, and a
+     * floor is the same defect with a number in front of it: `>= 500` against a
+     * corpus of 1131 passes with more than half of it missing, which is exactly
+     * the state such a guard exists to reject.
+     *
+     * So the reference is the corpus's SOURCE. `spec/tests/corpus` is generated
+     * from the `::: compare` blocks in
+     * `spec/resources/examples/{core,extensions,edge-cases}.md`, one block per
+     * pair, and the generator upstream refuses to write a corpus where the two
+     * disagree. Both live in the same submodule, so this costs nothing to read.
+     * Counting the source also leaves no literal here to go stale: adding an
+     * example upstream moves the expectation on the next bump by itself.
+     *
+     * Returns null when the source pages are not there, which is a wiring
+     * problem for the caller to report rather than a corpus of size zero.
+     */
+    fun declaredSize(): Int? {
+        val root = directory?.parentFile?.parentFile ?: return null
+        val examples = File(root, "resources/examples")
+        var declared = 0
+        for (page in listOf("core.md", "extensions.md", "edge-cases.md")) {
+            val file = File(examples, page)
+            if (!file.isFile) return null
+            // Mirrors the generator's state machine rather than grepping: a
+            // `::: compare` line inside an already-open block is content, not a
+            // second pair, and a block closes on a bare marker line.
+            var marker: String? = null
+            for (raw in file.readLines()) {
+                val line = raw.trim()
+                val open = marker
+                if (open != null) {
+                    if (line == open) marker = null
+                    continue
+                }
+                val match = COMPARE_OPENER.matchEntire(line) ?: continue
+                declared++
+                marker = match.groupValues[1]
+            }
+        }
+        return declared.takeIf { it > 0 }
+    }
+
+    private val COMPARE_OPENER = Regex("""^(:{3,})\s+compare(\s+\S.*)?$""")
+
     /** A clear message pointing at the submodule when the corpus is missing. */
     val MISSING_MESSAGE: String =
         "Shared corpus not found at $CORPUS_REL. Check out the submodule with " +
