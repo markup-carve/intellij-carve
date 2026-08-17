@@ -1,0 +1,6 @@
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+a -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+  -> text.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+b -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+\n -> text.carve

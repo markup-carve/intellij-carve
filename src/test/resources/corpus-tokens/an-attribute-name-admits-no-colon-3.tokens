@@ -1,0 +1,9 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{.a:b} -> text.carve markup.table.row.carve
+\n -> text.carve
+\n -> text.carve
+-{.a:b} item\n -> text.carve

@@ -1,0 +1,26 @@
+:::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
+  -> text.carve markup.other.figure-group.carve
+figure -> text.carve markup.other.figure-group.carve entity.name.type.figure-group.carve
+\n -> text.carve markup.other.figure-group.carve
+::: -> text.carve markup.other.figure-group.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.figure-group.carve markup.other.div.carve
+note -> text.carve markup.other.figure-group.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve markup.other.figure-group.carve markup.other.div.carve
+![ -> text.carve markup.other.figure-group.carve meta.image.inline.carve keyword.control.image.begin.carve
+x -> text.carve markup.other.figure-group.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve markup.other.figure-group.carve meta.image.inline.carve
+x.png -> text.carve markup.other.figure-group.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve markup.other.figure-group.carve meta.image.inline.carve
+\n -> text.carve markup.other.figure-group.carve
+^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.other.figure-group.carve markup.table.caption.carve
+Figure #: inner -> text.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve markup.other.figure-group.carve
+::: -> text.carve markup.other.figure-group.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve markup.other.figure-group.carve markup.other.div.carve
+:::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Figure #: group -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

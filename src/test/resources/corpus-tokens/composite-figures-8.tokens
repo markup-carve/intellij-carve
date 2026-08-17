@@ -1,0 +1,32 @@
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+figure -> text.carve markup.other.div.carve entity.name.type.div.carve
+  -> text.carve markup.other.div.carve
+"A titled figure div" -> text.carve markup.other.div.carve string.quoted.double.carve
+\n -> text.carve markup.other.div.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+one -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+a.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+(a) One -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve markup.other.div.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Not a group caption -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
+\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+figure -> text.carve markup.other.div.carve entity.name.type.div.carve
+  -> text.carve markup.other.div.carve
+[g] -> text.carve markup.other.div.carve entity.name.label.carve
+\n -> text.carve markup.other.div.carve
+Body.\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve markup.other.div.carve

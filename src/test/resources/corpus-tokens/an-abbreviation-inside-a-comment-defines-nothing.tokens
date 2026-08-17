@@ -1,0 +1,7 @@
+%%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+*[HTML]: HyperText Markup Language\n -> text.carve comment.block.carve
+%%% -> text.carve comment.block.carve
+\n -> text.carve
+\n -> text.carve
+HTML here\n -> text.carve

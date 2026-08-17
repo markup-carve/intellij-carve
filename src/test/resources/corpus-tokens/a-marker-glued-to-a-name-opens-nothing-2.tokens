@@ -1,0 +1,3 @@
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
+a -> text.carve entity.name.mention.carve variable.parameter.mention.carve
+@b\n -> text.carve
