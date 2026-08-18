@@ -216,6 +216,22 @@ object CarveCorpusCategories {
         // A dedicated bare-opener begin/end with its own type scope (markup-carve/carve-grammars#222); a
         // titled or labeled opener deliberately falls through to the generic div.
         "composite-figures",
+
+        // The three categories the spec bump to carve 33bf24d adds that carry a token of
+        // their own. All three produce `constant.character.escape.hard-break.carve`, and a
+        // dump of every scope the covered corpus files and the 19 hand fixtures generate
+        // shows that scope appearing in ZERO of them: the grammar has the hard-break rule
+        // and nothing pinned it. These goldens give it its first home, so a regression in
+        // it now fails somewhere.
+        //
+        // The sibling measurement in markup-carve/vscode-carve#121 reached the opposite
+        // classification for the same three names, and the difference is real rather than a
+        // disagreement: that repo landed a hand-written hard-break fixture first, so the
+        // scope already had a home there and the three collapsed to skip entries. This repo
+        // has no such fixture, which is why the same three are covered here.
+        "a-closed-inline-construct-spanning-a-verse-boundary",
+        "a-line-block-s-hard-break-keeps-its-backslash",
+        "a-line-block-s-last-body-line-keeps-its-backslash",
     )
 
     /**
@@ -685,6 +701,46 @@ object CarveCorpusCategories {
             "Negative case: two dashes are not a break, and the grammar scopes them as a typographic entity instead, which adds no rule-specific token. The valid form is pinned by `thematic-breaks`.",
         "which-inline-content-a-heading-id-is-derived-from" to
             "Id derivation is render-time; the heading and inline tokens are pinned by `headings` and `heading-ids`.",
+
+        // The sixteen remaining categories from the spec bump to carve 33bf24d. Each was
+        // measured rather than inferred: its corpus files were tokenized with this repo's
+        // grammar and every scope compared against the 148 distinct scope names the covered
+        // corpus files and the 19 hand fixtures already produce. None of the sixteen adds a
+        // scope name to that set, so a golden here would pin tokens another golden pins.
+        // Two of them add a scope CHAIN without adding a scope name, and those two say what
+        // the chain is and why it is not a signal for the rule.
+        "a-block-at-a-container-s-content-column-ends-the-paragraph-whatever-it-renders" to
+            "Where a paragraph ends is block context; the six documents produce 15 scopes and no new one. The blocks that end it are pinned by `headings`, `thematic-breaks`, `fenced-code`, `admonitions` and `tables`.",
+        "a-bracketed-construct-s-identifiers-stay-on-one-line" to
+            "Whether an identifier slot may cross a newline is parsing. The grammar matches its bracketed constructs per line, so both halves scope the same either way; the well-formed forms are pinned by `links`, `images` and `reference-link`.",
+        "a-bracketed-construct-spanning-a-line-boundary" to
+            "The same one-line matching from the other direction: the construct does not join across the boundary and each line keeps the tokens `links` and `reference-link` pin.",
+        "a-bracketed-construct-spanning-a-verse-boundary" to
+            "A line block puts a container prefix in front of the same question; the inline tokens are the ones `links` and `reference-link` pin.",
+        "a-comment-fence-reached-through-a-quote-registers-nothing-either" to
+            "Negative case with nothing to assert, measured against its own documents: the definition line inside the quoted fence scopes as `text.carve markup.quote.carve`, and a quoted definition with NO fence around it scopes identically, so the token stream cannot tell the two apart. The one chain the category adds is the `%%%` delimiter falling back to `comment.line.percent.carve`; the fence body carries no comment scope at all, so the comment-block rule does not survive a container prefix. Measured across spellings: a fence at column 0, an indented one, and one inside a div all give their body `comment.block.carve`, while behind a quote marker or a list marker neither does. Recorded, not repaired - the same family as the heading gap in markup-carve/vscode-carve#123.",
+        "a-comment-only-line-in-a-line-block-is-removed-before-any-inline-run" to
+            "Removal before the inline pass is render-time ordering; the comment line still scopes as a comment, pinned by `comments`.",
+        "a-container-whose-table-ends-on-a-continuation-row" to
+            "Where a table stops is block extent; the seven documents produce 11 scopes and no new one. The rows, separator rows and span markers are pinned by `tables` and `table-span-marker-in-first-column`.",
+        "a-container-whose-table-ends-on-a-joined-header-row" to
+            "The same extent question with a joined header row; those tokens are pinned by `tables` and `table-header-cell-rowspan`.",
+        "a-continuation-row-joins-the-row-above-it-whatever-its-cells-hold" to
+            "Which row a continuation row joins is parsing. The one chain it adds is `text.carve markup.table.row.separator.carve` covering a bare SPACE inside a separator row - the same scope the `tables` goldens already pin, over whitespace rather than over a marker, so it is not a signal for the rule.",
+        "a-definition-at-a-container-s-content-column" to
+            "Which content column a definition registers at is resolution; the six documents produce 20 scopes and no new one, and the definition tokens are pinned by `reference-link` and `footnotes`.",
+        "a-definition-behind-an-alternating-container-prefix-registers-at-the-innermost-content-column" to
+            "The same resolution question behind an alternating list-and-quote prefix. Worth recording what the measurement showed: behind a quote marker a link reference definition gets no definition scope at all, so what these four documents pin is the container tokens `lists` and `blockquote-with-attribution` already pin, not the rule.",
+        "a-footnote-definition-s-block-runs-to-the-end-of-its-body" to
+            "Block extent; the definition opener and its body tokens are pinned by `footnotes` and `footnotes-placement`.",
+        "a-quote-inside-a-quote-is-asked-what-it-ends-on" to
+            "What ends a nested quote is block context. Twelve documents produce only 5 scopes between them, all quote and paragraph tokens `blockquote-with-attribution` pins.",
+        "an-escaped-hash-keeps-its-escape-at-a-container-s-content-position" to
+            "Whether the escape survives to the output is render-time; the escape token is pinned by `escapes` and `escape-coverage`.",
+        "url-list-attributes-are-probed-token-wise" to
+            "Probing a URL-valued attribute token-wise is a sanitizer question with no scope of its own; the twelve documents produce 14 scopes and no new one, all pinned by `attributes` and `attribute-edge-cases`.",
+        "what-a-content-column-block-does-not-reach" to
+            "The negative half of the content-column family, and a negative case with nothing to assert: the blocks that are not reached scope exactly as the blocks that are.",
     )
 
     /**
