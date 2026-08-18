@@ -151,7 +151,7 @@
       "patterns": [
         {
           "name": "comment.block.carve",
-          "comment": "A %%% fence line is a delimiter plus an insignificant tail (spec PART 9 section 28): only the leading run of % is structural, so `%%% TODO` opens and `%%% end` closes. %%% carries no info string - a raw passthrough block is a CODE fence with an =FORMAT info string - so `%%% html` is a comment. The end backreference matches the opener width exactly, so %%%% nests %%%.",
+          "comment": "A %%% fence line is a delimiter plus an insignificant tail (spec PART 9 section 28): only the leading run of % is structural, so `%%% TODO` opens and `%%% end` closes. %%% carries no info string - a raw passthrough block is a CODE fence with an =FORMAT info string - so `%%% html` is a comment. The end backreference matches the opener width exactly, so %%%% nests %%%. AN UNCLOSED FENCE GREYS OUT THE REST OF THE DOCUMENT HERE, AND THE ENGINE DOES NOT - it degrades the opener to a line comment and hides nothing, so `%%%` / `body` renders `<p>body</p>` (markup-carve/intellij-carve#81). It cannot be fixed in this rule and the reason is worth writing down once, because the fix looks available and is not. The engine's rule is NOT LOCAL: whether this line is a fence or a line comment depends on whether a closer appears LATER, and a `begin` is matched against ONE LINE. Measured - a begin of `^\\s*(%{3,})[^\\n]*$(?=[\\s\\S]*?^\\s*\\1(?!%))` opens the fence on NEITHER a closed nor an unclosed document, because the lookahead never sees past the current line. NOR IS THERE A SAFE EARLY BOUNDARY to approximate it with, which is the other thing that looks available: `#comment-fence-on-marker-line` and `#comment-fence-on-quote-marker-line` each bound their runaway to the CONTAINER they sit in, and a top-level fence has none. Every shorter boundary cuts a legitimate fence in half - a body may span a blank line, may sit at column 0 under an indented opener, and may hold a heading and a nested code fence, while the closer need not share the opener's indent. All seven of those are pinned in CarveUnclosedFenceTest.aClosedCommentFenceHidesItsBody, so an attempt at the unclosed case fails there rather than shipping. All three TextMate grammars in the org carry this rule unchanged (carve-grammars `block_comment`, vscode-carve `#comments`); markup-carve/carve-grammars#260 fixed the same defect for highlight.js, which can read the whole document at once and so is not subject to any of this.",
           "begin": "^\\s*(%{3,})[^\\n]*$",
           "end": "^\\s*\\1(?!%)[^\\n]*$"
         },
@@ -228,7 +228,8 @@
             "1": {
               "name": "keyword.control.raw.end.carve"
             }
-          }
+          },
+          "comment": "AN UNCLOSED CODE FENCE RUNNING TO THE END OF THE DOCUMENT IS CORRECT and is not the comment fence's defect wearing a different delimiter: measured, the engine renders `` ```js `` / `code` / `` / `after` as ONE `<pre><code>` holding all of it, where an unclosed `%%%` degrades to a line comment instead (markup-carve/intellij-carve#81). Pinned in CarveUnclosedFenceTest.anUnclosedCodeFenceRunsToTheEndOfTheDocument so it is not bounded here by analogy."
         }
       ]
     },
