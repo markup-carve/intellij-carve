@@ -10,6 +10,9 @@
       "include": "#frontmatter"
     },
     {
+      "include": "#comment-fence-on-marker-line"
+    },
+    {
       "include": "#comments"
     },
     {
@@ -526,6 +529,9 @@
           "end": "$",
           "patterns": [
             {
+              "include": "#comment-fence-on-quote-marker-line"
+            },
+            {
               "include": "#trailing-comment"
             }
           ]
@@ -540,6 +546,9 @@
           },
           "end": "$",
           "patterns": [
+            {
+              "include": "#comment-fence-on-quote-marker-line"
+            },
             {
               "include": "#trailing-comment"
             }
@@ -1427,6 +1436,48 @@
           "name": "constant.character.escape.hard-break.carve"
         }
       }
+    },
+    "comment-fence-on-marker-line": {
+      "comment": "A COMMENT FENCE MAY OPEN ON A LIST ITEM'S MARKER LINE (`- %%%`), and then its body is hidden exactly as it is anywhere else: spec PART 9 section 24 S2 with section 28 make a comment's body verbatim and invisible WHEREVER the fence sits, so the whole run from opener to closer is one comment and nothing after it is affected (corpus 337, markup-carve/intellij-carve#74). `#comments` cannot reach it - its begin is anchored on ^ with only whitespace allowed before the run - so the `%%%` fell through to the line-comment rule, the hidden `[r]: /url` came back as live syntax, and the REAL closer was then taken for an opener and swallowed every block after the item. Fixed in every sibling already: markup-carve/carve-grammars#243 and #244, markup-carve/vscode-carve#113. THE MARKER IS MATCHED HERE RATHER THAN LEFT TO `#lists`, for the reason `#block-quote-on-marker-line` gives beside it: the sibling grammars reach this line with a \\G-anchored rule scoped to the list item's own container, and this grammar has no container model, so a top-level \\G rule would fire after any match that ends on whitespace. The marker keeps its own list scopes through the captures and only the fence run and its body are comment - tree-sitter-carve's split, with the `fenced_comment_block` inside `list_item_content` beside the `list_marker_*` rather than over it. The end has TWO branches. The first is the ordinary closer, INDENTED because it sits at the item's content column. The second is a zero-width container boundary: the first line that does not sit PAST the opener's own indent ends the item and with it the open fence, so corpus 326-6 (`- %%%` / `c` / `%%%` / `tail`) keeps `c` VISIBLE. Without it an unclosed opener would run to end of document. IT IS THE OPENER'S INDENT AND NOT COLUMN 0, which is where the sibling grammars stop: written `^(?=[^ \\t\\n])` the boundary only fires at column 0, so a fence on a NESTED item's marker line (`- outer` / `  - %%%` / `  - sibling`) swallowed its own sibling, which the engine renders as an ordinary second item. The indent is capture 1, so `^(?!\\1[ \\t])` reconstructs the item's own column from the marker line rather than assuming the document's. markup-carve/vscode-carve#127 has the same gap and cannot express this - its rule is \\G-anchored and captures no indent.",
+      "begin": "^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))(%{3,})(?!%)[^\\n]*$",
+      "beginCaptures": {
+        "2": {
+          "name": "markup.list.unnumbered.carve"
+        },
+        "3": {
+          "name": "keyword.control.list.begin.carve"
+        },
+        "4": {
+          "name": "keyword.control.task-list.carve"
+        },
+        "5": {
+          "name": "markup.list.numbered.carve"
+        },
+        "6": {
+          "name": "keyword.control.list.begin.carve"
+        },
+        "7": {
+          "name": "comment.block.carve"
+        }
+      },
+      "contentName": "comment.block.carve",
+      "end": "^[ \\t]+\\7(?!%)[^\\n]*$|^(?!\\1[ \\t])",
+      "endCaptures": {
+        "0": {
+          "name": "comment.block.carve"
+        }
+      }
+    },
+    "comment-fence-on-quote-marker-line": {
+      "comment": "THE SAME RULE AT A BLOCK-QUOTE MARKER (`> %%%`): section 24 S2 with section 28 hide a comment's body WHEREVER the fence sits, and corpus 70 pins the spelling - `> q` / `> %%%` / `> x` / `> %%%` / `> body` renders the quote with `q` and `body` only. This grammar scoped both `%%%` runs as trailing LINE comments and left the hidden `[r]: /url` between them as live quote content (markup-carve/intellij-carve#74). Fixed in every sibling: markup-carve/carve-grammars#245 and #246, markup-carve/vscode-carve#115. Reached from `#block-quotes`, from BOTH of its rules, so a quote that opened on a list item's own marker line carries it too. Anchored on \\G because the quote's own begin has already consumed the marker, so ^ can never match again on that line, and vscode-textmate resets \\G on every following line so this can never open one. The guard admits `>` as well as whitespace because the two quote rules leave \\G one character apart - the line-anchored one consumes the separator space, the marker-line one leaves it to the content - and a `%` can never be glued to a `>` in any case, since a quote marker is only a marker when a space or a line end follows it. Capture 1 is the run of FURTHER markers, so a fence opened at `> > ` is closed at `> > ` and not at `> `; capture 2 is the fence, repeated in the closer so the width matches exactly. The end's second branch is a zero-width quote boundary: an UNMARKED line is where the quote can end, and the engine degrades an unclosed opener to a line comment rather than hiding anything.",
+      "begin": "\\G(?<=[ \\t>])[ \\t]*((?:> )*)(%{3,})(?!%)[^\\n]*$",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.quote.carve"
+        }
+      },
+      "end": "^[ \\t]*> \\1\\2(?!%)[^\\n]*$|^(?![ \\t]*>)",
+      "name": "comment.block.carve"
     }
   }
 }

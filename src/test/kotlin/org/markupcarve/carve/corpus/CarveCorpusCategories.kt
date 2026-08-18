@@ -232,6 +232,16 @@ object CarveCorpusCategories {
         "a-closed-inline-construct-spanning-a-verse-boundary",
         "a-line-block-s-hard-break-keeps-its-backslash",
         "a-line-block-s-last-body-line-keeps-its-backslash",
+
+        // Moved out of SKIP by markup-carve/intellij-carve#74. Its skip reason read
+        // "MEASURED FALSE POSITIVE: the comment fence rule is anchored to the start of the
+        // line, so a fence opened after a bullet does not open at all and the definition
+        // inside keeps its reference-definition scopes, the opposite of what the category
+        // asserts." That measurement was correct and the conclusion was not: the category
+        // asserted what the LANGUAGE does, and the grammar was the side that was wrong.
+        // Recording a defect as a deliberate omission is how it stops being a defect, so
+        // the entry is worth reading twice before it is written.
+        "a-comment-fence-opened-on-an-item-s-marker-line-hides-its-body-too",
     )
 
     /**
@@ -305,7 +315,13 @@ object CarveCorpusCategories {
         "opaque-spans-inside-a-container" to
             "Opacity is about what the renderer descends into; the fence and div tokens are pinned by `fenced-code` and `admonitions`.",
         "blocks-that-render-to-nothing" to
-            "Rendering to nothing is a render-time outcome; the blocks still scope, and those scopes are pinned by `comments`, `definition-lists` and `abbreviations`.",
+            "NARROWED by markup-carve/intellij-carve#74, which modelled the quote-marker fence: the `> q` / " +
+                "`> %%%` / `> x` / `> %%%` / `> body` document now scopes exactly as the corpus renders it, with " +
+                "`x` and both runs inside a comment and `q` and `body` outside one. What still keeps the category " +
+                "skipped is the `-2` variant, a fence inside a definition-list DESCRIPTION (`:: t` / `:  %%%`): " +
+                "the description marker is a line match with no container body to anchor a fence to, the same " +
+                "structural gap that rules out the list-item form of every container rule here. The remaining " +
+                "shape is the third one, `-3`, which is a render-time outcome with no token of its own.",
         "indented-image-and-caption-stay-literal" to
             "Negative case for indented blocks; the image and caption tokens are pinned by `image-with-caption`.",
         "bare-dot-ordered-markers" to
@@ -517,8 +533,6 @@ object CarveCorpusCategories {
             "Whether the flush-left line rejoins the container is block context, invisible to a line-based grammar.",
         "a-column-zero-definition-ends-an-open-list-item" to
             "Ending the item is block context; the definition and list tokens are pinned by `reference-link`, `footnotes` and `lists`.",
-        "a-comment-fence-opened-on-an-item-s-marker-line-hides-its-body-too" to
-            "MEASURED FALSE POSITIVE: the comment fence rule is anchored to the start of the line, so a fence opened after a bullet does not open at all and the definition inside keeps its reference-definition scopes, the opposite of what the category asserts.",
         "a-container-a-lazy-line-folded-into-is-still-open" to
             "Lazy continuation and container extent are block context; the div, quote and list tokens are pinned by `admonitions`, `blockquote-with-attribution` and `lists`.",
         "a-continuation-marker-after-a-blank-line-in-a-loose-item" to
