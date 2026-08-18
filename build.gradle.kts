@@ -313,6 +313,41 @@ tasks {
         // working directory so the lookup is stable regardless of how the test
         // JVM is forked, and forward the golden-regeneration switch into it.
         workingDir = rootDir
+
+        // THE CORPUS IS AN INPUT, AND GRADLE HAD NO WAY TO KNOW.
+        //
+        // These tests reach the corpus by FILE PATH from `workingDir`, not
+        // through the classpath, so none of it was a declared input to this
+        // task. Bumping the `spec` submodule therefore changed nothing Gradle
+        // tracks, and `./gradlew test` reported BUILD SUCCESSFUL with
+        // `> Task :test UP-TO-DATE` - having run no test at all.
+        //
+        // Measured on this repository: with the pin moved from bbd7d8e to
+        // carve 287b4b8, a 108-document corpus change, `./gradlew test`
+        // succeeded in 9 seconds. Forced with --rerun-tasks the same tree
+        // fails twice, on 23 documents the vendored bundle renders
+        // differently and on 17 unclassified categories.
+        //
+        // CI never saw this because every run is a fresh checkout with no
+        // build cache, so the task always executes. A human bumping the pin
+        // locally sees the opposite, and spec-drift.yml prints exactly that
+        // command as its remediation - `git -C spec checkout origin/main &&
+        // git add spec && ./gradlew test` - so the instruction for fixing a
+        // stale pin was an instruction to run nothing.
+        //
+        // fileTree rather than inputs.dir: the submodule may not be checked
+        // out, and a missing declared input directory is a hard failure with
+        // a worse message than CarveCorpus.MISSING_MESSAGE, which is written
+        // for exactly that case.
+        inputs.files(fileTree("spec/tests/corpus"))
+            .withPropertyName("sharedCorpus")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+        // The corpus's own source. CarveBundleCorpusTest counts the `:::
+        // compare` blocks on these pages to decide how many pairs there
+        // should be, so they decide the outcome as much as the corpus does.
+        inputs.files(fileTree("spec/resources/examples"))
+            .withPropertyName("corpusSourcePages")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
         System.getProperty("carve.updateGoldens")?.let {
             systemProperty("carve.updateGoldens", it)
         }
