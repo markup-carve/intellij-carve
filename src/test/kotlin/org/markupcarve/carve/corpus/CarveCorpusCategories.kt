@@ -242,6 +242,23 @@ object CarveCorpusCategories {
         // Recording a defect as a deliberate omission is how it stops being a defect, so
         // the entry is worth reading twice before it is written.
         "a-comment-fence-opened-on-an-item-s-marker-line-hides-its-body-too",
+
+        // The one category of the five that arrived with the spec bump to carve 22f7f47 that
+        // carries its rule in a token. The document is three marker lines - `- [ ] > q`,
+        // `- [x] # h`, `- [ ] ---` - and the rule is that the checkbox is a checkbox whatever
+        // block follows it. The grammar decides that on the line and gets it right three times:
+        // every `[ ]` / `[x]` takes `keyword.control.task-list.carve`.
+        //
+        // The golden also pins two false positives on the REST of those lines, measured and
+        // recorded in markup-carve/intellij-carve#77 rather than repaired here: `# h` gets bare
+        // `text.carve` with no heading scope at all (while the `>` on line one keeps its quote
+        // scope, so the task marker does not disqualify every rule), and `---` is claimed by the
+        // em-dash rule as `constant.character.entity.typography.carve` instead of a thematic
+        // break. Both predate the bump; this is the first corpus document that reaches them.
+        // Covered on the same reasoning as `a-marker-separator-is-a-space-never-a-tab`: one line
+        // carrying the rule is worth more than a skip entry, and pinning the false positives
+        // means the fix, when it comes, shows up as a golden diff.
+        "a-task-item-s-checkbox-is-not-decided-by-its-first-block",
     )
 
     /**
@@ -755,6 +772,18 @@ object CarveCorpusCategories {
             "Probing a URL-valued attribute token-wise is a sanitizer question with no scope of its own; the twelve documents produce 14 scopes and no new one, all pinned by `attributes` and `attribute-edge-cases`.",
         "what-a-content-column-block-does-not-reach" to
             "The negative half of the content-column family, and a negative case with nothing to assert: the blocks that are not reached scope exactly as the blocks that are.",
+
+        // The four block-context categories from the spec bump to carve 22f7f47. Each was
+        // tokenized against its own documents before landing here, and the scope counts below
+        // are from that run rather than from reading the grammar.
+        "a-paragraph-opened-after-a-block-in-an-item-is-still-open-for-a-lazy-line" to
+            "Whether a paragraph survives a block and stays open for a lazy line is block context, which a line-based grammar does not have. The five documents produce 7 scopes and no new one, and the variants the rule distinguishes are indistinguishable in the stream: `| a |` on a marker line and the lazy `tail` under it are both bare `text.carve`. The list, quote and table tokens are pinned by `lists`, `blockquote-with-attribution` and `tables`.",
+        "an-unterminated-container-does-not-extend-the-item-past-a-blank-line" to
+            "Container extent across a blank line is block context. The three documents produce 5 scopes and differ only in bare `text.carve` runs, so the token stream cannot tell the rule's two sides apart. The one chain not pinned elsewhere is `markup.other.div.carve keyword.control.list.begin.carve` - the same list-marker token `lists` pins, wearing the div parent it inherits from sharing the opener line, which is a nesting artifact and not a signal for the rule.",
+        "only-lazy-folding-demotes-a-marker-line-colon-opener" to
+            "Whether the opener is demoted depends on what folds into it, which needs the block parser. Both documents tokenize IDENTICALLY apart from a blank line, so there is nothing for a golden to assert; the div and list tokens are pinned by `admonitions` and `lists`, and the div-parented list marker is the same artifact as the category above.",
+        "a-blank-line-before-a-sibling-marker-separates-the-items-whatever-consumed-it" to
+            "What consumed the blank line before a sibling marker is block bookkeeping with no token of its own. The three documents produce 7 scopes and no new one beyond that same div-parented list marker; the markers themselves are pinned by `lists`.",
     )
 
     /**
