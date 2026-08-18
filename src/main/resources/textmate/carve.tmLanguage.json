@@ -500,6 +500,37 @@
     "block-quotes": {
       "patterns": [
         {
+          "comment": "A BLOCK QUOTE MAY OPEN ON A LIST ITEM'S OWN MARKER LINE (`- > x`, `1. > x`, `- - > x`, `- [ ] > x`), and it takes the rest of that line: carve-js at the pinned engine renders `<ul><li><blockquote><p>x</p></blockquote></li></ul>`. The rule below cannot reach it - it is anchored on ^ and the marker is in the way - so the line fell through to `#lists`, the marker was scoped and everything after it carried NO scope at all (markup-carve/intellij-carve#73). markup-carve/carve-grammars#246 left the shape out on the ground that a shape one grammar handles and two do not is drift; tree-sitter-carve models it now (markup-carve/tree-sitter-carve#218), so the reason has inverted. WHY THE MARKER IS MATCHED HERE RATHER THAN LEFT TO `#lists`. The sibling grammars reach this line with a \\G-anchored rule that runs inside the list item's own container. This grammar has no container model - `#lists` is a line MATCH - so a \\G rule would sit at the top level, where it fires after ANY match that ends on whitespace: `# > x` is a heading whose text is `&gt; x`, and a top-level \\G quote rule colours the `> x` there. Matching the marker line whole is what keeps the rule to the one shape. The marker keeps its own list scopes through the captures, and only the content past the `>` is `contentName`d as quote - which is tree-sitter-carve's split, the `block_quote` inside `list_item_content` beside the `list_marker_*` rather than over it. EVERY SEPARATOR IS A LITERAL SPACE: `-<TAB>> q` and `- >x` are prose in the engine, and neither matches here. The ATTRIBUTE-GLUED marker (`-{#x} > q`) is not covered either - the block's width is not whitespace - so that line still falls through to `#lists` and behaves as it did.",
+          "begin": "^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))(>)(?= |$)",
+          "beginCaptures": {
+            "2": {
+              "name": "markup.list.unnumbered.carve"
+            },
+            "3": {
+              "name": "keyword.control.list.begin.carve"
+            },
+            "4": {
+              "name": "keyword.control.task-list.carve"
+            },
+            "5": {
+              "name": "markup.list.numbered.carve"
+            },
+            "6": {
+              "name": "keyword.control.list.begin.carve"
+            },
+            "7": {
+              "name": "keyword.control.quote.carve"
+            }
+          },
+          "contentName": "markup.quote.carve",
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#trailing-comment"
+            }
+          ]
+        },
+        {
           "name": "markup.quote.carve",
           "begin": "^[ \\t]*(>)(?= |$)[ ]?",
           "beginCaptures": {
