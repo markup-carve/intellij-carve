@@ -28,6 +28,9 @@
       "include": "#code-blocks"
     },
     {
+      "include": "#code-fence-on-marker-line"
+    },
+    {
       "include": "#figure-group"
     },
     {
@@ -35,6 +38,9 @@
     },
     {
       "include": "#tables"
+    },
+    {
+      "include": "#table-row-on-marker-line"
     },
     {
       "include": "#block-quotes"
@@ -422,73 +428,7 @@
           "end": "$",
           "patterns": [
             {
-              "match": "\\|=",
-              "name": "keyword.control.table.header.carve"
-            },
-            {
-              "match": "(?<=\\|)\\s*(\\^)\\s*(?=\\|)",
-              "captures": {
-                "1": {
-                  "name": "keyword.control.table.rowspan.carve"
-                }
-              }
-            },
-            {
-              "match": "(?<=\\|)\\s*(<)\\s*(?=\\|)",
-              "captures": {
-                "1": {
-                  "name": "keyword.control.table.colspan.carve"
-                }
-              }
-            },
-            {
-              "match": "\\|",
-              "name": "keyword.control.separator.table.carve"
-            },
-            {
-              "include": "#trailing-comment-cell"
-            },
-            {
-              "include": "#footnotes"
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#inline-code"
-            },
-            {
-              "include": "#extension-inline"
-            },
-            {
-              "include": "#critic-markup"
-            },
-            {
-              "include": "#emphasis"
-            },
-            {
-              "include": "#links"
-            },
-            {
-              "include": "#images"
-            },
-            {
-              "include": "#citations"
-            },
-            {
-              "include": "#autolink"
-            },
-            {
-              "include": "#attributes"
-            },
-            {
-              "include": "#math"
-            },
-            {
-              "include": "#mentions-tags"
+              "include": "#table-row-cells"
             }
           ]
         },
@@ -1583,6 +1523,168 @@
               "name": "keyword.control.thematic-break.carve"
             }
           }
+        }
+      ]
+    },
+    "code-fence-on-marker-line": {
+      "patterns": [
+        {
+          "comment": "A BLOCK OPENER MAY SIT ON A LIST ITEM'S OWN MARKER LINE. `#block-quotes`, `#comment-fence-on-marker-line`, `#heading-on-marker-line`, `#thematic-break-on-marker-line`, `#divs` and the `::` term rule all carry that shape already (markup-carve/intellij-carve#73, #74, #77). These are the last two members of the family and the only MULTI-LINE ones (markup-carve/intellij-carve#80). THE MARKER PREFIX IS CHARACTER FOR CHARACTER the one the other six use, so the whole family accepts and rejects the same marker forms: the marker's own separator is a literal space, further indent before the opener may be a tab, and an attribute-glued marker (`-{#x} ```js`) is not covered because the block's width is not whitespace. The marker keeps its own list scopes and nothing else. Measured against the engine bundled in this plugin: `- ```js` / `  code` / `  ``` ` renders the `<pre><code>` INSIDE the item, at every marker spelling, and `- ~~~` does the same. `#code-blocks` cannot reach it - its begin is anchored on ^ with no leading whitespace at all - so the whole line fell through and the fence took no scope. THE END HAS TWO BRANCHES, the split markup-carve/intellij-carve#74 and #76 worked out for the comment fence. The first is the ordinary closer, INDENTED, because it sits at the item's content column and `#code-blocks`'s own closer is column-0 only. The second is a zero-width container boundary: the first line that does not sit PAST the opener's own indent ends the item and the fence with it. IT IS THE OPENER'S INDENT AND NOT COLUMN 0 - capture 1 reconstructs the item's own column, so a fence on a NESTED item's marker line does not swallow its own sibling. Without the second branch an unclosed opener would run to the end of the document, which is what `#code-blocks` correctly does at the TOP level (markup-carve/intellij-carve#81) and what the engine does NOT do here: it ends the block with the item. The closer branch is `#code-blocks`'s own closer with an indent in front, deliberately including its looseness about the fence character, so the two rules stay one rule rather than drifting apart. The closer line carries the block scope through endCaptures 0, so it reads the same as the line-anchored rule; the second branch is zero-width, so naming capture 0 costs nothing there.",
+          "begin": "^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*([^`~\\s\\[\\\"]+)?[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$",
+          "beginCaptures": {
+            "2": {
+              "name": "markup.list.unnumbered.carve"
+            },
+            "3": {
+              "name": "keyword.control.list.begin.carve"
+            },
+            "4": {
+              "name": "keyword.control.task-list.carve"
+            },
+            "5": {
+              "name": "markup.list.numbered.carve"
+            },
+            "6": {
+              "name": "keyword.control.list.begin.carve"
+            },
+            "7": {
+              "name": "markup.raw.block.fenced.code.carve"
+            },
+            "8": {
+              "name": "keyword.control.raw.begin.carve"
+            },
+            "9": {
+              "name": "entity.name.type.language.carve"
+            },
+            "10": {
+              "name": "string.quoted.double.carve"
+            },
+            "11": {
+              "name": "entity.name.label.carve"
+            },
+            "12": {
+              "name": "entity.name.label.carve"
+            },
+            "13": {
+              "name": "string.quoted.double.carve"
+            }
+          },
+          "contentName": "markup.raw.block.fenced.code.carve",
+          "end": "^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])",
+          "endCaptures": {
+            "0": {
+              "name": "markup.raw.block.fenced.code.carve"
+            },
+            "1": {
+              "name": "keyword.control.raw.end.carve"
+            }
+          }
+        }
+      ]
+    },
+    "table-row-cells": {
+      "comment": "The inside of a table row: the pipes, the header and span markers, and every inline that may appear in a cell. Factored out of `#tables`'s row rule so `#table-row-on-marker-line` shares it rather than carrying a second copy - one production with two spellings is the defect markup-carve/carve#755 keeps recording, and a cell inline added to one list and not the other is exactly how it shows up.",
+      "patterns": [
+        {
+          "match": "\\|=",
+          "name": "keyword.control.table.header.carve"
+        },
+        {
+          "match": "(?<=\\|)\\s*(\\^)\\s*(?=\\|)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.table.rowspan.carve"
+            }
+          }
+        },
+        {
+          "match": "(?<=\\|)\\s*(<)\\s*(?=\\|)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.table.colspan.carve"
+            }
+          }
+        },
+        {
+          "match": "\\|",
+          "name": "keyword.control.separator.table.carve"
+        },
+        {
+          "include": "#trailing-comment-cell"
+        },
+        {
+          "include": "#footnotes"
+        },
+        {
+          "include": "#raw-inline"
+        },
+        {
+          "include": "#inline-literal"
+        },
+        {
+          "include": "#inline-code"
+        },
+        {
+          "include": "#extension-inline"
+        },
+        {
+          "include": "#critic-markup"
+        },
+        {
+          "include": "#emphasis"
+        },
+        {
+          "include": "#links"
+        },
+        {
+          "include": "#images"
+        },
+        {
+          "include": "#citations"
+        },
+        {
+          "include": "#autolink"
+        },
+        {
+          "include": "#attributes"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#mentions-tags"
+        }
+      ]
+    },
+    "table-row-on-marker-line": {
+      "patterns": [
+        {
+          "comment": "A BLOCK OPENER MAY SIT ON A LIST ITEM'S OWN MARKER LINE. `#block-quotes`, `#comment-fence-on-marker-line`, `#heading-on-marker-line`, `#thematic-break-on-marker-line`, `#divs` and the `::` term rule all carry that shape already (markup-carve/intellij-carve#73, #74, #77). These are the last two members of the family and the only MULTI-LINE ones (markup-carve/intellij-carve#80). THE MARKER PREFIX IS CHARACTER FOR CHARACTER the one the other six use, so the whole family accepts and rejects the same marker forms: the marker's own separator is a literal space, further indent before the opener may be a tab, and an attribute-glued marker (`-{#x} ```js`) is not covered because the block's width is not whitespace. The marker keeps its own list scopes and nothing else. Measured: `- |= a |` renders the `<table>` INSIDE the item, with rows on the following lines joining it at the item's content column. `#tables`'s row rule is anchored on ^, so the first row - the one on the marker line - took no table scope while every row under it did. NO CONTAINER BOUNDARY IS NEEDED HERE, unlike the code fence beside it: a table row is a ONE-LINE begin/end (`end` is `$`), so there is nothing to run away. The rows that follow are already matched by `#tables`, whose `^(?=\\s*\\|)` admits their indent. Only the content past the marker is `contentName`d as the row.",
+          "begin": "^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*(?=\\|)",
+          "beginCaptures": {
+            "2": {
+              "name": "markup.list.unnumbered.carve"
+            },
+            "3": {
+              "name": "keyword.control.list.begin.carve"
+            },
+            "4": {
+              "name": "keyword.control.task-list.carve"
+            },
+            "5": {
+              "name": "markup.list.numbered.carve"
+            },
+            "6": {
+              "name": "keyword.control.list.begin.carve"
+            }
+          },
+          "contentName": "markup.table.row.carve",
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#table-row-cells"
+            }
+          ]
         }
       ]
     }
