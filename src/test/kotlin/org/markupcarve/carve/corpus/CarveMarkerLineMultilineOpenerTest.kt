@@ -43,8 +43,13 @@ class CarveMarkerLineMultilineOpenerTest {
     private val list = "markup.list."
 
     /** Every scope carried by the tokens covering [needle], joined into one string. */
-    private fun scopesOf(src: String, needle: String): String {
-        val at = src.indexOf(needle)
+    private fun scopesOf(src: String, needle: String): String = scopesAt(src, src.indexOf(needle), needle)
+
+    /** The same, for the LAST occurrence - an opener and its closer are the same text. */
+    private fun lastScopesOf(src: String, needle: String): String =
+        scopesAt(src, src.lastIndexOf(needle), needle)
+
+    private fun scopesAt(src: String, at: Int, needle: String): String {
         assertTrue("Test input has no ${needle.replace("\n", "\\n")}", at >= 0)
         val end = at + needle.length
         val sb = StringBuilder()
@@ -98,11 +103,25 @@ class CarveMarkerLineMultilineOpenerTest {
         if (!body.contains(code)) "the body is not inside the code block, got $body" else null
     }
 
+    /**
+     * The closer branch, in both directions. Asserting only that `after` is outside
+     * the block does NOT test it: the container boundary ends the block at the blank
+     * line anyway, so a rule whose closer branch is anchored at column 0 - and which
+     * therefore never recognizes the item-column closer at all - passes that check
+     * with the closer swallowed as body. Measured: that mutant survived until the
+     * closer's own scope was asserted here.
+     */
     @Test
     fun theCodeBlockEndsAtItsCloser() = eachMarker { marker, indent ->
         val src = "$marker```js\n${indent}code\n$indent```\n\nafter\n"
+        val closer = lastScopesOf(src, "```")
         val after = scopesOf(src, "after")
-        if (after.contains(code)) "the block ran past its closer, got $after" else null
+        when {
+            !closer.contains("keyword.control.raw.end.carve") ->
+                "the closer at the item's column is not the closer, got $closer"
+            after.contains(code) -> "the block ran past its closer, got $after"
+            else -> null
+        }
     }
 
     /**
