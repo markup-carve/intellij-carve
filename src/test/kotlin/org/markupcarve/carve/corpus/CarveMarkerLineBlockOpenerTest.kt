@@ -152,6 +152,33 @@ class CarveMarkerLineBlockOpenerTest {
     }
 
     /*
+     * The two openers this grammar already handled, at the one marker spelling they
+     * were also missing. `- \t> q` and `- \t%%%` open their block in the engine, and
+     * the sibling rules matched the opener flush against the marker prefix, so a tab
+     * past the marker's own separator fell through. Asserted here rather than in
+     * CarveMarkerLineQuoteTest and CarveMarkerLineCommentFenceTest because it is one
+     * property of one family, and splitting it across three files is how a family
+     * gets closed a spelling at a time.
+     */
+    @Test
+    fun theOpenersThisGrammarAlreadyHandledTakeATabToo() {
+        val quoted = scopesOf("- \t> quoted\n\nafter\n", "quoted")
+        assertTrue("a tab before `>` lost the quote, got $quoted", quoted.contains("markup.quote.carve"))
+
+        // The body sits at the item's content column, which the tab moved out to a
+        // tab stop - measured, the engine hides `hidden` here and keeps `after`.
+        val hidden = scopesOf("- \t%%%\n    hidden\n    %%%\n\nafter\n", "hidden")
+        assertTrue("a tab before `%%%` left the body visible, got $hidden", hidden.contains("comment.block.carve"))
+
+        val after = scopesOf("- \t%%%\n    hidden\n    %%%\n\nafter\n", "after")
+        assertFalse("the fence ran past its closer, got $after", after.contains("comment.block.carve"))
+
+        // Still the marker's own separator, and still a literal space.
+        val prose = scopesOf("-\t> notquoted\n", "notquoted")
+        assertFalse("a tab separator must not open a quote, got $prose", prose.contains("markup.quote.carve"))
+    }
+
+    /*
      * The intended survivors. Without them a rule that fired on any `#` or `---`
      * after a marker would pass every shape above, and the em-dash rule the
      * thematic break was stolen by would be broken in the other direction.
