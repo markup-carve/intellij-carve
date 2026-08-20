@@ -142,6 +142,3 @@ like its output (`/italic/`, `*bold*`, `_underline_`, `~strike~`,
 Building, the bundled renderer, grammar updates, and the release process are
 documented in [docs/development.md](docs/development.md).
 
-## License
-
-[MIT](LICENSE)
