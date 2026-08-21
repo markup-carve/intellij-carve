@@ -1,0 +1,29 @@
+<idea-plugin>
+    <!--
+      The two extension points that build a CarvePreviewPanel, and with it a
+      JBCefBrowser. They are loaded ONLY when the JCEF plugin
+      (com.intellij.modules.jcef) is present - see the optional <depends> in
+      plugin.xml.
+
+      JCEF is a separate plugin with its own class loader, not part of
+      com.intellij.modules.platform. Registering the preview unconditionally
+      therefore threw NoClassDefFoundError on JBCefBrowser the moment a .crv
+      file was opened, and because the provider declares HIDE_DEFAULT_EDITOR,
+      the failure took the whole editor with it - the file could not be opened
+      at all (#88).
+
+      Splitting the registration out is what makes the degradation real:
+      without JCEF nothing here is registered, the plain text editor opens the
+      file, and highlighting, export and the language server are unaffected.
+    -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileEditorProvider
+                implementation="org.markupcarve.carve.preview.CarvePreviewEditorProvider"/>
+
+        <toolWindow
+                id="Carve Preview"
+                anchor="right"
+                factoryClass="org.markupcarve.carve.preview.CarvePreviewToolWindowFactory"
+                icon="/icons/carve.svg"/>
+    </extensions>
+</idea-plugin>
