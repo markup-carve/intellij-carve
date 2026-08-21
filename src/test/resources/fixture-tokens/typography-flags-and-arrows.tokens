@@ -1,6 +1,4 @@
-Empty pairs are text: {//} {**}  -> text.carve
-{__} -> text.carve meta.attributes.carve
- {~~} {^^} {,,} {==} {++} {##}.\n -> text.carve
+Empty pairs are text: {//} {**} {__} {~~} {^^} {,,} {==} {++} {##}.\n -> text.carve
 \n -> text.carve
 Held:  -> text.carve
 {/ -> text.carve markup.italic.carve keyword.control.italic.carve
