@@ -1,0 +1,23 @@
+{_foo}
+a bare boolean starting with an underscore is text
+
+{disabled}
+a bare boolean is an attribute block
+
+{_k=1 _="on click"}
+a key keeps its leading underscore
+
+{#_id ._c}
+an id and a class keep theirs too
+
+[x]{_u} is text, [x]{_u=""} is a span
+
+{_x_} is an underline, not an attribute
+
+-{_k} x
+
+-{k} x
+
+1.{_k} x
+
+1.{_k=1} x

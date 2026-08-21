@@ -259,7 +259,13 @@ class CarveMarkerScannerTest {
     @Test
     fun theGluedPayloadUsesStrictIdentifiers() {
         assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{data-x=y} item\n"))
-        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{_k} item\n"))
+        // A BARE boolean may not start with `_` (spec PART 9 §14, markup-carve/carve#1450):
+        // `{_x_}` is a forced underline, so the bare attribute reading gave the collision up.
+        // Measured through the bundled engine: `-{_k} item` is a paragraph and `-{_k=1} item`
+        // is a list item, because only the bare form is narrowed.
+        assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{_k} item\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{_k=1} item\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{#_id} item\n"))
         assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{#a-b} item\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("-{--flag} item\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.{#-id} item\n"))

@@ -1,0 +1,61 @@
+{_foo}\n -> text.carve
+a bare boolean starting with an underscore is text\n -> text.carve
+\n -> text.carve
+{disabled} -> text.carve meta.attributes.carve
+\n -> text.carve
+a bare boolean is an attribute block\n -> text.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+_k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+1 -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> text.carve meta.attributes.carve
+_ -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"on click" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+a key keeps its leading underscore\n -> text.carve
+\n -> text.carve
+{ -> text.carve meta.attributes.carve
+#_id -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> text.carve meta.attributes.carve
+._c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+an id and a class keep theirs too\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{_u} is text,  -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+_u -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+"" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> text.carve meta.attributes.carve
+ is a span\n -> text.carve
+\n -> text.carve
+{_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+x -> text.carve markup.underline.text.carve markup.underline.text.carve
+_} -> text.carve markup.underline.text.carve keyword.control.underline.carve
+ is an underline, not an attribute\n -> text.carve
+\n -> text.carve
+-{_k} x\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{k} -> text.carve meta.attributes.carve
+ x\n -> text.carve
+\n -> text.carve
+1.{_k} x\n -> text.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+{ -> text.carve meta.attributes.carve
+_k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+1 -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
+ x\n -> text.carve

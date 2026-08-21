@@ -42,6 +42,12 @@ object CarveCorpusCategories {
         // carries the rule. Skipping would drop the only corpus-level
         // assertion this repo has for it.
         "a-marker-separator-is-a-space-never-a-tab",
+        // The four documents carry the rule in both directions: `{_foo}` and
+        // `[x]{_u}` keep no attribute scope, while `{#_id ._c _k=1 _="on click"}`
+        // and `[x]{_u=""}` keep every scope they had. The bare form was a
+        // measured false positive here until the item alternation was narrowed
+        // at all seven sites (#90).
+        "a-boolean-attribute-does-not-start-with-an-underscore",
         "a-flush-left-line-needs-an-open-paragraph-to-fold-into",
         "a-repeated-definition-which-one-wins",
         "two-abbreviation-definitions",
@@ -784,8 +790,6 @@ object CarveCorpusCategories {
             "Whether the opener is demoted depends on what folds into it, which needs the block parser. Both documents tokenize IDENTICALLY apart from a blank line, so there is nothing for a golden to assert; the div and list tokens are pinned by `admonitions` and `lists`, and the div-parented list marker is the same artifact as the category above.",
         "a-blank-line-before-a-sibling-marker-separates-the-items-whatever-consumed-it" to
             "What consumed the blank line before a sibling marker is block bookkeeping with no token of its own. The three documents produce 7 scopes and no new one beyond that same div-parented list marker; the markers themselves are pinned by `lists`.",
-        "a-boolean-attribute-does-not-start-with-an-underscore" to
-            "MEASURED FALSE POSITIVE (#87): `{_foo}` is not an attribute block - a boolean attribute may not start with an underscore - and the whole line renders as prose, while the grammar scopes it `meta.attributes`. The key-value forms beside it (`_k=1`, `_=\"on click\"`) are real attributes and are scoped correctly, so a golden would pin the wrong answer on the one case the category exists for.",
         "a-braced-hyphen-pair-is-an-en-dash" to
             "MEASURED FALSE POSITIVE (#85): `{--}` renders as an en dash and the critic rule claims it as a deletion; the flag-shaped bare `---` stays literal and the typography rule converts it. `{---}` and `{-x-}` really are deletions and are scoped correctly.",
         "a-collected-definition-closes-the-item-paragraph" to
