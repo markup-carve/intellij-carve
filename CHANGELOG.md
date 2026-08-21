@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **The preview pane and the language server run the same engine** (#93). The plugin ships carve-js twice, and the two copies were 42 commits apart: `js/carve.iife.js` carried `5695480e` while the engine inlined into `lsp/server.js` was `61f824d5`, so the two halves of one editor could disagree about one document. The language server is rebuilt on `5695480e`, and `tools/build-engine-bundles.sh` now takes the revision as an input and builds both bundles from it, because the two scripts pick an engine differently and re-running either could never converge. `CarveBundleProvenanceTest` asserts the two headers name the same commit; the three checks it already had each read one file, so none of them could see the drift.
+
 ## [0.1.5] - 2026-08-21
 
 ### Added

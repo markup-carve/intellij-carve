@@ -23,8 +23,10 @@ bundled renderer, grammar updates, and the release process.
   `keyword.control.*` scope names. Run `./gradlew checkGrammarDrift` to see what
   differs - it is read-only and never edits the grammar.
 - **Preview/export rendering** uses the bundled `carve.iife.js`
-  (`@markup-carve/carve` on GraalJS) or the carve-php CLI. Regenerate the bundle
-  with `tools/build-carve-bundle.sh` when carve-js changes.
+  (`@markup-carve/carve` on GraalJS) or the carve-php CLI. The language server
+  carries a second copy of the same engine, and the two have to be one revision,
+  so regenerate them together with
+  `tools/build-engine-bundles.sh ../carve-js ../carve-lsp` when carve-js changes.
 
 ## Testing
 

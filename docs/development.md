@@ -31,8 +31,9 @@ src/main/
     textmate/                # TextMate bundle (package.json, grammar, language config)
     js/carve.iife.js         # bundled carve-js renderer (generated)
     icons/, liveTemplates/
-tools/build-carve-bundle.sh  # regenerates js/carve.iife.js
-tools/build-lsp-bundle.sh    # regenerates lsp/server.js
+tools/build-carve-bundle.sh   # regenerates js/carve.iife.js
+tools/build-lsp-bundle.sh     # regenerates lsp/server.js
+tools/build-engine-bundles.sh # regenerates BOTH, from one carve-js revision
 ```
 
 ## Bundled renderer (carve.iife.js)
@@ -90,6 +91,50 @@ tools/build-lsp-bundle.sh ../carve-lsp
 The script records the carve-lsp commit in `src/main/resources/lsp/VERSION` and
 in a header comment in `server.js`, so a stale bundle is detectable (compare
 against carve-lsp HEAD). It also runs `node --check` on the result.
+
+The `carve-js dependency` line in that header is read from the INSTALLED tree
+(`node_modules/.package-lock.json`), not from carve-lsp's own `package-lock.json`.
+The two differ whenever anything is installed outside the declaration - including
+`--carve-js` below - and only the installed tree describes what esbuild actually
+bundled.
+
+## Regenerating both bundles together
+
+The plugin ships the engine twice: `js/carve.iife.js` for the preview pane and
+HTML export, and a second copy inlined into `lsp/server.js`. They are one engine
+as far as a user is concerned, so they have to be one revision - and the two
+scripts above cannot get there on their own, because they choose an engine two
+different ways. `build-carve-bundle.sh` uses the carve-js checkout it is handed;
+`build-lsp-bundle.sh` gets whatever carve-lsp pins, which is an exact commit in
+carve-lsp's own `package.json`. Run independently they shipped 42 commits apart
+(#93).
+
+So regenerate the pair with one command, which takes the revision once:
+
+```bash
+# carve-js parked on the revision you want and already built (npm ci && npm run build)
+tools/build-engine-bundles.sh ../carve-js ../carve-lsp
+```
+
+It stamps both bundles with `../carve-js`'s `HEAD`, links the language server
+against that same commit (with `npm install --no-save`, so carve-lsp's own pin
+and lockfile are left untouched), and refuses to finish if the two headers come
+out naming different commits. `CarveBundleProvenanceTest` asserts the same
+equality offline on every pull request, so a pair that drifted apart cannot be
+committed quietly.
+
+Use the individual scripts when only one bundle needs to move - a carve-lsp
+change with no engine change, say. Pass the engine explicitly so the result
+still matches its neighbour:
+
+```bash
+# the commit js/carve.iife.js already names, so the pair stays on one engine
+tools/build-lsp-bundle.sh ../carve-lsp --carve-js 5695480e97e228821590fc7180485aecdb2a8839
+```
+
+Without `--carve-js` the server is linked against whatever carve-lsp pins, and
+the script warns (naming both revisions) when that would disagree with the
+preview bundle.
 
 The language server itself is not exercised headlessly by `gradle test`; verify
 it manually with `./gradlew runIde` (see the checklist in the PR / below).
