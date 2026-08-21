@@ -1345,7 +1345,8 @@
         },
         {
           "name": "markup.changed.carve",
-          "match": "(?<![\\w=])(=)(?=\\S)([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
+          "comment": "AN `=` FOLLOWED BY `>` OPENS NOTHING. `=>` is not an arrow (see #smart-typography), so nothing consumes it before this rule, and `#emphasis` is listed ahead of `#smart-typography` - the highlight then opened at the `=` of `=>` and ran to the next closer, painting `key => value stays literal, and p <=` as one mark and eating the `<=` entity with it. Measured through the bundled engine: `a =b= c` is a mark and `a => b= c`, `a => b=c d` and `x => x,y=> y` are all literal, so the refusal belongs on the OPENER alone. The closer keeps `\\S`: `a =b<= c`, `a =b>= c` and `a =b!= c` all render as marks holding the leading character, so an inline closer beats smart typography on that side.",
+          "match": "(?<![\\w=])(=)(?=[^\\s>])([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
           "captures": {
             "1": {
               "name": "keyword.control.highlight.carve"

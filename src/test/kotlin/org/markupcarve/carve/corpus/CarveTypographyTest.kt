@@ -93,6 +93,44 @@ class CarveTypographyTest {
         converts("`!=`", "x != y\n", "!=")
     }
 
+    /**
+     * Nothing consumes `=>` any more, and `#emphasis` is listed ahead of
+     * `#smart-typography`, so a bare `=` that opened on the `=` of `=>` ran to
+     * the next closer and painted the rest of the sentence. The engine renders
+     * every one of these literally.
+     */
+    @Test
+    fun anEqualsFollowedByAGreaterThanOpensNoHighlight() {
+        val src = "Not an arrow: key => value stays literal, and p <= q is a comparison.\n"
+        val painted = scopesOf(src, "value stays literal")
+        assertFalse("the sentence between `=>` and `<=` is not a highlight: $painted", painted.contains("markup.changed"))
+        converts("`<=` keeps its own entity beside a refused `=>`", src, "<=")
+        for (line in listOf("a => b= c\n", "a => b=c d\n", "x => x,y=> y\n")) {
+            assertFalse(
+                "`$line` holds no highlight: ${scopesOf(line, "=>")}",
+                scopesOf(line, ">").contains("markup.changed"),
+            )
+        }
+    }
+
+    /**
+     * The near miss. Refusing the OPENER is the whole fix; the closer takes
+     * `<`, `>` and `!` as content, which is what the engine renders - `a =b>= c`
+     * comes back as a mark holding `b>`. A guard written on both ends would
+     * suppress all three.
+     */
+    @Test
+    fun aClosingEqualsStillTakesTheCharacterBeforeIt() {
+        for (src in listOf("a =b<= c\n", "a =b>= c\n", "a =b!= c\n")) {
+            val scopes = scopesOf(src, "=b")
+            assertTrue("`${src.trim()}` is still a highlight: $scopes", scopes.contains("markup.changed"))
+        }
+        assertTrue(
+            "a plain highlight beside a refused `=>` still opens",
+            scopesOf("note =highlight= and x => y\n", "=highlight=").contains("markup.changed"),
+        )
+    }
+
     @Test
     fun anEmptyBracePairIsNotAConstruct() {
         val src = "Empty pairs are text: {//} {**} {__} {~~} {^^} {,,} {==} {++} {##}.\n"
