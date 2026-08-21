@@ -1,0 +1,35 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+>^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+ Name  -> text.carve markup.table.row.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+ Value  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+?v -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+ Bottom  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+?~ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+ Middle  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+?^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+ Top  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ plain  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+? lone  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+v? reversed  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+?< wrong  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+^< axes  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve

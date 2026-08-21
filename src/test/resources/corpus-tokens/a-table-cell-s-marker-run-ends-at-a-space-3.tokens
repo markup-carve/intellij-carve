@@ -1,0 +1,14 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> text.carve markup.table.row.carve meta.attributes.carve
+.total -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve markup.table.row.carve meta.attributes.carve
+ 99  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> text.carve markup.table.row.carve meta.attributes.carve
+.total -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve markup.table.row.carve meta.attributes.carve
+99  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
