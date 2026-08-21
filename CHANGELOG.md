@@ -7,146 +7,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.5] - 2026-08-21
+
 ### Added
 
-- **The delimited inline comment `{% ... %}` is highlighted** (PART 9 §21a, markup-carve/carve#1239). It had no rule: the comment rules covered `%%` lines and `%%%` fences only, and no other brace rule could reach it, because the attribute block demands `:`, `.`, `#` or an identifier after the brace. So the payload read as ordinary text and the markers inside it stayed live - `{% *not bold* %}` rendered a bold run inside a comment. It is now scoped whole as `comment.block.inline.carve`, in paragraphs and in table cells.
-
-- **A bare `::: figure` highlights as a composite figure, not as a generic container** (PART 9 §4c, markup-carve/carve#1215; tracked as markup-carve/carve-grammars#222). The kind word `figure` is reserved among the `:::` types: a bare opener - the fence, its separator, the word `figure`, and nothing else - is one figure of ordered panels. It now carries `markup.other.figure-group.carve` over the whole container and `entity.name.type.figure-group.carve` on the kind word, so the editor can tell it from the div it used to look exactly like.
-
-  The distinction lives in the tail of one line and the tail is all that decides it. `::: figure "A title"` and `::: figure [g]` are not that production at all, so they keep every scope they had. So does `:::<TAB>figure`: the separator is a space run, never a tab (PART 7, corpus 254 renders that line as a paragraph), so the rule is spelled with a space run rather than the `[ \t]+` the generic rules beside it use.
-
-  Groups do not nest. A bare `::: figure` at any depth inside an open group is a generic container, which falls out of the rule leaving itself out of its own body: the generic container here is a per-line rule that recurses into no pattern list, so it cannot reach back to the group rule from any depth.
-
-  The group caption after the closing fence already scoped as a caption and still does. That claim is an over-approximation shared with every Carve TextMate grammar - a `^ ` line after any other `:::` closer gets it too - and it is not fixable with container state, because the caption sits one line *past* the closer, outside the span any begin/end rule can hold. markup-carve/carve-grammars#222 expected this repo's stateful model to pin the caption exactly; measured, it cannot, and the no-nesting rule is what the state buys instead.
-
-### Changed
-
-- **The preview and HTML export render on a current engine again** (#62). The bundled `carve.iife.js` was built from carve-js `d0febc95` on 14 July and was 363 commits behind. Measured through the artifact rather than the recorded commit, it rendered **140 of carve `main`'s 690 corpus documents differently**, and 110 of the 610 in this plugin's own pinned corpus. None of them threw, so the preview showed wrong HTML with nothing to indicate it. Rebuilt from `3d95e948`: 0 of 690.
-
-  The language server bundle moved from carve-lsp `156681d1` to `14320242`, taking its engine from carve-js `e28acbf1` to the published `0.1.2` - 140 of 690 down to 91. That is not parity. carve-lsp pins the published package exactly, so the remainder needs a carve-js release and is tracked as markup-carve/carve#608.
-
-  Two documents still differ from this repo's pinned corpus, both recorded by name: one whose golden changed upstream after the spec pin (the engine is right, the pin is old), and one with 100 nested containers that overflows the GraalJS host stack - the same bundle renders it correctly under Node, so the limit is the plugin's JS host rather than the engine.
-
-- **A bullet glued to an attribute block is a marker, and both marker rules validate the payload** (markup-carve/carve-grammars#126). The ordered rule learned the glued form; the bundled grammar's bullet rule beside it never did, so `-{#x} item`, `*{.c} item` and `-{title="a}b"} item` went uncoloured on lines that ARE list items. Three corpus goldens pinned the wrong answer.
-
-  Copying the ordered guard verbatim would have coloured `-{+a+} text` as a list, where it renders as a paragraph - `{+a+}` is an insertion span, not attributes. So the guard requires valid attribute syntax and both branches share it; the ordered rule had the same hole. Identifiers are strict (PART 9 §14) and admit no colon, matching carve-js and `CarveMarkerScanner`, which has validated the payload since #55.
-
-  Known limitation, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped; the bullet is. Eleven shapes are pinned in the `bullet-glued-attributes` fixture, both outcomes.
-
-- **A mixed-case roman run is not an ordered marker** (markup-carve/carve-grammars#118). The bundled grammar spelled a roman run as one class, `[ivxlcdmIVXLCDM]+`, which matches any mixture of the two cases - so `Vim. text`, `Mix. text` and `Ix. text` coloured as lists where carve-js renders paragraphs. Those are the shape of a word starting a sentence, which is the risk the rule was written to avoid: it names `Note.` as the case to keep literal, and `Note` falls outside the class while `Vim` does not. Not a length rule - `mix.`, `civil.` and `did.` DO open lists, and so do `ivx.` and `IVX.` - so the fix is two classes. `CarveMarkerScanner` already used the split form (#55), so this closes the last disagreement between the two paths on roman markers.
-
-- **The annotator highlights a marker glued to an attribute block, the bare dot, and roman runs** (#55). `CarveMarkerScanner` is the second place this repo carries the marker rules, and its bullet and ordered patterns demanded a space straight after the marker - so `1.{#x} item` and `-{#x} [x] done` got no marker colour on a line that IS a list item, where the bundled grammar colours it. The same pattern was missing the bare dot (markup-carve/carve#472) and roman runs, both of which the grammar carries, so the two paths disagreed on `. first` and `iv. fourth`.
-
-  The glued block must be VALID attribute syntax and must be followed by content, or the line is prose: `1.{#x}`, `1.{2=v} text` and `1.{bad!!} text` are paragraphs, while `-{not attrs} text` is a list item with two boolean attributes. Identifiers are strict (spec PART 9 §14) - `-{a:b}`, `-{--flag}` and `1.{#-id}` are paragraphs too. A roman run is case-consistent: `ivx.` and `IVX.` open lists, `Vim.` and `Mix.` do not. Every shape was run through carve-js, which is also why this does not copy the grammar on two points where the grammar is looser than the engine.
-
-- **An ordered marker glued to an attribute block needs content after it too** (markup-carve/carve-grammars#85). `1.{#x}` renders as a paragraph and `1.{#x} item` as a list item; the bundled grammar scoped the marker in both, because the guard was `(?= |\{)` and any brace satisfied it, so MARKER REQUIRES CONTENT never reached past the block. The fix spells the attribute block out in full rather than skipping it: the block is not brace-balanced text, so a `\{[^}]*\}` run stops at a `}` inside a quoted value and rejects `1.{title="a}b"} item`, which is a valid item. Ten shapes are pinned in the `marker-requires-content` fixture, both outcomes. Only the grammar is affected this time - `CarveMarkerScanner` never admitted the brace form at all, so it does not carry this bug (it under-highlights the valid attributed marker instead, which is its own gap).
-
-- **A run of spaces is not heading content** (#47). `#` followed by two spaces scoped as a heading, because the rule's `.+` matches them; carve-rs renders it `<p>#</p>`. Found by a shared block battery, now vendored here and run against this grammar, so a rule fixed upstream and missed here fails a test instead of shipping.
-- **A marker alone on its line is prose** (#44). MARKER REQUIRES CONTENT (markup-carve/carve#513) was in the rules already, written `\s+`, and `\s` matches the line's own newline - so the requirement never bit. `-`, `- `, `1.`, `1. `, `::` and `:: ` all scoped as markers where carve-rs renders every one as a paragraph. Two code paths carried it here: the bundled grammar and `CarveMarkerScanner`, which drives the annotator. The guard is a line-end lookahead rather than `(?=\S)`, because only spaces and tabs separate a marker from its content: `#  Title` with a leading no-break space is still a heading. `- [ ] ` with nothing after it is a plain bullet holding the literal `[ ]`, not a checkbox.
-- **A blockquote marker takes a space** (#42). markup-carve/carve#525 made the
-  separator mandatory, and two code paths carried the old rule: the bundled
-  TextMate grammar and `CarveMarkerScanner.QUOTE`, which drives the annotator -
-  the highlighting a user actually sees. Verified against carve-rs: `>no space`,
-  `>>x`, `>> x` and `>\tx` all render as paragraphs, `>>` is not a nested marker
-  (that is `> > x`, a space per marker), and a tab does not separate. The spec
-  pin moved 8 commits in the same change, which is what surfaced it.
-
-- **The spec submodule is current again** (#38). It sat at 392 corpus documents
-  while the spec had 529, so the coverage matrix and the token-stream goldens
-  were measuring a July language. Fifty-five new categories are classified:
-  `symbols` and `inline-literal` are COVERED (the only ones producing
-  `constant.character.entity` and `markup.raw.inline.literal` scopes under this
-  grammar), the other 47 are SKIP with a reason naming the covered category
-  their tokens already come from. Three entries were upstream renames, not
-  removals, and each keeps its side of the matrix: `emoji` -> `symbols`,
-  `link-destination-stops-at-the-first-parenthesis` ->
-  `link-destination-parentheses-balance`, `multi-line-headings` ->
-  `single-line-headings`. Twenty-five goldens are new and ten changed; all ten
-  are upstream edits to the example text, verified file by file against the old
-  submodule, not grammar regressions.
+- **The delimited inline comment `{% ... %}` is highlighted** (#84, markup-carve/carve#1239). It had no rule at all, so the payload read as ordinary text and the markers inside it stayed live. Scoped whole, in paragraphs and in table cells.
+- **A bare `::: figure` is a composite figure, not a generic container** (#68, markup-carve/carve#1215). `::: figure "A title"`, `::: figure [g]` and `:::<TAB>figure` are other productions and keep every scope they had. Groups do not nest. The caption after the closing fence stays an over-approximation shared with every Carve TextMate grammar - it sits one line past the closer, outside any begin/end span.
+- **The language attribute `{:fr}` is scoped** (#67, markup-carve/carve#1114). An unrecognized attribute item does not degrade gracefully: one bad item left the whole block unscoped, so a span carrying a language lost its attribute coloring entirely. All six sites that spell the item alternation take it, including both glued marker rules.
 
 ### Fixed
 
-- **An orphaned golden can no longer rot unnoticed.** The snapshot test only
-  fails on goldens it looks for, so a renamed category left its old `.tokens`
-  file behind with nothing reading it - three had accumulated. A new check in
-  the coverage-matrix test fails on any golden with no corpus file behind it.
+- **A block opener on a list item's marker line opens the block there.** Seven shapes took no scope, or the wrong one: `- > q` (#75), `- %%%` (#76), `- # h`, `- ---`, `- ::: d`, `- :: term` (#79), and `` - ```js `` with `- |= a |` (#83). The comment fence was the damaging one - it opened no block, left the hidden body live, and ran to the end of the document, graying out every block after the item. All seven now share one marker prefix, so the family accepts and rejects the same marker forms, and each leaves the marker its own list scopes.
+- **Opening a `.crv` file no longer fails when JCEF is not on the plugin's class path** (#88). JCEF is its own plugin - `com.intellij.modules.jcef` - rather than part of `com.intellij.modules.platform`, and this plugin declared no dependency on it, so `JBCefBrowser` was missing and `CarvePreviewEditorProvider` threw `NoClassDefFoundError` on PhpStorm 2026.2. The provider hides the default editor, so the file did not open at all. The two preview extension points moved into an optional `carve-jcef.xml` that loads only where JCEF does: without it the text editor opens the file and highlighting, export, templates and the language server are unaffected.
+- **The preview, HTML export and language server run on a current engine again** (#70, #72). The vendored bundle rendered 23 of 1317 corpus documents differently where a bundle built from carve-js `main` renders them correctly. Rebuilt from carve-js `5695480e` and carve-lsp `ef1ca246`, with the spec pin moved to carve `b78950f` - the revision carve-js itself pins, so the engine and the corpus agree rather than the engine running ahead of the goldens: 0 of 1330 documents render differently now.
+- **An unclosed fence is pinned per fence** (#82). `%%%` degrades to a line comment and hides nothing, while ` ``` `, `~~~` and `:::` run to the end of the document - so bounding the code fence by analogy would be the regression. The comment fence's own case is not fixable in a TextMate grammar: whether the opener is a fence depends on whether a closer appears later, and a begin pattern sees one line.
 
-- **Inline footnote content is parsed as inline markup.** `^[...]` used a flat
-  match, so its whole body was one opaque span: nested emphasis and code inside a
-  note did not highlight, and a backslash-escaped bracket such as `^[a \] b]`
-  terminated the note early, leaving the rest of the line unstyled. The rule is
-  now a line-bounded `begin`/`end` whose content is inline-parsed, matching the
-  spec (`inline_footnote = '^[', inline_content, ']'`). The existing
-  `string.other.footnote.inline.carve` content scope is preserved, and the
-  one-line bound means an unclosed `^[` still cannot leak into later paragraphs.
-- **An escaped `\^[` is no longer highlighted as a footnote.** The inline
-  footnote opener now refuses a backslash-escaped caret, so the documented
-  literal form `\^[x]` stays plain text even in a table cell, where the
-  top-level escape rule is not in scope.
-- **Table cells highlight footnotes, citations, mentions, tags and symbols.**
-  The table-row pattern list omitted `#footnotes`, `#citations` and
-  `#mentions-tags`, so `| ^[note] |`, `| [key] |`, `| user |`, `| #tag |` and
-  `| :tada: |` were left unscoped inside a table even though all of them
-  highlight correctly elsewhere.
+### Changed
 
-- **A div fence opening on a list marker is highlighted again.** `- ::: note` is
-  corpus-pinned (corpus 114) but the div rule was anchored past the bullet, so the
-  whole opener — fence, type word and any title — fell through to plain text. The
-  rule now consumes an optional bullet prefix and scopes it as a list marker.
-- **A definition-list term no longer swallows the rest of its line.** The term
-  line captured everything after `::` into one term scope, so a trailing
-  `%% comment` and any inline markup inside the term were absorbed and never
-  tokenized. Only the marker is scoped now, mirroring the single-colon rule.
-- **An unquoted attribute value containing dots keeps its value scope.** In
-  `{k=v.w}` the `.w` was scoped as a *class* rather than part of the value —
-  the behaviour corpus 110 exists to pin. Unquoted values are now consumed whole.
-  This also fixes values that previously went entirely unscoped, such as
-  `{lang=en-US}`.
-- Table alignment colons in a GFM delimiter row now get their own scope, so
-  `|:---:|` distinguishes the alignment markers from the dash run.
-- **`checkGrammarDrift` reports far less noise.** It compared `comment` prose,
-  which cannot affect tokenization, and normalized only one of the several
-  scope-name conventions this grammar deliberately differs by. Comments are now
-  stripped before comparing and the remaining convention families are mapped, so
-  the report shows genuine structural drift. Divergent shared rules dropped from
-  13 to 7, and the 7 that remain are real differences rather than naming noise.
-  The `frontmatter` rule, which must differ because IntelliJ's TextMate engine
-  treats `\A` like `^`, is now declared as intentional and pinned by a fixture.
-- **`checkGrammarDrift` no longer reports two phantom missing features.** It
-  compares upstream and local rules by name, and upstream splits the braced
-  forced-emphasis and superscript/subscript forms into their own `forced-emphasis`
-  and `sup-sub` rules where this grammar folds them into `emphasis`. The
-  constructs were always highlighted; only the grouping differed. The check now
-  declares that grouping delta explicitly, so the actionable category is empty
-  when nothing is actually missing rather than permanently non-empty. Each
-  declared entry must be backed by a fixture, so the declaration cannot be used
-  to hide a genuine gap.
-- **Unclosed inline literal and math openers no longer leak.** Both rules matched
-  with an open-ended begin/end pair, so typing `` !` `` or `` $` `` without its
-  closer highlighted every following paragraph as literal or math content until
-  the next backtick run anywhere in the file. Both are now closed-span match
-  rules, like inline code, which are line-bounded and cannot leak.
-- Table cells now highlight raw inline, inline literals and math, which were
-  missing from the cell pattern list.
-- **The `downloadGrammar` task no longer destroys the committed grammar.** It
-  streamed vscode-carve's grammar straight over `carve.tmLanguage.json`, but the
-  two copies deliberately diverge: running it rewrote all 111 `keyword.control.*`
-  scope names to `punctuation.definition.*`, deleted the three plugin-only rules
-  (`cross-reference`, `hard-break`, `thematic-break`) and clobbered 13 of the 28
-  shared rules. It is replaced by a read-only `checkGrammarDrift` task that
-  normalizes the scope-name convention, reports plugin-only, diverged and
-  upstream-only rules separately, and fails only on the actionable last category.
-  `downloadGrammar` remains as an alias for the safe check. The intended deltas
-  are documented in `build.gradle.kts` and `docs/development.md`.
+- **The spec corpus is a declared test input** (#71). The shared-corpus tests reach `spec/tests/corpus` by file path, so moving the submodule changed nothing Gradle tracked: a 108-document pin bump left `./gradlew test` `UP-TO-DATE` in 9 seconds having run no test, while `--rerun-tasks` on the same tree failed twice. CI never saw it - a fresh checkout has no build cache - so the one place it bit was a human reviewing a bump locally.
+- **The spec pin is current** (#70, #72, #78): 1131 -> 1330 corpus documents. Twenty-five new categories are classified, all SKIP - block context a line-based grammar cannot see, or render-time behavior with no token. Four of them record a MEASURED FALSE POSITIVE instead of a reason to skip, so a golden would pin the wrong answer: empty brace pairs, `{--}` and flag-shaped hyphen runs (#85), the table header marker claiming plain cells (#86), and a boolean attribute starting with an underscore (#87). Two goldens changed, both following upstream edits to the corpus input rather than a grammar regression. Two population guards that could not fail are replaced - the bundle corpus test asserted `>= 500` against 1131, and the corpus script rejected only an entirely absent corpus - and `spec-drift.yml` now gates the pin's AGE at ten days, since distance would be red every morning.
+
+## [0.1.4] - 2026-08-11
+
+### Changed
+
+- **The preview and HTML export render on a current engine again** (#62). The vendored `carve.iife.js` was 363 commits behind and rendered 140 of 690 corpus documents differently - none of them threw, so the preview showed wrong HTML with nothing to indicate it. Rebuilt from carve-js `3d95e948`: 0 of 690. The language server moved to carve-lsp `14320242`, taking its engine to the published 0.1.2 (91 of 690); carve-lsp pins the published package, so the rest needs a carve-js release (markup-carve/carve#608). Two documents still differ, both recorded: one whose golden changed upstream after the spec pin, and one with 100 nested containers that overflows the GraalJS host stack.
+- **A bullet glued to an attribute block is a marker, and both marker rules validate the payload** (markup-carve/carve-grammars#126). `-{#x} item` and `-{title="a}b"} item` went uncolored on lines that ARE list items, and three goldens pinned it. The guard requires valid attribute syntax rather than any brace, so `-{+a+} text` stays the paragraph it renders as; identifiers are strict (PART 9 §14). Known limitation: the checkbox after a glued block is not scoped.
+- **A mixed-case roman run is not an ordered marker** (markup-carve/carve-grammars#118). One class matched any mixture of cases, so `Vim.`, `Mix.` and `Ix.` colored as lists - the shape of a word starting a sentence. Not a length rule: `mix.`, `ivx.` and `IVX.` do open lists, so the fix is two classes.
+- **The annotator highlights a marker glued to an attribute block, the bare dot, and roman runs** (#55). `CarveMarkerScanner` demanded a space straight after the marker and carried neither the bare dot (markup-carve/carve#472) nor roman runs, so the two highlighting paths disagreed on `1.{#x} item`, `. first` and `iv. fourth`.
+- **An ordered marker glued to an attribute block needs content after it** (markup-carve/carve-grammars#85). `1.{#x}` renders as a paragraph and `1.{#x} item` as a list item; the old guard was satisfied by any brace, so MARKER REQUIRES CONTENT never reached past the block.
+- **A run of spaces is not heading content** (#47). `#` followed by two spaces scoped as a heading, where the engine renders `<p>#</p>`. Found by a shared block battery, now vendored here.
+- **A marker alone on its line is prose** (#44, markup-carve/carve#513). The rule was written `\s+` and `\s` matches the line's own newline, so `-`, `1.`, `::` and their spaced forms all scoped as markers.
+- **A blockquote marker takes a space** (#42, markup-carve/carve#525). `>no space`, `>>x` and `>\tx` render as paragraphs, and `>>` is not a nested marker. Both the grammar and `CarveMarkerScanner` carried the old rule.
+- **The spec submodule is current again** (#38): 392 -> 529 corpus documents. Fifty-five new categories classified, `symbols` and `inline-literal` COVERED and the other 47 SKIP with a reason. Three entries were upstream renames rather than removals.
 
 ### Added
 
-- **Syntax highlighting for the inline literal.** A `!` before a verbatim backtick span
-  (`` !`/kaet/` ``) renders its content as ordinary prose rather than code, so notation that
-  collides with the bare emphasis delimiters - phonemic transcription, glob patterns, paths -
-  needs no per-character escaping. The markers are highlighted like the surrounding verbatim
-  family, and a trailing `{…}` stays a separate attribute block.
+- **Syntax highlighting for the inline literal.** A `!` before a verbatim backtick span (`` !`/kaet/` ``) renders its content as prose, so notation that collides with the bare emphasis delimiters needs no per-character escaping. A trailing `{...}` stays a separate attribute block.
+
+### Fixed
+
+- **An orphaned golden can no longer rot unnoticed.** The snapshot test only fails on goldens it looks for, so a renamed category left its `.tokens` file with nothing reading it - three had accumulated. The coverage-matrix test now fails on any golden with no corpus file behind it.
+- **Inline footnote content is parsed as inline markup.** `^[...]` was a flat match, so nested emphasis and code did not highlight and `^[a \] b]` terminated the note early. It is a line-bounded `begin`/`end` now, so an unclosed `^[` still cannot leak.
+- **An escaped `\^[` is no longer a footnote**, including in a table cell, where the top-level escape rule is not in scope.
+- **Table cells highlight footnotes, citations, mentions, tags and symbols**, all of which the row pattern list omitted.
+- **A div fence opening on a list marker is highlighted again.** `- ::: note` is corpus-pinned but the rule was anchored past the bullet, so the whole opener fell through to plain text.
+- **A definition-list term no longer swallows the rest of its line.** Only the marker is scoped, mirroring the single-colon rule.
+- **An unquoted attribute value containing dots keeps its value scope.** In `{k=v.w}` the `.w` scoped as a class; unquoted values are consumed whole, which also fixes `{lang=en-US}`.
+- **Unclosed inline literal and math openers no longer leak.** Both were open-ended begin/end pairs, so an unclosed `` !` `` or `$` highlighted every following paragraph. Both are closed-span match rules now, like inline code.
+- Table alignment colons in a GFM delimiter row get their own scope, and table cells highlight raw inline, inline literals and math.
+- **`checkGrammarDrift` reports far less noise.** It compared prose comments and normalized only one scope-name convention; divergent shared rules dropped from 13 to 7, and the 7 are real. It also stopped reporting two phantom missing features, where upstream splits into rules this grammar folds together - each declared delta must be backed by a fixture, so the declaration cannot hide a genuine gap.
+- **The `downloadGrammar` task no longer destroys the committed grammar.** It streamed vscode-carve's grammar straight over the committed copy, rewriting 111 scope names, deleting the three plugin-only rules and clobbering 13 of the 28 shared ones. It is a read-only `checkGrammarDrift` now, failing only on the actionable category.
 
 ## [0.1.3] - 2026-07-14
 
@@ -288,6 +199,10 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...HEAD
+[0.1.5]: https://github.com/markup-carve/intellij-carve/compare/0.1.4...0.1.5
+[0.1.4]: https://github.com/markup-carve/intellij-carve/compare/0.1.3...0.1.4
+[0.1.3]: https://github.com/markup-carve/intellij-carve/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/markup-carve/intellij-carve/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/markup-carve/intellij-carve/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/markup-carve/intellij-carve/releases/tag/0.1.0
