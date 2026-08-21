@@ -1,13 +1,14 @@
 Flow: a  -> text.carve
--> -> text.carve constant.character.entity.typography.carve
- b  -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+> b  -> text.carve
 <- -> text.carve constant.character.entity.typography.carve
- c  -> text.carve
-<-> -> text.carve constant.character.entity.typography.carve
- d  -> text.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-> e; x ! -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
+- c  -> text.carve
+<- -> text.carve constant.character.entity.typography.carve
+-> -> text.carve constant.character.entity.typography.carve
+ d = -> text.carve
+=> -> text.carve constant.character.entity.typography.carve
+ e; x  -> text.carve
+!= -> text.carve constant.character.entity.typography.carve
  y, p  -> text.carve
 <= -> text.carve constant.character.entity.typography.carve
  q, r  -> text.carve

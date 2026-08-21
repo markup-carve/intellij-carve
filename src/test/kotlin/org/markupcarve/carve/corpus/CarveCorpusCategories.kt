@@ -784,6 +784,56 @@ object CarveCorpusCategories {
             "Whether the opener is demoted depends on what folds into it, which needs the block parser. Both documents tokenize IDENTICALLY apart from a blank line, so there is nothing for a golden to assert; the div and list tokens are pinned by `admonitions` and `lists`, and the div-parented list marker is the same artifact as the category above.",
         "a-blank-line-before-a-sibling-marker-separates-the-items-whatever-consumed-it" to
             "What consumed the blank line before a sibling marker is block bookkeeping with no token of its own. The three documents produce 7 scopes and no new one beyond that same div-parented list marker; the markers themselves are pinned by `lists`.",
+        "a-boolean-attribute-does-not-start-with-an-underscore" to
+            "MEASURED FALSE POSITIVE (#87): `{_foo}` is not an attribute block - a boolean attribute may not start with an underscore - and the whole line renders as prose, while the grammar scopes it `meta.attributes`. The key-value forms beside it (`_k=1`, `_=\"on click\"`) are real attributes and are scoped correctly, so a golden would pin the wrong answer on the one case the category exists for.",
+        "a-braced-hyphen-pair-is-an-en-dash" to
+            "MEASURED FALSE POSITIVE (#85): `{--}` renders as an en dash and the critic rule claims it as a deletion; the flag-shaped bare `---` stays literal and the typography rule converts it. `{---}` and `{-x-}` really are deletions and are scoped correctly.",
+        "a-collected-definition-closes-the-item-paragraph" to
+            "Whether an indented definition is collected, and what its collection closes, is block context. The tokens are the list marker and the definition line, pinned by `lists` and `reference-link`.",
+        "a-continuation-marker-attaches-only-a-flush-left-block" to
+            "Which block a `+` attaches to is block context; the marker itself is pinned by `list-continuation-marker`.",
+        "a-heading-at-an-item-s-content-column-leaves-no-paragraph-open" to
+            "An indented heading inside an item is a heading and the same line at the top of a document is a paragraph; this grammar has no container model to tell them apart. The marker-line form is the one it can decide, and CarveMarkerLineBlockOpenerTest pins it.",
+        "a-hyphen-run-opening-a-word-after-whitespace-is-a-flag" to
+            "MEASURED FALSE POSITIVE (#85): `--oneline` and `--force-with-lease` stay literal after whitespace and the typography rule converts them. The `<!-- a comment -->` variant does convert and the grammar agrees there.",
+        "a-lazy-marker-line-s-definition-defines-nothing-in-any-container" to
+            "Whether a definition on a lazy marker line registers is block context; both documents tokenize as the quote, marker and definition line the covered categories already pin.",
+        "a-marker-line-link-definition-is-collected-where-no-paragraph-is-open" to
+            "Collection depends on whether a paragraph is open above, which a line-based grammar cannot see; the definition line and the marker are pinned by `reference-link` and `lists`.",
+        "a-quote-is-reached-by-its-marker-and-a-column-never-reaches-into-one" to
+            "Which container an indented line belongs to is block context. The quote marker on the item's marker line is the part this grammar decides, and CarveMarkerLineQuoteTest pins it.",
+        "a-raw-block-keeps-the-blank-line-at-the-end-of-its-payload-too" to
+            "Which blank lines survive in a raw payload is render-time; the payload is one raw run either way, pinned by `a-multi-line-raw-block-is-placed-at-its-opening-and-verbatim-after-it`.",
+        "a-reference-definition-cannot-take-its-destination-from-the-next-line" to
+            "A definition with no destination on its own line stays prose - the absence of a match is the point, and the matching form is pinned by `reference-link`.",
+        "a-resumed-lazy-run-belongs-to-the-innermost-marker-line-item" to
+            "Which item a resumed lazy run belongs to is block context; every document tokenizes as the markers `lists` pins plus bare text runs.",
+        "a-table-alignment-run-carries-two-independent-axes" to
+            "Alignment and vertical alignment are render-time styles. The run has no scope of its own - it stays inside the cell text - and the markers around it are pinned by `tables`.",
+        "a-table-cell-can-inherit-horizontal-alignment" to
+            "Inheritance down a column is render-time and needs the whole table; the cell and marker tokens are the ones `tables` pins.",
+        "a-table-cell-s-marker-run-ends-at-a-space" to
+            "MEASURED FALSE POSITIVE (#86): `|=hot= is the reading |` is an ordinary cell holding a highlight span, and the grammar scopes the leading `|=` as a header marker.",
+        "a-terminal-comment-in-a-quote-leaves-no-paragraph-open" to
+            "What a terminal comment leaves open is block context; the comment line itself is pinned by `comments`.",
+        "a-terminal-comment-line-still-leaves-an-empty-verse-line" to
+            "Whether the emptied line survives inside a line block is render-time; the comment and the container are pinned by `comments` and the line-block categories.",
+        "a-vertical-table-marker-needs-a-horizontal-partner" to
+            "MEASURED FALSE POSITIVE (#86): `|=^ Top` and `|=v Bottom` render as plain cells whose text starts with the marker run, and only `|=<^ Paired` is a header; the grammar scopes all five as header markers.",
+        "an-all-blank-raw-payload-still-emits-its-line" to
+            "Whether an all-blank payload emits a line is render-time; the fence and its payload carry the raw-block scopes either way.",
+        "an-empty-brace-pair-is-not-a-construct" to
+            "MEASURED FALSE POSITIVE (#85): every empty pair renders as literal text and the grammar scopes all but `{,,}` as its construct. The non-empty forms in the second paragraph are real constructs and are scoped correctly.",
+        "an-unclosed-inline-literal-reaches-the-end-of-its-block" to
+            "The literal rule is a closed span by design, so an unclosed opener takes no scope at all rather than leaking into the following paragraphs; that trade was made deliberately and there is nothing to assert but the absence.",
+        "an-unterminated-fence-at-a-content-column-opens-no-block-so-the-paragraph-stays-open" to
+            "Whether a fence at an item's content column opens a block depends on the column it sits at, which is block context; CarveUnclosedFenceTest pins what this grammar does with each fence.",
+        "pipe-tables-can-state-head-and-foot-row-counts" to
+            "Head and foot row counts are render-time - which rows land in thead and tfoot leaves no token behind. The attribute line and the rows are pinned by `attributes` and `tables`.",
+        "table-columns-carry-alignment-vertical-alignment-and-widths" to
+            "A colgroup built from an attribute line is render-time; the attribute line tokenizes as the quoted values `attributes` already pins.",
+        "the-doubled-run-is-the-canonical-arrow-in-both-families" to
+            "The arrow scopes are pinned by `smart-typography-arrows-and-symbols`. The one delta is a MEASURED FALSE POSITIVE (#85): `key => value` stays literal and the typography rule converts the `=>`.",
     )
 
     /**
