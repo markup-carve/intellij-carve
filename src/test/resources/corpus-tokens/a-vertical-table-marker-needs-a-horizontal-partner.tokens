@@ -1,0 +1,26 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+=^ Top  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
+v Bottom | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
+<^ Paired  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
+v> Reverse | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
+~> Middle  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ c  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ e  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve

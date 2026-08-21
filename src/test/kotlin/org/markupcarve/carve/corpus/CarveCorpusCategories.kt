@@ -60,6 +60,15 @@ object CarveCorpusCategories {
         "blockquote-with-attribution",
         "image-with-caption",
         "tables",
+        // The marker run is a token now, so these four carry their rule in the
+        // stream both ways: a run followed by a space takes the header and
+        // alignment scopes, and `|=hot= |`, `|=^ Top |`, `|? lone |` and
+        // `|v? reversed |` take neither because a vertical marker never stands
+        // alone and the run has no terminator (#91).
+        "a-table-cell-s-marker-run-ends-at-a-space",
+        "a-vertical-table-marker-needs-a-horizontal-partner",
+        "a-table-alignment-run-carries-two-independent-axes",
+        "a-table-cell-can-inherit-horizontal-alignment",
         "tables-with-rowspan-and-colspan",
         "fenced-code",
         "inline-code",
@@ -817,18 +826,10 @@ object CarveCorpusCategories {
             "A definition with no destination on its own line stays prose - the absence of a match is the point, and the matching form is pinned by `reference-link`.",
         "a-resumed-lazy-run-belongs-to-the-innermost-marker-line-item" to
             "Which item a resumed lazy run belongs to is block context; every document tokenizes as the markers `lists` pins plus bare text runs.",
-        "a-table-alignment-run-carries-two-independent-axes" to
-            "Alignment and vertical alignment are render-time styles. The run has no scope of its own - it stays inside the cell text - and the markers around it are pinned by `tables`.",
-        "a-table-cell-can-inherit-horizontal-alignment" to
-            "Inheritance down a column is render-time and needs the whole table; the cell and marker tokens are the ones `tables` pins.",
-        "a-table-cell-s-marker-run-ends-at-a-space" to
-            "MEASURED FALSE POSITIVE (#86): `|=hot= is the reading |` is an ordinary cell holding a highlight span, and the grammar scopes the leading `|=` as a header marker.",
         "a-terminal-comment-in-a-quote-leaves-no-paragraph-open" to
             "What a terminal comment leaves open is block context; the comment line itself is pinned by `comments`.",
         "a-terminal-comment-line-still-leaves-an-empty-verse-line" to
             "Whether the emptied line survives inside a line block is render-time; the comment and the container are pinned by `comments` and the line-block categories.",
-        "a-vertical-table-marker-needs-a-horizontal-partner" to
-            "MEASURED FALSE POSITIVE (#86): `|=^ Top` and `|=v Bottom` render as plain cells whose text starts with the marker run, and only `|=<^ Paired` is a header; the grammar scopes all five as header markers.",
         "an-all-blank-raw-payload-still-emits-its-line" to
             "Whether an all-blank payload emits a line is render-time; the fence and its payload carry the raw-block scopes either way.",
         "an-unclosed-inline-literal-reaches-the-end-of-its-block" to
