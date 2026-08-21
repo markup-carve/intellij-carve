@@ -1,0 +1,103 @@
+Empty pairs are text: {//} {**}  -> text.carve
+{__} -> text.carve meta.attributes.carve
+ {~~} {^^} {,,} {==} {++} {##}.\n -> text.carve
+\n -> text.carve
+Held:  -> text.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
+i -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
+  -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+  -> text.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+s -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
+  -> text.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+ins -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+  -> text.carve
+{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
+ c  -> text.carve comment.block.critic.carve comment.block.content.carve
+#} -> text.carve comment.block.critic.carve keyword.control.critic.carve
+  -> text.carve
+{- -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+- -> text.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+  -> text.carve
+{- -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+x -> text.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+\n -> text.carve
+\n -> text.carve
+The braced form converts anywhere: a  -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+ b, x -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+y,  -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+start.\n -> text.carve
+\n -> text.carve
+git log --oneline and --force-with-lease stay literal.\n -> text.carve
+\n -> text.carve
+But pages 1 -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+10, the Mon -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+Fri window, a -> text.carve
+---- -> text.carve constant.character.entity.typography.carve
+ b -> text.carve
+----- -> text.carve constant.character.entity.typography.carve
+ and a  -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+ b all convert.\n -> text.carve
+\n -> text.carve
+x ---That stays literal, a -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+ b does not.\n -> text.carve
+\n -> text.carve
+Canonical:  -> text.carve
+<-- -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+--> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<--> -> text.carve constant.character.entity.typography.carve
+ and  -> text.carve
+<== -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+==> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<=> -> text.carve constant.character.entity.typography.carve
+\n -> text.carve
+\n -> text.carve
+Deprecated but still rendered:  -> text.carve
+<- -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+-> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<-> -> text.carve constant.character.entity.typography.carve
+\n -> text.carve
+\n -> text.carve
+Not an arrow: key  -> text.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+> value stays literal, and p < -> text.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+ q is a comparison.\n -> text.carve
+\n -> text.carve
+x  -> text.carve
+!= -> text.carve constant.character.entity.typography.carve
+ y, r  -> text.carve
+>= -> text.carve constant.character.entity.typography.carve
+ s,  -> text.carve
++- -> text.carve constant.character.entity.typography.carve
+1,  -> text.carve
+(c) -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+(r) -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+(tm) -> text.carve constant.character.entity.typography.carve
+, wait -> text.carve
+... -> text.carve constant.character.entity.typography.carve
+ really.\n -> text.carve

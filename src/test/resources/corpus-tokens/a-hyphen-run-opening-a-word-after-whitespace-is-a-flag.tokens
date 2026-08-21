@@ -1,0 +1,13 @@
+git log --oneline and --force-with-lease stay literal.\n -> text.carve
+\n -> text.carve
+But pages 1 -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+10, the Mon -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+Fri window, a -> text.carve
+---- -> text.carve constant.character.entity.typography.carve
+ b -> text.carve
+----- -> text.carve constant.character.entity.typography.carve
+ and a  -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+ b all convert.\n -> text.carve

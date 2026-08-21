@@ -81,6 +81,15 @@ object CarveCorpusCategories {
         "unresolved-reference-link",
         "smart-typography-dashes-and-quotes",
         "smart-typography-arrows-and-symbols",
+        // The four typography rulings, each carrying its rule in the stream both
+        // ways: the converting position beside the literal one in the same
+        // document. `git log --oneline`, `key => value`, `x ---That` and every
+        // empty brace pair take no scope, while `pages 1--10`, `p <= q`, `{--}`
+        // and the pairs that hold something keep theirs (#92).
+        "a-braced-hyphen-pair-is-an-en-dash",
+        "a-hyphen-run-opening-a-word-after-whitespace-is-a-flag",
+        "an-empty-brace-pair-is-not-a-construct",
+        "the-doubled-run-is-the-canonical-arrow-in-both-families",
         "smart-typography-escapes-and-code",
         "math",
         "footnotes",
@@ -790,16 +799,12 @@ object CarveCorpusCategories {
             "Whether the opener is demoted depends on what folds into it, which needs the block parser. Both documents tokenize IDENTICALLY apart from a blank line, so there is nothing for a golden to assert; the div and list tokens are pinned by `admonitions` and `lists`, and the div-parented list marker is the same artifact as the category above.",
         "a-blank-line-before-a-sibling-marker-separates-the-items-whatever-consumed-it" to
             "What consumed the blank line before a sibling marker is block bookkeeping with no token of its own. The three documents produce 7 scopes and no new one beyond that same div-parented list marker; the markers themselves are pinned by `lists`.",
-        "a-braced-hyphen-pair-is-an-en-dash" to
-            "MEASURED FALSE POSITIVE (#85): `{--}` renders as an en dash and the critic rule claims it as a deletion; the flag-shaped bare `---` stays literal and the typography rule converts it. `{---}` and `{-x-}` really are deletions and are scoped correctly.",
         "a-collected-definition-closes-the-item-paragraph" to
             "Whether an indented definition is collected, and what its collection closes, is block context. The tokens are the list marker and the definition line, pinned by `lists` and `reference-link`.",
         "a-continuation-marker-attaches-only-a-flush-left-block" to
             "Which block a `+` attaches to is block context; the marker itself is pinned by `list-continuation-marker`.",
         "a-heading-at-an-item-s-content-column-leaves-no-paragraph-open" to
             "An indented heading inside an item is a heading and the same line at the top of a document is a paragraph; this grammar has no container model to tell them apart. The marker-line form is the one it can decide, and CarveMarkerLineBlockOpenerTest pins it.",
-        "a-hyphen-run-opening-a-word-after-whitespace-is-a-flag" to
-            "MEASURED FALSE POSITIVE (#85): `--oneline` and `--force-with-lease` stay literal after whitespace and the typography rule converts them. The `<!-- a comment -->` variant does convert and the grammar agrees there.",
         "a-lazy-marker-line-s-definition-defines-nothing-in-any-container" to
             "Whether a definition on a lazy marker line registers is block context; both documents tokenize as the quote, marker and definition line the covered categories already pin.",
         "a-marker-line-link-definition-is-collected-where-no-paragraph-is-open" to
@@ -826,8 +831,6 @@ object CarveCorpusCategories {
             "MEASURED FALSE POSITIVE (#86): `|=^ Top` and `|=v Bottom` render as plain cells whose text starts with the marker run, and only `|=<^ Paired` is a header; the grammar scopes all five as header markers.",
         "an-all-blank-raw-payload-still-emits-its-line" to
             "Whether an all-blank payload emits a line is render-time; the fence and its payload carry the raw-block scopes either way.",
-        "an-empty-brace-pair-is-not-a-construct" to
-            "MEASURED FALSE POSITIVE (#85): every empty pair renders as literal text and the grammar scopes all but `{,,}` as its construct. The non-empty forms in the second paragraph are real constructs and are scoped correctly.",
         "an-unclosed-inline-literal-reaches-the-end-of-its-block" to
             "The literal rule is a closed span by design, so an unclosed opener takes no scope at all rather than leaking into the following paragraphs; that trade was made deliberately and there is nothing to assert but the absence.",
         "an-unterminated-fence-at-a-content-column-opens-no-block-so-the-paragraph-stays-open" to
@@ -836,8 +839,6 @@ object CarveCorpusCategories {
             "Head and foot row counts are render-time - which rows land in thead and tfoot leaves no token behind. The attribute line and the rows are pinned by `attributes` and `tables`.",
         "table-columns-carry-alignment-vertical-alignment-and-widths" to
             "A colgroup built from an attribute line is render-time; the attribute line tokenizes as the quoted values `attributes` already pins.",
-        "the-doubled-run-is-the-canonical-arrow-in-both-families" to
-            "The arrow scopes are pinned by `smart-typography-arrows-and-symbols`. The one delta is a MEASURED FALSE POSITIVE (#85): `key => value` stays literal and the typography rule converts the `=>`.",
     )
 
     /**

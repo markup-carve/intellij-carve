@@ -1,0 +1,27 @@
+Canonical:  -> text.carve
+<-- -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+--> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<--> -> text.carve constant.character.entity.typography.carve
+ and  -> text.carve
+<== -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+==> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<=> -> text.carve constant.character.entity.typography.carve
+\n -> text.carve
+\n -> text.carve
+Deprecated but still rendered:  -> text.carve
+<- -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+-> -> text.carve constant.character.entity.typography.carve
+  -> text.carve
+<-> -> text.carve constant.character.entity.typography.carve
+\n -> text.carve
+\n -> text.carve
+Not an arrow: key  -> text.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+> value stays literal, and p < -> text.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+ q is a comparison.\n -> text.carve

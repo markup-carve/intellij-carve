@@ -1,0 +1,25 @@
+Empty pairs are text: {//} {**}  -> text.carve
+{__} -> text.carve meta.attributes.carve
+ {~~} {^^} {,,} {==} {++} {##}.\n -> text.carve
+\n -> text.carve
+A pair that holds something is the construct:  -> text.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
+i -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
+  -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+  -> text.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+s -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
+  -> text.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+ins -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+  -> text.carve
+{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
+ c  -> text.carve comment.block.critic.carve comment.block.content.carve
+#} -> text.carve comment.block.critic.carve keyword.control.critic.carve
+.\n -> text.carve
