@@ -1,0 +1,9 @@
+The bare run is flag-shaped and stays literal: a ---(p) b.\n -> text.carve
+\n -> text.carve
+The braced form converts wherever it stands: a  -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+(p) b, x -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+y,  -> text.carve
+{--} -> text.carve constant.character.entity.typography.carve
+start.\n -> text.carve

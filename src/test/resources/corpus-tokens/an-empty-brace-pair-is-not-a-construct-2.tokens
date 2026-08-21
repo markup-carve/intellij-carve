@@ -1,0 +1,14 @@
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+a -> text.carve markup.changed.critic.carve markup.deleted.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+ deletes,  -> text.carve
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+b -> text.carve markup.changed.critic.carve markup.inserted.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+ inserts, and  -> text.carve
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+ still does both to nothing.\n -> text.carve

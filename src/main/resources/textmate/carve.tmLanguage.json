@@ -1090,7 +1090,7 @@
       "patterns": [
         {
           "name": "markup.inserted.critic.carve",
-          "match": "(\\{\\+)([^}]*)(\\+\\})",
+          "match": "(\\{\\+)([^}]+)(\\+\\})",
           "captures": {
             "1": {
               "name": "keyword.control.critic.carve"
@@ -1101,11 +1101,12 @@
             "3": {
               "name": "keyword.control.critic.carve"
             }
-          }
+          },
+          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
         },
         {
           "name": "markup.deleted.critic.carve",
-          "match": "(\\{-)([^}]*)(- \\}|\\-\\})",
+          "match": "(\\{-)([^}]+)(- \\}|\\-\\})",
           "captures": {
             "1": {
               "name": "keyword.control.critic.carve"
@@ -1116,7 +1117,8 @@
             "3": {
               "name": "keyword.control.critic.carve"
             }
-          }
+          },
+          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
         },
         {
           "name": "markup.changed.critic.carve",
@@ -1141,7 +1143,7 @@
         },
         {
           "name": "comment.block.critic.carve",
-          "match": "(\\{#)([^}]*)(#\\})",
+          "match": "(\\{#)([^}]+)(#\\})",
           "captures": {
             "1": {
               "name": "keyword.control.critic.carve"
@@ -1152,7 +1154,8 @@
             "3": {
               "name": "keyword.control.critic.carve"
             }
-          }
+          },
+          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
         }
       ]
     },
@@ -1160,7 +1163,7 @@
       "comment": "The bare emphasis delimiter set is `/ * _ ~ =`. Superscript and subscript are braced-only (`{^sup^}` / `{,sub,}`): a bare `^text^` or `,text,` is literal text and gets no emphasis scope, so no rule matches them here. The caret keeps its other, unrelated roles (line-start `^ ` captions, table header rowspan `^` cells, `^[...]` inline footnotes), which are matched by their own rules outside this emphasis group.",
       "patterns": [
         {
-          "match": "(\\{=)(?=\\S)([^\\n]*?)(=\\})",
+          "match": "(\\{=)(?=\\S)([^\\n]+?)(=\\})",
           "captures": {
             "1": {
               "name": "keyword.control.highlight.carve"
@@ -1188,7 +1191,7 @@
           }
         },
         {
-          "match": "(\\{\\^)(?=\\S)([^\\n]*?)(\\^\\})",
+          "match": "(\\{\\^)(?=\\S)([^\\n]+?)(\\^\\})",
           "captures": {
             "1": {
               "name": "keyword.control.superscript.carve"
@@ -1204,7 +1207,7 @@
         {
           "comment": "Forced intraword bold (PART 9 S22). The content runs to the closing `*}`, so it may contain the delimiter.",
           "name": "markup.bold.carve",
-          "match": "(\\{\\*)(?=\\S)([^\\n]*?)(\\*\\})",
+          "match": "(\\{\\*)(?=\\S)([^\\n]+?)(\\*\\})",
           "captures": {
             "1": {
               "name": "keyword.control.bold.carve"
@@ -1220,7 +1223,7 @@
         {
           "comment": "Forced intraword italic (PART 9 S22). The content runs to the closing `/}`, so it may contain the delimiter (`{/a/b/}` -> <em>a/b</em>, corpus 01-emphasis-13).",
           "name": "markup.italic.carve",
-          "match": "(\\{/)(?=\\S)([^\\n]*?)(/\\})",
+          "match": "(\\{/)(?=\\S)([^\\n]+?)(/\\})",
           "captures": {
             "1": {
               "name": "keyword.control.italic.carve"
@@ -1236,7 +1239,7 @@
         {
           "comment": "Forced intraword underline (PART 9 S22). `{_path_}` (corpus 01-emphasis-12) is shape-identical to a boolean attribute block, so this rule only wins because the whole emphasis group is listed before `#attributes`.",
           "name": "markup.underline.text.carve",
-          "match": "(\\{_)(?=\\S)([^\\n]*?)(_\\})",
+          "match": "(\\{_)(?=\\S)([^\\n]+?)(_\\})",
           "captures": {
             "1": {
               "name": "keyword.control.underline.carve"
@@ -1252,7 +1255,7 @@
         {
           "comment": "Forced intraword strikethrough (PART 9 S22). `#critic-markup` is listed first, so an editorial substitution `{~old~>new~}` still wins; only an arrow-less `{~x~}` lands here.",
           "name": "markup.deleted.carve",
-          "match": "(\\{~)(?=\\S)([^\\n]*?)(~\\})",
+          "match": "(\\{~)(?=\\S)([^\\n]+?)(~\\})",
           "captures": {
             "1": {
               "name": "keyword.control.strike.carve"
@@ -1342,7 +1345,8 @@
         },
         {
           "name": "markup.changed.carve",
-          "match": "(?<![\\w=])(=)(?=\\S)([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
+          "comment": "AN `=` FOLLOWED BY `>` OPENS NOTHING. `=>` is not an arrow (see #smart-typography), so nothing consumes it before this rule, and `#emphasis` is listed ahead of `#smart-typography` - the highlight then opened at the `=` of `=>` and ran to the next closer, painting `key => value stays literal, and p <=` as one mark and eating the `<=` entity with it. Measured through the bundled engine: `a =b= c` is a mark and `a => b= c`, `a => b=c d` and `x => x,y=> y` are all literal, so the refusal belongs on the OPENER alone. The closer keeps `\\S`: `a =b<= c`, `a =b>= c` and `a =b!= c` all render as marks holding the leading character, so an inline closer beats smart typography on that side.",
+          "match": "(?<![\\w=])(=)(?=[^\\s>])([^=\\n]+?)(?<=\\S)(=)(?![\\w=])",
           "captures": {
             "1": {
               "name": "keyword.control.highlight.carve"
@@ -1396,8 +1400,9 @@
           "match": "\\\\[\\\\`*_{}\\[\\]()#+\\-.!~^/<>@%|=,]"
         },
         {
+          "comment": "THE DOUBLED RUN IS THE CANONICAL ARROW in both families (spec PART 9 S8, markup-carve/carve#1442), matched longest-first so `<==` beats `<=` and `-->` beats the hyphen run. `=>` is NOT an arrow: `key => value`, `x => x + 1` and `Some(x) => x` are ordinary prose about code, and every one of them silently became an implication. `<=` keeps its comparison reading, which is what forced the left double arrow to grow a character. `->`, `<-` and `<->` are deprecated but still render.\n\nA HYPHEN RUN OPENING A WORD AFTER WHITESPACE IS A FLAG, not a dash (carve#1443): a run preceded by whitespace or the line start AND followed by a non-space does not convert, so `git log --oneline` and `--force-with-lease` stay literal. Every other position converts - `pages 1--10`, `the Mon--Fri window`, `a---- b-----` and a spaced `a -- b` all do, which is why the guard is left-flanking-only rather than symmetric. The space class is written out rather than spelled `\\s`, because PART 7 makes a VERTICAL TAB and a FORM FEED content while a NO-BREAK SPACE is a space; `\\s` answers both the other way round.\n\nThe run is one token whatever its length: how it decomposes into em and en dashes is a rendering question, and there is no scope for the difference.\n\n`{--}` IS THE BRACED EN DASH (carve#1447), and it is the spelling that reaches the position the flanking rule refuses. It is listed here rather than under the editorial family because it is no longer a deletion of nothing: `{---}` and `{-x-}` still delete.\n\nThe left-hand class excludes the hyphen itself. Without that a refused run is re-entered one character in - `x ---That` fails the guard at its first hyphen and the second hyphen is preceded by a non-space, so the tail converts and the rule leaks exactly where it was written to hold.",
           "name": "constant.character.entity.typography.carve",
-          "match": "\\.\\.\\.|---|--|<->|<-|->|=>|!=|<=|>=|\\+-|\\(c\\)|\\(r\\)|\\(tm\\)"
+          "match": "\\.\\.\\.|\\{--\\}|<-->|<--|-->|<=>|<==|==>|<->|<-|->|!=|<=|>=|\\+-|\\(c\\)|\\(r\\)|\\(tm\\)|(?<=[^ \\t\\x{00A0}-])-{2,}|(?<![^ \\t\\x{00A0}])-{2,}(?![^ \\t\\x{00A0}])"
         },
         {
           "name": "keyword.control.smartquote.carve",
