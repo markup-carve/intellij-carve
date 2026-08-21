@@ -82,6 +82,55 @@ class CarveBundleProvenanceTest {
         )
     }
 
+    /**
+     * The plugin ships the engine twice - carve.iife.js for the preview pane and
+     * HTML export, and a second copy inlined into the language server - and a
+     * user editing one document is looking at both at once. When they disagree,
+     * nothing on screen says which half is right.
+     *
+     * The two used to be built by two scripts that choose an engine two
+     * different ways, so they were free to drift: they shipped 42 carve-js
+     * commits apart, built 21 seconds apart, and the two tests above both passed
+     * the whole time. Each reads one file (the third compares a bundle against
+     * its own sidecar), so nothing here related one bundle's engine to the
+     * other's - provenance recorded, and the one question it exists to answer
+     * never asked. See #93, and markup-carve/carve#755 for the shape.
+     *
+     * tools/build-engine-bundles.sh is what keeps this true: it takes the
+     * revision once and builds both from it.
+     */
+    @Test
+    fun bothBundlesCarryTheSameCarveJsCommit() {
+        val previewHeader = headerOf(resource("js/carve.iife.js"))
+        val serverHeader = headerOf(resource("lsp/server.js"))
+
+        val preview = capture(previewHeader, Regex("Bundled from markup-carve/carve-js commit (\\S+)"))
+            ?: throw AssertionError("carve.iife.js records no carve-js commit:\n$previewHeader")
+        val engine = capture(serverHeader, Regex("carve-js dependency (.+)"))?.trim()
+            ?: throw AssertionError("lsp/server.js records no carve-js dependency:\n$serverHeader")
+
+        // A published reference is a legitimate thing for carve-lsp itself to
+        // pin, and the test above accepts it - but `npm 0.1.4` and a 40-hex
+        // commit cannot be compared, so a bundle vendored HERE has to name the
+        // commit. That is what tools/build-engine-bundles.sh writes.
+        val server = capture(listOf(engine), Regex("^commit ([0-9a-f]{40})$"))
+            ?: throw AssertionError(
+                "lsp/server.js carries carve-js as '$engine', which cannot be compared against the " +
+                    "preview bundle's commit $preview. Rebuild the pair with " +
+                    "tools/build-engine-bundles.sh, which links the language server against an " +
+                    "explicit carve-js commit for exactly this reason.",
+            )
+
+        assertEquals(
+            "The two vendored engines are different builds of carve-js: the preview pane runs " +
+                "$preview and the language server carries $server. They render the same document " +
+                "for the same user, so they have to be one revision. Rebuild both with " +
+                "'tools/build-engine-bundles.sh ../carve-js ../carve-lsp' and commit the pair.",
+            preview,
+            server,
+        )
+    }
+
     @Test
     fun theVersionFileAgreesWithTheBundleItWasWrittenBeside() {
         val header = headerOf(resource("lsp/server.js"))

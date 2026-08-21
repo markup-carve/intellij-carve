@@ -115,15 +115,18 @@ jobs:
           check carve-lsp src/main/resources/lsp/server.js \
             '(?<=Bundled from markup-carve/carve-lsp commit )[0-9a-f]{40}' carve-lsp || rc=1
 
-          # The engine inside the language-server bundle is whatever carve-lsp
-          # itself pins. It pins the PUBLISHED package exactly (carve-lsp
-          # 465a0d5), so this line is reported, never gated here: closing that
-          # gap needs a carve-js release, which is markup-carve/carve#608 and
-          # not something this repo can do.
+          # The engine inside the language-server bundle. This used to be
+          # whatever carve-lsp itself pinned, and the two bundles were free to
+          # be different builds of carve-js - they shipped 42 commits apart
+          # (#93). tools/build-engine-bundles.sh now takes the revision as an
+          # input and builds both from it, so the field below should equal the
+          # preview bundle's commit, and CarveBundleProvenanceTest asserts that
+          # offline on every pull request. Repeated here only as a report: the
+          # gate lives with the test, which needs no network.
           engine="$(grep -m1 -oP '(?<=// carve-js dependency ).+' src/main/resources/lsp/server.js || true)"
           echo "language server carries engine: ${engine:-MISSING}"
           if [ -z "$engine" ] || [ "$engine" = "commit unknown" ]; then
-            echo "::error::lsp/server.js records no usable carve-js reference ('${engine}') - rebuild with tools/build-lsp-bundle.sh"
+            echo "::error::lsp/server.js records no usable carve-js reference ('${engine}') - rebuild with tools/build-engine-bundles.sh"
             rc=1
           fi
           exit "$rc"
