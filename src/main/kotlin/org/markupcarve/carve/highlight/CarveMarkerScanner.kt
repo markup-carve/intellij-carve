@@ -52,11 +52,18 @@ object CarveMarkerScanner {
     // STRICT (spec PART 9 §14): a class, id or key starts with a letter or `_` and then
     // takes letters, digits, `_` and `-`. Nothing else - `1.{2=v}` (digit first),
     // `-{--flag}` and `1.{#-id}` (dash first) and `-{a:b}` (colon) are all paragraphs,
-    // while `1.{data-x=y}`, `-{_k}` and `1.{#a-b}` are list items. The highlighting
+    // while `1.{data-x=y}` and `1.{#a-b}` are list items. The highlighting
     // grammars admit a colon in a key; carve-js does not, and it is the arbiter here.
+    //
+    // A BOOLEAN attribute may not start with `_` (spec PART 9 §14, markup-carve/carve#1450):
+    // the bare form gave the collision up to the forced underline, so `{_x_}` is `<u>x</u>`
+    // rather than an attribute named `_x_`. Only the bare form is narrowed - `-{_k=1} x`,
+    // `-{#_id} x` and `-{._c} x` keep their leading underscore, and none of them can be read
+    // as an underline. Measured through the bundled engine: `-{_k} x` and `1.{_k} x` are
+    // paragraphs, `-{k} x` is a list item.
     private const val ATTR_ITEM =
         """(?:[.#][A-Za-z_][\w-]*|[A-Za-z_][\w-]*""" +
-            """(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}]+))?)"""
+            """=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}]+)|[A-Za-z][\w-]*)"""
     private const val ATTR_BLOCK = """\{\s*(?:$ATTR_ITEM(?:\s+$ATTR_ITEM)*\s*)?\}"""
     // Content is still REQUIRED after the block: `1.{#x}` alone is a paragraph (#54).
     private val AFTER_MARKER = """(?:(?=[ \t])|(?=$ATTR_BLOCK[ \t]+[^ \t\n]))(?![ \t]*$)"""
