@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **The preview pane and the language server run the same engine** (#93). The plugin ships carve-js twice, and the two copies were 42 commits apart: `js/carve.iife.js` carried `5695480e` while the engine inlined into `lsp/server.js` was `61f824d5`, so the two halves of one editor could disagree about one document. The language server is rebuilt on `5695480e`, and `tools/build-engine-bundles.sh` now takes the revision as an input and builds both bundles from it, because the two scripts pick an engine differently and re-running either could never converge. `CarveBundleProvenanceTest` asserts the two headers name the same commit; the three checks it already had each read one file, so none of them could see the drift.
+- **A bare boolean attribute does not start with an underscore** (#90, #87). `{_x}` scoped as an attribute block where the engine renders it as text, and `{_x_}` collided with a forced underline; `{_k=1}`, `{#_id}` and `{._c}` keep their leading underscore. All seven sites spelling the item alternation take the narrowing, `CarveMarkerScanner` included.
+- **A table cell's marker run ends at a space** (#91, #86). The header rule was a bare `|=`, so it took the marker wherever the two characters stood and `|=hot= is the reading |` came back a header cell holding `hot=`. The alignment run is scoped for the first time, and only where the engine reads one.
+- **A hyphen run before a word is a flag, and an empty brace pair is text** (#92, #85). `git log --oneline` colored as an en dash; the doubled arrows are scoped and `=>` is no longer one; `{//}` through `{##}` render literally, while `{--}` is the braced en dash rather than a deletion.
+- **The preview pane and the language server run the same engine** (#94, #93). The plugin ships carve-js twice and the two copies were 42 commits apart, so the two halves of one editor could disagree about one document. Both bundles are built from `5695480e` by one script that takes the revision as an input, and `CarveBundleProvenanceTest` compares the two headers instead of reading one file at a time.
 
 ## [0.1.5] - 2026-08-21
 
