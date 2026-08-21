@@ -108,6 +108,51 @@ class CarveTableMarkerRunTest {
         assertFalse("a cell holding only `^` is a rowspan: $rowspan", rowspan.contains(alignment))
     }
 
+    /**
+     * The block a marker carries must be the attribute production, not any
+     * brace-delimited run. An invalid payload means the brace is content and
+     * there is no run at all - the same ruling the glued list markers take, and
+     * the reason a cell's block is spelled out in full rather than skipped with
+     * a `\{[^}]*\}`.
+     */
+    @Test
+    fun anInvalidAttributePayloadIsCellContent() {
+        val invalid = listOf(
+            "an editorial insertion" to ("|={+a+} x |\n" to "={+a+}"),
+            "a numeric key" to ("|>{2=v} x |\n" to ">{2=v}"),
+            "two glued classes" to ("|={#a#b} x |\n" to "={#a#b}"),
+            "a key with no value" to ("|={a=} x |\n" to "={a=}"),
+            "an empty block" to ("|={} x |\n" to "={}"),
+            "an empty block on an alignment marker" to ("|>{} x |\n" to ">{}"),
+        )
+        for ((what, case) in invalid) {
+            val (src, needle) = case
+            val scopes = scopesOf(src, needle)
+            assertFalse("$what is cell content, not a header marker: $scopes", scopes.contains(header))
+            assertFalse("$what is cell content, not an alignment run: $scopes", scopes.contains(alignment))
+        }
+    }
+
+    /**
+     * The near miss. Refusing an invalid payload must not refuse a valid one,
+     * and `{not attrs}` is the shape that looks wrong and is not: two boolean
+     * attributes, which the engine renders as a header carrying both.
+     */
+    @Test
+    fun aValidAttributePayloadStillCarriesItsRun() {
+        val valid = listOf(
+            "two boolean attributes" to Triple("|={not attrs} x |\n", "|=", header),
+            "an id" to Triple("|={#ok} x |\n", "|=", header),
+            "a language" to Triple("|={:en-GB} x |\n", "|=", header),
+            "a class on an alignment marker" to Triple("|>{.num} 9 |\n", ">", alignment),
+            "a quoted value holding a brace" to Triple("|<{title=\"a}b\"} x |\n", "<", alignment),
+        )
+        for ((what, case) in valid) {
+            val (src, needle, scope) = case
+            assertTrue("$what keeps its run: ${scopesOf(src, needle)}", scopesOf(src, needle).contains(scope))
+        }
+    }
+
     @Test
     fun aCellWithNoRunIsUnchanged() {
         for (src in listOf("| a |\n", "|a|\n", "||\n")) {

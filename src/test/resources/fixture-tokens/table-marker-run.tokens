@@ -120,3 +120,45 @@ v? reversed  -> text.carve markup.table.row.carve
  R  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
+\n -> text.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+{not -> text.carve markup.table.row.carve meta.attributes.carve string.unquoted.attribute.carve
+ attrs} -> text.carve markup.table.row.carve meta.attributes.carve
+ x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+{#ok -> text.carve markup.table.row.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve markup.table.row.carve meta.attributes.carve
+ x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve
+{+ -> text.carve markup.table.row.carve markup.inserted.critic.carve keyword.control.critic.carve
+a -> text.carve markup.table.row.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.table.row.carve markup.inserted.critic.carve keyword.control.critic.carve
+ x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+>{2=v} x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+={} x  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+> -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+{ -> text.carve markup.table.row.carve meta.attributes.carve
+.num -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve markup.table.row.carve meta.attributes.carve
+ 9  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
