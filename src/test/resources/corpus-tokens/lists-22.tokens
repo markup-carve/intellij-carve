@@ -1,0 +1,7 @@
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+apples\n -> text.carve
+\n -> text.carve
+2. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+oranges\n -> text.carve

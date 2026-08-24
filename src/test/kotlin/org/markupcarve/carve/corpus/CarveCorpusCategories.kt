@@ -283,6 +283,47 @@ object CarveCorpusCategories {
         // carrying the rule is worth more than a skip entry, and pinning the false positives
         // means the fix, when it comes, shows up as a golden diff.
         "a-task-item-s-checkbox-is-not-decided-by-its-first-block",
+        // The five categories below arrived with the spec bump to carve f7cf0b36. Each was
+        // decided by generating its golden first and reading the stream, not by guessing from
+        // the slug; the other fifteen the bump added are in SKIP with their reasons.
+        //
+        // The rule is the marker separator: `##  h` and `###   a b` head sections `h` and
+        // `a b`, so the WHOLE space run is separator and none of it is content. The stream says
+        // exactly that - the run carries bare `markup.heading.carve` and only the text past it
+        // takes `entity.name.section.carve`. The `-3` variant pins the other side: a TAB is not
+        // part of the separator, so `##<SPACE><TAB>x` heads `<TAB>x` with the tab kept, which is
+        // what the corpus renders.
+        "a-heading-s-marker-separator-is-a-run-and-none-of-it-is-content",
+        // The caption half of the same ruling, and the reason the grammar changed in this
+        // commit: `^   cap` captions `cap`, `^<SPACE><TAB>second` captions `<TAB>second`, and a
+        // marker with NOTHING but spaces after it is a paragraph. The third shape was a
+        // measured false positive here - ` +(.+)$` let the separator give a space back so the
+        // content group had something to match - while `#headings` had carried the guard
+        // against it all along. Both sibling ports already had the fix
+        // (markup-carve/vscode-carve, markup-carve/carve-grammars); this repo had drifted.
+        "a-caption-s-marker-separator-is-a-run-and-none-of-it-is-content",
+        // An attributed cell keeps its attributes AND its marker character as literal content:
+        // `|{.x} < |{.y} ^ |` is two cells reading `<` and `^`, not a colspan and a rowspan. The
+        // document carries the rule in both directions - in the attributed row the `<` and `^`
+        // take bare `markup.table.row.carve`, and in the `-2` variant the unattributed `| c | < |`
+        // gives its `<` the `keyword.control.table.colspan.carve` it earns.
+        "an-attributed-cell-keeps-its-attributes-and-its-literal-marker",
+        // `\^ not a caption` under an image is a paragraph line, not a caption. The escape takes
+        // `constant.character.escape.carve` and no caption scope follows it, which is the rule.
+        "a-leading-escaped-caret-keeps-its-escape",
+        // COVERED for what it PINS, not for what it highlights - the same call
+        // `a-task-item-s-checkbox-is-not-decided-by-its-first-block` records above, and it is a
+        // deliberate one. `> ![a](i.png)` over `> ^ cap` is a figure inside the quote; this
+        // grammar gives the whole quote body one flat `markup.quote.carve` and neither the image
+        // nor the caption keeps a single scope. That is not a limit of a line-based grammar, so
+        // it does not belong in SKIP: `#block-quotes` is already a begin/end rule with its own
+        // `patterns` list, and markup-carve/vscode-carve reaches captions, headings, fences,
+        // table rows and thematic breaks through exactly that seam with a family of
+        // `\G`-anchored `*-behind-a-container-prefix` rules this repo has never ported. An
+        // ABSENT rule is the one thing the coverage gate cannot report - a rule that emits no
+        // scope can never orphan a golden - so the flat stream is pinned here on purpose and the
+        // port is tracked in markup-carve/intellij-carve#98.
+        "a-quote-holding-a-captioned-block-indents-it-like-any-other-nested-block",
     )
 
     /**
@@ -293,6 +334,38 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        // Fifteen of the twenty categories the spec bump to carve f7cf0b36 added. The five
+        // that carry a rule in the token stream are in COVERED above.
+        "an-attribute-line-below-a-list-item-interrupts-it" to
+            "Whether the attribute line ends the item is block structure; the marker and the attribute block produce the same tokens either way, pinned by `lists` and `attributes`.",
+        "a-longer-run-at-a-list-boundary-is-written-as-exactly-three-blank-lines" to
+            "A writer rule: how many blank lines `carve fmt` emits between items. Blank lines carry no scope, and the markers around them are pinned by `lists`.",
+        "the-writer-spells-looseness-only-where-a-blank-line-cannot" to
+            "The same writer, choosing between a blank line and a `{loose}` attribute. Neither spelling gives the list a token it did not already have from `lists`.",
+        "one-consumed-boolean-spells-the-looseness-no-blank-line-can" to
+            "Looseness is a render-time property of the list. `{loose}` scopes as the attribute block `boolean-attributes` already pins, and the markers below it as `lists` and `definition-lists` pin them.",
+        "a-blank-line-loosens-an-item-only-when-a-paragraph-follows-it" to
+            "Which following block loosens the item is block structure; the item, the quote and the div it exercises are pinned by `lists`, `blockquote-with-attribution` and `generic-divs`.",
+        "a-marker-at-an-item-content-column-opens-a-sublist-first-in-the-item-or-not" to
+            "Whether the marker at the content column opens a sublist or a sibling list needs the item's content column, which a line-based grammar does not have. The marker takes the same `lists` tokens under either reading.",
+        "a-footnote-continuation-survives-a-blank-run" to
+            "Whether the indented line is still inside the footnote is block context. The definition scopes as the reference definition `footnotes` already pins, and the continuation carries no token of its own.",
+        "a-definition-list-ends-at-its-last-placed-child-too" to
+            "A SPAN rule: where the list's source range stops. Ranges are not scopes; the term, the description and the trailing definition are pinned by `definition-lists` and `reference-link`.",
+        "a-container-s-span-ends-at-its-last-placed-child" to
+            "The same span rule for containers. Nothing in the stream says where a node's range ends.",
+        "a-container-starts-at-its-opening-markup-even-where-its-first-child-is-unplaced" to
+            "Span rule again, this time the start. The div and the comment it exercises are pinned by `generic-divs` and `comments`.",
+        "a-container-ends-at-the-markup-that-closes-it-even-where-its-last-child-is-unplaced" to
+            "The closing half of the same span rule, with the same tokens.",
+        "an-idle-escape-does-not-spread-from-the-block-that-needed-one" to
+            "A writer rule: which blocks `carve fmt` escapes on the way out. The document is plain paragraph text here and takes no scope at all.",
+        "an-idle-escape-does-not-spread-from-the-occurrence-that-needed-one" to
+            "The same writer rule per occurrence. The indented attribute line it uses is the known line-based false positive already recorded under `indented-attribute-line-stays-literal` (markup-carve/carve-grammars#71).",
+        "a-null-byte-is-replaced-before-the-document-is-read" to
+            "Input sanitization before parsing begins. A control byte is replaced whatever construct holds it, and the raw span it exercises is pinned by `inline-code`.",
+        "an-engine-written-shape-says-what-it-is-called" to
+            "Accessible names an engine writes into the rendered HTML. Nothing in the source spells the name, and the seven documents produce div, attribute, math, footnote and task-list tokens that `admonitions`, `attributes`, `math`, `footnotes` and `task-lists` already pin.",
         "abbreviation-definition-separator-must-be-a-space" to
             "Separator strictness is parsing: the definition either matches or stays prose. The matching case is pinned by `abbreviations`; the other has no token by definition.",
         "abbreviation-title-escapes-its-markup-characters" to

@@ -1,0 +1,8 @@
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+b.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
+\\^ -> text.carve constant.character.escape.carve
+ not a caption\n -> text.carve
