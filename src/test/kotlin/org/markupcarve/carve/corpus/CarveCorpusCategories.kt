@@ -324,6 +324,24 @@ object CarveCorpusCategories {
         // scope can never orphan a golden - so the flat stream is pinned here on purpose and the
         // port is tracked in markup-carve/intellij-carve#98.
         "a-quote-holding-a-captioned-block-indents-it-like-any-other-nested-block",
+
+        // The lone indented image, pinned upstream in markup-carve/carve#1662. The rule it
+        // settles is an AST one: ` ![Apollo](a.jpg)` is a paragraph holding an image rather than
+        // a top-level block image, and the HTML cannot say which - both readings emit a bare
+        // `<img>`. The token stream cannot say which either, and these goldens do not claim to.
+        // What they DO pin is the lexical half a line-based grammar owns: THE COLUMN CHANGES
+        // NOTHING. The inline form keeps its whole `meta.image.inline.carve` chain at a non-zero
+        // column, and the reference form comes out byte-identical to the flush-left one, which is
+        // the assertion, not a blessing of that stream: the `!` there is bare text and the rest
+        // scopes as a link reference, exactly as the `an-image-takes-a-reference-the-way-a-link-does`
+        // golden already records for `![moon][m]` at column 0. That is the missing `reference_image`
+        // rule in the construct ledger, tracked in markup-carve/intellij-carve#97, and it is a
+        // property of the form rather than of the indent - which is precisely what putting the two
+        // streams side by side shows. COVERED rather than SKIP because there is a positive
+        // assertion to make: a grammar that de-scoped indented lines while trying to model PART 9
+        // §15's strict column-0 rule would fail these, where the SKIP entries below have two
+        // documents that merely tokenize alike.
+        "a-lone-indented-image-is-a-paragraph-and-its-html-cannot-say-so",
     )
 
     /**

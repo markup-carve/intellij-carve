@@ -1,0 +1,7 @@
+  -> text.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+Apollo -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
