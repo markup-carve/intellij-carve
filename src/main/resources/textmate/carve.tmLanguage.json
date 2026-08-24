@@ -455,13 +455,14 @@
           }
         },
         {
+          "comment": "A CAPTION MARKER WITH NOTHING BUT WHITESPACE AFTER ITS SEPARATOR IS A PARAGRAPH, not a caption (PART 7 MARKER SEPARATOR, markup-carve/carve#1583; corpus 404-a-caption-s-marker-separator-is-a-run-and-none-of-it-is-content-2 renders `^` followed by five spaces as `<p>^</p>`). The old ` +(.+)$` could not say that: ` +` gave a space back so `(.+)` had something to match, and the line took caption scopes whose content was a run of spaces. `#headings` has carried the `(?![ \\t]*$)` guard for the same reason all along - the two constructs share the rule and had drifted apart on it here, while both sibling ports (markup-carve/vscode-carve, markup-carve/carve-grammars) already carry it. THE SEPARATOR GETS ITS OWN CAPTURE and the content capture excludes a SPACE rather than all whitespace: a tab is not part of the separator, so `^ \\tsecond` captions `\\tsecond` with the tab kept, which is what the corpus renders.",
           "name": "markup.table.caption.carve",
-          "match": "^[ \\t]*(\\^) +(.+)$",
+          "match": "^[ \\t]*(\\^)( +)(?![ \\t]*$)([^ ].*)$",
           "captures": {
             "1": {
               "name": "keyword.control.caption.carve"
             },
-            "2": {
+            "3": {
               "name": "string.unquoted.caption.carve",
               "patterns": [
                 {

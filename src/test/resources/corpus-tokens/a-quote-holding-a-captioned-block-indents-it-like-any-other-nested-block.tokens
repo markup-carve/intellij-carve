@@ -1,0 +1,13 @@
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+![a](i.png) -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+^ cap -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+plain -> text.carve markup.quote.carve
+\n -> text.carve

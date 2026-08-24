@@ -1,0 +1,20 @@
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> - a -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+> - b -> text.carve markup.quote.carve
+\n -> text.carve
