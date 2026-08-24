@@ -1,0 +1,12 @@
+! -> text.carve
+[ -> text.carve meta.link.reference.carve
+Apollo -> text.carve meta.link.reference.carve string.other.link.title.carve
+][ -> text.carve meta.link.reference.carve
+moon -> text.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.link.reference.carve
+\n -> text.carve
+\n -> text.carve
+[moon]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+a.jpg -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve
