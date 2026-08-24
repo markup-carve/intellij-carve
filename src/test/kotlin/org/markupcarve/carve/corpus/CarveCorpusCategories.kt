@@ -342,6 +342,27 @@ object CarveCorpusCategories {
         // §15's strict column-0 rule would fail these, where the SKIP entries below have two
         // documents that merely tokenize alike.
         "a-lone-indented-image-is-a-paragraph-and-its-html-cannot-say-so",
+
+        // The same image, now at column 0 in all four spellings, pinned upstream in
+        // markup-carve/carve#1666. Three of the four documents render the identical
+        // `<img src="a.jpg" alt="Apollo">`, and the fourth renders `<p>![Apollo][nope]</p>` -
+        // but what separates them is RESOLUTION, which is not a lexical property. `![Apollo][moon]`
+        // with a definition below it, `![Apollo][]` collapsed against `[Apollo]: a.jpg`, and
+        // `![Apollo][nope]` with nothing to resolve against are three spellings a line-based
+        // grammar cannot tell apart, and these goldens do not claim it can: all three come out as
+        // a bare-text `!` followed by a `meta.link.reference.carve` run, the shape
+        // `an-image-takes-a-reference-the-way-a-link-does` already records. That is the missing
+        // `reference_image` rule in the construct ledger, tracked in
+        // markup-carve/intellij-carve#97 - the new documents widen the evidence for it rather
+        // than add a new gap.
+        //
+        // COVERED rather than SKIP because two positive assertions survive that. The inline
+        // spelling keeps its whole `meta.image.inline.carve` chain, so the four documents put the
+        // one form the grammar DOES model beside the three it does not, in one category. And the
+        // reference forms pin that a resolvable label, an empty collapsed label and a dangling
+        // label take the same scopes - a grammar that tried to gate the image scope on a
+        // definition being in scope would fail these, and it should.
+        "a-lone-reference-image-at-column-0-in-every-spelling",
     )
 
     /**
