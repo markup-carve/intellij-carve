@@ -1,8 +1,8 @@
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 A plain box.\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 { -> text.carve meta.attributes.carve
 #s -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
@@ -11,7 +11,7 @@ A plain box.\n -> text.carve
 } -> text.carve meta.attributes.carve
 \n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 A div with attributes.\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve

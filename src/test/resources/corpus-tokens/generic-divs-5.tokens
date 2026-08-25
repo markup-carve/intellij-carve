@@ -1,23 +1,23 @@
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 outer -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 :::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 middle -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 ::::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 note -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 X\n -> text.carve
 ::::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 :::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve

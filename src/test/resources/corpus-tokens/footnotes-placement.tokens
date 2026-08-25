@@ -13,9 +13,9 @@ b -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 footnotes -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 ## -> text.carve markup.heading.carve keyword.control.heading.carve
   -> text.carve markup.heading.carve
