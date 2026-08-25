@@ -3,7 +3,7 @@
 note -> text.carve markup.other.div.carve entity.name.type.div.carve
   -> text.carve markup.other.div.carve
 "Install *now* via `npm`" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 Body.\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve

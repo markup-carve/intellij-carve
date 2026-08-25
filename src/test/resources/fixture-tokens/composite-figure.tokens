@@ -35,7 +35,7 @@ Figure #: Group caption -> text.carve markup.table.caption.carve string.unquoted
 figure -> text.carve markup.other.div.carve entity.name.type.div.carve
   -> text.carve markup.other.div.carve
 "A titled figure div" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 ![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
 one -> text.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve meta.image.inline.carve
@@ -43,7 +43,7 @@ a.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
 \n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
 Not a group caption -> text.carve markup.table.caption.carve string.unquoted.caption.carve
@@ -54,7 +54,7 @@ Not a group caption -> text.carve markup.table.caption.carve string.unquoted.cap
 figure -> text.carve markup.other.div.carve entity.name.type.div.carve
   -> text.carve markup.other.div.carve
 [g] -> text.carve markup.other.div.carve entity.name.label.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 ![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
 two -> text.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve meta.image.inline.carve
@@ -62,15 +62,12 @@ b.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 ) -> text.carve meta.image.inline.carve
 \n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
 \n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\t -> text.carve markup.other.div.carve
-figure -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
+:::\tfigure\n -> text.carve
 tab separated, a paragraph in the language\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 \n -> text.carve
 :::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
   -> text.carve markup.other.figure-group.carve
@@ -85,7 +82,7 @@ a.png -> text.carve markup.other.figure-group.carve meta.image.inline.carve mark
 ::: -> text.carve markup.other.figure-group.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.figure-group.carve markup.other.div.carve
 figure -> text.carve markup.other.figure-group.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.figure-group.carve markup.other.div.carve
+\n -> text.carve markup.other.figure-group.carve
 ![ -> text.carve markup.other.figure-group.carve meta.image.inline.carve keyword.control.image.begin.carve
 inner -> text.carve markup.other.figure-group.carve meta.image.inline.carve string.other.image.alt.carve
 ]( -> text.carve markup.other.figure-group.carve meta.image.inline.carve
@@ -93,17 +90,17 @@ b.png -> text.carve markup.other.figure-group.carve meta.image.inline.carve mark
 ) -> text.carve markup.other.figure-group.carve meta.image.inline.carve
 \n -> text.carve markup.other.figure-group.carve
 ::: -> text.carve markup.other.figure-group.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.figure-group.carve markup.other.div.carve
+\n -> text.carve markup.other.figure-group.carve
 :::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
 \n -> text.carve
 \n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 note -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 body\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
 Ordinary paragraph after a note closer -> text.carve markup.table.caption.carve string.unquoted.caption.carve

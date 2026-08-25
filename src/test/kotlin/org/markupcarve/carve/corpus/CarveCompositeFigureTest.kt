@@ -94,8 +94,14 @@ class CarveCompositeFigureTest {
     /**
      * The separator is a SPACE run, never a tab (grammar.ebnf PART 7, MARKER
      * SEPARATORS; corpus 254 renders `:::<TAB>note` as a paragraph). Spelling
-     * the new rule `[ \t]+` - the spelling the generic rules beside it use -
-     * would give this line the group scope.
+     * the figure rule `[ \t]+` - the spelling the generic rules beside it USED
+     * to use - would give this line the group scope.
+     *
+     * It used to fall through to the generic div rule, which took a tab, and
+     * this test asserted that fallback. The generic rules take a space run now
+     * too, so the line opens NOTHING and is paragraph text - which is what the
+     * three engines render for it (markup-carve/carve#1718 measured all four
+     * spellings). A tab belongs at the start of a line and nowhere else on one.
      */
     @Test
     fun aTabSeparatedOpenerIsNotACompositeFigure() {
@@ -103,8 +109,9 @@ class CarveCompositeFigureTest {
         val opener = scopesOf(src, ":::\tfigure")
 
         assertFalse("A tab does not separate a marker: $opener", opener.contains(groupScope))
-        assertFalse("...so the kind word keeps the generic scope: $opener", opener.contains(groupKind))
-        assertTrue("The line reads exactly as it did before this rule existed: $opener", opener.contains(divKind))
+        assertFalse("...so the kind word carries no group scope: $opener", opener.contains(groupKind))
+        assertFalse("...and the line opens no container at all: $opener", opener.contains(divKind))
+        assertFalse("...not even a generic div: $opener", opener.contains(divScope))
     }
 
     /**

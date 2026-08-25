@@ -1,8 +1,8 @@
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
   -> text.carve markup.other.div.carve
 | -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
 *Roses are red,\n -> text.carve
   Violets are blue.*\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve markup.other.div.carve
+\n -> text.carve
