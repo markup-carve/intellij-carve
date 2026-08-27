@@ -38,15 +38,31 @@
       to get syntax highlighting and preview.
     -->
     <depends optional="true" config-file="carve-lsp.xml">com.redhat.devtools.lsp4ij</depends>
-    <!--
-      JCEF is a separate plugin, not part of the platform module, so the preview
-      registration lives in carve-jcef.xml and loads only where JCEF does. The
-      rest of the plugin - highlighting, export, templates, the language server -
-      never touches it.
-    -->
-    <depends optional="true" config-file="carve-jcef.xml">com.intellij.modules.jcef</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!--
+          THE PREVIEW IS GUARDED AT RUNTIME, NOT BY A MODULE DEPENDENCY.
+          These were registered in carve-jcef.xml behind
+          `<depends optional="true">com.intellij.modules.jcef</depends>`, and that
+          module ID does not exist in any IDE - JCEF is platform code in
+          app-client.jar, not a plugin. So the optional dependency never
+          resolved, the file never loaded, and neither the split editor nor the
+          tool window was ever registered anywhere: the preview was dead in
+          every IDE and "Toggle Carve Preview" silently did nothing.
+
+          `JBCefApp.isSupported()` is the real question, and both classes below
+          ask it before building a browser, so an IDE whose runtime has no JCEF
+          still opens .crv files in the plain editor.
+        -->
+        <fileEditorProvider
+                implementation="org.markupcarve.carve.preview.CarvePreviewEditorProvider"/>
+
+        <toolWindow
+                id="Carve Preview"
+                anchor="right"
+                factoryClass="org.markupcarve.carve.preview.CarvePreviewToolWindowFactory"
+                icon="/icons/carve.svg"/>
+
         <notificationGroup id="Carve" displayType="BALLOON"/>
         <fileType
                 name="Carve"

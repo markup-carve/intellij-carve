@@ -9,12 +9,17 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
+import com.intellij.ui.jcef.JBCefApp
 import org.markupcarve.carve.CarveFileType
 import java.awt.BorderLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 
 class CarvePreviewToolWindowFactory : ToolWindowFactory, DumbAware {
+
+    // Without JCEF there is no browser to put in it, so the tool window does
+    // not appear at all rather than appearing empty.
+    override fun isApplicable(project: Project): Boolean = JBCefApp.isSupported()
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val contentFactory = ContentFactory.getInstance()

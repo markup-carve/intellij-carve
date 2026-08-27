@@ -1,78 +1,76 @@
 package org.markupcarve.carve
 
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
 /**
- * Pins WHERE the preview extension points are registered.
+ * Pins that the preview IS REACHABLE, and that every door into JCEF asks
+ * whether JCEF exists.
  *
- * JCEF is not part of `com.intellij.modules.platform`: it is its own plugin,
- * `com.intellij.modules.jcef`, whose content module carries
- * `com.intellij.ui.jcef.JBCefBrowser`. A plugin that does not depend on it does
- * not get the class, and registering `CarvePreviewEditorProvider` in the main
- * descriptor therefore threw `NoClassDefFoundError` on the first `.crv` file
- * opened - and because the provider hides the default editor, that took the
- * whole editor with it, not just the preview (#88).
+ * This file used to pin the opposite - that the extension points lived in
+ * `carve-jcef.xml`, behind
+ * `<depends optional="true">com.intellij.modules.jcef</depends>`. That module
+ * is declared by no IDE: JCEF is platform code in `lib/app-client.jar`, not a
+ * plugin with its own class loader. So the dependency never resolved, the file
+ * never loaded, neither extension point was ever registered in any IDE, and
+ * these tests passed the whole time - they asserted the MECHANISM and never
+ * asked whether the preview could be reached (#104).
  *
- * The registration lives in the optional `carve-jcef.xml` for that reason, so
- * an IDE without JCEF simply opens the text editor. The failure mode this test
- * exists for is a preview extension point being added back to `plugin.xml`,
- * where it looks identical and works on every machine that happens to have
- * JCEF loaded.
+ * They ask that now. `JBCefApp.isSupported()` is what keeps the #88 failure
+ * away: the provider hides the default editor, so it must refuse a file it
+ * cannot preview rather than leave it unopenable.
  */
 class CarvePluginDescriptorTest {
 
     private val metaInf = File("src/main/resources/META-INF")
     private val pluginXml = File(metaInf, "plugin.xml").readText()
-    private val jcefXml = File(metaInf, "carve-jcef.xml").readText()
+
+    /** Declarations only. A comment explaining a dependency is not one. */
+    private val pluginXmlDeclarations =
+        pluginXml.replace(Regex("""<!--.*?-->""", RegexOption.DOT_MATCHES_ALL), "")
+    private val mainKotlin = File("src/main/kotlin")
 
     @Test
-    fun previewIsRegisteredBehindTheJcefDependency() {
+    fun thePreviewExtensionPointsAreRegistered() {
+        for (fqn in listOf(
+            "org.markupcarve.carve.preview.CarvePreviewEditorProvider",
+            "org.markupcarve.carve.preview.CarvePreviewToolWindowFactory",
+        )) {
+            assertTrue(
+                "plugin.xml must register $fqn - registered nowhere, the preview does not exist",
+                pluginXmlDeclarations.contains(fqn),
+            )
+        }
+    }
+
+    @Test
+    fun noDescriptorDependsOnAModuleNoIdeDeclares() {
+        val fictional = Regex("""<depends[^>]*>com\.intellij\.modules\.jcef</depends>""")
         assertTrue(
-            "plugin.xml must declare the optional JCEF dependency that loads carve-jcef.xml",
-            Regex("""<depends\s+optional="true"\s+config-file="carve-jcef\.xml">com\.intellij\.modules\.jcef</depends>""")
-                .containsMatchIn(pluginXml),
+            "com.intellij.modules.jcef is declared by no IDE; a dependency on it silently drops everything it gates",
+            !fictional.containsMatchIn(pluginXmlDeclarations),
         )
         assertTrue(
-            "carve-jcef.xml must register the preview editor provider",
-            jcefXml.contains("org.markupcarve.carve.preview.CarvePreviewEditorProvider"),
-        )
-        assertTrue(
-            "carve-jcef.xml must register the preview tool window",
-            jcefXml.contains("org.markupcarve.carve.preview.CarvePreviewToolWindowFactory"),
+            "carve-jcef.xml is gone - its contents moved into plugin.xml",
+            !File(metaInf, "carve-jcef.xml").exists(),
         )
     }
 
     @Test
-    fun theMainDescriptorRegistersNothingFromThePreviewPackage() {
-        val offenders = Regex("""org\.markupcarve\.carve\.preview\.\w+""")
-            .findAll(pluginXml)
-            .map { it.value }
-            .toList()
-        assertTrue(
-            "plugin.xml must not register a preview class - it needs JCEF, which the platform module does not provide: $offenders",
-            offenders.isEmpty(),
-        )
+    fun everyDoorIntoThePreviewAsksWhetherJcefExists() {
+        val guard = "JBCefApp.isSupported()"
+        for (path in listOf(
+            "org/markupcarve/carve/preview/CarvePreviewEditorProvider.kt",
+            "org/markupcarve/carve/preview/CarvePreviewToolWindowFactory.kt",
+            "org/markupcarve/carve/actions/TogglePreviewAction.kt",
+        )) {
+            assertTrue(
+                "$path must gate on $guard - the provider hides the default editor (#88), " +
+                    "and an action that cannot act must not be offered",
+                File(mainKotlin, path).readText().contains(guard),
+            )
+        }
     }
 
-    @Test
-    fun onlyThePreviewPanelTouchesJcef() {
-        val users = File("src/main/kotlin").walkTopDown()
-            .filter { it.isFile && it.extension == "kt" }
-            .filter { it.readText().contains("com.intellij.ui.jcef") || it.readText().contains("import org.cef.") }
-            .map { it.name }
-            .toSortedSet()
-        assertTrue(
-            "JCEF may only be reached from CarvePreviewPanel, which carve-jcef.xml gates; found $users",
-            users == sortedSetOf("CarvePreviewPanel.kt"),
-        )
-        assertFalse(
-            "the toggle action must not reach JCEF - it looks the tool window up by id and tolerates its absence",
-            File("src/main/kotlin/org/markupcarve/carve/actions/TogglePreviewAction.kt")
-                .readText()
-                .contains("jcef"),
-        )
-    }
 }

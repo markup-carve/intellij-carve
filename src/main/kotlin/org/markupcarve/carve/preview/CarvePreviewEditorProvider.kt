@@ -11,14 +11,20 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.ui.jcef.JBCefApp
 import org.markupcarve.carve.CarveFileType
 import java.beans.PropertyChangeListener
 import javax.swing.JComponent
 
 class CarvePreviewEditorProvider : FileEditorProvider, DumbAware {
 
+    // The provider hides the default editor, so accepting a file whose preview
+    // cannot be built would take the plain editor with it and leave the file
+    // unopenable (#88). JBCefApp.isSupported() is the question that actually
+    // answers whether a browser can exist here; there is no JCEF module to
+    // depend on.
     override fun accept(project: Project, file: VirtualFile): Boolean =
-        CarveFileType.matches(file.extension)
+        CarveFileType.matches(file.extension) && JBCefApp.isSupported()
 
     override fun createEditor(project: Project, file: VirtualFile): FileEditor {
         return CarveSplitEditor(
