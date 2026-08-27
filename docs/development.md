@@ -31,10 +31,13 @@ src/main/
     kotlin/org/markupcarve/carve/lsp/  # lsp4ij factory + connection provider
     textmate/                # TextMate bundle (package.json, grammar, language config)
     js/carve.iife.js         # bundled carve-js renderer (generated)
+    preview-assets/          # highlight.js, Chart.js, MathJax, Mermaid (generated)
     icons/, liveTemplates/
 tools/build-carve-bundle.sh   # regenerates js/carve.iife.js
 tools/build-lsp-bundle.sh     # regenerates lsp/server.js
 tools/build-engine-bundles.sh # regenerates BOTH, from one carve-js revision
+tools/vendor-preview-assets.sh # regenerates resources/preview-assets
+tools/preview-offline-probe.mjs # browser check: the preview renders with no network
 ```
 
 ## Bundled renderer (carve.iife.js)
@@ -150,6 +153,44 @@ preview bundle.
 
 The language server itself is not exercised headlessly by `gradle test`; verify
 it manually with `./gradlew runIde` (see the checklist in the PR / below).
+
+## Preview browser assets (preview-assets/)
+
+The preview page loads highlight.js, Chart.js, MathJax and Mermaid. All four are
+vendored rather than fetched, so the preview renders offline and never makes an
+outbound request from the user's IDE.
+
+```bash
+tools/vendor-preview-assets.sh
+```
+
+Versions are pinned in the script, one variable per package; bumping one is an
+edit there followed by a re-run. The script rewrites `preview-assets/INDEX` (a
+`sha256 size path` line per file) but leaves `VENDOR.md`, whose version table is
+updated by hand. `CarvePreviewAssetsTest` checks the tree against `INDEX` both
+ways, so a hand-edited or unindexed file fails the build.
+
+A browser cannot read a jar, so `CarvePreviewAssets` unpacks the tree at run time
+into `<system path>/carve/preview-assets/<digest of INDEX>` and the page
+references it by `file://` URL. The digest in the path is what makes a plugin
+update pick up new bytes instead of finding a stale directory.
+
+### Proving it still works offline
+
+`CarvePreviewHtmlTest` asserts the generated page contains no remote URL and that
+every `src`/`href` resolves to a file that exists. That cannot show the page
+still *renders*, so:
+
+```bash
+./gradlew test --tests '*CarvePreviewHtmlTest*'   # writes build/preview-probe/index.html
+node tools/preview-offline-probe.mjs
+```
+
+The probe loads the very bytes `CarvePreviewHtml` produced in Chromium with every
+non-`file://` request aborted, and checks that code is highlighted, a chart drew,
+math typeset with its webfonts loaded, a diagram rendered, and both clipboard
+fallbacks report success. It needs Playwright's Chromium
+(`npx playwright install chromium`) and is deliberately not wired into `check`.
 
 ## TextMate grammar
 

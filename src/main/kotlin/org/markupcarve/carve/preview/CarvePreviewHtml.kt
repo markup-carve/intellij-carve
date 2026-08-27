@@ -467,6 +467,10 @@ $carveCss
 
         function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
 
+        function readToken(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        }
+
         // Scroll sync: carve-js stamps every top-level block with data-source-line (1-based),
         // so we scroll to the last block that starts at or before the editor's top visible
         // line. Called from the editor's VisibleAreaListener. A no-op when the markup has no
@@ -715,6 +719,22 @@ $carveCss
         var chartSeq = 0;
         function renderCharts() {
             if (typeof Chart === 'undefined') return;
+            // Chart.js draws its labels, ticks and grid in a fixed near-black.
+            // On a dark IDE theme that is text on its own colour. Now that the
+            // page has tokens, hand it the same ink and rules everything else
+            // uses; it has to be re-read per hydrate because the theme moves.
+            //
+            // Only the text and the grid. Chart.js 4 picks the series colours
+            // with its built-in `colors` plugin, and that plugin stands down as
+            // soon as it sees a colour already defined - setting
+            // Chart.defaults.borderColor turned every bar into the default
+            // 10%-black wash, which on a dark ground is an invisible chart.
+            var ink = readToken('--carve-ink');
+            var rule = readToken('--carve-rule');
+            if (ink) { Chart.defaults.color = ink; }
+            if (rule && Chart.defaults.scale && Chart.defaults.scale.grid) {
+                Chart.defaults.scale.grid.color = rule;
+            }
             while (chartInstances.length) {
                 var inst = chartInstances.pop();
                 try { inst.destroy(); } catch (e) {}

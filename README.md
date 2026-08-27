@@ -29,7 +29,8 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   - **Code lenses** - footnote reference counts
 - **Live preview** panel (split editor view)
 - **IDE theme sync** - preview follows dark/light mode
-- **Code highlighting** in preview code blocks (highlight.js)
+- **Code highlighting** in preview code blocks (highlight.js), with a copy button on each
+- **Works offline** - the preview makes no network request of any kind
 - **Export to HTML**
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
 - **File type** recognition for `.crv`
@@ -109,6 +110,35 @@ Configurable via **Settings → Tools → Carve**:
   [markup-carve/carve-php](https://github.com/markup-carve/carve-php). Requires
   PHP and `composer require markup-carve/carve-php` in your project; uses
   `vendor/bin/carve` when present.
+
+### Offline, and no outbound requests
+
+The preview loads nothing from the internet. highlight.js, Chart.js, MathJax and
+Mermaid ship inside the plugin and are read from disk, so code colours, charts,
+math and diagrams render the same on a plane as on a desk - and opening a `.crv`
+file never tells anyone that you did.
+
+| Package | Version | Licence |
+| --- | --- | --- |
+| [highlight.js](https://github.com/highlightjs/highlight.js) (+ its github / github-dark themes) | 11.9.0 | BSD-3-Clause |
+| [Chart.js](https://github.com/chartjs/Chart.js) | 4.5.1 | MIT |
+| [MathJax](https://github.com/mathjax/MathJax) | 3.2.2 | Apache-2.0 |
+| [Mermaid](https://github.com/mermaid-js/mermaid) | 11.17.2 | MIT |
+
+Each package's licence text ships beside its files in
+`src/main/resources/preview-assets/`, and the versions and provenance are
+recorded in `preview-assets/VENDOR.md`.
+
+*Export to HTML is deliberately different*: an exported file is meant to be
+opened and shared anywhere, so it still links MathJax from a CDN rather than
+pointing at a path on the machine that produced it.
+
+### Copying code
+
+Every code block carries a copy button next to its language name. It copies
+through the IDE, so the text lands on the same clipboard the editor pastes from,
+and the button turns green (or red) for a moment so a copy that did not happen
+is never silent.
 
 ### Container recipes
 
