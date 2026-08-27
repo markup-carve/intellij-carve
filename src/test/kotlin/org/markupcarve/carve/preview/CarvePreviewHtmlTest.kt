@@ -183,9 +183,30 @@ class CarvePreviewHtmlTest {
     @Test
     fun `the copy bridge is only injected when there is one`() {
         assertFalse(page().contains("window.carveCopyText = function"))
-        val bridged = page(copyBridge = "window.cefQuery_test({request: text});")
+        val bridged = page(copyBridge = "window.cefQuery_test({request: text, onSuccess: onDone});")
         assertTrue(bridged.contains("window.carveCopyText = function"))
-        assertTrue(bridged.contains("window.cefQuery_test({request: text});"))
+        assertTrue(bridged.contains("window.cefQuery_test({request: text, onSuccess: onDone});"))
+    }
+
+    /**
+     * The bridge answers asynchronously, so its callback is a parameter rather
+     * than a global. With one shared `window.carveCopyResult`, two buttons
+     * clicked before the first round trip returned would answer each other:
+     * the first response would mark the second button copied while the
+     * clipboard held the first block's code.
+     */
+    @Test
+    fun `the copy bridge callback is per request, not global`() {
+        val html = page(copyBridge = "noop(text, onDone);")
+        assertTrue(
+            "the bridge no longer takes the caller's callback",
+            html.contains("window.carveCopyText = function (text, onDone)"),
+        )
+        assertTrue(
+            "the page does not pass a callback into the bridge",
+            html.contains("window.carveCopyText(text, function (ok) {"),
+        )
+        assertFalse("a global copy-result handler is back", html.contains("window.carveCopyResult"))
     }
 
     @Test

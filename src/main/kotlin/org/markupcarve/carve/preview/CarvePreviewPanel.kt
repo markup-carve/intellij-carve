@@ -264,17 +264,19 @@ class CarvePreviewPanel(
     private val assetBase: String by lazy { CarvePreviewAssets.baseUrl(CarvePreviewAssets.directory()) }
 
     /**
-     * The body of `window.carveCopyText`, as JS.
+     * The body of `window.carveCopyText(text, onDone)`, as JS.
      *
      * `inject` writes the CEF query call plus the two callbacks; the success one
      * is what turns the button green, so a refused or lost copy cannot be
-     * reported as a successful one.
+     * reported as a successful one. Both close over `onDone`, the caller's own
+     * callback, rather than a global: the round trip is asynchronous, and two
+     * buttons clicked in quick succession would otherwise answer each other.
      */
     private fun copyBridgeJs(): String =
         copyQuery.inject(
             "text",
-            "function(response) { if (window.carveCopyResult) window.carveCopyResult(true); }",
-            "function(errCode, errMsg) { if (window.carveCopyResult) window.carveCopyResult(false); }",
+            "function(response) { onDone(true); }",
+            "function(errCode, errMsg) { onDone(false); }",
         )
 
     private fun loadPreviewShell() {

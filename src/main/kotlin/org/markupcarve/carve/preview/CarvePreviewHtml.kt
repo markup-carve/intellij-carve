@@ -41,8 +41,10 @@ object CarvePreviewHtml {
      * @param assetBase   `file://` URL of the unpacked [CarvePreviewAssets] root, trailing slash
      * @param carveCss    the vendored carve-css layers
      * @param userCss     the user's own CSS, injected last so equal-specificity rules win
-     * @param copyBridge  JS defining `window.carveCopyText(text)`, or empty when the page has
-     *                    no IDE bridge (the button then falls back to the browser clipboard)
+     * @param copyBridge  body of `window.carveCopyText(text, onDone)`, or empty when the page
+     *                    has no IDE bridge (the button then falls back to the browser clipboard).
+     *                    `onDone(ok)` must be called once per request - it is a parameter rather
+     *                    than a global so two quick clicks cannot answer each other's callback.
      */
     fun create(
         initialHtml: String,
@@ -57,7 +59,7 @@ object CarvePreviewHtml {
         val bridgeScript = if (copyBridge.isBlank()) {
             ""
         } else {
-            "<script>\n        window.carveCopyText = function (text) {\n            $copyBridge\n        };\n    </script>"
+            "<script>\n        window.carveCopyText = function (text, onDone) {\n            $copyBridge\n        };\n    </script>"
         }
         return """
 <!DOCTYPE html>
@@ -248,8 +250,15 @@ object CarvePreviewHtml {
         .carve-code > .carve-code-tools {
             position: absolute;
             top: var(--carve-space-1);
-            right: var(--carve-space-2);
+            right: var(--carve-space-1);
             z-index: 1;
+            /* The strip floats over the first line of code, so it carries the
+               code block's own surface - otherwise a long first line runs under
+               the icon. Inside a header bar it needs none of this, which is why
+               the rule is scoped to the floating case. */
+            background: var(--carve-sunk);
+            border-radius: var(--carve-radius);
+            padding: 0 var(--carve-space-1) 0 var(--carve-space-2);
         }
         .carve-code-tools {
             display: flex;
@@ -626,9 +635,14 @@ $carveCss
                         settled = true;
                         resolve(how);
                     }
-                    window.carveCopyResult = function (ok) { finish(ok ? 'bridge' : legacyCopy(text)); };
                     try {
-                        window.carveCopyText(text);
+                        // The callback is passed IN, not parked on window: two
+                        // buttons clicked before the first round trip returns
+                        // would otherwise share one handler, and the first
+                        // answer would light up the second button.
+                        window.carveCopyText(text, function (ok) {
+                            finish(ok ? 'bridge' : legacyCopy(text));
+                        });
                     } catch (e) {
                         finish(legacyCopy(text));
                     }
