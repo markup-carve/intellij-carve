@@ -31,8 +31,9 @@ bundled renderer, grammar updates, and the release process.
 ## Testing
 
 ```bash
-./gradlew test            # unit tests, including the GraalJS render test
-./gradlew verifyPlugin    # plugin structure verification
+./gradlew test                  # unit tests, including the GraalJS render test
+./gradlew verifyPluginStructure # plugin structure verification
+./gradlew verifyPlugin          # IntelliJ Plugin Verifier against IC 2025.1/2025.2/2025.3
 ```
 
 ## Pull requests

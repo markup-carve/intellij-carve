@@ -5,10 +5,11 @@
 Use the committed Gradle wrapper (`./gradlew`); it pins the Gradle version:
 
 ```bash
-./gradlew buildPlugin     # -> build/distributions/intellij-carve-*.zip
-./gradlew test            # run unit tests (incl. the GraalJS render test)
-./gradlew verifyPlugin    # plugin structure verification
-./gradlew runIde          # launch a sandbox IDE with the plugin
+./gradlew buildPlugin           # -> build/distributions/intellij-carve-*.zip
+./gradlew test                  # run unit tests (incl. the GraalJS render test)
+./gradlew verifyPluginStructure # plugin structure verification
+./gradlew verifyPlugin          # IntelliJ Plugin Verifier, across the IDEs in build.gradle.kts
+./gradlew runIde                # launch a sandbox IDE with the plugin
 ```
 
 Install the built zip via **Settings → Plugins → Install Plugin from Disk**.

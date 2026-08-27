@@ -4,6 +4,7 @@ import com.intellij.util.containers.Interner
 import org.jetbrains.plugins.textmate.language.TextMateLanguageDescriptor
 import org.jetbrains.plugins.textmate.language.syntax.TextMateSyntaxTable
 import org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateLexer
+import org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateScope
 import org.jetbrains.plugins.textmate.plist.JsonPlistReader
 import java.util.ArrayDeque
 
@@ -61,13 +62,34 @@ object CarveTextMateTokenizer {
                 val t = queue.poll()
                 val end = minOf(t.endOffset, text.length)
                 if (t.startOffset >= end) continue
-                tokens += Token(text.substring(t.startOffset, end), t.scope.toString())
+                tokens += Token(text.substring(t.startOffset, end), scopeChain(t.scope))
             }
             if (guard++ > guardLimit) {
                 error("Lexer made no progress on input (possible grammar loop); aborting after $guard iterations")
             }
         }
         return tokens
+    }
+
+    /**
+     * The token's full scope chain, root first, one space between segments.
+     *
+     * Spelled out here rather than taken from [TextMateScope.toString]. That method is
+     * not a contract: the platform rewrote `TextMateScope` from Java to Kotlin in 2025.1
+     * and the new `toString` concatenates the segments with NO separator, so every
+     * golden in this repository - 453 of the 618 tests - failed on a scope chain that
+     * reads `text.carvemeta.attributes.carve`. The chain itself did not change; only the
+     * rendering of it did. Walking the parent links is the same walk the old
+     * implementation did, and it cannot be changed out from under the goldens.
+     */
+    private fun scopeChain(scope: TextMateScope): String {
+        val names = ArrayList<CharSequence>()
+        var current: TextMateScope? = scope
+        while (current != null) {
+            current.scopeName?.let { names += it }
+            current = current.parent
+        }
+        return names.asReversed().joinToString(" ").trim()
     }
 
     /**

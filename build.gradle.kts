@@ -1,10 +1,21 @@
 import org.jetbrains.changelog.Changelog
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.21"
-    id("org.jetbrains.intellij") version "1.17.4"
-    id("org.jetbrains.changelog") version "2.2.1"
+    id("org.jetbrains.kotlin.jvm") version "2.3.21"
+    // The IntelliJ Platform Gradle Plugin. Its predecessor, org.jetbrains.intellij 1.x,
+    // printed on every single run that it "does not support building plugins against the
+    // IntelliJ Platform 2024.2+ (242+)" - which this plugin has targeted since it moved to
+    // 243. Everything the 1.x DSL spelled moved: see intellijPlatform {} below and the
+    // intellijPlatform block inside dependencies {}.
+    // 2.12.0 raised the minimum Gradle to 9.0.0, which is why the wrapper and the Kotlin
+    // plugin moved with it.
+    id("org.jetbrains.intellij.platform") version "2.18.1"
+    id("org.jetbrains.changelog") version "2.5.0"
 }
 
 group = "org.markupcarve"
@@ -12,9 +23,33 @@ version = "0.1.6"
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
+    intellijPlatform {
+        // Build against IntelliJ IDEA Community so the plugin installs across the whole IDE
+        // family. 2025.1 is the floor the plugin claims (see sinceBuild below): the 2023 and
+        // 2024 trains are out of support and nobody runs them any more, so the build no
+        // longer carries the cost of staying compatible with them.
+        create(IntelliJPlatformType.IntellijIdeaCommunity, "2025.1")
+
+        // The TextMate Bundles plugin (bundled + enabled in all IntelliJ IDEs) drives
+        // editor syntax highlighting; declare it so <depends> resolves and the verifier passes.
+        bundledPlugin("org.jetbrains.plugins.textmate")
+
+        // LSP4IJ (RedHat) is the LSP client framework. It maps the bundled carve-lsp's
+        // capabilities (diagnostics, completion, folding, document symbols, hover,
+        // code actions, rename, formatting, semantic tokens) onto native IDE features.
+        // 0.20.1 declares since-build 242.0 and no until-build, so it resolves on 251+.
+        plugin("com.redhat.devtools.lsp4ij", "0.20.1")
+
+        // 2.x no longer puts the platform test framework on the test classpath implicitly.
+        testFramework(TestFrameworkType.Platform)
+    }
+
     // Server-side Carve rendering for export + preview (runs the bundled carve.iife.js).
     // GraalJS via the modern polyglot coordinates. The old org.graalvm.js:js:23.0.2 line
     // shipped a Truffle that calls sun.misc.Unsafe.ensureClassInitialized, which recent
@@ -31,8 +66,8 @@ dependencies {
     implementation("org.graalvm.js:js-language:24.2.1")
     implementation("org.graalvm.truffle:truffle-runtime:24.2.1")
 
-    // JUnit 4 for the corpus snapshot tests. Declared explicitly because the 2024.3+
-    // platform no longer puts JUnit 4 on the plugin test classpath by default.
+    // JUnit 4 for the corpus snapshot tests. Declared explicitly because the platform
+    // no longer puts JUnit 4 on the plugin test classpath by default.
     testImplementation("junit:junit:4.13.2")
 }
 
@@ -43,11 +78,31 @@ dependencies {
 // CI runs it across a JDK matrix; see .github/workflows/build.yml.
 val javaToolchainService = extensions.getByType<JavaToolchainService>()
 
-val graalSmoke by tasks.registering(JavaExec::class) {
+// The Kotlin standard library, for graalSmoke and nothing else.
+//
+// `kotlin.stdlib.default.dependency=false` in gradle.properties keeps the stdlib out of the
+// plugin, because at runtime the IDE supplies it. Every other task here runs inside that
+// IDE and so never notices. graalSmoke does not: it is a plain `java` process on an
+// explicit toolchain, and `GraalSmoke.kt` calls `.use { }`, which is
+// `kotlin.jdk7.AutoCloseableKt`. Under the 1.x toolchain the platform jars sat on
+// `sourceSets["test"].runtimeClasspath` and carried a stdlib along by accident; 2.x composes
+// the platform into the `test` task instead, so that accident is gone and the smoke test
+// died with NoClassDefFoundError on a JDK matrix where every other check was green.
+//
+// Its own configuration rather than `testImplementation` deliberately: adding a stdlib to
+// the test classpath would put a second, newer one in front of the 2025.1 platform's for all
+// 618 tests, to fix a task that does not run in the IDE at all.
+val graalSmokeRuntime = configurations.create("graalSmokeRuntime")
+
+dependencies {
+    graalSmokeRuntime(kotlin("stdlib"))
+}
+
+tasks.register<JavaExec>("graalSmoke") {
     group = "verification"
     description = "Boot a GraalJS polyglot context under an explicit JDK toolchain."
     mainClass.set("org.markupcarve.carve.GraalSmokeKt")
-    classpath = sourceSets["test"].runtimeClasspath
+    classpath = sourceSets["test"].runtimeClasspath + graalSmokeRuntime
     javaLauncher.set(
         javaToolchainService.launcherFor {
             languageVersion.set(
@@ -59,27 +114,99 @@ val graalSmoke by tasks.registering(JavaExec::class) {
     )
 }
 
-intellij {
-    // Build against IntelliJ IDEA Community so the plugin installs across the whole IDE family.
-    // 2024.3 is the lowest SDK that exposes the descriptor-first
-    // Row.textFieldWithBrowseButton(descriptor, project) overload; the old
-    // title-and-descriptor combined overload was deprecated (ERROR level) in that
-    // cycle, so the plugin now builds against (and requires) 243+ - see sinceBuild.
-    version.set("2024.3")
-    type.set("IC")
-    // The TextMate Bundles plugin (bundled + enabled in all IntelliJ IDEs) drives
-    // editor syntax highlighting; declare it so <depends> resolves and verifyPlugin passes.
-    //
-    // LSP4IJ (RedHat) is the LSP client framework. It maps the bundled carve-lsp's
-    // capabilities (diagnostics, completion, folding, document symbols, hover,
-    // code actions, rename, formatting, semantic tokens) onto native IDE features.
-    // 0.20.1 supports since-build 242.0+, so it is compatible with 2024.3 (243).
-    plugins.set(listOf("org.jetbrains.plugins.textmate", "com.redhat.devtools.lsp4ij:0.20.1"))
-    updateSinceUntilBuild.set(false)
+intellijPlatform {
+    // Nothing in this plugin's settings UI is worth an index, and building one boots a
+    // headless IDE on every build.
+    buildSearchableOptions = false
+
+    pluginConfiguration {
+        ideaVersion {
+            // 251 (2025.1). The 2023 and 2024 trains are out of JetBrains support and the
+            // plugin no longer builds against one, so claiming them would be a claim nothing
+            // verifies.
+            sinceBuild = "251"
+
+            // Deliberately open-ended, as it was under 1.x's updateSinceUntilBuild(false).
+            // 2.x writes `until-build` as `MAJOR.*` by default, which would make every new
+            // IDE train uninstallable until someone cut a release - and this plugin is a
+            // highlighter and a preview, with no reason to break on a platform bump.
+            // `provider { null }` is how 2.x spells "emit no until-build attribute"; the
+            // Plugin Verifier run below is what backs the open claim up.
+            untilBuild = provider { null }
+        }
+
+        // Marketplace "What's new" renders <change-notes> from the plugin.xml inside the
+        // uploaded ZIP - it does not read GitHub releases. Generate it from CHANGELOG.md
+        // so the notes can never drift from the release again (0.1.2 shipped with 0.1.1's
+        // notes because the hand-maintained block was never updated).
+        changeNotes = provider {
+            with(changelog) {
+                renderItem(
+                    (getOrNull(project.version.toString()) ?: getUnreleased())
+                        .withHeader(false)
+                        .withEmptySections(false),
+                    Changelog.OutputType.HTML,
+                )
+            }
+        }
+    }
+
+    pluginVerification {
+        // 2.x fails on COMPATIBILITY_PROBLEMS, INTERNAL_API_USAGES and
+        // OVERRIDE_ONLY_API_USAGES. 1.x's runPluginVerifier failed only on the first, so the
+        // six internal-API reports below are not new code - they were always there and were
+        // never gated.
+        //
+        // All six are ToolWindowFactory.getAnchor, .getIcon and .manage, and
+        // CarvePreviewToolWindowFactory names none of them: it declares isApplicable,
+        // createToolWindowContent and shouldBeAvailable and nothing else. They exist because
+        // ToolWindowFactory is a KOTLIN interface - `manage` is a suspend function - so the
+        // Kotlin compiler emits a delegating override of every default member into each
+        // implementing class, and the verifier reads the emitted bytecode, not the source.
+        // All three are ApiStatus.Internal, so every Kotlin plugin with a tool window reports
+        // them, and there is no source change here that would remove them.
+        //
+        // ignoredProblemsFile is NOT the lever: it filters compatibility problems, and an
+        // internal-API usage is a separate result field the filter never sees. So the level
+        // is narrowed instead. OVERRIDE_ONLY_API_USAGES is kept - the category is empty here,
+        // and it is the one of the two additions this plugin could actually violate.
+        failureLevel = listOf(
+            VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+            VerifyPluginTask.FailureLevel.OVERRIDE_ONLY_API_USAGES,
+        )
+
+        ides {
+            // Check binary/API compatibility against every 2025 train, so a Marketplace flag
+            // is caught here instead. The plugin builds against the first of them and claims
+            // all of them plus everything after, so the newest train in the list is the one
+            // carrying the open-ended until-build.
+            create(IntelliJPlatformType.IntellijIdeaCommunity, "2025.1")
+            create(IntelliJPlatformType.IntellijIdeaCommunity, "2025.2")
+
+            // 2025.3 is IntellijIdea, not IntellijIdeaCommunity: JetBrains stopped publishing
+            // a separate Community distribution at 253 and ships one unified IntelliJ IDEA
+            // instead. Asking for IC there resolves nothing - "Couldn't resolve
+            // IntellijIdeaCommunity download URL for version: '2025.3'" - so the type has to
+            // change with the train, not the version string.
+            create(IntelliJPlatformType.IntellijIdea, "2025.3")
+        }
+    }
+
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+    }
 }
 
 kotlin {
     jvmToolchain(17)
+
+    compilerOptions {
+        // The 2025.1 platform bundles Kotlin 2.1, and a plugin must not emit metadata newer
+        // than the stdlib it runs on (`kotlin.stdlib.default.dependency=false` in
+        // gradle.properties means this plugin uses the IDE's, not its own).
+        apiVersion = KotlinVersion.KOTLIN_2_1
+        languageVersion = KotlinVersion.KOTLIN_2_1
+    }
 }
 
 val textmateDir = "src/main/resources/textmate"
@@ -351,48 +478,5 @@ tasks {
         System.getProperty("carve.updateGoldens")?.let {
             systemProperty("carve.updateGoldens", it)
         }
-    }
-
-    patchPluginXml {
-        // 243 (2024.3): the descriptor-first Row.textFieldWithBrowseButton overload
-        // we now call is a new platform method that does not exist on the 2024.1/2024.2
-        // Row interface, so the plugin can no longer claim compatibility below 243.
-        sinceBuild.set("243")
-
-        // Marketplace "What's new" renders <change-notes> from the plugin.xml inside the
-        // uploaded ZIP - it does not read GitHub releases. Generate it from CHANGELOG.md
-        // so the notes can never drift from the release again (0.1.2 shipped with 0.1.1's
-        // notes because the hand-maintained block was never updated).
-        changeNotes.set(
-            provider {
-                with(changelog) {
-                    renderItem(
-                        (getOrNull(project.version.toString()) ?: getUnreleased())
-                            .withHeader(false)
-                            .withEmptySections(false),
-                        Changelog.OutputType.HTML,
-                    )
-                }
-            },
-        )
-    }
-
-    runPluginVerifier {
-        // Check binary/API compatibility against the IDE versions the plugin claims
-        // to support (since-build 243 = 2024.3) plus newer trains, so a Marketplace
-        // flag like the 262 build is caught here. Run via `./gradlew runPluginVerifier`.
-        // TODO: add "IC-2026.2" once that release train resolves in the verifier's
-        // product-releases list (it is not yet available as a stable string).
-        ideVersions.set(
-            listOf("IC-2024.3", "IC-2025.1", "IC-2025.2", "IC-2025.3"),
-        )
-    }
-
-    buildSearchableOptions {
-        enabled = false
-    }
-
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
     }
 }
