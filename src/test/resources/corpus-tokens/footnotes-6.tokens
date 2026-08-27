@@ -1,10 +1,9 @@
 Wrapped[^two\n -> text.carve
 words].\n -> text.carve
 \n -> text.carve
-[^two words]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-This -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- definition is not referenced.\n -> text.carve
+[^two words]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ This definition is not referenced. -> text.carve meta.footnote.definition.carve
+\n -> text.carve
 \n -> text.carve
 [^broken\n -> text.carve
 label]: This is not a definition.\n -> text.carve

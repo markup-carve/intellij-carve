@@ -18,7 +18,7 @@ tag -> text.carve markup.table.row.carve entity.name.tag.hashtag.carve variable.
   -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
   -> text.carve markup.table.row.carve
-:tada: -> text.carve markup.table.row.carve constant.character.entity.carve
+:tada: -> text.carve markup.table.row.carve constant.language.symbol.carve
   -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
@@ -53,7 +53,9 @@ a  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
 ] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
  stays open.\n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- \\^[x]  -> text.carve markup.table.row.carve
+  -> text.carve markup.table.row.carve
+\\^ -> text.carve markup.table.row.carve constant.character.escape.carve
+[x]  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  ok  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve

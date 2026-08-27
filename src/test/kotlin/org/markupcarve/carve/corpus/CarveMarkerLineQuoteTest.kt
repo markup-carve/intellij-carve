@@ -134,6 +134,22 @@ class CarveMarkerLineQuoteTest {
         assertTrue("a document-level quote lost its scope, got $document", document.contains(quote))
     }
 
+    @Test
+    fun quoteBodiesStillRecognizeTheirBlockAndInlineConstructs() {
+        val cases = listOf(
+            Triple("> # heading\n", "heading", "markup.heading.carve"),
+            Triple("> | cell |\n", "cell", "markup.table.row.carve"),
+            Triple("> ^ caption\n", "caption", "markup.table.caption.carve"),
+            Triple("> ![alt](image.png)\n", "image.png", "meta.image.inline.carve"),
+            Triple("> *strong*\n", "strong", "markup.bold.carve"),
+        )
+        val failures = cases.mapNotNull { (src, needle, expected) ->
+            val scopes = scopesOf(src, needle)
+            if (scopes.contains(expected)) null else "$needle: expected $expected, got $scopes"
+        }
+        assertTrue("quoted constructs lost their own scopes:\n${failures.joinToString("\n")}", failures.isEmpty())
+    }
+
     /*
      * A heading is where a scan-position-anchored rule would misfire: `# > x` is
      * a heading whose text is `&gt; x` in the engine, and a `\G`-anchored quote

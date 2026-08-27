@@ -173,9 +173,20 @@
     "inline-comment": {
       "patterns": [
         {
-          "comment": "A DELIMITED INLINE COMMENT, `{% ... %}` (spec PART 9 section 21a, markup-carve/carve#1239). It hides its payload the way `%%` hides the rest of a line, so it is scoped WHOLE rather than letting the emphasis and attribute rules reach inside - `{% *not bold* %}` must not render a bold run. It sits after the code and literal inline rules so a `{%` inside a code span stays code, and before #trailing-comment so a `%%` in the payload does not open a second comment.",
+          "comment": "Keep the established single-line token shape; an empty pair opens nothing.",
           "name": "comment.block.inline.carve",
-          "match": "\\{%[^\\n]*?%\\}"
+          "match": "\\{%[^\\n]+?%\\}"
+        },
+        {
+          "comment": "A DELIMITED INLINE COMMENT, `{% ... %}` (spec PART 9 section 21a, markup-carve/carve#1239). Its literal payload may span a line break and stays inert. A blank line bounds an unclosed opener to its paragraph (markup-carve/carve-grammars#320, markup-carve/intellij-carve#97).",
+          "name": "comment.block.inline.carve",
+          "begin": "(\\{%)(?![^\\n]*%\\})",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.comment.carve"
+            }
+          },
+          "end": "%\\}|^(?=[ \\t]*$)"
         }
       ]
     },
@@ -220,28 +231,28 @@
       "patterns": [
         {
           "name": "markup.raw.block.fenced.code.carve",
-          "begin": "^(`{3,}|~{3,})[ \\t]*([^`~\\s\\[\"]+)?[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$",
+          "begin": "^((`|~)\\2{2,})[ \\t]*([^`~\\s\\[\"]+)?[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$",
           "beginCaptures": {
             "1": {
               "name": "keyword.control.raw.begin.carve"
             },
-            "2": {
+            "3": {
               "name": "entity.name.type.language.carve"
             },
-            "3": {
-              "name": "string.quoted.double.carve"
-            },
             "4": {
-              "name": "entity.name.label.carve"
+              "name": "string.quoted.double.carve"
             },
             "5": {
               "name": "entity.name.label.carve"
             },
             "6": {
+              "name": "entity.name.label.carve"
+            },
+            "7": {
               "name": "string.quoted.double.carve"
             }
           },
-          "end": "^(`{3,}|~{3,})\\s*$",
+          "end": "^(\\1\\2*)[ \\t]*(?:\\n|$)",
           "endCaptures": {
             "1": {
               "name": "keyword.control.raw.end.carve"
@@ -503,10 +514,7 @@
           "end": "$",
           "patterns": [
             {
-              "include": "#comment-fence-on-quote-marker-line"
-            },
-            {
-              "include": "#trailing-comment"
+              "include": "#block-quote-body"
             }
           ]
         },
@@ -521,13 +529,147 @@
           "end": "$",
           "patterns": [
             {
-              "include": "#comment-fence-on-quote-marker-line"
-            },
-            {
-              "include": "#trailing-comment"
+              "include": "#block-quote-body"
             }
           ]
         }
+      ]
+    },
+    "headings-behind-a-container-prefix": {
+      "patterns": [
+        {
+          "name": "markup.heading.carve",
+          "match": "(?:\\G(?<=[ \\t])|^[ \\t]+)(#{1,6})( +)(?![ \\t]*$)(.+)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.heading.carve"
+            },
+            "3": {
+              "name": "entity.name.section.carve",
+              "patterns": [
+                {
+                  "include": "#trailing-comment"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "thematic-break-behind-a-container-prefix": {
+      "patterns": [
+        {
+          "match": "(?:\\G(?<=[ \\t])|^[ \\t]+)(?:-{3,}|\\*{3,}|_{3,})[ \\t]*$",
+          "name": "meta.separator.thematic-break.carve"
+        }
+      ]
+    },
+    "table-row-behind-a-container-prefix": {
+      "patterns": [
+        {
+          "name": "markup.table.row.carve",
+          "begin": "(?:\\G(?<=[ \\t])|^[ \\t]+)(?=\\|)",
+          "end": "$",
+          "patterns": [
+            {
+              "include": "#table-row-cells"
+            }
+          ]
+        },
+        {
+          "name": "markup.table.continuation.carve",
+          "match": "(?:\\G(?<=[ \\t])|^[ \\t]+)(\\+)(.*\\|\\s*)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.table.continuation.carve"
+            }
+          }
+        }
+      ]
+    },
+    "caption-behind-a-container-prefix": {
+      "patterns": [
+        {
+          "name": "markup.table.caption.carve",
+          "match": "\\G(?<=[ \\t])(\\^)( +)(?![ \\t]*$)([^ ].*)$",
+          "captures": {
+            "1": {
+              "name": "keyword.control.caption.carve"
+            },
+            "3": {
+              "name": "string.unquoted.caption.carve",
+              "patterns": [
+                {
+                  "include": "#trailing-comment"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "code-fence-on-quote-marker-line": {
+      "patterns": [
+        {
+          "name": "markup.raw.block.fenced.code.carve",
+          "begin": "\\G((?:> )*)((`|~)\\3{2,})[ \\t]*([^`~\\s\\[\"]+)?[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$",
+          "beginCaptures": {
+            "2": {
+              "name": "keyword.control.raw.begin.carve"
+            },
+            "4": {
+              "name": "entity.name.type.language.carve"
+            },
+            "5": {
+              "name": "string.quoted.double.carve"
+            },
+            "6": {
+              "name": "entity.name.label.carve"
+            },
+            "7": {
+              "name": "entity.name.label.carve"
+            },
+            "8": {
+              "name": "string.quoted.double.carve"
+            }
+          },
+          "end": "^[ \\t]*> \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.raw.end.carve"
+            }
+          }
+        }
+      ]
+    },
+    "block-quote-body": {
+      "comment": "Block-level and inline rules reachable after a quote marker has consumed its prefix (markup-carve/intellij-carve#98).",
+      "patterns": [
+        { "include": "#code-fence-on-quote-marker-line" },
+        { "include": "#comment-fence-on-quote-marker-line" },
+        { "include": "#thematic-break-behind-a-container-prefix" },
+        { "include": "#headings-behind-a-container-prefix" },
+        { "include": "#table-row-behind-a-container-prefix" },
+        { "include": "#caption-behind-a-container-prefix" },
+        { "include": "#links" },
+        { "include": "#images" },
+        { "include": "#footnotes" },
+        { "include": "#citations" },
+        { "include": "#code-callouts" },
+        { "include": "#critic-markup" },
+        { "include": "#emphasis" },
+        { "include": "#attributes" },
+        { "include": "#raw-inline" },
+        { "include": "#inline-literal" },
+        { "include": "#inline-code" },
+        { "include": "#inline-comment" },
+        { "include": "#math" },
+        { "include": "#autolink" },
+        { "include": "#extension-inline" },
+        { "include": "#mentions-tags" },
+        { "include": "#smart-typography" },
+        { "include": "#hard-break" },
+        { "include": "#trailing-comment" }
       ]
     },
     "lists": {
@@ -608,6 +750,16 @@
     },
     "definitions": {
       "patterns": [
+        {
+          "comment": "A footnote definition has prose rather than a URL after its label. Match it before the general reference-definition rule so neither its construct nor its first body word is misidentified as a link destination.",
+          "name": "meta.footnote.definition.carve",
+          "match": "^\\s*(\\[\\^[^\\]]+\\]:)\\s+(\\S.*)$",
+          "captures": {
+            "1": {
+              "name": "entity.name.reference.footnote.carve"
+            }
+          }
+        },
         {
           "name": "meta.link.reference.definition.carve",
           "match": "^\\s*(\\[[^\\]]+\\]:)\\s+(\\S+)",
@@ -723,6 +875,25 @@
             },
             "5": {
               "name": "string.quoted.double.image-title.carve"
+            }
+          }
+        },
+        {
+          "comment": "Reference and collapsed-reference images are one construct family; the empty second label is the collapsed form. Keep this in #images so it wins before #links and identifies the leading exclamation mark and alt text as an image.",
+          "name": "meta.image.reference.carve",
+          "match": "(!\\[)([^\\]]*)(\\])(\\[)([^\\]\\n]*)(\\])",
+          "captures": {
+            "1": {
+              "name": "keyword.control.image.begin.carve"
+            },
+            "2": {
+              "name": "string.other.image.alt.carve"
+            },
+            "3": {
+              "name": "keyword.control.image.end.carve"
+            },
+            "5": {
+              "name": "entity.name.reference.link.carve"
             }
           }
         }
@@ -958,6 +1129,23 @@
               "name": "keyword.control.raw.carve"
             }
           }
+        },
+        {
+          "comment": "An unpartnered run is a code span through the end of its paragraph, and a matching run on a later line closes a multi-line span. A blank line is the paragraph boundary (markup-carve/carve-grammars#320, markup-carve/intellij-carve#97).",
+          "name": "markup.raw.inline.carve",
+          "begin": "(?<![!$])(`+)",
+          "beginCaptures": {
+            "1": {
+              "name": "keyword.control.raw.carve"
+            }
+          },
+          "end": "(\\1)|^(?=[ \\t]*$)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.raw.carve"
+            }
+          },
+          "contentName": "markup.raw.inline.content.carve"
         }
       ]
     },
@@ -1142,21 +1330,38 @@
             }
           }
         },
-        {
-          "name": "comment.block.critic.carve",
-          "match": "(\\{#)([^}]+)(#\\})",
-          "captures": {
+      {
+        "comment": "An editorial comment's literal payload may span a line break and stays inert. The same-line attribute-block guard prevents `{#id}` from opening a comment, and a blank line bounds an unclosed opener (markup-carve/carve-grammars#320, markup-carve/intellij-carve#97).",
+        "name": "comment.block.critic.carve",
+        "match": "(\\{#)([^}]+)(#\\})",
+        "captures": {
+          "1": {
+            "name": "keyword.control.critic.carve"
+          },
+          "2": {
+            "name": "comment.block.content.carve"
+          },
+          "3": {
+            "name": "keyword.control.critic.carve"
+          }
+        }
+      },
+      {
+        "comment": "A multiline editorial comment stays inert. The guards leave same-line comments to the rule above and prevent attribute blocks such as `{#id}` from opening a comment.",
+        "name": "comment.block.critic.carve",
+        "begin": "(\\{#)(?![^}\\n]*(?<!#)\\})(?![^\\n]*#\\})",
+          "beginCaptures": {
             "1": {
-              "name": "keyword.control.critic.carve"
-            },
-            "2": {
-              "name": "comment.block.content.carve"
-            },
-            "3": {
               "name": "keyword.control.critic.carve"
             }
           },
-          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
+          "end": "(#\\})|^(?=[ \\t]*$)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.critic.carve"
+            }
+          },
+          "contentName": "comment.block.content.carve"
         }
       ]
     },
@@ -1214,7 +1419,12 @@
               "name": "keyword.control.bold.carve"
             },
             "2": {
-              "name": "markup.bold.carve"
+              "name": "markup.bold.carve",
+              "patterns": [
+                {
+                  "include": "#inline-comment"
+                }
+              ]
             },
             "3": {
               "name": "keyword.control.bold.carve"
@@ -1292,7 +1502,12 @@
               "name": "keyword.control.bold.carve"
             },
             "2": {
-              "name": "markup.bold.carve"
+              "name": "markup.bold.carve",
+              "patterns": [
+                {
+                  "include": "#inline-comment"
+                }
+              ]
             },
             "3": {
               "name": "keyword.control.bold.carve"
@@ -1389,7 +1604,7 @@
           }
         },
         {
-          "name": "constant.character.entity.carve",
+          "name": "constant.language.symbol.carve",
           "match": "(?<!\\w):[A-Za-z0-9+-][\\w+-]*:"
         }
       ]
@@ -1664,6 +1879,9 @@
         },
         {
           "include": "#critic-markup"
+        },
+        {
+          "include": "#smart-typography"
         },
         {
           "include": "#emphasis"

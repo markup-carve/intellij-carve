@@ -1,4 +1,8 @@
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
-![Apollo](a.jpg) -> text.carve markup.quote.carve
+![ -> text.carve markup.quote.carve meta.image.inline.carve keyword.control.image.begin.carve
+Apollo -> text.carve markup.quote.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve markup.quote.carve meta.image.inline.carve
+a.jpg -> text.carve markup.quote.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve markup.quote.carve meta.image.inline.carve
 \n -> text.carve
