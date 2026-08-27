@@ -1,4 +1,5 @@
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\\= a  -> text.carve markup.table.row.carve
+\\= -> text.carve markup.table.row.carve constant.character.escape.carve
+ a  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve

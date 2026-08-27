@@ -1,9 +1,9 @@
-! -> text.carve
-[ -> text.carve meta.link.reference.carve
-Apollo -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-moon -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
+![ -> text.carve meta.image.reference.carve keyword.control.image.begin.carve
+Apollo -> text.carve meta.image.reference.carve string.other.image.alt.carve
+] -> text.carve meta.image.reference.carve keyword.control.image.end.carve
+[ -> text.carve meta.image.reference.carve
+moon -> text.carve meta.image.reference.carve entity.name.reference.link.carve
+] -> text.carve meta.image.reference.carve
 \n -> text.carve
 \n -> text.carve
 [moon]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve

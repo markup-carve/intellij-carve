@@ -10,7 +10,6 @@ m -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote
 ] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 .\n -> text.carve
 \n -> text.carve
-[^m]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-One -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- note, two refs.\n -> text.carve
+[^m]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ One note, two refs. -> text.carve meta.footnote.definition.carve
+\n -> text.carve

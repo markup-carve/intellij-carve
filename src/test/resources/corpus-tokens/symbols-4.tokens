@@ -1,5 +1,5 @@
 Launch  -> text.carve
-:rocket: -> text.carve constant.character.entity.carve
+:rocket: -> text.carve constant.language.symbol.carve
 { -> text.carve meta.attributes.carve
 .big -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve meta.attributes.carve

@@ -12,7 +12,6 @@ a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote
 ] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 .\n -> text.carve
 \n -> text.carve
-[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-reference -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- body.\n -> text.carve
+[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ reference body. -> text.carve meta.footnote.definition.carve
+\n -> text.carve

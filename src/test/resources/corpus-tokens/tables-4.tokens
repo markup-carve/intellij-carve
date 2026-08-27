@@ -5,8 +5,8 @@
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- \\ -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> text.carve markup.table.row.carve
+\\| -> text.carve markup.table.row.carve constant.character.escape.carve
        -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  pipe char  -> text.carve markup.table.row.carve

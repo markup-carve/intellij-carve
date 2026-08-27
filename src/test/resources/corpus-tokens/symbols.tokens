@@ -1,5 +1,5 @@
 Great  -> text.carve
-:rocket: -> text.carve constant.character.entity.carve
+:rocket: -> text.carve constant.language.symbol.carve
  and  -> text.carve
 : -> text.carve meta.extension.inline.carve keyword.control.extension.carve
 widget -> text.carve meta.extension.inline.carve entity.name.function.extension.carve

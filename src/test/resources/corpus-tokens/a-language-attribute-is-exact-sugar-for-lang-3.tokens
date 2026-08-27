@@ -4,5 +4,12 @@
 \n -> text.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
-Der Titel ist [unbekannt]{:}. -> text.carve markup.quote.carve
+Der Titel ist  -> text.carve markup.quote.carve
+[ -> text.carve markup.quote.carve meta.span.inline.carve keyword.control.span.begin.carve
+unbekannt -> text.carve markup.quote.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve markup.quote.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve markup.quote.carve meta.attributes.carve
+: -> text.carve markup.quote.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> text.carve markup.quote.carve meta.attributes.carve
+. -> text.carve markup.quote.carve
 \n -> text.carve

@@ -8,7 +8,6 @@ a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote
 } -> text.carve meta.attributes.carve
 .\n -> text.carve
 \n -> text.carve
-[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-note. -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ note. -> text.carve meta.footnote.definition.carve
 \n -> text.carve

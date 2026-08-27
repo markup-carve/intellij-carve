@@ -1,9 +1,9 @@
 Vote  -> text.carve
-:+1: -> text.carve constant.character.entity.carve
+:+1: -> text.carve constant.language.symbol.carve
  or  -> text.carve
-:-1: -> text.carve constant.character.entity.carve
+:-1: -> text.carve constant.language.symbol.carve
 . Tolerance  -> text.carve
-:+-: -> text.carve constant.character.entity.carve
+:+-: -> text.carve constant.language.symbol.carve
  is a symbol, but a  -> text.carve
 +- -> text.carve constant.character.entity.typography.carve
  b and word: -> text.carve

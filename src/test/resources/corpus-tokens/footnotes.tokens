@@ -5,7 +5,6 @@ fn -> text.carve entity.name.reference.footnote.carve variable.parameter.footnot
 ] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 \n -> text.carve
 \n -> text.carve
-[^fn]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-Defined -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- anywhere; resolved by label.\n -> text.carve
+[^fn]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Defined anywhere; resolved by label. -> text.carve meta.footnote.definition.carve
+\n -> text.carve

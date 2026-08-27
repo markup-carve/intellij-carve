@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Block quotes retain the scopes of the constructs inside them** (#98). Headings, thematic breaks, tables, captions, code fences and inline constructs behind a quote marker are now tokenized as their own constructs inside the quote instead of flattening to quote text.
+- **All construct-ledger payload leaks and attribution gaps are closed** (#97). Fenced and inline code plus both braced comment families keep their payload inert across the generated sweep; reference images, footnote definitions and symbols carry their own identities; and the shared ledger now records the grammar's intentional grouped rules.
+
 ## [0.1.6] - 2026-08-27
 
 ### Fixed

@@ -1,6 +1,5 @@
-[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-intro -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ intro -> text.carve meta.footnote.definition.carve
 \n -> text.carve
   %% c -> text.carve comment.line.percent.carve
 \n -> text.carve

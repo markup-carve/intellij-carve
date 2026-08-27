@@ -24,12 +24,10 @@ After -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
 More text.\n -> text.carve
 \n -> text.carve
-[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-first -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- note\n -> text.carve
+[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ first note -> text.carve meta.footnote.definition.carve
 \n -> text.carve
-[^b]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-second -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- note\n -> text.carve
+\n -> text.carve
+[^b]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ second note -> text.carve meta.footnote.definition.carve
+\n -> text.carve
