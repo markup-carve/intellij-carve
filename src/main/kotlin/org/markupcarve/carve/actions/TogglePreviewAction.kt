@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.wm.ToolWindowManager
+import com.intellij.ui.jcef.JBCefApp
 import org.markupcarve.carve.CarveFileType
 
 class TogglePreviewAction : AnAction() {
@@ -16,8 +17,12 @@ class TogglePreviewAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
+        // A control that cannot do anything must not be offered. Without JCEF
+        // the tool window is never registered, and this action used to stay
+        // visible and enabled and then return silently.
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        e.presentation.isEnabledAndVisible = CarveFileType.matches(file?.extension)
+        e.presentation.isEnabledAndVisible =
+            CarveFileType.matches(file?.extension) && JBCefApp.isSupported()
     }
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
