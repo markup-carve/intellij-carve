@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/recipes.css
- * version 0.1.0, commit e0042b9
+ * version 0.1.0, commit 65e9ad2
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -265,7 +265,13 @@
 .carve .steps > ol > li {
   counter-increment: carve-step;
   position: relative;
-  padding-inline-start: var(--carve-space-6);
+  /* The marker is out of flow, so the text has to clear its full width AND
+   * leave a gutter after it. Deriving the padding from the same property that
+   * sizes the marker is what keeps the two from meeting: they were both a bare
+   * 1.5rem, which put the text flush against the circle. */
+  padding-inline-start: calc(
+    var(--carve-step-marker, 1.5rem) + var(--carve-space-3)
+  );
   padding-block-end: var(--carve-space-4);
 }
 .carve .steps > ol > li::before {
@@ -275,8 +281,8 @@
   inset-block-start: 0;
   display: grid;
   place-items: center;
-  inline-size: 1.5rem;
-  block-size: 1.5rem;
+  inline-size: var(--carve-step-marker, 1.5rem);
+  block-size: var(--carve-step-marker, 1.5rem);
   border-radius: 50%;
   background: var(--carve-accent-soft);
   color: var(--carve-accent-ink);
