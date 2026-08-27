@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **The preview, HTML export and language server run on a released engine, against a released spec** (#99). Both engine bundles are rebuilt from carve-js `37ed8904` - the published 0.1.5 - and the spec pin moves to carve `375e1f37`, the published 0.1.4. The two now agree exactly: 0 of 1538 corpus documents render differently, where the engine this release started from missed 87 of them. carve-lsp stays at `ef1ca246`; only the engine inside it moves.
 - **The published vendor address is the project's noreply one** (#95). JetBrains renders the vendor email on the public plugin page, so it is published metadata rather than repository bookkeeping, and it carried a personal address. The marketplace only refreshes on a new version, so the change becomes visible with this release.
+- **The minimum IDE is 2025.1** (#106). The plugin required 2024.3 and built on a toolchain that warned on every run it could not build for 2024.2 and later; it now builds on the IntelliJ Platform Gradle Plugin 2.x against 2025.1, so `since-build` is `251`. Anyone still on a 2023 or 2024 IDE keeps 0.1.5 and stops receiving updates. There is still no `until-build`: the plugin claims every train from 2025.1 onward, and the Plugin Verifier runs against 2025.1, 2025.2 and 2025.3 to back that claim.
 
 ## [0.1.5] - 2026-08-21
 

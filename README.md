@@ -50,7 +50,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 ## Requirements
 
-- JetBrains IDE 2024.3+
+- JetBrains IDE 2025.1+
 - Java 17+
 - [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij) plugin — **optional**.
   The plugin loads with syntax highlighting, live preview, HTML export and live

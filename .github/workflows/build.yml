@@ -38,11 +38,15 @@ jobs:
       - name: The vendored block battery still matches carve-grammars
         run: ./tools/check-battery-drift.sh
 
+      # The two names swapped meaning in the IntelliJ Platform Gradle Plugin 2.x:
+      # `verifyPluginStructure` is the descriptor/archive check that 1.x called
+      # `verifyPlugin`, and `verifyPlugin` is now the IntelliJ Plugin Verifier that
+      # 1.x called `runPluginVerifier`. Both still run, in the same order.
       - name: Verify plugin structure
-        run: ./gradlew --no-daemon verifyPlugin
+        run: ./gradlew --no-daemon verifyPluginStructure
 
       - name: Run Plugin Verifier
-        run: ./gradlew --no-daemon runPluginVerifier
+        run: ./gradlew --no-daemon verifyPlugin
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
