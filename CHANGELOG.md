@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.6] - 2026-08-27
 
+### Added
+
+- **The preview styles the container recipes out of the box** (#105). Admonitions, sidebars and the rest of the container family render with the shared Carve tokens instead of unstyled default markup.
+
 ### Fixed
 
 - **The preview registers on a module that exists** (#104). The split editor and the tool window were registered behind `<depends optional="true">com.intellij.modules.jcef</depends>`, and no IDE declares that module - JCEF is platform code in `lib/app-client.jar`, not a plugin - so neither extension point was ever registered anywhere and `Toggle Carve Preview` looked up a tool window that did not exist and returned silently. Both register unconditionally now and ask `JBCefApp.isSupported()` directly, so a runtime without a browser opens `.crv` in the plain editor and offers no dead control.
