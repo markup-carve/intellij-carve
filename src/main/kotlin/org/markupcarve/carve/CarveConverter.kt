@@ -53,7 +53,20 @@ object CarveConverter {
         return toHtmlWithJs(carve, sourceLine)
     }
 
-    private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String {
+    /**
+     * Render to Markdown.
+     *
+     * There is no PHP branch here on purpose: the renderer setting names which
+     * engine produces the PREVIEW, and the Markdown target is only reachable
+     * through the bundled JS build. A `CarveRenderer.CARVE_PHP` project still
+     * exports Markdown, from the bundle, rather than failing.
+     */
+    fun toMarkdown(carve: String): String = renderWithJs(carve, "carveToMarkdown")
+
+    private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String =
+        renderWithJs(carve, "carveToHtml", sourceLine)
+
+    private fun renderWithJs(carve: String, fnName: String, sourceLine: Boolean = false): String {
         if (carveJs.isEmpty()) {
             return errorHtml("Carve renderer unavailable", "Bundled carve.iife.js is missing from the plugin.")
         }
@@ -67,8 +80,8 @@ object CarveConverter {
                     context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
                     val carveGlobal = context.getBindings("js").getMember("carve")
                         ?: return errorHtml("Carve renderer error", "Global 'carve' not found in bundle.")
-                    val fn = carveGlobal.getMember("carveToHtml")
-                        ?: return errorHtml("Carve renderer error", "'carveToHtml' not found in bundle.")
+                    val fn = carveGlobal.getMember(fnName)
+                        ?: return errorHtml("Carve renderer error", "'$fnName' not found in bundle.")
                     // Build the options object (with the showcase extension set) inside
                     // the bundle's own context, so the extension factories come from the
                     // same Carve build that renders. Defined as a global helper once per
