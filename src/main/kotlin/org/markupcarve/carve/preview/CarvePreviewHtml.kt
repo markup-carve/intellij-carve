@@ -237,67 +237,67 @@ object CarvePreviewHtml {
         }
 
         /* ---- Code-block chrome ----
-           The hydrate JS wraps every `pre > code` in `.carve-code`, so the
-           language badge, the #201 header caption and the copy button all hang
-           off the WRAPPER. Hanging them off the `<pre>` put them inside its
-           own scroll box, where they slid away with the code on a long line. */
+           The hydrate JS wraps every `pre > code` in `.carve-code` and hangs a
+           small tool strip off it: the language name and the copy button. They
+           belong to the WRAPPER, not the `<pre>` - the `<pre>` is the scroll
+           box, and anything positioned inside it slides out of view with a long
+           line. When the block has a #201 header bar, the strip moves into the
+           bar instead of floating over the code. */
         .carve-code { position: relative; margin: var(--carve-space-4) 0; }
         .carve-code > pre { margin: 0; }
-        .carve-code[data-lang]::after {
-            content: attr(data-lang);
-            position: absolute;
-            top: var(--carve-space-2);
-            right: var(--carve-space-3);
-            font-family: var(--carve-font-mono);
-            font-size: 0.7em;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: var(--carve-ink-soft);
-            pointer-events: none;
-            opacity: 0.75;
-            transition: opacity 0.12s ease;
-        }
-        /* The badge and the copy button share the corner; on hover the button
-           takes it, which is why neither needs a box drawn around it. */
-        .carve-code:hover[data-lang]::after, .carve-code:focus-within[data-lang]::after { opacity: 0; }
-
-        .carve-copy {
+        .carve-code > .carve-code-tools {
             position: absolute;
             top: var(--carve-space-1);
-            right: var(--carve-space-1);
+            right: var(--carve-space-2);
             z-index: 1;
+        }
+        .carve-code-tools {
+            display: flex;
+            align-items: center;
+            gap: var(--carve-space-2);
+        }
+        .carve-lang {
             font-family: var(--carve-font-mono);
             font-size: 0.7em;
             font-weight: 600;
-            letter-spacing: 0.03em;
             text-transform: uppercase;
-            white-space: nowrap;
+            letter-spacing: 0.03em;
             color: var(--carve-ink-soft);
-            background: var(--carve-raised);
-            border: var(--carve-border-width) solid var(--carve-rule);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Visible at rest, not hover-only: a copy button nobody can find is
+           the same as no copy button. Faint enough not to compete with the
+           code, solid the moment the pointer is anywhere near it. */
+        .carve-copy {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px;
+            color: var(--carve-ink-soft);
+            background: transparent;
+            border: 0;
             border-radius: var(--carve-radius);
-            padding: 4px 8px;
             cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+            opacity: 0.45;
+            transition: opacity 0.12s ease, color 0.12s ease, background-color 0.12s ease;
         }
-        .carve-code:hover > .carve-copy, .carve-copy:focus-visible { opacity: 1; }
-        .carve-copy:hover { color: var(--carve-ink); border-color: var(--carve-border); }
-        .carve-copy[data-state="done"] {
-            opacity: 1;
-            color: var(--carve-success);
-            border-color: var(--carve-success);
-        }
-        .carve-copy[data-state="failed"] {
-            opacity: 1;
-            color: var(--carve-danger);
-            border-color: var(--carve-danger);
-        }
+        .carve-copy > svg { display: block; width: 14px; height: 14px; }
+        .carve-code:hover > .carve-code-tools > .carve-copy,
+        .code-header:hover .carve-copy,
+        .carve-copy:focus-visible { opacity: 1; }
+        .carve-copy:hover { color: var(--carve-ink); background: var(--carve-surface); opacity: 1; }
+        .carve-copy[data-state="done"] { opacity: 1; color: var(--carve-success); }
+        .carve-copy[data-state="failed"] { opacity: 1; color: var(--carve-danger); }
 
         /* #201 header caption bar (a code-block filename/title). A rule under
            the bar rather than a box around the whole block. */
         .carve-code > .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--carve-space-3);
             font-family: var(--carve-font-mono);
             font-size: 0.8em;
             font-weight: 600;
@@ -305,9 +305,24 @@ object CarvePreviewHtml {
             background: var(--carve-sunk);
             border-bottom: var(--carve-border-width) solid var(--carve-rule);
             border-radius: var(--carve-radius) var(--carve-radius) 0 0;
-            padding: var(--carve-space-2) var(--carve-space-4);
+            padding: var(--carve-space-1) var(--carve-space-2) var(--carve-space-1) var(--carve-space-4);
         }
         .carve-code:has(> .code-header) > pre { border-radius: 0 0 var(--carve-radius) var(--carve-radius); }
+
+        /* Heading permalinks (the headingPermalinks extension emits
+           `<a class="permalink">`). One pilcrow per heading, always on, reads as
+           noise on a document that is mostly headings - so it appears when the
+           heading is under the pointer or the link itself is focused. */
+        .permalink {
+            margin-left: 0.35em;
+            font-weight: 400;
+            color: var(--carve-ink-soft);
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.12s ease;
+        }
+        :is(h1, h2, h3, h4, h5, h6):hover > .permalink,
+        .permalink:focus-visible { opacity: 1; }
 
         /* ---- Code group / tabs (codeGroup + tabs extensions) ----
            Both emit CSS-only radio-tab widgets: a run of
@@ -507,29 +522,62 @@ $carveCss
                 // #201 quoted header: carve-js puts it on `pre[title]`. Kept as
                 // `.code-with-header` as well, because user CSS targets it.
                 var title = pre.getAttribute('title');
+                var header = null;
                 if (title) {
                     wrap.classList.add('code-with-header');
-                    var bar = document.createElement('div');
-                    bar.className = 'code-header';
-                    bar.textContent = title;
-                    wrap.appendChild(bar);
+                    header = document.createElement('div');
+                    header.className = 'code-header';
+                    var name = document.createElement('span');
+                    name.textContent = title;
+                    header.appendChild(name);
+                    wrap.appendChild(header);
                 }
-                if (lang !== 'mermaid') wrap.appendChild(copyButton(code));
+
+                if (lang !== 'mermaid') {
+                    var tools = document.createElement('div');
+                    tools.className = 'carve-code-tools';
+                    if (lang) {
+                        var badge = document.createElement('span');
+                        badge.className = 'carve-lang';
+                        badge.textContent = lang;
+                        tools.appendChild(badge);
+                    }
+                    tools.appendChild(copyButton(code));
+                    // With a header bar there is a strip of chrome already; the
+                    // tools belong in it rather than floating over the first
+                    // line of code.
+                    (header || wrap).appendChild(tools);
+                }
                 wrap.appendChild(pre);
             });
         }
+
+        var ICONS = {
+            copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+                'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<rect x="9" y="9" width="13" height="13" rx="2"></rect>' +
+                '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>',
+            done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" ' +
+                'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<polyline points="20 6 9 17 4 12"></polyline></svg>',
+            failed: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" ' +
+                'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                '<line x1="18" y1="6" x2="6" y2="18"></line>' +
+                '<line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+        };
 
         function copyButton(code) {
             var button = document.createElement('button');
             button.type = 'button';
             button.className = 'carve-copy';
-            button.textContent = 'Copy';
+            button.innerHTML = ICONS.copy;
+            button.title = 'Copy code';
             button.setAttribute('aria-label', 'Copy code to the clipboard');
             button.addEventListener('click', function () {
                 // The <code> text, never the wrapper's: the wrapper also holds
                 // the header bar and this button, and both would be copied.
                 copyText(code.textContent || '').then(function (how) {
-                    flash(button, how ? 'done' : 'failed', how ? 'Copied' : 'Failed');
+                    flash(button, how ? 'done' : 'failed', how ? 'Copied' : 'Copy failed');
                 });
             });
             return button;
@@ -538,11 +586,13 @@ $carveCss
         var flashTimers = new WeakMap();
         function flash(button, state, label) {
             button.dataset.state = state;
-            button.textContent = label;
+            button.innerHTML = ICONS[state];
+            button.title = label;
             clearTimeout(flashTimers.get(button));
             flashTimers.set(button, setTimeout(function () {
                 delete button.dataset.state;
-                button.textContent = 'Copy';
+                button.innerHTML = ICONS.copy;
+                button.title = 'Copy code';
             }, 1400));
         }
 

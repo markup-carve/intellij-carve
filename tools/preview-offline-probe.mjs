@@ -86,6 +86,11 @@ const seen = await page.evaluate(() => {
         mathFontsLoaded: Array.from(document.fonts).filter(f => f.status === 'loaded').map(f => f.family),
         mathFontsFailed: Array.from(document.fonts).filter(f => f.status === 'error').map(f => f.family),
         copyButtons: document.querySelectorAll('.carve-copy').length,
+        copyIcons: document.querySelectorAll('.carve-copy > svg').length,
+        copyRestOpacity: getComputedStyle(document.querySelector('.carve-copy')).opacity,
+        permalinks: document.querySelectorAll('h1 > .permalink, h2 > .permalink').length,
+        permalinkRestOpacity: document.querySelector('.permalink')
+            ? getComputedStyle(document.querySelector('.permalink')).opacity : null,
         codeWrappers: document.querySelectorAll('.carve-code').length,
         codeHeader: document.querySelector('.carve-code > .code-header')?.textContent ?? null,
         langBadge: document.querySelector('.carve-code[data-lang]')?.dataset.lang ?? null,
@@ -109,7 +114,7 @@ const clipboard = await page.evaluate(async () => {
     button.click();
     await new Promise(r => setTimeout(r, 300));
     out.asyncState = button.dataset.state ?? null;
-    out.asyncLabel = button.textContent;
+    out.asyncLabel = button.title;
 
     // Now with the async API taken away, which is what a refused
     // clipboard-write permission looks like from the page's side.
@@ -119,7 +124,7 @@ const clipboard = await page.evaluate(async () => {
     second.click();
     await new Promise(r => setTimeout(r, 300));
     out.legacyState = second.dataset.state ?? null;
-    out.legacyLabel = second.textContent;
+    out.legacyLabel = second.title;
     return out;
 });
 
@@ -134,7 +139,11 @@ const checks = [
     ['math typeset', seen.mathContainers > 0 && seen.mathGlyphs > 0, `${seen.mathContainers} containers / ${seen.mathGlyphs} glyphs`],
     ['MathJax webfonts loaded', seen.mathFontsLoaded.length > 0 && seen.mathFontsFailed.length === 0,
         `loaded ${seen.mathFontsLoaded.join(',')} failed ${seen.mathFontsFailed.join(',') || 'none'}`],
-    ['copy buttons present', seen.copyButtons > 0, `${seen.copyButtons} on ${seen.codeWrappers} blocks`],
+    ['copy buttons present', seen.copyButtons > 0 && seen.copyIcons === seen.copyButtons,
+        `${seen.copyButtons} on ${seen.codeWrappers} blocks, ${seen.copyIcons} icons`],
+    ['copy button is visible at rest', Number(seen.copyRestOpacity) > 0.2, `opacity ${seen.copyRestOpacity}`],
+    ['heading permalinks are hidden until hover', seen.permalinks > 0 && seen.permalinkRestOpacity === '0',
+        `${seen.permalinks} permalinks, resting opacity ${seen.permalinkRestOpacity}`],
     ['copy reports success (async clipboard)', clipboard.asyncState === 'done', `${clipboard.asyncState} / ${clipboard.asyncLabel}`],
     ['copy reports success (execCommand fallback)', clipboard.legacyState === 'done', `${clipboard.legacyState} / ${clipboard.legacyLabel}`],
     ['code block is one flat surface', seen.codeBackground === 'rgba(0, 0, 0, 0)' && seen.codePadding === '0px',

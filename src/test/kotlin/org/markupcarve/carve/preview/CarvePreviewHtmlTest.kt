@@ -263,7 +263,8 @@ class CarvePreviewHtmlTest {
          * code block, a chart, inline and display math, and a diagram.
          */
         val PROBE_DOCUMENT: String = """
-            <h1 id="probe">Offline probe</h1>
+            <h1 id="probe">Offline probe <a href="#probe" class="permalink" aria-label="Permalink">¶</a></h1>
+            <h2 id="second">A second heading <a href="#second" class="permalink" aria-label="Permalink">¶</a></h2>
             <p>Inline math \(x^2 + \sqrt{y}\) and display math:</p>
             <p>\[\int_0^1 x^2\,dx = \frac{1}{3}\]</p>
             <pre title="app.js"><code class="language-javascript">const answer = 42; // the comment
