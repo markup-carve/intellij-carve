@@ -206,6 +206,19 @@ class CarvePreviewPanel(
      * GraalJS conversion, which needs no IDE model - so no further model access
      * happens off this read action.
      */
+    /**
+     * Read once per panel: the files are a few hundred lines and never change
+     * while the IDE is running.
+     */
+    private val cachedCarveCss: String by lazy {
+        listOf("tokens", "recipes")
+            .mapNotNull { name ->
+                CarvePreviewPanel::class.java.getResourceAsStream("/css/$name.css")
+                    ?.use { it.readBytes().toString(Charsets.UTF_8) }
+            }
+            .joinToString("\n")
+    }
+
     private fun readDocumentText(): String? =
         ReadAction.compute<String?, RuntimeException> {
             FileDocumentManager.getInstance().getDocument(file)?.text
@@ -256,6 +269,21 @@ class CarvePreviewPanel(
             .joinToString("\n")
     }
 
+    /**
+     * The vendored carve-css layers, cached after the first read.
+     *
+     * `tokens.css` defines the `--carve-*` custom properties and nothing else,
+     * so it cannot argue with the built-in styles above it. `recipes.css` styles
+     * the constructs the engine has no handler for - `::: tree`, `::: cards`,
+     * `::: columns` and the rest - which reach the page as a generic
+     * `<div class="name">` and would otherwise render unstyled here while every
+     * other Carve consumer that installs carve-css shows them properly.
+     *
+     * Injected after the built-in block and before the user's own CSS, so the
+     * precedence order the class docs promise is unchanged.
+     */
+    private fun carveCss(): String = cachedCarveCss
+
     private fun updatePreview() {
         if (!initialized) {
             loadPreviewShell()
@@ -293,9 +321,10 @@ class CarvePreviewPanel(
     private fun createPreviewHtml(initialHtml: String, isDark: Boolean, userCss: String): String {
         val themeClass = if (isDark) "dark" else "light"
         val userStyle = if (userCss.isBlank()) "" else "<style id=\"carve-user-css\">\n$userCss\n</style>"
+        val carveStyle = carveCss()
         return """
 <!DOCTYPE html>
-<html>
+<html data-theme="$themeClass">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -590,10 +619,13 @@ class CarvePreviewPanel(
     <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
     <!-- Chart.js 4 (matches the docs site `chart.js@^4.5.1`). -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <style id="carve-css">
+$carveStyle
+    </style>
     $userStyle
 </head>
 <body class="$themeClass">
-    <div id="content">$initialHtml</div>
+    <div id="content" class="carve">$initialHtml</div>
     <script>
         var chartInstances = [];
 

@@ -110,12 +110,39 @@ Configurable via **Settings → Tools → Carve**:
   PHP and `composer require markup-carve/carve-php` in your project; uses
   `vendor/bin/carve` when present.
 
+### Container recipes
+
+`::: name` is core syntax that is always on, and a word with no registered
+handler renders as a generic `<div class="name">`. The preview ships the
+[carve-css](https://github.com/markup-carve/carve-css) recipes layer, so those
+constructs are styled here without any configuration:
+
+```
+::: tree
+- src/
+  - parser/
+    - blocks.crv
+- tests/
+:::
+```
+
+renders as a drawn tree rather than a bare nested list. Also covered:
+`::: cards`, `::: columns`, `::: gallery`, `::: steps`, `::: aside`,
+`::: scroll`, `::: wide`, `{.lead}` on a paragraph, `[text]{.badge}`, and table
+modifiers including per-row status (`{.ok}`, `{.warn}`, `{.fail}` on a row's
+closing pipe).
+
+Several take a `data-*` attribute instead of a second class - `data-guides`,
+`data-columns`, `data-tone` - and every value resolves through a `--carve-*`
+custom property, so your own preview CSS can retune one without overriding a
+selector.
+
 ### Custom preview CSS
 
-Style the preview with your own CSS. It is injected **after** the built-in
-styles, so rules of equal specificity override the defaults (the built-in
-type-specific and dark-mode rules use higher specificity - match it or use
-`!important` to win).
+Style the preview with your own CSS. It is injected **last** - after the
+built-in styles and after the carve-css layers above - so rules of equal
+specificity override both (the built-in type-specific and dark-mode rules use
+higher specificity - match it or use `!important` to win).
 
 Sources are concatenated in this order (last wins):
 
