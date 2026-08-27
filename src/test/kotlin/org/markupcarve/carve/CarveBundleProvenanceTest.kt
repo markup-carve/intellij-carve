@@ -83,6 +83,45 @@ class CarveBundleProvenanceTest {
     }
 
     /**
+     * A sha says which commit; it does not say whether that commit was ever
+     * released. Nothing in this repo asked the difference, and so 0.1.5 shipped
+     * a language server built from `ef1ca246` - twelve commits past `v0.1.3`,
+     * thirty-eight short of main, a revision no carve-lsp user could install -
+     * while `lsp/VERSION` recorded that pin perfectly accurately (#110).
+     *
+     * So the build script now derives a release name for each half from the
+     * upstream that owns it, and this is the consumer that makes the field
+     * load-bearing: `none` is what an untagged checkout produces, and a bundle
+     * built from one cannot be committed past here.
+     *
+     * The engine's release name covers BOTH vendored engines, not just this
+     * one: the test below pins the preview bundle to the same carve-js commit,
+     * so naming that commit's tag once names it for the pair.
+     */
+    @Test
+    fun bothVendoredHalvesNameTheReleaseTheyWereBuiltFrom() {
+        val header = headerOf(resource("lsp/server.js"))
+
+        for ((field, what) in listOf(
+            "carve-lsp release" to "the language server itself",
+            "carve-js release" to "the engine it carries",
+        )) {
+            val release = capture(header, Regex("$field (.+)"))?.trim()
+                ?: throw AssertionError(
+                    "lsp/server.js records no '$field'. tools/build-lsp-bundle.sh writes it; " +
+                        "rebuild rather than hand-editing:\n$header",
+                )
+            assertTrue(
+                "lsp/server.js names '$release' as the release of $what. A vendored bundle has " +
+                    "to come from a published release - 'none' means the checkout it was built " +
+                    "from sat on no tag, which is the unreleased-server bug this field exists " +
+                    "to make visible. Check out the release tag and rebuild.",
+                RELEASE_REF.matches(release),
+            )
+        }
+    }
+
+    /**
      * The plugin ships the engine twice - carve.iife.js for the preview pane and
      * HTML export, and a second copy inlined into the language server - and a
      * user editing one document is looking at both at once. When they disagree,
@@ -156,6 +195,18 @@ class CarveBundleProvenanceTest {
             fromVersion["carve-js"],
         )
         assertEquals(
+            "lsp/VERSION names a different carve-lsp release than the header inside " +
+                "lsp/server.js.",
+            capture(header, Regex("carve-lsp release (.+)"))?.trim(),
+            fromVersion["carve-lsp-release"],
+        )
+        assertEquals(
+            "lsp/VERSION names a different carve-js release than the header inside " +
+                "lsp/server.js.",
+            capture(header, Regex("carve-js release (.+)"))?.trim(),
+            fromVersion["carve-js-release"],
+        )
+        assertEquals(
             "lsp/VERSION names a different build time than lsp/server.js.",
             capture(header, BUILT_AT),
             version.first { it.startsWith("built ") }.removePrefix("built ").trim(),
@@ -182,5 +233,7 @@ class CarveBundleProvenanceTest {
     private companion object {
         val BUILT_AT = Regex("Built \\(UTC\\): (\\S+)")
         val ENGINE_REF = Regex("^(commit [0-9a-f]{40}|npm \\d+\\.\\d+\\.\\d+\\S*)$")
+        /** A release tag, in either spelling the org uses: `v0.1.4` and `0.1.5`. */
+        val RELEASE_REF = Regex("^v?\\d+\\.\\d+\\.\\d+\\S*$")
     }
 }

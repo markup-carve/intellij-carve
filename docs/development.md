@@ -81,8 +81,12 @@ is bundled into the plugin as a single self-contained file
 launched as `node lsp/server.js --stdio`. Only a `node` binary is needed at
 runtime - no `node_modules` are shipped.
 
-carve-lsp is not published to npm yet, so the bundle is generated from a local
-checkout and committed. To refresh it:
+The bundle is generated from a local checkout and committed, so that the engine
+inside it can be pinned explicitly. Check the checkout out at a **release tag**:
+`lsp/server.js` and `lsp/VERSION` both record the release name next to the
+commit, and `CarveBundleProvenanceTest` fails on a bundle built from an untagged
+commit - 0.1.5 shipped a server from a revision nobody could install because a
+sha alone never said whether it was a release. To refresh it:
 
 ```bash
 # carve-lsp checked out as a sibling; the script runs npm install + build for you
