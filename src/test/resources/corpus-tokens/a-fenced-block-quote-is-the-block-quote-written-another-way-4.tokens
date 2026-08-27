@@ -1,0 +1,11 @@
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+> -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve
+Stay hungry, stay foolish.\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Steve Jobs -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

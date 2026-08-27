@@ -1,0 +1,17 @@
+[^a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> text.carve meta.link.reference.definition.carve
+intro -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> text.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+  c\n -> text.carve comment.block.carve
+  %%% -> text.carve comment.block.carve
+\n -> text.carve
+  more\n -> text.carve
+\n -> text.carve
+see -> text.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> text.carve

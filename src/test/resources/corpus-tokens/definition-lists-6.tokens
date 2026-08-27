@@ -3,5 +3,5 @@
 A term that\n -> text.carve
 wraps onto the next line\n -> text.carve
 : -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
+  -> text.carve markup.list.definition.carve
 its definition\n -> text.carve

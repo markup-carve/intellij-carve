@@ -1,0 +1,5 @@
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
++ -> text.carve markup.quote.carve
+\n -> text.carve
+ flush\n -> text.carve

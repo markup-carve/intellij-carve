@@ -1,0 +1,6 @@
+:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.definition.term.carve
+t\n -> text.carve
+: \n -> text.carve
+\n -> text.carve
+flush\n -> text.carve

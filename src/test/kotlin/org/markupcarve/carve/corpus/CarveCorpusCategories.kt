@@ -363,6 +363,36 @@ object CarveCorpusCategories {
         // label take the same scopes - a grammar that tried to gate the image scope on a
         // definition being in scope would fail these, and it should.
         "a-lone-reference-image-at-column-0-in-every-spelling",
+        // The bump to carve 0.1.4 (spec 375e1f37) added these. Each was decided by
+        // generating its golden first and reading the token stream, not from the slug.
+        //
+        // Six documents draw exactly the rule's line: `: `, `:  `, `:   `, `:\t` and a
+        // bare `:` take NO definition scope - the whole line stays text - while `: {}`
+        // DOES take it, because an empty attribute pair is content. A grammar that
+        // accepted whitespace as a description would fail five of the six.
+        "a-colon-followed-by-only-whitespace-is-not-a-description",
+        // The `+` on a body's or a quote's first line keeps the container's content
+        // scope and takes no continuation-marker scope, in both containers. That is the
+        // rule, and it is the half a line-based grammar owns.
+        "a-leading-continuation-marker-in-a-footnote-body-or-a-quote-is-text",
+        // The discriminator is the glued spelling: `:::>` takes no div scope at all
+        // while `::: >` opens one, which is #102's separator rule measured on the
+        // newest colon-fence token. The body's blocks keep their ordinary scopes, so
+        // the "written another way" half is pinned too. The grammar calls the
+        // container a div with type `>` rather than a quote - scope granularity this
+        // family has always had, not a divergence introduced here.
+        "a-fenced-block-quote-is-the-block-quote-written-another-way",
+        // A bare `:::` with no closer still takes the opener scope rather than reading
+        // as text. Containment is not asserted: since #102 the rule is anchored to its
+        // own line, so `after` stays outside it.
+        "an-unclosed-bare-colon-fence-opens-a-div",
+        // The indented `%%%` opens and closes at its partner, so the hidden body is
+        // scoped whole rather than leaking to the end of the document - the failure
+        // #76 fixed, measured here at an indent.
+        "an-invisible-fenced-block-is-not-a-list-paragraph",
+        // Both spellings inside a footnote body: the `%%` line and the `%%%` fence each
+        // keep their comment scope at the body's indent.
+        "a-comment-in-a-footnote-body-is-invisible-in-both-spellings",
     )
 
     /**
@@ -612,10 +642,6 @@ object CarveCorpusCategories {
             "Footnote-body column arithmetic; the definition and footnote tokens are pinned by `footnotes` and `reference-links`.",
         "a-definition-on-a-footnote-body-s-continuation-line-is-collected" to
             "Same arithmetic, positive case; no token distinguishes where the definition was collected.",
-        "a-definition-past-a-footnote-body-s-column-is-the-body-s-own-text" to
-            "Same arithmetic, third column; tokens identical either way.",
-        "a-footnote-body-s-own-column-is-two-and-a-third-column-is-its-text" to
-            "The body's own column is block context; the footnote tokens are pinned by `footnotes`.",
         "a-flush-left-line-after-a-footnote-definition-belongs-to-the-document" to
             "Whether a flush-left line continues the body or leaves it is block context.",
         "a-footnote-body-holds-blocks-and-they-render-where-they-were-written" to
@@ -698,8 +724,6 @@ object CarveCorpusCategories {
             "Where a verbatim run ends inside a row is parser tokenization; the row and code tokens are pinned by `tables` and `inline-code`.",
         "a-definition-attached-by-a-continuation-marker-is-collected-and-the-item-keeps-no-trace" to
             "Collection is a document pass with no token of its own; the marker and definition tokens are pinned by `list-continuation-marker` and `reference-link`.",
-        "a-definition-body-continuation-indented-past-its-column-is-lazy-text" to
-            "Column arithmetic on a continuation line; the term and description tokens are pinned by `definition-lists`.",
         "a-definition-inside-a-definition-list-dd-is-collected-and-the-entry-keeps-no-trace" to
             "Collection out of a description is a document pass; the tokens are the ones `definition-lists`, `reference-link` and `footnotes` pin.",
         "a-definition-marker-s-separator-is-a-space-and-it-is-a-run" to
@@ -952,6 +976,81 @@ object CarveCorpusCategories {
             "Head and foot row counts are render-time - which rows land in thead and tfoot leaves no token behind. The attribute line and the rows are pinned by `attributes` and `tables`.",
         "table-columns-carry-alignment-vertical-alignment-and-widths" to
             "A colgroup built from an attribute line is render-time; the attribute line tokenizes as the quoted values `attributes` already pins.",
+        // --- added by the bump to carve 0.1.4 (spec 375e1f37) ---
+        //
+        // The bulk of that bump is the authored-base and content-column work, and a
+        // column is the one thing a line-based grammar cannot see: it reads one line
+        // with no memory of which container opened above it. These entries say so once
+        // each, and name where the construct's own tokens are pinned.
+        "a-definition-body-opener-at-or-past-its-column-stays-structural" to
+            "Whether an opener stands at or past the body's column is block context, and the grammar opens the quote, list and heading rules at any indent, so the stream does not turn on the rule; the openers are pinned by `headings`, `lists` and the blockquote categories.",
+        "a-definition-body-s-separator-width-sets-its-content-column" to
+            "Content-column arithmetic; the term and description tokens are pinned by `definition-lists`.",
+        "a-definition-list-inside-a-footnote-body-carries-its-authored-base" to
+            "Authored-base arithmetic inside a body; the definition tokens are pinned by `definition-lists`.",
+        "a-definition-past-a-footnote-body-s-column-registers-from-its-authored-base" to
+            "Where a definition registers is a document pass with no token of its own; the reference tokens are pinned by `reference-link`.",
+        "a-floating-attribute-does-not-widen-a-list-item-s-content-column" to
+            "Content-column arithmetic; the glued and floating attribute blocks are pinned by `attributes` and the marker rules.",
+        "a-floating-attribute-under-a-definition-attaches-at-column-zero" to
+            "Which block a floating attribute attaches to is render-time attribute application; `{.k}` scopes as the attribute block `attributes` pins either way.",
+        "a-footnote-body-s-authored-base-can-open-a-table-past-column-two" to
+            "The body's authored base is block context; the table tokens are pinned by `tables`.",
+        "a-recognized-opener-in-a-body-needs-no-blank-line-above-it" to
+            "Whether a blank line is required above an opener is block context; each opener's tokens are pinned by its own category.",
+        "a-sigil-fence-takes-its-attribute-line" to
+            "Which block a floating attribute line attaches to is render-time attribute application; the line and the sigil opener are pinned by `attributes` and `generic-divs`.",
+        // MEASURED LIMITATION, not merely absent context: the grammar's attribute rule
+        // is single-line, so the wrapped `{.a` / `.b}` pair takes no attribute scope at
+        // all and both lines come out as plain text. A golden would pin that absence as
+        // if it were the rule.
+        "a-wrapped-attribute-line-leaves-no-paragraph-open" to
+            "The attribute rule is single-line, so a wrapped block takes no attribute scope and the stream cannot state the rule; the well-formed form is pinned by `attributes`.",
+        // MEASURED FALSE POSITIVE: the indented `*[A]: a` keeps its whole
+        // `meta.abbreviation.definition.carve` chain where the engines render it as
+        // ordinary text. Whether a definition sits at document level is block context,
+        // so a golden here would pin the wrong answer.
+        "an-abbreviation-definition-outside-document-level-is-not-an-invisible-line" to
+            "Measured false positive - the definition keeps its abbreviation scopes where the engines render text, because document level is block context; the well-formed form is pinned by `abbreviations`.",
+        "an-authored-base-carries-opaque-payload-captions-and-nested-metadata" to
+            "Authored-base arithmetic around an opaque payload; the fence tokens are pinned by `fenced-code`.",
+        // The `436-...-column-0` family splits across two keys because the slug itself
+        // ends in a digit: `-column-0.crv` loses its `-0` to the variant-index strip and
+        // lands under the first key, while `-column-0-2` through `-7` keep it and land
+        // under the second. Both are the same rule and both are classified.
+        "an-empty-description-body-claims-no-line-below-column" to
+            "Column arithmetic below an empty body; the description and comment tokens are pinned by `definition-lists` and `comments`.",
+        "an-empty-description-body-claims-no-line-below-column-0" to
+            "The same arithmetic and the same rule; a separate key only because the slug's trailing `-0` survives the variant-index strip.",
+        "an-empty-description-body-is-written-with-the-empty-sentinel" to
+            "The sentinel is a writer convention; `{empty}` scopes as the attribute block `attributes` pins.",
+        "an-invisible-line-before-the-blank-does-not-cancel-the-separation" to
+            "Whether a blank line still separates is block context; the comment tokens are pinned by `comments`.",
+        // MEASURED LIMITATION: the checkbox after a glued attribute block takes no
+        // scope at all, the known gap recorded against markup-carve/carve-grammars#126,
+        // so the stream cannot assert that the checkbox did not move.
+        "an-item-s-attribute-block-moves-its-content-column-its-checkbox-does-not" to
+            "Content-column arithmetic, and the checkbox after a glued attribute block is unscoped (known limitation); the marker and attribute tokens are pinned by `lists` and `attributes`, the checkbox by `task-lists`.",
+        "an-ordered-item-s-separator-width-sets-its-content-column" to
+            "Content-column arithmetic; the ordered marker tokens are pinned by `lists`.",
+        // MEASURED FALSE POSITIVE: the `^` line keeps its whole caption chain where the
+        // engines give the slot back and render text, because whether the image
+        // resolved is not a lexical property. The same over-approximation every Carve
+        // TextMate grammar carries, recorded rather than pinned.
+        "an-unresolved-image-gives-its-whole-caption-slot-back-at-any-depth" to
+            "Measured false positive - the caption scopes survive where the engines render text, because resolution is not lexical; the resolved form is pinned by `image-with-caption`.",
+        "below-a-definition-body-s-column-an-invisible-line-folds-as-text" to
+            "Column arithmetic; the comment tokens are pinned by `comments`.",
+        "below-a-definition-body-s-column-the-body-ends" to
+            "Where the body ends is block extent; the definition tokens are pinned by `definition-lists`.",
+        "one-authored-base-rule-reaches-a-definition-nested-in-a-list-item" to
+            "Authored-base arithmetic through two containers; the tokens are pinned by `lists` and `definition-lists`.",
+        "text-block-alignment-renders-the-css-declaration" to
+            "A rendered CSS declaration is render-time attribute application; `{align=right}` scopes as the attribute block `attributes` pins.",
+        "the-continuation-marker-attaches-one-block-in-every-container" to
+            "How far the attached run reaches is block extent; the marker token is pinned by `list-continuation-marker`.",
+        "the-continuation-marker-s-column-gate-reaches-every-container" to
+            "The column gate is block context; the marker and comment tokens are pinned by `list-continuation-marker` and `comments`.",
     )
 
     /**
