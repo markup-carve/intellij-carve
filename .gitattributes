@@ -1,0 +1,6 @@
+# The vendored preview assets are checked against preview-assets/INDEX by
+# SHA-256, so a checkout has to reproduce their bytes exactly. Without this, a
+# Windows clone with core.autocrlf=true rewrites every line ending in the
+# JavaScript and CSS on the way out of the object store, and
+# CarvePreviewAssetsTest fails on files nobody touched.
+src/main/resources/preview-assets/** -text
