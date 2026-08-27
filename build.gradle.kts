@@ -384,7 +384,7 @@ tasks {
         // TODO: add "IC-2026.2" once that release train resolves in the verifier's
         // product-releases list (it is not yet available as a stable string).
         ideVersions.set(
-            listOf("IC-2024.3", "IC-2025.1", "IC-2025.2"),
+            listOf("IC-2024.3", "IC-2025.1", "IC-2025.2", "IC-2025.3"),
         )
     }
 
