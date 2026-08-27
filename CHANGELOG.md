@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Export to Markdown** (#109). The bundle has exported `carveToMarkdown` all along; the export menu reached only `carveToHtml`, so the engine's other targets were unreachable from the IDE. What lands on disk is the engine's Markdown, with no wrapper - unlike the HTML export, which builds a standalone page around its output.
+- **The listing states what the plugin does** (#109). Inline validation that needs no Node.js, the syntax colour page and the Carve settings page were all registered and none were mentioned, and the preview line now says it styles the container recipes. It also states the 2025.1 floor, so a 2024.3 user reads it before installing rather than after.
 - **The preview styles the container recipes out of the box** (#105). Admonitions, sidebars and the rest of the container family render with the shared Carve tokens instead of unstyled default markup.
 
 ### Fixed

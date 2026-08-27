@@ -6,18 +6,25 @@
     <description><![CDATA[
     <p>Carve markup language support for JetBrains IDEs.</p>
 
+    <p><b>Requires a 2025.1 or newer JetBrains IDE.</b></p>
+
     <h3>Features</h3>
     <ul>
-        <li>Syntax highlighting via TextMate grammar</li>
+        <li>Syntax highlighting via TextMate grammar, with its own page under
+            Settings &rarr; Editor &rarr; Color Scheme</li>
+        <li>Inline validation of the constructs that render wrong, with no
+            Node.js or extra plugin needed</li>
         <li>Language Server features via the bundled carve-lsp server (optional -
             install the LSP4IJ plugin to enable; requires Node.js): diagnostics,
             completion, code folding, structure/outline, hover, quick
             fixes/intentions, rename, formatting, and semantic highlighting</li>
-        <li>Live preview panel (split editor view)</li>
+        <li>Live preview panel (split editor view), styled for the container
+            recipes - admonitions, sidebars and the rest of the family</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
-        <li>Export to HTML</li>
+        <li>Export to HTML and to Markdown</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
         <li>File type recognition for <code>.crv</code></li>
+        <li>Settings page under Settings &rarr; Tools &rarr; Carve</li>
     </ul>
 
     <h3>About Carve</h3>
@@ -132,6 +139,13 @@
                 class="org.markupcarve.carve.actions.ExportHtmlAction"
                 text="Export to HTML"
                 description="Export Carve file to HTML">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="Carve.ExportMarkdown"
+                class="org.markupcarve.carve.actions.ExportMarkdownAction"
+                text="Export to Markdown"
+                description="Export Carve file to Markdown">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
