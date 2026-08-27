@@ -5,8 +5,8 @@ color\n -> text.carve
   -> text.carve markup.list.definition.term.carve
 colour\n -> text.carve
 : -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
+  -> text.carve markup.list.definition.carve
 The visual property of objects.\n -> text.carve
 : -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
+  -> text.carve markup.list.definition.carve
 A pigment or paint.\n -> text.carve

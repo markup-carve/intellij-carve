@@ -1,0 +1,9 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+intro\n -> text.carve
+\n -> text.carve
+   %%% -> text.carve comment.block.carve
+\n -> text.carve comment.block.carve
+   hidden\n -> text.carve comment.block.carve
+   %%% -> text.carve comment.block.carve
+\n -> text.carve

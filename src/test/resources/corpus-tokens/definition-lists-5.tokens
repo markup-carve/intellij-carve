@@ -2,7 +2,7 @@
   -> text.carve markup.list.definition.term.carve
 term\n -> text.carve
 : -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
+  -> text.carve markup.list.definition.carve
 +\n -> text.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve

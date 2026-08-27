@@ -7,12 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-08-27
+
 ### Fixed
 
 - **A bare boolean attribute does not start with an underscore** (#90, #87). `{_x}` scoped as an attribute block where the engine renders it as text, and `{_x_}` collided with a forced underline; `{_k=1}`, `{#_id}` and `{._c}` keep their leading underscore. All seven sites spelling the item alternation take the narrowing, `CarveMarkerScanner` included.
 - **A table cell's marker run ends at a space** (#91, #86). The header rule was a bare `|=`, so it took the marker wherever the two characters stood and `|=hot= is the reading |` came back a header cell holding `hot=`. The alignment run is scoped for the first time, and only where the engine reads one.
 - **A hyphen run before a word is a flag, and an empty brace pair is text** (#92, #85). `git log --oneline` colored as an en dash; the doubled arrows are scoped and `=>` is no longer one; `{//}` through `{##}` render literally, while `{--}` is the braced en dash rather than a deletion.
-- **The preview pane and the language server run the same engine** (#94, #93). The plugin ships carve-js twice and the two copies were 42 commits apart, so the two halves of one editor could disagree about one document. Both bundles are built from `5695480e` by one script that takes the revision as an input, and `CarveBundleProvenanceTest` compares the two headers instead of reading one file at a time.
+- **The preview pane and the language server run the same engine** (#94, #93). The plugin ships carve-js twice and the two copies were 42 commits apart, so the two halves of one editor could disagree about one document. Both bundles are built from one revision by one script that takes it as an input, and `CarveBundleProvenanceTest` compares the two headers instead of reading one file at a time, so they cannot drift apart again.
+- **A colon fence's marker separator is a run of spaces** (#102). Every slot in the opener used `\s*`, so `:::note`, `:::<TAB>note`, `:::|`, `:::<TAB>[l]` and `::: note<TAB>"T"` all colored as containers where the engines read an ordinary paragraph, and so did `::: {.sidebar}`, where an attribute block cannot ride the opener at all. A tab belongs at the start of a line and nowhere else on one. The bare label keeps its glued form - `:::[l]` does open a div, measured - and the rule is anchored to its own line now, so a container scope no longer runs past the end of it.
+- **A caption marker followed by only whitespace is not a caption** (#99). The rule was ` +(.+)$`, so the separator could give a space back to let the content group match, and a marker with nothing after it colored as a caption. The headings rule has carried that guard all along and both sibling ports already had it; this grammar had drifted alone.
+
+### Changed
+
+- **The preview, HTML export and language server run on a released engine, against a released spec** (#99). Both engine bundles are rebuilt from carve-js `37ed8904` - the published 0.1.5 - and the spec pin moves to carve `375e1f37`, the published 0.1.4. The two now agree exactly: 0 of 1538 corpus documents render differently, where the engine this release started from missed 87 of them. carve-lsp stays at `ef1ca246`; only the engine inside it moves.
+- **The published vendor address is the project's noreply one** (#95). JetBrains renders the vendor email on the public plugin page, so it is published metadata rather than repository bookkeeping, and it carried a personal address. The marketplace only refreshes on a new version, so the change becomes visible with this release.
 
 ## [0.1.5] - 2026-08-21
 
@@ -206,7 +215,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.6...HEAD
+[0.1.6]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/markup-carve/intellij-carve/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/markup-carve/intellij-carve/compare/0.1.3...0.1.4
 [0.1.3]: https://github.com/markup-carve/intellij-carve/compare/0.1.2...0.1.3

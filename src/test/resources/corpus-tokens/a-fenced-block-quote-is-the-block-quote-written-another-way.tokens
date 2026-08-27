@@ -1,0 +1,14 @@
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+> -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve
+Notes:\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+ship the parser\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+then the renderer\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+\n -> text.carve
