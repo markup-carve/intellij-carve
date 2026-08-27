@@ -32,8 +32,8 @@ Post-Markdown reading flow means a list can follow a paragraph with no blank lin
 - [ ] a task
 - [x] a done task
 
-1. ordered
-2. items
+. ordered
+. items, numbered by the renderer
 
 ## Quote and code
 
@@ -117,9 +117,10 @@ See </#carve-sample> to jump back to the top.
 
 ---
 
-Attributes attach to blocks too, as on the heading below.
+Attributes attach to blocks too, on the line above the block they describe.
 
-## Styled heading {.featured #styled}
+{.featured #styled}
+## Styled heading
 
 Per-item classes ride an inline span (`[text]{.class}`); carve-js drops a bare
 `{.class}` line under an item, so the span form is what actually emits a class:
@@ -166,7 +167,7 @@ Inline spoiler blurs until clicked: :spoiler[hidden answer].
 The hidden block body.
 :::
 
-:::details "Disclosure"
+::: details "Disclosure"
 A native details/summary disclosure.
 :::
 
