@@ -9,22 +9,22 @@ JetBrains Marketplace listing.
 | `theme-dark.png` | Same split in dark theme (preview follows IDE theme) |
 | `highlighting.png` | Full `examples/sample.crv` with Carve syntax highlighting |
 
-These are generated from the project's own assets, so they stay faithful to the
-plugin and are reproducible:
+All three show `examples/sample.crv`, so they stay faithful to the plugin.
 
-- **Preview** = `examples/sample.crv` rendered by the bundled carve-js renderer,
-  wrapped in the plugin's exact preview page. That page is built by
-  `CarvePreviewHtml.create(...)` (it moved out of `CarvePreviewPanel.kt` in
-  0.1.6), and `CarvePreviewHtmlTest` already writes a real one to
-  `build/preview-probe/index.html` - swapping the document body into that
-  file is the shortest path to a faithful shot.
-- **Source highlighting** = the plugin's TextMate grammar
+- **The two split shots** are captured from a running sandbox IDE
+  (`./gradlew runIde`, then open `examples/sample.crv`), with the window sized
+  to 1450x940 and grabbed 1:1 so nothing is scaled. Both sit at the same
+  document position; only the IDE theme differs (Settings → Appearance →
+  Theme). The preview follows that theme by itself - `CarvePreviewPanel`
+  listens on `EditorColorsManager.TOPIC` and moves `data-theme` on the preview's
+  root element - so the theme is the only thing to change between the two.
+- **`highlighting.png`** comes from the plugin's TextMate grammar
   (`src/main/resources/textmate/carve.tmLanguage.json`) via Shiki.
 
-An optional `settings.png` (Settings → Carve panel) can be added with a manual
-capture from a running IDE - it is the one shot that needs the live UI.
+`CarvePreviewHtml.create(...)` builds the preview page, and `CarvePreviewHtmlTest`
+writes a real one to `build/preview-probe/index.html`. That is handy for checking
+the preview's own styling, but a preview-only page is not a substitute for the
+split shots: it has neither the source pane nor the IDE chrome.
 
-**These two are stale as of 0.1.6.** The preview moved to the Carve design
-tokens, dropped the blue heading and quote rules, flattened the code blocks and
-gained a copy button, so `live-preview.png` and `theme-dark.png` still show the
-older look. Both are split-editor shots, which need the live UI to retake.
+An optional `settings.png` (Settings → Carve panel) can be added with a manual
+capture from a running IDE.
