@@ -254,10 +254,12 @@ class CarvePreviewPanel(
         }
 
     /**
-     * `file://` base for the vendored browser assets, unpacked once per IDE run.
+     * `file://` base for the vendored browser assets.
      *
-     * Resolved lazily rather than in the constructor: unpacking touches the disk,
-     * and doing that while a tool window is being built would put I/O on the EDT.
+     * Lazy, and every caller reads it from a pooled thread: the first read
+     * unpacks 5.2 MB out of the plugin jar, and the EDT is not where that
+     * belongs. Lazy alone would not have been enough - the value has to be
+     * pulled BEFORE the `invokeLater` that builds the page, not inside it.
      */
     private val assetBase: String by lazy { CarvePreviewAssets.baseUrl(CarvePreviewAssets.directory()) }
 
@@ -281,6 +283,9 @@ class CarvePreviewPanel(
         ApplicationManager.getApplication().executeOnPooledThread {
             val html = CarveConverter.toHtml(content, project, sourceLine = true)
             val css = userCss()
+            // Both touch the disk on first use; neither may run on the EDT below.
+            val assets = assetBase
+            val carveStyles = carveCss()
             ApplicationManager.getApplication().invokeLater {
                 // Load with the file's directory as the document URL so relative image
                 // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
@@ -289,8 +294,8 @@ class CarvePreviewPanel(
                 val page = CarvePreviewHtml.create(
                     initialHtml = html,
                     isDark = isDark,
-                    assetBase = assetBase,
-                    carveCss = carveCss(),
+                    assetBase = assets,
+                    carveCss = carveStyles,
                     userCss = css,
                     copyBridge = copyBridgeJs(),
                 )
