@@ -129,8 +129,15 @@ still matches its neighbour:
 
 ```bash
 # the commit js/carve.iife.js already names, so the pair stays on one engine
-tools/build-lsp-bundle.sh ../carve-lsp --carve-js 5695480e97e228821590fc7180485aecdb2a8839
+tools/build-lsp-bundle.sh ../carve-lsp --carve-js "$(sed -n \
+  's|^// Bundled from markup-carve/carve-js commit \([0-9a-f]\{40\}\)$|\1|p' \
+  src/main/resources/js/carve.iife.js | head -n 1)"
 ```
+
+Read out of the header rather than pasted in: a literal revision here is a
+version statement like any other, and this one had gone stale by two engine
+bumps before anyone looked at it. The `sed` is the one `engine-drift.yml`
+already uses to check the same field.
 
 Without `--carve-js` the server is linked against whatever carve-lsp pins, and
 the script warns (naming both revisions) when that would disagree with the
