@@ -1495,24 +1495,26 @@
           }
         },
         {
+          "comment": "BEGIN/END, NOT ONE `match`, so a bold run may cross a soft line break. The engine reads `a *b` over `c* d` as one run and a TextMate `match` cannot span a line at all, so five spec corpus documents were unrecognized here - the `a-closed-inline-construct-spanning-a-verse-boundary` family and `a-combined-bold-italic-span-may-cross-a-line`. A BLANK LINE IS A SECOND TERMINATOR: without it an opener with no closer colours the rest of the file (markup-carve/carve-grammars#393). It still colours to the end of its own paragraph, because `begin` cannot see whether a closer exists on a later line. THE OTHER FOUR BARE DELIMITERS DELIBERATELY STAY `match` - converting them was measured over the same 1,545 corpus documents and took false runs from 3 to 35 to recover 4 missed ones (markup-carve/carve-grammars#397). Bold is the exception because `*` is rare in ordinary prose where `/ _ ~ =` are not: measured on this grammar it costs no additional false documents at all and recovers 5 spec-named ones (4 and 4 documents carry a false run before and after; documents holding a run it misses go 31 to 26). THE OPENER REFUSES THREE THINGS, each written from a corpus document that went red without it: a second star, so `**a**` and the empty pair `{**}` stay literal the way the engine renders them; and an abbreviation definition, so `*[HTML]: ...` is not an opener. The abbreviation guard is narrow on purpose - `*[x]*` really is bold, so it refuses only a bracket that closes and is followed by a colon.",
           "name": "markup.bold.carve",
-          "match": "(?<![\\w*])(\\*)(?=\\S)([^*\\n]+?)(?<=\\S)(\\*)(?![\\w*])",
-          "captures": {
+          "begin": "(?<![\\w*])(\\*)(?![\\s*])(?!\\[[^\\]\\n]*\\]:)",
+          "end": "(?<=\\S)(\\*)(?![\\w*])|^[ \\t]*$",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.bold.carve"
-            },
-            "2": {
-              "name": "markup.bold.carve",
-              "patterns": [
-                {
-                  "include": "#inline-comment"
-                }
-              ]
-            },
-            "3": {
+            }
+          },
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.bold.carve"
             }
-          }
+          },
+          "contentName": "markup.bold.carve",
+          "patterns": [
+            {
+              "include": "#inline-comment"
+            }
+          ]
         },
         {
           "name": "markup.italic.carve",
