@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **Block quotes retain the scopes of the constructs inside them** (#98). Headings, thematic breaks, tables, captions, code fences and inline constructs behind a quote marker are now tokenized as their own constructs inside the quote instead of flattening to quote text.
-- **All construct-ledger payload leaks and attribution gaps are closed** (#97). Fenced and inline code plus both braced comment families keep their payload inert across the generated sweep; reference images, footnote definitions and symbols carry their own identities; and the shared ledger now records the grammar's intentional grouped rules.
+- **The shipped sample file is valid Carve** (#112). Two constructs in the bundled example did not do what the surrounding prose said, and the plugin's own inspection flagged both: a heading carried a trailing `{...}` block that Carve renders as literal text, and a `:::details` fence with no space after the marker opened no container. Both are corrected and the inspection reads clean.
+- **An escaped `=` does not close a highlight** (#117). The engine renders `x =\= y` as `x == y` with no mark, but the highlight rule closed on the escaped `=` and colored a run the engine does not. The rule now consumes the escape as a pair, matching the engine.
 
 ## [0.1.6] - 2026-08-27
 
@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **The preview pane and the language server run the same engine** (#94, #93). The plugin ships carve-js twice and the two copies were 42 commits apart, so the two halves of one editor could disagree about one document. Both bundles are built from one revision by one script that takes it as an input, and `CarveBundleProvenanceTest` compares the two headers instead of reading one file at a time, so they cannot drift apart again.
 - **A colon fence's marker separator is a run of spaces** (#102). Every slot in the opener used `\s*`, so `:::note`, `:::<TAB>note`, `:::|`, `:::<TAB>[l]` and `::: note<TAB>"T"` all colored as containers where the engines read an ordinary paragraph, and so did `::: {.sidebar}`, where an attribute block cannot ride the opener at all. A tab belongs at the start of a line and nowhere else on one. The bare label keeps its glued form - `:::[l]` does open a div, measured - and the rule is anchored to its own line now, so a container scope no longer runs past the end of it.
 - **A caption marker followed by only whitespace is not a caption** (#99). The rule was ` +(.+)$`, so the separator could give a space back to let the content group match, and a marker with nothing after it colored as a caption. The headings rule has carried that guard all along and both sibling ports already had it; this grammar had drifted alone.
+- **Block quotes retain the scopes of the constructs inside them** (#98). Headings, thematic breaks, tables, captions, code fences and inline constructs behind a quote marker are now tokenized as their own constructs inside the quote instead of flattening to quote text.
+- **All construct-ledger payload leaks and attribution gaps are closed** (#97). Fenced and inline code plus both braced comment families keep their payload inert across the generated sweep; reference images, footnote definitions and symbols carry their own identities; and the shared ledger now records the grammar's intentional grouped rules.
 
 ### Changed
 
