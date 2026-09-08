@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-09-09
+
 ### Fixed
 
 - **The shipped sample file is valid Carve** (#112). Two constructs in the bundled example did not do what the surrounding prose said, and the plugin's own inspection flagged both: a heading carried a trailing `{...}` block that Carve renders as literal text, and a `:::details` fence with no space after the marker opened no container. Both are corrected and the inspection reads clean.
@@ -236,7 +238,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.6...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.7...HEAD
+[0.1.7]: https://github.com/markup-carve/intellij-carve/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/markup-carve/intellij-carve/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/markup-carve/intellij-carve/compare/0.1.3...0.1.4
