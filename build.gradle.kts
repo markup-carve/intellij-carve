@@ -261,7 +261,11 @@ val upstreamScopeConventions =
         "constant.character.typography." to "constant.character.entity.typography.",
     )
 val intellijScopePrefix = "keyword.control."
-val pluginOnlyGrammarRules = setOf("cross-reference", "hard-break", "thematic-break")
+// `include-directive` is plugin-only against THIS upstream only: it was hand-ported from
+// carve-grammars `include_directive` (markup-carve/carve-grammars#403), a separate grammar
+// lineage that vscode-carve does not track. Drop the entry if vscode-carve ever grows the rule.
+val pluginOnlyGrammarRules =
+    setOf("cross-reference", "hard-break", "include-directive", "thematic-break")
 
 // Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as
 // `upstreamRulesCoveredLocally`: every entry must be pinned by a fixture, so declaring

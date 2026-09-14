@@ -1,0 +1,13 @@
+See {{ chapters/intro.crv #intro }} here.
+
+{{ chapters/intro.crv }}
+
+{{ "docs/a b.crv" #intro @level:2 }}
+
+{{ chapters/intro.crv @level:2 @strip:heading }}
+
+A plain #intro tag and a plain @level mention.
+
+`{{ chapters/intro.crv #intro }}`
+
+{{chapters/intro.crv #intro}}
