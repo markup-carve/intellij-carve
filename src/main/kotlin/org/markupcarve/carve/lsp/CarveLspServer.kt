@@ -1,8 +1,10 @@
 package org.markupcarve.carve.lsp
 
+import com.intellij.ide.impl.isTrusted
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
 import com.redhat.devtools.lsp4ij.server.CannotStartProcessException
 import com.redhat.devtools.lsp4ij.server.OSProcessStreamConnectionProvider
 import org.markupcarve.carve.settings.CarveSettings
@@ -15,6 +17,10 @@ import org.markupcarve.carve.settings.CarveSettings
  * When neither the bundle nor `node` is available the provider stays
  * unconfigured (empty command line) and the user is told what to do via a
  * notification, rather than the IDE throwing on a missing process.
+ *
+ * It also carries the client half of the settings handshake - see
+ * [getInitializationOptions]. The server ships capabilities that are off until
+ * the client asks for them, and this provider is the only place that can ask.
  */
 class CarveLspServer(private val project: Project) : OSProcessStreamConnectionProvider() {
 
@@ -49,6 +55,31 @@ class CarveLspServer(private val project: Project) : OSProcessStreamConnectionPr
             nodePath,
             serverPath.toString(),
             "--stdio",
+        )
+    }
+
+    /**
+     * The settings the server reads once, at `initialize`.
+     *
+     * Until this existed the plugin sent NOTHING, and the omission was not
+     * neutral: carve-lsp defaults `carve.includes.enabled` to `auto`, `auto`
+     * resolves includes only in a trusted workspace, and `workspaceTrusted`
+     * defaults to false. So include resolution was off for every user of this
+     * plugin while the server carried the whole feature - go-to-definition into
+     * an included file, include-path completion, the child's headings in the
+     * Structure view, and the section 19 diagnostics that turn an unresolved
+     * `{{ path }}` from ordinary-looking prose into a reported warning.
+     *
+     * IntelliJ's project trust maps straight onto the server's, so an untrusted
+     * project still resolves nothing - which is what section 19 asks for, and
+     * why the setting's default is `auto` rather than `on`.
+     */
+    override fun getInitializationOptions(rootUri: VirtualFile?): Any {
+        val settings = CarveSettings.getInstance(project)
+        return CarveLspInitializationOptions.build(
+            mode = settings.includeMode,
+            includeRoot = settings.includeRoot,
+            workspaceTrusted = project.isTrusted(),
         )
     }
 

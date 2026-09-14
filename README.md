@@ -187,6 +187,30 @@ body { font-family: Georgia, serif; }
 .admonition.note { background: #eef; }
 ```
 
+## Includes
+
+A `{{ path }}` directive pulls another Carve file into this one (spec PART 9
+&sect; 19). The bundled language server resolves them, which gives you
+go-to-definition from the directive into the included file, path completion as
+you type one, the child file's headings in the Structure view, and a warning
+where a target does not resolve - instead of a line that looks like ordinary
+prose.
+
+Configurable under **Settings → Tools → Carve → Includes**:
+
+| Setting | Values | Default | What it does |
+| --- | --- | --- | --- |
+| Resolve includes | In trusted projects / Always / Never | In trusted projects | Follows the IDE's project trust. An untrusted project resolves nothing, which is what &sect; 19 asks for. |
+| Containment root | a folder, or empty | empty | No include may resolve outside this folder. Empty means the project root, falling back to the document's own directory - never the IDE's working directory. |
+
+Both are read by the language server when it starts, so changing either
+restarts it.
+
+Resolution is a language-server feature. The live preview still shows a `{{ }}`
+directive as the token it is: rendering an expanded document through the
+preview's extension pipeline needs an engine seam that does not exist yet
+(markup-carve/carve-js#1677).
+
 ## About Carve
 
 [Carve](https://github.com/markup-carve/carve) is a post-Markdown lightweight
