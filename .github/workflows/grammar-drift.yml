@@ -1,0 +1,59 @@
+name: Grammar drift
+
+# The committed TextMate grammar is this plugin's OWN copy, not a mirror of
+# vscode-carve's, and it diverges from upstream on purpose. `build.gradle.kts`
+# declares every intended delta; `checkGrammarDrift` measures what is left.
+#
+# Two questions, deliberately kept apart - the same split spec-drift.yml makes:
+#
+#   1. Are the DECLARATIONS still true? Cheap, entirely this repository's to
+#      act on, and the first thing to rot. Nothing watched them, so three of the
+#      four plugin-only entries had stopped being true and six rules that really
+#      are plugin-only were never declared at all (#126). GATED.
+#   2. What is this grammar MISSING that upstream highlights? The reason the
+#      drift check exists - but porting a TextMate rule by hand is a deliberate
+#      review, and vscode-carve merges through the day, so a gate here would go
+#      red the morning after every upstream rule and stop being read. REPORTED.
+#
+# Off `pull_request` on purpose: both need network, and upstream growing a rule
+# is not a reason for an unrelated pull request to fail.
+
+on:
+  schedule:
+    # 07:00 UTC daily, an hour after engine-drift, so the reports do not
+    # interleave in the run list.
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+jobs:
+  grammar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # GATED. A stale declaration is a claim about upstream that has stopped
+      # being true, and fixing it is an edit to a list in build.gradle.kts.
+      - name: The grammar declarations still describe vscode-carve
+        run: ./gradlew --no-daemon checkGrammarDeclarations
+
+      # REPORTED. Runs even when the gate above failed, because the two answers
+      # are independent and a stale declaration should not hide the feature gap.
+      - name: Upstream constructs this grammar does not highlight
+        if: always()
+        run: |
+          set -o pipefail
+          if ./gradlew --no-daemon checkGrammarDrift 2>&1 | tee "$RUNNER_TEMP/drift.log"; then
+            echo "no actionable grammar drift"
+            exit 0
+          fi
+          missing="$(sed -n 's/^ *ACTIONABLE: //p' "$RUNNER_TEMP/drift.log" | tail -1)"
+          echo "::warning::${missing:-some} upstream grammar rule(s) have no local counterpart - see the ACTIONABLE section in the log. Port them by hand into src/main/resources/textmate/carve.tmLanguage.json, or declare the ones a broader local rule already covers."

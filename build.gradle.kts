@@ -261,11 +261,53 @@ val upstreamScopeConventions =
         "constant.character.typography." to "constant.character.entity.typography.",
     )
 val intellijScopePrefix = "keyword.control."
-// `include-directive` is plugin-only against THIS upstream only: it was hand-ported from
-// carve-grammars `include_directive` (markup-carve/carve-grammars#403), a separate grammar
-// lineage that vscode-carve does not track. Drop the entry if vscode-carve ever grows the rule.
+// ---------------------------------------------------------------------------
+// Declarations. Reconciled against vscode-carve main on 2026-09-14 (#126).
+// ---------------------------------------------------------------------------
+// Each list below is a CLAIM about upstream, and upstream moves. Three of the
+// four entries this set used to hold - `hard-break`, `include-directive`,
+// `thematic-break` - had stopped being true, while six rules that really are
+// plugin-only were never declared, and the task threw on both facts in one red
+// exit. `checkGrammarDeclarations` now fails on a declaration that has stopped
+// being true, so this file cannot rot that way again.
+
+// Local rules upstream neither has nor highlights anywhere. The four marker-line
+// rules are an IntelliJ adaptation: upstream reaches these constructs from
+// `#container-body` with a \G-anchored rule, a shape the IDE's TextMate bridge
+// does not offer, so this grammar folds the list-marker prefix into each block
+// opener instead. Upstream has the shape for `>` only (#block-quote-on-marker-line).
 val pluginOnlyGrammarRules =
-    setOf("cross-reference", "hard-break", "include-directive", "thematic-break")
+    setOf(
+        "code-fence-on-marker-line",
+        "cross-reference",
+        "heading-on-marker-line",
+        "table-row-on-marker-line",
+        "thematic-break-on-marker-line",
+    )
+
+// Upstream rule name -> this grammar's name for the SAME construct. A pure
+// RENAME: the pair is equated before the name diff and then compared
+// structurally like any other shared rule, so an alias can only ever silence a
+// naming difference, never a behavioural one. That is why a rename belongs here
+// and not in either "covered by a broader rule" map.
+val upstreamRuleAliases =
+    mapOf(
+        // The delimited inline comment `{% ... %}` (spec PART 9 section 21a).
+        "braced-comment" to "inline-comment",
+    )
+
+// Local rule name -> the upstream rule that carries the same construct. The
+// mirror of `upstreamRulesCoveredLocally`, and it exists because the grouping
+// delta runs both ways: an entry here says "upstream highlights this too, just
+// grouped differently", which is a very different claim from plugin-only and
+// must not be made by adding the rule to the set above. Same fixture rule.
+val localRulesGroupedUpstream =
+    mapOf(
+        // Upstream highlights the composite figure inside #divs and
+        // #caption-behind-a-container-prefix rather than in a rule of its own.
+        // Pinned by composite-figure.crv.
+        "figure-group" to "divs",
+    )
 
 // Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as
 // `upstreamRulesCoveredLocally`: every entry must be pinned by a fixture, so declaring
@@ -289,19 +331,114 @@ val upstreamRulesCoveredLocally = mapOf(
     "sup-sub" to "emphasis",
 )
 
-tasks {
-    // Read-only drift report against vscode-carve's grammar. This task CANNOT modify
-    // the committed grammar: it writes the fetched copy to the build directory only.
-    // Deliberately not wired into `check`/CI - it needs network, and upstream moving
-    // is not a reason for this build to fail.
-    register("checkGrammarDrift") {
-        description = "Reports drift between the committed TextMate grammar and vscode-carve (read-only)"
-        group = "verification"
+val localGrammarFile = file("$textmateDir/carve.tmLanguage.json")
+val upstreamGrammarScratch = layout.buildDirectory.file("grammar-drift/upstream.tmLanguage.json")
 
-        val localFile = file("$textmateDir/carve.tmLanguage.json")
-        val scratchFile = layout.buildDirectory.file("grammar-drift/upstream.tmLanguage.json")
-        inputs.file(localFile)
+@Suppress("UNCHECKED_CAST")
+fun parseGrammarRepository(f: File): Map<String, Any?> {
+    val root = groovy.json.JsonSlurper().parse(f, "UTF-8") as Map<String, Any?>
+    return (root["repository"] as? Map<String, Any?>).orEmpty()
+}
+
+// `comment` keys are prose for humans and have ZERO effect on tokenization,
+// so a rule whose only difference is its comment is not drift. Stripping them
+// on BOTH sides is what stops the report flagging rules that behave identically.
+fun stripGrammarComments(node: Any?): Any? =
+    when (node) {
+        is Map<*, *> ->
+            node.entries
+                .filterNot { (k, _) -> k == "comment" }
+                .associate { (k, v) -> k to stripGrammarComments(v) }
+        is List<*> -> node.map { stripGrammarComments(it) }
+        else -> node
+    }
+
+// Rewrite upstream's scope-name conventions to this plugin's, so the comparison
+// is apples-to-apples instead of a hundred-odd false differences.
+fun normalizeUpstreamScopes(node: Any?): Any? =
+    when (node) {
+        is Map<*, *> ->
+            node.entries.associate { (k, v) ->
+                k to
+                    if (k == "name" && v is String) {
+                        upstreamScopeConventions
+                            .firstOrNull { (from, _) -> v.startsWith(from) }
+                            ?.let { (from, to) -> to + v.removePrefix(from) }
+                            ?: v
+                    } else {
+                        normalizeUpstreamScopes(v)
+                    }
+            }
+        is List<*> -> node.map { normalizeUpstreamScopes(it) }
+        else -> node
+    }
+
+// A repository rule carrying no scope name anywhere highlights NOTHING on its
+// own: it is a pattern list other rules include. Upstream factors its container
+// body into one (`container-body`); this grammar's containers are `match` rules,
+// so the document's own pattern list applies and no such rule is needed. A rule
+// like that present on one side only is a FACTORING difference, never a missing
+// feature - and it is read off the rule's shape rather than declared, so it is
+// one less claim that can go stale. Where both sides have one it stays in the
+// structural diff: an include list that diverges is real drift.
+fun grammarRuleIsStructuralOnly(node: Any?): Boolean =
+    when (node) {
+        is Map<*, *> ->
+            node.entries.none { (k, v) -> (k == "name" || k == "contentName") && v is String } &&
+                node.values.all { grammarRuleIsStructuralOnly(it) }
+        is List<*> -> node.all { grammarRuleIsStructuralOnly(it) }
+        else -> true
+    }
+
+data class GrammarComparison(
+    val local: Map<String, Any?>,
+    val upstream: Map<String, Any?>,
+    val upstreamRawNames: Set<String>,
+    val shared: List<String>,
+    val pluginOnly: List<String>,
+    // Upstream rules with no local counterpart, minus the pure factoring rules -
+    // see grammarRuleIsStructuralOnly.
+    val upstreamOnly: List<String>,
+    val structuralOnly: List<String>,
+    val diverged: List<String>,
+)
+
+fun compareGrammars(localFile: File, upstreamFile: File): GrammarComparison {
+    val localRaw = parseGrammarRepository(localFile)
+    val upstreamRaw = parseGrammarRepository(upstreamFile)
+    val local = localRaw.mapValues { (_, v) -> stripGrammarComments(v) }
+    val upstream =
+        upstreamRaw
+            .mapKeys { (k, _) -> upstreamRuleAliases[k] ?: k }
+            .mapValues { (_, v) -> stripGrammarComments(normalizeUpstreamScopes(v)) }
+
+    val shared = (local.keys intersect upstream.keys).sorted()
+    val unmatched = (upstream.keys - local.keys).sorted()
+    val structuralOnly = unmatched.filter { grammarRuleIsStructuralOnly(upstream[it]) }
+    return GrammarComparison(
+        local = local,
+        upstream = upstream,
+        upstreamRawNames = upstreamRaw.keys,
+        shared = shared,
+        pluginOnly = (local.keys - upstream.keys).sorted(),
+        upstreamOnly = unmatched - structuralOnly.toSet(),
+        structuralOnly = structuralOnly,
+        diverged =
+            shared.filter { rule ->
+                groovy.json.JsonOutput.toJson(local[rule]) != groovy.json.JsonOutput.toJson(upstream[rule])
+            },
+    )
+}
+
+tasks {
+    // The network half, shared by the two checks below so a run of both fetches
+    // once. Never up to date: the whole point is what upstream looks like NOW.
+    register("fetchUpstreamGrammar") {
+        description = "Fetches vscode-carve's TextMate grammar into the build directory (read-only)"
+        group = "verification"
+        val scratchFile = upstreamGrammarScratch
         outputs.file(scratchFile)
+        outputs.upToDateWhen { false }
 
         doLast {
             val scratch = scratchFile.get().asFile
@@ -322,70 +459,40 @@ tasks {
             if (scratch.length() == 0L) {
                 throw GradleException("Upstream grammar fetched empty from $grammarUrl; drift was NOT checked.")
             }
+        }
+    }
 
-            @Suppress("UNCHECKED_CAST")
-            fun parseRepository(f: File): Map<String, Any?> {
-                val root = groovy.json.JsonSlurper().parse(f, "UTF-8") as Map<String, Any?>
-                return (root["repository"] as? Map<String, Any?>).orEmpty()
-            }
+    // ACTIONABLE drift: upstream constructs this plugin does not highlight. This
+    // task CANNOT modify the committed grammar - it only reads the copy
+    // fetchUpstreamGrammar wrote to the build directory.
+    //
+    // It used to throw on `trulyMissing || undeclared`, which put the one category
+    // worth acting on in the same red exit as bookkeeping that had gone stale, and
+    // the comment above predicted exactly what that does to a category: it trains
+    // everyone to ignore it. The bookkeeping half now lives in
+    // checkGrammarDeclarations and fails separately.
+    //
+    // Out of `check` and off `pull_request` deliberately - it needs network, and an
+    // upstream rule landing this afternoon is not a reason for an unrelated pull
+    // request to go red. .github/workflows/grammar-drift.yml runs it on a schedule,
+    // where it is REPORTED; the declarations check beside it is GATED.
+    register("checkGrammarDrift") {
+        description = "Reports upstream grammar constructs this plugin is missing (read-only)"
+        group = "verification"
+        dependsOn("fetchUpstreamGrammar")
 
-            // `comment` keys are prose for humans and have ZERO effect on tokenization,
-            // so a rule whose only difference is its comment is not drift. Stripping them
-            // on BOTH sides is what stops the report flagging rules that behave identically.
-            fun stripComments(node: Any?): Any? =
-                when (node) {
-                    is Map<*, *> ->
-                        node.entries
-                            .filterNot { (k, _) -> k == "comment" }
-                            .associate { (k, v) -> k to stripComments(v) }
-                    is List<*> -> node.map { stripComments(it) }
-                    else -> node
-                }
+        val local = localGrammarFile
+        val scratchFile = upstreamGrammarScratch
 
-            // Rewrite upstream's scope-name conventions to this plugin's, so the comparison
-            // is apples-to-apples instead of a hundred-odd false differences.
-            fun normalize(node: Any?): Any? =
-                when (node) {
-                    is Map<*, *> ->
-                        node.entries.associate { (k, v) ->
-                            k to
-                                if (k == "name" && v is String) {
-                                    upstreamScopeConventions
-                                        .firstOrNull { (from, _) -> v.startsWith(from) }
-                                        ?.let { (from, to) -> to + v.removePrefix(from) }
-                                        ?: v
-                                } else {
-                                    normalize(v)
-                                }
-                        }
-                    is List<*> -> node.map { normalize(it) }
-                    else -> node
-                }
-
-            val local = parseRepository(localFile).mapValues { (_, v) -> stripComments(v) }
-            val upstream = parseRepository(scratch).mapValues { (_, v) -> stripComments(normalize(v)) }
-
-            val upstreamOnly = (upstream.keys - local.keys).sorted()
-            val pluginOnly = (local.keys - upstream.keys).sorted()
-            val shared = (local.keys intersect upstream.keys).sorted()
-            val diverged =
-                shared.filter { rule ->
-                    groovy.json.JsonOutput.toJson(local[rule]) != groovy.json.JsonOutput.toJson(upstream[rule])
-                }
+        doLast {
+            val cmp = compareGrammars(local, scratchFile.get().asFile)
 
             println("Grammar drift vs vscode-carve (read-only - this task never edits the committed grammar)")
             println("  This plugin's grammar intentionally diverges from upstream; reconcile by hand.")
-            println("  local rules: ${local.size}   upstream rules: ${upstream.size}   shared: ${shared.size}")
+            println("  local rules: ${cmp.local.size}   upstream rules: ${cmp.upstream.size}   shared: ${cmp.shared.size}")
 
-            println("\n  Plugin-only rules (expected - this plugin highlights these, upstream does not):")
-            pluginOnly.forEach { r ->
-                val expected = if (r in pluginOnlyGrammarRules) "by design" else "UNDECLARED - add to pluginOnlyGrammarRules or remove"
-                println("    - $r ($expected)")
-            }
-            if (pluginOnly.isEmpty()) println("    (none)")
-
-            val divergedByChoice = diverged.filter { it in divergedByDesign }
-            val divergedUnexplained = diverged.filterNot { it in divergedByDesign }
+            val divergedByChoice = cmp.diverged.filter { it in divergedByDesign }
+            val divergedUnexplained = cmp.diverged.filterNot { it in divergedByDesign }
 
             println("\n  Shared rules diverged BY DESIGN (expected - engine constraint, pinned by a fixture):")
             divergedByChoice.forEach { println("    = $it: ${divergedByDesign[it]}") }
@@ -395,47 +502,129 @@ tasks {
             divergedUnexplained.forEach { println("    ~ $it") }
             if (divergedUnexplained.isEmpty()) println("    (none)")
 
-            val coveredElsewhere = upstreamOnly.filter { it in upstreamRulesCoveredLocally }
-            val trulyMissing = upstreamOnly.filterNot { it in upstreamRulesCoveredLocally }
-
             println("\n  Upstream rules folded into a broader local rule (expected - same constructs, different grouping):")
+            val coveredElsewhere = cmp.upstreamOnly.filter { it in upstreamRulesCoveredLocally }
             coveredElsewhere.forEach { println("    = $it (covered by '${upstreamRulesCoveredLocally[it]}', pinned by a fixture)") }
             if (coveredElsewhere.isEmpty()) println("    (none)")
 
+            println("\n  Upstream rules that are pattern lists only (expected - a factoring difference, they highlight nothing):")
+            cmp.structuralOnly.forEach { println("    = $it") }
+            if (cmp.structuralOnly.isEmpty()) println("    (none)")
+
+            val trulyMissing = cmp.upstreamOnly.filterNot { it in upstreamRulesCoveredLocally }
             println("\n  Upstream-only rules (ACTIONABLE - features this plugin is missing):")
             trulyMissing.forEach { println("    + $it") }
             if (trulyMissing.isEmpty()) println("    (none)")
 
-            val undeclared = pluginOnly.filterNot { it in pluginOnlyGrammarRules }
-            if (trulyMissing.isNotEmpty() || undeclared.isNotEmpty()) {
+            println("\n  ACTIONABLE: ${trulyMissing.size}")
+
+            if (trulyMissing.isNotEmpty()) {
                 throw GradleException(
-                    buildString {
-                        append("Actionable grammar drift. ")
-                        if (trulyMissing.isNotEmpty()) {
-                            append("Missing upstream rules: ${trulyMissing.joinToString(", ")}. ")
-                        }
-                        if (undeclared.isNotEmpty()) {
-                            append("Undeclared plugin-only rules: ${undeclared.joinToString(", ")}. ")
-                        }
-                        append(
-                            "Port them BY HAND into $localFile, keeping the $intellijScopePrefix " +
-                                "scope convention. Never copy the upstream file over it.",
-                        )
-                    },
+                    "Actionable grammar drift. Missing upstream rules: ${trulyMissing.joinToString(", ")}. " +
+                        "Port them BY HAND into $local, keeping the $intellijScopePrefix scope convention. " +
+                        "Never copy the upstream file over it. If one of them is already covered by a broader " +
+                        "local rule, declare it in upstreamRulesCoveredLocally and pin it with a fixture.",
+                )
+            }
+        }
+    }
+
+    // BOOKKEEPING: every declaration above is a claim about upstream, and upstream
+    // moves. This is the guard that keeps them honest - it fails when a claim has
+    // stopped being true, which is the failure that would have caught `thematic-break`
+    // the day vscode-carve grew it instead of six rules later.
+    //
+    // Deliberately a SEPARATE task from checkGrammarDrift, not a second throw inside
+    // it: the two categories want different responses (edit a list here, port a
+    // grammar rule there) and, in the scheduled workflow, different severities.
+    register("checkGrammarDeclarations") {
+        description = "Fails when a plugin-only/covered/diverged grammar declaration has gone stale"
+        group = "verification"
+        dependsOn("fetchUpstreamGrammar")
+
+        val local = localGrammarFile
+        val scratchFile = upstreamGrammarScratch
+
+        doLast {
+            val cmp = compareGrammars(local, scratchFile.get().asFile)
+            val problems = mutableListOf<String>()
+
+            val undeclared =
+                cmp.pluginOnly.filterNot { it in pluginOnlyGrammarRules || it in localRulesGroupedUpstream }
+            println("Grammar declarations vs vscode-carve")
+            println("\n  Local-only rules and how they are declared:")
+            cmp.pluginOnly.forEach { r ->
+                val how =
+                    when {
+                        r in pluginOnlyGrammarRules -> "plugin-only, by design"
+                        r in localRulesGroupedUpstream -> "grouped upstream into '${localRulesGroupedUpstream[r]}'"
+                        else -> "UNDECLARED"
+                    }
+                println("    - $r ($how)")
+            }
+            if (cmp.pluginOnly.isEmpty()) println("    (none)")
+            undeclared.forEach {
+                problems += "$it is local-only and UNDECLARED - add it to pluginOnlyGrammarRules " +
+                    "(upstream does not highlight the construct at all) or to localRulesGroupedUpstream " +
+                    "(upstream highlights it inside a broader rule), and pin it with a fixture"
+            }
+
+            (pluginOnlyGrammarRules - cmp.pluginOnly.toSet()).sorted().forEach {
+                problems += "$it is declared in pluginOnlyGrammarRules but is NOT local-only any more - " +
+                    "vscode-carve has grown the rule, so drop the entry and read the shared diff for it"
+            }
+            (localRulesGroupedUpstream.keys - cmp.pluginOnly.toSet()).sorted().forEach {
+                problems += "$it is declared in localRulesGroupedUpstream but is NOT local-only any more - drop the entry"
+            }
+            localRulesGroupedUpstream.forEach { (rule, target) ->
+                if (target !in cmp.upstream.keys) {
+                    problems += "$rule is declared as grouped into upstream's '$target', which upstream no longer has"
+                }
+            }
+            upstreamRuleAliases.forEach { (upstreamName, localName) ->
+                if (upstreamName !in cmp.upstreamRawNames) {
+                    problems += "the alias '$upstreamName' -> '$localName' names an upstream rule that no longer exists"
+                }
+                if (localName !in cmp.local.keys) {
+                    problems += "the alias '$upstreamName' -> '$localName' names a local rule that no longer exists"
+                }
+            }
+            (upstreamRulesCoveredLocally.keys - cmp.upstreamOnly.toSet()).sorted().forEach {
+                problems += "$it is declared in upstreamRulesCoveredLocally but is not an upstream-only rule any more - drop the entry"
+            }
+            upstreamRulesCoveredLocally.forEach { (rule, target) ->
+                if (target !in cmp.local.keys) {
+                    problems += "$rule is declared as covered by local '$target', which this grammar no longer has"
+                }
+            }
+            (divergedByDesign.keys - cmp.diverged.toSet()).sorted().forEach {
+                problems += "$it is declared in divergedByDesign but no longer diverges from upstream - drop the entry"
+            }
+
+            println("\n  Stale or missing declarations:")
+            problems.forEach { println("    ! $it") }
+            if (problems.isEmpty()) println("    (none)")
+            println("\n  STALE DECLARATIONS: ${problems.size}")
+
+            if (problems.isNotEmpty()) {
+                throw GradleException(
+                    "Grammar declarations are out of date with vscode-carve (${problems.size}): " +
+                        problems.joinToString("; ") + ". This is BOOKKEEPING in build.gradle.kts, " +
+                        "not a grammar change - fix the declarations, do not touch the .tmLanguage.json.",
                 )
             }
         }
     }
 
     // Kept so existing muscle memory and docs do not resurrect the old behaviour.
-    // It now runs the SAME read-only check - it never overwrites the grammar.
+    // It now runs the SAME read-only checks - it never overwrites the grammar.
     register("downloadGrammar") {
         description = "Deprecated alias for checkGrammarDrift (no longer overwrites the grammar)"
         group = "verification"
         // The safety message lives in checkGrammarDrift's own header, because a
         // dependency runs to completion first: if it fails on actionable drift, no
         // action defined here would ever execute.
-        dependsOn("checkGrammarDrift")
+        dependsOn("checkGrammarDrift", "checkGrammarDeclarations")
     }
 
     test {
