@@ -11,3 +11,11 @@ A plain #intro tag and a plain @level mention.
 `{{ chapters/intro.crv #intro }}`
 
 {{chapters/intro.crv #intro}}
+
+{{ chapters/intro.crv @label:"two words" }}
+
+{{ chapters/intro.crv @label:'two words' }}
+
+{{ chapters/intro.crv @label:"a:b c" }}
+
+{{ chapters/intro.crv @label:"two words }}

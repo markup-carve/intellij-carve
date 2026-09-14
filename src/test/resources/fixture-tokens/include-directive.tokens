@@ -60,3 +60,48 @@ level -> text.carve entity.name.mention.carve variable.parameter.mention.carve
 # -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
 intro -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
 }}\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+"two words" -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+'two words' -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+"a:b c" -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+"two -> text.carve meta.directive.include.carve constant.other.include.carve
+ words -> text.carve meta.directive.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> text.carve
