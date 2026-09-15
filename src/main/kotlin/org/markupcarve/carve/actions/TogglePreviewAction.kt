@@ -5,8 +5,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.wm.ToolWindowManager
-import com.intellij.ui.jcef.JBCefApp
 import org.markupcarve.carve.CarveFileType
+import org.markupcarve.carve.preview.CarveJcefSupport
 
 class TogglePreviewAction : AnAction() {
 
@@ -22,7 +22,7 @@ class TogglePreviewAction : AnAction() {
         // visible and enabled and then return silently.
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
         e.presentation.isEnabledAndVisible =
-            CarveFileType.matches(file?.extension) && JBCefApp.isSupported()
+            CarveFileType.matches(file?.extension) && CarveJcefSupport.isSupported()
     }
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT

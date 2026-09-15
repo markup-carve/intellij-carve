@@ -1,0 +1,3 @@
+<idea-plugin>
+    <!-- Intentionally empty; the optional dependency provides class-loader access only. -->
+</idea-plugin>
