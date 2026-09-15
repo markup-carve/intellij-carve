@@ -22,6 +22,19 @@ enum class CarveIncludeMode(val wireValue: String) {
     AUTO("auto"),
     ON("on"),
     OFF("off"),
+    ;
+
+    /**
+     * The server's own gate (`includeOptionsFor`), spelled once here so a
+     * surface that has to explain a refusal BEFORE asking - an export action
+     * with nothing to bundle - cannot drift from what the server decides. The
+     * server still makes the decision; this only predicts it.
+     */
+    fun resolvesWhen(workspaceTrusted: Boolean): Boolean = when (this) {
+        OFF -> false
+        ON -> true
+        AUTO -> workspaceTrusted
+    }
 }
 
 @State(
