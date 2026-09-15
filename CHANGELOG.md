@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **The preview loads on PhpStorm 2026.2.** JCEF moved behind its own plugin class loader there, and opening the preview threw `NoClassDefFoundError`.
+- **The preview loads on PhpStorm 2026.2** (#144). JCEF moved behind its own plugin class loader there, and opening the preview threw `NoClassDefFoundError`.
 
 ## [0.1.7] - 2026-09-09
 
