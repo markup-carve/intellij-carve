@@ -1,0 +1,31 @@
+-  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+> -> text.carve keyword.control.quote.carve
+ quoted -> text.carve markup.quote.carve
+\n -> text.carve
+1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.numbered.carve
+> -> text.carve keyword.control.quote.carve
+ quoted -> text.carve markup.quote.carve
+\n -> text.carve
+*  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+> -> text.carve keyword.control.quote.carve
+ quoted -> text.carve markup.quote.carve
+\n -> text.carve
+-  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+[ ]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+> -> text.carve keyword.control.quote.carve
+ quoted -> text.carve markup.quote.carve
+\n -> text.carve
+- -  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+> -> text.carve keyword.control.quote.carve
+ quoted -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item\n -> text.carve
+   -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+quoted at the item's body column -> text.carve markup.quote.carve
+\n -> text.carve

@@ -200,25 +200,37 @@ committed here and is *related to* - but deliberately not identical to -
 [vscode-carve](https://github.com/markup-carve/vscode-carve)'s copy (scope
 `text.carve`).
 
-Two differences are by design:
+Three differences are by design:
 
 1. **Scope names.** This plugin uses `keyword.control.*` where vscode-carve uses
    `punctuation.definition.*`, because the IDE's TextMate bridge colours
    `keyword.control.*` out of the box. Suffixes are kept identical.
-2. **Plugin-only rules.** `cross-reference`, `hard-break` and `thematic-break`
-   are highlighted here and not upstream.
+2. **Plugin-only rules.** `cross-reference` is highlighted here and not upstream.
+3. **Rule grouping.** Each side splits some constructs into their own repository
+   rule where the other folds them into a broader one, and the grouping delta
+   runs both ways. Upstream reaches a block opener written on a list item's own
+   marker line with a `\G`-anchored alternative inside the shared
+   `-behind-a-container-prefix` rule; the IDE's TextMate bridge does not offer
+   `\G`, so this grammar splits that half into its own `-on-marker-line` rule.
+   The constructs are highlighted the same either way.
 
 Because of that, the grammar must **never** be overwritten with the upstream
 file - doing so would rewrite every scope name and delete the plugin-only rules.
-Port upstream changes by hand. To see what currently differs:
+Port upstream changes by hand. Two read-only checks measure what is left, and
+they answer different questions:
 
 ```bash
-gradle checkGrammarDrift   # read-only; never edits the grammar
+gradle checkGrammarDrift          # upstream constructs this grammar is missing
+gradle checkGrammarDeclarations   # declarations above that stopped being true
 ```
 
-It reports three categories - plugin-only rules (expected), structurally
-diverged shared rules (human judgement), and upstream-only rules (features this
-plugin is missing) - and fails only on the last, actionable category.
+`checkGrammarDrift` fails only on upstream rules with no local counterpart -
+port those by hand, or, when a broader local rule already covers the construct,
+declare it in `upstreamRulesCoveredLocally` **and pin it with a fixture**.
+`checkGrammarDeclarations` fails when a claim in `build.gradle.kts` has stopped
+describing upstream. Both need network, so neither runs on a pull request;
+`.github/workflows/grammar-drift.yml` runs them daily, gating the second and
+reporting the first.
 
 ## Shared-corpus highlighter conformance
 
