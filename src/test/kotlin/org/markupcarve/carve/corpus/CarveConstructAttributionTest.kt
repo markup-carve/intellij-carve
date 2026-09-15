@@ -198,16 +198,54 @@ class CarveConstructAttributionTest {
     }
 
     /**
-     * The widening sits in capture 3's own patterns, which re-scan text the outer match
-     * has already delimited, so the directive's EXTENT is untouched: a `}}` inside what
-     * looks like a quoted value still closes the directive there rather than letting an
-     * unbounded quoted run reach the second one (markup-carve/carve-grammars#412).
+     * THE CLOSER IS THE FIRST `}}` OUTSIDE A QUOTED RUN, and a quoted run MAY contain the
+     * pair (markup-carve/carve#2013). This row asserted the opposite until that ruling:
+     * the bound it pinned was the one markup-carve/carve-grammars#412 left in place while
+     * the question was still open, and closing inside a quoted value was the reading it
+     * settled AGAINST. The directive now reaches the pair that follows the closing quote.
      */
     @Test
-    fun aDirectiveStillClosesOnItsFirstCloser() {
+    fun aDirectiveClosesOnTheFirstCloserOutsideAQuotedRun() {
         val src = "See {{ chapters/intro.crv @label:\"a }} more\" }} end\n"
         assertEquals(
-            "the directive ran past its own closer",
+            "the directive closed on a pair inside its own quoted value",
+            "{{ chapters/intro.crv @label:\"a }} more\" }}",
+            textCarrying(src, "meta.directive.include.carve"),
+        )
+    }
+
+    /**
+     * The PATH half closes the same way, and costs more when it does not: a directive that
+     * ends mid-string hands the option that follows back to the mention rule, which is the
+     * shredding this whole rule exists to prevent.
+     */
+    @Test
+    fun aQuotedPathMayHoldTheCloserPair() {
+        val src = "See {{ \"a }} more.crv\" @level:2 }} end\n"
+        assertEquals(
+            "the directive closed on a pair inside its own quoted path",
+            "{{ \"a }} more.crv\" @level:2 }}",
+            textCarrying(src, "meta.directive.include.carve"),
+        )
+        assertEquals(
+            "the path stopped at the pair inside it",
+            "\"a }} more.crv\"",
+            textCarrying(src, "string.other.link.include.carve"),
+        )
+    }
+
+    /**
+     * An UNTERMINATED quote opens no run, so the closer is again the FIRST pair and the
+     * rest of the line is prose. This is the half the unwidened bound got right, it is
+     * preserved deliberately by the ruling, and it stays green under a revert for that
+     * reason - it is the control that rules out simply letting a quoted run reach as far
+     * as it likes.
+     */
+    @Test
+    fun anUnterminatedQuoteStillClosesOnTheFirstPair() {
+        val src = "See {{ chapters/intro.crv @label:\"a }} more }} end\n"
+        assertEquals(
+            "an unterminated quote pushed the closer further along the line",
             "{{ chapters/intro.crv @label:\"a }}",
             textCarrying(src, "meta.directive.include.carve"),
         )
