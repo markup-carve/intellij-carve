@@ -145,6 +145,19 @@ class CarvePreviewHtmlTest {
         }
     }
 
+    @Test
+    fun `the scaffold presents a diff language fence`() {
+        val html = page()
+        // The highlight step branches a pre.diff block into the per-line helper.
+        assertTrue(html.contains("classList.contains('diff')"))
+        assertTrue(html.contains("function renderLanguageDiff"))
+        assertTrue(html.contains("line diff add"))
+        assertTrue(html.contains("line diff remove"))
+        assertTrue(html.contains("class=\"diff-marker\""))
+        // The presentation CSS is in the scaffold.
+        assertTrue(html.contains("pre.diff.has-diff .diff-marker"))
+    }
+
     /**
      * The heaviness the code blocks were reported for was two stacked surfaces:
      * the scaffold painted the `<pre>` and the highlight.js theme painted
