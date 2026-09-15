@@ -232,9 +232,9 @@ val grammarUrl =
 //     out of the box, so this grammar uses that prefix where vscode-carve uses
 //     `punctuation.definition.*`. The suffix after the prefix is kept identical,
 //     which is what makes an automated comparison possible at all.
-//  2. Plugin-only rules. Three constructs are highlighted here and not upstream.
-//  3. Rule GROUPING. Upstream splits some constructs into their own repository
-//     rules where this grammar folds them into a broader one. The constructs are
+//  2. Plugin-only rules. `cross-reference` is highlighted here and not upstream.
+//  3. Rule GROUPING. Each side splits some constructs into their own repository
+//     rules where the other folds them into a broader one. The constructs are
 //     highlighted identically; only the rule name differs. A name-based diff would
 //     otherwise report these as missing features forever, which would make the
 //     actionable category permanently non-empty and train everyone to ignore it.
@@ -271,18 +271,10 @@ val intellijScopePrefix = "keyword.control."
 // exit. `checkGrammarDeclarations` now fails on a declaration that has stopped
 // being true, so this file cannot rot that way again.
 
-// Local rules upstream neither has nor highlights anywhere. The four marker-line
-// rules are an IntelliJ adaptation: upstream reaches these constructs from
-// `#container-body` with a \G-anchored rule, a shape the IDE's TextMate bridge
-// does not offer, so this grammar folds the list-marker prefix into each block
-// opener instead. Upstream has the shape for `>` only (#block-quote-on-marker-line).
+// Local rules upstream neither has nor highlights anywhere.
 val pluginOnlyGrammarRules =
     setOf(
-        "code-fence-on-marker-line",
         "cross-reference",
-        "heading-on-marker-line",
-        "table-row-on-marker-line",
-        "thematic-break-on-marker-line",
     )
 
 // Upstream rule name -> this grammar's name for the SAME construct. A pure
@@ -307,6 +299,19 @@ val localRulesGroupedUpstream =
         // #caption-behind-a-container-prefix rather than in a rule of its own.
         // Pinned by composite-figure.crv.
         "figure-group" to "divs",
+        // The four marker-line rules. Upstream reaches these constructs from
+        // `#container-body` with a \G-anchored alternative folded into the shared
+        // `-behind-a-container-prefix` rule - `(?:\G(?<=[ \t])|^[ \t]+)` - and the
+        // IDE's TextMate bridge does not offer \G, so this grammar splits the
+        // marker-line half into a rule of its own that matches the whole line.
+        // They were declared plugin-only until #129 measured the upstream rules:
+        // upstream highlights every one of these constructs, which makes them a
+        // GROUPING delta, not a construct upstream lacks.
+        // Pinned by CarveMarkerLineBlockOpenerTest and code-fence-in-list-item.crv.
+        "code-fence-on-marker-line" to "code-block-behind-a-container-prefix",
+        "heading-on-marker-line" to "headings-behind-a-container-prefix",
+        "table-row-on-marker-line" to "table-row-behind-a-container-prefix",
+        "thematic-break-on-marker-line" to "thematic-break-behind-a-container-prefix",
     )
 
 // Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as
@@ -329,6 +334,24 @@ val divergedByDesign =
 val upstreamRulesCoveredLocally = mapOf(
     "forced-emphasis" to "emphasis",
     "sup-sub" to "emphasis",
+    // A block quote opened on a list item's own marker line. Upstream needs a
+    // separate \G-anchored rule because its `#block-quotes` begin is anchored on
+    // ^ and the container has already consumed the marker; this grammar's
+    // `#block-quotes` carries a second begin alternative that matches the marker
+    // prefix and the `>` in one go, so every marker spelling reaches it.
+    // Pinned by quote-on-list-marker-line.crv and CarveMarkerLineQuoteTest.
+    "block-quote-on-marker-line" to "block-quotes",
+    // A definition at a container's content column. Upstream's `#definitions` is
+    // anchored flush-left, so the indented form needs a rule of its own; this
+    // grammar's `#definitions` is anchored `^\s*` and takes both forms through
+    // one rule, tokenizing them identically. Both upstream patterns are covered:
+    // the abbreviation definition and the link reference definition.
+    // Pinned by definition-in-container.crv and CarveDefinitionInContainerTest,
+    // which asserts the indented form tokenizes as the flush-left form does.
+    // The attribute-block capture upstream carries on a link reference
+    // definition is missing on BOTH local forms, so that delta belongs to the
+    // shared `definitions` rule and is already reported in the structural diff.
+    "definitions-in-container" to "definitions",
 )
 
 val localGrammarFile = file("$textmateDir/carve.tmLanguage.json")

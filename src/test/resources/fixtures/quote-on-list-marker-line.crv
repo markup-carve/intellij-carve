@@ -1,0 +1,8 @@
+- > quoted
+1. > quoted
+* > quoted
+- [ ] > quoted
+- - > quoted
+
+- item
+  > quoted at the item's body column
