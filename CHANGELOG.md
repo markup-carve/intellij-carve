@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.8] - 2026-09-15
+
+### Added
+
+- **Includes resolve in the editor** (#130). The bundled language server gives go-to-definition from a `{{ path }}` directive, path completion, the included file's headings in the Structure view, and a warning on a target that does not resolve. Configure it under Settings > Tools > Carve > Includes.
+- **Export Bundle** (#140). The editor context menu writes a document and every file it includes into a `<name>.bundle` folder beside it.
+- **`diff` fences in the preview** (#143). Added and removed lines are marked and colored.
+
 ### Fixed
 
 - **The preview loads on PhpStorm 2026.2** (#144). JCEF moved behind its own plugin class loader there, and opening the preview threw `NoClassDefFoundError`.
+- **An include directive highlights as one construct** (#125, #132, #137). A quoted option value stays one value, and a `}}` inside quotes no longer ends the directive.
+- **A code fence at a list item's body column highlights as a fenced block** (#139), not as inline code.
 
 ## [0.1.7] - 2026-09-09
 
@@ -242,7 +252,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.7...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.8...HEAD
+[0.1.8]: https://github.com/markup-carve/intellij-carve/compare/0.1.7...0.1.8
 [0.1.7]: https://github.com/markup-carve/intellij-carve/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/markup-carve/intellij-carve/compare/0.1.4...0.1.5
