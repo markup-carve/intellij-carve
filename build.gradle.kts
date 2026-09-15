@@ -271,11 +271,33 @@ val intellijScopePrefix = "keyword.control."
 // exit. `checkGrammarDeclarations` now fails on a declaration that has stopped
 // being true, so this file cannot rot that way again.
 
-// Local rules upstream neither has nor highlights anywhere.
-val pluginOnlyGrammarRules =
-    setOf(
-        "cross-reference",
-    )
+// EVERY DECLARATION BELOW NAMES A FIXTURE, and the fixture is what measures it.
+//
+// The checks in this file can only ask whether a rule of the same NAME is still there on
+// the other side. That is blind to the error these lists are most likely to accumulate -
+// upstream highlighting the same CONSTRUCT under a different rule name - because a
+// factoring difference is exactly where the names diverge (#135). Four entries were false
+// for that reason until #134, and `cross-reference` was false until #135.
+//
+// So `CarveGrammarDeclarationTest` drives BOTH grammars over the named fixture through the
+// same engine and measures the claim itself: upstream highlights nothing a plugin-only
+// rule owns, everything a grouped rule owns, and this grammar highlights everything an
+// upstream rule declared covered owns. The fixture names travel to it through the
+// systemProperty lines in the `test` block.
+
+/** An upstream rule a declaration points at, and the fixture that measures the claim. */
+data class GroupedUpstream(val upstreamRule: String, val fixture: String)
+
+/** A local rule a declaration points at, and the fixture that measures the claim. */
+data class CoveredLocally(val localRule: String, val fixture: String)
+
+// Local rules upstream neither has nor highlights anywhere, and the fixture that shows it.
+//
+// EMPTY, and that is a measurement rather than an omission: every local-only rule this
+// grammar has is a grouping delta. `cross-reference` sat here until #135 measured it -
+// vscode-carve highlights `</#id>` inside its `autolink` rule, so the construct is one
+// upstream has, spelled in a rule with another name.
+val pluginOnlyGrammarRules = mapOf<String, String>()
 
 // Upstream rule name -> this grammar's name for the SAME construct. A pure
 // RENAME: the pair is equated before the name diff and then compared
@@ -293,25 +315,39 @@ val upstreamRuleAliases =
 // delta runs both ways: an entry here says "upstream highlights this too, just
 // grouped differently", which is a very different claim from plugin-only and
 // must not be made by adding the rule to the set above. Same fixture rule.
+// Local rule -> the upstream rule that carries the same construct, and the fixture that
+// shows upstream highlighting it.
 val localRulesGroupedUpstream =
     mapOf(
         // Upstream highlights the composite figure inside #divs and
         // #caption-behind-a-container-prefix rather than in a rule of its own.
-        // Pinned by composite-figure.crv.
-        "figure-group" to "divs",
+        "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
+        // `</#id>`. Upstream folds it into #autolink, which carries the same
+        // `(</#)([^>\s]+)(>)` alternative and scopes it as a cross-reference. It was
+        // declared plugin-only until #135 built a check that could see the difference;
+        // the entry above it is empty because this was the last one.
+        "cross-reference" to GroupedUpstream("autolink", "cross-reference.crv"),
         // The four marker-line rules. Upstream reaches these constructs from
         // `#container-body` with a \G-anchored alternative folded into the shared
-        // `-behind-a-container-prefix` rule - `(?:\G(?<=[ \t])|^[ \t]+)` - and the
-        // IDE's TextMate bridge does not offer \G, so this grammar splits the
-        // marker-line half into a rule of its own that matches the whole line.
+        // `-behind-a-container-prefix` rule - `(?:\G(?<=[ \t])|^[ \t]+)`. The IDE's
+        // engine runs that alternative fine (measured: upstream's own grammar driven
+        // through CarveTextMateTokenizer scopes `- ```php` as a fenced block, which only
+        // the \G branch can reach). What it has no home for is the REGION: this grammar's
+        // list rules are `match` rules, so a \G rule would sit at the top level and fire
+        // after any match that ends on whitespace. So the marker-line half is split into
+        // a rule of its own that matches the whole line.
         // They were declared plugin-only until #129 measured the upstream rules:
         // upstream highlights every one of these constructs, which makes them a
         // GROUPING delta, not a construct upstream lacks.
-        // Pinned by CarveMarkerLineBlockOpenerTest and code-fence-in-list-item.crv.
-        "code-fence-on-marker-line" to "code-block-behind-a-container-prefix",
-        "heading-on-marker-line" to "headings-behind-a-container-prefix",
-        "table-row-on-marker-line" to "table-row-behind-a-container-prefix",
-        "thematic-break-on-marker-line" to "thematic-break-behind-a-container-prefix",
+        // Also asserted in CarveMarkerLineBlockOpenerTest.
+        "code-fence-on-marker-line" to
+            GroupedUpstream("code-block-behind-a-container-prefix", "code-fence-in-list-item.crv"),
+        "heading-on-marker-line" to
+            GroupedUpstream("headings-behind-a-container-prefix", "marker-line-block-openers.crv"),
+        "table-row-on-marker-line" to
+            GroupedUpstream("table-row-behind-a-container-prefix", "marker-line-block-openers.crv"),
+        "thematic-break-on-marker-line" to
+            GroupedUpstream("thematic-break-behind-a-container-prefix", "marker-line-block-openers.crv"),
     )
 
 // Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as
@@ -326,33 +362,40 @@ val divergedByDesign =
                 "frontmatter fence is highlighted as a thematic break. Pinned by frontmatter-typed.crv.",
     )
 
-// Upstream rule name -> the local rule that already covers it. Every entry here
-// MUST be backed by a fixture in src/test/resources/fixtures/ that pins the
-// construct's scopes, so this map cannot be used to silence a real gap: if the
-// coverage ever regresses, the fixture test fails. `braced-emphasis.crv` pins
-// both entries below (`{^x^}`, `{,x,}`, `{*x*}`, `{/x/}`, `{_x_}`, `{~x~}`).
+// Upstream rule name -> the local rule that already covers it, and the fixture that
+// measures it. This is the map a wrong entry would use to silence a real gap, so the
+// fixture is not a comment here either: CarveGrammarDeclarationTest takes the spans the
+// UPSTREAM rule owns in the fixture and asserts this grammar highlights every one of
+// them. An entry pointing at an unrelated but well-covered local rule fails, because the
+// spans come from upstream's rule rather than from the local one.
 val upstreamRulesCoveredLocally = mapOf(
-    "forced-emphasis" to "emphasis",
-    "sup-sub" to "emphasis",
+    // `braced-emphasis.crv` carries `{^x^}`, `{,x,}`, `{*x*}`, `{/x/}`, `{_x_}`, `{~x~}`.
+    "forced-emphasis" to CoveredLocally("emphasis", "braced-emphasis.crv"),
+    "sup-sub" to CoveredLocally("emphasis", "braced-emphasis.crv"),
     // A block quote opened on a list item's own marker line. Upstream needs a
     // separate \G-anchored rule because its `#block-quotes` begin is anchored on
     // ^ and the container has already consumed the marker; this grammar's
     // `#block-quotes` carries a second begin alternative that matches the marker
     // prefix and the `>` in one go, so every marker spelling reaches it.
-    // Pinned by quote-on-list-marker-line.crv and CarveMarkerLineQuoteTest.
-    "block-quote-on-marker-line" to "block-quotes",
+    // Also asserted in CarveMarkerLineQuoteTest.
+    "block-quote-on-marker-line" to CoveredLocally("block-quotes", "quote-on-list-marker-line.crv"),
     // A definition at a container's content column. Upstream's `#definitions` is
     // anchored flush-left, so the indented form needs a rule of its own; this
     // grammar's `#definitions` is anchored `^\s*` and takes both forms through
     // one rule, tokenizing them identically. Both upstream patterns are covered:
     // the abbreviation definition and the link reference definition.
-    // Pinned by definition-in-container.crv and CarveDefinitionInContainerTest,
-    // which asserts the indented form tokenizes as the flush-left form does.
+    // CarveDefinitionInContainerTest asserts the indented form tokenizes as the
+    // flush-left form does.
     // The attribute-block capture upstream carries on a link reference
     // definition is missing on BOTH local forms, so that delta belongs to the
     // shared `definitions` rule and is already reported in the structural diff.
-    "definitions-in-container" to "definitions",
+    "definitions-in-container" to CoveredLocally("definitions", "definition-in-container.crv"),
 )
+
+// `rule=fixture;rule=fixture` - the one shape a system property can carry, and the shape
+// CarveGrammarDeclarationTest parses.
+fun encodeDeclarations(declarations: Map<String, String>): String =
+    declarations.entries.joinToString(";") { (rule, fixture) -> "$rule=$fixture" }
 
 val localGrammarFile = file("$textmateDir/carve.tmLanguage.json")
 val upstreamGrammarScratch = layout.buildDirectory.file("grammar-drift/upstream.tmLanguage.json")
@@ -527,7 +570,10 @@ tasks {
 
             println("\n  Upstream rules folded into a broader local rule (expected - same constructs, different grouping):")
             val coveredElsewhere = cmp.upstreamOnly.filter { it in upstreamRulesCoveredLocally }
-            coveredElsewhere.forEach { println("    = $it (covered by '${upstreamRulesCoveredLocally[it]}', pinned by a fixture)") }
+            coveredElsewhere.forEach {
+                val d = upstreamRulesCoveredLocally.getValue(it)
+                println("    = $it (covered by '${d.localRule}', measured on ${d.fixture})")
+            }
             if (coveredElsewhere.isEmpty()) println("    (none)")
 
             println("\n  Upstream rules that are pattern lists only (expected - a factoring difference, they highlight nothing):")
@@ -573,14 +619,15 @@ tasks {
             val problems = mutableListOf<String>()
 
             val undeclared =
-                cmp.pluginOnly.filterNot { it in pluginOnlyGrammarRules || it in localRulesGroupedUpstream }
+                cmp.pluginOnly.filterNot { it in pluginOnlyGrammarRules.keys || it in localRulesGroupedUpstream }
             println("Grammar declarations vs vscode-carve")
             println("\n  Local-only rules and how they are declared:")
             cmp.pluginOnly.forEach { r ->
                 val how =
                     when {
-                        r in pluginOnlyGrammarRules -> "plugin-only, by design"
-                        r in localRulesGroupedUpstream -> "grouped upstream into '${localRulesGroupedUpstream[r]}'"
+                        r in pluginOnlyGrammarRules.keys -> "plugin-only, by design"
+                        r in localRulesGroupedUpstream ->
+                            "grouped upstream into '${localRulesGroupedUpstream.getValue(r).upstreamRule}'"
                         else -> "UNDECLARED"
                     }
                 println("    - $r ($how)")
@@ -592,16 +639,17 @@ tasks {
                     "(upstream highlights it inside a broader rule), and pin it with a fixture"
             }
 
-            (pluginOnlyGrammarRules - cmp.pluginOnly.toSet()).sorted().forEach {
+            (pluginOnlyGrammarRules.keys - cmp.pluginOnly.toSet()).sorted().forEach {
                 problems += "$it is declared in pluginOnlyGrammarRules but is NOT local-only any more - " +
                     "vscode-carve has grown the rule, so drop the entry and read the shared diff for it"
             }
             (localRulesGroupedUpstream.keys - cmp.pluginOnly.toSet()).sorted().forEach {
                 problems += "$it is declared in localRulesGroupedUpstream but is NOT local-only any more - drop the entry"
             }
-            localRulesGroupedUpstream.forEach { (rule, target) ->
-                if (target !in cmp.upstream.keys) {
-                    problems += "$rule is declared as grouped into upstream's '$target', which upstream no longer has"
+            localRulesGroupedUpstream.forEach { (rule, declaration) ->
+                if (declaration.upstreamRule !in cmp.upstream.keys) {
+                    problems += "$rule is declared as grouped into upstream's '${declaration.upstreamRule}', " +
+                        "which upstream no longer has"
                 }
             }
             upstreamRuleAliases.forEach { (upstreamName, localName) ->
@@ -615,9 +663,24 @@ tasks {
             (upstreamRulesCoveredLocally.keys - cmp.upstreamOnly.toSet()).sorted().forEach {
                 problems += "$it is declared in upstreamRulesCoveredLocally but is not an upstream-only rule any more - drop the entry"
             }
-            upstreamRulesCoveredLocally.forEach { (rule, target) ->
-                if (target !in cmp.local.keys) {
-                    problems += "$rule is declared as covered by local '$target', which this grammar no longer has"
+            upstreamRulesCoveredLocally.forEach { (rule, declaration) ->
+                if (declaration.localRule !in cmp.local.keys) {
+                    problems += "$rule is declared as covered by local '${declaration.localRule}', " +
+                        "which this grammar no longer has"
+                }
+            }
+
+            // THE FIXTURE IS THE MEASUREMENT, so a declaration naming one that does not
+            // exist is a claim nothing can check. CarveGrammarDeclarationTest measures the
+            // claim itself; this only keeps the two halves from drifting apart silently.
+            val declaredFixtures =
+                pluginOnlyGrammarRules.map { (rule, fixture) -> rule to fixture } +
+                    localRulesGroupedUpstream.map { (rule, d) -> rule to d.fixture } +
+                    upstreamRulesCoveredLocally.map { (rule, d) -> rule to d.fixture }
+            declaredFixtures.forEach { (rule, fixture) ->
+                if (!file("src/test/resources/fixtures/$fixture").isFile) {
+                    problems += "$rule names the fixture '$fixture', which does not exist in " +
+                        "src/test/resources/fixtures - the declaration cannot be measured"
                 }
             }
             (divergedByDesign.keys - cmp.diverged.toSet()).sorted().forEach {
@@ -639,6 +702,23 @@ tasks {
         }
     }
 
+    // The declarations measured against the CONSTRUCT rather than the rule name. The
+    // assertions live in CarveGrammarDeclarationTest, because driving a grammar needs the
+    // IDE's TextMate engine and that is only on the `test` task's classpath - a JavaExec on
+    // sourceSets["test"].runtimeClasspath does NOT carry the platform under the 2.x plugin
+    // (see the graalSmoke note above).
+    //
+    // So this task is the fetch plus the test task, and the test skips its upstream arms
+    // when no grammar has been fetched. Network, therefore out of `check` and off
+    // `pull_request` with the two beside it.
+    register("checkGrammarConstructs") {
+        description = "Measures each grammar declaration against vscode-carve over its fixture"
+        group = "verification"
+        dependsOn("fetchUpstreamGrammar", "test")
+    }
+
+    named("test") { mustRunAfter("fetchUpstreamGrammar") }
+
     // Kept so existing muscle memory and docs do not resurrect the old behaviour.
     // It now runs the SAME read-only checks - it never overwrites the grammar.
     register("downloadGrammar") {
@@ -647,7 +727,7 @@ tasks {
         // The safety message lives in checkGrammarDrift's own header, because a
         // dependency runs to completion first: if it fails on actionable drift, no
         // action defined here would ever execute.
-        dependsOn("checkGrammarDrift", "checkGrammarDeclarations")
+        dependsOn("checkGrammarDrift", "checkGrammarDeclarations", "checkGrammarConstructs")
     }
 
     test {
@@ -694,5 +774,29 @@ tasks {
         System.getProperty("carve.updateGoldens")?.let {
             systemProperty("carve.updateGoldens", it)
         }
+
+        // The grammar declarations, forwarded to CarveGrammarDeclarationTest. They live in
+        // this file because the two checks above read them too, and a second copy in the
+        // test sources is a second thing to keep in step.
+        systemProperty("carve.declarations.pluginOnly", encodeDeclarations(pluginOnlyGrammarRules))
+        systemProperty(
+            "carve.declarations.groupedUpstream",
+            encodeDeclarations(localRulesGroupedUpstream.mapValues { (_, d) -> d.fixture }),
+        )
+        systemProperty(
+            "carve.declarations.coveredLocally",
+            encodeDeclarations(upstreamRulesCoveredLocally.mapValues { (_, d) -> d.fixture }),
+        )
+
+        // The upstream copy, when one has been fetched. OPTIONAL: `test` runs on every pull
+        // request and fetching needs network, so the arms that compare against upstream
+        // SKIP without it and `checkGrammarConstructs` is what makes them run. Declared as
+        // an input so the task is not UP-TO-DATE the first time the file appears.
+        val upstreamScratch = upstreamGrammarScratch.get().asFile
+        systemProperty("carve.upstreamGrammar", upstreamScratch.absolutePath)
+        inputs.files(files(upstreamScratch))
+            .withPropertyName("upstreamGrammar")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
+            .optional(true)
     }
 }

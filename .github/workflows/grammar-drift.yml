@@ -9,7 +9,10 @@ name: Grammar drift
 #   1. Are the DECLARATIONS still true? Cheap, entirely this repository's to
 #      act on, and the first thing to rot. Nothing watched them, so three of the
 #      four plugin-only entries had stopped being true and six rules that really
-#      are plugin-only were never declared at all (#126). GATED.
+#      are plugin-only were never declared at all (#126). GATED - twice: once by
+#      NAME (checkGrammarDeclarations) and once by CONSTRUCT
+#      (checkGrammarConstructs), because a name comparison cannot see upstream
+#      covering the same construct under another rule name (#135).
 #   2. What is this grammar MISSING that upstream highlights? The reason the
 #      drift check exists - but porting a TextMate rule by hand is a deliberate
 #      review, and vscode-carve merges through the day, so a gate here would go
@@ -44,6 +47,14 @@ jobs:
       # being true, and fixing it is an edit to a list in build.gradle.kts.
       - name: The grammar declarations still describe vscode-carve
         run: ./gradlew --no-daemon checkGrammarDeclarations
+
+      # GATED, and the half a name comparison cannot do: each declaration is
+      # measured over its fixture with both grammars through the same engine, so
+      # an entry that upstream covers under ANOTHER rule name is caught (#135).
+      # Runs even when the gate above failed - the two find different errors.
+      - name: The grammar declarations still describe the CONSTRUCTS
+        if: always()
+        run: ./gradlew --no-daemon checkGrammarConstructs
 
       # REPORTED. Runs even when the gate above failed, because the two answers
       # are independent and a stale declaration should not hide the feature gap.

@@ -6,6 +6,10 @@ import org.jetbrains.plugins.textmate.language.syntax.TextMateSyntaxTable
 import org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateLexer
 import org.jetbrains.plugins.textmate.language.syntax.lexer.TextMateScope
 import org.jetbrains.plugins.textmate.plist.JsonPlistReader
+import org.jetbrains.plugins.textmate.plist.PListValue
+import org.jetbrains.plugins.textmate.plist.Plist
+import org.jetbrains.plugins.textmate.plist.PlistValueType
+import java.io.File
 import java.util.ArrayDeque
 
 /**
@@ -30,16 +34,129 @@ object CarveTextMateTokenizer {
         val stream = CarveTextMateTokenizer::class.java.getResourceAsStream(GRAMMAR_RESOURCE)
             ?: error("Carve grammar not found on test classpath at $GRAMMAR_RESOURCE")
         val plist = stream.use { JsonPlistReader().read(it) }
+        return loadDescriptor(plist, ROOT_SCOPE)
+    }
+
+    private fun loadDescriptor(plist: Plist, expectedRoot: String?): TextMateLanguageDescriptor {
         val table = TextMateSyntaxTable()
         val interner: Interner<CharSequence> = Interner.createInterner()
         val scopeName: CharSequence = table.loadSyntax(plist, interner)
-            ?: error("Grammar declared no scopeName; expected $ROOT_SCOPE")
-        check(scopeName.toString() == ROOT_SCOPE) {
-            "Grammar root scope changed: expected $ROOT_SCOPE, got $scopeName"
+            ?: error("Grammar declared no scopeName; expected $expectedRoot")
+        if (expectedRoot != null) {
+            check(scopeName.toString() == expectedRoot) {
+                "Grammar root scope changed: expected $expectedRoot, got $scopeName"
+            }
         }
         val root = table.getSyntax(scopeName)
         return TextMateLanguageDescriptor(scopeName, root)
     }
+
+    private fun readPlist(file: File): Plist = file.inputStream().use { JsonPlistReader().read(it) }
+
+    /**
+     * A grammar other than the committed one - vscode-carve's copy, or a probing variant
+     * of either. Its own [TextMateSyntaxTable], so two grammars that share the root scope
+     * name do not collide in one JVM.
+     */
+    class Grammar internal constructor(
+        private val descriptor: TextMateLanguageDescriptor,
+    ) {
+        val rootScope: String get() = descriptor.scopeName.toString()
+
+        fun tokenize(text: String): List<Token> = tokenizeWith(descriptor, text)
+
+        fun snapshot(text: String): String = render(tokenize(text))
+
+        /**
+         * The character ranges [rule] OWNS in [text], where [rule] was loaded through
+         * [grammarProbing]: the ranges whose tokens carry [PROBE_SCOPE].
+         */
+        fun probedSpans(text: String): List<Span> {
+            val spans = ArrayList<Span>()
+            var offset = 0
+            for (token in tokenize(text)) {
+                val start = offset
+                offset += token.text.length
+                if (PROBE_SCOPE in token.scope.split(' ')) spans += Span(start, offset, token.text)
+            }
+            return spans
+        }
+
+        /** True when this grammar puts any scope beyond its root over [span]. */
+        fun highlightsAnythingIn(text: String, span: Span): Boolean {
+            var offset = 0
+            for (token in tokenize(text)) {
+                val start = offset
+                offset += token.text.length
+                if (start < span.end && offset > span.start && token.scope.trim() != rootScope) return true
+            }
+            return false
+        }
+    }
+
+    /** A half-open character range of a fixture, with the text it covers. */
+    data class Span(val start: Int, val end: Int, val text: String)
+
+    /**
+     * The scope a probed rule is rewritten to emit, chosen so no real grammar carries it.
+     */
+    const val PROBE_SCOPE: String = "zzcarve.probe.owner"
+
+    /** Loads [file] as a TextMate grammar. */
+    fun grammarFrom(file: File): Grammar = Grammar(loadDescriptor(readPlist(file), expectedRoot = null))
+
+    /**
+     * Loads [file] with every scope name inside repository rule [rule] replaced by
+     * [PROBE_SCOPE], so the tokens that rule produced can be told apart from every
+     * other rule's.
+     *
+     * ATTRIBUTION, NOT SCOPE MATCHING. Asking which text a rule covers by looking for
+     * the scopes it declares answers a different question: `heading-on-marker-line`
+     * declares `markup.list.unnumbered.carve`, which `lists` declares too, so that
+     * reading calls every bullet in the corpus part of the construct. A scope name
+     * never affects what a regex matches, so renaming one leaves the tokenization
+     * identical and marks exactly the tokens this rule won - in real competition with
+     * every other rule, which deleting it would not preserve.
+     */
+    fun grammarProbing(file: File, rule: String): Grammar {
+        val root = readPlist(file)
+        val repository = root.getPlistValue("repository")?.plist
+            ?: error("${file.name} has no repository, so no rule to probe")
+        check(repository.contains(rule)) { "${file.name} has no repository rule '$rule' to probe" }
+        val probedRepository =
+            Plist(
+                repository.entries().associate { (name, value) ->
+                    name to if (name == rule) probeScopes(value) else value
+                },
+            )
+        val probedRoot =
+            Plist(
+                root.entries().associate { (key, value) ->
+                    key to if (key == "repository") PListValue(probedRepository, PlistValueType.DICT) else value
+                },
+            )
+        return Grammar(loadDescriptor(probedRoot, expectedRoot = null))
+    }
+
+    private fun probeScopes(value: PListValue): PListValue =
+        when (value.type) {
+            PlistValueType.DICT ->
+                PListValue(
+                    Plist(
+                        value.plist.entries().associate { (key, child) ->
+                            key to
+                                if ((key == "name" || key == "contentName") && child.type == PlistValueType.STRING) {
+                                    PListValue(PROBE_SCOPE, PlistValueType.STRING)
+                                } else {
+                                    probeScopes(child)
+                                }
+                        },
+                    ),
+                    PlistValueType.DICT,
+                )
+            PlistValueType.ARRAY -> PListValue(value.array.map { probeScopes(it) }, PlistValueType.ARRAY)
+            else -> value
+        }
 
     /** A single highlighting token: the source text it covers and its full TextMate scope. */
     data class Token(val text: String, val scope: String)
@@ -49,7 +166,9 @@ object CarveTextMateTokenizer {
      * tokens that carry only the root scope are kept so the snapshot is faithful
      * to what the engine produces line by line.
      */
-    fun tokenize(text: String): List<Token> {
+    fun tokenize(text: String): List<Token> = tokenizeWith(descriptor, text)
+
+    private fun tokenizeWith(descriptor: TextMateLanguageDescriptor, text: String): List<Token> {
         val lexer = TextMateLexer(descriptor, Int.MAX_VALUE)
         lexer.init(text, 0)
         val queue = ArrayDeque<TextMateLexer.Token>()
@@ -97,9 +216,11 @@ object CarveTextMateTokenizer {
      *   <visible-text> -> <scope>
      * with newlines and tabs escaped so the golden file stays single-line per token.
      */
-    fun snapshot(text: String): String {
+    fun snapshot(text: String): String = render(tokenize(text))
+
+    private fun render(tokens: List<Token>): String {
         val sb = StringBuilder()
-        for (token in tokenize(text)) {
+        for (token in tokens) {
             sb.append(escape(token.text)).append(" -> ").append(token.scope).append('\n')
         }
         return sb.toString()

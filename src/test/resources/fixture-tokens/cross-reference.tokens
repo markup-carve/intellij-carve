@@ -1,0 +1,19 @@
+See  -> text.carve
+</# -> text.carve keyword.control.link.begin.carve
+fig-1 -> text.carve markup.underline.link.cross-reference.carve
+> -> text.carve keyword.control.link.end.carve
+ and  -> text.carve
+</# -> text.carve keyword.control.link.begin.carve
+tbl-2 -> text.carve markup.underline.link.cross-reference.carve
+> -> text.carve keyword.control.link.end.carve
+.\n -> text.carve
+\n -> text.carve
+A bare  -> text.carve
+< -> text.carve meta.link.autolink.carve keyword.control.link.carve
+https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
+> -> text.carve meta.link.autolink.carve keyword.control.link.carve
+ autolink, and  -> text.carve
+</# -> text.carve keyword.control.link.begin.carve
+sec-intro -> text.carve markup.underline.link.cross-reference.carve
+> -> text.carve keyword.control.link.end.carve
+ in prose.\n -> text.carve
