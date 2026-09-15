@@ -148,5 +148,12 @@
                 description="Export Carve file to Markdown">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+
+        <action id="Carve.ExportBundle"
+                class="org.markupcarve.carve.actions.ExportBundleAction"
+                text="Export Bundle (Document and Its Includes)"
+                description="Write this document and every file it includes into a folder beside it">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

@@ -32,6 +32,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 - **Code highlighting** in preview code blocks (highlight.js), with a copy button on each
 - **Works offline** - the preview makes no network request of any kind
 - **Export to HTML**
+- **Export Bundle** - the document plus every file it includes, as a folder beside it
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
 - **File type** recognition for `.crv`
 
@@ -206,10 +207,27 @@ Configurable under **Settings → Tools → Carve → Includes**:
 Both are read by the language server when it starts, so changing either
 restarts it.
 
-Resolution is a language-server feature. The live preview still shows a `{{ }}`
-directive as the token it is: rendering an expanded document through the
-preview's extension pipeline needs an engine seam that does not exist yet
-(markup-carve/carve-js#1677).
+### Export Bundle
+
+Right-click a `.crv` file and choose **Export Bundle (Document and Its
+Includes)**. The plugin writes the document and every file it reaches into a
+`<name>.bundle` folder beside it, laid out relative to the containment root so
+the directives keep resolving inside the copy. Targets it could not read are
+reported by name rather than silently left out.
+
+This is the shape for "send it to a colleague who will keep editing it": the
+`{{ }}` directives survive, so what arrives is still a document rather than one
+long file.
+
+The files are COPIED, not merged. Flattening - one self-contained `.crv`, and
+its clipboard twin - is the other half of this feature and is not reachable
+yet; so is expanding includes in the preview. Both need the engine's expansion
+pass, and although carve-js has had one on `main` since
+markup-carve/carve-js#1694, no published release carries it: nothing in the
+`dist` of `@markup-carve/carve@0.1.6`, the newest on npm, mentions
+`expandIncludes`. The plugin vendors its engine twice - the preview bundle and
+the copy inside the language server - and both are pinned to one published
+carve-js revision on purpose, so neither can move ahead of a release.
 
 ## About Carve
 
