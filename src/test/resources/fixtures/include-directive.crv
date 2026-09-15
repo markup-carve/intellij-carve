@@ -19,3 +19,9 @@ A plain #intro tag and a plain @level mention.
 {{ chapters/intro.crv @label:"a:b c" }}
 
 {{ chapters/intro.crv @label:"two words }}
+
+{{ chapters/intro.crv @label:"a }} more" }} end
+
+{{ "a }} more.crv" @level:2 }} end
+
+{{ chapters/intro.crv @label:"a }} more }} end

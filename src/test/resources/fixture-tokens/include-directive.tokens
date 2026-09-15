@@ -105,3 +105,36 @@ chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.
   -> text.carve meta.directive.include.carve
 }} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
 \n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+"a }} more" -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+ end\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+"a }} more.crv" -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@level -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+2 -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+ end\n -> text.carve
+\n -> text.carve
+{{ -> text.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> text.carve meta.directive.include.carve
+chapters/intro.crv -> text.carve meta.directive.include.carve string.other.link.include.carve
+  -> text.carve meta.directive.include.carve
+@label -> text.carve meta.directive.include.carve variable.parameter.include.carve
+: -> text.carve meta.directive.include.carve keyword.control.separator.include.carve
+"a -> text.carve meta.directive.include.carve constant.other.include.carve
+  -> text.carve meta.directive.include.carve
+}} -> text.carve meta.directive.include.carve keyword.control.directive.end.carve
+ more }} end\n -> text.carve
