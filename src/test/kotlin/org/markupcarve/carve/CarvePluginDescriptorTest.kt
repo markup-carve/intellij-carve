@@ -8,18 +8,9 @@ import java.io.File
  * Pins that the preview IS REACHABLE, and that every door into JCEF asks
  * whether JCEF exists.
  *
- * This file used to pin the opposite - that the extension points lived in
- * `carve-jcef.xml`, behind
- * `<depends optional="true">com.intellij.modules.jcef</depends>`. That module
- * is declared by no IDE: JCEF is platform code in `lib/app-client.jar`, not a
- * plugin with its own class loader. So the dependency never resolved, the file
- * never loaded, neither extension point was ever registered in any IDE, and
- * these tests passed the whole time - they asserted the MECHANISM and never
- * asked whether the preview could be reached (#104).
- *
- * They ask that now. `JBCefApp.isSupported()` is what keeps the #88 failure
- * away: the provider hides the default editor, so it must refuse a file it
- * cannot preview rather than leave it unopenable.
+ * These tests require both preview registrations to remain reachable and every
+ * entry point to call `CarveJcefSupport.isSupported()`. The provider hides the
+ * default editor, so it must refuse a file it cannot preview (#88).
  */
 class CarvePluginDescriptorTest {
 
@@ -45,21 +36,37 @@ class CarvePluginDescriptorTest {
     }
 
     @Test
-    fun noDescriptorDependsOnAModuleNoIdeDeclares() {
-        val fictional = Regex("""<depends[^>]*>com\.intellij\.modules\.jcef</depends>""")
+    fun jcefDependencyGrantsClassLoaderAccessWithoutGatingThePreview() {
+        val dependencies =
+            Regex("""<depends[^>]*>com\.intellij\.modules\.jcef</depends>""")
+                .findAll(pluginXmlDeclarations)
+                .map { it.value }
+                .toList()
         assertTrue(
-            "com.intellij.modules.jcef is declared by no IDE; a dependency on it silently drops everything it gates",
-            !fictional.containsMatchIn(pluginXmlDeclarations),
+            "2026.2 puts JCEF behind a plugin class loader, so Carve needs one exact optional dependency",
+            dependencies == listOf(
+                "<depends optional=\"true\" config-file=\"carve-jcef-classloader.xml\">" +
+                    "com.intellij.modules.jcef</depends>",
+            ),
         )
         assertTrue(
-            "carve-jcef.xml is gone - its contents moved into plugin.xml",
+            "preview registrations must not be gated; 2025.x does not declare the module",
             !File(metaInf, "carve-jcef.xml").exists(),
+        )
+        val optionalDeclarations = File(metaInf, "carve-jcef-classloader.xml")
+            .readText()
+            .replace(Regex("""<!--.*?-->""", RegexOption.DOT_MATCHES_ALL), "")
+            .replace(Regex("""<\?xml.*?\?>"""), "")
+            .trim()
+        assertTrue(
+            "the optional descriptor must be empty except for its idea-plugin root",
+            Regex("""<idea-plugin>\s*</idea-plugin>""").matches(optionalDeclarations),
         )
     }
 
     @Test
     fun everyDoorIntoThePreviewAsksWhetherJcefExists() {
-        val guard = "JBCefApp.isSupported()"
+        val guard = "CarveJcefSupport.isSupported()"
         for (path in listOf(
             "org/markupcarve/carve/preview/CarvePreviewEditorProvider.kt",
             "org/markupcarve/carve/preview/CarvePreviewToolWindowFactory.kt",
