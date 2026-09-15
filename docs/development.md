@@ -205,14 +205,17 @@ Three differences are by design:
 1. **Scope names.** This plugin uses `keyword.control.*` where vscode-carve uses
    `punctuation.definition.*`, because the IDE's TextMate bridge colours
    `keyword.control.*` out of the box. Suffixes are kept identical.
-2. **Plugin-only rules.** `cross-reference` is highlighted here and not upstream.
+2. **Plugin-only rules.** None at the moment. `cross-reference` was listed here
+   until it was measured: vscode-carve highlights `</#id>` too, inside its
+   `autolink` rule, so it is a grouping delta like the ones below.
 3. **Rule grouping.** Each side splits some constructs into their own repository
    rule where the other folds them into a broader one, and the grouping delta
    runs both ways. Upstream reaches a block opener written on a list item's own
    marker line with a `\G`-anchored alternative inside the shared
-   `-behind-a-container-prefix` rule; the IDE's TextMate bridge does not offer
-   `\G`, so this grammar splits that half into its own `-on-marker-line` rule.
-   The constructs are highlighted the same either way.
+   `-behind-a-container-prefix` rule, reachable only from the container region
+   its list rules open; this grammar's list rules are `match` rules and open no
+   such region, so it splits that half into its own `-on-marker-line` rule that
+   matches the whole line. The constructs are highlighted the same either way.
 
 Because of that, the grammar must **never** be overwritten with the upstream
 file - doing so would rewrite every scope name and delete the plugin-only rules.
@@ -222,15 +225,34 @@ they answer different questions:
 ```bash
 gradle checkGrammarDrift          # upstream constructs this grammar is missing
 gradle checkGrammarDeclarations   # declarations above that stopped being true
+gradle checkGrammarConstructs     # each declaration measured over its fixture
 ```
 
 `checkGrammarDrift` fails only on upstream rules with no local counterpart -
 port those by hand, or, when a broader local rule already covers the construct,
-declare it in `upstreamRulesCoveredLocally` **and pin it with a fixture**.
+declare it in `upstreamRulesCoveredLocally` **and name a fixture**.
 `checkGrammarDeclarations` fails when a claim in `build.gradle.kts` has stopped
-describing upstream. Both need network, so neither runs on a pull request;
-`.github/workflows/grammar-drift.yml` runs them daily, gating the second and
-reporting the first.
+describing upstream by NAME - a declared rule that has appeared or vanished on
+the other side, or a fixture that does not exist.
+
+`checkGrammarConstructs` is the one that measures the claim itself, because the
+name check cannot: it never asks whether upstream highlights the same CONSTRUCT
+under a different rule name, and a factoring difference is exactly where the
+names diverge. It drives both grammars over each declaration's fixture through
+the same engine and asserts that upstream highlights nothing a plugin-only rule
+owns, everything a grouped rule owns, and that this grammar highlights
+everything an upstream rule declared covered owns. Attribution comes from
+loading the declared rule with its scope names rewritten to a probe scope, so
+the spans are the ones that rule actually won.
+
+Every declaration therefore **names a fixture in
+`src/test/resources/fixtures/`**, and the fixture has to contain the construct:
+an entry pointing at an unrelated but well-covered fixture fails.
+
+All three need network, so none runs on a pull request;
+`.github/workflows/grammar-drift.yml` runs them daily, gating the declarations
+and the constructs and reporting the drift. Without a fetched upstream grammar
+the construct arms SKIP rather than pass.
 
 ## Shared-corpus highlighter conformance
 
