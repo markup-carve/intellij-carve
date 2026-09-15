@@ -212,14 +212,22 @@ Three differences are by design:
    rule where the other folds them into a broader one, and the grouping delta
    runs both ways. Upstream reaches a block opener written on a list item's own
    marker line with a `\G`-anchored alternative inside the shared
-   `-behind-a-container-prefix` rule, reachable only from the container region
-   its list rules open; this grammar's list rules are `match` rules and open no
-   such region, so it splits that half into its own `-on-marker-line` rule that
-   matches the whole line. The constructs are highlighted the same either way.
+   `-behind-a-container-prefix` rule; this grammar splits that half into its own
+   `-on-marker-line` rule that matches the whole line. They predate the list
+   region below, which is now a place a `\G` rule could sit; nothing has been
+   refactored onto it. The constructs are highlighted the same either way.
+
+`#lists` opens a begin/end REGION for a bullet or ordered item, so a block
+opener written at the item's **body column** can be reached from inside the item
+and nowhere else: a code fence there is a fenced block, while the same fence
+indented at document level stays an inline code span, which is what carve-js
+renders. The region carries no scope of its own - the marker keeps its scopes
+through `beginCaptures` 0 and the body tokenizes through `$self` - so nothing
+else about a list changed.
 
 Because of that, the grammar must **never** be overwritten with the upstream
 file - doing so would rewrite every scope name and delete the plugin-only rules.
-Port upstream changes by hand. Two read-only checks measure what is left, and
+Port upstream changes by hand. Three read-only checks measure what is left, and
 they answer different questions:
 
 ```bash

@@ -342,6 +342,13 @@ val localRulesGroupedUpstream =
         // Also asserted in CarveMarkerLineBlockOpenerTest.
         "code-fence-on-marker-line" to
             GroupedUpstream("code-block-behind-a-container-prefix", "code-fence-in-list-item.crv"),
+        // The OTHER half of that upstream rule: a fence at the item's body column, which
+        // upstream reaches from `#container-body` and this grammar reaches from the region
+        // `#lists` now opens. Two local rules to upstream's one, which is why the entry in
+        // upstreamRulesCoveredLocally names this one and says so.
+        // Also asserted in CarveBodyColumnFenceTest.
+        "code-fence-at-body-column" to
+            GroupedUpstream("code-block-behind-a-container-prefix", "code-fence-in-list-item.crv"),
         "heading-on-marker-line" to
             GroupedUpstream("headings-behind-a-container-prefix", "marker-line-block-openers.crv"),
         "table-row-on-marker-line" to
@@ -390,6 +397,14 @@ val upstreamRulesCoveredLocally = mapOf(
     // definition is missing on BOTH local forms, so that delta belongs to the
     // shared `definitions` rule and is already reported in the structural diff.
     "definitions-in-container" to CoveredLocally("definitions", "definition-in-container.crv"),
+    // Upstream's rule has TWO patterns and this grammar splits them: a fence on the item's
+    // own marker line is `code-fence-on-marker-line`, a fence at the item's body column is
+    // `code-fence-at-body-column`. The entry names the second because it was the missing
+    // half - the first was ported long ago and the second landed with the list region that
+    // makes it reachable. `code-fence-in-list-item.crv` carries both spellings AND the
+    // document-level indented fence that must NOT become a block.
+    "code-block-behind-a-container-prefix" to
+        CoveredLocally("code-fence-at-body-column", "code-fence-in-list-item.crv"),
 )
 
 // `rule=fixture;rule=fixture` - the one shape a system property can carry, and the shape

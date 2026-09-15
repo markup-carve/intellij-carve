@@ -614,6 +614,41 @@
         }
       ]
     },
+    "code-fence-at-body-column": {
+      "patterns": [
+        {
+          "comment": "A CODE FENCE AT A LIST ITEM'S BODY COLUMN - the half of upstream's `code-block-behind-a-container-prefix` that `#code-fence-on-marker-line` does not cover (markup-carve/intellij-carve#133). Measured against the engine bundled in this plugin, `- item` / blank / `  ```php` renders the `<pre><code>` INSIDE the item. Before this rule the opener took `markup.raw.inline.carve` and the body `markup.raw.inline.content.carve` - the multi-line INLINE code span - with `php` scoped as content instead of a language. REACHABLE ONLY FROM A LIST ITEM'S REGION, and that is the point. At DOCUMENT level an indented fence is NOT a fence: carve-js renders `  ```php` as a paragraph holding an inline code span, which is what this grammar produces and what vscode-carve produces as well, so a top-level indent-anchored rule would break a correct answer in order to fix a wrong one. Upstream avoids the trade by reaching this pattern only from `#container-body`; `#lists` opens a region for the same reason and includes this rule there and nowhere else. THE PATTERN IS `#code-blocks`'s, shifted by the `^([ \\t]+)` capture in front of it, so the two rules read the same fence and the same info string. THE END HAS TWO BRANCHES, the split `#code-fence-on-marker-line` already carries: the ordinary closer, indented, and a DEDENT below the opener's own indent, which ends the item and the fence with it. A blank line does not end it, so a fence may hold one.",
+          "name": "markup.raw.block.fenced.code.carve",
+          "begin": "^([ \\t]+)((`|~)\\3{2,})[ \\t]*([^`~\\s\\[\"]+)?[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$",
+          "beginCaptures": {
+            "2": {
+              "name": "keyword.control.raw.begin.carve"
+            },
+            "4": {
+              "name": "entity.name.type.language.carve"
+            },
+            "5": {
+              "name": "string.quoted.double.carve"
+            },
+            "6": {
+              "name": "entity.name.label.carve"
+            },
+            "7": {
+              "name": "entity.name.label.carve"
+            },
+            "8": {
+              "name": "string.quoted.double.carve"
+            }
+          },
+          "end": "^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.raw.end.carve"
+            }
+          }
+        }
+      ]
+    },
     "code-fence-on-quote-marker-line": {
       "patterns": [
         {
@@ -719,10 +754,12 @@
           }
         },
         {
-          "name": "markup.list.unnumbered.carve",
-          "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first. A BULLET MAY BE GLUED TO AN ATTRIBUTE BLOCK, and then the required space comes after the block, not after the marker - so `-{#x} item` and `*{.c} item` went uncoloured on a line that IS a list item, while the ordered rule beside it already had the branch (markup-carve/carve-grammars#126). It is a LOOKAHEAD: consuming the block would make this rule own those characters, so the attribute rule could no longer scope them. KNOWN LIMITATION, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped, because the task branch has none; the bullet is. THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126).",
-          "match": "^([ \\t]*)([-*])(?:(?= )|(?=\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)?\\}[ \\t]+[^ \\t\\n]))( *)((?:[-*] +)*)(\\[[ xX\\-_>?]\\] +)?(?![ \\t]*$)",
-          "captures": {
+          "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first. A BULLET MAY BE GLUED TO AN ATTRIBUTE BLOCK, and then the required space comes after the block, not after the marker - so `-{#x} item` and `*{.c} item` went uncoloured on a line that IS a list item, while the ordered rule beside it already had the branch (markup-carve/carve-grammars#126). It is a LOOKAHEAD: consuming the block would make this rule own those characters, so the attribute rule could no longer scope them. KNOWN LIMITATION, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped, because the task branch has none; the bullet is. THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126). THE RULE IS A REGION AND NOT A MATCH, so that a code fence at the item's BODY column can be reached from inside the item and nowhere else (markup-carve/intellij-carve#133). The region carries no scope of its own: the marker keeps its scopes through beginCaptures 0 and the body tokenizes through `$self`, the document's own pattern list, which is what applied to it when this was a line match - so the only reading that changes is the one `#code-fence-at-body-column` adds, and every list golden in the suite is unchanged. THE END IS THE ITEM BOUNDARY: the first line that neither is blank nor sits past the item's own indent. Blank lines are admitted because an item's body may hold several blocks, and the bound is the opener's indent rather than the body column, which is the looseness `#code-fence-on-marker-line`'s own closer already carries.",
+          "begin": "^([ \\t]*)([-*])(?:(?= )|(?=\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)?\\}[ \\t]+[^ \\t\\n]))( *)((?:[-*] +)*)(\\[[ xX\\-_>?]\\] +)?(?![ \\t]*$)",
+          "beginCaptures": {
+            "0": {
+              "name": "markup.list.unnumbered.carve"
+            },
             "2": {
               "name": "keyword.control.list.begin.carve"
             },
@@ -732,17 +769,29 @@
             "5": {
               "name": "keyword.control.task-list.carve"
             }
-          }
+          },
+          "end": "^(?![ \\t]*$)(?!\\1[ \\t])",
+          "patterns": [
+            { "include": "#code-fence-at-body-column" },
+            { "include": "$self" }
+          ]
         },
         {
-          "comment": "Ordered markers use a trailing `.` or `)` only. A parenthesized `(1)` / `(a)` form is NOT a marker in Carve (it is too easily confused with prose), so no leading `(`. The BARE DOT is a marker on its own (carve#472): `.` continues an ordered sequence, and is the only marker allowed to drop its value. The lookahead admits a marker glued to an attribute block (`.{#x}`, `3.{#x k=v}`), which is how the corpus writes it - but the ATTRIBUTE FORM NEEDS CONTENT TOO: `1.{#x}` with nothing after the block is a paragraph, so the glued-block branch spells the block out in full rather than skipping it. A `\\{[^}]*\\}` run stops in the wrong place, because a quoted value may contain `}` and may escape its own quote, and `{title=\"a}b\"} x` is a valid item (markup-carve/carve-grammars#85). A ROMAN RUN IS CASE-CONSISTENT: two classes, not one `[ivxlcdmIVXLCDM]`, which matched any mixture and coloured `Vim. text` and `Mix. text` as lists where carve-js renders paragraphs (markup-carve/carve-grammars#118). `mix.`, `civil.` and `did.` DO open lists, so the fix is the case split rather than rejecting multi-letter words. CarveMarkerScanner already uses the split form (#55). THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126).",
-          "name": "markup.list.numbered.carve",
-          "match": "^([ \\t]*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.)(?:(?= )|(?=\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)?\\}[ \\t]+[^ \\t\\n])) *(?![ \\t]*$)",
-          "captures": {
+          "comment": "Ordered markers use a trailing `.` or `)` only. A parenthesized `(1)` / `(a)` form is NOT a marker in Carve (it is too easily confused with prose), so no leading `(`. The BARE DOT is a marker on its own (carve#472): `.` continues an ordered sequence, and is the only marker allowed to drop its value. The lookahead admits a marker glued to an attribute block (`.{#x}`, `3.{#x k=v}`), which is how the corpus writes it - but the ATTRIBUTE FORM NEEDS CONTENT TOO: `1.{#x}` with nothing after the block is a paragraph, so the glued-block branch spells the block out in full rather than skipping it. A `\\{[^}]*\\}` run stops in the wrong place, because a quoted value may contain `}` and may escape its own quote, and `{title=\"a}b\"} x` is a valid item (markup-carve/carve-grammars#85). A ROMAN RUN IS CASE-CONSISTENT: two classes, not one `[ivxlcdmIVXLCDM]`, which matched any mixture and coloured `Vim. text` and `Mix. text` as lists where carve-js renders paragraphs (markup-carve/carve-grammars#118). `mix.`, `civil.` and `did.` DO open lists, so the fix is the case split rather than rejecting multi-letter words. CarveMarkerScanner already uses the split form (#55). THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126). THE RULE IS A REGION AND NOT A MATCH, so that a code fence at the item's BODY column can be reached from inside the item and nowhere else (markup-carve/intellij-carve#133). The region carries no scope of its own: the marker keeps its scopes through beginCaptures 0 and the body tokenizes through `$self`, the document's own pattern list, which is what applied to it when this was a line match - so the only reading that changes is the one `#code-fence-at-body-column` adds, and every list golden in the suite is unchanged. THE END IS THE ITEM BOUNDARY: the first line that neither is blank nor sits past the item's own indent. Blank lines are admitted because an item's body may hold several blocks, and the bound is the opener's indent rather than the body column, which is the looseness `#code-fence-on-marker-line`'s own closer already carries.",
+          "begin": "^([ \\t]*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.)(?:(?= )|(?=\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)?\\}[ \\t]+[^ \\t\\n])) *(?![ \\t]*$)",
+          "beginCaptures": {
+            "0": {
+              "name": "markup.list.numbered.carve"
+            },
             "2": {
               "name": "keyword.control.list.begin.carve"
             }
-          }
+          },
+          "end": "^(?![ \\t]*$)(?!\\1[ \\t])",
+          "patterns": [
+            { "include": "#code-fence-at-body-column" },
+            { "include": "$self" }
+          ]
         },
         {
           "name": "markup.list.definition.carve",
