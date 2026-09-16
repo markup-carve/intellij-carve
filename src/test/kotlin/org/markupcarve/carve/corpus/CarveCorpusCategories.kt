@@ -393,6 +393,12 @@ object CarveCorpusCategories {
         // Both spellings inside a footnote body: the `%%` line and the `%%%` fence each
         // keep their comment scope at the body's indent.
         "a-comment-in-a-footnote-body-is-invisible-in-both-spellings",
+        // The HTML inside the raw fence keeps the raw-block scope; `onclick="reveal()"`
+        // takes no attribute scope, which is the pass-through the rule is about.
+        "a-raw-block-passes-its-attributes-through-untouched",
+        // The only include directive in the corpus, so this is the one golden that pins
+        // `meta.directive.include` and the path inside it.
+        "include-directive-with-no-resolver-renders-literal",
     )
 
     /**
@@ -1051,6 +1057,60 @@ object CarveCorpusCategories {
             "How far the attached run reaches is block extent; the marker token is pinned by `list-continuation-marker`.",
         "the-continuation-marker-s-column-gate-reaches-every-container" to
             "The column gate is block context; the marker and comment tokens are pinned by `list-continuation-marker` and `comments`.",
+        "a-definition-between-two-open-content-columns-reaches-the-outer-one" to
+            "Which of two open content columns a reference definition attaches to is block context, and a line-based grammar has neither column. The definition and the reference below it take the same tokens under either reading, pinned by `reference-link` and `lists`.",
+        "a-marker-folds-only-strictly-between-the-item-s-base-and-content-column" to
+            "Folding needs the item's base and content columns. The marker takes its `lists` scopes at any indent, so both readings produce one stream.",
+        "an-opener-at-or-past-a-description-body-s-column-closes-its-paragraph" to
+            "Whether the opener joins the body or closes it is block structure; the description marker and the opener are pinned by `definition-lists` and the category that owns the opener.",
+        "the-host-does-not-change-which-column-a-definition-reaches" to
+            "The same column reach measured under several hosts. Hosts do not change tokens, and the definitions are pinned by `reference-link` and `footnotes`.",
+        "a-marker-folds-into-a-quote-below-it" to
+            "Folding across a quote marker again; `lists` and `block-quote-continuation-marker` pin both markers wherever the fold lands.",
+        "a-container-in-a-host-body-owns-a-line-past-its-own-content-column" to
+            "Which container owns the line is containment, not a scope. The colon fence and the definition inside it are pinned by `generic-divs` and `reference-link`.",
+        "an-empty-unterminated-container-ends-at-a-flush-left-line" to
+            "Where an unterminated container ends is a span, and spans are not scopes. The opener is pinned by `an-unclosed-bare-colon-fence-opens-a-div`.",
+        "a-block-opener-past-a-nested-footnote-definition-opens-in-the-item" to
+            "Placement of the opener relative to a nested note body, which needs that body's column. The note and the quote are pinned by `footnotes` and `blockquote-with-attribution`.",
+        "a-definition-nested-past-a-footnote-body-is-a-note-and-a-reference-below-it-resolves" to
+            "Whether the nested definition registers is resolution, which happens after tokenizing. Every definition line here scopes through `footnotes` and `reference-link`.",
+        "a-container-closer-closes-its-container-in-a-footnote-body-too" to
+            "Which container a `:::` closes is containment; the closer takes the `generic-divs` scope in either case.",
+        "a-wrapped-attribute-block-ends-at-its-quote-and-reaches-no-line-below-it" to
+            "Where the attribute block's reach stops is block extent. `{.k #x}` scopes as the attribute block `attributes` and `block-attribute-lines` already pin.",
+        "a-trailing-line-after-a-consumed-definition-is-placed-by-column-reach" to
+            "Placement of the trailing line by column reach, which a line-based grammar cannot measure. The line is plain text and takes no scope of its own.",
+        "a-nested-note-s-floor-is-two-columns-past-its-own-marker" to
+            "The note's floor is arithmetic on its own marker column. The marker and the definitions under it are pinned by `footnotes` and `reference-link`.",
+        "a-column-0-line-after-a-description-hosted-note-is-a-document-sibling" to
+            "Whether the column-0 line rejoins the note or the document is block structure; the note line is pinned by `footnotes` and the term by `definition-lists`.",
+        "a-block-that-opens-a-tight-item-is-written-on-the-marker-line" to
+            "A writer rule: which line `carve fmt` puts the item's opening block on. Both spellings give the marker and the quote the scopes `lists` and `blockquote-with-attribution` pin.",
+        "the-round-trip-comparison-normalizes-a-named-list" to
+            "A comparison rule for the round-trip harness, not a construct. The two documents are an empty brace pair and a nested emphasis run, pinned by `an-empty-brace-pair-is-not-a-construct` and `emphasis`.",
+        "an-unterminated-comment-fence-in-a-list-item-is-the-line-form" to
+            "Negative case: an unterminated `%%%` in an item is the line form, so only its own line is a comment. The line-based grammar opens a block comment that runs to the end of the document (markup-carve/carve-grammars#71); `comments` and `nested-comment-fences` pin the terminated form.",
+        "a-degraded-comment-fence-at-a-container-s-column-0-keeps-the-follower-in-the-item" to
+            "The same degraded fence, asked where the follower lands. The grammar swallows the follower into the block comment either way, so the stream cannot tell the two readings apart.",
+        "a-degraded-comment-fence-leaves-a-lazy-follower-where-the-line-form-does" to
+            "The same degradation with a lazy follower, and the same block comment over both lines.",
+        "a-comment-below-a-description-body-s-column-ends-the-body" to
+            "Where the description body ends is block extent. The term, the description and the comment fence are pinned by `definition-lists` and `nested-comment-fences`.",
+        "a-closed-fence-in-a-description-body-ends-it" to
+            "The same body extent, ended by a closed fence instead. The colon fence inside takes the `admonitions` scopes at its indent either way.",
+        "a-row-whose-every-cell-is-blank-is-not-a-table" to
+            "Negative case: an all-blank row is a paragraph. A line-based grammar scopes `|||` as a table row anyway (markup-carve/carve-grammars#71); `tables` pins the positive form.",
+        "an-unterminated-fence-on-a-nested-lead-in-a-description-body-owns-its-body" to
+            "Which block owns the body of an unterminated fence is block structure; the fence takes the raw scopes `fenced-code` pins wherever it is read.",
+        "a-bare-closer-does-not-reach-inside-a-braced-inline" to
+            "Negative case: a bare closer inside a brace group closes nothing. The grammar closes the run at it in all three documents (markup-carve/carve-grammars#71); `emphasis` and `editorial-markup` pin the positive form.",
+        "an-underscore-pair-in-text-is-escaped-where-the-line-would-pair-it" to
+            "Whether the pair reads as emphasis depends on the underscores elsewhere in the block, which a line-based grammar cannot count, so it scopes `_y_` as emphasis here.",
+        "a-bare-closer-does-not-reach-inside-a-link-destination" to
+            "The grammar leaves the surrounding `/.../` run unscoped once a link or autolink sits inside it, so the stream says nothing about where the closer reached; `links` and `autolinks` pin the destination.",
+        "an-underscore-pair-split-across-a-line-break-is-escaped" to
+            "Negative case across a line break: the document takes no scope at all, so there is nothing to snapshot.",
     )
 
     /**
