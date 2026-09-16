@@ -48,12 +48,29 @@ class CarveBundleCorpusTest {
      * the reason this repo grew a 363-commit gap in the first place.
      */
     private val expectedDivergences: Map<String, String> = linkedMapOf(
-        // Same shape as `86-list-lazy-continuation-9` before it: the spec pin
-        // predates the rule and the engine is already right, so this clears
-        // itself when the submodule is bumped (#147). `data-task-state` on the
-        // item arrived in carve 95e0a2de, after the pinned corpus at 375e1f3.
-        "06-task-lists-2" to
-            "the pinned corpus predates data-task-state on the list item; spec main carries it",
+        // The mirror of the entry that used to sit here: there the corpus was
+        // behind the engine, here the engine is behind the corpus. The vendored
+        // bundle is carve-js 0.1.6, the last release, and the eight documents
+        // below pin rules carve-js implemented after it was cut - so a rebuild
+        // cannot close them and the next carve-js release clears all eight at
+        // once. A bundle built from carve-js main renders every one correctly,
+        // which is how each is attributed.
+        "460-a-nested-note-s-floor-is-two-columns-past-its-own-marker-2" to
+            "a nested note's floor moved in carve-js 72760e6 and 6b050a6, both after 0.1.6",
+        "461-a-column-0-line-after-a-description-hosted-note-is-a-document-sibling" to
+            "carve-js df49faf, after 0.1.6",
+        "461-a-column-0-line-after-a-description-hosted-note-is-a-document-sibling-2" to
+            "carve-js df49faf, after 0.1.6",
+        "463-a-bare-closer-does-not-reach-inside-a-braced-inline" to
+            "carve-js 594fd1d and b9291b3, after 0.1.6",
+        "463-a-bare-closer-does-not-reach-inside-a-braced-inline-2" to
+            "carve-js 594fd1d and b9291b3, after 0.1.6",
+        "463-a-bare-closer-does-not-reach-inside-a-braced-inline-3" to
+            "carve-js 594fd1d and b9291b3, after 0.1.6",
+        "467-a-bare-closer-does-not-reach-inside-a-link-destination" to
+            "carve-js b935d0e, after 0.1.6",
+        "467-a-bare-closer-does-not-reach-inside-a-link-destination-2" to
+            "carve-js b935d0e, after 0.1.6",
     )
 
     /**
