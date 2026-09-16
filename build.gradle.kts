@@ -786,6 +786,12 @@ tasks {
         inputs.files(fileTree("spec/resources/examples"))
             .withPropertyName("corpusSourcePages")
             .withPathSensitivity(PathSensitivity.RELATIVE)
+        // Read by path for the same reason and with the same consequence:
+        // CarveWorkflowCheckoutTest reads the workflow files, and without this
+        // an edit to one leaves the task UP-TO-DATE and the check unrun.
+        inputs.files(fileTree(".github/workflows"))
+            .withPropertyName("workflowDefinitions")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
         System.getProperty("carve.updateGoldens")?.let {
             systemProperty("carve.updateGoldens", it)
         }
