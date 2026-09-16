@@ -48,13 +48,12 @@ class CarveBundleCorpusTest {
      * the reason this repo grew a 363-commit gap in the first place.
      */
     private val expectedDivergences: Map<String, String> = linkedMapOf(
-        // Empty, and that is the assertion. The one entry that used to live
-        // here was `86-list-lazy-continuation-9`, where the spec pin predated
-        // the rule change that moved the golden and the engine was already
-        // right - it cleared itself when the submodule was bumped, exactly as
-        // its own note said it would. An empty map means the vendored bundle
-        // and the pinned corpus agree on all 1131 documents; a new entry is a
-        // claim that needs a reason of the same shape.
+        // Same shape as `86-list-lazy-continuation-9` before it: the spec pin
+        // predates the rule and the engine is already right, so this clears
+        // itself when the submodule is bumped (#147). `data-task-state` on the
+        // item arrived in carve 95e0a2de, after the pinned corpus at 375e1f3.
+        "06-task-lists-2" to
+            "the pinned corpus predates data-task-state on the list item; spec main carries it",
     )
 
     /**
