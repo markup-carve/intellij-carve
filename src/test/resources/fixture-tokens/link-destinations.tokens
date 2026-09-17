@@ -1,0 +1,41 @@
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+t -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/url -> text.carve meta.link.inline.carve markup.underline.link.carve
+ ' -> text.carve meta.link.inline.carve
+ti\\'tle -> text.carve meta.link.inline.carve string.quoted.single.link-title.carve
+' -> text.carve meta.link.inline.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> text.carve
+\n -> text.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+alt -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+/img.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+ ' -> text.carve meta.image.inline.carve
+cap\\'tion -> text.carve meta.image.inline.carve string.quoted.single.image-title.carve
+') -> text.carve meta.image.inline.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+b -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+a(x)c -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+e -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+a\\)b -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> text.carve
+\n -> text.carve
+[n](/u   -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+T -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+)\n -> text.carve
