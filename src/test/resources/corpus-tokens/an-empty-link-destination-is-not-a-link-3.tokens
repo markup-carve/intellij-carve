@@ -1,0 +1,5 @@
+[x](  -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+t -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+)\n -> text.carve

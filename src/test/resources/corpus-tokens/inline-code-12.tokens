@@ -1,0 +1,14 @@
+x{ -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+`a\n -> text.carve markup.bold.carve markup.bold.carve
+*}\n -> text.carve markup.bold.carve markup.bold.carve
+\n -> text.carve
+::: -> text.carve markup.other.div.carve keyword.control.div.carve
+  -> text.carve markup.other.div.carve
+| -> text.carve markup.other.div.carve entity.name.type.div.carve
+\n -> text.carve
+x{ -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+`a\n -> text.carve markup.bold.carve markup.bold.carve
+*}\n -> text.carve markup.bold.carve markup.bold.carve
+:::\n -> text.carve markup.bold.carve markup.bold.carve
