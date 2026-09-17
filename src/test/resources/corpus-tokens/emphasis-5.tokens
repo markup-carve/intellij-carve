@@ -1,5 +1,9 @@
 * -> text.carve markup.bold.carve keyword.control.bold.carve
-bold with /italic/ inside -> text.carve markup.bold.carve markup.bold.carve
+bold with  -> text.carve markup.bold.carve markup.bold.carve
+/ -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+italic -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+ inside -> text.carve markup.bold.carve markup.bold.carve
 * -> text.carve markup.bold.carve keyword.control.bold.carve
  and  -> text.carve
 / -> text.carve markup.italic.carve keyword.control.italic.carve
