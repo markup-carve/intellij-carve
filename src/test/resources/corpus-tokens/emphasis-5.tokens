@@ -7,6 +7,10 @@ italic -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve mar
 * -> text.carve markup.bold.carve keyword.control.bold.carve
  and  -> text.carve
 / -> text.carve markup.italic.carve keyword.control.italic.carve
-italic with *bold* inside -> text.carve markup.italic.carve markup.italic.carve
+italic with  -> text.carve markup.italic.carve markup.italic.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+bold -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+ inside -> text.carve markup.italic.carve markup.italic.carve
 / -> text.carve markup.italic.carve keyword.control.italic.carve
 \n -> text.carve

@@ -1,0 +1,150 @@
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+ c -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a  -> text.carve markup.underline.text.carve markup.underline.text.carve
+` -> text.carve markup.underline.text.carve markup.underline.text.carve markup.raw.inline.carve keyword.control.raw.carve
+x -> text.carve markup.underline.text.carve markup.underline.text.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> text.carve markup.underline.text.carve markup.underline.text.carve markup.raw.inline.carve keyword.control.raw.carve
+ b -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve
+\n -> text.carve
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+a  -> text.carve markup.deleted.carve markup.deleted.carve
+/ -> text.carve markup.deleted.carve markup.deleted.carve markup.italic.carve keyword.control.italic.carve
+b -> text.carve markup.deleted.carve markup.deleted.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.deleted.carve markup.deleted.carve markup.italic.carve keyword.control.italic.carve
+ c -> text.carve markup.deleted.carve markup.deleted.carve
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+\n -> text.carve
+\n -> text.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+a  -> text.carve markup.changed.carve markup.changed.carve
+_ -> text.carve markup.changed.carve markup.changed.carve markup.underline.text.carve keyword.control.underline.carve
+b -> text.carve markup.changed.carve markup.changed.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.changed.carve markup.changed.carve markup.underline.text.carve keyword.control.underline.carve
+ c -> text.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+[l](/p/q) b -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a  -> text.carve markup.underline.text.carve markup.underline.text.carve
+{/ -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve keyword.control.italic.carve
+b -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve keyword.control.italic.carve
+ c -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a -> text.carve markup.italic.carve markup.italic.carve
+/b -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a -> text.carve markup.underline.text.carve markup.underline.text.carve
+_b -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve
+\n -> text.carve
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+a -> text.carve markup.deleted.carve markup.deleted.carve
+~b -> text.carve markup.deleted.carve markup.deleted.carve
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+\n -> text.carve
+\n -> text.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+a -> text.carve markup.changed.carve markup.changed.carve
+=b -> text.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.changed.carve keyword.control.highlight.carve
+\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+/b -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+ c/\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a  -> text.carve markup.underline.text.carve markup.underline.text.carve
+_b -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+ c_\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+*b c -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+*b -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+ c*\n -> text.carve
+\n -> text.carve
+/usr/bin and /etc\n -> text.carve
+\n -> text.carve
+/a/_b/\n -> text.carve
+\n -> text.carve
+/a//\n -> text.carve
+\n -> text.carve
+a  -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+b -> text.carve markup.italic.carve markup.italic.carve
+\\/c -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+ d\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a  -> text.carve markup.underline.text.carve markup.underline.text.carve
+/b -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+ c/\n -> text.carve
+\n -> text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+a  -> text.carve markup.underline.text.carve markup.underline.text.carve
+/ -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve keyword.control.italic.carve
+b -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.underline.text.carve markup.underline.text.carve markup.italic.carve keyword.control.italic.carve
+  -> text.carve markup.underline.text.carve markup.underline.text.carve
+* -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.carve keyword.control.bold.carve
+c -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.carve keyword.control.bold.carve
+ d -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve
+\n -> text.carve
+//a/ and  -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+usr -> text.carve markup.italic.carve markup.italic.carve
+/local -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a  -> text.carve markup.italic.carve markup.italic.carve
+~ -> text.carve markup.italic.carve markup.italic.carve markup.deleted.carve keyword.control.strike.carve
+b -> text.carve markup.italic.carve markup.italic.carve markup.deleted.carve markup.deleted.carve
+~ -> text.carve markup.italic.carve markup.italic.carve markup.deleted.carve keyword.control.strike.carve
+  -> text.carve markup.italic.carve markup.italic.carve
+= -> text.carve markup.italic.carve markup.italic.carve markup.changed.carve keyword.control.highlight.carve
+c -> text.carve markup.italic.carve markup.italic.carve markup.changed.carve markup.changed.carve
+= -> text.carve markup.italic.carve markup.italic.carve markup.changed.carve keyword.control.highlight.carve
+ d -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
