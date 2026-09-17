@@ -1,5 +1,1 @@
-para  -> text.carve
-{ -> text.carve meta.attributes.carve
-.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
- more\n -> text.carve
+para {.c} more\n -> text.carve
