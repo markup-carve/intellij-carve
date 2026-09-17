@@ -841,6 +841,25 @@
           }
         },
         {
+          "comment": "A trailing attribute block after one space belongs to the definition. It is a region rather than a capture because the IDE's TextMate engine does not tokenize patterns inside a numbered capture.",
+          "name": "meta.link.reference.definition.carve",
+          "begin": "^\\s*(\\[[^\\]]+\\]:)\\s+(\\S+)( )(?=\\{\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*\\})",
+          "beginCaptures": {
+            "1": {
+              "name": "entity.name.reference.link.carve"
+            },
+            "2": {
+              "name": "markup.underline.link.carve"
+            }
+          },
+          "end": "(?<=\\})",
+          "patterns": [
+            {
+              "include": "#attribute-block"
+            }
+          ]
+        },
+        {
           "name": "meta.link.reference.definition.carve",
           "match": "^\\s*(\\[[^\\]]+\\]:)\\s+(\\S+)",
           "captures": {
@@ -1124,6 +1143,54 @@
         }
       ]
     },
+    "attribute-block": {
+      "name": "meta.attributes.carve",
+      "match": "\\{\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*\\}",
+      "captures": {
+        "0": {
+          "patterns": [
+            {
+              "include": "#attribute-items"
+            }
+          ]
+        }
+      }
+    },
+    "attribute-items": {
+      "comment": "The identifier, class, id and value scopes inside an attribute block, shared by the root rule and a reference definition's own attribute capture.",
+      "patterns": [
+        {
+          "comment": "The language attribute (markup-carve/carve#1114) is the one item that opens with a colon. It goes FIRST: the key rule below admits a leading colon but needs an `=` after it, so `:fr` would otherwise fall through every rule and keep only the anonymous meta scope. The lookbehind is what keeps it an ITEM: an unquoted value may itself begin with a colon (`{key=:fr}`), and that colon starts at the same offset as the value rule's match, so without the boundary the first-listed language rule would claim it.",
+          "name": "entity.other.attribute-name.language.carve",
+          "match": "(?<=[{\\s]):(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?"
+        },
+        {
+          "name": "entity.other.attribute-name.id.carve",
+          "match": "#[A-Za-z_][A-Za-z0-9_-]*"
+        },
+        {
+          "name": "entity.other.attribute-name.class.carve",
+          "match": "\\.[A-Za-z_][A-Za-z0-9_-]*"
+        },
+        {
+          "name": "entity.other.attribute-name.carve",
+          "match": "[A-Za-z_:][A-Za-z0-9_:-]*(?==)"
+        },
+        {
+          "name": "string.quoted.double.attribute.carve",
+          "match": "\"(?:[^\"\\\\]|\\\\.)*\""
+        },
+        {
+          "name": "string.quoted.single.attribute.carve",
+          "match": "'(?:[^'\\\\]|\\\\.)*'"
+        },
+        {
+          "comment": "An unquoted value may contain dots and colons (`k=v.w`, corpus 110); consume it whole so the dot is not mistaken for a class.",
+          "name": "string.unquoted.attribute.carve",
+          "match": "(?<==)[^\\s\"'}]+"
+        }
+      ]
+    },
     "attributes": {
       "patterns": [
         {
@@ -1134,39 +1201,12 @@
         {
           "name": "meta.attributes.carve",
           "comment": "Strict identifier (spec PART 9 S14, corpus 122): a class/id/key may not start with a digit, so `{2=v}` stays literal text. An unquoted value may still contain dots and colons (corpus 110); a quoted value may contain braces and backslash-escaped quotes (corpus 64-3/64-9/64-11); a bare `{}` is literal (corpus 123).",
-          "match": "(\\{)(\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)(\\})",
+          "match": "(?<![\\w\"\\'])(?<![^-+*.)\\]}:\\s][ \\t])(?:(?<=[^\\s])|(?=\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\}(?:[ \\t]*\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\})*[ \\t]*$))(\\{)(\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)(\\})",
           "captures": {
             "0": {
               "patterns": [
                 {
-                  "comment": "The language attribute (markup-carve/carve#1114) is the one item that opens with a colon. It goes FIRST: the key rule below admits a leading colon but needs an `=` after it, so `:fr` would otherwise fall through every rule and keep only the anonymous meta scope. The lookbehind is what keeps it an ITEM: an unquoted value may itself begin with a colon (`{key=:fr}`), and that colon starts at the same offset as the value rule's match, so without the boundary the first-listed language rule would claim it.",
-                  "name": "entity.other.attribute-name.language.carve",
-                  "match": "(?<=[{\\s]):(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?"
-                },
-                {
-                  "name": "entity.other.attribute-name.id.carve",
-                  "match": "#[A-Za-z_][A-Za-z0-9_-]*"
-                },
-                {
-                  "name": "entity.other.attribute-name.class.carve",
-                  "match": "\\.[A-Za-z_][A-Za-z0-9_-]*"
-                },
-                {
-                  "name": "entity.other.attribute-name.carve",
-                  "match": "[A-Za-z_:][A-Za-z0-9_:-]*(?==)"
-                },
-                {
-                  "name": "string.quoted.double.attribute.carve",
-                  "match": "\"(?:[^\"\\\\]|\\\\.)*\""
-                },
-                {
-                  "name": "string.quoted.single.attribute.carve",
-                  "match": "'(?:[^'\\\\]|\\\\.)*'"
-                },
-                {
-                  "comment": "An unquoted value may contain dots and colons (`k=v.w`, corpus 110); consume it whole so the dot is not mistaken for a class.",
-                  "name": "string.unquoted.attribute.carve",
-                  "match": "(?<==)[^\\s\"'}]+"
+                  "include": "#attribute-items"
                 }
               ]
             }

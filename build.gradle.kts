@@ -322,6 +322,10 @@ val localRulesGroupedUpstream =
         // Upstream highlights the composite figure inside #divs and
         // #caption-behind-a-container-prefix rather than in a rule of its own.
         "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
+        // A reference definition's trailing block. Upstream spells it as a capture of
+        // #definitions; the IDE's engine ignores patterns in a numbered capture, so the
+        // block is its own rule here, reached from a region.
+        "attribute-block" to GroupedUpstream("definitions", "reference-definition-attribute-separator.crv"),
         // `</#id>`. Upstream folds it into #autolink, which carries the same
         // `(</#)([^>\s]+)(>)` alternative and scopes it as a cross-reference. It was
         // declared plugin-only until #135 built a check that could see the difference;

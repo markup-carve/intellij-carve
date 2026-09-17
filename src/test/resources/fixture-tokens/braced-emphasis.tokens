@@ -29,6 +29,4 @@ Forced highlight  -> text.carve
 mark -> text.carve markup.changed.carve
 =} -> text.carve keyword.control.highlight.carve
  too.\n -> text.carve
-A boolean attribute block  -> text.carve
-{disabled} -> text.carve meta.attributes.carve
- is not a forced span.\n -> text.carve
+A boolean attribute block {disabled} is not a forced span.\n -> text.carve

@@ -1,0 +1,50 @@
+a {.c} b\n -> text.carve
+\n -> text.carve
+a{.c}\n -> text.carve
+\n -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+q -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+{.c}\n -> text.carve
+\n -> text.carve
+@ -> text.carve entity.name.mention.carve keyword.control.mention.carve
+u -> text.carve entity.name.mention.carve variable.parameter.mention.carve
+{k=v.w}\n -> text.carve
+\n -> text.carve
+Para {.c}\n -> text.carve
+\n -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+a -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+  -> text.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+alt -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+img.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+  -> text.carve
+{ -> text.carve meta.attributes.carve
+.x -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
