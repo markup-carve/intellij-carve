@@ -1,8 +1,12 @@
 {/ -> text.carve markup.italic.carve keyword.control.italic.carve
-a/b -> text.carve markup.italic.carve markup.italic.carve
+a -> text.carve markup.italic.carve markup.italic.carve
+/b -> text.carve markup.italic.carve markup.italic.carve
 /} -> text.carve markup.italic.carve keyword.control.italic.carve
  and  -> text.carve
 {/ -> text.carve markup.italic.carve keyword.control.italic.carve
-italic *bold* -> text.carve markup.italic.carve markup.italic.carve
+italic  -> text.carve markup.italic.carve markup.italic.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+bold -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
 /} -> text.carve markup.italic.carve keyword.control.italic.carve
 \n -> text.carve

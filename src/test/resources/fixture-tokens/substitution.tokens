@@ -1,10 +1,15 @@
 {~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-`a~>b -> text.carve markup.deleted.carve markup.deleted.carve
+` -> text.carve markup.deleted.carve markup.deleted.carve markup.raw.inline.carve keyword.control.raw.carve
+a~>b -> text.carve markup.deleted.carve markup.deleted.carve markup.raw.inline.carve markup.raw.inline.content.carve
 ~} -> text.carve markup.deleted.carve keyword.control.strike.carve
 \n -> text.carve
 \n -> text.carve
 {~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a `x~>y` b -> text.carve markup.deleted.carve markup.deleted.carve
+a  -> text.carve markup.deleted.carve markup.deleted.carve
+` -> text.carve markup.deleted.carve markup.deleted.carve markup.raw.inline.carve keyword.control.raw.carve
+x~>y -> text.carve markup.deleted.carve markup.deleted.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> text.carve markup.deleted.carve markup.deleted.carve markup.raw.inline.carve keyword.control.raw.carve
+ b -> text.carve markup.deleted.carve markup.deleted.carve
 ~} -> text.carve markup.deleted.carve keyword.control.strike.carve
 \n -> text.carve
 \n -> text.carve
@@ -20,7 +25,9 @@ new -> text.carve markup.changed.critic.carve markup.inserted.carve markup.itali
 \n -> text.carve
 \n -> text.carve
 {~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a\\~>b -> text.carve markup.deleted.carve markup.deleted.carve
+a -> text.carve markup.deleted.carve markup.deleted.carve
+\\~ -> text.carve markup.deleted.carve markup.deleted.carve constant.character.escape.carve
+>b -> text.carve markup.deleted.carve markup.deleted.carve
 ~} -> text.carve markup.deleted.carve keyword.control.strike.carve
 \n -> text.carve
 \n -> text.carve
@@ -159,7 +166,9 @@ c -> text.carve markup.changed.critic.carve markup.inserted.carve
 \n -> text.carve
 \n -> text.carve
 {~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a{# ~> #}b -> text.carve markup.deleted.carve markup.deleted.carve
+a -> text.carve markup.deleted.carve markup.deleted.carve
+{# ~> #} -> text.carve markup.deleted.carve markup.deleted.carve comment.block.critic.carve
+b -> text.carve markup.deleted.carve markup.deleted.carve
 ~} -> text.carve markup.deleted.carve keyword.control.strike.carve
 \n -> text.carve
 \n -> text.carve

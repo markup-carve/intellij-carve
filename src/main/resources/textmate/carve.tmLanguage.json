@@ -1438,36 +1438,204 @@
     "critic-markup": {
       "patterns": [
         {
+          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so.",
           "name": "markup.inserted.critic.carve",
-          "match": "(\\{\\+)([^}]+)(\\+\\})",
-          "captures": {
+          "begin": "(\\{\\+)(?!\\+\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?\\+\\})",
+          "beginCaptures": {
             "1": {
-              "name": "keyword.control.critic.carve"
-            },
-            "2": {
-              "name": "markup.inserted.carve"
-            },
-            "3": {
               "name": "keyword.control.critic.carve"
             }
           },
-          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
+          "end": "(\\+\\})|(?=$)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.critic.carve"
+            }
+          },
+          "contentName": "markup.inserted.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{\\+"
+            },
+            {
+              "match": "\\+"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!\\+\\}).)+?)(?=\\+\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!\\+\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
+          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so.",
           "name": "markup.deleted.critic.carve",
-          "match": "(\\{-)([^}]+)(- \\}|\\-\\})",
-          "captures": {
+          "begin": "(\\{-)(?!-\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?-\\})",
+          "beginCaptures": {
             "1": {
-              "name": "keyword.control.critic.carve"
-            },
-            "2": {
-              "name": "markup.deleted.carve"
-            },
-            "3": {
               "name": "keyword.control.critic.carve"
             }
           },
-          "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
+          "end": "(-\\})|(?=$)",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.control.critic.carve"
+            }
+          },
+          "contentName": "markup.deleted.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{-"
+            },
+            {
+              "match": "-"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!-\\}).)+?)(?=-\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!-\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "comment": "A substitution splits at its first top-level arrow, where code, math, a literal, a comment or an escape is opaque, and each half is inline content (markup-carve/carve#2092). With no top-level arrow the braces are a forced strikethrough. Declared limit: a link, image or autolink that spans the arrow is scoped whole in the deleted half, where the spec splits inside it.",
@@ -1695,115 +1863,698 @@
       "comment": "The bare emphasis delimiter set is `/ * _ ~ =`. Superscript and subscript are braced-only (`{^sup^}` / `{,sub,}`): a bare `^text^` or `,text,` is literal text and gets no emphasis scope, so no rule matches them here. The caret keeps its other, unrelated roles (line-start `^ ` captions, table header rowspan `^` cells, `^[...]` inline footnotes), which are matched by their own rules outside this emphasis group.",
       "patterns": [
         {
-          "match": "(\\{=)(?=\\S)([^\\n]+?)(=\\})",
-          "captures": {
+          "begin": "(\\{=)(?!=\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?=\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.highlight.carve"
-            },
-            "2": {
-              "name": "markup.changed.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(=\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.highlight.carve"
             }
-          }
+          },
+          "contentName": "markup.changed.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{="
+            },
+            {
+              "match": "="
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!=\\}).)+?)(?==\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!=\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
-          "match": "(\\{,)(?=\\S)([^,\\n]+?)(,\\})",
-          "captures": {
+          "begin": "(\\{,)(?!,\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?,\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.subscript.carve"
-            },
-            "2": {
-              "name": "markup.subscript.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(,\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.subscript.carve"
             }
-          }
+          },
+          "contentName": "markup.subscript.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{,"
+            },
+            {
+              "match": ","
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!,\\}).)+?)(?=,\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!,\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
-          "match": "(\\{\\^)(?=\\S)([^\\n]+?)(\\^\\})",
-          "captures": {
+          "begin": "(\\{\\^)(?!\\^\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?\\^\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.superscript.carve"
-            },
-            "2": {
-              "name": "markup.superscript.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(\\^\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.superscript.carve"
             }
-          }
+          },
+          "contentName": "markup.superscript.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{\\^"
+            },
+            {
+              "match": "\\^"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!\\^\\}).)+?)(?=\\^\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!\\^\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "comment": "Forced intraword bold (PART 9 S22). The content runs to the closing `*}`, so it may contain the delimiter.",
           "name": "markup.bold.carve",
-          "match": "(\\{\\*)(?=\\S)([^\\n]+?)(\\*\\})",
-          "captures": {
+          "begin": "(\\{\\*)(?!\\*\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?\\*\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.bold.carve"
-            },
-            "2": {
-              "name": "markup.bold.carve",
-              "patterns": [
-                {
-                  "include": "#inline-comment"
-                }
-              ]
-            },
-            "3": {
+            }
+          },
+          "end": "(\\*\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.bold.carve"
             }
-          }
+          },
+          "contentName": "markup.bold.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{\\*"
+            },
+            {
+              "match": "\\*"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!\\*\\}).)+?)(?=\\*\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!\\*\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "comment": "Forced intraword italic (PART 9 S22). The content runs to the closing `/}`, so it may contain the delimiter (`{/a/b/}` -> <em>a/b</em>, corpus 01-emphasis-13).",
           "name": "markup.italic.carve",
-          "match": "(\\{/)(?=\\S)([^\\n]+?)(/\\})",
-          "captures": {
+          "begin": "(\\{/)(?!/\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?/\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.italic.carve"
-            },
-            "2": {
-              "name": "markup.italic.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(/\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.italic.carve"
             }
-          }
+          },
+          "contentName": "markup.italic.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{/"
+            },
+            {
+              "match": "/"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!/\\}).)+?)(?=/\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!/\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "comment": "Forced intraword underline (PART 9 S22). `{_path_}` (corpus 01-emphasis-12) is shape-identical to a boolean attribute block, so this rule only wins because the whole emphasis group is listed before `#attributes`.",
           "name": "markup.underline.text.carve",
-          "match": "(\\{_)(?=\\S)([^\\n]+?)(_\\})",
-          "captures": {
+          "begin": "(\\{_)(?!_\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?_\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.underline.carve"
-            },
-            "2": {
-              "name": "markup.underline.text.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(_\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.underline.carve"
             }
-          }
+          },
+          "contentName": "markup.underline.text.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{_"
+            },
+            {
+              "match": "_"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!_\\}).)+?)(?=_\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!_\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "comment": "Forced intraword strikethrough (PART 9 S22). `#critic-markup` is listed first, so an editorial substitution `{~old~>new~}` still wins; only an arrow-less `{~x~}` lands here.",
           "name": "markup.deleted.carve",
-          "match": "(\\{~)(?=\\S)([^\\n]+?)(~\\})",
-          "captures": {
+          "begin": "(\\{~)(?!~\\})(?=(?>(`+)(?:[^`\\n]|(?!\\2)`+)+?\\2(?!`)|(?:\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)|\\[(?:\\\\(?:[^\\n]|(?=\\n))|```(?:[^`\\n]|`(?!``)|\\n(?![ \\t]*\\n)){1,512}```(?!`)|``(?:[^`\\n]|`(?!`)|\\n(?![ \\t]*\\n)){1,512}``(?!`)|`(?:[^`\\n]|\\n(?![ \\t]*\\n)){1,512}`(?!`)|\\{#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\}|\\{(?!#(?:[^#\\n]|#(?!\\})|\\n(?![ \\t]*\\n)){1,512}#\\})|[^\\[\\]\\\\`{\\n]|\\n(?![ \\t]*\\n)){0,512}\\]){0,512}\\]){0,512}\\]){0,512}\\]\\((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048}(?: (?:\"(?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512}\"|'(?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512}'))?\\)|<[a-zA-Z][a-zA-Z0-9+.\\-]{0,2047}:(?:[A-Za-z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]|[^\\x{00}-\\x{A0}\\x{AD}\\x{600}-\\x{605}\\x{61C}\\x{6DD}\\x{70F}\\x{890}\\x{891}\\x{8E2}\\x{1680}\\x{180E}\\x{2000}-\\x{200F}\\x{2028}-\\x{202F}\\x{205F}-\\x{2064}\\x{2066}-\\x{206F}\\x{3000}\\x{FEFF}\\x{FFF9}-\\x{FFFB}\\x{110BD}\\x{110CD}\\x{13430}-\\x{1343F}\\x{1BCA0}-\\x{1BCA3}\\x{1D173}-\\x{1D17A}\\x{E0001}\\x{E0020}-\\x{E007F}]){1,2048}>|<[\\p{L}0-9\\-_.+]{1,512}@(?:[\\p{L}0-9\\-_]{1,512}\\.){1,64}[\\p{L}]{1,512}>)|\\\\.|[^\\n])*?~\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.strike.carve"
-            },
-            "2": {
-              "name": "markup.deleted.carve"
-            },
-            "3": {
+            }
+          },
+          "end": "(~\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.strike.carve"
             }
-          }
+          },
+          "contentName": "markup.deleted.carve",
+          "patterns": [
+            {
+              "name": "constant.character.escape.carve",
+              "match": "\\\\."
+            },
+            {
+              "name": "comment.block.critic.carve",
+              "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+            },
+            {
+              "name": "comment.block.inline.carve",
+              "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+            },
+            {
+              "match": "\\{~"
+            },
+            {
+              "match": "~"
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                },
+                "3": {
+                  "name": "keyword.control.raw.carve"
+                }
+              }
+            },
+            {
+              "name": "markup.raw.inline.carve",
+              "match": "(`+)((?:(?!~\\}).)+?)(?=~\\})",
+              "captures": {
+                "1": {
+                  "name": "keyword.control.raw.carve"
+                },
+                "2": {
+                  "name": "markup.raw.inline.content.carve"
+                }
+              }
+            },
+            {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
+              "include": "#links"
+            },
+            {
+              "include": "#images"
+            },
+            {
+              "include": "#critic-markup"
+            },
+            {
+              "include": "#attributes"
+            },
+            {
+              "include": "#autolink"
+            },
+            {
+              "match": "([*/_=~])(?!(?:(?!~\\}).)*?\\1)"
+            },
+            {
+              "include": "#emphasis"
+            },
+            {
+              "include": "#mentions-tags"
+            },
+            {
+              "include": "#smart-typography"
+            }
+          ]
         },
         {
           "name": "markup.bold.italic.carve",
