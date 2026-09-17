@@ -322,6 +322,8 @@ val localRulesGroupedUpstream =
         // Upstream highlights the composite figure inside #divs and
         // #caption-behind-a-container-prefix rather than in a rule of its own.
         "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
+        // Upstream spells the two comment openers inside a `*` run as one rule.
+        "inline-comment-in-bold" to GroupedUpstream("braced-comment-in-bold", "comment-in-bold.crv"),
         // A reference definition's trailing block. Upstream spells it as a capture of
         // #definitions; the IDE's engine ignores patterns in a numbered capture, so the
         // block is its own rule here, reached from a region.
