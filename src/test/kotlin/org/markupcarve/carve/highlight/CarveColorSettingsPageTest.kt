@@ -51,7 +51,7 @@ class CarveColorSettingsPageTest {
                 .bufferedReader().readText()
 
             assertTrue("$resource does not define the highlight key", scheme.contains("CARVE_HIGHLIGHT"))
-            assertTrue("$resource lost the pale-yellow background", scheme.contains("FFF1A8"))
+            assertTrue("$resource lost the warm-yellow background", scheme.contains("F5DF8A"))
             assertTrue("$resource lost the dark foreground", scheme.contains("1F1F1F"))
             assertTrue("$resource lost bold text", scheme.contains("FONT_TYPE\" value=\"1"))
         }

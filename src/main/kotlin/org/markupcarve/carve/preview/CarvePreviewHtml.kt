@@ -25,7 +25,9 @@ package org.markupcarve.carve.preview
  *
  * ### Colour
  *
- * Every colour here resolves through a token from `tokens.css`. There used to be
+ * Theme colours here resolve through tokens from `tokens.css`. The fixed highlight
+ * ink and background are the deliberate exception: they match the editor mark and
+ * stay identical in both themes so the highlight cannot become a dark wash. There used to be
  * a second, hardcoded palette (`#2c3e50`, `#3498db`, `#f4f4f4`, `#bdc3c7`) plus a
  * parallel `body.dark` block that restated it, and the tokens were injected but
  * never referenced - so the document carried two palettes that disagreed, and
@@ -76,6 +78,8 @@ object CarvePreviewHtml {
            root and a consumer overriding the token still wins. */
         html {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --carve-highlight-background: #f5df8a;
+            --carve-highlight-ink: #1f1f1f;
         }
         body {
             font-family: var(--carve-font-body);
@@ -153,11 +157,14 @@ object CarvePreviewHtml {
         }
         th { background: var(--carve-sunk); font-weight: 600; }
         mark {
-            background: var(--carve-warn-wash);
-            color: inherit;
+            background: var(--carve-highlight-background);
+            color: var(--carve-highlight-ink);
+            font-weight: 700;
             padding: 0.1em 0.25em;
             border-radius: var(--carve-radius);
         }
+        mark a, mark del, mark ins { color: inherit; }
+        mark code { background: transparent; }
         del { color: var(--carve-danger); text-decoration: line-through; }
         ins {
             color: var(--carve-success);

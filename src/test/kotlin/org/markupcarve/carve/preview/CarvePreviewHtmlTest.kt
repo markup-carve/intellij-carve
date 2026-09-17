@@ -117,6 +117,24 @@ class CarvePreviewHtmlTest {
         assertTrue(dark.contains("""<html data-theme="dark">"""))
     }
 
+    @Test
+    fun `a mark stays high contrast in both preview themes`() {
+        for (dark in listOf(false, true)) {
+            val html = page(isDark = dark)
+            val mark = Regex("""(?s)\bmark \{([^}]*)}""").find(html)?.groupValues?.get(1)
+
+            assertTrue("the mark rule is missing (dark=$dark)", mark != null)
+            assertTrue(html.contains("--carve-highlight-background: #f5df8a"))
+            assertTrue(html.contains("--carve-highlight-ink: #1f1f1f"))
+            assertTrue(mark!!.contains("background: var(--carve-highlight-background)"))
+            assertTrue(mark.contains("color: var(--carve-highlight-ink)"))
+            assertTrue(mark.contains("font-weight: 700"))
+            assertFalse(mark.contains("var(--carve-warn-wash)"))
+            assertTrue(html.contains("mark a, mark del, mark ins { color: inherit; }"))
+            assertTrue(html.contains("mark code { background: transparent; }"))
+        }
+    }
+
     /**
      * The palette is the tokens', full stop. Two palettes in one document was
      * the actual defect: `tokens.css` was injected and referenced zero times
