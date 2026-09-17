@@ -399,6 +399,12 @@ object CarveCorpusCategories {
         // The only include directive in the corpus, so this is the one golden that pins
         // `meta.directive.include` and the path inside it.
         "include-directive-with-no-resolver-renders-literal",
+        // The bump to carve 7bd6577 added these four. Each golden was checked against its
+        // corpus HTML before it was recorded.
+        "a-quote-is-an-ordinary-link-destination-character",
+        "an-empty-link-destination-is-not-a-link",
+        "a-forced-opener-of-an-open-kind-is-literal",
+        "substitution-content-is-inline-and-only-a-top-level-arrow-splits-it",
     )
 
     /**

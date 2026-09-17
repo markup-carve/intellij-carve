@@ -1,0 +1,25 @@
+{= -> text.carve keyword.control.highlight.carve
+=h -> text.carve markup.changed.carve
+= -> text.carve markup.changed.carve
+=} -> text.carve keyword.control.highlight.carve
+\n -> text.carve
+\n -> text.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
+/x -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve
+\n -> text.carve
+{= -> text.carve keyword.control.highlight.carve
+  -> text.carve markup.changed.carve
+=h -> text.carve markup.changed.carve
+=  -> text.carve markup.changed.carve
+=} -> text.carve keyword.control.highlight.carve
+\n -> text.carve
+\n -> text.carve
+{/ -> text.carve markup.italic.carve keyword.control.italic.carve
+  -> text.carve markup.italic.carve markup.italic.carve
+/x -> text.carve markup.italic.carve markup.italic.carve
+/  -> text.carve markup.italic.carve markup.italic.carve
+/} -> text.carve markup.italic.carve keyword.control.italic.carve
+\n -> text.carve

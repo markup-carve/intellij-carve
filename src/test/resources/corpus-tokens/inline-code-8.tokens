@@ -1,0 +1,50 @@
+Run  -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+make -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+the docs -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+.\n -> text.carve
+\n -> text.carve
+A  -> text.carve
+{_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+`` -> text.carve markup.underline.text.carve markup.underline.text.carve markup.raw.inline.carve keyword.control.raw.carve
+x -> text.carve markup.underline.text.carve markup.underline.text.carve markup.raw.inline.carve markup.raw.inline.content.carve
+_} -> text.carve markup.underline.text.carve keyword.control.underline.carve
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+logo -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+p.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+ here.\n -> text.carve
+\n -> text.carve
+A  -> text.carve
+{= -> text.carve keyword.control.highlight.carve
+` -> text.carve markup.changed.carve markup.raw.inline.carve keyword.control.raw.carve
+y -> text.carve markup.changed.carve markup.raw.inline.carve markup.raw.inline.content.carve
+=} -> text.carve keyword.control.highlight.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+note -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+.k -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+ here.\n -> text.carve
+\n -> text.carve
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+` -> text.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve keyword.control.raw.carve
+added -> text.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve markup.raw.inline.content.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+  -> text.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+n -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> text.carve
