@@ -1,0 +1,15 @@
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+a  -> text.carve markup.bold.carve markup.bold.carve
+{% b* c %} -> text.carve markup.bold.carve markup.bold.carve comment.block.inline.carve
+ d -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve
+\n -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+a  -> text.carve markup.bold.carve markup.bold.carve
+{# -> text.carve markup.bold.carve markup.bold.carve comment.block.critic.carve keyword.control.critic.carve
+ b* c  -> text.carve markup.bold.carve markup.bold.carve comment.block.critic.carve comment.block.content.carve
+#} -> text.carve markup.bold.carve markup.bold.carve comment.block.critic.carve keyword.control.critic.carve
+ d -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve

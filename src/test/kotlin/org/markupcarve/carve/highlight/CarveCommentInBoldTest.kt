@@ -35,4 +35,22 @@ class CarveCommentInBoldTest {
         assertEquals("{% b %}", scoped("*a {% b %} c*", "comment.block.inline"))
         assertEquals("*a {% b %} c*", scoped("*a {% b %} c*", "markup.bold"))
     }
+
+    @Test
+    fun `an unclosed critic comment opener leaves the bold closer alone`() {
+        assertEquals("", scoped("*a {# b* c", "comment.block.critic"))
+        assertEquals("*a {# b*", scoped("*a {# b* c", "markup.bold"))
+    }
+
+    @Test
+    fun `a closed critic comment in bold keeps both scopes`() {
+        assertEquals("{# b* c #}", scoped("*a {# b* c #} d*", "comment.block.critic"))
+        assertEquals("*a {# b* c #} d*", scoped("*a {# b* c #} d*", "markup.bold"))
+    }
+
+    @Test
+    fun `a closer followed by a star still stops an unclosed opener`() {
+        assertEquals("", scoped("*a {% b**c", "comment.block.inline"))
+        assertEquals("", scoped("*a {# b**c", "comment.block.critic"))
+    }
 }
