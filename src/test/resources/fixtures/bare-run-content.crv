@@ -41,3 +41,25 @@ _a /b/ *c* d_
 //a/ and /usr/local/
 
 /a ~b~ =c= d/
+
+/a {*b/ c*} d/
+
+/a//
+
+_a__
+
+/a/_b/
+
+*a*_ b
+
+*a /b* c/
+
+/a {% x/ %} b/
+
+_a {# c_ #} b_
+
+~a {=b~ c=} d~
+
+/a {+b/ c+} d/
+
+/a {*b/ c*} d
