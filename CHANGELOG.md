@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Highlights stay visible in dark editor themes.** `=...=` and `{=...=}` now use a high-contrast pale-yellow mark with dark bold text instead of the default scheme's muted diff color.
+
 ## [0.1.8] - 2026-09-15
 
 ### Added

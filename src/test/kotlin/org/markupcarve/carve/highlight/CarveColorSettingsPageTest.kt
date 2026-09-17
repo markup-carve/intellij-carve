@@ -17,6 +17,7 @@ class CarveColorSettingsPageTest {
         CarveColors.TABLE_PIPE,
         CarveColors.QUOTE_MARKER,
         CarveColors.FENCE_MARKER,
+        CarveColors.HIGHLIGHT,
     )
 
     @Test
@@ -40,5 +41,19 @@ class CarveColorSettingsPageTest {
     fun colorKeyExternalNamesAreUnique() {
         val names = allKeys.map { it.externalName }
         assertEquals(names.size, names.toSet().size)
+    }
+
+    @Test
+    fun highlightHasAHighContrastDefaultInLightAndDarkSchemes() {
+        for (resource in listOf("CarveHighlightDefault.xml", "CarveHighlightDarcula.xml")) {
+            val scheme = javaClass.classLoader
+                .getResourceAsStream("colorSchemes/$resource")!!
+                .bufferedReader().readText()
+
+            assertTrue("$resource does not define the highlight key", scheme.contains("CARVE_HIGHLIGHT"))
+            assertTrue("$resource lost the pale-yellow background", scheme.contains("FFF1A8"))
+            assertTrue("$resource lost the dark foreground", scheme.contains("1F1F1F"))
+            assertTrue("$resource lost bold text", scheme.contains("FONT_TYPE\" value=\"1"))
+        }
     }
 }

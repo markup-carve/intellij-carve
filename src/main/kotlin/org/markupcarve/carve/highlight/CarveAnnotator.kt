@@ -24,5 +24,12 @@ class CarveAnnotator : Annotator {
                 .textAttributes(span.key)
                 .create()
         }
+
+        for (range in CarveHighlightScanner.scan(element.text, element.project, element.viewProvider.virtualFile)) {
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(range)
+                .textAttributes(CarveColors.HIGHLIGHT)
+                .create()
+        }
     }
 }

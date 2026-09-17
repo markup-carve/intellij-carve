@@ -42,4 +42,7 @@ object CarveColors {
 
     /** ` ``` ` / `~~~` fenced-code delimiters. Defaults to the code/string colour family. */
     val FENCE_MARKER = key("CARVE_FENCE_MARKER", DefaultLanguageHighlighterColors.STRING)
+
+    /** Highlight (`=...=` and `{=...=}`) content. */
+    val HIGHLIGHT = key("CARVE_HIGHLIGHT", DefaultLanguageHighlighterColors.IDENTIFIER)
 }

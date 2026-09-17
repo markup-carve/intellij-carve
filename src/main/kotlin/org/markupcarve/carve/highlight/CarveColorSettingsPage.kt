@@ -42,6 +42,7 @@ class CarveColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Table pipe (|)", CarveColors.TABLE_PIPE),
             AttributesDescriptor("Blockquote marker (>)", CarveColors.QUOTE_MARKER),
             AttributesDescriptor("Code fence (``` ~~~)", CarveColors.FENCE_MARKER),
+            AttributesDescriptor("Highlight (=...=)", CarveColors.HIGHLIGHT),
         )
 
         val TAGS = mapOf(
@@ -52,6 +53,7 @@ class CarveColorSettingsPage : ColorSettingsPage {
             "pipe" to CarveColors.TABLE_PIPE,
             "q" to CarveColors.QUOTE_MARKER,
             "fence" to CarveColors.FENCE_MARKER,
+            "mark" to CarveColors.HIGHLIGHT,
         )
 
         val DEMO = """
@@ -62,6 +64,8 @@ class CarveColorSettingsPage : ColorSettingsPage {
             <cont>+</cont> a continuation line
 
             <q>></q> a blockquote
+
+            This <mark>=highlight=</mark> stays visible on light and dark themes.
 
             <div>:::</div> note
             Inside an admonition.

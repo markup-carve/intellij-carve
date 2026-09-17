@@ -97,6 +97,12 @@
                 implementationClass="org.markupcarve.carve.highlight.CarveAnnotator"/>
         <colorSettingsPage
                 implementation="org.markupcarve.carve.highlight.CarveColorSettingsPage"/>
+        <additionalTextAttributes
+                scheme="Default"
+                file="colorSchemes/CarveHighlightDefault.xml"/>
+        <additionalTextAttributes
+                scheme="Darcula"
+                file="colorSchemes/CarveHighlightDarcula.xml"/>
 
         <defaultLiveTemplates file="/liveTemplates/Carve.xml"/>
 
