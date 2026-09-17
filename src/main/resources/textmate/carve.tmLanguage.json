@@ -1496,6 +1496,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!\\+\\}).)+?)(?=\\+\\})",
               "captures": {
@@ -1551,15 +1560,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -1641,6 +1641,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!-\\}).)+?)(?=-\\})",
               "captures": {
@@ -1696,15 +1705,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2009,6 +2009,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!=\\}).)+?)(?==\\})",
               "captures": {
@@ -2064,15 +2073,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2152,6 +2152,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!,\\}).)+?)(?=,\\})",
               "captures": {
@@ -2207,15 +2216,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2295,6 +2295,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!\\^\\}).)+?)(?=\\^\\})",
               "captures": {
@@ -2350,15 +2359,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2440,6 +2440,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!\\*\\}).)+?)(?=\\*\\})",
               "captures": {
@@ -2495,15 +2504,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2585,6 +2585,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!/\\}).)+?)(?=/\\})",
               "captures": {
@@ -2640,15 +2649,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2730,6 +2730,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!_\\}).)+?)(?=_\\})",
               "captures": {
@@ -2785,15 +2794,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
@@ -2875,6 +2875,15 @@
               }
             },
             {
+              "include": "#raw-inline"
+            },
+            {
+              "include": "#inline-literal"
+            },
+            {
+              "include": "#math"
+            },
+            {
               "name": "markup.other.math.display.carve",
               "match": "(\\$\\$)(`+)((?:(?!~\\}).)+?)(?=~\\})",
               "captures": {
@@ -2930,15 +2939,6 @@
                   "name": "markup.raw.inline.content.carve"
                 }
               }
-            },
-            {
-              "include": "#raw-inline"
-            },
-            {
-              "include": "#inline-literal"
-            },
-            {
-              "include": "#math"
             },
             {
               "include": "#links"
