@@ -1470,25 +1470,191 @@
           "comment": "An opener that meets its own closer with nothing between them opened nothing, and its characters are TEXT (spec PART 9, carve#1447): `{++}`, `{##}` and `{--}` all render literally. `{--}` is the one that becomes something else - the braced en dash, under #smart-typography - and `{---}` and `{-x-}` are still deletions. The fully empty SUBSTITUTION is deliberately left alone: it still renders an empty del followed by an empty ins, and the clause says so."
         },
         {
+          "comment": "A substitution splits at its first top-level arrow, where code, math, a literal, a comment or an escape is opaque, and each half is inline content (markup-carve/carve#2092). With no top-level arrow the braces are a forced strikethrough. Declared limit: a link, image or autolink that spans the arrow is scoped whole in the deleted half, where the spec splits inside it.",
           "name": "markup.changed.critic.carve",
-          "match": "(\\{~)([^~]*)(~>)([^~]*)(~\\})",
-          "captures": {
+          "begin": "(\\{~)(?=(?>\\\\.|```(?:[^`\\n]|`(?!``))+```(?!`)|``(?:[^`\\n]|`(?!`))+``(?!`)|`[^`\\n]+`(?!`)|\\{#(?:[^#\\n]|#(?!\\}))*#\\}|\\{%(?:[^%\\n]|%(?!\\}))*%\\}|[^\\\\`~\\n]|~(?![>}]))*?~>(?>\\\\.|```(?:[^`\\n]|`(?!``))+```(?!`)|``(?:[^`\\n]|`(?!`))+``(?!`)|`[^`\\n]+`(?!`)|\\{#(?:[^#\\n]|#(?!\\}))*#\\}|\\{%(?:[^%\\n]|%(?!\\}))*%\\}|[^\\\\~\\n]|~(?!\\}))*?~\\})",
+          "beginCaptures": {
             "1": {
               "name": "keyword.control.critic.carve"
-            },
-            "2": {
-              "name": "markup.deleted.carve"
-            },
-            "3": {
-              "name": "keyword.control.critic.carve"
-            },
-            "4": {
-              "name": "markup.inserted.carve"
-            },
-            "5": {
+            }
+          },
+          "end": "(~\\})|(?=$)",
+          "endCaptures": {
+            "1": {
               "name": "keyword.control.critic.carve"
             }
-          }
+          },
+          "patterns": [
+            {
+              "begin": "\\G(?!~>)",
+              "end": "(?=~>|$)",
+              "contentName": "markup.deleted.carve",
+              "patterns": [
+                {
+                  "name": "constant.character.escape.carve",
+                  "match": "\\\\."
+                },
+                {
+                  "name": "comment.block.critic.carve",
+                  "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+                },
+                {
+                  "name": "comment.block.inline.carve",
+                  "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+                },
+                {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#math"
+                },
+                {
+                  "name": "markup.raw.inline.carve",
+                  "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.control.raw.carve"
+                    },
+                    "2": {
+                      "name": "markup.raw.inline.content.carve"
+                    },
+                    "3": {
+                      "name": "keyword.control.raw.carve"
+                    }
+                  }
+                },
+                {
+                  "name": "markup.raw.inline.carve",
+                  "match": "(`+)((?:(?!~>).)+?)(?=~>)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.control.raw.carve"
+                    },
+                    "2": {
+                      "name": "markup.raw.inline.content.carve"
+                    }
+                  }
+                },
+                {
+                  "include": "#links"
+                },
+                {
+                  "include": "#images"
+                },
+                {
+                  "include": "#footnotes"
+                },
+                {
+                  "include": "#attributes"
+                },
+                {
+                  "include": "#autolink"
+                },
+                {
+                  "match": "([*/_=])(?!(?:(?!~>).)*?\\1)"
+                },
+                {
+                  "include": "#emphasis"
+                },
+                {
+                  "include": "#mentions-tags"
+                },
+                {
+                  "include": "#smart-typography"
+                }
+              ]
+            },
+            {
+              "begin": "(~>)",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.control.critic.carve"
+                }
+              },
+              "end": "(?=~\\}|$)",
+              "contentName": "markup.inserted.carve",
+              "patterns": [
+                {
+                  "name": "constant.character.escape.carve",
+                  "match": "\\\\."
+                },
+                {
+                  "name": "comment.block.critic.carve",
+                  "match": "\\{#(?:[^#\\n]|#(?!\\}))*#\\}"
+                },
+                {
+                  "name": "comment.block.inline.carve",
+                  "match": "\\{%(?:[^%\\n]|%(?!\\}))*%\\}"
+                },
+                {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#math"
+                },
+                {
+                  "name": "markup.raw.inline.carve",
+                  "match": "(`+)([^`]|[^`][\\s\\S]*?[^`])(\\1)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.control.raw.carve"
+                    },
+                    "2": {
+                      "name": "markup.raw.inline.content.carve"
+                    },
+                    "3": {
+                      "name": "keyword.control.raw.carve"
+                    }
+                  }
+                },
+                {
+                  "name": "markup.raw.inline.carve",
+                  "match": "(`+)((?:(?!~\\}).)+?)(?=~\\})",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.control.raw.carve"
+                    },
+                    "2": {
+                      "name": "markup.raw.inline.content.carve"
+                    }
+                  }
+                },
+                {
+                  "include": "#links"
+                },
+                {
+                  "include": "#images"
+                },
+                {
+                  "include": "#footnotes"
+                },
+                {
+                  "include": "#attributes"
+                },
+                {
+                  "include": "#autolink"
+                },
+                {
+                  "match": "([*/_=])(?!(?:(?!~\\}).)*?\\1)"
+                },
+                {
+                  "include": "#emphasis"
+                },
+                {
+                  "include": "#mentions-tags"
+                },
+                {
+                  "include": "#smart-typography"
+                }
+              ]
+            }
+          ]
         },
       {
         "comment": "An editorial comment's literal payload may span a line break and stays inert. The same-line attribute-block guard prevents `{#id}` from opening a comment, and a blank line bounds an unclosed opener (markup-carve/carve-grammars#320, markup-carve/intellij-carve#97).",
