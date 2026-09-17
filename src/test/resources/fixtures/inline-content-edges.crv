@@ -1,0 +1,27 @@
+_a `x_` b
+
+/a `b/ c` d/
+
+~a `b~ c` d~
+
+=a `b= c` d=
+
+a{*{*x*}*}b
+
+a *}b
+
+*a {/b *c* d/} e*
+
+*a {*b*} c*
+
+x{*$`a*} here
+
+x{~$$`b~} here
+
+x{/!`c/} here
+
+*a `b* c` d*
+
+*a /b/ c*
+
+*a *b* c*
