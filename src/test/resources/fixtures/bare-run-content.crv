@@ -1,0 +1,43 @@
+/a *b* c/
+
+_a `x` b_
+
+~a /b/ c~
+
+=a _b_ c=
+
+/a [l](/p/q) b/
+
+_a {/b/} c_
+
+/a/b/
+
+_a_b_
+
+~a~b~
+
+=a=b=
+
+/a /b/ c/
+
+_a _b_ c_
+
+/a *b c/
+
+/a *b/ c*
+
+/usr/bin and /etc
+
+/a/_b/
+
+/a//
+
+a /b\/c/ d
+
+_a /b_ c/
+
+_a /b/ *c* d_
+
+//a/ and /usr/local/
+
+/a ~b~ =c= d/

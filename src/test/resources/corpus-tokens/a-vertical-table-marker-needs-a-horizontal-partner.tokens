@@ -1,8 +1,7 @@
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-=^ Top  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 = -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-v Bottom | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
+^ Top | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
+=v Bottom | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
 = -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
 <^ Paired  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
