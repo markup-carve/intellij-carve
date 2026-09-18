@@ -1568,6 +1568,10 @@
               "include": "#images"
             },
             {
+              "comment": "An insertion or deletion has no atoms: it closes at its FIRST closer, so a braced opener whose own closer lies past that one is text (markup-carve/carve-grammars#485). Tried before #critic-markup and #emphasis, and after the two comment rules, so a construct that DOES close first still opens.",
+              "match": "\\{([*/_~=^,\\-#%])(?=(?:(?!\\1\\}).)*?\\+\\})"
+            },
+            {
               "include": "#critic-markup"
             },
             {
@@ -1711,6 +1715,10 @@
             },
             {
               "include": "#images"
+            },
+            {
+              "comment": "An insertion or deletion has no atoms: it closes at its FIRST closer, so a braced opener whose own closer lies past that one is text (markup-carve/carve-grammars#485). Tried before #critic-markup and #emphasis, and after the two comment rules, so a construct that DOES close first still opens.",
+              "match": "\\{([*/_~=^,+#%])(?=(?:(?!\\1\\}).)*?-\\})"
             },
             {
               "include": "#critic-markup"
