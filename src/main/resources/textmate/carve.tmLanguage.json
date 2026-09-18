@@ -197,7 +197,7 @@
         },
         {
           "name": "comment.block.critic.carve",
-          "match": "(\\{#)([^}]+)(#\\})",
+          "match": "(\\{#)(?:(?<![^\\s\\w\\\"']\\{#)|(?![^}\\n]*(?<!#)\\}))((?:[^#\\n]|#(?!\\}))+)(#\\})",
           "captures": {
             "1": {
               "name": "keyword.control.critic.carve"
@@ -1925,7 +1925,7 @@
       {
         "comment": "An editorial comment's literal payload may span a line break and stays inert. The same-line attribute-block guard prevents `{#id}` from opening a comment, and a blank line bounds an unclosed opener (markup-carve/carve-grammars#320, markup-carve/intellij-carve#97).",
         "name": "comment.block.critic.carve",
-        "match": "(\\{#)([^}]+)(#\\})",
+        "match": "(\\{#)(?:(?<![^\\s\\w\\\"']\\{#)|(?![^}\\n]*(?<!#)\\}))((?:[^#\\n]|#(?!\\}))+)(#\\})",
         "captures": {
           "1": {
             "name": "keyword.control.critic.carve"
