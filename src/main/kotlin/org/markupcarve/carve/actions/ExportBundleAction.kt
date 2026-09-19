@@ -29,18 +29,13 @@ import java.nio.file.Path
 /**
  * Write the document and every file it includes into a folder beside it.
  *
- * The other two flavors of markup-carve/intellij-carve#131 - one self-contained
- * `.crv` and "Copy as a single document" - are NOT here. Both need the engine's
- * expansion pass to merge children into the parent, and no published carve-js
- * release carries one: nothing in the `dist` of the published
- * `markup-carve/carve` 0.1.6 tarball, the newest on npm, mentions
- * `expandIncludes`. Merging by hand would mean
- * reimplementing section 19's heading clamps, its explicit-id and footnote
- * renaming (I5), its selection options and its budgets, and the failure mode is
- * output that looks right and diverges from `carve flatten` silently.
+ * The right answer for "send it to a colleague who will keep editing it", where
+ * flattening is the wrong shape: the files are COPIED, keeping the directives
+ * and each child's own formatting. [ExportFlattenedCarveAction] is the other
+ * half, merging children into the parent through the engine's expansion pass.
  *
- * A bundle needs none of that, which is why this half is reachable today:
- * the files are copied, not merged.
+ * This one needs only the include WALK, which the language server already
+ * performs, so it never loads the engine.
  */
 class ExportBundleAction : AnAction() {
 

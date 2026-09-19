@@ -36,6 +36,14 @@ object CarveIncludeExpansion {
         val suppressedWarnings: Int,
     )
 
+    /** The document written back as ONE self-contained Carve file. */
+    data class Flattened(
+        val carve: String,
+        val warnings: List<Warning>,
+        val dependencies: List<Dependency>,
+        val suppressedWarnings: Int,
+    )
+
     /**
      * The host resolver, as a value the bundle can call.
      *
@@ -60,10 +68,24 @@ object CarveIncludeExpansion {
         )
     }
 
+    /** Reads the object [FLATTEN_JS] returns. */
+    fun readFlattened(value: Value): Flattened = Flattened(
+        carve = value.getMember("carve").asString(),
+        warnings = warningsOf(value),
+        dependencies = dependenciesOf(value),
+        suppressedWarnings = value.getMember("suppressedWarnings").asInt(),
+    )
+
     /** Reads the object [EXPAND_JS] returns. */
     fun read(value: Value): Result = Result(
         html = value.getMember("html").asString(),
-        warnings = value.getMember("warnings").let { list ->
+        warnings = warningsOf(value),
+        dependencies = dependenciesOf(value),
+        suppressedWarnings = value.getMember("suppressedWarnings").asInt(),
+    )
+
+    private fun warningsOf(value: Value): List<Warning> =
+        value.getMember("warnings").let { list ->
             (0 until list.arraySize).map { i ->
                 val w = list.getArrayElement(i)
                 Warning(
@@ -73,8 +95,10 @@ object CarveIncludeExpansion {
                     column = w.getMember("column").asInt(),
                 )
             }
-        },
-        dependencies = value.getMember("dependencies").let { list ->
+        }
+
+    private fun dependenciesOf(value: Value): List<Dependency> =
+        value.getMember("dependencies").let { list ->
             (0 until list.arraySize).map { i ->
                 val d = list.getArrayElement(i)
                 Dependency(
@@ -83,9 +107,7 @@ object CarveIncludeExpansion {
                     denial = d.getMember("denial")?.takeIf { !it.isNull }?.asString(),
                 )
             }
-        },
-        suppressedWarnings = value.getMember("suppressedWarnings").asInt(),
-    )
+        }
 
     /**
      * `(source, options, hostResolve, sourcePath) -> { html, warnings, dependencies, suppressedWarnings }`.
@@ -108,6 +130,45 @@ object CarveIncludeExpansion {
           });
           return {
             html: carve.renderDocument(result.doc, options),
+            warnings: result.warnings.map(function (w) {
+              return { rule: w.rule, message: w.message, line: w.line, column: w.column };
+            }),
+            dependencies: result.dependencies.map(function (d) {
+              return { id: d.id, resolved: d.resolved, denial: d.denial || null };
+            }),
+            suppressedWarnings: result.suppressedWarnings
+          };
+        })
+    """.trimIndent()
+
+    /**
+     * `(source, hostResolve, sourcePath) -> { carve, warnings, dependencies, suppressedWarnings }`.
+     *
+     * The `carve flatten` shape, and deliberately NOT [EXPAND_JS] with a
+     * different renderer on the end. `renderCarve` runs a different composition
+     * on purpose - no resolution, no transforms, no profile - because a
+     * flattened document is still source, and routing it through the render
+     * seam would bake render-time enrichment into a file someone goes on
+     * editing. That is why the parse here passes no extensions either: the CLI
+     * flattens with none, and the two have to produce the same file.
+     */
+    val FLATTEN_JS = """
+        (function (source, hostResolve, sourcePath) {
+          var doc = carve.parse(source, { positions: true });
+          var result = carve.expandIncludes(doc, source, {
+            sourcePath: sourcePath,
+            resolve: function (path, ctx) {
+              var stack = ctx.stack;
+              var parent = stack && stack.length ? stack[stack.length - 1] : null;
+              var answer = hostResolve(path, parent);
+              if (answer.source === null || answer.source === undefined) {
+                return { source: null, id: answer.id, denial: answer.denial || undefined };
+              }
+              return { source: answer.source, id: answer.id };
+            }
+          });
+          return {
+            carve: carve.renderCarve(result.doc),
             warnings: result.warnings.map(function (w) {
               return { rule: w.rule, message: w.message, line: w.line, column: w.column };
             }),

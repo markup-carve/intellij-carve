@@ -111,6 +111,40 @@ object CarveConverter {
         }
     }
 
+    /**
+     * Write the document back as ONE self-contained Carve file, every include
+     * expanded in place - the `carve flatten` shape.
+     *
+     * A plain Carve export must NOT do this. Spec I15 says writing a document
+     * back as Carve returns the author's document, directives and all, which is
+     * why this is a separate named action rather than an option on one.
+     */
+    fun toFlattenedCarve(
+        carve: String,
+        root: Path,
+        documentId: String,
+    ): CarveIncludeExpansion.Flattened? {
+        if (carveJs.isEmpty()) return null
+        return try {
+            Context.newBuilder("js")
+                .allowAllAccess(false)
+                .option("engine.WarnInterpreterOnly", "false")
+                .build()
+                .use { context ->
+                    context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
+                    val flatten = context.eval(
+                        Source.newBuilder("js", CarveIncludeExpansion.FLATTEN_JS, "carve-flatten.js").build(),
+                    )
+                    CarveIncludeExpansion.readFlattened(
+                        flatten.execute(carve, CarveIncludeExpansion.resolver(root), documentId),
+                    )
+                }
+        } catch (e: Exception) {
+            LOG.warn("Carve flatten failed", e)
+            null
+        }
+    }
+
     private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String =
         renderWithJs(carve, "carveToHtml", sourceLine)
 
