@@ -46,46 +46,12 @@ class CarveBundleCorpusTest {
      * test just as loudly as a new divergence, so a stale excuse cannot survive
      * here quietly - which is the failure mode an open-ended allowlist has and
      * the reason this repo grew a 363-commit gap in the first place.
+     *
+     * Empty since the bundle moved to carve-js 0.1.7: every entry it held named
+     * a rule carve-js implemented after 0.1.6 was cut, and 0.1.7 carries all of
+     * them. Empty is the state to defend, not a gap to fill.
      */
-    private val expectedDivergences: Map<String, String> = linkedMapOf(
-        // The mirror of the entry that used to sit here: there the corpus was
-        // behind the engine, here the engine is behind the corpus. The vendored
-        // bundle is carve-js 0.1.6, the last release, and the documents
-        // below pin rules carve-js implemented after it was cut - so a rebuild
-        // cannot close them and the next carve-js release clears all of them at
-        // once. A bundle built from carve-js main renders every one correctly,
-        // which is how each is attributed.
-        "460-a-nested-note-s-floor-is-two-columns-past-its-own-marker-2" to
-            "a nested note's floor moved in carve-js 72760e6 and 6b050a6, both after 0.1.6",
-        "461-a-column-0-line-after-a-description-hosted-note-is-a-document-sibling" to
-            "carve-js df49faf, after 0.1.6",
-        "461-a-column-0-line-after-a-description-hosted-note-is-a-document-sibling-2" to
-            "carve-js df49faf, after 0.1.6",
-        "463-a-bare-closer-does-not-reach-inside-a-braced-inline" to
-            "carve-js 594fd1d and b9291b3, after 0.1.6",
-        "463-a-bare-closer-does-not-reach-inside-a-braced-inline-2" to
-            "carve-js 594fd1d and b9291b3, after 0.1.6",
-        "463-a-bare-closer-does-not-reach-inside-a-braced-inline-3" to
-            "carve-js 594fd1d and b9291b3, after 0.1.6",
-        "467-a-bare-closer-does-not-reach-inside-a-link-destination" to
-            "carve-js b935d0e, after 0.1.6",
-        "467-a-bare-closer-does-not-reach-inside-a-link-destination-2" to
-            "carve-js b935d0e, after 0.1.6",
-        // Added by the spec bump to carve 7bd6577, attributed the same way.
-        "12-inline-code-8" to "carve-js 3b94c86, after 0.1.6",
-        "12-inline-code-9" to "carve-js 3b94c86, after 0.1.6",
-        "12-inline-code-11" to "carve-js 733a685, after 0.1.6",
-        "12-inline-code-12" to "carve-js 733a685, after 0.1.6",
-        "471-a-forced-opener-of-an-open-kind-is-literal-3" to "carve-js 68071bf, after 0.1.6",
-        "471-a-forced-opener-of-an-open-kind-is-literal-5" to "carve-js 68071bf, after 0.1.6",
-        "471-a-forced-opener-of-an-open-kind-is-literal-6" to "carve-js 68071bf, after 0.1.6",
-        "471-a-forced-opener-of-an-open-kind-is-literal-7" to "carve-js 68071bf, after 0.1.6",
-        "471-a-forced-opener-of-an-open-kind-is-literal-8" to "carve-js 68071bf, after 0.1.6",
-        "472-substitution-content-is-inline-and-only-a-top-level-arrow-splits-it" to
-            "carve-js 7e0a0d6 and 608f0d5, after 0.1.6",
-        "472-substitution-content-is-inline-and-only-a-top-level-arrow-splits-it-2" to
-            "carve-js 7e0a0d6 and 608f0d5, after 0.1.6",
-    )
+    private val expectedDivergences: Map<String, String> = linkedMapOf()
 
     /**
      * Documents whose outcome depends on the HOST, not on the bundle.
