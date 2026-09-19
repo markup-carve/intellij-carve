@@ -153,5 +153,19 @@
                 description="Write this document and every file it includes into a folder beside it">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
+
+        <action id="Carve.ExportFlattenedCarve"
+                class="org.markupcarve.carve.actions.ExportFlattenedCarveAction"
+                text="Export Self-Contained Carve"
+                description="Write this document as one Carve file with every include merged in">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="Carve.CopyFlattenedDocument"
+                class="org.markupcarve.carve.actions.CopyFlattenedDocumentAction"
+                text="Copy as a Single Document"
+                description="Copy this document with every include merged in">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
