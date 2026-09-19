@@ -4,8 +4,10 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import org.graalvm.polyglot.Context
 import org.graalvm.polyglot.Source
+import org.markupcarve.carve.includes.CarveIncludeExpansion
 import org.markupcarve.carve.settings.CarveRenderer
 import org.markupcarve.carve.settings.CarveSettings
+import java.nio.file.Path
 
 /**
  * Converts Carve markup to an HTML fragment.
@@ -62,6 +64,52 @@ object CarveConverter {
      * exports Markdown, from the bundle, rather than failing.
      */
     fun toMarkdown(carve: String): String = renderWithJs(carve, "carveToMarkdown")
+
+    /**
+     * Render to HTML with `{{ path }}` includes expanded (spec PART 9 section 19).
+     *
+     * [root] is the containment root [org.markupcarve.carve.includes.CarveIncludeRoot]
+     * derived, and [documentId] the canonical path of the document being
+     * previewed. Both are the host's to supply; the engine performs no file I/O.
+     *
+     * Returns null when the bundle is unavailable or the expansion throws, so a
+     * caller falls back to the plain render rather than showing an error page
+     * for a document that renders perfectly well without its includes.
+     */
+    fun toHtmlWithIncludes(
+        carve: String,
+        root: Path,
+        documentId: String,
+        sourceLine: Boolean = false,
+    ): CarveIncludeExpansion.Result? {
+        if (carveJs.isEmpty()) return null
+        return try {
+            Context.newBuilder("js")
+                .allowAllAccess(false)
+                .option("engine.WarnInterpreterOnly", "false")
+                .build()
+                .use { context ->
+                    context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
+                    val optionsBuilder = context.eval(
+                        Source.newBuilder("js", CARVE_OPTIONS_JS, "carve-options.js").build(),
+                    )
+                    val expand = context.eval(
+                        Source.newBuilder("js", CarveIncludeExpansion.EXPAND_JS, "carve-includes.js").build(),
+                    )
+                    CarveIncludeExpansion.read(
+                        expand.execute(
+                            carve,
+                            optionsBuilder.execute(sourceLine),
+                            CarveIncludeExpansion.resolver(root),
+                            documentId,
+                        ),
+                    )
+                }
+        } catch (e: Exception) {
+            LOG.warn("Carve include expansion failed", e)
+            null
+        }
+    }
 
     private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String =
         renderWithJs(carve, "carveToHtml", sourceLine)
