@@ -10,9 +10,14 @@ import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.editor.event.VisibleAreaListener
+import com.intellij.ide.impl.isTrusted
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.project.BaseProjectDirectories
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileManager
+import com.intellij.openapi.vfs.newvfs.BulkFileListener
+import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import com.intellij.ui.jcef.JBCefBrowser
 import com.intellij.ui.jcef.JBCefBrowserBase
 import com.intellij.ui.jcef.JBCefJSQuery
@@ -21,11 +26,14 @@ import org.cef.browser.CefBrowser
 import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandlerAdapter
 import org.markupcarve.carve.CarveConverter
+import org.markupcarve.carve.includes.CarveIncludeExpansion
+import org.markupcarve.carve.includes.CarvePreviewIncludes
 import org.markupcarve.carve.settings.CarveSettings
 import java.awt.BorderLayout
 import java.awt.Point
 import java.awt.datatransfer.StringSelection
 import java.io.File
+import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -71,6 +79,33 @@ class CarvePreviewPanel(
 
     private val documentListener = object : DocumentListener {
         override fun documentChanged(event: DocumentEvent) = scheduleUpdate()
+    }
+
+    /**
+     * Targets the last render reached, resolved and merely attempted alike.
+     *
+     * Written on the render thread and read on the VFS listener's thread, hence
+     * the volatile: a stale read here means a missed re-render, which is the
+     * one failure this set exists to prevent.
+     */
+    @Volatile
+    private var includeDependencies: List<CarveIncludeExpansion.Dependency> = emptyList()
+
+    /**
+     * Re-render when an INCLUDED file changes, not only when the open document
+     * does. Without it a preview of a book shows the chapter the glossary had
+     * when the tab was opened.
+     */
+    private val includeListener = object : BulkFileListener {
+        override fun after(events: List<VFileEvent>) {
+            val watched = includeDependencies
+            if (watched.isEmpty()) return
+            val touched = events.any { event ->
+                val path = runCatching { Path.of(event.path) }.getOrNull()
+                path != null && CarvePreviewIncludes.dependsOn(watched, path)
+            }
+            if (touched) scheduleUpdate()
+        }
     }
 
     /** Last line pushed to the preview, so an unchanged scroll does not re-run JS. */
@@ -153,6 +188,7 @@ class CarvePreviewPanel(
             EditorColorsManager.TOPIC,
             EditorColorsListener { updateTheme() },
         )
+        messageBusConnection.subscribe(VirtualFileManager.VFS_CHANGES, includeListener)
 
         EditorFactory.getInstance().eventMulticaster
             .addVisibleAreaListener(visibleAreaListener, this)
@@ -279,11 +315,50 @@ class CarvePreviewPanel(
             "function(errCode, errMsg) { onDone(false); }",
         )
 
+    /**
+     * The document's includes expanded when the host is allowed to resolve them
+     * (spec PART 9 section 19), otherwise the document as written.
+     *
+     * The setup is re-derived per render rather than cached: the containment
+     * root follows a setting and the project's base directories, and both can
+     * change while a preview is open.
+     */
+    private fun renderHtml(content: String): String {
+        val documentPath = runCatching { Path.of(file.path) }.getOrNull()
+        val setup = documentPath?.let {
+            CarvePreviewIncludes.setupFor(
+                mode = CarveSettings.getInstance(project).includeMode,
+                workspaceTrusted = project.isTrusted(),
+                settingRoot = CarveSettings.getInstance(project).includeRoot,
+                baseDirectories = listOfNotNull(
+                    BaseProjectDirectories.getInstance(project).getBaseDirectoryFor(file),
+                ).mapNotNull { base -> runCatching { Path.of(base.path) }.getOrNull() },
+                documentPath = it,
+            )
+        }
+        if (setup == null) {
+            includeDependencies = emptyList()
+            return CarveConverter.toHtml(content, project, sourceLine = true)
+        }
+        val expanded = CarveConverter.toHtmlWithIncludes(
+            carve = content,
+            root = setup.root,
+            documentId = setup.documentId,
+            sourceLine = true,
+        )
+        if (expanded == null) {
+            includeDependencies = emptyList()
+            return CarveConverter.toHtml(content, project, sourceLine = true)
+        }
+        includeDependencies = expanded.dependencies
+        return CarvePreviewIncludes.warningsHtml(expanded.warnings, expanded.suppressedWarnings) + expanded.html
+    }
+
     private fun loadPreviewShell() {
         val content = readDocumentText() ?: ""
         val isDark = isDarkTheme()
         ApplicationManager.getApplication().executeOnPooledThread {
-            val html = CarveConverter.toHtml(content, project, sourceLine = true)
+            val html = renderHtml(content)
             val css = userCss()
             // Both touch the disk on first use; neither may run on the EDT below.
             val assets = assetBase
@@ -358,7 +433,7 @@ class CarvePreviewPanel(
         ApplicationManager.getApplication().executeOnPooledThread {
             val content = readDocumentText()
                 ?: return@executeOnPooledThread
-            val html = CarveConverter.toHtml(content, project, sourceLine = true)
+            val html = renderHtml(content)
             val escaped = escapeForJs(html)
             ApplicationManager.getApplication().invokeLater {
                 browser.cefBrowser.executeJavaScript(

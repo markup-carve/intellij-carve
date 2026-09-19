@@ -98,9 +98,10 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                 row {
                     text(
                         "A <code>{{ path }}</code> directive pulls another Carve file into this one " +
-                            "(spec PART 9 &sect; 19). With resolution on, the language server offers " +
-                            "go-to-definition into the included file, path completion, the child's " +
-                            "headings in the Structure view, and a warning where a target does not resolve.",
+                            "(spec PART 9 &sect; 19). With resolution on, the preview shows the " +
+                            "assembled document, and the language server offers go-to-definition " +
+                            "into the included file, path completion, the child's headings in the " +
+                            "Structure view, and a warning where a target does not resolve.",
                     )
                 }
                 buttonsGroup("Resolve includes:") {

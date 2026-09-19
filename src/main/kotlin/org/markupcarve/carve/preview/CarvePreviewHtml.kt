@@ -253,6 +253,18 @@ object CarvePreviewHtml {
             border-radius: var(--carve-radius);
         }
 
+        /* Include diagnostics, above the document. A refused `{{ path }}`
+           otherwise renders as the literal text it is, which reads as prose. */
+        .carve-include-warnings {
+            margin: 0 0 var(--carve-space-4);
+            padding: var(--carve-space-3);
+            border-left: 3px solid var(--carve-warn);
+            background: var(--carve-warn-wash);
+            border-radius: var(--carve-radius);
+            font-size: 0.9em;
+        }
+        .carve-include-warnings ul { margin: var(--carve-space-2) 0 0; }
+
         /* ---- Code-block chrome ----
            The hydrate JS wraps every `pre > code` in `.carve-code` and hangs a
            small tool strip off it: the language name and the copy button. They
