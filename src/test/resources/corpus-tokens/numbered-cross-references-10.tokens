@@ -1,0 +1,10 @@
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> text.carve meta.image.inline.carve
+\n -> text.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+a *# x* b -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve
