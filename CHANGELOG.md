@@ -7,9 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.9] - 2026-09-21
+
+### Added
+
+- **Includes expand in the preview** (#197). A `{{ path }}` directive renders the included document, through the engine's expansion pass. Configure the containment root under Settings > Tools > Carve > Includes.
+- **Export and copy the flattened document** (#198). Two actions write the assembled document out as one self-contained `.crv` file or put it on the clipboard. Both report the renamed ids and the targets they could not read.
+
+### Changed
+
+- **The vendored engine and language server are the current releases** (#150, #196, #200). The preview bundle and the server run carve-js 0.1.7, and the server is carve-lsp 0.1.7.
+
 ### Fixed
 
-- **Highlights stay visible in dark themes.** `=...=` and `{=...=}` now use a high-contrast pale-yellow mark with dark bold text in both the editor and preview instead of muted diff and warning colors.
+- **Highlights stay visible in dark themes** (#188, #189). `=...=` and `{=...=}` use a high-contrast pale-yellow mark with dark bold text in both the editor and preview instead of muted diff and warning colors.
+- **A refused include is named in the export report** (#200). A target outside the include root was left out of the list of files the export could not read.
+- **Editorial spans close at their first closer** (#195). `{+a {-b+}` inserts `a {-b`, where a braced opener used to swallow the closer.
+- **Highlighting of emphasis, code spans and braced spans matches the spec** (#170, #173, #180, #182, #186, #187, #194). Bare runs carry inline content, a code span is opaque to a bare delimiter, and a bold run opens and closes where the spec reads it.
+- **Highlighting of link destinations, attribute blocks, comments and substitutions matches the spec** (#154, #156, #159, #162, #163, #171, #183, #193). A bare delimiter inside a destination no longer closes a run, a detached attribute block is prose, a trailing comment in a heading or caption is scoped, a comment may hold a `}`, and a substitution splits only at a top-level arrow.
 
 ## [0.1.8] - 2026-09-15
 
