@@ -49,15 +49,16 @@ data class IncludeWalk(
  * not one comes back unresolved and unclaimed. Measured against the vendored
  * server: `{{ not-a-directive.crv }}` inside a fence answers null and raises no
  * diagnostic, `{{ ../../outside/secret.crv }}` answers null and raises
- * `include-unresolved`, `{{ sub/child.crv }}` answers the child's URI.
+ * `include-denied`, `{{ sub/child.crv }}` answers the child's URI.
  *
  * ## The two answers, and why both are needed
  *
  * `textDocument/definition` names a target it could read. It cannot name one it
  * could not: there is no location to return, so a missing file, a target
  * outside the root and a `{{` that was never a directive all answer null
- * alike. The published `include-unresolved` diagnostic is what separates the
- * first two from the third, and its message carries the path as written. Both
+ * alike. The published `include-unresolved`, `include-denied` or
+ * `include-non-text` diagnostic is what separates the first two from the third,
+ * and its message carries the path as written. Both
  * are collected, which is why a bundle can report what it could not copy
  * instead of quietly shipping a document whose includes do not resolve.
  *
@@ -87,9 +88,11 @@ object CarveIncludeWalk {
      * the unresolved NAMES, never the count, because an unparsed diagnostic
      * still contributes its directive.
      */
-    private val UNRESOLVED_MESSAGE = Regex("""^Include "(.+)" could not be resolved\.$""")
+    private val UNRESOLVED_MESSAGE =
+        Regex("""^Include "(.+)" (?:could not be resolved|was refused: .+)\.$""")
 
-    private const val UNRESOLVED_CODE = "include-unresolved"
+    /** A miss, and the two refusal codes carve-lsp 0.1.7 splits out of it. */
+    private val UNRESOLVED_CODES = setOf("include-unresolved", "include-denied", "include-non-text")
 
     class WalkFailed(message: String) : Exception(message)
 
@@ -154,7 +157,7 @@ object CarveIncludeWalk {
         private val line = StringBuilder()
         private var nextId = 0
 
-        /** `include-unresolved` paths seen so far, per document URI. */
+        /** Unresolved or refused include paths seen so far, per document URI. */
         private val unresolved = LinkedHashMap<String, MutableSet<String>>()
 
         fun initialize(workspaceRoot: Path?, initializationOptions: JsonObject) {
@@ -353,7 +356,7 @@ object CarveIncludeWalk {
             val published = params.getAsJsonArray("diagnostics") ?: return
             for (entry in published) {
                 val diagnostic = entry.asJsonObject
-                if (diagnostic.get("code")?.asString != UNRESOLVED_CODE) continue
+                if (diagnostic.get("code")?.asString !in UNRESOLVED_CODES) continue
                 val text = diagnostic.get("message")?.asString ?: continue
                 into += UNRESOLVED_MESSAGE.find(text)?.groupValues?.get(1) ?: text
             }
