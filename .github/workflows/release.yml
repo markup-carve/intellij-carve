@@ -57,6 +57,9 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: The tag and Gradle version have to agree
+        run: ./scripts/check-release-version.sh "$GITHUB_REF_NAME"
+
       - name: Build plugin
         run: ./gradlew --no-daemon buildPlugin
 
