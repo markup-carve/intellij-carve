@@ -162,12 +162,15 @@ object CarveConverter {
                 .build()
                 .use { context ->
                     context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
-                    val fn = context.getBindings("js").getMember("carve")?.getMember(format.jsFunction)
+                    val engine = context.getBindings("js").getMember("carve")
+                    val fn = engine?.getMember(format.jsFunction)
                         ?: return Result.failure(IllegalStateException("'${format.jsFunction}' not found in bundle."))
                     val result = fn.execute(source)
                     // htmlToCarve returns { value, report }, markdownToCarve a plain string.
                     val carve = if (result.isString) result.asString() else result.getMember("value").asString()
-                    Result.success(carve)
+                    // The importers copy source layout such as table padding; `carve fmt` would rewrite it.
+                    val formatted = engine.getMember("carveToCarve")?.execute(carve)?.asString() ?: carve
+                    Result.success(formatted)
                 }
         } catch (e: Exception) {
             LOG.warn("Carve import (${format.jsFunction}) failed", e)

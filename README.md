@@ -89,7 +89,8 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 Right-click a `.md` or `.html` file in the Project view, or open it and use
 **Tools > Import Markdown as Carve** (**Import HTML as Carve** for an HTML
 file). The bundled engine converts it (`markdownToCarve` / `htmlToCarve`),
-writes a `.crv` file with the same base name beside it, and opens it. If that
+formats the result the way `carve fmt` would, writes a `.crv` file with the
+same base name beside it, and opens it. If that
 file already exists, the plugin asks before overwriting it. The action is only
 shown for `.md`, `.markdown`, `.html` and `.htm` files.
 

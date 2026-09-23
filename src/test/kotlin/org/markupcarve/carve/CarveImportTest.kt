@@ -53,6 +53,105 @@ class CarveImportTest {
     }
 
     @Test
+    fun `a full markdown document imports as canonical carve`() {
+        val markdown = """
+            |# Title
+            |
+            |Some **bold**, *italic*, and `code` with a [link](https://example.com).
+            |
+            |## Lists
+            |
+            |- one
+            |- two
+            |  - nested
+            |
+            |1. first
+            |2. second
+            |
+            |```js
+            |const x = 1;
+            |```
+            |
+            || Name | Value |
+            ||------|-------|
+            || a    | 1     |
+            || b    | 2     |
+            |
+            |> quoted
+            |
+            |Line with ümlauts.
+            |""".trimMargin()
+
+        val carve = CarveConverter.importToCarve(markdown, CarveImportFormat.MARKDOWN).getOrThrow()
+
+        assertEquals(
+            """
+            |# Title
+            |
+            |Some *bold*, /italic/, and `code` with a [link](https://example.com).
+            |
+            |## Lists
+            |
+            |- one
+            |- two
+            |  - nested
+            |
+            |1. first
+            |2. second
+            |
+            |```js
+            |const x = 1;
+            |```
+            |
+            ||= Name |= Value |
+            || a | 1 |
+            || b | 2 |
+            |
+            |> quoted
+            |
+            |Line with ümlauts.
+            |""".trimMargin(),
+            carve,
+        )
+    }
+
+    @Test
+    fun `a full html document imports as canonical carve`() {
+        val html = """
+            <h1>Title</h1>
+            <p>Some <strong>bold</strong>, <em>italic</em>, <code>code</code> and <a href="https://example.com">link</a>.</p>
+            <ul><li>one</li><li>two</li></ul>
+            <pre><code class="language-js">const x = 1;
+            </code></pre>
+            <table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>a</td><td>1</td></tr></tbody></table>
+            <p>Ümlaut</p>
+        """.trimIndent()
+
+        val carve = CarveConverter.importToCarve(html, CarveImportFormat.HTML).getOrThrow()
+
+        assertEquals(
+            """
+            |# Title
+            |
+            |Some *bold*, /italic/, `code` and [link](https://example.com).
+            |
+            |- one
+            |- two
+            |
+            |```js
+            |const x = 1;
+            |```
+            |
+            ||= Name |= Value |
+            || a | 1 |
+            |
+            |Ümlaut
+            |""".trimMargin(),
+            carve,
+        )
+    }
+
+    @Test
     fun `the action is registered in the project view and tools menus`() {
         val pluginXml = File("src/main/resources/META-INF/plugin.xml").readText()
         val action = pluginXml.substringAfter("<action id=\"Carve.ImportAsCarve\"").substringBefore("</action>")
