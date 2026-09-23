@@ -30,8 +30,16 @@ class CarveLanguageServerFactory : LanguageServerFactory {
         CarveLspServer(project)
 
     override fun createLanguageClient(project: Project): LanguageClientImpl =
-        LanguageClientImpl(project)
+        CarveLanguageClient(project)
 
     override fun getServerInterface(): Class<out LanguageServer> =
         LanguageServer::class.java
+}
+
+/**
+ * A `didChangeConfiguration` without the `carve` object makes the server fall
+ * back to its defaults, re-enabling its export actions; send the full settings.
+ */
+class CarveLanguageClient(project: Project) : LanguageClientImpl(project) {
+    override fun createSettings(): Any = CarveLspServer.clientSettings(project)
 }

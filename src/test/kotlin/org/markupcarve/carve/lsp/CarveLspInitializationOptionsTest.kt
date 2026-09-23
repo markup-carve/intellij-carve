@@ -70,6 +70,13 @@ class CarveLspInitializationOptionsTest {
         assertEquals("/srv/docs", sent.get("includeRoot").asString)
     }
 
+    @Test
+    fun `the server's export actions are turned off`() {
+        val carve = build(CarveIncludeMode.AUTO).getAsJsonObject("carve")
+
+        assertFalse(carve.get("exportActions").asBoolean)
+    }
+
     private fun build(mode: CarveIncludeMode): JsonObject =
         CarveLspInitializationOptions.build(mode, "", workspaceTrusted = true)
 }

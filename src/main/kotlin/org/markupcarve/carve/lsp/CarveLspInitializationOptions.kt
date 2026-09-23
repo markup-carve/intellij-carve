@@ -34,6 +34,8 @@ object CarveLspInitializationOptions {
 
         val carve = JsonObject()
         carve.add("includes", includes)
+        // The plugin ships its own export actions; the server's would list export twice.
+        carve.addProperty("exportActions", false)
 
         val options = JsonObject()
         options.add("carve", carve)

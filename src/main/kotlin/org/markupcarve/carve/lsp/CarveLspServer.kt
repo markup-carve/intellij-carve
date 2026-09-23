@@ -74,14 +74,7 @@ class CarveLspServer(private val project: Project) : OSProcessStreamConnectionPr
      * project still resolves nothing - which is what section 19 asks for, and
      * why the setting's default is `auto` rather than `on`.
      */
-    override fun getInitializationOptions(rootUri: VirtualFile?): Any {
-        val settings = CarveSettings.getInstance(project)
-        return CarveLspInitializationOptions.build(
-            mode = settings.includeMode,
-            includeRoot = settings.includeRoot,
-            workspaceTrusted = project.isTrusted(),
-        )
-    }
+    override fun getInitializationOptions(rootUri: VirtualFile?): Any = clientSettings(project)
 
     /**
      * Without a configured command line, the parent `start()` would throw an
@@ -98,6 +91,18 @@ class CarveLspServer(private val project: Project) : OSProcessStreamConnectionPr
     private fun disable(message: String) {
         unavailableReason = message
         notify(message)
+    }
+
+    companion object {
+        /** Sent both at `initialize` and on `workspace/didChangeConfiguration`. */
+        fun clientSettings(project: Project): Any {
+            val settings = CarveSettings.getInstance(project)
+            return CarveLspInitializationOptions.build(
+                mode = settings.includeMode,
+                includeRoot = settings.includeRoot,
+                workspaceTrusted = project.isTrusted(),
+            )
+        }
     }
 
     private fun notify(message: String) {
