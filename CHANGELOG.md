@@ -7,14 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- **Import Markdown or HTML as Carve.** A Project view and Tools menu action converts a `.md` or `.html` file to a `.crv` beside it with the bundled engine, asks before overwriting, and opens the result.
-
-### Changed
-
-- **The language server's export source actions are turned off** (markup-carve/carve-lsp#262). The plugin sends `exportActions: false`, so export is not listed twice.
-
 ## [0.1.9] - 2026-09-21
 
 ### Added
