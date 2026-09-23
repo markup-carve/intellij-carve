@@ -22,6 +22,7 @@
             recipes - admonitions, sidebars and the rest of the family</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
         <li>Export to HTML and to Markdown</li>
+        <li>Import Markdown or HTML files as Carve</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
         <li>File type recognition for <code>.crv</code></li>
         <li>Settings page under Settings &rarr; Tools &rarr; Carve</li>
@@ -145,6 +146,14 @@
                 text="Export to Markdown"
                 description="Export Carve file to Markdown">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="Carve.ImportAsCarve"
+                class="org.markupcarve.carve.actions.ImportAsCarveAction"
+                text="Import Markdown as Carve"
+                description="Convert this Markdown or HTML file to a .crv file beside it">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
 
         <action id="Carve.ExportBundle"

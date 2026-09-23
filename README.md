@@ -31,7 +31,8 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 - **IDE theme sync** - preview follows dark/light mode
 - **Code highlighting** in preview code blocks (highlight.js), with a copy button on each
 - **Works offline** - the preview makes no network request of any kind
-- **Export to HTML**
+- **Export to HTML** and **Export to Markdown**
+- **Import Markdown or HTML as Carve** - converts a `.md` or `.html` file to a `.crv` beside it
 - **Export Bundle** - the document plus every file it includes, as a folder beside it
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
 - **File type** recognition for `.crv`
@@ -82,6 +83,19 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 2. The preview updates live as you type.
 3. Right-click for **Export to HTML**.
 4. Press `Ctrl+Shift+D` to toggle the Carve preview tool window.
+
+## Importing Markdown and HTML
+
+Right-click a `.md` or `.html` file in the Project view, or open it and use
+**Tools > Import Markdown as Carve** (**Import HTML as Carve** for an HTML
+file). The bundled engine converts it (`markdownToCarve` / `htmlToCarve`),
+writes a `.crv` file with the same base name beside it, and opens it. If that
+file already exists, the plugin asks before overwriting it. The action is only
+shown for `.md`, `.markdown`, `.html` and `.htm` files.
+
+When LSP4IJ is installed, the plugin tells the language server to hide its own
+*Export as Markdown/HTML* source actions (`exportActions: false`), so export is
+not offered twice next to the plugin's export actions.
 
 ## Live Templates
 

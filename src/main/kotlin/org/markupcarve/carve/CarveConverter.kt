@@ -145,6 +145,36 @@ object CarveConverter {
         }
     }
 
+    /**
+     * Convert Markdown or HTML to Carve with the bundled engine's importers.
+     *
+     * Fails instead of returning an error page, so a broken conversion never
+     * lands in a `.crv` file.
+     */
+    fun importToCarve(source: String, format: CarveImportFormat): Result<String> {
+        if (carveJs.isEmpty()) {
+            return Result.failure(IllegalStateException("Bundled carve.iife.js is missing from the plugin."))
+        }
+        return try {
+            Context.newBuilder("js")
+                .allowAllAccess(false)
+                .option("engine.WarnInterpreterOnly", "false")
+                .build()
+                .use { context ->
+                    context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
+                    val fn = context.getBindings("js").getMember("carve")?.getMember(format.jsFunction)
+                        ?: return Result.failure(IllegalStateException("'${format.jsFunction}' not found in bundle."))
+                    val result = fn.execute(source)
+                    // htmlToCarve returns { value, report }, markdownToCarve a plain string.
+                    val carve = if (result.isString) result.asString() else result.getMember("value").asString()
+                    Result.success(carve)
+                }
+        } catch (e: Exception) {
+            LOG.warn("Carve import (${format.jsFunction}) failed", e)
+            Result.failure(e)
+        }
+    }
+
     private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String =
         renderWithJs(carve, "carveToHtml", sourceLine)
 
