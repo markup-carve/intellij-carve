@@ -166,6 +166,11 @@ object CarvePreviewAssets {
      */
     fun baseUrl(root: File): String = root.toURI().toString().removeSuffix("/") + "/"
 
+    /** A vendored asset's text, straight from the jar, for pages that inline it. */
+    fun readText(relativePath: String): String =
+        readResource("$RESOURCE_ROOT/$relativePath")
+            ?: error("preview-assets/$relativePath is missing from the plugin. Re-run tools/vendor-preview-assets.sh.")
+
     private fun readResource(path: String): String? =
         readResourceBytes(path)?.toString(Charsets.UTF_8)
 
