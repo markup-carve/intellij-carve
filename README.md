@@ -131,8 +131,10 @@ Each package's licence text ships beside its files in
 recorded in `preview-assets/VENDOR.md`.
 
 *Export to HTML is deliberately different*: an exported file is meant to be
-opened and shared anywhere, so it still links MathJax from a CDN rather than
-pointing at a path on the machine that produced it.
+opened and shared anywhere, so it cannot point at a path on the machine that
+produced it. It inlines highlight.js, the Carve grammar and the light theme
+(about 230 KB), so code blocks, Carve fences and `{.diff}` fences look the same
+as in the preview with no network. MathJax is still linked from a CDN.
 
 ### Copying code
 
