@@ -176,6 +176,15 @@ class CarvePreviewHtmlTest {
         assertTrue(html.contains("pre.diff.has-diff .diff-marker"))
     }
 
+    /** The Carve grammar registers itself on the global hljs, so it has to load after it. */
+    @Test
+    fun `the carve highlight grammar loads right after highlight js`() {
+        val scripts = Regex("""<script src="([^"]*)"""").findAll(page()).map { it.groupValues[1] }.toList()
+        val hljs = scripts.indexOfFirst { it.endsWith(CarvePreviewAssets.HIGHLIGHT_JS) }
+        assertTrue("highlight.js is not loaded", hljs >= 0)
+        assertEquals(true, scripts.getOrNull(hljs + 1)?.endsWith(CarvePreviewAssets.HIGHLIGHT_CARVE_JS))
+    }
+
     /**
      * The heaviness the code blocks were reported for was two stacked surfaces:
      * the scaffold painted the `<pre>` and the highlight.js theme painted

@@ -463,6 +463,7 @@ object CarvePreviewHtml {
         #content { min-height: 100px; }
     </style>
     <script src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_JS}"></script>
+    <script src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_CARVE_JS}"></script>
     <script>
         window.MathJax = {
             tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },

@@ -22,11 +22,12 @@ rather than shipping.
 | [Chart.js](https://github.com/chartjs/Chart.js) | 4.5.1 | `chart/chart.umd.min.js` | 208,522 | MIT |
 | [MathJax](https://github.com/mathjax/MathJax) | 3.2.2 | `mathjax/tex-mml-chtml.js` + 23 WOFF faces | 1,520,979 | Apache-2.0 |
 | [Mermaid](https://github.com/mermaid-js/mermaid) | 11.17.2 | `mermaid/mermaid.min.js` | 3,572,661 | MIT |
+| [carve-grammars](https://github.com/markup-carve/carve-grammars) | 0.1.9 | `carve/highlightjs-carve.js` (the highlight.js Carve grammar) | 105,125 | MIT |
 
-Total 5,445,554 bytes across 33 files, licence texts included. All four
+Total 5,546,692 bytes across 35 files, licence texts included. All five
 licences permit redistribution in binary/compiled form; each package's own
 licence text is kept next to its files (`highlight/LICENSE`,
-`chart/LICENSE.md`, `mathjax/LICENSE`, `mermaid/LICENSE`) and is shipped with
+`chart/LICENSE.md`, `mathjax/LICENSE`, `mermaid/LICENSE`, `carve/LICENSE`) and is shipped with
 the plugin, which is what BSD-3-Clause and Apache-2.0 require.
 
 These are the same versions the CDN URLs resolved to when they were replaced -
