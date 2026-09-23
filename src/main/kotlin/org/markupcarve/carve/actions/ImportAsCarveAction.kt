@@ -14,6 +14,7 @@ import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import org.markupcarve.carve.CarveConverter
 import org.markupcarve.carve.CarveImportFormat
+import java.io.IOException
 
 /** Convert a Markdown or HTML file to a sibling `.crv` file and open it. */
 class ImportAsCarveAction : AnAction() {
@@ -25,7 +26,12 @@ class ImportAsCarveAction : AnAction() {
         val targetName = CarveImportFormat.targetName(file.name) ?: return
         val parent = file.parent ?: return
 
-        val source = readSource(file)
+        val source = try {
+            readSource(file)
+        } catch (ex: IOException) {
+            Messages.showErrorDialog(project, "Failed to read ${file.name}: ${ex.message}", "Import Error")
+            return
+        }
 
         ApplicationManager.getApplication().executeOnPooledThread {
             val result = CarveConverter.importToCarve(source, format)
