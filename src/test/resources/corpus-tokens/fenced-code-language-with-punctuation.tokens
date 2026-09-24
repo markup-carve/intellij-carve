@@ -1,6 +1,6 @@
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 c++ -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-int main() {}\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.cpp
+int main() {}\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.cpp
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

@@ -4,9 +4,9 @@
 \n -> text.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 python -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-def greet():\n -> text.carve markup.raw.block.fenced.code.carve
-    return 1\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.python
+def greet():\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.python
+    return 1\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.python
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve

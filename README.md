@@ -11,7 +11,8 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 ## Features
 
 - **Syntax highlighting** via TextMate grammar (shared with
-  [vscode-carve](https://github.com/markup-carve/vscode-carve))
+  [vscode-carve](https://github.com/markup-carve/vscode-carve)), with fenced code
+  bodies highlighted in the fence's own language
 - **Language Server features** via the bundled
   [carve-lsp](https://github.com/markup-carve/carve-lsp) server (through
   [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij)):
@@ -50,6 +51,16 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 **Syntax highlighting** - via the shared Carve TextMate grammar, including the visual mnemonics, tables, captions, admonitions, and math:
 
 ![A .crv file with full Carve syntax highlighting](docs/screenshots/highlighting.png)
+
+A fenced code body is highlighted in the language its info string names - around 38
+of them, from `js` and `python` to `diff` and `dockerfile`, plus `carve` for Carve
+inside Carve. The language grammars come from the IDE's own TextMate bundles, so a
+language the IDE ships no bundle for (`toml` today) keeps a plain body instead. A
+fence inside a block quote also stays plain: its body lines carry the `> ` prefix.
+
+One limit is worth knowing: inside a fence wider than three characters, a bare
+three-character fence line ends the language highlighting for the rest of the body.
+The block itself still runs to its own closer - only the coloring stops early.
 
 ## Requirements
 

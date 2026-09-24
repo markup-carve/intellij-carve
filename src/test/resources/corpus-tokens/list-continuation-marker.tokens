@@ -5,8 +5,8 @@ Build the image\n -> text.carve
 \n -> text.carve markup.list.continuation.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 sh -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-docker build -t app .\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.shellscript
+docker build -t app .\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.shellscript
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve

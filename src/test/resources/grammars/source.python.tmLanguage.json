@@ -1,0 +1,10 @@
+{
+  "comment": "A stand-in for the IDE's Python bundle. A second language is what shows the embedding follows the fence's info string rather than one hard-wired grammar.",
+  "scopeName": "source.python",
+  "patterns": [
+    {
+      "match": "\\b(def|return|import)\\b",
+      "name": "keyword.control.stub.python"
+    }
+  ]
+}

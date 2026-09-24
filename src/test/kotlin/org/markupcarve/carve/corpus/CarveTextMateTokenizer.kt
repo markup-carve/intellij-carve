@@ -106,6 +106,31 @@ object CarveTextMateTokenizer {
     fun grammarFrom(file: File): Grammar = Grammar(loadDescriptor(readPlist(file), expectedRoot = null))
 
     /**
+     * The committed grammar and [others], all in ONE [TextMateSyntaxTable], rooted at the
+     * Carve grammar.
+     *
+     * This is the shape the IDE has at runtime: `TextMateServiceImpl` holds a single
+     * syntax table and registers every enabled bundle into it, so a rule that includes
+     * another grammar's scope - `source.js` inside a fenced code body - resolves against
+     * whatever else is registered. One table per grammar, which every other entry point
+     * here uses, cannot see that resolution at all: the include finds nothing and the
+     * body stays flat, which is also what a stock IDE does for a language it has no
+     * bundle for.
+     */
+    fun grammarsTogether(vararg others: File): Grammar {
+        val table = TextMateSyntaxTable()
+        val interner: Interner<CharSequence> = Interner.createInterner()
+        val stream = CarveTextMateTokenizer::class.java.getResourceAsStream(GRAMMAR_RESOURCE)
+            ?: error("Carve grammar not found on test classpath at $GRAMMAR_RESOURCE")
+        val carveScope = stream.use { table.loadSyntax(JsonPlistReader().read(it), interner) }
+            ?: error("Carve grammar declared no scopeName")
+        others.forEach { file ->
+            table.loadSyntax(readPlist(file), interner) ?: error("${file.name} declared no scopeName")
+        }
+        return Grammar(TextMateLanguageDescriptor(carveScope, table.getSyntax(carveScope)))
+    }
+
+    /**
      * Loads [file] with every scope name inside repository rule [rule] replaced by
      * [PROBE_SCOPE], so the tokens that rule produced can be told apart from every
      * other rule's.

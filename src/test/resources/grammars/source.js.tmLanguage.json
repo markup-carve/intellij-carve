@@ -1,0 +1,14 @@
+{
+  "comment": "A stand-in for the IDE's JavaScript bundle, small enough to read. The tests need SOME other grammar registered beside Carve's to measure that an include resolves across grammars; which one it is does not matter, and depending on the IDE's own bundle would tie the goldens to a platform version.",
+  "scopeName": "source.js",
+  "patterns": [
+    {
+      "match": "\\b(const|let|var|function|return)\\b",
+      "name": "keyword.control.stub.js"
+    },
+    {
+      "match": "\"[^\"]*\"",
+      "name": "string.quoted.double.stub.js"
+    }
+  ]
+}

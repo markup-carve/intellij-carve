@@ -4,7 +4,7 @@ php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.c
 "src/Auth.php" -> text.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
   -> text.carve markup.raw.block.fenced.code.carve
 [Composer] -> text.carve markup.raw.block.fenced.code.carve entity.name.label.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-composer require x\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
+composer require x\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

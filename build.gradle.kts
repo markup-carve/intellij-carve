@@ -375,6 +375,25 @@ val localRulesGroupedUpstream =
 // a rule here can never hide a later regression in it.
 val divergedByDesign =
     mapOf(
+        // The three generated per-language fence families. Each rule is a copy of THIS
+        // grammar's generic fence rule, and the generic rules diverge from upstream's
+        // already (upstream reaches both container spellings from one \\G-anchored rule;
+        // this grammar has no container model and matches the marker line whole), so every
+        // copy inherits that divergence. Two further deltas are this plugin's own: Kotlin is
+        // included under `source.Kotlin` as well, because the IDE bundles a legacy-format
+        // Kotlin grammar whose scope carries the capital K, and there is no
+        // `embeddedLanguages` map, which is a VS Code manifest contribution with no bridge
+        // equivalent. Pinned by CarveFenceEmbedTest and CarveFenceLanguageGenerationTest.
+        "fenced-code-languages" to
+            "Generated from this grammar's own `code-blocks` rule, plus the `source.Kotlin` scope " +
+                "the IDE's bundled Kotlin grammar uses. Pinned by CarveFenceEmbedTest.",
+        "fenced-code-languages-on-a-marker-line" to
+            "Generated from `code-fence-on-marker-line`, which matches the marker line whole where " +
+                "upstream reaches the same construct with a \\G-anchored alternative. Pinned by " +
+                "CarveFenceEmbedTest.",
+        "fenced-code-languages-at-a-body-column" to
+            "Generated from `code-fence-at-body-column`, the half of upstream's container rule this " +
+                "grammar keeps as a rule of its own. Pinned by CarveFenceEmbedTest.",
         "frontmatter" to
             "IntelliJ's TextMate engine treats the document-start anchor \\A like ^, so upstream's " +
                 "\\A-anchored bare `---` open fence would fire mid-document and swallow the rest of the " +
@@ -570,6 +589,19 @@ tasks {
     // upstream rule landing this afternoon is not a reason for an unrelated pull
     // request to go red. .github/workflows/grammar-drift.yml runs it on a schedule,
     // where it is REPORTED; the declarations check beside it is GATED.
+    // The per-language fence rules are GENERATED from the three hand-written generic
+    // fence rules by tools/generate-fence-languages.mjs, so a hand edit to one of those
+    // leaves 38 stale copies that still match first. This runs the generator's own check.
+    //
+    // Not a CI gate: CI runs `gradlew test`, and node is not on that image. The invariant
+    // is asserted there instead by CarveFenceLanguageGenerationTest, which reads the
+    // committed grammar rather than re-running the generator.
+    register<Exec>("checkFenceLanguages") {
+        description = "Fails when the generated per-language fence rules are stale (needs node)"
+        group = "verification"
+        commandLine("node", "tools/generate-fence-languages.mjs", "--check")
+    }
+
     register("checkGrammarDrift") {
         description = "Reports upstream grammar constructs this plugin is missing (read-only)"
         group = "verification"

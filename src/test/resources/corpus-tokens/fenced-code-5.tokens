@@ -2,7 +2,7 @@
 php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
   -> text.carve markup.raw.block.fenced.code.carve
 [NPM] -> text.carve markup.raw.block.fenced.code.carve entity.name.label.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-npm install x\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
+npm install x\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
