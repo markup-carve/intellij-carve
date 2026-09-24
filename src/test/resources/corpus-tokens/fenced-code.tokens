@@ -1,6 +1,6 @@
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 python -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-print("hi")\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.python
+print("hi")\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.python
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

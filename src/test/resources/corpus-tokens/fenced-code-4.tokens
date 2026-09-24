@@ -6,7 +6,7 @@
 \n -> text.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 php -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-code\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
+code\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

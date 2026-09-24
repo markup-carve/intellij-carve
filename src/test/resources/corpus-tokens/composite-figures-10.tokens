@@ -27,8 +27,8 @@ figure -> text.carve markup.other.figure-group.carve entity.name.type.figure-gro
 \n -> text.carve markup.other.figure-group.carve
 ``` -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 js -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve
-const x = 1\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+const x = 1\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
 ``` -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve
 ^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
