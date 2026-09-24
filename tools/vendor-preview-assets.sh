@@ -21,7 +21,7 @@ HLJS_VERSION="11.9.0"
 CHARTJS_VERSION="4.5.1"
 MATHJAX_VERSION="3.2.2"
 MERMAID_VERSION="11.17.2"
-CARVE_GRAMMARS_VERSION="0.1.9"
+CARVE_GRAMMARS_COMMIT="70bd71fe7343569e19744855f63a5253627e6b2d"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dest="$repo_root/src/main/resources/preview-assets"
@@ -88,13 +88,13 @@ cp "$work/pkg/package/dist/mermaid.min.js" "$dest/mermaid/mermaid.min.js"
 cp "$work/pkg/package/LICENSE" "$dest/mermaid/LICENSE"
 say "$(du -sh "$dest/mermaid" | cut -f1)"
 
-echo "carve-grammars $CARVE_GRAMMARS_VERSION"
+echo "carve-grammars $CARVE_GRAMMARS_COMMIT"
 # The highlight.js Carve grammar, so `carve` fences highlight. As a classic script
 # it registers itself on the global hljs, so the page loads it after highlight.js.
-fetch "https://registry.npmjs.org/@markup-carve/carve-grammars/-/carve-grammars-$CARVE_GRAMMARS_VERSION.tgz" "$work/carve-grammars.tgz"
-untar "$work/carve-grammars.tgz" package/highlightjs/carve.js package/LICENSE
-cp "$work/pkg/package/highlightjs/carve.js" "$dest/carve/highlightjs-carve.js"
-cp "$work/pkg/package/LICENSE" "$dest/carve/LICENSE"
+carve_base="https://raw.githubusercontent.com/markup-carve/carve-grammars/$CARVE_GRAMMARS_COMMIT"
+fetch "$carve_base/highlightjs/carve.js" "$dest/carve/highlightjs-carve.js"
+fetch "$carve_base/shiki/table-tokens.css" "$dest/carve/table-tokens.css"
+fetch "$carve_base/LICENSE" "$dest/carve/LICENSE"
 say "$(du -sh "$dest/carve" | cut -f1)"
 
 # The UMD bundle must be self-contained: a dynamic import() would resolve at run

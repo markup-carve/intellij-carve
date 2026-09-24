@@ -72,6 +72,7 @@ object CarvePreviewHtml {
         href="${assetBase}${CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS}"${if (isDark) " disabled" else ""}>
     <link id="hljs-dark" rel="stylesheet"
         href="${assetBase}${CarvePreviewAssets.HIGHLIGHT_DARK_CSS}"${if (!isDark) " disabled" else ""}>
+    <link rel="stylesheet" href="${assetBase}${CarvePreviewAssets.HIGHLIGHT_TABLE_CSS}">
     <style>
         * { box-sizing: border-box; }
         /* --carve-font-body is `inherit` by default, so the stack lives on the
