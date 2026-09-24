@@ -21,7 +21,7 @@ HLJS_VERSION="11.9.0"
 CHARTJS_VERSION="4.5.1"
 MATHJAX_VERSION="3.2.2"
 MERMAID_VERSION="11.17.2"
-CARVE_GRAMMARS_COMMIT="e19b94c54c7c7610535c8f7811f064c97baf1deb"
+CARVE_GRAMMARS_COMMIT="70bd71fe7343569e19744855f63a5253627e6b2d"
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 dest="$repo_root/src/main/resources/preview-assets"
