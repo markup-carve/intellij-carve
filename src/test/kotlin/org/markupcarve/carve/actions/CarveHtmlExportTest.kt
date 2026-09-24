@@ -64,6 +64,8 @@ class CarveHtmlExportTest {
     fun `the page inlines the light highlight theme`() {
         val theme = CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS)
         assertTrue(page.contains(CarveHtmlExport.inlineStyle(theme)))
+        val tables = CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS)
+        assertTrue(page.contains(CarveHtmlExport.inlineStyle(tables)))
         assertTrue(page.contains("pre code, pre code.hljs { background: none; padding: 0; }"))
     }
 

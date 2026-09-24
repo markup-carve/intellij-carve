@@ -14,13 +14,16 @@ object CarveHtmlExport {
 
     fun page(title: String, content: String): String {
         return """<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$title</title>
     <style>
 ${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS))}
+    </style>
+    <style>
+${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS))}
     </style>
     <style>
         body {
