@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Import Markdown or HTML as Carve** (#205). Two actions in the Project view context menu and the Tools menu convert a `.md` or `.html` file through the bundled engine, write a sibling `.crv`, ask before overwriting and open the result.
+- **Fenced code bodies highlight in the fence's language** (#207, #210). 38 languages plus `carve` for Carve inside Carve, using the IDE's own TextMate bundles. A language the IDE ships no bundle for keeps a flat body.
+- **Fences tagged `carve` highlight in the preview** (#206). The preview vendors the highlight.js Carve grammar from carve-grammars beside its licence.
+- **The HTML export highlights code, `{.diff}` fences and Carve fences** (#207, #208). The exported page inlines highlight.js, the Carve grammar and the theme, so it works wherever it is copied, and runs the same diff presentation as the live preview.
+- **Table markup is colored** in the offline preview and in the HTML export, from the shared carve-grammars palette (#209).
+
+### Changed
+
+- **The language server's export source actions are turned off** (#205, markup-carve/carve-lsp#262). The plugin has its own export actions, and the option is re-sent on a configuration change so the server's defaults cannot come back.
+
 ## [0.1.9] - 2026-09-21
 
 ### Added
