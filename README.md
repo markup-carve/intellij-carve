@@ -260,7 +260,7 @@ carve-js revision on purpose, so neither can move ahead of a release.
 ## About Carve
 
 [Carve](https://github.com/markup-carve/carve) is a lightweight markup language
-for documents that builds on Djot with inline delimiters that look
+for documents and the web that builds on Djot with inline delimiters that look
 like their output (`/italic/`, `*bold*`, `_underline_`, `~strike~`,
 `=highlight=`) - plus a Markdown-like reading flow.
 
