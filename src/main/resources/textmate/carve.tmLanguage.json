@@ -279,6 +279,15 @@
             "4": {
               "patterns": [
                 {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#inline-code"
+                },
+                {
                   "include": "#trailing-comment"
                 }
               ]
@@ -545,6 +554,15 @@
             "4": {
               "patterns": [
                 {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#inline-code"
+                },
+                {
                   "include": "#trailing-comment"
                 }
               ]
@@ -618,6 +636,15 @@
             "4": {
               "patterns": [
                 {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#inline-code"
+                },
+                {
                   "include": "#trailing-comment"
                 }
               ]
@@ -671,6 +698,15 @@
             },
             "4": {
               "patterns": [
+                {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#inline-code"
+                },
                 {
                   "include": "#trailing-comment"
                 }
@@ -4125,6 +4161,15 @@
             },
             "11": {
               "patterns": [
+                {
+                  "include": "#raw-inline"
+                },
+                {
+                  "include": "#inline-literal"
+                },
+                {
+                  "include": "#inline-code"
+                },
                 {
                   "include": "#trailing-comment"
                 }
