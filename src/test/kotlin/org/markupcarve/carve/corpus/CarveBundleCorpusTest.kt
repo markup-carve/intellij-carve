@@ -47,11 +47,55 @@ class CarveBundleCorpusTest {
      * here quietly - which is the failure mode an open-ended allowlist has and
      * the reason this repo grew a 363-commit gap in the first place.
      *
-     * Empty since the bundle moved to carve-js 0.1.7: every entry it held named
-     * a rule carve-js implemented after 0.1.6 was cut, and 0.1.7 carries all of
-     * them. Empty is the state to defend, not a gap to fill.
+     * Empty is the state to defend, and it held from carve-js 0.1.7 until the
+     * bundle moved to 0.1.9. Every entry below is the same shape as the ones
+     * 0.1.7 cleared: a rule carve `main` ruled on AFTER the corpus this repo
+     * pins was cut, which the engine implements and the golden predates. The
+     * `spec` submodule still pins carve 0.1.6 (5863d1d), so the twelve goldens
+     * naming them are eleven days older than the engine rendering them.
+     *
+     * They go away by bumping the pin, not by touching a golden: at carve 0.1.7
+     * (551f224) this bundle renders all 2134 documents byte-identically. That
+     * bump is its own review - it leaves 59 corpus categories unclassified in
+     * [CarveCorpusCategories] and one token-stream golden to regenerate - so it
+     * is tracked separately. Delete every entry here when the pin moves; the
+     * exact-set assertion will insist on it.
      */
-    private val expectedDivergences: Map<String, String> = linkedMapOf()
+    private val expectedDivergences: Map<String, String> = linkedMapOf(
+        // An empty code payload renders as `<code></code>`, where the 0.1.6
+        // golden carries a lone newline inside it.
+        // markup-carve/carve#2616, "Preserve code payload line endings in AST JSON".
+        "276-a-fence-opened-on-a-list-marker-line-body-below-the-content-column" to
+            "carve#2616 dropped the lone newline an empty code payload used to render; golden predates it",
+        "276-a-fence-opened-on-a-list-marker-line-body-below-the-content-column-2" to
+            "carve#2616, same empty-payload newline",
+        "276-a-fence-opened-on-a-list-marker-line-body-below-the-content-column-4" to
+            "carve#2616, same empty-payload newline",
+        "276-a-fence-opened-on-a-list-marker-line-body-below-the-content-column-5" to
+            "carve#2616, same empty-payload newline",
+        "69-opaque-spans-inside-a-container-6" to
+            "carve#2616, same empty-payload newline",
+        "85-blockquote-lazy-continuation-stops-at-a-fenced-block-3" to
+            "carve#2616, same empty-payload newline",
+        // The item's fence becomes a real `<pre><code>` block inside the item
+        // instead of an inline `<code>` spilling past it.
+        "276-a-fence-opened-on-a-list-marker-line-body-below-the-content-column-7" to
+            "carve#2141 reads an item's fence by one I4 answer, not two; golden predates it",
+        // An empty container body keeps a blank line: `<div>\n\n</div>`.
+        "116-fence-opener-with-a-nested-list-body-inside-a-list-item-6" to
+            "carve#2184 consolidated the empty-container body; golden predates it",
+        "271-the-flush-left-line-after-a-container-a-quoted-line-opened-4" to
+            "carve#2184, same empty-container body",
+        // A header row crossed by a rowspan leaves `<thead>` for the body group.
+        "101-table-header-cell-rowspan" to
+            "carve#2224 keeps crossing table rowspans in one body group; golden predates it",
+        // A retained marker below the content column stays text instead of
+        // opening a list.
+        "277-a-below-column-marker-after-a-comment-where-no-paragraph-is-open" to
+            "carve#2619 keeps retained markers below the content column as text; golden predates it",
+        "277-a-below-column-marker-after-a-comment-where-no-paragraph-is-open-2" to
+            "carve#2619, same retained marker",
+    )
 
     /**
      * Documents whose outcome depends on the HOST, not on the bundle.
