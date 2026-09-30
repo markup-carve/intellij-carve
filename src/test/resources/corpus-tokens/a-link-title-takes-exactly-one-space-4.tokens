@@ -1,0 +1,8 @@
+![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> text.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> text.carve meta.image.inline.carve
+/p.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
+ " -> text.carve meta.image.inline.carve
+T -> text.carve meta.image.inline.carve string.quoted.double.image-title.carve
+") -> text.carve meta.image.inline.carve
+\n -> text.carve

@@ -1,0 +1,21 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> text.carve markup.table.row.carve
+{% hidden %} -> text.carve markup.table.row.carve comment.block.inline.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ c  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
+--- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
+--- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
+| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> text.carve markup.table.row.carve
+%% tail  -> text.carve markup.table.row.carve comment.line.percent.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ e  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve

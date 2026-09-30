@@ -1,0 +1,3 @@
+a  -> text.carve
+\\{ -> text.carve constant.character.escape.carve
+% not a comment %} b\n -> text.carve
