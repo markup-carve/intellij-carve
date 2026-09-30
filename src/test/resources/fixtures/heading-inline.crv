@@ -1,0 +1,21 @@
+# a `x %% b` c %% hidden
+
+> # a ``x ` %% b`` c
+
+- [x] # a `x %% b` c
+
+# a {% hidden %} b
+
+# `unclosed %% payload
+plain
+
+# {% unclosed
+plain
+
+# [^note] {# editorial #} [span]{.class}
+
+# a {%%} b %% hidden
+
+> > # *nested*
+
+>   # /indented/

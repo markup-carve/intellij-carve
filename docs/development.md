@@ -194,6 +194,13 @@ fallbacks report success. It needs Playwright's Chromium
 
 ## TextMate grammar
 
+Headings and captions use generated copies of the shared inline rules whose
+regions end on the current line. After editing an inline rule, run
+`node tools/generate-line-inline.mjs`. Its `--check` mode detects stale copies,
+and `CarveLineInlineGenerationTest` verifies the same invariant without Node.
+The generated `line-inline-*` helpers are excluded from the upstream rule-name
+comparison; the shared source rules remain part of that comparison.
+
 Editor syntax highlighting uses the TextMate bundle in
 `src/main/resources/textmate/`. The grammar (`carve.tmLanguage.json`) is
 committed here and is *related to* - but deliberately not identical to -

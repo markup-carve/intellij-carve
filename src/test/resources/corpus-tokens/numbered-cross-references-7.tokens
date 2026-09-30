@@ -6,5 +6,7 @@ p.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 \n -> text.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
-Costs \\# units -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+Costs  -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\\# -> text.carve markup.table.caption.carve string.unquoted.caption.carve constant.character.escape.carve
+ units -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve

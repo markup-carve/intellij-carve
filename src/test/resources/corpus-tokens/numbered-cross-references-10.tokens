@@ -6,5 +6,9 @@ a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 \n -> text.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
-a *# x* b -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+a  -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+* -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+# x -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+ b -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
