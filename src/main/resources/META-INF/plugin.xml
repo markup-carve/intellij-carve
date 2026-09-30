@@ -29,8 +29,8 @@
     </ul>
 
     <h3>About Carve</h3>
-    <p>Carve is a post-Markdown lightweight markup language that builds on Djot with
-    visual mnemonics (<code>/italic/</code>, <code>*bold*</code>, <code>_underline_</code>,
+    <p>Carve is a lightweight markup language for documents that builds on Djot with
+    inline delimiters that look like their output (<code>/italic/</code>, <code>*bold*</code>, <code>_underline_</code>,
     <code>~strike~</code>, <code>=highlight=</code>) and a Markdown-like reading flow.</p>
 
     <p>More info: <a href="https://markup-carve.github.io/carve/">markup-carve.github.io/carve/</a></p>
