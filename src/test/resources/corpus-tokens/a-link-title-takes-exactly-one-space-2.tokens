@@ -1,0 +1,5 @@
+![a](/p.png   -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+T -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+)\n -> text.carve

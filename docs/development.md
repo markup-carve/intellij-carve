@@ -297,6 +297,17 @@ Two test layers live in `src/test/kotlin/org/markupcarve/carve/corpus/`:
   submodule - forces a deliberate COVERED-or-SKIP decision instead of silently
   drifting behind the spec.
 
+- **Skip premise** (`CarveSkipPremiseTest`) measures the claim every `SKIP`
+  reason rests on. It tokenizes each skipped category and requires every scope it
+  produces to appear in a covered corpus document or a committed fixture under
+  `src/test/resources/fixtures/`. A reason nobody re-asks goes stale: when this
+  test was added it rejected three reasons that had stopped being true, one of
+  which said the grammar carried no rule for a construct it had since grown.
+
+  It checks scope EXISTENCE, so it cannot see a rule that lives in a
+  combination of scopes that each appear elsewhere. Two categories are covered
+  for exactly that reason, and both say so where they are classified.
+
 To bump the corpus to a newer spec commit:
 
 ```bash

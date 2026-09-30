@@ -86,6 +86,43 @@ object CarveCorpusCategories {
         "mention-ignores-email-addresses",
         "tag-requires-a-word-boundary",
         "reference-link",
+        // Promoted from SKIP by [CarveSkipPremiseTest]: the two `![a](/p.png "T")`
+        // documents are the only place in the corpus that produces
+        // `string.quoted.double.image-title.carve`, and the old reason pointed at
+        // `links`, which never emits it.
+        "a-link-title-takes-exactly-one-space",
+        // Promoted from SKIP by [CarveSkipPremiseTest]. Its reason said the grammar
+        // carries no rule for the `{% %}` form and the run scopes as ordinary text.
+        // A rule landed since, and the eight documents are the only ones producing
+        // `keyword.control.comment.carve`.
+        "delimited-comments",
+        // COVERED, not SKIP, and not because a scope was missing from a snapshot:
+        // [CarveSkipPremiseTest] accepted both as skips, because every scope they
+        // produce appears elsewhere. The rule each one carries is in the COMBINATION,
+        // which a scope-existence check cannot see.
+        //
+        // `[a](/u "t")` scopes the title as `string.quoted.double.link-title.carve`
+        // inside a `meta.link.inline.carve` run. With a TAB the grammar drops the link
+        // entirely and scopes the two quotes as `keyword.control.smartquote.carve`. The
+        // stream carries the rule in both directions, so it is worth a golden.
+        //
+        // The golden does NOT bless the tab reading. The engines still read `/u<TAB>"t"`
+        // as a link whose title slot never opened, so losing the link is this grammar
+        // going further than the ruling; filed separately. Covering it is what makes
+        // that visible on the next grammar change instead of leaving it unpinned.
+        "a-tab-does-not-open-the-title-slot",
+        // A MEASURED FALSE POSITIVE, pinned on purpose. `# a `x %% b` c` scopes
+        // `%% b` c` as `comment.line.percent.carve`: the heading rule hands its text to
+        // capture 4, which includes only `#trailing-comment`, so no inline-code rule
+        // runs inside a heading and the comment rule matches inside what is a code span.
+        // The same line outside a heading scopes correctly as
+        // `markup.raw.inline.content.carve` with the `%%` as content.
+        //
+        // Same shape as the whole-block token that flattened fenced languages in
+        // carve-lsp#264. COVERED rather than SKIP for the reason the definition-term
+        // entry above gives: the golden is what makes the false positive visible and
+        // what will move when the heading captures are fixed. Filed separately.
+        "a-heading-comment-preserves-code-span-content",
         "collapsed-reference-link",
         "unresolved-reference-link",
         "smart-typography-dashes-and-quotes",
@@ -768,8 +805,6 @@ object CarveCorpusCategories {
             "Column arithmetic inside an item; the footnote and list tokens are pinned by `footnotes` and `lists`.",
         "a-link-definition-written-before-a-footnote-stays-before-it" to
             "Ordering of collected definitions is a document pass; the definition tokens are pinned by `reference-link` and `footnotes`.",
-        "a-link-title-takes-exactly-one-space" to
-            "Separator strictness is parsing, and the grammar accepts any whitespace before the title; the well-formed link is pinned by `links`.",
         "a-list-marker-at-the-content-column-inside-an-open-fence" to
             "Whether the marker sits inside the fence is block context; the fence and marker tokens are pinned by `fenced-code` and `lists`.",
         "a-malformed-language-tag-leaves-the-whole-block-literal" to
@@ -866,8 +901,6 @@ object CarveCorpusCategories {
             "The same strictness on the colon fence, with the same tab-tolerant slots; the well-formed opener is pinned by `admonitions`.",
         "colon-fence-separator-must-be-a-space" to
             "Separator strictness is parsing: the generic div rule accepts a tab after the fence, so both spellings scope alike, pinned by `admonitions` and `generic-divs`.",
-        "delimited-comments" to
-            "The grammar carries no rule for the delimited comment form, so the run scopes as ordinary text and a golden would pin only its absence.",
         "heading-index-plain-text-covers-visible-leaves-and-rejects-an-empty-key" to
             "Building the heading index from rendered text is a document pass; the heading and reference tokens are pinned by `headings` and `collapsed-reference-link`.",
         "line-endings-and-a-byte-order-mark" to
@@ -1117,6 +1150,76 @@ object CarveCorpusCategories {
             "The grammar leaves the surrounding `/.../` run unscoped once a link or autolink sits inside it, so the stream says nothing about where the closer reached; `links` and `autolinks` pin the destination.",
         "an-underscore-pair-split-across-a-line-break-is-escaped" to
             "Negative case across a line break: the document takes no scope at all, so there is nothing to snapshot.",
+        // --- carve 9d6d06c: closer geometry (11)
+        "a-closer-below-the-container-s-column-does-not-count" to CLOSER_GEOMETRY,
+        "a-closer-does-not-rescue-a-marker-line-colon-opener-whose-body-folded-in" to CLOSER_GEOMETRY,
+        "a-definition-body-s-open-code-fence-ends-at-a-line-below-its-column" to CLOSER_GEOMETRY,
+        "a-fence-a-container-inside-a-quote-holds-open-stores-no-claim" to CLOSER_GEOMETRY,
+        "a-fence-after-a-footnote-quote-has-its-own-base" to CLOSER_GEOMETRY,
+        "a-fence-closer-below-a-nested-item-s-column-ends-containers-down-to-its-owner" to CLOSER_GEOMETRY,
+        "a-fence-in-a-quote-stores-no-continuation-claim" to CLOSER_GEOMETRY,
+        "a-shifted-fence-in-a-quoted-item-stores-no-continuation-claim" to CLOSER_GEOMETRY,
+        "a-verbatim-line-keeps-what-sits-past-its-fence-opener-not-past-its-container" to CLOSER_GEOMETRY,
+        "an-item-s-fence-is-read-once-whatever-block-it-follows" to CLOSER_GEOMETRY,
+        "an-opener-under-a-quote-in-a-nested-host-opens-at-one-column-only" to CLOSER_GEOMETRY,
+        // --- carve 9d6d06c: term folding (7)
+        "a-bare-colon-opener-in-a-description-body-is-an-opener" to TERM_FOLDING,
+        "a-bare-colon-run-interrupts-a-paragraph-whether-or-not-a-line-follows-it" to TERM_FOLDING,
+        "a-block-opener-indented-under-a-definition-term-is-term-text-at-every-depth" to TERM_FOLDING,
+        "a-comment-or-a-definition-under-a-definition-term-folds-at-every-depth" to TERM_FOLDING,
+        "a-list-marker-in-a-raised-colon-container-folds-into-its-open-paragraph" to TERM_FOLDING,
+        "a-nested-quoted-term-leaves-no-paragraph-for-a-lazy-line" to TERM_FOLDING,
+        "an-empty-term-marker-in-a-description-body-is-text" to TERM_FOLDING,
+        // --- carve 9d6d06c: comment ownership (8)
+        "a-comment-inside-a-forced-span-or-the-combined-token-ends-at-its-closer" to COMMENT_OWNERSHIP,
+        "a-comment-line-s-text-is-content-and-a-block-body-is-payload" to COMMENT_OWNERSHIP,
+        "a-comment-span-opened-below-every-content-column-is-located-there" to COMMENT_OWNERSHIP,
+        "a-comment-span-s-closer-below-its-host-s-column-stays-a-delimiter" to COMMENT_OWNERSHIP,
+        "a-comment-span-s-closer-column-does-not-move-the-item-s-ownership" to COMMENT_OWNERSHIP,
+        "a-nested-marker-comment-keeps-its-own-ownership" to COMMENT_OWNERSHIP,
+        "a-trailing-comment-takes-a-tab-a-run-start-and-its-whole-separator" to COMMENT_OWNERSHIP,
+        "comment-columns-and-surviving-list-items" to COMMENT_OWNERSHIP,
+        // --- carve 9d6d06c: inline pairing (8)
+        "a-braced-span-cannot-close-beyond-its-bracket-run" to INLINE_PAIRING,
+        "a-code-span-closes-only-on-a-run-of-its-own-length-whatever-the-length" to INLINE_PAIRING,
+        "a-delimiter-after-an-underscore-or-slash-opens-only-when-that-one-pairs" to INLINE_PAIRING,
+        "a-quote-after-a-bare-delimiter-follows-what-that-delimiter-does" to INLINE_PAIRING,
+        "a-quote-after-an-escaped-quote-closes" to INLINE_PAIRING,
+        "a-run-of-asterisks-inside-a-combined-token-is-content" to INLINE_PAIRING,
+        "an-emphasis-marker-does-not-pair-across-a-link-bracket" to INLINE_PAIRING,
+        "any-character-is-content-of-the-combined-bold-italic-token" to INLINE_PAIRING,
+        // --- carve 9d6d06c: footnote placement (5)
+        "a-footnote-body-whose-every-block-renders-nothing-is-an-empty-body" to FOOTNOTE_PLACEMENT,
+        "a-footnotes-marker-renders-its-authored-blocks-before-the-placed-section" to FOOTNOTE_PLACEMENT,
+        "a-footnotes-placement-marker-inside-a-container-does-not-place" to FOOTNOTE_PLACEMENT,
+        "an-unplaced-footnotes-marker-keeps-its-authored-blocks-inside-the-div" to FOOTNOTE_PLACEMENT,
+        "footnote-references-take-an-attribute-run-editorial-substitution-and-comment-take-none" to FOOTNOTE_PLACEMENT,
+        // --- carve 9d6d06c: attribute semantics (6)
+        "a-core-directive-kind-class-leads-authored-attributes" to ATTRIBUTE_SEMANTICS,
+        "a-link-title-crosses-a-soft-wrap-and-an-attribute-value-does-not" to ATTRIBUTE_SEMANTICS,
+        "a-quoted-value-and-a-quoted-title-escape-different-sets" to ATTRIBUTE_SEMANTICS,
+        "an-attribute-line-under-an-attributed-sub-item-stays-in-that-item" to ATTRIBUTE_SEMANTICS,
+        "glued-attribute-blocks-on-an-inline-element-merge" to ATTRIBUTE_SEMANTICS,
+        "quoted-values-and-titles-retain-a-non-punctuation-backslash" to ATTRIBUTE_SEMANTICS,
+        // --- carve 9d6d06c: row grouping (2)
+        "a-table-foot-span-keeps-one-row-group" to ROW_GROUPING,
+        "an-explicit-table-head-span-keeps-one-row-group" to ROW_GROUPING,
+        // --- carve 9d6d06c: render shape (7)
+        "a-caption-s-placeholder-is-any-that-does-not-begin-a-tag" to RENDER_SHAPE,
+        "a-dropped-raw-block-takes-no-line-in-the-container-that-holds-it" to RENDER_SHAPE,
+        "a-zero-line-and-a-one-blank-raw-payload-are-not-the-same-block" to RENDER_SHAPE,
+        "adjacent-strong-spans-use-html-only-where-their-delimiters-merge" to RENDER_SHAPE,
+        "an-empty-code-payload-renders-no-characters" to RENDER_SHAPE,
+        "an-unresolved-reference-s-literal-source-is-html-escaped-like-any-other-text" to RENDER_SHAPE,
+        "empty-containers-share-one-html-body-shape" to RENDER_SHAPE,
+        // --- carve 9d6d06c: slot assignment (7)
+        "a-band-paragraph-after-an-invisible-line-leaves-the-item-loose" to SLOT_ASSIGNMENT,
+        "a-container-label-preserves-closed-inline-constructs-before-cutting-a-comment" to SLOT_ASSIGNMENT,
+        "a-container-label-publishes-its-inline-run" to SLOT_ASSIGNMENT,
+        "a-form-feed-or-a-no-break-space-is-content-wherever-whitespace-is-tested" to SLOT_ASSIGNMENT,
+        "a-link-inside-a-span-s-label-keeps-its-destination" to SLOT_ASSIGNMENT,
+        "a-marker-line-opaque-quote-keeps-overindented-markers-literal" to SLOT_ASSIGNMENT,
+        "a-title-or-label-fills-the-container-body-slot" to SLOT_ASSIGNMENT,
     )
 
     /**
@@ -1126,6 +1229,85 @@ object CarveCorpusCategories {
      * a number (e.g. `100-block-quote-continuation-marker`) are preserved
      * because the trailing token is non-numeric.
      */
+    /**
+     * A fence or container closer's column, and whether the block it ends stores a
+     * continuation claim, is block geometry. The grammar is line-oriented and scopes
+     * each opener, closer and body line the same wherever the columns fall, so a golden
+     * would pin the scopes and say nothing about the rule. Eleven categories share this
+     * shape.
+     */
+    private const val CLOSER_GEOMETRY: String =
+        "Closer and container columns are block geometry; the grammar scopes opener, closer and body identically at every column, so a golden pins the tokens and not the rule. The well-formed forms are pinned by `fenced-code`, `admonitions` and `blockquote-with-attribution`."
+    /**
+     * Whether an indented line folds into a definition term, a description body or an
+     * open paragraph is a containment decision taken above the line. The grammar cannot
+     * see which block a line was absorbed into - it scopes the marker and the text the
+     * same either way - so these are decided entirely by the parse. Seven categories.
+     */
+    private const val TERM_FOLDING: String =
+        "Which block an indented line folds into is a containment decision above the line; the grammar scopes the marker and the text identically whichever way it folds. The well-formed forms are pinned by `definition-lists` and `lists`."
+    /**
+     * Which item OWNS a comment span, and where its closer's column puts it, is a tree
+     * question. The comment scopes are identical in every one of these documents - the
+     * disagreement upstream was about the node the span hangs under, which no token
+     * stream carries. Eight categories.
+     */
+    private const val COMMENT_OWNERSHIP: String =
+        "Which item owns a comment span and where its closer lands are tree questions; the comment scopes are identical whichever item owns it. The comment tokens are pinned by `comments`, `delimited-comments` and `a-comment-is-recognized-at-any-column`."
+    /**
+     * Whether two delimiter runs PAIR is inline resolution, and the grammar decides it
+     * with a regex that either matches or does not. Where it declines to pair, the run
+     * stays unscoped text, which is the absence of a token rather than a token: a golden
+     * pins that the scopes are missing and cannot say the refusal was the intended one.
+     * The forms that do pair are already snapshotted. Eight categories.
+     */
+    private const val INLINE_PAIRING: String =
+        "Pairing is inline resolution, and a refusal leaves unscoped text rather than a distinct token, so a golden would pin an absence. The forms that pair are snapshotted by `emphasis`, `inline-code` and `inline-literal`."
+    /**
+     * Where the collected footnote section is PLACED, and whether a body that renders
+     * nothing counts as empty, are document passes that run after highlighting. The
+     * marker and reference tokens are the same wherever the section lands. Five
+     * categories.
+     */
+    private const val FOOTNOTE_PLACEMENT: String =
+        "Placement of the collected section and emptiness of a body are document passes after highlighting; the marker and reference tokens are identical wherever the section lands. Pinned by `footnotes` and `footnotes-placement`."
+    /**
+     * What an attribute value MEANS after unescaping, and how several attribute blocks
+     * merge, is applied at render time. The grammar scopes the block, the name and the
+     * value, and every document in these categories is well-formed attribute syntax that
+     * takes exactly those scopes. Six categories. `a-quoted-value-and-a-quoted-title-escape-different-sets`
+     * is the one whose single-quoted image title is snapshotted by a FIXTURE
+     * (`link-destinations.crv`) rather than by any corpus category - no corpus document
+     * spells both quote styles - which [CarveSkipPremiseTest] confirms.
+     */
+    private const val ATTRIBUTE_SEMANTICS: String =
+        "Unescaping and attribute merging are applied at render time; the grammar scopes block, name and value alike in every one of these documents. Pinned by `attributes`, `links` and the `link-destinations.crv` fixture."
+    /**
+     * Which `<thead>` or `<tfoot>` a row lands in is table assembly. The marker run and
+     * the cell tokens are pinned by the four table categories already covered.
+     */
+    private const val ROW_GROUPING: String =
+        "Row-group assembly is a render-time decision; the marker run and cell tokens are pinned by `tables` and `a-table-cell-s-marker-run-ends-at-a-space`."
+    /**
+     * A claim about the HTML that comes out - how many characters an empty payload
+     * renders, whether two empty containers share a body shape, whether a dropped block
+     * takes a line, where two strong runs merge in HTML. Highlighting runs on the
+     * source and never sees the output. Seven categories.
+     */
+    private const val RENDER_SHAPE: String =
+        "A claim about the rendered HTML, which highlighting never sees; the source tokens are pinned by `fenced-code`, `raw-blocks`, `generic-divs` and `unresolved-reference-link`."
+    /**
+     * Which SLOT a run of text ends up in - a container's label, title or body, an
+     * item's looseness, a literal marker inside an opaque quote - is assignment after
+     * the line is scoped. The grammar gives the run its inline scopes and does not
+     * record where the run was filed. Seven categories. `a-container-label-publishes-its-inline-run`
+     * and `a-link-inside-a-span-s-label-keeps-its-destination` were checked hardest here:
+     * both do produce inline scopes, and [CarveSkipPremiseTest] confirms every one of
+     * them is snapshotted by a covered document.
+     */
+    private const val SLOT_ASSIGNMENT: String =
+        "Which slot a scoped run is filed into is assignment after highlighting; the grammar gives the run its inline scopes either way, and every scope these documents produce is snapshotted by a covered category. Pinned by `generic-divs`, `admonitions`, `links` and `reference-link`."
+
     fun categoryOf(fileName: String): String = slugOf(fileName).replace(Regex("-\\d+$"), "")
 
     /**

@@ -1,0 +1,3 @@
+a  -> text.carve
+{% -> text.carve comment.block.inline.carve keyword.control.comment.carve
+ oops\n -> text.carve comment.block.inline.carve

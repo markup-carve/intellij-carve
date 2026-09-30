@@ -1,0 +1,3 @@
+foo  -> text.carve
+{% bar %} -> text.carve comment.block.inline.carve
+ baz\n -> text.carve
