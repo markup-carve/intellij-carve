@@ -19,7 +19,7 @@ plugins {
 }
 
 group = "org.markupcarve"
-version = "0.1.9"
+version = "0.1.10"
 
 repositories {
     mavenCentral()
@@ -322,8 +322,9 @@ val localRulesGroupedUpstream =
         // Upstream highlights the composite figure inside #divs and
         // #caption-behind-a-container-prefix rather than in a rule of its own.
         "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
-        // Upstream spells the two comment openers inside a `*` run as one rule.
         "inline-comment-in-bold" to GroupedUpstream("braced-comment-in-bold", "comment-in-bold.crv"),
+        "nested-block-quote" to GroupedUpstream("block-quotes", "heading-inline.crv"),
+        "heading-span-attributes" to GroupedUpstream("attributes", "heading-inline.crv"),
         // Emphasis nested in a bare run. The IDE's engine ignores patterns in a numbered
         // capture, so the bare runs are regions here and nest these line-bounded rules.
         "bold-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
@@ -408,6 +409,7 @@ val divergedByDesign =
 // them. An entry pointing at an unrelated but well-covered local rule fails, because the
 // spans come from upstream's rule rather than from the local one.
 val upstreamRulesCoveredLocally = mapOf(
+    "braced-comment-in-bold" to CoveredLocally("inline-comment-in-bold", "comment-in-bold.crv"),
     // `braced-emphasis.crv` carries `{^x^}`, `{,x,}`, `{*x*}`, `{/x/}`, `{_x_}`, `{~x~}`.
     "forced-emphasis" to CoveredLocally("emphasis", "braced-emphasis.crv"),
     "sup-sub" to CoveredLocally("emphasis", "braced-emphasis.crv"),
@@ -450,7 +452,7 @@ val upstreamGrammarScratch = layout.buildDirectory.file("grammar-drift/upstream.
 @Suppress("UNCHECKED_CAST")
 fun parseGrammarRepository(f: File): Map<String, Any?> {
     val root = groovy.json.JsonSlurper().parse(f, "UTF-8") as Map<String, Any?>
-    return (root["repository"] as? Map<String, Any?>).orEmpty()
+    return (root["repository"] as? Map<String, Any?>).orEmpty().filterKeys { !it.startsWith("line-inline-") }
 }
 
 // `comment` keys are prose for humans and have ZERO effect on tokenization,
@@ -533,7 +535,7 @@ fun compareGrammars(localFile: File, upstreamFile: File): GrammarComparison {
         upstream = upstream,
         upstreamRawNames = upstreamRaw.keys,
         shared = shared,
-        pluginOnly = (local.keys - upstream.keys).sorted(),
+        pluginOnly = (local.keys - upstream.keys).filterNot { grammarRuleIsStructuralOnly(local[it]) }.sorted(),
         upstreamOnly = unmatched - structuralOnly.toSet(),
         structuralOnly = structuralOnly,
         diverged =
@@ -707,7 +709,7 @@ tasks {
                 problems += "$it is declared in localRulesGroupedUpstream but is NOT local-only any more - drop the entry"
             }
             localRulesGroupedUpstream.forEach { (rule, declaration) ->
-                if (declaration.upstreamRule !in cmp.upstream.keys) {
+                if (declaration.upstreamRule !in cmp.upstreamRawNames) {
                     problems += "$rule is declared as grouped into upstream's '${declaration.upstreamRule}', " +
                         "which upstream no longer has"
                 }

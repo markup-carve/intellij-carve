@@ -16,5 +16,7 @@ real quote -> text.carve markup.quote.carve
 \n -> text.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
-> nested -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve markup.quote.carve
+nested -> text.carve markup.quote.carve markup.quote.carve
 \n -> text.carve

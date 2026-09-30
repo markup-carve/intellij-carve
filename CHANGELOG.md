@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.10] - 2026-10-01
+
 ### Added
 
 - **Import Markdown or HTML as Carve** (#205). Two actions in the Project view context menu and the Tools menu convert a `.md` or `.html` file through the bundled engine, write a sibling `.crv`, ask before overwriting and open the result.
@@ -18,6 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - **The language server's export source actions are turned off** (#205, markup-carve/carve-lsp#262). The plugin has its own export actions, and the option is re-sent on a configuration change so the server's defaults cannot come back.
+
+### Fixed
+
+- Headings and captions retain inline highlighting, including emphasis, code, math, footnotes, comments, and span attributes. Unclosed inline regions stop at the heading or caption line (#217, #219).
+- Headings are recognized after nested and indented quote prefixes (#220).
+- Code spans match full backtick runs, and empty inline comments are recognized in paragraphs and headings (#219).
 
 ## [0.1.9] - 2026-09-21
 
@@ -283,7 +291,9 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.8...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...HEAD
+[0.1.10]: https://github.com/markup-carve/intellij-carve/compare/0.1.9...0.1.10
+[0.1.9]: https://github.com/markup-carve/intellij-carve/compare/0.1.8...0.1.9
 [0.1.8]: https://github.com/markup-carve/intellij-carve/compare/0.1.7...0.1.8
 [0.1.7]: https://github.com/markup-carve/intellij-carve/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/markup-carve/intellij-carve/compare/0.1.5...0.1.6

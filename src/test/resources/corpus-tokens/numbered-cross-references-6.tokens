@@ -6,5 +6,8 @@ c.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
 \n -> text.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
   -> text.carve markup.table.caption.carve
-See #data for details -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+See  -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+# -> text.carve markup.table.caption.carve string.unquoted.caption.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+data -> text.carve markup.table.caption.carve string.unquoted.caption.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+ for details -> text.carve markup.table.caption.carve string.unquoted.caption.carve
 \n -> text.carve
