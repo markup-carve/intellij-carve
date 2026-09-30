@@ -39,6 +39,19 @@ class CarveLineInlineGenerationTest {
                 JsonOutput.toJson(normalize(node, true)))
         }
     }
+
+    @Test
+    @Suppress("UNCHECKED_CAST")
+    fun headingRootIncludesAllSupportedInlineConstructs() {
+        val expected = listOf("raw-inline", "inline-literal", "inline-code", "links", "images", "footnotes",
+            "citations", "critic-markup", "emphasis", "heading-span-attributes", "inline-comment", "math",
+            "cross-reference", "autolink", "extension-inline", "include-directive", "mentions-tags",
+            "smart-typography", "hard-break", "trailing-comment")
+        val root = repository.getValue("heading-inline") as Map<String, Any?>
+        val patterns = root.getValue("patterns") as List<Map<String, String>>
+        assertEquals(expected, patterns.map { it.getValue("include").removePrefix("#").removePrefix(prefix) })
+    }
+
     @Test
     fun headingRulesReachOnlyBoundedInlineRegions() {
         val visited = mutableSetOf<String>()

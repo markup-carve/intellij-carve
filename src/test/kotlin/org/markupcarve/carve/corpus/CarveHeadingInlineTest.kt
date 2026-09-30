@@ -53,6 +53,7 @@ class CarveHeadingInlineTest {
             "*bold*" to "markup.bold.carve",
             "/italic/" to "markup.italic.carve",
             "^[note]" to "meta.footnote.inline.carve",
+            "[@doe2020]" to "entity.name.citation.carve",
             "{+added+}" to "markup.inserted.critic.carve",
             "[label](https://example.com)" to "meta.link.inline.carve",
             "<https://example.com>" to "markup.underline.link.carve",
@@ -93,7 +94,21 @@ class CarveHeadingInlineTest {
             val source = "${prefix}```x`` b"
             assertEquals(source, "x`` b", covered(source, "markup.raw.inline.content.carve"))
             assertEquals(source, "```", covered(source, "keyword.control.raw.carve"))
+            assertEquals("b`` c", covered("${prefix}`b`` c", "markup.raw.inline.content.carve"))
         }
+    }
+
+    @Test
+    fun escapedBacktickBeforeAnOpenerStaysOutsideCode() {
+        for (prefix in listOf("a ", "# a ")) {
+            assertEquals("b", covered("${prefix}\\``b` c", "markup.raw.inline.content.carve"))
+            assertEquals("x", covered("${prefix}\\\\`x` c", "markup.raw.inline.content.carve"))
+        }
+    }
+
+    @Test
+    fun multilineCodeSkipsLongerBacktickRuns() {
+        assertEquals("b\n`` c\nd", covered("a `b\n`` c\nd` e", "markup.raw.inline.content.carve"))
     }
 
     @Test

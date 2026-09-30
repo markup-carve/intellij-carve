@@ -4,13 +4,14 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const path = new URL('../src/main/resources/textmate/carve.tmLanguage.json', import.meta.url);
 const original = readFileSync(path, 'utf8');
 const grammar = JSON.parse(original);
+if (Object.keys(grammar).at(-1) !== 'repository') throw new Error('The grammar repository must be the last top-level property');
 const repository = grammar.repository;
 const prefix = 'line-inline-';
 for (const name of Object.keys(repository)) {
   if (name.startsWith(prefix)) delete repository[name];
 }
 const roots = ['raw-inline', 'inline-literal', 'inline-code', 'links', 'images',
-  'footnotes', 'critic-markup', 'emphasis', 'heading-span-attributes', 'inline-comment',
+  'footnotes', 'citations', 'critic-markup', 'emphasis', 'heading-span-attributes', 'inline-comment',
   'math', 'cross-reference', 'autolink', 'extension-inline', 'include-directive',
   'mentions-tags', 'smart-typography', 'hard-break', 'trailing-comment'];
 const includes = node => {

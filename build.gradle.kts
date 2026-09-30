@@ -322,6 +322,7 @@ val localRulesGroupedUpstream =
         // Upstream highlights the composite figure inside #divs and
         // #caption-behind-a-container-prefix rather than in a rule of its own.
         "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
+        // Upstream spells the two comment openers inside a `*` run as one rule.
         "inline-comment-in-bold" to GroupedUpstream("braced-comment-in-bold", "comment-in-bold.crv"),
         "nested-block-quote" to GroupedUpstream("block-quotes", "heading-inline.crv"),
         "heading-span-attributes" to GroupedUpstream("attributes", "heading-inline.crv"),
@@ -535,7 +536,7 @@ fun compareGrammars(localFile: File, upstreamFile: File): GrammarComparison {
         upstream = upstream,
         upstreamRawNames = upstreamRaw.keys,
         shared = shared,
-        pluginOnly = (local.keys - upstream.keys).filterNot { grammarRuleIsStructuralOnly(local[it]) }.sorted(),
+        pluginOnly = (local.keys - upstream.keys).filterNot { it == "heading-inline" && grammarRuleIsStructuralOnly(local[it]) }.sorted(),
         upstreamOnly = unmatched - structuralOnly.toSet(),
         structuralOnly = structuralOnly,
         diverged =
@@ -602,6 +603,12 @@ tasks {
         description = "Fails when the generated per-language fence rules are stale (needs node)"
         group = "verification"
         commandLine("node", "tools/generate-fence-languages.mjs", "--check")
+    }
+
+    register<Exec>("checkLineInline") {
+        description = "Checks generated line-bounded inline rules (needs node)"
+        group = "verification"
+        commandLine("node", "tools/generate-line-inline.mjs", "--check")
     }
 
     register("checkGrammarDrift") {

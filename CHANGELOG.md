@@ -19,11 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The renderer and language server bundle carve-js 0.1.9 (#214).
 - **The language server's export source actions are turned off** (#205, markup-carve/carve-lsp#262). The plugin has its own export actions, and the option is re-sent on a configuration change so the server's defaults cannot come back.
 
 ### Fixed
 
-- Headings and captions retain inline highlighting, including emphasis, code, math, footnotes, comments, and span attributes. Unclosed inline regions stop at the heading or caption line (#217, #219).
+- Headings and captions retain inline highlighting, including emphasis, code, math, footnotes, comments, and span attributes. Unclosed inline regions stop at the heading or caption line (#217, #219, #222).
 - Headings are recognized after nested and indented quote prefixes (#220).
 - Code spans match full backtick runs, and empty inline comments are recognized in paragraphs and headings (#219).
 
