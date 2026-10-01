@@ -1,0 +1,14 @@
+# What the vendored carve-css layers are a copy OF.
+#
+# Read by tools/check-carve-css-drift.sh (which re-fetches the recorded version
+# from npm and compares bytes) and by CarveCssResourcesTest (which compares the
+# SHA-256s offline, so a hand-edit fails the build without network).
+#
+# package: @markup-carve/carve-css on npm
+# Lines are `key value` or `sha256 <digest> <bytes> <file>`.
+
+version 0.1.1
+commit 658b8ef
+
+sha256 bcdb57a97888c0fc9a89f93e48e0a3c3e0f431a35c79ab32391263218e0ba0d6 5458 tokens.css
+sha256 ba01312a4acd20a12e95fef0be8662d3d3d6a7d45ae0222ab115e736c5135721 14351 recipes.css

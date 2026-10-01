@@ -37,7 +37,9 @@ tools/build-carve-bundle.sh   # regenerates js/carve.iife.js
 tools/build-lsp-bundle.sh     # regenerates lsp/server.js
 tools/build-engine-bundles.sh # regenerates BOTH, from one carve-js revision
 tools/vendor-preview-assets.sh # regenerates resources/preview-assets
+tools/check-carve-css-drift.sh # the vendored carve-css layers are the newest release
 tools/preview-offline-probe.mjs # browser check: the preview renders with no network
+tools/preview-css-probe.mjs   # browser check: the stylesheet rules reach what they claim
 ```
 
 ## Bundled renderer (carve.iife.js)
@@ -153,6 +155,52 @@ preview bundle.
 
 The language server itself is not exercised headlessly by `gradle test`; verify
 it manually with `./gradlew runIde` (see the checklist in the PR / below).
+
+## Vendored carve-css layers (css/)
+
+The preview styles the constructs no engine handler covers - `::: tree`,
+`::: cards`, a gallery - from two of
+[`@markup-carve/carve-css`](https://github.com/markup-carve/carve-css)'s layers,
+`tokens.css` and `recipes.css`, copied into `src/main/resources/css/`. The copy
+is deliberate: the plugin ships its resources inside the jar and has no npm step
+at build time, so there is nothing to resolve the package against. The remaining
+layers (`core.css`, `extensions.css`, `print.css`) are not vendored - the inline
+stylesheet in `CarvePreviewHtml` covers that ground, and on tab panels and
+highlights it is ahead of the published package.
+
+`css/UPSTREAM` records the release each layer came from and a SHA-256 per file.
+Two checks read it, and they are split the way the preview-assets checks are:
+
+```bash
+./gradlew test --tests '*CarveCssResourcesTest*'   # offline: edited in place?
+tools/check-carve-css-drift.sh                     # network: a newer release?
+```
+
+The offline one also fails when the inline stylesheet reads a `--carve-*` with
+no fallback that nothing defines, which is how a refresh that drops a token gets
+caught. The network one runs as a step in `build.yml` rather than inside `test`.
+
+To refresh: `npm pack @markup-carve/carve-css@<version>`, copy `src/tokens.css`
+and `src/recipes.css` over the vendored files, keep the seven-line provenance
+header with the new version and the release tag's commit, and update `UPSTREAM`.
+Take the bytes from the published tarball or a verified tag, never from a URL.
+Then read what the new text changes - a layer that is only half right for the
+preview is a review, not a copy.
+
+### Proving a rule reaches what it claims
+
+The preview is a JCEF browser, so a rule that looks right in the source and
+never applies is invisible to any assertion on the CSS text. That was the whole
+of #224: a gallery tile rule reaching an image nested arbitrarily deep, and a
+promoted block image left inline. Computed styles out of headless Chromium are
+the closest measurement outside the IDE:
+
+```bash
+./gradlew test --tests '*CarveCssProbePageTest*'   # writes build/preview-css-probe/index.html
+node tools/preview-css-probe.mjs
+```
+
+Out of CI for the same reason the offline probe is: it needs a browser download.
 
 ## Preview browser assets (preview-assets/)
 

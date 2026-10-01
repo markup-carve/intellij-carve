@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/recipes.css
- * version 0.1.0, commit 65e9ad2
+ * version 0.1.1, commit 658b8ef
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -227,14 +227,18 @@
  */
 .carve .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, var(--carve-gallery-min-size)), 1fr)
+  );
   gap: var(--carve-space-3);
   margin-block-end: var(--carve-space-4);
 }
 .carve .gallery > figure {
   margin: 0;
 }
-.carve .gallery :is(img, video) {
+.carve .gallery > :is(img, video),
+.carve .gallery > figure > :is(img, video) {
   inline-size: 100%;
   /* Uniform tiles: without this a gallery is a ragged wall of source aspect
    * ratios. `data-ratio` retunes it per instance. */
@@ -242,7 +246,8 @@
   object-fit: cover;
   border-radius: var(--carve-radius);
 }
-.carve .gallery[data-fit="contain"] :is(img, video) {
+.carve .gallery[data-fit="contain"] > :is(img, video),
+.carve .gallery[data-fit="contain"] > figure > :is(img, video) {
   object-fit: contain;
 }
 
@@ -305,7 +310,12 @@
  */
 .carve .scroll {
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
   margin-block-end: var(--carve-space-4);
+}
+.carve .scroll > table {
+  min-width: var(--carve-table-min-width);
+  margin-block-end: 0;
 }
 
 /*
