@@ -38,6 +38,12 @@ jobs:
       - name: The vendored block battery still matches carve-grammars
         run: ./tools/check-battery-drift.sh
 
+      # Same shape, same reason: the two vendored carve-css layers sat at 0.1.0
+      # while 0.1.1 was published, and nothing said so (#224). Reaches npm, so
+      # it is a step rather than part of `test`.
+      - name: The vendored carve-css layers still match the newest release
+        run: ./tools/check-carve-css-drift.sh
+
       # The two names swapped meaning in the IntelliJ Platform Gradle Plugin 2.x:
       # `verifyPluginStructure` is the descriptor/archive check that 1.x called
       # `verifyPlugin`, and `verifyPlugin` is now the IntelliJ Plugin Verifier that

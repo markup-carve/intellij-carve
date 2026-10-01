@@ -170,6 +170,25 @@ ${CarveCodeHighlight.DIFF_CSS}
         a { color: var(--carve-accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
         img { max-width: 100%; height: auto; }
+        /* A block image - one the engine promoted out of its paragraph - is a
+           bare `<img>` with no wrapper, so without this two of them sit side by
+           side and the blank line between them reaches nothing. The parent list
+           is upstream carve-css's, read off engine output: it is every parent
+           that cannot hold TEXT beside a direct image child, so a direct child
+           there is always promoted. `p`, `a`, a heading, `figcaption`, `td` and
+           `th` can, and `li`/`dd` emit the inline and the promoted case in the
+           same shape, so none of them is in it. */
+        .carve > :is(img, video),
+        .carve :is(section, blockquote, aside, div, figure) > :is(img, video) {
+            display: block;
+        }
+        /* A figure is in the set above and not in this one: it carries a block
+           margin already, and a margin here would collapse against the caption's
+           own and push the caption off the image. */
+        .carve > :is(img, video),
+        .carve :is(section, blockquote, aside, div) > :is(img, video) {
+            margin-block: 0 var(--carve-space-4);
+        }
         hr {
             border: 0;
             border-top: var(--carve-border-width) solid var(--carve-rule);
