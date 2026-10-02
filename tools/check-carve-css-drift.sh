@@ -2,12 +2,17 @@
 # The vendored carve-css layers are a copy. Prove the stamp is honest, and
 # prove the copy is of the newest published release.
 #
-# src/main/resources/css/{tokens,recipes}.css are two of carve-css's layers,
-# vendored because the plugin ships its resources in a jar and has no npm step
-# to resolve the package at build time. A copy nothing compares is a copy only
-# until upstream moves: these sat at 0.1.0 while 0.1.1 was published, so a
-# gallery tile styled media it should not reach and seven public control tokens
-# the recipes read were simply absent (#224).
+# src/main/resources/css/{tokens,recipes,contrast}.css are three of carve-css's
+# layers, vendored because the plugin ships its resources in a jar and has no
+# npm step to resolve the package at build time. A copy nothing compares is a
+# copy only until upstream moves: these sat at 0.1.0 while 0.1.1 was published,
+# so a gallery tile styled media it should not reach and seven public control
+# tokens the recipes read were simply absent (#224).
+#
+# contrast.css joined at 0.1.2. It was held back from the 0.1.1 refresh because
+# that release's forced-colors block remapped --carve-accent to LinkText and
+# left --carve-ink-inverse a hex, which put a code-callout badge near 1.50:1 -
+# worse than vendoring no layer at all (#226).
 #
 # Two questions, kept apart because they have different remedies:
 #
@@ -44,7 +49,7 @@ tar xzf "$tarball" -C "$work"
 failed=0
 
 # Question 2 first: a lying stamp makes question 1's answer meaningless.
-for name in tokens recipes; do
+for name in tokens recipes contrast extensions; do
   local_file="$css/$name.css"
   remote_file="$work/package/src/$name.css"
   if [[ ! -f "$remote_file" ]]; then
@@ -69,7 +74,7 @@ done
 if [[ "$published" != "$recorded_version" ]]; then
   echo "carve-css has moved: vendored $recorded_version, npm publishes $published."
   echo
-  echo "Re-vendor both layers from the published tarball and update $record:"
+  echo "Re-vendor all four layers from the published tarball and update $record:"
   echo "  npm pack $package@$published"
   echo "Keep the provenance header, set its version and commit to the new release's tag,"
   echo "and refresh the SHA-256 lines. Then read what the new text changes - a layer that"
@@ -81,5 +86,5 @@ if (( failed )); then
   exit 1
 fi
 
-printf 'check-carve-css-drift: both layers match %s@%s, the newest published release.\n' \
+printf 'check-carve-css-drift: all four layers match %s@%s, the newest published release.\n' \
   "$package" "$recorded_version"

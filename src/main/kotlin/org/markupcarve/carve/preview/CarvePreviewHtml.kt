@@ -13,7 +13,8 @@ package org.markupcarve.carve.preview
  *
  *  1. the highlight.js theme (light or dark, the other one `disabled`)
  *  2. this file's base styles, written in terms of the `--carve-*` tokens
- *  3. `tokens.css` + `recipes.css`, the vendored carve-css layers
+ *  3. `tokens.css` + `recipes.css` + `contrast.css` + `extensions.css`, the
+ *     vendored carve-css layers
  *  4. the user's own CSS
  *
  * The highlight.js theme comes FIRST on purpose. It used to come after, so its
@@ -379,7 +380,13 @@ ${CarveCodeHighlight.DIFF_CSS}
            Both emit CSS-only radio-tab widgets: a run of
            `input.{code-group,tabs}-radio` + `label.*-label`, then the panels.
            `:checked ~ nth-of-type` wires each radio to its label + panel, so tab
-           switching needs no JS. Mirrors the docs custom.css. */
+           switching needs no JS.
+
+           The vendored extensions.css carries the same positional ladder, scoped
+           under `.carve` and so winning on specificity, and it reaches 12 panels
+           plus a catch-all where this stops at 8. This copy is the fallback for a
+           layer that fails to load, which `getResourceAsStream` does silently -
+           keep it until something makes that case loud. */
         .code-group, .tabs { margin: var(--carve-space-3) 0; position: relative; }
         .code-group-radio, .tabs-radio {
             position: absolute; top: 0; left: 0; width: 1px; height: 1px;
@@ -446,12 +453,21 @@ ${CarveCodeHighlight.DIFF_CSS}
         details[open] > summary { margin-bottom: 4px; }
         details > :last-child { margin-bottom: 8px; }
 
-        span.spoiler {
-            filter: blur(0.3em); cursor: pointer; border-radius: var(--carve-radius); padding: 0 0.15em;
+        /* Scoped under `.carve`, and the box properties reset, to outrank the
+           vendored extensions layer. Spec §13 spells the INLINE spoiler
+           `<span class="spoiler">` and the block one `<details class="spoiler">`,
+           and extensions.css styles `.carve .spoiler` without naming an element -
+           so its block box (border, sunk background, 8px/12px padding) lands on a
+           blurred inline word too and turns it into a panel. Measured, not
+           reasoned: preview-css-probe reads the border. The block form below
+           deliberately keeps the vendored box. */
+        .carve span.spoiler {
+            filter: blur(0.3em); cursor: pointer; border-radius: var(--carve-radius);
+            border: 0; padding: 0 0.15em; margin: 0;
             background: rgba(127, 127, 127, 0.14);
             -webkit-user-select: none; user-select: none; transition: filter 0.2s;
         }
-        span.spoiler.revealed { filter: none; background: transparent; user-select: text; }
+        .carve span.spoiler.revealed { filter: none; background: transparent; user-select: text; }
         details.spoiler { border-left: var(--carve-accent-width) solid var(--carve-warn); }
         details.spoiler > summary { color: var(--carve-warn); list-style: none; }
         details.spoiler > summary::-webkit-details-marker { display: none; }
