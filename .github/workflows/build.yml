@@ -6,9 +6,12 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Every job below carries a timeout-minutes bound, so a hung step fails in
+# minutes instead of running to GitHub's 360-minute default.
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -68,6 +71,7 @@ jobs:
   graal-jdk-smoke:
     name: GraalJS boots on JDK ${{ matrix.jdk }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
