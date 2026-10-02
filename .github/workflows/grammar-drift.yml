@@ -28,9 +28,12 @@ on:
     - cron: "0 7 * * *"
   workflow_dispatch:
 
+# Every job below carries a timeout-minutes bound, so a hung step fails in
+# minutes instead of running to GitHub's 360-minute default.
 jobs:
   grammar:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       # checkGrammarConstructs runs the test task, which reads the corpus from
       # the `spec` submodule by path.

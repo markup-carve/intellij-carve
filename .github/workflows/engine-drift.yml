@@ -54,10 +54,13 @@ env:
   # rebuilding, and ten is a comfortable fraction of that.
   DRIFT_MAX_DOCUMENTS: 10
 
+# Every job below carries a timeout-minutes bound, so a hung step fails in
+# minutes instead of running to GitHub's 360-minute default.
 jobs:
   provenance:
     name: The recorded provenance is real
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
@@ -134,6 +137,7 @@ jobs:
   corpus:
     name: The vendored bundle still renders carve main's corpus
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
