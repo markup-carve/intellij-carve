@@ -276,7 +276,7 @@ class CarvePreviewPanel(
      * while the IDE is running.
      */
     private val cachedCarveCss: String by lazy {
-        listOf("tokens", "recipes")
+        listOf("tokens", "recipes", "contrast", "extensions")
             .mapNotNull { name ->
                 CarvePreviewPanel::class.java.getResourceAsStream("/css/$name.css")
                     ?.use { it.readBytes().toString(Charsets.UTF_8) }
@@ -419,6 +419,10 @@ class CarvePreviewPanel(
      * `::: columns` and the rest - which reach the page as a generic
      * `<div class="name">` and would otherwise render unstyled here while every
      * other Carve consumer that installs carve-css shows them properly.
+     *
+     * `contrast.css` re-points the same tokens under `prefers-contrast: more`
+     * and `forced-colors: active`. It redefines custom properties and adds one
+     * focus outline, so like `tokens.css` it has almost nothing to argue with.
      *
      * Injected after the built-in block and before the user's own CSS, so the
      * precedence order the class docs promise is unchanged.

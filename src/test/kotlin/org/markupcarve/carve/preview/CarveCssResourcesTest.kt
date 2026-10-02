@@ -9,7 +9,7 @@ import java.security.MessageDigest
 /**
  * The vendored carve-css layers are on the classpath and still say what they are.
  *
- * The preview injects `css/tokens.css` and `css/recipes.css` so that a construct
+ * The preview injects all four vendored layers so that a construct
  * the engine has no handler for - `::: tree`, `::: cards`, `::: columns` - looks
  * the same here as it does for every consumer that installs carve-css. Nothing
  * fails loudly if a resource goes missing: `getResourceAsStream` returns null,
@@ -27,7 +27,7 @@ class CarveCssResourcesTest {
 
     @Test
     fun `both vendored layers are present`() {
-        for (name in listOf("tokens", "recipes")) {
+        for (name in listOf("tokens", "recipes", "contrast", "extensions")) {
             val file = resource(name)
             assertTrue("missing vendored stylesheet: ${file.path}", file.isFile)
             assertTrue("vendored stylesheet is empty: ${file.path}", file.length() > 0)
@@ -36,7 +36,7 @@ class CarveCssResourcesTest {
 
     @Test
     fun `each layer names where it came from`() {
-        for (name in listOf("tokens", "recipes")) {
+        for (name in listOf("tokens", "recipes", "contrast", "extensions")) {
             val head = resource(name).readText().lineSequence().take(6).joinToString("\n")
             assertTrue(
                 "no provenance header in $name.css - re-copy it with the header intact",
@@ -80,7 +80,7 @@ class CarveCssResourcesTest {
         val record = upstream()
         val version = requireNotNull(record["version"]) { "no version line in css/UPSTREAM" }
         val commit = requireNotNull(record["commit"]) { "no commit line in css/UPSTREAM" }
-        for (name in listOf("tokens", "recipes")) {
+        for (name in listOf("tokens", "recipes", "contrast", "extensions")) {
             val head = resource(name).readText().lineSequence().take(7).joinToString("\n")
             assertTrue(
                 "$name.css says it is not $version, but css/UPSTREAM records $version",
@@ -104,8 +104,8 @@ class CarveCssResourcesTest {
     fun `neither layer has been edited since it was vendored`() {
         val recorded = upstreamDigests()
         assertEquals(
-            "css/UPSTREAM does not list both layers",
-            setOf("tokens.css", "recipes.css"),
+            "css/UPSTREAM does not list all four layers",
+            setOf("tokens.css", "recipes.css", "contrast.css", "extensions.css"),
             recorded.keys,
         )
         for ((name, expected) in recorded) {
@@ -135,7 +135,8 @@ class CarveCssResourcesTest {
             initialHtml = "",
             isDark = false,
             assetBase = "file:///nowhere/",
-            carveCss = resource("tokens").readText() + "\n" + resource("recipes").readText(),
+            carveCss = listOf("tokens", "recipes", "contrast", "extensions")
+                .joinToString("\n") { resource(it).readText() },
         )
         val defined = Regex("(--carve-[a-z0-9-]+)\\s*:").findAll(page)
             .map { it.groupValues[1] }.toSet()
@@ -150,6 +151,41 @@ class CarveCssResourcesTest {
                 "a vendored layer dropped them or the inline stylesheet invented them",
             undefined.isEmpty(),
         )
+    }
+
+    /**
+     * The one thing about `contrast.css` this host can check.
+     *
+     * Headless Chromium does not emulate the Windows high-contrast palette, so
+     * no probe here can reach `forced-colors: active` and read what the badge
+     * actually resolves to. The layer is therefore taken on upstream's
+     * measurement, and what is testable is the declaration that measurement is
+     * about: `--carve-ink-inverse` has to be remapped alongside `--carve-accent`
+     * inside the forced-colors block. 0.1.1 remapped only the accent and left
+     * the inverse a hex the user agent repaints `CanvasText`, which put a
+     * code-callout badge - ink-inverse ON accent - near 1.50:1. That is why
+     * 0.1.1's layer was deliberately NOT vendored (#226).
+     *
+     * So this is not a render check. It is a check that a refresh cannot walk
+     * the pair back to the shape that made vendoring the layer worse than
+     * skipping it, in a repo that cannot see the consequence.
+     */
+    @Test
+    fun `the forced-colors block remaps both halves of the accent pair`() {
+        val forced = Regex(
+            "@media \\(forced-colors: active\\) \\{.*?\\n\\}",
+            RegexOption.DOT_MATCHES_ALL,
+        ).find(resource("contrast").readText())
+        assertTrue("contrast.css has no forced-colors block at all", forced != null)
+        val block = forced!!.value
+        for (token in listOf("--carve-accent", "--carve-ink-inverse", "--carve-accent-soft")) {
+            val declared = Regex("$token:\\s*([A-Za-z]+)\\s*;").find(block)
+            assertTrue(
+                "$token is not remapped to a system color inside forced-colors - a hex here " +
+                    "is repainted by the user agent and the declared pair stops meaning anything",
+                declared != null,
+            )
+        }
     }
 
     private fun upstream(): Map<String, String> =

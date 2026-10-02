@@ -1,0 +1,116 @@
+/*
+ * VENDORED from markup-carve/carve-css src/contrast.css
+ * version 0.1.2, commit 118e708
+ *
+ * Do not edit here. Change it upstream and re-copy, so the preview keeps
+ * showing what every other Carve consumer sees.
+ */
+/*
+ * Optional high-contrast preset. Load after carve.css. The explicit selector
+ * gives applications a stable switch; the media query follows an OS request.
+ */
+:root[data-carve-contrast="high"] {
+  --carve-surface: #ffffff;
+  --carve-sunk: #ffffff;
+  --carve-raised: #ffffff;
+  --carve-ink: #000000;
+  --carve-ink-soft: #242424;
+  --carve-ink-inverse: #ffffff;
+  --carve-rule: #595959;
+  --carve-border: #000000;
+  --carve-accent: #0048a8;
+  --carve-accent-soft: #e5efff;
+  --carve-accent-ink: #002f70;
+  --carve-info: #00446b;
+  --carve-info-wash: #e5f5ff;
+  --carve-success: #005a2b;
+  --carve-success-wash: #e4f7eb;
+  --carve-warn: #684000;
+  --carve-warn-wash: #fff2d6;
+  --carve-danger: #8b160d;
+  --carve-danger-wash: #ffe9e6;
+  --carve-neutral: #333333;
+  --carve-neutral-wash: #eeeeee;
+  --carve-border-width: 2px;
+  --carve-accent-width: 4px;
+}
+
+:root[data-theme="dark"][data-carve-contrast="high"] {
+  --carve-surface: #14171b;
+  --carve-sunk: #1c2126;
+  --carve-raised: #1f252b;
+  --carve-ink: #ffffff;
+  --carve-ink-soft: #e7eaee;
+  --carve-ink-inverse: #14171b;
+  --carve-rule: #aab4be;
+  --carve-border: #ffffff;
+  --carve-accent: #8bd5f4;
+  --carve-accent-soft: #16252e;
+  --carve-accent-ink: #c5eafb;
+  --carve-info: #8bd5f4;
+  --carve-info-wash: #13232b;
+  --carve-success: #8cddb5;
+  --carve-success-wash: #12241b;
+  --carve-warn: #f0c36f;
+  --carve-warn-wash: #261d0d;
+  --carve-danger: #ff9f91;
+  --carve-danger-wash: #291411;
+  --carve-neutral: #c6d0da;
+  --carve-neutral-wash: #1d2227;
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-theme="dark"]):not([data-carve-contrast="normal"]) {
+    --carve-rule: #595959;
+    --carve-border: #000000;
+    --carve-ink-soft: #242424;
+    --carve-border-width: 2px;
+    --carve-accent-width: 4px;
+  }
+}
+
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-carve-contrast="normal"]) {
+    --carve-rule: #aab4be;
+    --carve-border: #ffffff;
+    --carve-ink-soft: #e7eaee;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root[data-theme="dark"]:not([data-carve-contrast="normal"]) {
+    --carve-rule: #aab4be;
+    --carve-border: #ffffff;
+    --carve-ink-soft: #e7eaee;
+  }
+}
+
+@media (forced-colors: active) {
+  .carve {
+    --carve-surface: Canvas;
+    --carve-sunk: Canvas;
+    --carve-raised: Canvas;
+    --carve-ink: CanvasText;
+    --carve-ink-soft: CanvasText;
+    --carve-rule: CanvasText;
+    --carve-border: CanvasText;
+    --carve-accent: LinkText;
+    --carve-accent-ink: LinkText;
+    /* Remapped for the same reason, from the other side: accent-ink was already
+     * LinkText while its own background stayed a fixed wash, so the declared
+     * pair was a system colour on a hex the UA overrides anyway. Canvas is what
+     * forced colors paints that background, said out loud. */
+    --carve-accent-soft: Canvas;
+    /* Remapped with the accent, not left behind it. A code-callout badge is
+     * ink-inverse ON accent, so leaving this as CanvasText put black on
+     * LinkText - 1.50:1 in the Windows high-contrast #1 palette. Canvas is the
+     * system's own counterpart to LinkText and is guaranteed to contrast. */
+    --carve-ink-inverse: Canvas;
+  }
+  .carve :focus-visible {
+    outline: 3px solid Highlight;
+  }
+  .carve :is(.admonition, .callout, blockquote) {
+    border-color: CanvasText;
+  }
+}
