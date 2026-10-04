@@ -319,9 +319,12 @@ val upstreamRuleAliases =
 // shows upstream highlighting it.
 val localRulesGroupedUpstream =
     mapOf(
-        // Upstream highlights the composite figure inside #divs and
-        // #caption-behind-a-container-prefix rather than in a rule of its own.
+        // Upstream highlights the composite figure inside #divs and its caption
+        // rules rather than in a rule of its own.
         "figure-group" to GroupedUpstream("divs", "composite-figure.crv"),
+        // `> ^ cap`. Upstream dropped this rule when it generated its caption
+        // contexts; its #caption now scopes the caption behind a quote prefix.
+        "caption-behind-a-container-prefix" to GroupedUpstream("caption", "trailing-comment-in-a-named-capture.crv"),
         // Upstream spells the two comment openers inside a `*` run as one rule.
         "inline-comment-in-bold" to GroupedUpstream("braced-comment-in-bold", "comment-in-bold.crv"),
         "nested-block-quote" to GroupedUpstream("block-quotes", "heading-inline.crv"),
@@ -401,6 +404,17 @@ val divergedByDesign =
                 "\\A-anchored bare `---` open fence would fire mid-document and swallow the rest of the " +
                 "file. This grammar requires a typed format token (`---toml`) instead. Cost: a BARE `---` " +
                 "frontmatter fence is highlighted as a thematic break. Pinned by frontmatter-typed.crv.",
+    )
+
+// Grouped declarations this engine cannot measure upstream: local rule -> the upstream
+// rules vscode-carve reaches that construct through ONLY from capture patterns, which
+// the IDE's engine ignores. VS Code highlights these; this engine sees nothing there.
+// The grouped check skips them, and CarveGrammarDeclarationTest fails once a named
+// upstream rule is included outside a capture, so the exemption cannot outlive it.
+val groupedUnmeasurableUpstream =
+    mapOf(
+        "figure-group" to listOf("caption-colon-tokenizer", "caption"),
+        "caption-behind-a-container-prefix" to listOf("caption"),
     )
 
 // Upstream rule name -> the local rule that already covers it, and the fixture that
@@ -861,6 +875,10 @@ tasks {
         systemProperty(
             "carve.declarations.coveredLocally",
             encodeDeclarations(upstreamRulesCoveredLocally.mapValues { (_, d) -> d.fixture }),
+        )
+        systemProperty(
+            "carve.declarations.unmeasurableUpstream",
+            encodeDeclarations(groupedUnmeasurableUpstream.mapValues { (_, rules) -> rules.joinToString(",") }),
         )
 
         // The upstream copy, when one has been fetched. OPTIONAL: `test` runs on every pull

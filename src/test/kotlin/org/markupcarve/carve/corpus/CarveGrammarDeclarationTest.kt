@@ -1,5 +1,7 @@
 package org.markupcarve.carve.corpus
 
+import com.google.gson.JsonElement
+import com.google.gson.JsonParser
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
@@ -71,6 +73,7 @@ class CarveGrammarDeclarationTest {
         assertTrue("no grouped declarations to check", groupedUpstream.isNotEmpty())
         val upstreamGrammar = CarveTextMateTokenizer.grammarFrom(upstream)
         for ((rule, fixture) in groupedUpstream) {
+            if (rule in unmeasurableUpstream) continue
             val text = fixtureText(rule, fixture)
             for (span in ownedSpans(localGrammar, rule, text)) {
                 assertTrue(
@@ -78,6 +81,30 @@ class CarveGrammarDeclarationTest {
                         "${span.text.trim()} in $fixture unhighlighted. That is a construct upstream " +
                         "does not have, which is pluginOnlyGrammarRules, not a grouping delta.",
                     upstreamGrammar.highlightsAnythingIn(text, span),
+                )
+            }
+        }
+    }
+
+    @Test
+    fun anUnmeasurableExemptionStillDescribesUpstream() {
+        val upstream = JsonParser.parseString(requireUpstream().readText())
+        for ((rule, upstreamRules) in unmeasurableUpstream) {
+            assertTrue(
+                "$rule is exempt from the grouped check but is not a grouped declaration",
+                groupedUpstream.any { it.first == rule },
+            )
+            for (upstreamRule in upstreamRules) {
+                val reached = includesOf(upstream, "#$upstreamRule", insideCapture = false)
+                assertTrue(
+                    "$rule is exempt because vscode-carve reaches #$upstreamRule only from captures, " +
+                        "but vscode-carve no longer includes #$upstreamRule - drop it from groupedUnmeasurableUpstream",
+                    reached.isNotEmpty(),
+                )
+                assertTrue(
+                    "vscode-carve now includes #$upstreamRule outside a capture, so this engine can measure " +
+                        "$rule again - drop it from groupedUnmeasurableUpstream",
+                    reached.all { it },
                 )
             }
         }
@@ -111,6 +138,7 @@ class CarveGrammarDeclarationTest {
         private const val PLUGIN_ONLY = "carve.declarations.pluginOnly"
         private const val GROUPED = "carve.declarations.groupedUpstream"
         private const val COVERED = "carve.declarations.coveredLocally"
+        private const val UNMEASURABLE = "carve.declarations.unmeasurableUpstream"
 
         private val repoRoot: File by lazy {
             var dir: File? = File(System.getProperty("user.dir")).absoluteFile
@@ -138,6 +166,22 @@ class CarveGrammarDeclarationTest {
         private val pluginOnly: List<Pair<String, String>> by lazy { declarations(PLUGIN_ONLY) }
         private val groupedUpstream: List<Pair<String, String>> by lazy { declarations(GROUPED) }
         private val coveredLocally: List<Pair<String, String>> by lazy { declarations(COVERED) }
+        private val unmeasurableUpstream: Map<String, List<String>> by lazy {
+            declarations(UNMEASURABLE).associate { (rule, rules) -> rule to rules.split(',').filter { it.isNotBlank() } }
+        }
+        private val CAPTURE_KEYS = setOf("captures", "beginCaptures", "endCaptures", "whileCaptures")
+
+        /** One entry per include of [target] in [node]: whether it sits inside a capture. */
+        private fun includesOf(node: JsonElement, target: String, insideCapture: Boolean): List<Boolean> = when {
+            node.isJsonArray -> node.asJsonArray.flatMap { includesOf(it, target, insideCapture) }
+            node.isJsonObject -> node.asJsonObject.entrySet().flatMap { (key, value) ->
+                when {
+                    key == "include" && value.isJsonPrimitive && value.asString == target -> listOf(insideCapture)
+                    else -> includesOf(value, target, insideCapture || key in CAPTURE_KEYS)
+                }
+            }
+            else -> emptyList()
+        }
 
         private fun fixtureText(rule: String, fixture: String): String {
             val file = File(fixturesDir, fixture)
