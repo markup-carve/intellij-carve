@@ -24,6 +24,15 @@ name: Engine drift
 # against the pinned corpus, CarveBundleProvenanceTest against the headers).
 # This workflow is the part that needs the network, so it stays out of the build
 # and off the pull_request trigger.
+#
+# Upstream moving is work, not a failure of this repo (carve#2706). When carve-js
+# or carve-lsp publishes a release the bundles do not carry, this opens or
+# updates one re-vendor pull request and the run stays green. Corpus drift that
+# only an unreleased carve-js fixes is reported, not failed: the provenance test
+# accepts released engines only, so no rebuild here could clear it. The run goes
+# red only when the check cannot do its job: bad provenance, a missing
+# BUMP_TOKEN, or a failed build or push. BUMP_TOKEN is a fine-grained PAT,
+# because a pull request the default token opens does not trigger CI.
 
 on:
   schedule:
@@ -32,10 +41,17 @@ on:
     - cron: "0 6 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: engine-drift
+  cancel-in-progress: false
+
 env:
   # How many corpus documents the vendored preview bundle may render
   # differently from carve `main` THAT A BUNDLE BUILT FROM carve-js `main` GETS
-  # RIGHT, before this fails.
+  # RIGHT, before this warns.
   #
   # The qualifier is the whole design, and it was learned the hard way. This
   # gate first read the raw count, and that count is two lags added together:
@@ -61,8 +77,18 @@ jobs:
     name: The recorded provenance is real
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    outputs:
+      behind: ${{ steps.release.outputs.behind }}
+      js_from: ${{ steps.release.outputs.js_from }}
+      js_tag: ${{ steps.release.outputs.js_tag }}
+      js_to: ${{ steps.release.outputs.js_to }}
+      lsp_from: ${{ steps.release.outputs.lsp_from }}
+      lsp_tag: ${{ steps.release.outputs.lsp_tag }}
+      lsp_to: ${{ steps.release.outputs.lsp_to }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Check out carve-js
         uses: actions/checkout@v4
@@ -134,12 +160,153 @@ jobs:
           fi
           exit "$rc"
 
+      # CarveBundleProvenanceTest only accepts bundles built from release tags,
+      # so the re-vendor target is the latest published release, not main.
+      - name: Compare the bundles against the latest releases
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          js_from="$(grep -m1 -oP '(?<=Bundled from markup-carve/carve-js commit )[0-9a-f]{40}' src/main/resources/js/carve.iife.js)"
+          lsp_from="$(grep -m1 -oP '(?<=Bundled from markup-carve/carve-lsp commit )[0-9a-f]{40}' src/main/resources/lsp/server.js)"
+          js_tag="$(gh api repos/markup-carve/carve-js/releases/latest --jq .tag_name)"
+          lsp_tag="$(gh api repos/markup-carve/carve-lsp/releases/latest --jq .tag_name)"
+          js_to="$(git -C upstream/carve-js rev-parse "refs/tags/${js_tag}^{commit}")"
+          lsp_to="$(git -C upstream/carve-lsp rev-parse "refs/tags/${lsp_tag}^{commit}")"
+          echo "carve-js:  vendored ${js_from:0:7}, latest release ${js_tag} ${js_to:0:7}"
+          echo "carve-lsp: vendored ${lsp_from:0:7}, latest release ${lsp_tag} ${lsp_to:0:7}"
+          behind=0
+          if [ "${js_from}" != "${js_to}" ] && git -C upstream/carve-js merge-base --is-ancestor "${js_from}" "${js_to}"; then
+            behind=1
+          fi
+          if [ "${lsp_from}" != "${lsp_to}" ] && git -C upstream/carve-lsp merge-base --is-ancestor "${lsp_from}" "${lsp_to}"; then
+            behind=1
+          fi
+          echo "behind=${behind}"
+          {
+            echo "behind=${behind}"
+            echo "js_from=${js_from}"
+            echo "js_tag=${js_tag}"
+            echo "js_to=${js_to}"
+            echo "lsp_from=${lsp_from}"
+            echo "lsp_tag=${lsp_tag}"
+            echo "lsp_to=${lsp_to}"
+          } >> "$GITHUB_OUTPUT"
+
+  revendor:
+    name: Open or update the re-vendor pull request
+    needs: provenance
+    if: needs.provenance.outputs.behind == '1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Check out carve-js at its latest release
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve-js
+          ref: ${{ needs.provenance.outputs.js_to }}
+          path: upstream/carve-js
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out carve-lsp at its latest release
+        uses: actions/checkout@v4
+        with:
+          repository: markup-carve/carve-lsp
+          ref: ${{ needs.provenance.outputs.lsp_to }}
+          path: upstream/carve-lsp
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Open or update the re-vendor pull request
+        env:
+          GH_TOKEN: ${{ secrets.BUMP_TOKEN }}
+          REPO: ${{ github.repository }}
+          BASE: ${{ github.event.repository.default_branch }}
+          JS_FROM: ${{ needs.provenance.outputs.js_from }}
+          JS_TAG: ${{ needs.provenance.outputs.js_tag }}
+          JS_TO: ${{ needs.provenance.outputs.js_to }}
+          LSP_FROM: ${{ needs.provenance.outputs.lsp_from }}
+          LSP_TAG: ${{ needs.provenance.outputs.lsp_tag }}
+          LSP_TO: ${{ needs.provenance.outputs.lsp_to }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "::error::BUMP_TOKEN is not set, so the drift job cannot open the re-vendor pull request"
+            exit 1
+          fi
+          branch=automation/revendor-engine
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git"
+
+          # An open pull request already carrying these releases needs nothing;
+          # pushing again would only restart its CI.
+          pr="$(gh pr list --repo "${REPO}" --head "${branch}" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "${pr}" ] && git ls-remote --exit-code "${remote}" "refs/heads/${branch}" >/dev/null; then
+            git fetch -q "${remote}" "${branch}"
+            pinned="$(git show FETCH_HEAD:src/main/resources/lsp/VERSION)"
+            if grep -q "carve-lsp ${LSP_TO}" <<<"${pinned}" && grep -q "carve-js commit ${JS_TO}" <<<"${pinned}"; then
+              echo "${branch} already carries carve-js ${JS_TAG} and carve-lsp ${LSP_TAG}; nothing to do."
+              exit 0
+            fi
+          fi
+
+          (cd upstream/carve-js && npm ci && npm run build)
+          tools/build-engine-bundles.sh upstream/carve-js upstream/carve-lsp
+
+          title="chore: re-vendor both engine bundles from carve-js ${JS_TAG} and carve-lsp ${LSP_TAG}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q -B "${branch}"
+          git add src/main/resources/js/carve.iife.js src/main/resources/lsp/server.js src/main/resources/lsp/VERSION
+          git commit -q -m "${title}"
+          git push -q --force "${remote}" "${branch}"
+
+          {
+            echo "Rebuilds both vendored engine bundles with \`tools/build-engine-bundles.sh\`: carve-js \`${JS_FROM:0:7}\` to the ${JS_TAG} release \`${JS_TO:0:7}\`, and carve-lsp \`${LSP_FROM:0:7}\` to the ${LSP_TAG} release \`${LSP_TO:0:7}\`."
+            echo
+            echo "Opened by the scheduled engine-drift job. CI runs \`./gradlew test\`: CarveBundleProvenanceTest checks the headers and CarveBundleCorpusTest renders the pinned spec corpus through the new preview bundle. A red corpus test usually means a pinned golden predates a ruling the new engine implements; record it in \`expectedDivergences\` or bump the \`spec\` submodule."
+            echo
+            echo "Release notes: https://github.com/markup-carve/carve-js/releases/tag/${JS_TAG} and https://github.com/markup-carve/carve-lsp/releases/tag/${LSP_TAG}"
+            echo
+            echo "carve-js commits in this move:"
+            echo
+            echo '```text'
+            git -C upstream/carve-js log --format='%h %s' "${JS_FROM}..${JS_TO}"
+            echo '```'
+            echo
+            echo "carve-lsp commits in this move:"
+            echo
+            echo '```text'
+            git -C upstream/carve-lsp log --format='%h %s' "${LSP_FROM}..${LSP_TO}"
+            echo '```'
+          } > "${RUNNER_TEMP}/body.md"
+
+          if [ -n "${pr}" ]; then
+            gh pr edit "${pr}" --repo "${REPO}" --title "${title}" --body-file "${RUNNER_TEMP}/body.md"
+            echo "Updated #${pr}."
+          else
+            gh pr create --repo "${REPO}" --base "${BASE}" --head "${branch}" \
+              --title "${title}" --body-file "${RUNNER_TEMP}/body.md" \
+              --label chore --label area:editor --label area:lsp
+          fi
+
   corpus:
     name: The vendored bundle still renders carve main's corpus
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Check out the corpus from carve main
         uses: actions/checkout@v4
@@ -189,10 +356,10 @@ jobs:
             echo "::notice::carve-js main itself renders ${reference_wrong} of ${documents} carve main documents differently. That is upstream engine debt and rebuilding here cannot close it."
           fi
 
+          # Reported, not failed: the revendor job rebuilds from each new
+          # release, and a gap only carve-js main closes waits on a release.
           if [ "$attributable" -gt "${DRIFT_MAX_DOCUMENTS}" ]; then
-            echo "::error::${attributable} of ${documents} corpus documents render differently through the vendored bundle but correctly through carve-js main, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. Rebuild with 'tools/build-carve-bundle.sh ../carve-js' and commit the result."
-            exit 1
-          fi
-          if [ "$attributable" -gt 0 ]; then
-            echo "::warning::${attributable} of ${documents} corpus documents would be fixed by rebuilding the vendored bundle (tolerance ${DRIFT_MAX_DOCUMENTS})"
+            echo "::warning::${attributable} of ${documents} corpus documents render differently through the vendored bundle but correctly through carve-js main, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. If the revendor job did not run, the fix is unreleased and lands here once carve-js publishes a release."
+          elif [ "$attributable" -gt 0 ]; then
+            echo "::notice::${attributable} of ${documents} corpus documents would be fixed by rebuilding from carve-js main (tolerance ${DRIFT_MAX_DOCUMENTS})"
           fi
