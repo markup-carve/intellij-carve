@@ -140,12 +140,25 @@ object CarvePreviewHtml {
 ${CarveCodeHighlight.DIFF_CSS}
 
         blockquote {
-            border-left: var(--carve-accent-width) solid var(--carve-rule);
+            border-inline-start: var(--carve-quote-border-width, var(--carve-accent-width)) solid
+                var(--carve-quote-border, color-mix(in srgb, var(--carve-ink) 50%, var(--carve-surface)));
             margin: var(--carve-space-4) 0;
-            padding: 0 0 0 var(--carve-space-4);
-            color: var(--carve-ink-soft);
+            padding-block: var(--carve-space-1);
+            padding-inline-start: var(--carve-quote-padding, var(--carve-space-4));
+            color: var(--carve-quote-ink, var(--carve-ink));
         }
-        blockquote p { margin: 0; }
+        :root[data-carve-contrast="high"] #content { --carve-quote-border: var(--carve-border); }
+        @media (prefers-contrast: more) {
+            :root:not([data-carve-contrast="normal"]) #content { --carve-quote-border: var(--carve-border); }
+        }
+        blockquote > p { margin-block: 0 var(--carve-quote-gap, var(--carve-space-3)); }
+        blockquote > :first-child { margin-block-start: 0; }
+        blockquote > :last-child { margin-block-end: 0; }
+        figure:has(> blockquote) { text-align: start; }
+        figure > blockquote { margin-block-end: 0; }
+        figure:has(> blockquote) > figcaption {
+            padding-inline-start: calc(var(--carve-quote-padding, var(--carve-space-4)) + var(--carve-quote-border-width, var(--carve-accent-width)));
+        }
         table { border-collapse: collapse; width: 100%; margin: var(--carve-space-4) 0; }
         th, td {
             border: var(--carve-border-width) solid var(--carve-rule);

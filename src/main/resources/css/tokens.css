@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/tokens.css
- * version 0.1.2, commit 118e708
+ * version 0.1.4, commit 98209de
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -94,6 +94,11 @@
 
   --carve-radius: 3px;
   --carve-border-width: 1px;
+  /* How far an inline spoiler's text is blurred. In `em`, so it scales with
+   * whatever size the spoiler sits in. 0.25em is 4px at a 16px body: measured,
+   * that is where stroke contrast falls to 3% of sharp text and the word keeps
+   * its own outline instead of bleeding into its neighbours. */
+  --carve-spoiler-blur: 0.25em;
   /* The stripe down the side of an admonition, a callout, a blockquote. */
   --carve-accent-width: 3px;
 }

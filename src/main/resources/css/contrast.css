@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/contrast.css
- * version 0.1.2, commit 118e708
+ * version 0.1.4, commit 98209de
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -91,6 +91,8 @@
     --carve-sunk: Canvas;
     --carve-raised: Canvas;
     --carve-ink: CanvasText;
+    --carve-quote-ink: CanvasText;
+    --carve-quote-border: CanvasText;
     --carve-ink-soft: CanvasText;
     --carve-rule: CanvasText;
     --carve-border: CanvasText;
@@ -112,5 +114,14 @@
   }
   .carve :is(.admonition, .callout, blockquote) {
     border-color: CanvasText;
+  }
+}
+
+:root[data-carve-contrast="high"] .carve {
+  --carve-quote-border: var(--carve-border);
+}
+@media (prefers-contrast: more) {
+  :root:not([data-carve-contrast="normal"]) .carve {
+    --carve-quote-border: var(--carve-border);
   }
 }

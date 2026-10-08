@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/extensions.css
- * version 0.1.2, commit 118e708
+ * version 0.1.4, commit 98209de
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -302,15 +302,25 @@
 
 /* --- Spoiler ------------------------------------------------------------- */
 
-/* <details class="spoiler"><summary>. A real disclosure element, so the UA
- * already handles the toggling and the keyboard. */
-.carve .spoiler {
+/* One class, two shapes. The INLINE spoiler is a `<span class="spoiler">` in a
+ * paragraph and the BLOCK one a panel: `<details>` interactive, `<section>`
+ * static, `<div>` when the extension is off. Only the panel wants a box, so the
+ * selector names the element rather than the class alone. Keyed on the class,
+ * the panel's border, fill and padding landed on a blurred word in running text
+ * and shifted the line it sat in (#25).
+ *
+ * `:where()` deliberately, so this stays at the specificity the class-only rule
+ * had. A consumer that already reset the box under its own `.carve span.spoiler`
+ * must keep winning, and raising this layer would silently take that away. */
+.carve :where(details, section, div).spoiler {
   border: var(--carve-border-width) solid var(--carve-rule);
   border-radius: var(--carve-radius);
   padding: var(--carve-space-2) var(--carve-space-3);
   margin-block-end: var(--carve-space-4);
   background: var(--carve-sunk);
 }
+/* A real disclosure element, so the UA already handles the toggling and the
+ * keyboard. */
 .carve .spoiler > summary {
   cursor: pointer;
   font-weight: 600;
@@ -319,7 +329,7 @@
 .carve .spoiler[open] > summary {
   margin-block-end: var(--carve-space-2);
 }
-.carve .spoiler > :last-child {
+.carve :where(details, section, div).spoiler > :last-child {
   margin-block-end: 0;
 }
 /* The static shape is `<section class="spoiler spoiler-revealed">` with an
@@ -333,6 +343,34 @@
 }
 .carve .spoiler-title {
   font-weight: 600;
+}
+
+/* The inline spoiler obscures its text with a blur, which is the whole point of
+ * the construct and shipped missing (#27). A filter is the CSS-only way to do
+ * it, it is what the reference implementations use, and where `filter` is
+ * unsupported the text stays visible - which is the behavior that already
+ * shipped rather than something worse.
+ *
+ * NOT a privacy or security control. The text is in the DOM, selectable and
+ * copyable, and a reader who drags across it gets it. This hides a spoiler from
+ * someone reading the page, and from nobody who is looking for it.
+ *
+ * Keyed on the element, like the panel box above, because the panel must not be
+ * blurred: its content is hidden by the disclosure instead. `:where()` keeps
+ * this at the specificity a class-only rule has, so a consumer's own
+ * `.carve .spoiler` rule still wins on order.
+ *
+ * Reveal is `:hover` and `:focus-within`. The focus half only works where the
+ * host makes the span focusable - a `<span class="spoiler">` carries no
+ * `tabindex` and this layer cannot add one - so there is no keyboard parity
+ * here, and a host that wants it has to supply the attribute. */
+.carve :where(span).spoiler {
+  filter: blur(var(--carve-spoiler-blur));
+}
+/* The static render is `<span class="spoiler spoiler-revealed">`, verified
+ * against the engine. Revealed means revealed, in every mode. */
+.carve :where(span).spoiler:is(:hover, :focus-within, .spoiler-revealed) {
+  filter: none;
 }
 
 /* --- Code callouts ------------------------------------------------------- */
