@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The renderer and language server bundle carve-js 0.1.10 (#233). Both bundles are built from one revision, so the preview and the diagnostics run the same engine. Measured against markup-carve/carve `main`: the 0.1.9 bundles rendered 21 of 2225 corpus documents differently from the reference and the 0.1.10 bundles render none, so cross-reference, heading-id, table row-group and colon-fence metadata documents render in the preview and the HTML export the way the spec says.
+- **The language server reports a cross-reference whose target differs only in case** (#233). `</#getting-started>` against a heading whose id is `Getting-Started` renders as its own literal source text; carve-js 0.1.9 reported nothing for it, so the IDE showed the literal text with no diagnostic.
+
+### Fixed
+
+- **The vendored carve-css layers match the published 0.1.2 release** (#225, #228), and a test compares their bytes offline so a hand-edit or a later drift fails the build. Two effects were reachable in the preview before: a gallery tile cropped an image nested inside the tile to the tile's aspect ratio, and seven public control tokens were missing, so the gallery grid could not be retuned. `contrast.css` and `extensions.css` are vendored now as well, which remaps both halves of the accent pair under forced colors where a code-callout badge previously sat near 1.50:1.
+
 ## [0.1.10] - 2026-10-01
 
 ### Added

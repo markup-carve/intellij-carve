@@ -42,7 +42,7 @@ section-2024-recap -> text.carve markup.underline.link.cross-reference.carve
 > -> text.carve keyword.control.link.end.carve
 ,  -> text.carve
 </# -> text.carve keyword.control.link.begin.carve
-setup-2 -> text.carve markup.underline.link.cross-reference.carve
+Setup-2 -> text.carve markup.underline.link.cross-reference.carve
 > -> text.carve keyword.control.link.end.carve
 , and  -> text.carve
 </# -> text.carve keyword.control.link.begin.carve

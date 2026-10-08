@@ -1220,6 +1220,24 @@ object CarveCorpusCategories {
         "a-link-inside-a-span-s-label-keeps-its-destination" to SLOT_ASSIGNMENT,
         "a-marker-line-opaque-quote-keeps-overindented-markers-literal" to SLOT_ASSIGNMENT,
         "a-title-or-label-fills-the-container-body-slot" to SLOT_ASSIGNMENT,
+        // --- carve c61b0d5f: row grouping (6)
+        "a-head-and-foot-consuming-all-rows-leave-no-implicit-body" to ROW_GROUPING,
+        "a-span-across-bodies-keeps-their-header-semantics" to ROW_GROUPING,
+        "a-table-with-no-bodies-keeps-its-head-and-foot" to ROW_GROUPING,
+        "empty-table-bodies-keep-their-source-boundaries" to ROW_GROUPING,
+        "explicit-body-counts-include-native-header-cells" to ROW_GROUPING,
+        "multiple-table-bodies-have-positional-source-metadata" to ROW_GROUPING,
+        // --- carve c61b0d5f: metadata validity (2)
+        "invalid-table-body-metadata-stays-ordinary" to METADATA_VALIDITY,
+        "invalid-named-container-metadata-keeps-the-subtree" to METADATA_VALIDITY,
+        // --- carve c61b0d5f: name lookup (1)
+        "every-name-lookup-compares-case-exactly" to NAME_CASE,
+        // --- carve c61b0d5f: content column (2)
+        "an-info-string-does-not-change-how-a-flush-left-fence-folds-into-a-description-body" to CONTENT_COLUMN,
+        "a-description-body-whose-own-block-is-a-fence-keeps-no-line-below-its-column" to CONTENT_COLUMN,
+        // --- carve c61b0d5f: render omission (2)
+        "a-denied-destination-takes-one-render-loss-row-per-sink" to RENDER_OMISSION,
+        "an-unreferenced-footnote-definition-takes-its-links-out-of-the-render" to RENDER_OMISSION,
     )
 
     /**
@@ -1307,6 +1325,47 @@ object CarveCorpusCategories {
      */
     private const val SLOT_ASSIGNMENT: String =
         "Which slot a scoped run is filed into is assignment after highlighting; the grammar gives the run its inline scopes either way, and every scope these documents produce is snapshotted by a covered category. Pinned by `generic-divs`, `admonitions`, `links` and `reference-link`."
+
+    /**
+     * Whether a metadata value is usable - `body-rows=x`, a count past 2^53, a body
+     * count with no partner, an unterminated quoted container title - is validation
+     * after the line is scoped. The attribute block, the cells and the container header
+     * take the same scopes whether the engine accepts the value or falls back. Two
+     * categories.
+     */
+    private const val METADATA_VALIDITY: String =
+        "Whether the engine accepts the metadata is validation, not highlighting; the attribute block, the cells and the container header take the same scopes either way. Pinned by `attributes`, `tables` and `generic-divs`."
+
+    /**
+     * Name lookups compare case exactly, so `</#Tip>` resolves and `</#tip>` does not.
+     * Both spellings are the same construct in the source and take the same scope; the
+     * only difference is the literal text inside it, and the stream carries no token for
+     * "this one resolved". The resolving and non-resolving spellings are snapshotted
+     * side by side in `heading-ids` and `cross-reference`, which is where the case
+     * contrast is visible.
+     */
+    private const val NAME_CASE: String =
+        "Case sensitivity decides whether a name resolves, which highlighting never asks; both spellings take the identical cross-reference or reference-link scope. Pinned by `cross-reference`, `heading-ids`, `reference-link`, `figures` and `math`."
+
+    /**
+     * Where a fence run sits relative to a description body's content column decides
+     * which container keeps the lines below it. A line-oriented grammar has no content
+     * column, so it cannot take part in that reading - the same reason
+     * `a-marker-at-an-item-content-column-opens-a-sublist-first-in-the-item-or-not` is
+     * skipped. The fence delimiters and the info string take their scopes under either
+     * reading.
+     */
+    private const val CONTENT_COLUMN: String =
+        "Which container a fence folds into needs the body's content column, which a line-based grammar does not have; the fence delimiters and the info string take the same scopes under either reading. Pinned by `fenced-code` and `definition-lists`."
+
+    /**
+     * What the engine leaves OUT of the render - a denied destination reported once per
+     * sink, the links inside a footnote definition nothing references. The source spells
+     * the construct in full and takes its scopes; nothing in the stream says the
+     * renderer dropped it. Two categories.
+     */
+    private const val RENDER_OMISSION: String =
+        "What the renderer drops and how it reports it is not in the source; the link, image and footnote definition take their full scopes regardless. Pinned by `links`, `images` and `footnotes`."
 
     fun categoryOf(fileName: String): String = slugOf(fileName).replace(Regex("-\\d+$"), "")
 
