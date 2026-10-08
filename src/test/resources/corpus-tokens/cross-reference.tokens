@@ -5,6 +5,6 @@ Getting Started -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
 See  -> text.carve
 </# -> text.carve keyword.control.link.begin.carve
-getting-started -> text.carve markup.underline.link.cross-reference.carve
+Getting-Started -> text.carve markup.underline.link.cross-reference.carve
 > -> text.carve keyword.control.link.end.carve
 .\n -> text.carve
