@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Quote previews and HTML exports preserve paragraph spacing and left-align attributed quotes.
+- The vendored carve-css layers match the published 0.1.4 release, so the forced-colors quote tokens the preview reads are defined upstream rather than only locally (markup-carve/carve-css#32).
 
 ## [0.1.11] - 2026-10-08
 
