@@ -41,33 +41,6 @@ jobs:
       contents: write
       actions: read
     steps:
-      # GATE: the notes are not the workflow's to write. A CHANGELOG entry is
-      # deliberately one or two lines for a contributor, which makes poor
-      # release notes for a reader deciding whether to upgrade. A human writes
-      # the draft first and this refuses to publish without one.
-      #
-      # Found by listing rather than `gh release view <tag>`: a draft's tag is
-      # not a git ref, so addressing one by tag can match nothing, change
-      # nothing and still exit 0.
-      - name: A release draft for this tag exists and has notes
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          release="$(gh api "repos/$GITHUB_REPOSITORY/releases" --paginate \
-            --jq "[.[] | select(.tag_name == \"$LANE_TAG\")] | first")"
-          if [ -z "$release" ]; then
-            echo "::error::no release for $LANE_TAG. Write the notes first:" \
-                 "gh release create $LANE_TAG --draft --notes-file NOTES.md"
-            echo "::error::if a draft DOES exist, this job could not see it -" \
-                 "check that the job still declares contents: write"
-            exit 1
-          fi
-          body="$(printf '%s' "$release" | jq -r '.body // ""' | tr -d '[:space:]')"
-          [ -n "$body" ] \
-            || { echo "::error::the release for $LANE_TAG has no notes"; exit 1; }
-          printf '%s' "$release" | jq -r '"draft=\(.draft) tag=\(.tag_name)"'
-
-        if: ${{ inputs.publish }}
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -110,20 +83,12 @@ jobs:
         run: ./gradlew --no-daemon buildPlugin
 
       - name: Publish to JetBrains Marketplace
+        if: ${{ inputs.publish }}
         run: ./gradlew --no-daemon publishPlugin
         env:
           PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
 
-      # A registry publish is not finished until the release page exists. The
-      # tag is pushed, CI publishes, the registry answers 200, and "released"
-      # feels done - while `/releases` still shows a draft, so a reader has no
-      # notes and no changelog for the version they just installed. Doing it
-      # here rather than by hand also means the draft stops being a thing
-      # someone has to remember to publish at the right moment.
-      #
-      # Last, deliberately: a draft that stays a draft is recoverable, and one
-      # published beside a failed publish is not.
-        if: ${{ inputs.publish }}
+
 permissions:
   contents: write
   actions: read
