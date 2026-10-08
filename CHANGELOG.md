@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.11] - 2026-10-08
+
 ### Changed
 
 - The renderer and language server bundle carve-js 0.1.10 (#233). Both bundles are built from one revision, so the preview and the diagnostics run the same engine. Measured against markup-carve/carve `main`: the 0.1.9 bundles rendered 21 of 2225 corpus documents differently from the reference and the 0.1.10 bundles render none, so cross-reference, heading-id, table row-group and colon-fence metadata documents render in the preview and the HTML export the way the spec says.
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **The vendored carve-css layers match the published 0.1.2 release** (#225, #228), and a test compares their bytes offline so a hand-edit or a later drift fails the build. Two effects were reachable in the preview before: a gallery tile cropped an image nested inside the tile to the tile's aspect ratio, and seven public control tokens were missing, so the gallery grid could not be retuned. `contrast.css` and `extensions.css` are vendored now as well, which remaps both halves of the accent pair under forced colors where a code-callout badge previously sat near 1.50:1.
+- **The bundled sample file's cross-reference resolves again** (#232). Its target differed from the heading id only in case, which the current engine no longer matches, so the reference rendered as literal text.
 
 ## [0.1.10] - 2026-10-01
 
@@ -301,7 +304,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...HEAD
+[0.1.11]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...0.1.11
 [0.1.10]: https://github.com/markup-carve/intellij-carve/compare/0.1.9...0.1.10
 [0.1.9]: https://github.com/markup-carve/intellij-carve/compare/0.1.8...0.1.9
 [0.1.8]: https://github.com/markup-carve/intellij-carve/compare/0.1.7...0.1.8
