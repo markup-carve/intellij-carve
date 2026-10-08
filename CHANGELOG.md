@@ -21,7 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- **The vendored carve-css layers match the published 0.1.2 release** (#225, #228), and a test compares their bytes offline so a hand-edit or a later drift fails the build. Two effects were reachable in the preview before: a gallery tile cropped an image nested inside the tile to the tile's aspect ratio, and seven public control tokens were missing, so the gallery grid could not be retuned. `contrast.css` and `extensions.css` are vendored now as well, which remaps both halves of the accent pair under forced colors where a code-callout badge previously sat near 1.50:1.
+- **A block quote reads at document contrast, with its attribution aligned to the
+  body** (#235). The preview and the HTML export carried the quote rules from
+  carve-css 0.1.2, where the ink was muted, the border was faint and a `figcaption`
+  sat out of line with the text it credits.
+- **The vendored carve-css layers match the published 0.1.4 release** (#225, #228, #235), and a test compares their bytes offline so a hand-edit or a later drift fails the build. Two effects were reachable in the preview before: a gallery tile cropped an image nested inside the tile to the tile's aspect ratio, and seven public control tokens were missing, so the gallery grid could not be retuned. `contrast.css` and `extensions.css` are vendored now as well, which remaps both halves of the accent pair under forced colors where a code-callout badge previously sat near 1.50:1.
 - **The bundled sample file's cross-reference resolves again** (#232). Its target differed from the heading id only in case, which the current engine no longer matches, so the reference rendered as literal text.
 
 ## [0.1.10] - 2026-10-01
