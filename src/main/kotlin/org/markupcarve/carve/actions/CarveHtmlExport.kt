@@ -40,7 +40,20 @@ ${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS
             font-family: 'JetBrains Mono', Consolas, monospace; }
         pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
         pre code, pre code.hljs { background: none; padding: 0; }
-        blockquote { border-left: 4px solid #3498db; margin: 1em 0; padding: 0.5em 0 0.5em 20px; color: #666; }
+        blockquote {
+            border-inline-start: 3px solid color-mix(in srgb, currentColor 50%, transparent);
+            margin: 1rem 0;
+            padding-block: .25rem;
+            padding-inline-start: 1rem;
+            color: inherit;
+        }
+        blockquote > p { margin-block: 0 .75rem; }
+        blockquote > :first-child { margin-block-start: 0; }
+        blockquote > :last-child { margin-block-end: 0; }
+        figure:has(> blockquote) { text-align: start; }
+        figure > blockquote { margin-block-end: 0; }
+        figure:has(> blockquote) > figcaption { padding-inline-start: calc(1rem + 3px); }
+        @media (forced-colors: active) { blockquote { border-color: CanvasText; } }
         table { border-collapse: collapse; width: 100%; margin: 1em 0; }
         th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
         th { background: #f8f9fa; }
