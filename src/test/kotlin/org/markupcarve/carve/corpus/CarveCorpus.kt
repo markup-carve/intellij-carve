@@ -57,8 +57,8 @@ object CarveCorpus {
      *
      * So the reference is the corpus's SOURCE. `spec/tests/corpus` is generated
      * from the `::: compare` blocks in
-     * `spec/resources/examples/{core,extensions,edge-cases}.md`, one block per
-     * pair, and the generator upstream refuses to write a corpus where the two
+     * `spec/resources/examples/{core,extensions,edge-cases}.md`, one pair per
+     * `carve` fence inside a block, and the generator upstream refuses to write a corpus where the two
      * disagree. Both live in the same submodule, so this costs nothing to read.
      * Counting the source also leaves no literal here to go stale: adding an
      * example upstream moves the expectation on the next bump by itself.
@@ -73,26 +73,45 @@ object CarveCorpus {
         for (page in listOf("core.md", "extensions.md", "edge-cases.md")) {
             val file = File(examples, page)
             if (!file.isFile) return null
-            // Mirrors the generator's state machine rather than grepping: a
-            // `::: compare` line inside an already-open block is content, not a
-            // second pair, and a block closes on a bare marker line.
-            var marker: String? = null
-            for (raw in file.readLines()) {
-                val line = raw.trim()
-                val open = marker
-                if (open != null) {
-                    if (line == open) marker = null
-                    continue
-                }
-                val match = COMPARE_OPENER.matchEntire(line) ?: continue
-                declared++
-                marker = match.groupValues[1]
-            }
+            declared += countDeclaredPairs(file.readLines())
         }
         return declared.takeIf { it > 0 }
     }
 
-    private val COMPARE_OPENER = Regex("""^(:{3,})\s+compare(\s+\S.*)?$""")
+    /**
+     * Same census as the spec's `scripts/lib/example-pair-census.mjs`: one pair per
+     * `carve` fence inside a `::: compare` block, and nothing inside a fence is markup.
+     */
+    fun countDeclaredPairs(lines: List<String>): Int {
+        var declared = 0
+        var marker: String? = null
+        var fence: String? = null
+        for (line in lines) {
+            val openFence = fence
+            if (openFence != null) {
+                if (line.startsWith(openFence) && line.substring(openFence.length).isBlank()) fence = null
+                continue
+            }
+            val ticks = line.takeWhile { it == '`' }
+            if (ticks.length >= 3) {
+                fence = ticks
+                if (marker != null && line.substring(ticks.length).trim() == "carve") declared++
+                continue
+            }
+            val trimmed = line.trim()
+            val colons = trimmed.takeWhile { it == ':' }
+            if (colons.length < 3) continue
+            val openMarker = marker
+            if (openMarker == null) {
+                if (COMPARE_OPENER.containsMatchIn(trimmed.substring(colons.length))) marker = colons
+            } else if (trimmed == openMarker) {
+                marker = null
+            }
+        }
+        return declared
+    }
+
+    private val COMPARE_OPENER = Regex("""^[ \t]+compare(?:[ \t]|$)""")
 
     /** A clear message pointing at the submodule when the corpus is missing. */
     val MISSING_MESSAGE: String =

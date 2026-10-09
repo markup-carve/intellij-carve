@@ -848,8 +848,8 @@ tasks {
         inputs.files(fileTree("spec/tests/corpus"))
             .withPropertyName("sharedCorpus")
             .withPathSensitivity(PathSensitivity.RELATIVE)
-        // The corpus's own source. CarveBundleCorpusTest counts the `:::
-        // compare` blocks on these pages to decide how many pairs there
+        // The corpus's own source. CarveBundleCorpusTest counts the pairs in
+        // the `::: compare` blocks on these pages to decide how many there
         // should be, so they decide the outcome as much as the corpus does.
         inputs.files(fileTree("spec/resources/examples"))
             .withPropertyName("corpusSourcePages")
