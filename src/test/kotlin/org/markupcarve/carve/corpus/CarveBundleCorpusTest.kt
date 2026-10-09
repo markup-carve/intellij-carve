@@ -111,7 +111,7 @@ class CarveBundleCorpusTest {
         )
         assertEquals(
             "${pairs.size} corpus pair(s) found under ${corpus?.path}, but the spec's example " +
-                "pages declare $declared. Every ::: compare block in " +
+                "pages declare $declared. Every carve fence in a ::: compare block in " +
                 "spec/resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, " +
                 "so a difference means the corpus checked out here is not the one those pages " +
                 "describe - a truncated submodule, or a corpus that needs regenerating upstream. " +

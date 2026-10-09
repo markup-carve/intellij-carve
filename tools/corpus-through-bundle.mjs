@@ -106,8 +106,8 @@ for (const name of names) {
 // would move both sides together and guard nothing, and a hardcoded number goes
 // stale the day an example lands upstream - so the reference is the corpus's
 // SOURCE. tests/corpus is generated from the `::: compare` blocks in
-// resources/examples/{core,extensions,edge-cases}.md, one block per pair, and
-// both live in the same checkout.
+// resources/examples/{core,extensions,edge-cases}.md, one pair per `carve`
+// fence inside a block, and both live in the same checkout.
 const examplesDir = resolve(corpusDir, '..', '..', 'resources', 'examples')
 let declared = 0
 for (const page of ['core.md', 'extensions.md', 'edge-cases.md']) {
@@ -122,22 +122,7 @@ for (const page of ['core.md', 'extensions.md', 'edge-cases.md']) {
     console.error(`No corpus source page at ${path}; tests/corpus is generated from these pages, so if the spec moved them this guard has to move with them`)
     process.exit(2)
   }
-  // Mirrors the generator's state machine rather than grepping: a `::: compare`
-  // line inside an already-open block is content, not a second pair, and a
-  // block closes on a bare marker line.
-  let marker = null
-  for (const raw of text.split('\n')) {
-    const line = raw.trim()
-    if (marker !== null) {
-      if (line === marker) marker = null
-      continue
-    }
-    const m = /^(:{3,})\s+compare(\s+\S.*)?$/.exec(line)
-    if (m !== null) {
-      declared++
-      marker = m[1]
-    }
-  }
+  declared += countDeclaredPairs(text.split('\n'))
 }
 if (declared === 0) {
   console.error(`The corpus source pages under ${examplesDir} declare no ::: compare blocks at all; that is a wiring problem, not a corpus of size zero`)
@@ -146,7 +131,7 @@ if (declared === 0) {
 if (pairs.length !== declared) {
   console.error(
     `${pairs.length} corpus pairs found under ${corpusDir}, but the spec's example pages declare ${declared}. ` +
-      'Every ::: compare block in resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, so a ' +
+      'Every carve fence in a ::: compare block in resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, so a ' +
       'difference means the corpus checked out here is not the one those pages describe. It does not mean this run was clean.',
   )
   process.exit(2)
@@ -198,3 +183,32 @@ if (reference) {
   console.log(`reference_threw=${reference.threw}`)
 }
 console.log(`attributable=${attributable.length}`)
+
+// Same census as the spec's scripts/lib/example-pair-census.mjs: one pair per
+// `carve` fence inside a `::: compare` block, and nothing inside a fence is markup.
+function countDeclaredPairs(lines) {
+  let declared = 0
+  let marker = null
+  let fence = null
+  for (const line of lines) {
+    if (fence !== null) {
+      if (line.startsWith(fence) && line.slice(fence.length).trim() === '') fence = null
+      continue
+    }
+    const ticks = /^`{3,}/.exec(line)
+    if (ticks !== null) {
+      fence = ticks[0]
+      if (marker !== null && line.slice(fence.length).trim() === 'carve') declared++
+      continue
+    }
+    const trimmed = line.trim()
+    const colons = /^:{3,}/.exec(trimmed)
+    if (colons === null) continue
+    if (marker === null) {
+      if (/^[ \t]+compare(?:[ \t]|$)/.test(trimmed.slice(colons[0].length))) marker = colons[0]
+    } else if (trimmed === marker) {
+      marker = null
+    }
+  }
+  return declared
+}
