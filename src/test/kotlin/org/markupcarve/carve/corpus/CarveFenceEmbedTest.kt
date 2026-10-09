@@ -142,7 +142,7 @@ class CarveFenceEmbedTest {
 
     @Test
     fun `a language with no grammar registered falls back to a flat body`() {
-        // `haskell` is in no LANGUAGES entry, so only the generic rule can match it.
+        // `haskell` has no TextMate scopes in the table, so only the generic rule can match it.
         val scopes = scopesOf(withStubs, "```haskell\nmain = pure ()\n```\n", "main")
         assertTrue("an unknown language lost its raw body: $scopes", scopes.contains("markup.raw.block.fenced.code.carve"))
         assertFalse("an unknown language took an embedded scope: $scopes", scopes.contains("meta.embedded.block"))
@@ -161,11 +161,15 @@ class CarveFenceEmbedTest {
     @Test
     fun `every generated language rule is reachable`() {
         // A rule whose begin can never match is a rule that cannot be seen to be wrong, and
-        // this family is generated, so a generator bug would produce 38 of them in one go.
+        // this family is generated, so a generator bug would produce one per language in one go.
         // The check drives each language's FIRST info-string word through the grammar and
         // asks for the embedded scope the rule alone can set.
         val generated = CarveFenceLanguages.read()
-        assertEquals("the generated family is not 38 languages", 38, generated.size)
+        assertEquals(
+            "the generated family is not one rule per table language",
+            CarveFenceLanguages.expectedCount(),
+            generated.size,
+        )
         val unreachable =
             generated.mapNotNull { (id, word) ->
                 val scopes = scopesOf(withStubs, "```$word\nbody\n```\n", "body")

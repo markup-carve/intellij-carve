@@ -1,5 +1,8 @@
 package org.markupcarve.carve.corpus
 
+import groovy.json.JsonSlurper
+import java.io.File
+
 /**
  * The generated per-language fence rules, read back off the committed grammar: language id
  * to the first info-string word that reaches it.
@@ -12,7 +15,7 @@ package org.markupcarve.carve.corpus
  */
 object CarveFenceLanguages {
 
-    private val LINE = Regex("""\(\?i:([^)|]+)[^)]*\)\).*meta\.embedded\.block\.([A-Za-z]+)""")
+    private val LINE = Regex("""\(\?i:([^)|]+)[^)]*\)\).*meta\.embedded\.block\.([A-Za-z0-9-]+)""")
 
     /** Language id to its first info-string word, in the grammar's own order. */
     fun read(): List<Pair<String, String>> {
@@ -24,5 +27,16 @@ object CarveFenceLanguages {
             .map { it.groupValues[2] to it.groupValues[1].replace("\\\\", "\\") }
             .distinctBy { it.first }
             .toList()
+    }
+
+    /**
+     * How many rules each family should hold: the languages in the vendored carve-grammars
+     * table that name TextMate scopes, since rows sharing a language become one rule.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun expectedCount(): Int {
+        val table = JsonSlurper().parse(File("tools/fence-languages.json"), "UTF-8") as Map<String, Any?>
+        val rows = table["languages"] as List<Map<String, Any?>>
+        return rows.filter { it["textmate"] != null }.map { it["language"] }.toSet().size
     }
 }

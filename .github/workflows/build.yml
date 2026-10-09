@@ -41,6 +41,10 @@ jobs:
       - name: The vendored block battery still matches carve-grammars
         run: ./tools/check-battery-drift.sh
 
+      # Same shape: the fence-language table the generated fence rules come from.
+      - name: The vendored fence-language table still matches carve-grammars
+        run: ./tools/check-fence-languages-drift.sh
+
       # Same shape, same reason: the two vendored carve-css layers sat at 0.1.0
       # while 0.1.1 was published, and nothing said so (#224). Reaches npm, so
       # it is a step rather than part of `test`.
