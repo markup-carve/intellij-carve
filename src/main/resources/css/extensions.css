@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/extensions.css
- * version 0.1.4, commit 98209de
+ * version 0.1.5, commit 818245f
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -285,6 +285,14 @@
 }
 .carve .code-group-panel[hidden] {
   display: none;
+}
+/* The static panels are <section>s, so core's heading-section gap reached them
+ * and opened a strip between panels (#37). `:where()` keeps this at the
+ * class-only specificity a consumer's own `.carve` rule can still beat. */
+.carve :where(section).tabs-panel,
+.carve :where(section).code-group-panel,
+.carve :where(section).spoiler {
+  margin-block-start: 0;
 }
 /* The static shape's label is a heading inside the panel, not a control. */
 .carve .code-group-panel > .code-group-label {
