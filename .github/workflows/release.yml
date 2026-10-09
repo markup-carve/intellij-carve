@@ -25,28 +25,33 @@ env:
 
 # Every job below carries a timeout-minutes bound, so a hung step fails in
 # minutes instead of running to GitHub's 360-minute default.
+# THE GATES. No `environment:` on either, so neither asks for an approval: they
+# run first, and the `tag` job below needs both. They used to be steps inside
+# the publishing job, which sits AFTER the approval - so the maintainer approved
+# a run that had verified nothing, and the first thing the approval bought was
+# the tag.
 jobs:
-  release:
-    needs: [tag]
+  release-notes:
+    name: A release draft for this tag exists and has notes
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     permissions:
-      # `write`, not `read`, and the gate below is the whole reason: a DRAFT
-      # release is invisible to a caller without push access, so under
-      # `contents: read` the listing comes back empty and the gate reports
-      # "no release" for a draft that is sitting right there with notes in
-      # it. See markup-carve/carve-wasm#80.
+      # `write`, not `read`, and this gate is the whole reason: a DRAFT release
+      # is invisible to a caller without push access, so under `contents: read`
+      # the listing comes back empty and the gate reports "no release" for a
+      # draft that is sitting right there with notes in it.
+      # See markup-carve/carve-wasm#80.
       contents: write
     steps:
-      # GATE: the notes are not the workflow's to write. A CHANGELOG entry is
+      # The notes are not the workflow's to write. A CHANGELOG entry is
       # deliberately one or two lines for a contributor, which makes poor
       # release notes for a reader deciding whether to upgrade. A human writes
-      # the draft first and this refuses to publish without one.
+      # the draft first and this refuses to release without one.
       #
       # Found by listing rather than `gh release view <tag>`: a draft's tag is
       # not a git ref, so addressing one by tag can match nothing, change
       # nothing and still exit 0.
-      - name: A release draft for this tag exists and has notes
+      - name: The draft exists and has notes
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -64,6 +69,59 @@ jobs:
             || { echo "::error::the release for $RELEASE_TAG has no notes"; exit 1; }
           printf '%s' "$release" | jq -r '"draft=\(.draft) tag=\(.tag_name)"'
 
+  guard:
+    name: The tag, the Gradle version and the tests agree
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Cheapest check first, and the expensive one it guards is a Gradle
+      # build: a version that was never bumped is rejected in seconds.
+      - name: The tag and the Gradle version have to agree
+        run: ./scripts/check-release-version.sh "$RELEASE_TAG"
+
+      # Only meaningful on a dispatch that will CREATE the tag. A tag push
+      # arrives with the tag already on the remote, so this would refuse every
+      # run of the legacy path.
+      - name: The tag does not exist yet
+        if: github.event_name == 'workflow_dispatch' && inputs.version != ''
+        run: |
+          if git ls-remote --exit-code --tags origin "refs/tags/$RELEASE_TAG" >/dev/null 2>&1; then
+            echo "::error::$RELEASE_TAG is already on the remote. A published plugin" \
+                 "version cannot be withdrawn from the Marketplace; supersede it" \
+                 "with a new version instead."
+            exit 1
+          fi
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # The same gate build.yml runs. A release is not the place to find out
+      # the plugin does not compile or that a test is red.
+      - name: Build and test
+        run: ./gradlew --no-daemon buildPlugin test
+
+  release:
+    needs: [tag]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      # `write`, not `read`, and the gate below is the whole reason: a DRAFT
+      # release is invisible to a caller without push access, so under
+      # `contents: read` the listing comes back empty and the gate reports
+      # "no release" for a draft that is sitting right there with notes in
+      # it. See markup-carve/carve-wasm#80.
+      contents: write
+    steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -76,9 +134,6 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: The tag and Gradle version have to agree
-        run: ./scripts/check-release-version.sh "$RELEASE_TAG"
 
       - name: Build plugin
         run: ./gradlew --no-daemon buildPlugin
@@ -118,12 +173,18 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/releases/$id" \
             --jq '"draft=\(.draft) tag=\(.tag_name)"'
 
-  # THE TAG IS CREATED HERE, after a human approves, so a release can be started
-  # without a tag existing - which is the whole point: creating the tag by hand
-  # was the maintainer's step.
-  # Nothing in this workflow gates it, because the checks live in the
-  # publishing job as steps - so the approval sits exactly where it sat
-  # before, ahead of them.
+  # THE TAG IS CREATED HERE, after the gates pass and after a human approves, so
+  # a release can be started without a tag existing - which is the whole point:
+  # creating the tag by hand was the maintainer's step.
+  #
+  # `needs:` is what makes the approval mean something. Without it the run
+  # reached this job immediately, the reviewer was asked to approve a run that
+  # had measured nothing, and the checks then ran in the publishing job on the
+  # far side of the tag - where a red one can no longer withhold anything.
+  #
+  # This is also the ONLY job carrying `environment:`. GitHub prompts once per
+  # gated job, so a second one would ask twice for one decision, and the second
+  # prompt would arrive after the tag already existed.
   #
   # A tag push still works unchanged: the step finds the tag already on the
   # remote and creates nothing. The publish runs in THIS run rather than on the
@@ -132,11 +193,17 @@ jobs:
     name: Create the tag
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs: [guard, release-notes]
     environment: release
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
+      # Re-checked under the approval: main can move while a run waits for a
+      # reviewer, and the gate measured the commit that was current then.
+      - name: The tag and the Gradle version still agree
+        run: ./scripts/check-release-version.sh "$RELEASE_TAG"
 
       - name: Create the tag unless it already exists
         run: |
