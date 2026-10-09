@@ -13,9 +13,7 @@
 //
 //  * The three generic rules have this grammar's names, and the two container
 //    variants are separate rules here where upstream keeps both in one.
-//  * Kotlin is included under BOTH `source.kotlin` and `source.Kotlin`: the IDE
-//    bundles a legacy-format Kotlin grammar whose scope carries the capital K,
-//    while upstream's VS Code grammar uses the lowercase one.
+//  * Kotlin is included under BOTH `source.kotlin` and `source.Kotlin` (IDE_SCOPES).
 //  * No `embeddedLanguages` map. That is a VS Code manifest contribution, and
 //    the IDE's TextMate bridge has no equivalent, so comment toggling and
 //    brackets inside a fence stay Carve's.
@@ -29,52 +27,39 @@ import { fileURLToPath } from 'node:url'
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
 const grammarPath = resolve(root, 'src/main/resources/textmate/carve.tmLanguage.json')
 
-// [language id, info-string words, grammar scopes to include]
+// carve-grammars' fence-language table, vendored byte-for-byte and compared with
+// upstream by tools/check-fence-languages-drift.sh.
+const tablePath = resolve(root, 'tools/fence-languages.json')
+
+// What this IDE needs on top of the table, which describes grammar formats and
+// not any one editor.
+const IDE_SCOPES = {
+  // The IDE bundles a legacy-format Kotlin grammar whose scope has a capital K.
+  kotlin: ['source.kotlin', 'source.Kotlin'],
+}
+
+// Table words are literal (`c++`, `c#`). No `\b` after them: the generic rule's
+// own tail up to `$` already ends the word.
+const escapeWord = (word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+// [language id, escaped info-string words, grammar scopes to include]
 //
-// `source.toml` has no bundle in a stock IDE, so a `toml` fence falls back to a
-// flat body. The rule is kept for the IDE that has one installed: an include
-// that resolves to nothing is skipped, which is the same fallback every other
-// language takes.
-export const LANGUAGES = [
-  ['carve', ['carve', 'crv'], ['text.carve']],
-  ['javascript', ['js', 'javascript', 'mjs', 'cjs'], ['source.js']],
-  ['javascriptreact', ['jsx'], ['source.js.jsx']],
-  ['typescript', ['ts', 'typescript', 'mts', 'cts'], ['source.ts']],
-  ['typescriptreact', ['tsx'], ['source.tsx']],
-  ['json', ['json', 'json5'], ['source.json']],
-  ['jsonc', ['jsonc'], ['source.json.comments']],
-  ['yaml', ['yaml', 'yml'], ['source.yaml']],
-  ['toml', ['toml'], ['source.toml']],
-  ['html', ['html', 'htm', 'xhtml'], ['text.html.basic']],
-  ['xml', ['xml', 'svg', 'xsd'], ['text.xml']],
-  ['css', ['css'], ['source.css']],
-  ['scss', ['scss'], ['source.css.scss']],
-  ['less', ['less'], ['source.css.less']],
-  ['php', ['php'], ['text.html.basic', 'source.php']],
-  ['python', ['python', 'py', 'py3'], ['source.python']],
-  ['ruby', ['ruby', 'rb'], ['source.ruby']],
-  ['rust', ['rust', 'rs'], ['source.rust']],
-  ['go', ['go', 'golang'], ['source.go']],
-  ['java', ['java'], ['source.java']],
-  ['kotlin', ['kotlin', 'kt', 'kts'], ['source.kotlin', 'source.Kotlin']],
-  ['swift', ['swift'], ['source.swift']],
-  ['dart', ['dart'], ['source.dart']],
-  ['c', ['c', 'h'], ['source.c']],
-  ['cpp', ['cpp', 'c\\+\\+', 'cxx', 'cc', 'hpp'], ['source.cpp']],
-  ['csharp', ['cs', 'csharp', 'c#'], ['source.cs']],
-  ['shellscript', ['sh', 'bash', 'shell', 'zsh'], ['source.shell']],
-  ['powershell', ['powershell', 'ps1', 'pwsh'], ['source.powershell']],
-  ['bat', ['bat', 'batch', 'cmd'], ['source.batchfile']],
-  ['sql', ['sql'], ['source.sql']],
-  ['lua', ['lua'], ['source.lua']],
-  ['perl', ['perl', 'pl'], ['source.perl']],
-  ['r', ['r'], ['source.r']],
-  ['markdown', ['markdown', 'md'], ['text.html.markdown']],
-  ['diff', ['diff', 'patch'], ['source.diff']],
-  ['dockerfile', ['dockerfile', 'docker'], ['source.dockerfile']],
-  ['makefile', ['makefile', 'make'], ['source.makefile']],
-  ['ini', ['ini', 'cfg'], ['source.ini']],
-]
+// Rows without TextMate scopes are skipped, and rows sharing a language become
+// one rule. A scope the IDE lacks (`source.toml` in a stock IDE) resolves to
+// nothing, so that fence body stays flat but marked.
+export function languages(table = JSON.parse(readFileSync(tablePath, 'utf8'))) {
+  const byId = new Map()
+  for (const { words, language, textmate } of table.languages) {
+    if (!textmate) continue
+    const seen = byId.get(language)
+    if (seen && seen[2].join(' ') !== textmate.join(' ')) {
+      throw new Error(`${language}: two rows name different TextMate scopes`)
+    }
+    if (seen) seen[1].push(...words.map(escapeWord))
+    else byId.set(language, [language, words.map(escapeWord), textmate])
+  }
+  return [...byId.values()].map(([id, words, scopes]) => [id, words, IDE_SCOPES[id] ?? scopes])
+}
 
 // The optional info-string capture, in the two spellings the generic rules use:
 // the marker-line rule escapes the quote inside the character class, the other
@@ -135,11 +120,11 @@ function languageRule(generic, [id, words, scopes], whileGuard) {
   }
 }
 
-export function generate(grammar) {
+export function generate(grammar, langs = languages()) {
   const entries = {}
   for (const [key, source, whileGuard] of VARIANTS) {
     const generic = grammar.repository[source].patterns.filter((rule) => rule.begin)[0]
-    entries[key] = { patterns: LANGUAGES.map((language) => languageRule(generic, language, whileGuard)) }
+    entries[key] = { patterns: langs.map((language) => languageRule(generic, language, whileGuard)) }
   }
   return entries
 }

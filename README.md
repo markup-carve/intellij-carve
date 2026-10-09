@@ -52,10 +52,13 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 
 ![A .crv file with full Carve syntax highlighting](docs/screenshots/highlighting.png)
 
-A fenced code body is highlighted in the language its info string names - around 38
-of them, from `js` and `python` to `diff` and `dockerfile`, plus `carve` for Carve
-inside Carve. The language grammars come from the IDE's own TextMate bundles, so a
-language the IDE ships no bundle for (`toml` today) keeps a plain body instead. A
+A fenced code body is highlighted in the language its info string names - 65 of
+them, from `js` and `python` to `latex` and `dockerfile`, plus `carve` for Carve
+inside Carve. The list is carve-grammars' shared
+[fence-language table](https://github.com/markup-carve/carve-grammars/tree/main/fence-languages),
+the same one the other Carve editor grammars use. The language grammars come from
+the IDE's own TextMate bundles, so a language the IDE ships no bundle for (`toml`,
+`graphql` or `vue` in a stock IDE) keeps a plain body instead. A
 fence inside a block quote also stays plain: its body lines carry the `> ` prefix.
 
 One limit is worth knowing: inside a fence wider than three characters, a bare

@@ -11,9 +11,10 @@ import java.io.File
  * The generated per-language fence rules are copies of a hand-written generic fence rule
  * (markup-carve/intellij-carve#207).
  *
- * `tools/generate-fence-languages.mjs` writes 114 rules from three hand-written ones, so a
- * hand edit to a generic rule - a new fence width, another title spelling, a different
- * closer - leaves 38 stale copies behind it that still match first. The generator's own
+ * `tools/generate-fence-languages.mjs` writes three rules per language in carve-grammars'
+ * fence-language table from three hand-written ones, so a hand edit to a generic rule - a
+ * new fence width, another title spelling, a different closer - leaves a stale copy per
+ * language behind it that still matches first. The generator's own
  * `--check` mode says that too, but it needs node and CI runs `gradlew test`, so the
  * invariant is asserted here against the committed grammar instead: every generated rule
  * must BE its generic rule, with the language capture narrowed and an embedded body added.
@@ -142,7 +143,12 @@ class CarveFenceLanguageGenerationTest {
         val ids = variants.keys.map { generated ->
             rules(generated).map { JsonOutput.toJson(it).substringAfter("meta.embedded.block.").substringBefore('"') }
         }
-        assertEquals("the families are not all 38 languages", listOf(38, 38, 38), ids.map { it.size })
+        val expected = CarveFenceLanguages.expectedCount()
+        assertEquals(
+            "the families are not one rule per table language",
+            listOf(expected, expected, expected),
+            ids.map { it.size },
+        )
         assertEquals("the families cover different languages", ids[0], ids[1])
         assertEquals("the families cover different languages", ids[0], ids[2])
         assertEquals("a language is generated twice", ids[0].size, ids[0].toSet().size)

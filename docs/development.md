@@ -38,6 +38,8 @@ tools/build-lsp-bundle.sh     # regenerates lsp/server.js
 tools/build-engine-bundles.sh # regenerates BOTH, from one carve-js revision
 tools/vendor-preview-assets.sh # regenerates resources/preview-assets
 tools/check-carve-css-drift.sh # the vendored carve-css layers are the newest release
+tools/generate-fence-languages.mjs # regenerates the per-language fence rules from tools/fence-languages.json
+tools/check-fence-languages-drift.sh # the vendored fence-language table matches carve-grammars
 tools/preview-offline-probe.mjs # browser check: the preview renders with no network
 tools/preview-css-probe.mjs   # browser check: the stylesheet rules reach what they claim
 ```

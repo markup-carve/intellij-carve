@@ -608,7 +608,7 @@ tasks {
     // where it is REPORTED; the declarations check beside it is GATED.
     // The per-language fence rules are GENERATED from the three hand-written generic
     // fence rules by tools/generate-fence-languages.mjs, so a hand edit to one of those
-    // leaves 38 stale copies that still match first. This runs the generator's own check.
+    // leaves a stale copy per language that still matches first. This runs the generator's own check.
     //
     // Not a CI gate: CI runs `gradlew test`, and node is not on that image. The invariant
     // is asserted there instead by CarveFenceLanguageGenerationTest, which reads the

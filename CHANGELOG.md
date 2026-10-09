@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **More fenced code languages highlight in their own language**: 65 instead of 38, among them F#, Objective-C, CUDA, Julia, Clojure, Groovy, LaTeX, reStructuredText, Handlebars and Pug, plus the `node` and `dosbatch` info-string spellings. The list now comes from carve-grammars' shared fence-language table, so every Carve editor grammar embeds the same languages. A language the IDE ships no bundle for still keeps a plain body.
+
 ### Fixed
 
 - Quote previews and HTML exports preserve paragraph spacing and left-align attributed quotes.
