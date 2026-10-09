@@ -7,10 +7,10 @@
 # package: @markup-carve/carve-css on npm
 # Lines are `key value` or `sha256 <digest> <bytes> <file>`.
 
-version 0.1.4
-commit 98209de
+version 0.1.5
+commit 818245f
 
-sha256 234244950b4252487a0da999362a4e7bfa55f8c78792b6d3f83ac3c8d7c367a7 5792 tokens.css
-sha256 58f9ee849d77aca4e95977a00700be618c712da4d7e658adf264dcb470a17fde 15626 recipes.css
-sha256 ace593d196b26586cef35d9e7f38f8a9d0fc2155c770eba06ccaca88cf5115bd 3875 contrast.css
-sha256 b6516236867a487962f22582671894798a38a736c43588fe77df6c1accc479e6 22522 extensions.css
+sha256 731d53cfb84194de077ac23543791bf5db148de1511e6c7178b882be4cf2c6ad 5792 tokens.css
+sha256 1bbba31c27a71af43955c4e87baffafef176232615c8ad5248573d3dea0572c5 15626 recipes.css
+sha256 a22b1f102c87a581f08b890adb50a23aa38ae8bc2ec50dca5dc22aa0c80aa4cd 3875 contrast.css
+sha256 bcb47dd3835ff8709f140e4a8fb5f1a39f6e27e3d15e6f35fb364cd15763aad4 22887 extensions.css
