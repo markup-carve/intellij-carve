@@ -28,6 +28,11 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   - **Reformat Code** (document formatting)
   - **Semantic highlighting** (semantic tokens)
   - **Code lenses** - footnote reference counts
+  - **Tab / Shift+Tab on list items** nest and un-nest the item through the
+    server's `carve.listIndent` command, as one undo step. Elsewhere, and with a
+    bundled carve-lsp that does not offer the command yet (a carve-lsp release
+    with `carve.listIndent` is still to come), the keys keep their default
+    indent and unindent.
 - **Live preview** panel (split editor view)
 - **IDE theme sync** - preview follows dark/light mode
 - **Code highlighting** in preview code blocks (highlight.js), with a copy button on each
