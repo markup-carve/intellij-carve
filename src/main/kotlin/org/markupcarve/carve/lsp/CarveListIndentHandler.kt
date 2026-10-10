@@ -8,7 +8,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Caret
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler
@@ -16,25 +16,21 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDocumentManager
-import com.redhat.devtools.lsp4ij.LanguageServerItem
-import com.redhat.devtools.lsp4ij.LanguageServerManager
-import com.redhat.devtools.lsp4ij.ServerStatus
-import com.redhat.devtools.lsp4ij.client.features.FileUriSupport
-import org.eclipse.lsp4j.ExecuteCommandParams
+import org.jetbrains.annotations.TestOnly
 import org.markupcarve.carve.CarveFileType
 import org.markupcarve.carve.lists.CarveListIndent
 import org.markupcarve.carve.lists.CarveListIndent.Direction
 import org.markupcarve.carve.lists.CarveListIndent.Outcome
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 /**
  * Tab / Shift+Tab on Carve list items, through carve-lsp's `carve.listIndent`.
  *
- * Registered only in carve-lsp.xml, which loads only with LSP4IJ, so this class
- * may name LSP4IJ and lsp4j types. Every case the server cannot answer goes to
- * the wrapped handler synchronously; only a press on list lines with a running
- * server that advertises the command waits for the server, off the EDT.
+ * Registered only in carve-lsp.xml, which loads only with LSP4IJ. Every case the
+ * server cannot answer goes to the wrapped handler synchronously; only a press on
+ * list lines with a running server that advertises the command waits for the
+ * server, off the EDT. Each fallback is logged at debug level, and at info level
+ * with `-Dcarve.listIndent.debug=true`.
  */
 abstract class CarveListIndentHandler(
     private val original: EditorActionHandler,
@@ -48,24 +44,44 @@ abstract class CarveListIndentHandler(
         original.isEnabled(editor, caret, dataContext)
 
     override fun doExecute(editor: Editor, caret: Caret?, dataContext: DataContext?) {
+        // A key press arrives with the current caret from the data context, never null. An
+        // outer for-each-caret handler calls once per caret; the first call decides for all.
+        val carets = editor.caretModel.allCarets
+        if (caret != null && carets.size > 1) {
+            val batch = editor.getUserData(BATCH)
+            if (batch != null && batch.rest.remove(caret)) {
+                if (batch.rest.isEmpty()) editor.putUserData(BATCH, null)
+                if (!batch.handled) original.execute(editor, caret, dataContext)
+                return
+            }
+            val handled = handlePress(editor)
+            editor.putUserData(BATCH, Batch(carets.filter { it != caret }.toMutableSet(), handled))
+            if (!handled) original.execute(editor, caret, dataContext)
+            return
+        }
+        if (!handlePress(editor)) original.execute(editor, caret, dataContext)
+    }
+
+    private class Batch(val rest: MutableSet<Caret>, val handled: Boolean)
+
+    /** Whether this press is the handler's (queued or sent); false leaves it to the default key. */
+    private fun handlePress(editor: Editor): Boolean {
         // A press while an answer is pending waits its turn, so held or fast Tabs all land.
         val pending = editor.getUserData(PENDING)
-        if (caret == null && pending != null) {
+        if (pending != null) {
+            log("queued behind a pending answer")
             pending.add { press(editor) }
-            return
+            return true
         }
-        val request = if (caret == null) prepare(editor) else null
-        if (request == null) {
-            original.execute(editor, caret, dataContext)
-            return
-        }
+        val request = prepare(editor) ?: return false
         editor.putUserData(PENDING, ArrayDeque())
-        try {
+        return try {
             send(request)
+            true
         } catch (e: RuntimeException) {
-            thisLogger().warn("carve.listIndent could not be sent", e)
+            LOG.warn("carve.listIndent could not be sent", e)
             editor.putUserData(PENDING, null)
-            original.execute(editor, null, dataContext)
+            false
         }
     }
 
@@ -101,7 +117,6 @@ abstract class CarveListIndentHandler(
     private class Request(
         val editor: Editor,
         val file: VirtualFile,
-        val server: CompletableFuture<LanguageServerItem?>,
         val lines: List<Int>,
         val stamp: Long,
         val carets: List<CarveListIndent.Selection>,
@@ -109,53 +124,41 @@ abstract class CarveListIndentHandler(
 
     /** The request this press makes, or null when the key keeps its default. */
     private fun prepare(editor: Editor): Request? {
-        val project = editor.project ?: return null
-        if (editor.isViewer || !editor.document.isWritable) return null
-        val file = FileDocumentManager.getInstance().getFile(editor.document) ?: return null
-        if (!isCarve(file)) return null
-        if (LookupManager.getActiveLookup(editor) != null) return null
-        if (TemplateManager.getInstance(project).getActiveTemplate(editor) != null) return null
+        val project = editor.project ?: return fallback("editor has no project")
+        if (editor.isViewer || !editor.document.isWritable) return fallback("editor is read-only")
+        val file = FileDocumentManager.getInstance().getFile(editor.document)
+            ?: return fallback("editor has no file")
+        if (!isCarve(file)) return fallback("not a Carve file: ${file.name}")
+        if (LookupManager.getActiveLookup(editor) != null) return fallback("completion popup is open")
+        if (TemplateManager.getInstance(project).getActiveTemplate(editor) != null) {
+            return fallback("live template is active")
+        }
 
         val carets = selections(editor)
         val lines = CarveListIndent.selectedListLines(editor.document.text, carets)
-        if (lines.isEmpty()) return null
+        if (lines.isEmpty()) return fallback("a caret is not on a list line (carets: $carets)")
 
-        val manager = LanguageServerManager.getInstance(project)
-        if (manager.getServerStatus(SERVER_ID) != ServerStatus.started) return null
-        val server = manager.getLanguageServer(SERVER_ID)
-        // A started server usually resolves at once; decide the common fallbacks before going async.
-        if (server.isDone && !server.isCompletedExceptionally && !canAnswer(server.getNow(null))) return null
+        backend().unavailableReason(project)?.let { return fallback(it) }
 
-        // LSP4IJ holds didChange until the document is committed; commit so the server sees this text.
+        // LSP4IJ holds didChange until the document is committed; commit so it can go out.
         PsiDocumentManager.getInstance(project).commitDocument(editor.document)
-        return Request(editor, file, server, lines, editor.document.modificationStamp, carets)
+        log("requesting ${CarveListIndent.COMMAND} ${direction.wire} for lines $lines")
+        return Request(editor, file, lines, editor.document.modificationStamp, carets)
     }
 
     private fun send(request: Request) {
+        val project = request.editor.project ?: return
         val modality = ModalityState.stateForComponent(request.editor.component)
-        val answers = request.server.thenCompose { item ->
-            // The same URI LSP4IJ sent in didOpen for this file.
-            val uri = item?.let { FileUriSupport.toString(request.file, it.clientFeatures) }
-            if (item == null || uri == null || !canAnswer(item)) {
-                return@thenCompose CompletableFuture.completedFuture(emptyList<List<CarveListIndent.TextEdit>>())
-            }
-            flushPendingChanges(item, request.file).thenCompose { item.initializedServer }.thenCompose { server ->
-                val perLine = request.lines.map { line ->
-                    val params = ExecuteCommandParams(
-                        CarveListIndent.COMMAND,
-                        listOf(CarveListIndent.arguments(uri, line, direction)),
-                    )
-                    server.workspaceService.executeCommand(params)
-                        .thenApply { CarveListIndent.parseEdits(it, uri) }
+        backend().request(project, request.file, request.lines, direction)
+            .orTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .whenComplete { answer, error ->
+                when {
+                    error != null -> fallbackReason("request failed or timed out: $error")
+                    answer.skipped != null -> fallbackReason(answer.skipped)
                 }
-                CompletableFuture.allOf(*perLine.toTypedArray()).thenApply { perLine.map { it.join() } }
+                val edits = CarveListIndent.mergeEdits(answer?.edits.orEmpty())
+                ApplicationManager.getApplication().invokeLater({ finish(request, edits) }, modality)
             }
-        }
-        answers.orTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS).whenComplete { result, error ->
-            if (error != null) thisLogger().warn("carve.listIndent failed", error)
-            val edits = CarveListIndent.mergeEdits(result.orEmpty())
-            ApplicationManager.getApplication().invokeLater({ finish(request, edits) }, modality)
-        }
     }
 
     private fun finish(request: Request, edits: List<CarveListIndent.TextEdit>) {
@@ -172,14 +175,17 @@ abstract class CarveListIndentHandler(
         val project = editor.project ?: return
         val stale = editor.document.modificationStamp != request.stamp || selections(editor) != request.carets
         when (CarveListIndent.outcome(edits, stale)) {
-            Outcome.NOTHING -> Unit
-            Outcome.DEFAULT_KEY -> CommandProcessor.getInstance().executeCommand(
-                project,
-                { original.execute(editor, null, DataManager.getInstance().getDataContext(editor.contentComponent)) },
-                commandName(),
-                null,
-                editor.document,
-            )
+            Outcome.NOTHING -> fallbackReason("answer is stale: the document or carets changed meanwhile")
+            Outcome.DEFAULT_KEY -> {
+                fallbackReason("server answered with no edit for lines ${request.lines}")
+                CommandProcessor.getInstance().executeCommand(
+                    project,
+                    { original.execute(editor, null, DataManager.getInstance().getDataContext(editor.contentComponent)) },
+                    commandName(),
+                    null,
+                    editor.document,
+                )
+            }
             Outcome.APPLY -> {
                 val document = editor.document
                 val ranges = CarveListIndent.toOffsets(
@@ -188,7 +194,8 @@ abstract class CarveListIndentHandler(
                     document::getLineEndOffset,
                     document.lineCount,
                     document.textLength,
-                ) ?: return
+                ) ?: return fallbackReason("answer has an invalid range: $edits")
+                log("applying ${ranges.size} edit(s)")
                 WriteCommandAction.writeCommandAction(project).withName(commandName()).run<RuntimeException> {
                     for ((start, end, text) in ranges) document.replaceString(start, end, text)
                 }
@@ -199,30 +206,32 @@ abstract class CarveListIndentHandler(
     private fun commandName(): String =
         if (direction == Direction.INDENT) "Indent List Item" else "Outdent List Item"
 
+    private fun fallback(reason: String): Request? {
+        fallbackReason(reason)
+        return null
+    }
+
+    private fun fallbackReason(reason: String) = log("default ${direction.wire} key: $reason")
+
     companion object {
-        private const val SERVER_ID = "carveLanguageServer"
+        private val LOG = Logger.getInstance(CarveListIndentHandler::class.java)
         private const val TIMEOUT_SECONDS = 2L
         private val PENDING = Key.create<ArrayDeque<() -> Unit>>("carve.listIndent.pending")
+        private val BATCH = Key.create<Batch>("carve.listIndent.batch")
 
-        /**
-         * Sends the didChange LSP4IJ still holds for [file], as its own on-type formatting does
-         * before a request; otherwise the command can overtake it and answer for older text.
-         * The opened-document API is LSP4IJ-internal, so a release that moves it degrades to
-         * the commit in [prepare] instead of failing the key.
-         */
-        private fun flushPendingChanges(item: LanguageServerItem, file: VirtualFile): CompletableFuture<*> =
-            try {
-                val uri = FileUriSupport.getFileUri(file, item.clientFeatures)
-                item.serverWrapper.getOpenedDocument(uri)?.synchronizer?.flushPendingChanges()
-                    ?: CompletableFuture.completedFuture(null)
-            } catch (e: LinkageError) {
-                thisLogger().debug("LSP4IJ offers no pending-change flush", e)
-                CompletableFuture.completedFuture(null)
-            }
+        @Volatile
+        private var backendOverride: CarveListIndentBackend? = null
 
-        /** The server advertises the command. */
-        private fun canAnswer(item: LanguageServerItem?): Boolean =
-            item != null && CarveListIndent.serverHasCommand(item.serverCapabilities?.executeCommandProvider?.commands)
+        private fun backend(): CarveListIndentBackend = backendOverride ?: Lsp4ijListIndentBackend
+
+        @TestOnly
+        fun useBackendForTests(backend: CarveListIndentBackend?) {
+            backendOverride = backend
+        }
+
+        private fun log(message: String) {
+            if (java.lang.Boolean.getBoolean("carve.listIndent.debug")) LOG.info(message) else LOG.debug(message)
+        }
 
         private fun isCarve(file: VirtualFile): Boolean =
             file.fileType == CarveFileType || CarveFileType.matches(file.extension)

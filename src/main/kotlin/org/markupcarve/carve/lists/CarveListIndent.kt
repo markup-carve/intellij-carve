@@ -32,9 +32,13 @@ object CarveListIndent {
         """(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]{2,}[.)]|[IVXLCDM]{2,}[.)]|\.)"""
     private const val TASK = """\[[ xX_>?-]\]"""
 
-    // A marker followed by a space or the end of the line, so `-a` and `1.5` stay text.
-    // `+` is the continuation marker, not a bullet.
-    private val LIST_ITEM = Regex("""^[ \t]*(?:>[ \t]*)*$MARKER(?: |$)""")
+    // A marker followed by a space, a tab or the end of the line, so `-a` and `1.5` stay
+    // text, while a bare marker right after Enter (`- `, `3. `) counts: the server reads it
+    // as the item it becomes. Container leads (quotes, a footnote label, a description
+    // colon) may precede it. `+` is the continuation marker, not a bullet.
+    private val LIST_ITEM = Regex(
+        """^(?:[ \t]*>[ \t]?)*(?:[ \t]*\[\^[^\]]*\]:[ \t]+|[ \t]*:[ \t]+)?[ \t]*$MARKER(?:[ \t]|$)""",
+    )
     private val THEMATIC_BREAK = Regex("""^[ \t]*(?:>[ \t]*)*([-*_])(?:[ \t]*\1){2,}[ \t]*$""")
 
     // An opener may sit on a list or description marker line, a closer may not.

@@ -30,8 +30,24 @@ class CarveListIndentTest {
     }
 
     @Test
+    fun `a bare marker right after Enter is a list line`() {
+        for (line in listOf("- ", "* ", "3. ", "3) ", "b. ", "iv. ", "IV) ", ". ", "-", "3.", "- [ ] ", "- [>] ", "-\t", "  - ", "> - ", "> > 2. ")) {
+            assertTrue(line, CarveListIndent.isListItemLine(line))
+        }
+        assertEquals(listOf(2), CarveListIndent.selectedListLines("1. a\n2. b\n3. ", listOf(caret(2, 3))))
+        assertEquals(listOf(1), CarveListIndent.selectedListLines("- a\n- ", listOf(caret(1, 2))))
+    }
+
+    @Test
+    fun `container leads may precede the marker`() {
+        for (line in listOf("[^a]: - a", "[^note]: 1. a", ": - a", "  : - b", ">- a")) {
+            assertTrue(line, CarveListIndent.isListItemLine(line))
+        }
+    }
+
+    @Test
     fun `leaves text, continuations and thematic breaks alone`() {
-        for (line in listOf("-a", "1.5 apples", "+ continued", "---", "* * *", "- - -", "plain text", "")) {
+        for (line in listOf("-a", "1.5 apples", "+ continued", "---", "* * *", "- - -", "plain text", "", "  ", ": term text", "[^a]: text")) {
             assertFalse(line, CarveListIndent.isListItemLine(line))
         }
     }
