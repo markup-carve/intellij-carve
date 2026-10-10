@@ -162,19 +162,27 @@ abstract class CarveListIndentHandler(
     }
 
     private fun finish(request: Request, edits: List<CarveListIndent.TextEdit>) {
+        var outcome: Outcome? = null
         try {
-            apply(request, edits)
+            outcome = apply(request, edits)
         } finally {
-            drain(request.editor)
+            // Presses queued behind a stale answer were made for a state that is gone too.
+            if (outcome == Outcome.NOTHING) {
+                request.editor.getUserData(PENDING)?.let { if (it.isNotEmpty()) log("dropping ${it.size} queued press(es)") }
+                request.editor.putUserData(PENDING, null)
+            } else {
+                drain(request.editor)
+            }
         }
     }
 
-    private fun apply(request: Request, edits: List<CarveListIndent.TextEdit>) {
+    private fun apply(request: Request, edits: List<CarveListIndent.TextEdit>): Outcome {
         val editor = request.editor
-        if (editor.isDisposed) return
-        val project = editor.project ?: return
+        if (editor.isDisposed) return Outcome.NOTHING
+        val project = editor.project ?: return Outcome.NOTHING
         val stale = editor.document.modificationStamp != request.stamp || selections(editor) != request.carets
-        when (CarveListIndent.outcome(edits, stale)) {
+        val outcome = CarveListIndent.outcome(edits, stale)
+        when (outcome) {
             Outcome.NOTHING -> fallbackReason("answer is stale: the document or carets changed meanwhile")
             Outcome.DEFAULT_KEY -> {
                 fallbackReason("server answered with no edit for lines ${request.lines}")
@@ -194,13 +202,17 @@ abstract class CarveListIndentHandler(
                     document::getLineEndOffset,
                     document.lineCount,
                     document.textLength,
-                ) ?: return fallbackReason("answer has an invalid range: $edits")
+                ) ?: run {
+                    fallbackReason("answer has an invalid range: $edits")
+                    return Outcome.NOTHING
+                }
                 log("applying ${ranges.size} edit(s)")
                 WriteCommandAction.writeCommandAction(project).withName(commandName()).run<RuntimeException> {
                     for ((start, end, text) in ranges) document.replaceString(start, end, text)
                 }
             }
         }
+        return outcome
     }
 
     private fun commandName(): String =

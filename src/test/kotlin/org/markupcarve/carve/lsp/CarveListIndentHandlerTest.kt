@@ -20,6 +20,7 @@ class CarveListIndentHandlerTest : BasePlatformTestCase() {
     private class FakeBackend(
         var unavailable: String? = null,
         var answer: (List<Int>) -> List<List<TextEdit>> = { emptyList() },
+        var held: CompletableFuture<CarveListIndentBackend.Answer>? = null,
     ) : CarveListIndentBackend {
         val requests = mutableListOf<Pair<List<Int>, Direction>>()
 
@@ -32,6 +33,7 @@ class CarveListIndentHandlerTest : BasePlatformTestCase() {
             direction: Direction,
         ): CompletableFuture<CarveListIndentBackend.Answer> {
             requests += lines to direction
+            held?.let { return it }
             return CompletableFuture.completedFuture(CarveListIndentBackend.Answer(answer(lines)))
         }
     }
@@ -110,6 +112,33 @@ class CarveListIndentHandlerTest : BasePlatformTestCase() {
         press(IdeActions.ACTION_EDITOR_TAB)
         assertEquals(listOf(listOf(1, 2) to Direction.INDENT), backend.requests)
         assertEquals("- a\n  - b\n  - c", myFixture.editor.document.text)
+    }
+
+    fun `test presses queued behind a stale answer are dropped`() {
+        val held = CompletableFuture<CarveListIndentBackend.Answer>()
+        backend.held = held
+        myFixture.configureByText("x.crv", "- a\n- b<caret>\nplain")
+        press(IdeActions.ACTION_EDITOR_TAB)
+        press(IdeActions.ACTION_EDITOR_TAB)
+        myFixture.editor.caretModel.moveToOffset(myFixture.editor.document.textLength)
+        held.complete(CarveListIndentBackend.Answer(listOf(listOf(insert(1, "  ")))))
+        PlatformTestUtil.dispatchAllInvocationEventsInIdeEventQueue()
+        assertEquals(1, backend.requests.size)
+        assertEquals("- a\n- b\nplain", myFixture.editor.document.text)
+    }
+
+    fun `test a press queued behind an applied answer is replayed`() {
+        val held = CompletableFuture<CarveListIndentBackend.Answer>()
+        backend.held = held
+        myFixture.configureByText("x.crv", "- a\n- b\n- c<caret>")
+        press(IdeActions.ACTION_EDITOR_TAB)
+        press(IdeActions.ACTION_EDITOR_TAB)
+        backend.held = null
+        backend.answer = { lines -> lines.map { listOf(insert(it, "  ")) } }
+        held.complete(CarveListIndentBackend.Answer(listOf(listOf(insert(2, "  ")))))
+        PlatformTestUtil.dispatchAllInvocationEventsInIdeEventQueue()
+        assertEquals(2, backend.requests.size)
+        assertEquals("- a\n- b\n    - c", myFixture.editor.document.text)
     }
 
     fun `test a non-Carve file is left to the default Tab`() {
