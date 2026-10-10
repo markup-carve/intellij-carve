@@ -3,13 +3,18 @@ package org.markupcarve.carve.preview
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.colors.EditorColorsListener
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.openapi.ide.CopyPasteManager
+import com.intellij.openapi.editor.event.CaretEvent
+import com.intellij.openapi.editor.event.CaretListener
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.editor.event.VisibleAreaListener
+import com.intellij.openapi.editor.ex.EditorEx
+import com.intellij.openapi.editor.ex.FocusChangeListener
 import com.intellij.ide.impl.isTrusted
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.BaseProjectDirectories
@@ -34,6 +39,8 @@ import java.awt.Point
 import java.awt.datatransfer.StringSelection
 import java.io.File
 import java.nio.file.Path
+import java.util.Collections
+import java.util.WeakHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -148,6 +155,27 @@ class CarvePreviewPanel(
         scrollPreviewToLine(topVisibleLine(editor))
     }
 
+    /** Line (0-based) whose bare list marker is holding back a render, or -1. */
+    private var heldLine = -1
+
+    /** Editors already carrying [focusListener]; weak so a closed editor is not kept alive. */
+    private val focusWiredEditors: MutableSet<Editor> = Collections.newSetFromMap(WeakHashMap())
+
+    /** Leaving the held line, or giving it content, releases the hold. */
+    private val caretListener = object : CaretListener {
+        override fun caretPositionChanged(event: CaretEvent) {
+            if (event.editor.document != document) return
+            releaseHeldRender(event.editor.caretModel.logicalPosition.line)
+        }
+    }
+
+    /** Focus moving elsewhere (another file, the preview itself) releases the hold. */
+    private val focusListener = object : FocusChangeListener {
+        override fun focusLost(editor: Editor) {
+            if (heldLine >= 0) releaseHeldRender(-1)
+        }
+    }
+
     /** Editor's top visible line, 1-based to match `data-source-line`. */
     private fun topVisibleLine(editor: com.intellij.openapi.editor.Editor): Int =
         editor.xyToLogicalPosition(Point(0, editor.scrollingModel.visibleArea.y)).line + 1
@@ -176,7 +204,7 @@ class CarvePreviewPanel(
 
         updateTimer = Timer(300) {
             if (updatePending.getAndSet(false)) {
-                updatePreview()
+                updatePreviewUnlessHeld()
             }
         }
         updateTimer.isRepeats = false
@@ -192,6 +220,8 @@ class CarvePreviewPanel(
 
         EditorFactory.getInstance().eventMulticaster
             .addVisibleAreaListener(visibleAreaListener, this)
+        EditorFactory.getInstance().eventMulticaster
+            .addCaretListener(caretListener, this)
 
         loadPreviewShell()
     }
@@ -429,7 +459,52 @@ class CarvePreviewPanel(
      */
     private fun carveCss(): String = cachedCarveCss
 
+    /**
+     * The debounced render, skipped while the focused editor's caret sits on a
+     * bare list marker (see [CarvePreviewHold]). Display only: the last render
+     * stays up until the caret leaves the line, the line gains content, or the
+     * editor loses focus.
+     */
+    private fun updatePreviewUnlessHeld() {
+        val editor = focusedEditor()
+        if (editor != null && initialized) {
+            val line = editor.caretModel.logicalPosition.line
+            val text = ReadAction.compute<String, RuntimeException> { editor.document.text }
+            if (CarvePreviewHold.shouldHoldRender(text, line)) {
+                heldLine = line
+                watchFocus(editor)
+                return
+            }
+        }
+        updatePreview()
+    }
+
+    /** Renders a held preview unless the caret is still on the held bare-marker line. */
+    private fun releaseHeldRender(caretLine: Int) {
+        if (heldLine < 0) return
+        if (caretLine == heldLine) {
+            val text = document?.let { doc -> ReadAction.compute<String, RuntimeException> { doc.text } }
+            if (text != null && CarvePreviewHold.shouldHoldRender(text, caretLine)) return
+        }
+        // A pending debounce renders with the same rules; let it.
+        if (updatePending.get()) return
+        updatePreview()
+    }
+
+    /** The editor of this document that has keyboard focus, if any. */
+    private fun focusedEditor(): Editor? {
+        val doc = document ?: return null
+        return EditorFactory.getInstance().getEditors(doc, project)
+            .firstOrNull { it.contentComponent.isFocusOwner }
+    }
+
+    private fun watchFocus(editor: Editor) {
+        if (editor !is EditorEx || !focusWiredEditors.add(editor)) return
+        editor.addFocusListener(focusListener, this)
+    }
+
     private fun updatePreview() {
+        heldLine = -1
         if (!initialized) {
             loadPreviewShell()
             return

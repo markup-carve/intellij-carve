@@ -94,7 +94,7 @@ The block itself still runs to its own closer - only the coloring stops early.
 ## Usage
 
 1. Open any `.crv` file - the editor opens in split view (source + preview).
-2. The preview updates live as you type.
+2. The preview updates live as you type. While the caret sits on a line holding only a list marker (`- `, `1. `, `- [ ] `), it keeps the last render, so a new item does not flash folded into the one above. It catches up once the line gets content, the caret leaves it, or the editor loses focus.
 3. Right-click for **Export to HTML**.
 4. Press `Ctrl+Shift+D` to toggle the Carve preview tool window.
 
