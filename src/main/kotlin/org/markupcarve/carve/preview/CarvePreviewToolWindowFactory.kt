@@ -57,9 +57,10 @@ class CarvePreviewToolWindowFactory : ToolWindowFactory, DumbAware {
         val contentManager = toolWindow.contentManager
         contentManager.removeAllContents(true)
         val previewPanel = CarvePreviewPanel(project, file)
-        contentManager.addContent(
-            ContentFactory.getInstance().createContent(previewPanel.component, file.name, false),
-        )
+        val content = ContentFactory.getInstance().createContent(previewPanel.component, file.name, false)
+        // Removing the content (the next updatePreview, or the tool window closing) disposes the panel.
+        content.setDisposer(previewPanel)
+        contentManager.addContent(content)
     }
 
     override fun shouldBeAvailable(project: Project): Boolean = true

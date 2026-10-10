@@ -8,6 +8,7 @@ import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileEditor.impl.text.TextEditorProvider
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFile
@@ -44,6 +45,11 @@ class CarvePreviewFileEditor(
     private val previewPanel = CarvePreviewPanel(project, file)
     private val userData = UserDataHolderBase()
 
+    init {
+        // The panel parents its own listeners, so it lives in the Disposer tree and must leave it through Disposer.
+        Disposer.register(this, previewPanel)
+    }
+
     override fun getComponent(): JComponent = previewPanel.component
 
     override fun getPreferredFocusedComponent(): JComponent = previewPanel.component
@@ -61,7 +67,7 @@ class CarvePreviewFileEditor(
     override fun removePropertyChangeListener(listener: PropertyChangeListener) {}
 
     override fun dispose() {
-        previewPanel.dispose()
+        Disposer.dispose(previewPanel)
     }
 
     override fun getFile(): VirtualFile = file
