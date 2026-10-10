@@ -32,4 +32,14 @@
                          serverId="carveLanguageServer"
                          languageId="carve"/>
     </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!--
+          Tab / Shift+Tab nest and un-nest list items through carve-lsp's carve.listIndent.
+          Every other case, and every non-Carve file, goes to the handler they wrap.
+        -->
+        <editorActionHandler action="EditorTab"
+                             implementationClass="org.markupcarve.carve.lsp.CarveListIndentHandler$Indent"/>
+        <editorActionHandler action="EditorUnindentSelection"
+                             implementationClass="org.markupcarve.carve.lsp.CarveListIndentHandler$Outdent"/>
+    </extensions>
 </idea-plugin>
