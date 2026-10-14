@@ -41,6 +41,15 @@ class CarveLongLineTimingTest {
     }
 
     @Test
+    fun bareOpenersEndingInAMatchingCloser() {
+        // Every opener passes the pre-check here, so this measures the run body: a bare run
+        // must not try to open another run of its own delimiter at each one.
+        for (opener in listOf("*", "/", "_", "~", "=")) {
+            assertFast("${opener}a  x4000 then b$opener", "${opener}a ".repeat(4000) + "b$opener\n")
+        }
+    }
+
+    @Test
     fun openersInLineBoundedContexts() {
         assertFast("heading of *a ", "# " + "*a ".repeat(4000) + "\n")
         assertFast("list item of /a ", "- " + "/a ".repeat(4000) + "\n")

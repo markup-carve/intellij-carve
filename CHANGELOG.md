@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- A long line of bare openers that ends in a matching closer no longer stalls highlighting: a bare run no longer tries to open another run of its own delimiter, which the engine never does either. `/a ` repeated 2000 times and then `b/` took about 6 seconds to tokenize and now takes about 0.1.
 - Long lines full of unclosed emphasis or critic openers no longer stall highlighting: each opener checks for a closer on its line before the expensive scan (#259). `{*a {/b ` repeated 400 times took about 30 seconds to tokenize and now takes well under one.
 - List, caption and lone `+` marker lines directly after a paragraph are highlighted as paragraph text, the way the engine renders them (#259). A list item keeps its lazy lines, so a marker after one still opens a sibling item, and a `^ ` line after a heading or inside a list item is text.
 - Lists, description lists and `:::` containers behind `> ` are highlighted (#259).

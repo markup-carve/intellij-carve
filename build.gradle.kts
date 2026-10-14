@@ -375,6 +375,9 @@ val localRulesGroupedUpstream =
             GroupedUpstream("thematic-break-behind-a-container-prefix", "marker-line-block-openers.crv"),
         // Generated per-language copies of `code-fence-on-quote-marker-line`. Upstream scopes
         // a quoted fence through that rule and leaves the body in no language.
+        // The emphasis a bare run may hold, split out of #emphasis so a run can include it
+        // without the bare patterns of its own delimiter. Upstream keeps it all in #emphasis.
+        "emphasis-in-run" to GroupedUpstream("emphasis", "braced-emphasis.crv"),
         "fenced-code-languages-on-a-quote-marker-line" to
             GroupedUpstream("code-fence-on-quote-marker-line", "quoted-fence-language.crv"),
     )
