@@ -7,10 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-10-14
+
+### Security
+
+- The preview no longer runs document markup (#256). `=html` blocks and `{=html}` spans show as escaped source unless **Render raw HTML in trusted projects** is on, a Content Security Policy limits script execution to the plugin's own nonce'd scripts, the clipboard bridge only answers the page's copy buttons, and the preview opens web links in the system browser instead of navigating away. HTML export is unchanged.
+
 ### Added
 
+- Fenced code highlighting covers 65 languages from the shared grammar table (#240). Languages missing from the IDE's TextMate bundles keep plain code bodies.
+- Tab and Shift+Tab move list items when the bundled language server supports the list command (#248).
+- The preview holds its last render while the cursor sits on an unfinished list marker (#246).
 - Comment with Line Comment toggles a `%% ` prefix and Comment with Block Comment wraps the selection in `{%` and `%}` (#257).
 - `()`, `[]` and `{}` are matched at the caret and close as you type. Emphasis delimiters do not auto-close (#257).
+
+### Changed
+
+- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11 (#254). The offline preview assets use carve-grammars 0.1.15 (#255, #261), which highlights a footnote body inline and keeps an escaped character from opening the next construct in `carve` fences.
+- The vendored stylesheet moves to carve-css 0.1.6 (#242, #252).
 
 ### Fixed
 
@@ -26,26 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - List markers, ordered markers and a lone `+` directly after a paragraph line are left as text, as the parser reads them. Inside a list they are still colored (#257).
 - Table pipes are colored only on a row with both an opening and a closing pipe, and a `+ ... |` row only after a table row (#257).
 - Enter after a `:::` container or code fence opener leaves the caret on the new body line instead of after the inserted closer (#258), and a quoted opener (`> ::: note`) puts the caret after the `> ` lead. The plugin now sends carve-lsp's on-type request itself and places the caret, in place of LSP4IJ's handler.
-
-### Security
-
-- The preview no longer runs document markup (#256). `=html` blocks and `{=html}` spans show as escaped source unless **Render raw HTML in trusted projects** is on, a Content Security Policy limits script execution to the plugin's own nonce'd scripts, the clipboard bridge only answers the page's copy buttons, and the preview opens web links in the system browser instead of navigating away. HTML export is unchanged.
-
-## [0.1.12] - 2026-10-14
-
-### Added
-
-- Fenced code highlighting covers 65 languages from the shared grammar table (#240). Languages missing from the IDE's TextMate bundles keep plain code bodies.
-- Tab and Shift+Tab move list items when the bundled language server supports the list command (#248).
-- The preview holds its last render while the cursor sits on an unfinished list marker (#246).
-
-### Changed
-
-- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11. The offline preview assets use carve-grammars 0.1.14.
-- The vendored stylesheet moves to carve-css 0.1.6 (#242, #252).
-
-### Fixed
-
 - Quote previews and HTML exports preserve paragraph spacing and align attribution with the quote body (markup-carve/carve-css#32).
 - Closing the preview disposes its editor resources through the IDE's lifecycle (#250).
 

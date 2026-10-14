@@ -354,6 +354,8 @@
     // fails when its run starts right after a comment's `%}`; the opener is
     // required because `{k=a%}` ends an attribute block the same way. Checked
     // only after a block matched; bounded, so a run past 64 blocks scopes its tail.
+    // The closer a block glues to is not an escaped character: `x\]{.c}` is text.
+    const afterEscape = '(?<!(?<!\\\\)(?:\\\\\\\\){0,32}\\\\[^\\n])';
     const noCommentRun = '(?<!\\{%(?:[^%\\n]|%(?!\\})|\\n(?![ \\t\\r]*\\n)){0,4096}%\\}(?:[ \\t]{0,64}\\{[^{}\\n]{0,512}\\}){1,64})';
     const ATTRIBUTE = {
         className: 'attr',
@@ -364,7 +366,7 @@
         // the match still starts at the `{`.
         begin: new RegExp(
             '(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*)\\{(?!__\\})\\s*' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*\\}' + '(?=(?:[ \\t]*\\{(?:"(?:\\\\.|[^"\\\\\\n])*"|\'(?:\\\\.|[^\'\\\\\\n])*\'|[^{}"\'\\n])*\\})*[ \\t]*(?:\\n|$(?![^\\r\\n])))'
-            + '|(?=\\{)(?<=[*/_~=`>}:)\\]$<|])' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + noCommentRun
+            + '|(?=\\{)(?<=[*/_~=`>}:)\\]$<|])' + afterEscape + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + noCommentRun
             + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}[.)]|\\.))' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}'
             + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}[.)]|\\.)(?:\\{[^{}\\n]*\\})?(?:[ \\t]+\\[[ xX]\\])?[ \\t]+)' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + '(?=[ \\t]*(?:\\n|$(?![^\\r\\n])))',
         ),
@@ -863,17 +865,32 @@
         relevance: 5,
     };
 
-    // Footnote definitions: [^note]: content
+    // A block-attribute line as a whole body, such as the `{empty}` sentinel.
+    const bodyAttribute = (marker) => ({
+        className: 'attr',
+        begin: new RegExp('(?=\\{)(?<=^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + marker + '[ \\t]+)'
+            + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}(?=[ \\t]*(?:\\r?\\n|$(?![^\\r\\n])))'),
+        relevance: 0,
+    });
+
+    // Footnote definitions: [^note]: content. The label is scoped; the body is
+    // inline content, appended once CONTAINS exists.
     const FOOTNOTE_DEF = {
-        className: 'symbol',
-        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\[\^[^\]]+\]:(?= )/,
+        begin: /^(?<![^\r\n])(?=(?:(?<![\s\S])\uFEFF)?[ \t]*\[\^[^\]]+\]: )/,
         end: /$(?![^\r\n])/,
-        // A `+` as the whole first line is the continuation marker when a
-        // non-blank flush-left line follows (markup-carve/carve#3105).
-        contains: [{
-            className: 'punctuation',
-            begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n[^ \t\r\n])/,
-        }],
+        contains: [
+            {
+                className: 'symbol',
+                begin: /(?<=^(?<![^\r\n]))(?:(?<![\s\S])\uFEFF)?[ \t]*\[\^[^\]]+\]:/,
+            },
+            // A `+` as the whole first line is the continuation marker when a
+            // non-blank flush-left line follows (markup-carve/carve#3105).
+            {
+                className: 'punctuation',
+                begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n[^ \t\r\n])/,
+            },
+            bodyAttribute('\\[\\^[^\\]\\r\\n]+\\]:'),
+        ],
         relevance: 10,
     };
 
@@ -1230,7 +1247,7 @@
         },
         relevance: 0,
         // The inline modes are appended once CONTAINS exists.
-        contains: [DEFINITION_TERM, DESCRIPTION_MARKER, DESCRIPTION_CONTINUATION],
+        contains: [DEFINITION_TERM, DESCRIPTION_MARKER, DESCRIPTION_CONTINUATION, bodyAttribute(':')],
     };
 
     /*
@@ -1284,16 +1301,12 @@
      * opener at the next line; leaving N openers unmatched needs strictly
      * DECREASING widths, which costs O(N^2) characters to write down.
      *
-     * WHAT THAT TRADES AWAY, written down rather than left to be rediscovered:
-     * an unterminated fence at DOCUMENT level really does open a block that
-     * runs to the end (grammar.ebnf, A CLOSER IS REQUIRED: "``` alone ... still
-     * opens a code block that runs to the end"), and here it does not - it
-     * falls to `LONE_CODE_FENCE` below, which colours the delimiter
-     * line and leaves the lines under it as prose. That is the reading this
-     * file had for every fence before #309, kept for the one shape it is still
-     * right about: inside a container an opener with no closer opens NOTHING,
-     * and a mode that ran to end of file there would swallow the container's
-     * own closer and every block after it.
+     * AN UNTERMINATED FENCE runs to the end of the document (grammar.ebnf, A
+     * CLOSER IS REQUIRED), or to its container's closer. `UNCLOSED_CODE_BLOCK`
+     * below takes that shape at column 0, where the colon-fence stack knows the
+     * container; an indented one falls to `LONE_CODE_FENCE`, which colours the
+     * delimiter line only, since this grammar cannot see the list item or quote
+     * that would end it.
      *
      * THE CLOSER MATCHES ITS OPENER, and the rule is not the colon fence's.
      * A code fence closes on the SAME fence character at a length >= the
@@ -1588,6 +1601,28 @@
         }
         state.stack.pop();
         state.closed = { at: m.index, kind: top.kind };
+    };
+
+    // A fence does not interrupt a paragraph: one at column 0 opens a block only
+    // at the start, after a blank line or after a one-line block (Prism's `oneLineBlock`).
+    const FENCE_AFTER_BLOCK = '(?:(?<![\\s\\S])\\uFEFF?(?=[`~]{3})|(?=[`~]{3})(?<=(?<![^\\n])(?:[ \\t\\r]*|[ \\t]*(?:> ?)*(?:#{1,6} |\\+[ \\t\\r]*(?=\\n)|(?:-{3,}|\\*{3,}|_{3,})[ \\t\\r]*(?=\\n)|\\||:{2,}|`{3,}|~{3,}|\\{|%%|\\^ |\\*?\\[[^\\]\\n]*\\]: )[^\\n]{0,4096})\\n))';
+    // An unclosed fence at column 0: code to the end of the document, or to the
+    // closer of the innermost open colon fence, whose width must match exactly.
+    const UNCLOSED_CODE_BLOCK = {
+        className: 'code',
+        beginScope: 'keyword',
+        begin: new RegExp(
+            FENCE_AFTER_BLOCK + '(?:`{3,}|~{3,})'
+            + '(?: ?(?:' + CODE_FENCE_INFO + '|' + RAW_FENCE_INFO + '))?[ \\t]*$(?![^\\r\\n])',
+        ),
+        end: /^(?<![^\r\n])[ \t]*(:{3,})[ \t]*$(?![^\r\n])/,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            const stack = docState(COLON_FENCES, m).stack;
+            if (stack[stack.length - 1]?.width !== m[1].length) resp.ignoreMatch();
+        },
+        contains: [],
+        relevance: 0,
     };
 
     const DIV_BLOCK = {
@@ -2445,6 +2480,7 @@
         HEADING,
         CODE_BLOCK,        // ``` ... ``` - before the delimiter-only fallback
         RAW_BLOCK,         // ```=html ... ``` - same, with the raw info string
+        UNCLOSED_CODE_BLOCK,  // an unpaired fence at column 0: to its container's end
         LONE_CODE_FENCE,   // a fence line neither of those paired: the line only
         FIGURE_GROUP_BLOCK,  // Must be before DIV_BLOCK (both match `::: figure`)
         DIV_BLOCK,
@@ -2522,6 +2558,7 @@
 
     // A term's lazy lines and a description's body read as a paragraph does.
     DEFINITION_LIST_ENTRY.contains.push(...CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE)));
+    FOOTNOTE_DEF.contains.push(...CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE)));
 
     // A div's body holds the full top-level mode list minus ABBREVIATION_DEF
     // (carve-grammars#125 - see the comment on DIV_BLOCK above) and minus the
