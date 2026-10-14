@@ -180,7 +180,8 @@ tools/check-carve-css-drift.sh                     # network: a newer release?
 
 The offline one also fails when the inline stylesheet reads a `--carve-*` with
 no fallback that nothing defines, which is how a refresh that drops a token gets
-caught. The network one runs as a step in `build.yml` rather than inside `test`.
+caught. The network one runs daily in `grammar-drift.yml` rather than inside `test`
+or on pull requests.
 
 To refresh: `npm pack @markup-carve/carve-css@<version>`, copy `src/tokens.css`
 and `src/recipes.css` over the vendored files, keep the seven-line provenance

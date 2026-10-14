@@ -75,3 +75,24 @@ jobs:
           fi
           missing="$(sed -n 's/^ *ACTIONABLE: //p' "$RUNNER_TEMP/drift.log" | tail -1)"
           echo "::warning::${missing:-some} upstream grammar rule(s) have no local counterpart - see the ACTIONABLE section in the log. Port them by hand into src/main/resources/textmate/carve.tmLanguage.json, or declare the ones a broader local rule already covers."
+
+  # The vendored copies of carve-grammars' tables and the carve-css layers.
+  # GATED: each is a byte copy, and re-copying is this repository's to do. They
+  # moved here from build.yml because they need network and upstream releases,
+  # not the pull request under review, are what turn them red.
+  vendored:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The vendored block battery still matches carve-grammars
+        run: ./tools/check-battery-drift.sh
+
+      - name: The vendored fence-language table still matches carve-grammars
+        if: always()
+        run: ./tools/check-fence-languages-drift.sh
+
+      - name: The vendored carve-css layers still match the newest release
+        if: always()
+        run: ./tools/check-carve-css-drift.sh
