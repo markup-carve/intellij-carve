@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11.
+- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11. The offline preview assets use carve-grammars 0.1.14.
 - The vendored stylesheet moves to carve-css 0.1.6 (#242, #252).
 
 ### Fixed
