@@ -41,6 +41,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 - **Import Markdown or HTML as Carve** - converts a `.md` or `.html` file to a `.crv` beside it
 - **Export Bundle** - the document plus every file it includes, as a folder beside it
 - **Live templates** for Carve's visual mnemonics (type `c` + `Tab`)
+- **Comment and bracket support** - Comment with Line Comment toggles `%% `, Comment with Block Comment wraps the selection in `{%` and `%}`, and `()`, `[]` and `{}` are matched and closed as you type
 - **File type** recognition for `.crv`
 
 ## Screenshots

@@ -100,10 +100,18 @@ class CarveMarkerScannerTest {
         // Only a lone `+` line, or a `+ ... |` table row, is a continuation.
         assertTrue(scan("+ not a continuation\n").isEmpty())
         assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
+        // A `+ ... |` row continues a table row and nothing else: on its own, carve-js
+        // renders it as a paragraph.
         assertEquals(
-            listOf("+" to CarveColors.CONTINUATION_MARKER, "|" to CarveColors.TABLE_PIPE),
-            covered("+ x |\n"),
+            listOf(
+                "|" to CarveColors.TABLE_PIPE,
+                "|" to CarveColors.TABLE_PIPE,
+                "|" to CarveColors.TABLE_PIPE,
+                "+" to CarveColors.CONTINUATION_MARKER,
+            ),
+            covered("| a |\n+ x |\n"),
         )
+        assertTrue(scan("+ x |\n").isEmpty())
     }
 
     @Test
@@ -280,5 +288,108 @@ class CarveMarkerScannerTest {
         assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1. item\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("1.\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("- \n"))
+    }
+
+    private val none = emptyList<Pair<String, TextAttributesKey>>()
+    private fun fences(n: Int) = List(n) { "```" to CarveColors.FENCE_MARKER }
+
+    /** The fence info token is the spec's `language_info`, punctuation included. */
+    @Test
+    fun aLanguageTokenMayHoldPunctuation() {
+        val text = "```c++\nint a; # x\n- y\n| a |\n```\n# after\n"
+        assertEquals(fences(2) + ("#" to CarveColors.HEADING_MARKER), covered(text))
+        for (lang in listOf("c#", "f#", "asp.net", "text/html")) {
+            assertEquals(lang, fences(2), covered("```$lang\n# code\n```\n"))
+        }
+    }
+
+    @Test
+    fun aCommentBlockHidesItsBody() {
+        assertEquals(
+            listOf("#" to CarveColors.HEADING_MARKER),
+            covered("%%%\n# x\n- y\n| a |\n%%%\n# after\n"),
+        )
+        // The closer matches the opener's run exactly, so a shorter run is body text.
+        assertEquals(
+            listOf("#" to CarveColors.HEADING_MARKER),
+            covered("%%%% open\n%%%\n# x\n%%%%\n# after\n"),
+        )
+        // With no closer ahead the fence line is a plain `%%` comment.
+        assertEquals(listOf("#" to CarveColors.HEADING_MARKER), covered("%%%\n# x\n"))
+    }
+
+    @Test
+    fun frontMatterIsNotScanned() {
+        assertEquals(
+            listOf("#" to CarveColors.HEADING_MARKER),
+            covered("---toml\n# c\n- x\n| a |\n---\n# after\n"),
+        )
+        assertEquals(none, covered("---\n- a\n---\n"))
+        // Without a closer the `---` is a thematic break and the list below is real.
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("---\n- a\n"))
+    }
+
+    @Test
+    fun displayMathLinesAreParagraphText() {
+        assertEquals(none, covered("\$\$`\n- a\n+\n1. c\n`\n"))
+    }
+
+    @Test
+    fun aQuotedFenceHidesItsBody() {
+        val quote = ">" to CarveColors.QUOTE_MARKER
+        assertEquals(
+            listOf(quote) + fences(1) + listOf(quote, quote, quote) + fences(1) + ("#" to CarveColors.HEADING_MARKER),
+            covered("> ```js\n> # c\n> | a |\n> ```\n# real\n"),
+        )
+        // An unprefixed line is not lazy inside a fence: carve-js ends the quote and the
+        // fence there, so the heading is real.
+        assertEquals(
+            listOf(quote) + fences(1) + listOf(quote, "#" to CarveColors.HEADING_MARKER),
+            covered("> ```js\n> a\n# code\n"),
+        )
+    }
+
+    /** List markers and a lone `+` do not interrupt a paragraph (carve-js keeps one `<p>`). */
+    @Test
+    fun markersAfterAParagraphLineAreText() {
+        assertEquals(none, covered("para\n- not a list\n1. x\na. y\n* z\n+\n"))
+        assertEquals(listOf(">" to CarveColors.QUOTE_MARKER), covered("> q\n- x\n"))
+        assertEquals(
+            List(2) { ":::" to CarveColors.DIV_MARKER },
+            covered("::: note\npara\n- x\n:::\n"),
+        )
+    }
+
+    @Test
+    fun aBlockBetweenAParagraphAndAMarkerEndsTheParagraph() {
+        val dash = "-" to CarveColors.LIST_MARKER
+        assertEquals(listOf(dash), covered("para\n%% c\n- x\n"))
+        assertEquals(listOf(dash), covered("para\n{.c}\n- x\n"))
+        assertEquals(listOf("#" to CarveColors.HEADING_MARKER, dash), covered("# H\n- x\n"))
+        assertEquals(listOf(dash), covered("para\n\n- x\n"))
+    }
+
+    @Test
+    fun itemsInsideAListStayMarkers() {
+        val dash = "-" to CarveColors.LIST_MARKER
+        assertEquals(listOf(dash, dash), covered("- a\n- b\n"))
+        // A lazy line keeps the list open; a flush-left paragraph after a blank line ends it.
+        assertEquals(listOf(dash, dash), covered("- a\nlazy\n- b\n"))
+        assertEquals(listOf(dash), covered("- a\n\nlazy\n- b\n"))
+        assertEquals(listOf(dash, dash), covered("- a\n\n  more\n- b\n"))
+        assertEquals(listOf(dash, "+" to CarveColors.CONTINUATION_MARKER), covered("- a\n+\n  more\n"))
+    }
+
+    /** A row needs its opening AND its closing pipe; carve-js renders the rest as paragraphs. */
+    @Test
+    fun aTableRowNeedsBothPipes() {
+        assertEquals(none, covered("| a | b\n"))
+        assertEquals(none, covered("a | b |\n"))
+        assertEquals(listOf(">" to CarveColors.QUOTE_MARKER), covered("> | a | b\n"))
+        assertEquals(
+            listOf(">" to CarveColors.QUOTE_MARKER) + List(3) { "|" to CarveColors.TABLE_PIPE },
+            covered("> | a | b |\n"),
+        )
+        assertEquals(List(3) { "|" to CarveColors.TABLE_PIPE }, covered("| a | b |{.x}\n"))
     }
 }

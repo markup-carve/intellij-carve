@@ -24,6 +24,7 @@
         <li>Export to HTML and to Markdown</li>
         <li>Import Markdown or HTML files as Carve</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
+        <li>Line and block comments (<code>%%</code>, <code>{% %}</code>) and bracket matching</li>
         <li>File type recognition for <code>.crv</code></li>
         <li>Settings page under Settings &rarr; Tools &rarr; Carve</li>
     </ul>
@@ -79,7 +80,7 @@
         -->
         <editorHighlighterProvider
                 filetype="Carve"
-                implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateEditorHighlighterProvider"/>
+                implementationClass="org.markupcarve.carve.editor.CarveEditorHighlighterProvider"/>
         <lang.syntaxHighlighterFactory
                 language="Carve"
                 implementationClass="org.jetbrains.plugins.textmate.language.syntax.highlighting.TextMateSyntaxHighlighterFactory"/>
@@ -96,6 +97,16 @@
         <annotator
                 language="Carve"
                 implementationClass="org.markupcarve.carve.highlight.CarveAnnotator"/>
+        <!--
+          TextMate's commenter and brace matcher are bound to the generic TextMate file
+          type, so language-configuration.json does not reach .crv files.
+        -->
+        <lang.commenter
+                language="Carve"
+                implementationClass="org.markupcarve.carve.editor.CarveCommenter"/>
+        <braceMatcher
+                filetype="Carve"
+                implementationClass="org.markupcarve.carve.editor.CarveBraceMatcher"/>
         <colorSettingsPage
                 implementation="org.markupcarve.carve.highlight.CarveColorSettingsPage"/>
         <additionalTextAttributes
