@@ -1,0 +1,17 @@
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+A quoted fence keeps its language. -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+``` -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+js -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+> -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript keyword.control.quote.carve
+ let total = "sum";\n -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+> -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.quote.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> text.carve

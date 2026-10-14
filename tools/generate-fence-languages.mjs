@@ -89,6 +89,7 @@ const VARIANTS = [
   ['fenced-code-languages', 'code-blocks', `(^|\\G)(?!${BARE_FENCE})`],
   ['fenced-code-languages-on-a-marker-line', 'code-fence-on-marker-line', null],
   ['fenced-code-languages-at-a-body-column', 'code-fence-at-body-column', null],
+  ['fenced-code-languages-on-a-quote-marker-line', 'code-fence-on-quote-marker-line', null],
 ]
 
 function narrowLanguage(begin, words) {
@@ -110,7 +111,8 @@ function languageRule(generic, [id, words, scopes], whileGuard) {
     // A scope name may carry several scopes, which is how the body keeps the raw
     // scope the generic rule gives it AND gains the embedded one.
     const contentName = rule.contentName ? `${rule.contentName} ${embedded}` : embedded
-    return { ...rule, contentName, patterns: include }
+    // The generic rule's own patterns come first: a quoted body line's `> ` belongs to the quote.
+    return { ...rule, contentName, patterns: [...(generic.patterns ?? []), ...include] }
   }
   // Measured: the IDE's TextMate engine honors `while` and resolves an include into
   // another registered grammar in the same syntax table (CarveFenceEmbedTest).

@@ -373,6 +373,10 @@ val localRulesGroupedUpstream =
             GroupedUpstream("table-row-behind-a-container-prefix", "marker-line-block-openers.crv"),
         "thematic-break-on-marker-line" to
             GroupedUpstream("thematic-break-behind-a-container-prefix", "marker-line-block-openers.crv"),
+        // Generated per-language copies of `code-fence-on-quote-marker-line`. Upstream scopes
+        // a quoted fence through that rule and leaves the body in no language.
+        "fenced-code-languages-on-a-quote-marker-line" to
+            GroupedUpstream("code-fence-on-quote-marker-line", "quoted-fence-language.crv"),
     )
 
 // Shared rules whose divergence from upstream is BY DESIGN. Same fixture rule as

@@ -2,7 +2,9 @@
   -> text.carve markup.quote.carve
 > -> text.carve markup.quote.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve markup.quote.carve
-- a -> text.carve markup.quote.carve markup.quote.carve
+- -> text.carve markup.quote.carve markup.quote.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.quote.carve markup.quote.carve markup.list.unnumbered.carve
+a -> text.carve markup.quote.carve markup.quote.carve
 \n -> text.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve
@@ -20,5 +22,7 @@
   -> text.carve markup.quote.carve
 > -> text.carve markup.quote.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve markup.quote.carve
-- b -> text.carve markup.quote.carve markup.quote.carve
+- -> text.carve markup.quote.carve markup.quote.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.quote.carve markup.quote.carve markup.list.unnumbered.carve
+b -> text.carve markup.quote.carve markup.quote.carve
 \n -> text.carve
