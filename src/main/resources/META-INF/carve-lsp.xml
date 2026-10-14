@@ -41,5 +41,12 @@
                              implementationClass="org.markupcarve.carve.lsp.CarveListIndentHandler$Indent"/>
         <editorActionHandler action="EditorUnindentSelection"
                              implementationClass="org.markupcarve.carve.lsp.CarveListIndentHandler$Outdent"/>
+        <!--
+          Enter sends carve-lsp's on-type request itself and keeps the caret before a
+          `:::` or code fence closer; LSP4IJ's handler would park it after the closer.
+        -->
+        <enterHandlerDelegate id="carveEnterContinuation"
+                              order="first"
+                              implementation="org.markupcarve.carve.lsp.CarveEnterContinuationHandler"/>
     </extensions>
 </idea-plugin>

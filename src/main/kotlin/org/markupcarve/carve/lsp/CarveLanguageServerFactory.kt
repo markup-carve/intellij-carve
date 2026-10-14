@@ -3,6 +3,7 @@ package org.markupcarve.carve.lsp
 import com.intellij.openapi.project.Project
 import com.redhat.devtools.lsp4ij.LanguageServerFactory
 import com.redhat.devtools.lsp4ij.client.LanguageClientImpl
+import com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures
 import com.redhat.devtools.lsp4ij.server.StreamConnectionProvider
 import org.eclipse.lsp4j.services.LanguageServer
 
@@ -34,6 +35,10 @@ class CarveLanguageServerFactory : LanguageServerFactory {
 
     override fun getServerInterface(): Class<out LanguageServer> =
         LanguageServer::class.java
+
+    // Enter's on-type edits go through CarveEnterContinuationHandler, which keeps the caret before a closer.
+    override fun createClientFeatures(): LSPClientFeatures =
+        LSPClientFeatures().setOnTypeFormattingFeature(CarveOnTypeFormattingFeature())
 }
 
 /**

@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marker colors stay out of `%%%` comment bodies, front matter and fenced code inside a block quote (#257).
 - List markers, ordered markers and a lone `+` directly after a paragraph line are left as text, as the parser reads them. Inside a list they are still colored (#257).
 - Table pipes are colored only on a row with both an opening and a closing pipe, and a `+ ... |` row only after a table row (#257).
+- Enter after a `:::` container or code fence opener leaves the caret on the new body line instead of after the inserted closer (#258), and a quoted opener (`> ::: note`) puts the caret after the `> ` lead. The plugin now sends carve-lsp's on-type request itself and places the caret, in place of LSP4IJ's handler.
 
 ## [0.1.12] - 2026-10-14
 
