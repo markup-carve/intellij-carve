@@ -26,6 +26,7 @@ object CarveCorpusCategories {
      * token-stream snapshots generated from every matching corpus `.crv` file.
      */
     val COVERED: Set<String> = linkedSetOf(
+        "braced-emphasis-can-nest-its-own-kind",
         // The golden pins line ONE: `::<TAB>term` carries no marker scope, which
         // is the rule this category exists for and what #50 fixed.
         //
@@ -440,7 +441,6 @@ object CarveCorpusCategories {
         // corpus HTML before it was recorded.
         "a-quote-is-an-ordinary-link-destination-character",
         "an-empty-link-destination-is-not-a-link",
-        "a-forced-opener-of-an-open-kind-is-literal",
         "substitution-content-is-inline-and-only-a-top-level-arrow-splits-it",
     )
 
@@ -452,6 +452,99 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        // Parser and writer rulings added by the spec 0.1.9 corpus.
+        "a-below-column-line-continues-a-paragraph-only-where-one-is-open" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a line below a nested item's column is lazy continuation depends on which block that item left open; the list, heading, fence, table and container tokens are the same either way.",
+        "a-block-quote-and-a-footnote-body-take-the-first-block-form" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. The `+` first-block form after `>` and `[^a]:` decides what the body holds, which is block structure; the quote, footnote and table tokens do not change.",
+        "a-braced-comment-does-not-decide-a-quote" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Smart-quote direction after a braced comment or an escaped brace is a rendering decision; the comment and escape tokens are pinned elsewhere.",
+        "a-caption-scope-resets-at-a-structural-only-line" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which block a caption attaches to, if any, is block semantics; the caption marker token is the same.",
+        "a-closed-block-leaves-no-frame-for-the-line-below" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where the line after a closed fence, comment or container lands is block structure; no token records it.",
+        "a-closed-fence-at-a-marker-line-note-s-body-column-opens-in-the-note" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which container owns a fence under a list-item footnote is block ownership; the fence and footnote tokens are unchanged.",
+        "a-closed-fence-in-a-nested-child-leaves-no-paragraph-open" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a closed nested fence leaves a paragraph open for the line below is block structure; the fence tokens are unchanged.",
+        "a-closed-fence-in-a-quoted-sub-item-after-a-lazy-line-leaves-no-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Paragraph state after a lazy line and a closed fence is block structure; the quote, list and fence tokens are unchanged.",
+        "a-code-line-left-of-an-authored-base-fence-opener-is-measured-from-that-base" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. How much indentation is stripped from a code line is payload measurement, not a token.",
+        "a-comment-between-a-heading-and-a-colon-fence-leaves-the-fence-an-opener" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether `:::` opens or closes a container after a comment is container resolution; it is the same fence token either way.",
+        "a-comment-closes-a-marker-line-note-s-paragraph-and-an-unclosed-fence-below-it-opens-in-the-note" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which container an unclosed fence opens in is block ownership; the comment and fence tokens are unchanged.",
+        "a-comment-in-a-marker-line-note-changes-nothing" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. A comment line that changes no structure produces the comment token pinned by `comments`.",
+        "a-container-boundary-is-read-at-the-container-s-own-column" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. At which column a container's closer is read is block structure; the fence tokens are unchanged.",
+        "a-continuation-on-a-span-marker-joins-the-cell-the-marker-resolves-into" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which cell a `+` continuation joins through a `^` or `<` span marker is table layout; the row, span and continuation tokens are pinned by the table fixtures.",
+        "a-dash-run-opens-frontmatter-only-at-the-start-and-only-a-dash-run" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. The frontmatter and thematic-break scopes are pinned elsewhere. KNOWN FALSE POSITIVE, recorded rather than blessed: a lone `---` at the start of a document renders as a thematic break, but a line-oriented grammar cannot see that no closer follows, so it opens frontmatter that runs to the end.",
+        "a-description-keeps-a-block-at-its-body-column-whatever-leads-the-item" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which description body owns a block at its body column is block ownership; the term, description and fence tokens are unchanged.",
+        "a-description-marker-followed-by-a-no-break-space-has-content" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. The grammar already scopes `:` plus a no-break space as a description marker and leaves a whitespace-only `:` line unscoped, matching the engine; the description scope is pinned elsewhere.",
+        "a-fence-closer-below-the-authored-base-is-measured-as-its-payload" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a closer indented less than its opener closes the fence depends on the opener's column, which a line-oriented grammar does not carry; the fence tokens are pinned elsewhere.",
+        "a-fence-past-the-column-after-an-attribute-line-opens-on-its-authored-base" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where a shifted fence opens after an attribute line is block structure; the attribute and fence tokens are unchanged.",
+        "a-fence-that-leaves-a-closed-nested-item-opens-in-the-host-it-lands-in" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which host a fence opens in after a nested item closes is block ownership; the quote, list, container and fence tokens are unchanged.",
+        "a-footnote-definition-past-a-box-s-column-is-hoisted" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Hoisting a footnote definition out of a container is document assembly; the footnote definition token is pinned elsewhere.",
+        "a-footnote-reference-in-link-text-keeps-its-id-on-the-sup" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which id the rendered footnote reference carries is output; the footnote reference inside link text tokenizes as it does elsewhere.",
+        "a-head-row-alignment-marker-sets-the-whole-column" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. The combined `|=>` and `|=~` header-plus-alignment markers already tokenize as the header and alignment operators; that the alignment applies to the whole column is table layout.",
+        "a-line-block-payload-span-pairs-past-the-content-column" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. How fence-like payload lines pair inside a line block is block structure; the line-block and fence tokens are unchanged.",
+        "a-line-block-takes-a-lazy-line-whatever-its-last-payload-line" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Lazy continuation of a quoted line block is block structure; no token records it.",
+        "a-line-final-run-of-spaces-and-tabs-is-dropped-before-the-line-is-read" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Trailing whitespace inside a multi-line attribute block changes no token; the attribute scopes are pinned elsewhere.",
+        "a-line-retained-after-a-comment-opens-a-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a line retained after a comment opens a paragraph or code is block structure; the comment and fence tokens are unchanged.",
+        "a-link-definition-or-an-attribute-line-past-a-box-s-column-opens-on-its-authored-base" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where a shifted link definition or attribute line opens inside a container is block structure; their tokens are pinned elsewhere.",
+        "a-link-destination-is-opaque-to-the-bracket-scan" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. The destination already tokenizes as one opaque link span including a `]`, and tests/opaque-destination.test.mjs pins that; the link scopes are pinned by the covered link categories.",
+        "a-paragraph-in-a-held-container-does-not-loosen-the-item" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Tight versus loose is a rendering property of the list; no token records it.",
+        "a-quote-or-a-term-at-a-marker-line-note-s-body-column-opens-in-the-note" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which container a quote or term opens in under a list-item footnote is block ownership; the quote and term tokens are unchanged.",
+        "a-quoted-item-that-ends-on-a-block-past-its-column-holds-no-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Paragraph state after a block past the item's column is block structure; no token records it.",
+        "a-quoted-term-takes-a-lazy-line" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Lazy continuation of a quoted term is block structure; the quote and term tokens are unchanged.",
+        "a-shifted-fence-in-a-quoted-container-s-body-stores-no-continuation-claim" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Continuation bookkeeping for a shifted fence is block structure; the quote, container and fence tokens are unchanged.",
+        "a-span-never-covers-another-cell" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Span resolution against occupied cells is table layout; the span marker tokens are pinned by the table fixtures.",
+        "a-tab-inside-a-line-is-content-in-a-label-and-after-a-definition-marker" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. How a tab inside a label or after `[a]:` is normalized for matching is resolution; the reference and definition tokens are unchanged.",
+        "a-tab-is-content-in-a-heading-key-and-in-a-cross-reference-id" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. How a tab inside a heading key or cross-reference id is normalized is resolution; the heading and reference tokens are unchanged.",
+        "a-table-row-ends-a-description-body-and-a-lone-plus-folds-into-a-term" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where a description body ends and how a lone `+` folds into a term is block structure; the term, description and table tokens are unchanged.",
+        "a-titled-footnotes-marker-names-the-endnotes-section" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. `::: footnotes \"Notes\" [End]` already tokenizes as the div opener with its quoted title and bracketed label, the scopes the covered container categories pin; that it titles the endnotes section is output.",
+        "an-at-column-comment-retains-nothing" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. What a comment at the item's column retains for the line below is block structure; the comment token is pinned by `comments`.",
+        "an-at-sign-before-a-space-and-a-doubled-delimiter-inside-bold-italic-are-text" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. `a @ b` stays unscoped text and `//` inside `/*...*/` stays inside the bold-italic span, matching the engine; no new scope.",
+        "an-explicitly-delimited-row-of-blank-cells-is-a-table" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. `| |`, `||` and their variants already tokenize as table rows with the row and separator scopes the table fixtures pin.",
+        "an-opener-past-a-hosted-container-s-column-interrupts-its-open-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a shifted opener interrupts the hosted container's paragraph is block structure; the heading and fence tokens are unchanged.",
+        "an-opener-past-a-hosted-container-s-column-opens-there" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where a shifted opener inside a hosted container opens is block structure; its tokens are unchanged.",
+        "an-ordered-list-carries-its-authored-delimiter" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. `1)` and `c)` already tokenize as numbered list markers; which delimiter the output records is rendering.",
+        "an-unterminated-raw-fence-keeps-literal-payload-termination" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. An unterminated raw fence uses the same opener token as a closed one; that the payload runs to the end is block structure.",
         // Fifteen of the twenty categories the spec bump to carve f7cf0b36 added. The five
         // that carry a rule in the token stream are in COVERED above.
         "an-attribute-line-below-a-list-item-interrupts-it" to

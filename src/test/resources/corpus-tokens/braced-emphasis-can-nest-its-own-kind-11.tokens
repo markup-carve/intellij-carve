@@ -1,0 +1,12 @@
+\\{ -> text.carve constant.character.escape.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+x -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+}\n -> text.carve
+\n -> text.carve
+\\{ -> text.carve constant.character.escape.carve
+\\* -> text.carve constant.character.escape.carve
+x -> text.carve
+\\* -> text.carve constant.character.escape.carve
+\\} -> text.carve constant.character.escape.carve
+\n -> text.carve

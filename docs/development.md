@@ -50,8 +50,7 @@ The default preview/export engine runs the bundled `carve.iife.js` on GraalJS.
 It is an IIFE build of [`@markup-carve/carve`](https://github.com/markup-carve/carve-js)
 exposing a global `carve` with `carveToHtml(source)`.
 
-Carve-js is not published to npm yet, so the bundle is generated from a local
-checkout and committed. To refresh it:
+The bundle is generated from a tagged local checkout and committed. To refresh it:
 
 ```bash
 # carve-js checked out as a sibling, already built (npm ci && npm run build)

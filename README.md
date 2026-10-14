@@ -255,15 +255,10 @@ This is the shape for "send it to a colleague who will keep editing it": the
 `{{ }}` directives survive, so what arrives is still a document rather than one
 long file.
 
-The files are COPIED, not merged. Flattening - one self-contained `.crv`, and
-its clipboard twin - is the other half of this feature and is not reachable
-yet; so is expanding includes in the preview. Both need the engine's expansion
-pass, and although carve-js has had one on `main` since
-markup-carve/carve-js#1694, no published release carries it: nothing in the
-`dist` of `@markup-carve/carve@0.1.6`, the newest on npm, mentions
-`expandIncludes`. The plugin vendors its engine twice - the preview bundle and
-the copy inside the language server - and both are pinned to one published
-carve-js revision on purpose, so neither can move ahead of a release.
+The files are copied, not merged. Flattening to one self-contained `.crv` file,
+its clipboard counterpart, and expanding includes in the preview are not yet
+available in this plugin. The bundled engine supports include expansion, but
+these editor commands have not been wired to it.
 
 ## About Carve
 

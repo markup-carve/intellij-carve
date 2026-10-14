@@ -1,0 +1,5 @@
+'I  -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+said 'hello -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+ there,' she replied.\n -> text.carve
