@@ -174,7 +174,7 @@ as in the preview with no network. MathJax is still linked from a CDN.
 ### Raw HTML and scripts
 
 The preview treats document markup as untrusted. By default `=html` blocks and
-`{=html}` spans show as escaped source (carve-php runs with `--safe`), and a
+`{=html}` spans show as escaped source (carve-php runs in safe mode), and a
 Content Security Policy lets only the plugin's own scripts run: no `<script>`,
 inline event handler, frame or plugin object from the document executes, even
 when raw HTML is shown. Links to web pages open in the system browser; the
@@ -184,8 +184,9 @@ To see raw HTML rendered, turn on **Settings → Tools → Carve → Preview Sec
 Render raw HTML in trusted projects**. It applies only in a project the IDE
 trusts, and scripts stay blocked. HTML export is unaffected and always keeps
 raw HTML, since the exported file is the author's own output. A custom carve-php
-converter script, or the built-in one-liner used when `vendor/bin/carve` is
-missing, receives no flags, so for those the policy is the only guard.
+converter script cannot take the flag; it runs with `CARVE_SAFE=1` in its
+environment instead, and the policy still keeps any script it lets through from
+running.
 
 ### Copying code
 
