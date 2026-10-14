@@ -50,10 +50,11 @@ class CarveEnterContinuationHandler : EnterHandlerDelegateAdapter() {
         val position = Position(line, caret - document.getLineStartOffset(line))
         val settings = editor.settings
         PsiDocumentManager.getInstance(project).commitDocument(document)
+        val request = backend.request(project, virtualFile, position, settings.getTabSize(project), !settings.isUseTabCharacter(project))
         val edits = try {
-            backend.request(project, virtualFile, position, settings.getTabSize(project), !settings.isUseTabCharacter(project))
-                .get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            request.get(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
         } catch (e: Exception) {
+            request.cancel(true)
             log("on-type request failed or timed out: $e")
             return EnterHandlerDelegate.Result.Continue
         }
@@ -84,7 +85,8 @@ class CarveEnterContinuationHandler : EnterHandlerDelegateAdapter() {
 
     companion object {
         private val LOG = Logger.getInstance(CarveEnterContinuationHandler::class.java)
-        private const val TIMEOUT_MILLIS = 1000L
+        // Synchronous like LSP4IJ's own on-type wait, with the cap it uses inside a write action.
+        private const val TIMEOUT_MILLIS = 500L
 
         @Volatile
         private var backendOverride: CarveOnTypeBackend? = null
