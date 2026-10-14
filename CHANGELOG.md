@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11. The offline preview assets use carve-grammars 0.1.15, which highlights a footnote body inline and keeps an escaped character from opening the next construct in `carve` fences.
+- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11. The offline preview assets use carve-grammars 0.1.15, which highlights a footnote body inline and keeps an escaped character from opening the next construct in `carve` fences (#261).
 - The vendored stylesheet moves to carve-css 0.1.6 (#242, #252).
 
 ### Fixed
