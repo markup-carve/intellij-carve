@@ -171,6 +171,22 @@ produced it. It inlines highlight.js, the Carve grammar and the light theme
 (about 230 KB), so code blocks, Carve fences and `{.diff}` fences look the same
 as in the preview with no network. MathJax is still linked from a CDN.
 
+### Raw HTML and scripts
+
+The preview treats document markup as untrusted. By default `=html` blocks and
+`{=html}` spans show as escaped source (carve-php runs with `--safe`), and a
+Content Security Policy lets only the plugin's own scripts run: no `<script>`,
+inline event handler, frame or plugin object from the document executes, even
+when raw HTML is shown. Links to web pages open in the system browser; the
+preview never navigates away from the document.
+
+To see raw HTML rendered, turn on **Settings → Tools → Carve → Preview Security →
+Render raw HTML in trusted projects**. It applies only in a project the IDE
+trusts, and scripts stay blocked. HTML export is unaffected and always keeps
+raw HTML, since the exported file is the author's own output. A custom carve-php
+converter script, or the built-in one-liner used when `vendor/bin/carve` is
+missing, receives no flags, so for those the policy is the only guard.
+
 ### Copying code
 
 Every code block carries a copy button next to its language name. It copies

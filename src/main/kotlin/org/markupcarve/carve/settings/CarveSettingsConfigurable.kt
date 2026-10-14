@@ -130,6 +130,19 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                 }
             }
 
+            group("Preview Security") {
+                row {
+                    checkBox("Render raw HTML in trusted projects")
+                        .bindSelected(settings::previewRawHtml)
+                        .comment(
+                            "Off by default: <code>=html</code> blocks and <code>{=html}</code> spans " +
+                                "show as escaped source in the preview. Scripts and inline event " +
+                                "handlers never run either way. Has no effect in an untrusted project, " +
+                                "and HTML export always keeps raw HTML.",
+                        )
+                }
+            }
+
             group("Preview Styling") {
                 row("Custom CSS file:") {
                     textFieldWithBrowseButton(

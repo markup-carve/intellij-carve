@@ -115,4 +115,25 @@ class CarveConverterTest {
         val html = CarveConverter.toHtml("# One\n\npara\n")
         assertTrue("export should have no anchors: $html", !html.contains("data-source-line"))
     }
+
+    private val rawHtmlDocument =
+        "```=html\n<script>window.pwned = 1</script>\n```\n\n" +
+            "An image `<img src=x onerror=\"window.pwned = 2\">`{=html} inline.\n"
+
+    @Test
+    fun testRawHtmlPassesThroughByDefault() {
+        // HTML export keeps the author's raw HTML.
+        val html = CarveConverter.toHtml(rawHtmlDocument)
+        assertTrue("raw block should pass through: $html", html.contains("<script>window.pwned = 1</script>"))
+        assertTrue("raw span should pass through: $html", html.contains("<img src=x onerror="))
+    }
+
+    @Test
+    fun testRawHtmlIsEscapedWhenDisallowed() {
+        val html = CarveConverter.toHtml(rawHtmlDocument, allowRawHtml = false)
+        assertTrue("raw block should not reach the page: $html", !html.contains("<script>"))
+        assertTrue("raw span should not reach the page: $html", !html.contains("<img"))
+        assertTrue("raw block shows as source: $html", html.contains("&lt;script&gt;"))
+        assertTrue("raw span shows as source: $html", html.contains("&lt;img"))
+    }
 }

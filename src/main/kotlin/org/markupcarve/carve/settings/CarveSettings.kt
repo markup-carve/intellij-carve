@@ -52,6 +52,7 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
         var nodePath: String = "",
         var includeMode: CarveIncludeMode = CarveIncludeMode.AUTO,
         var includeRoot: String = "",
+        var previewRawHtml: Boolean = false,
     )
 
     private var state = State()
@@ -97,7 +98,20 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
         get() = state.includeRoot
         set(value) { state.includeRoot = value }
 
+    /**
+     * Render `=html` blocks and `{=html}` spans as HTML in the preview. Off by
+     * default: the preview runs inside the IDE, and a document from an untrusted
+     * source must not get markup of its own choosing into it. Honored only in a
+     * trusted project, see [previewAllowsRawHtml].
+     */
+    var previewRawHtml: Boolean
+        get() = state.previewRawHtml
+        set(value) { state.previewRawHtml = value }
+
     companion object {
+        /** The preview renders raw HTML only when the user opted in AND the project is trusted. */
+        fun previewAllowsRawHtml(setting: Boolean, projectTrusted: Boolean): Boolean = setting && projectTrusted
+
         fun getInstance(project: Project): CarveSettings =
             project.getService(CarveSettings::class.java)
     }

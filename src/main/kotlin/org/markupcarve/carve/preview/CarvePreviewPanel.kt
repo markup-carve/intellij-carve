@@ -1,5 +1,6 @@
 package org.markupcarve.carve.preview
 
+import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
@@ -30,6 +31,8 @@ import com.intellij.util.messages.MessageBusConnection
 import org.cef.browser.CefBrowser
 import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandlerAdapter
+import org.cef.handler.CefRequestHandlerAdapter
+import org.cef.network.CefRequest
 import org.markupcarve.carve.CarveConverter
 import org.markupcarve.carve.includes.CarveIncludeExpansion
 import org.markupcarve.carve.includes.CarvePreviewIncludes
@@ -78,6 +81,21 @@ class CarvePreviewPanel(
      * exported-HTML case where no bridge exists.
      */
     private val copyQuery: JBCefJSQuery = JBCefJSQuery.create(browser as JBCefBrowserBase)
+
+    /**
+     * Per-shell secret the copy bridge prefixes to every request. The bridge
+     * itself is a `window.cefQuery_*` global any script on the page could call,
+     * so the handler refuses a request that does not carry the current token.
+     */
+    @Volatile
+    private var copyToken = ""
+
+    /** The shell's own URL, captured from its first navigation; see [CarvePreviewNavigation]. */
+    @Volatile
+    private var pageUrl: String? = null
+
+    @Volatile
+    private var expectingShellLoad = false
 
     private val updatePending = AtomicBoolean(false)
     private val updateTimer: Timer
@@ -183,10 +201,43 @@ class CarvePreviewPanel(
     init {
         panel.add(browser.component, BorderLayout.CENTER)
 
-        copyQuery.addHandler { text ->
-            CopyPasteManager.getInstance().setContents(StringSelection(text))
+        copyQuery.addHandler { request ->
+            val prefix = "$copyToken\n"
+            if (copyToken.isEmpty() || !request.startsWith(prefix)) {
+                return@addHandler JBCefJSQuery.Response(null, 403, "denied")
+            }
+            CopyPasteManager.getInstance().setContents(StringSelection(request.substring(prefix.length)))
             JBCefJSQuery.Response("ok")
         }
+
+        browser.jbCefClient.addRequestHandler(
+            object : CefRequestHandlerAdapter() {
+                override fun onBeforeBrowse(
+                    cefBrowser: CefBrowser?,
+                    frame: CefFrame?,
+                    request: CefRequest?,
+                    userGesture: Boolean,
+                    isRedirect: Boolean,
+                ): Boolean {
+                    val url = request?.url ?: return true
+                    val isMain = frame?.isMain != false
+                    if (isMain && expectingShellLoad) {
+                        expectingShellLoad = false
+                        pageUrl = url
+                        return false
+                    }
+                    return when (CarvePreviewNavigation.decide(url, pageUrl, isMain, userGesture)) {
+                        CarvePreviewNavigation.Decision.ALLOW -> false
+                        CarvePreviewNavigation.Decision.OPEN_EXTERNALLY -> {
+                            BrowserUtil.browse(url)
+                            true
+                        }
+                        CarvePreviewNavigation.Decision.BLOCK -> true
+                    }
+                }
+            },
+            browser.cefBrowser,
+        )
 
 
         // The page is only scrollable once its script has actually run.
@@ -338,9 +389,9 @@ class CarvePreviewPanel(
      * callback, rather than a global: the round trip is asynchronous, and two
      * buttons clicked in quick succession would otherwise answer each other.
      */
-    private fun copyBridgeJs(): String =
+    private fun copyBridgeJs(token: String): String =
         copyQuery.inject(
-            "text",
+            "'$token\\n' + text",
             "function(response) { onDone(true); }",
             "function(errCode, errMsg) { onDone(false); }",
         )
@@ -354,6 +405,7 @@ class CarvePreviewPanel(
      * change while a preview is open.
      */
     private fun renderHtml(content: String): String {
+        val allowRawHtml = rawHtmlAllowed()
         val documentPath = runCatching { Path.of(file.path) }.getOrNull()
         val setup = documentPath?.let {
             CarvePreviewIncludes.setupFor(
@@ -368,21 +420,25 @@ class CarvePreviewPanel(
         }
         if (setup == null) {
             includeDependencies = emptyList()
-            return CarveConverter.toHtml(content, project, sourceLine = true)
+            return CarveConverter.toHtml(content, project, sourceLine = true, allowRawHtml = allowRawHtml)
         }
         val expanded = CarveConverter.toHtmlWithIncludes(
             carve = content,
             root = setup.root,
             documentId = setup.documentId,
             sourceLine = true,
+            allowRawHtml = allowRawHtml,
         )
         if (expanded == null) {
             includeDependencies = emptyList()
-            return CarveConverter.toHtml(content, project, sourceLine = true)
+            return CarveConverter.toHtml(content, project, sourceLine = true, allowRawHtml = allowRawHtml)
         }
         includeDependencies = expanded.dependencies
         return CarvePreviewIncludes.warningsHtml(expanded.warnings, expanded.suppressedWarnings) + expanded.html
     }
+
+    private fun rawHtmlAllowed(): Boolean =
+        CarveSettings.previewAllowsRawHtml(CarveSettings.getInstance(project).previewRawHtml, project.isTrusted())
 
     private fun loadPreviewShell() {
         val content = readDocumentText() ?: ""
@@ -393,10 +449,13 @@ class CarvePreviewPanel(
             // Both touch the disk on first use; neither may run on the EDT below.
             val assets = assetBase
             val carveStyles = carveCss()
+            val trustedHtml = rawHtmlAllowed()
             ApplicationManager.getApplication().invokeLater {
                 // Load with the file's directory as the document URL so relative image
                 // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
                 pageReady = false
+                val token = CarvePreviewHtml.newNonce()
+                copyToken = token
                 val baseUrl = file.parent?.let { "file://${it.path}/preview.html" }
                 val page = CarvePreviewHtml.create(
                     initialHtml = html,
@@ -404,8 +463,11 @@ class CarvePreviewPanel(
                     assetBase = assets,
                     carveCss = carveStyles,
                     userCss = css,
-                    copyBridge = copyBridgeJs(),
+                    copyBridge = copyBridgeJs(token),
+                    trustedHtml = trustedHtml,
                 )
+                pageUrl = null
+                expectingShellLoad = true
                 if (baseUrl != null) {
                     browser.loadHTML(page, baseUrl)
                 } else {

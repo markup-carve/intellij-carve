@@ -128,6 +128,23 @@ const clipboard = await page.evaluate(async () => {
     return out;
 });
 
+// Markup that got past the renderer: the CSP must keep every vector inert.
+const attackFile = path.join(path.dirname(pageFile), 'attack.html');
+let attack = { checked: false };
+if (existsSync(attackFile)) {
+    const attackPage = await context.newPage();
+    const violations = [];
+    attackPage.on('console', m => { if (m.type() === 'error') violations.push(m.text()); });
+    await attackPage.goto(pathToFileURL(attackFile).href, { waitUntil: 'load' });
+    await attackPage.waitForTimeout(500);
+    attack = {
+        checked: true,
+        pwned: await attackPage.evaluate(() => window.carvePwned ?? null),
+        violations: violations.filter(v => v.includes('Content Security Policy')).length,
+        copyButtons: await attackPage.evaluate(() => document.querySelectorAll('.carve-copy').length),
+    };
+}
+
 await browser.close();
 
 const checks = [
@@ -149,6 +166,8 @@ const checks = [
     ['code block is one flat surface', seen.codeBackground === 'rgba(0, 0, 0, 0)' && seen.codePadding === '0px',
         `pre ${seen.preBackground}, code ${seen.codeBackground}, code padding ${seen.codePadding}`],
     ['code block has no outline', seen.preBorderWidth === '0px', seen.preBorderWidth],
+    ['raw HTML in the page runs nothing', attack.checked && attack.pwned === null,
+        attack.checked ? `ran: ${attack.pwned ?? 'nothing'}, ${attack.violations} CSP refusals` : 'attack.html missing'],
 ];
 
 let failed = 0;

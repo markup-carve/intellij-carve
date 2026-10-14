@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit
  *   1. an explicit converter script ([scriptPath]) if set and present;
  *   2. the project's `vendor/bin/carve` CLI if installed;
  *   3. an inline one-liner using `Carve\CarveConverter` against the project autoloader.
+ *
+ * `safe` adds `--safe` for the `vendor/bin/carve` CLI only; a custom script and the
+ * one-liner take no flags, so the preview's CSP is what stands between them and the page.
  */
 object CarvePhpConverter {
 
@@ -27,6 +30,7 @@ object CarvePhpConverter {
         phpPath: String = "php",
         scriptPath: String = "",
         workingDir: String? = null,
+        safe: Boolean = false,
     ): Result<String> {
         return try {
             val effectivePhpPath = phpPath.ifBlank { "php" }
@@ -36,7 +40,7 @@ object CarvePhpConverter {
                 scriptPath.isNotBlank() && File(scriptPath).exists() ->
                     listOf(effectivePhpPath, scriptPath)
                 vendorCli != null && vendorCli.exists() ->
-                    listOf(effectivePhpPath, vendorCli.absolutePath)
+                    listOfNotNull(effectivePhpPath, vendorCli.absolutePath, "--safe".takeIf { safe })
                 else ->
                     listOf(effectivePhpPath, "-r", inlineScript)
             }

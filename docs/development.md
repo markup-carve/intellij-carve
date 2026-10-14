@@ -239,7 +239,11 @@ node tools/preview-offline-probe.mjs
 The probe loads the very bytes `CarvePreviewHtml` produced in Chromium with every
 non-`file://` request aborted, and checks that code is highlighted, a chart drew,
 math typeset with its webfonts loaded, a diagram rendered, and both clipboard
-fallbacks report success. It needs Playwright's Chromium
+fallbacks report success. Every check runs under the page's Content Security
+Policy, so a vendored library that starts needing `eval` or an inline script
+fails here as a console error. It also loads `build/preview-probe/attack.html`, a
+page holding a `<script>`, an `onerror` handler and an `iframe srcdoc`, and checks
+that none of them ran. It needs Playwright's Chromium
 (`npx playwright install chromium`) and is deliberately not wired into `check`.
 
 ## TextMate grammar

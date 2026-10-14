@@ -179,7 +179,7 @@ class CarvePreviewHtmlTest {
     /** The Carve grammar registers itself on the global hljs, so it has to load after it. */
     @Test
     fun `the carve highlight grammar loads right after highlight js`() {
-        val scripts = Regex("""<script src="([^"]*)"""").findAll(page()).map { it.groupValues[1] }.toList()
+        val scripts = Regex("""<script\b[^>]*\bsrc="([^"]*)"""").findAll(page()).map { it.groupValues[1] }.toList()
         val hljs = scripts.indexOfFirst { it.endsWith(CarvePreviewAssets.HIGHLIGHT_JS) }
         assertTrue("highlight.js is not loaded", hljs >= 0)
         assertEquals(true, scripts.getOrNull(hljs + 1)?.endsWith(CarvePreviewAssets.HIGHLIGHT_CARVE_JS))
@@ -214,7 +214,7 @@ class CarvePreviewHtmlTest {
         assertTrue("the copy button is never styled", html.contains(".carve-copy"))
         // All three routes, in order. Dropping the fallbacks would leave the
         // exported/bridge-less case with a button that does nothing.
-        assertTrue("no IDE bridge call", html.contains("window.carveCopyText"))
+        assertTrue("no IDE bridge call", html.contains("typeof bridge === 'function'"))
         assertTrue("no navigator.clipboard path", html.contains("navigator.clipboard"))
         assertTrue("no execCommand fallback", html.contains("document.execCommand('copy')"))
         assertTrue("the button never reports failure", html.contains("'failed'"))
@@ -222,10 +222,71 @@ class CarvePreviewHtmlTest {
 
     @Test
     fun `the copy bridge is only injected when there is one`() {
-        assertFalse(page().contains("window.carveCopyText = function"))
+        assertTrue(page().contains("})(null);"))
         val bridged = page(copyBridge = "window.cefQuery_test({request: text, onSuccess: onDone});")
-        assertTrue(bridged.contains("window.carveCopyText = function"))
         assertTrue(bridged.contains("window.cefQuery_test({request: text, onSuccess: onDone});"))
+        assertFalse(bridged.contains("})(null);"))
+    }
+
+    /** Document markup must not reach the IDE clipboard, so the bridge is never a global. */
+    @Test
+    fun `the copy bridge is not reachable from the page`() {
+        val html = page(copyBridge = "secretCall(text, onDone);")
+        assertFalse("the bridge is exposed on window", html.contains("window.carveCopyText"))
+        val closureAt = html.indexOf("var copyButton = (function (bridge) {")
+        val bridgeAt = html.indexOf("secretCall(text, onDone);")
+        assertTrue("the copy closure is gone", closureAt > 0)
+        assertTrue("the bridge body sits outside the closure call", bridgeAt > closureAt)
+        assertTrue("the script holding the bridge is left in the DOM", html.contains("document.currentScript.remove()"))
+    }
+
+    @Test
+    fun `a content security policy comes before every script`() {
+        val html = page(content = "<p>x</p>")
+        val cspAt = html.indexOf("""http-equiv="Content-Security-Policy"""")
+        assertTrue("no CSP", cspAt > 0)
+        assertTrue("CSP comes after the first script", cspAt < html.indexOf("<script"))
+    }
+
+    @Test
+    fun `only the scaffold's scripts carry the nonce`() {
+        val nonce = "testNonce123"
+        val html = CarvePreviewHtml.create(
+            initialHtml = "<p>doc</p>",
+            isDark = false,
+            assetBase = CarvePreviewAssets.baseUrl(assetRoot),
+            nonce = nonce,
+        )
+        val scripts = Regex("""<script\b[^>]*>""").findAll(html).map { it.value }.toList()
+        assertTrue("no scripts found", scripts.isNotEmpty())
+        // A JSON data block (the chart config) is inert and needs no nonce.
+        for (tag in scripts.filterNot { it.contains("application/json") }) {
+            assertTrue("script without the nonce: $tag", tag.contains("""nonce="$nonce""""))
+        }
+        assertTrue(html.contains("script-src 'nonce-$nonce' 'strict-dynamic'"))
+    }
+
+    @Test
+    fun `the policy runs no document script and no eval`() {
+        val csp = CarvePreviewHtml.contentSecurityPolicy("n")
+        val scriptSrc = csp.split("; ").single { it.startsWith("script-src") }
+        assertFalse("inline scripts allowed", scriptSrc.contains("'unsafe-inline'"))
+        assertFalse("eval allowed", csp.contains("'unsafe-eval'"))
+        for (directive in listOf("default-src 'none'", "object-src 'none'", "base-uri 'none'", "frame-src 'none'")) {
+            assertTrue("missing $directive", csp.contains(directive))
+        }
+    }
+
+    @Test
+    fun `a fresh nonce per page`() {
+        assertFalse(CarvePreviewHtml.newNonce() == CarvePreviewHtml.newNonce())
+    }
+
+    @Test
+    fun `mermaid runs strict unless raw HTML is trusted`() {
+        assertTrue(page().contains("securityLevel: 'strict'"))
+        val trusted = CarvePreviewHtml.create("", false, CarvePreviewAssets.baseUrl(assetRoot), trustedHtml = true)
+        assertTrue(trusted.contains("securityLevel: 'loose'"))
     }
 
     /**
@@ -240,11 +301,11 @@ class CarvePreviewHtmlTest {
         val html = page(copyBridge = "noop(text, onDone);")
         assertTrue(
             "the bridge no longer takes the caller's callback",
-            html.contains("window.carveCopyText = function (text, onDone)"),
+            html.contains("function (text, onDone) {"),
         )
         assertTrue(
             "the page does not pass a callback into the bridge",
-            html.contains("window.carveCopyText(text, function (ok) {"),
+            html.contains("bridge(text, function (ok) {"),
         )
         assertFalse("a global copy-result handler is back", html.contains("window.carveCopyResult"))
     }
@@ -280,6 +341,14 @@ class CarvePreviewHtmlTest {
             ),
         )
         assertTrue(out.isFile)
+        // Raw HTML that got past the renderer must still not run under the CSP.
+        File("build/preview-probe/attack.html").writeText(
+            CarvePreviewHtml.create(
+                initialHtml = ATTACK_DOCUMENT,
+                isDark = false,
+                assetBase = CarvePreviewAssets.baseUrl(root),
+            ),
+        )
     }
 
     /**
@@ -323,6 +392,13 @@ class CarvePreviewHtmlTest {
          * One of each construct that used to need the network: a highlighted
          * code block, a chart, inline and display math, and a diagram.
          */
+        val ATTACK_DOCUMENT: String = """
+            <p>attack</p>
+            <script>window.carvePwned = 'script';</script>
+            <img src="file:///carve-probe-missing.png" onerror="window.carvePwned = 'onerror'">
+            <iframe srcdoc="<script>parent.carvePwned = 'iframe'</script>"></iframe>
+        """.trimIndent()
+
         val PROBE_DOCUMENT: String = """
             <h1 id="probe">Offline probe <a href="#probe" class="permalink" aria-label="Permalink">¶</a></h1>
             <h2 id="second">A second heading <a href="#second" class="permalink" aria-label="Permalink">¶</a></h2>
