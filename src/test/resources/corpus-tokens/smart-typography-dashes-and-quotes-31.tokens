@@ -1,0 +1,6 @@
+" -> text.carve keyword.control.smartquote.carve
+Wait -> text.carve
+--- -> text.carve constant.character.entity.typography.carve
+{%%} -> text.carve comment.block.inline.carve
+" -> text.carve keyword.control.smartquote.carve
+ he said.\n -> text.carve

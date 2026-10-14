@@ -1,0 +1,5 @@
+say  -> text.carve
+^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+'note -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ 'two'\n -> text.carve

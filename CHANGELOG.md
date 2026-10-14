@@ -7,14 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.12] - 2026-10-14
+
 ### Added
 
-- **More fenced code languages highlight in their own language**: 65 instead of 38, among them F#, Objective-C, CUDA, Julia, Clojure, Groovy, LaTeX, reStructuredText, Handlebars and Pug, plus the `node` and `dosbatch` info-string spellings. The list now comes from carve-grammars' shared fence-language table, so every Carve editor grammar embeds the same languages. A language the IDE ships no bundle for still keeps a plain body.
+- Fenced code highlighting covers 65 languages from the shared grammar table (#240). Languages missing from the IDE's TextMate bundles keep plain code bodies.
+- Tab and Shift+Tab move list items when the bundled language server supports the list command (#248).
+- The preview holds its last render while the cursor sits on an unfinished list marker (#246).
+
+### Changed
+
+- The preview and language server bundle carve 0.1.11 and carve-lsp 0.1.11.
+- The vendored stylesheet moves to carve-css 0.1.6 (#242, #252).
 
 ### Fixed
 
-- Quote previews and HTML exports preserve paragraph spacing and left-align attributed quotes.
-- The vendored carve-css layers match the published 0.1.4 release, so the forced-colors quote tokens the preview reads are defined upstream rather than only locally (markup-carve/carve-css#32).
+- Quote previews and HTML exports preserve paragraph spacing and align attribution with the quote body (markup-carve/carve-css#32).
+- Closing the preview disposes its editor resources through the IDE's lifecycle (#250).
 
 ## [0.1.11] - 2026-10-08
 
@@ -317,7 +326,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...HEAD
+[0.1.12]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...0.1.12
 [0.1.11]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...0.1.11
 [0.1.10]: https://github.com/markup-carve/intellij-carve/compare/0.1.9...0.1.10
 [0.1.9]: https://github.com/markup-carve/intellij-carve/compare/0.1.8...0.1.9

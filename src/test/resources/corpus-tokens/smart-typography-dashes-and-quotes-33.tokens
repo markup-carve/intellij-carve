@@ -1,0 +1,5 @@
+Il dit  -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ oui  -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ hier.\n -> text.carve

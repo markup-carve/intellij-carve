@@ -1,0 +1,14 @@
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+> -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+ a  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+ b  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+ 1  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> text.carve

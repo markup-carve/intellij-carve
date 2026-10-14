@@ -1,0 +1,32 @@
+He paused, then said\n -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+I will not go, -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ and left. -> text.carve
+\\ -> text.carve constant.character.escape.hard-break.carve
+\n -> text.carve
+'Fine,' she said.\n -> text.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+She said -> text.carve markup.quote.carve
+\n -> text.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+" -> text.carve markup.quote.carve keyword.control.smartquote.carve
+no -> text.carve markup.quote.carve
+" -> text.carve markup.quote.carve keyword.control.smartquote.carve
+ twice. -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+He said\n -> text.carve
+   -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+no -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ twice.\n -> text.carve
+\n -> text.carve
+Back in the\n -> text.carve
+'90s it was rare.\n -> text.carve

@@ -1,0 +1,10 @@
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+a  -> text.carve markup.changed.critic.carve markup.deleted.carve
+{* -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve keyword.control.bold.carve
+x  -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve markup.bold.carve
+~ -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve markup.bold.carve markup.deleted.carve keyword.control.strike.carve
+>y -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve markup.bold.carve markup.deleted.carve markup.deleted.carve
+~ -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve markup.bold.carve markup.deleted.carve keyword.control.strike.carve
+} z -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.changed.critic.carve markup.deleted.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve

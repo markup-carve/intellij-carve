@@ -1,0 +1,10 @@
+he said -> text.carve
+--- -> text.carve constant.character.entity.typography.carve
+" -> text.carve keyword.control.smartquote.carve
+Go -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ and replied– -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+Now -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+.\n -> text.carve
