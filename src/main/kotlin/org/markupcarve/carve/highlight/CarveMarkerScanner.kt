@@ -16,9 +16,11 @@ object CarveMarkerScanner {
     data class Span(val range: TextRange, val key: TextAttributesKey)
 
     private val FENCE = Regex("""^(\s*)(`{3,}|~{3,})""")
-    // A valid opener: fence run, then an optional lang word, optional "title", optional [attrs].
+    // A valid opener: fence run, then an optional lang token, optional "title", optional [attrs].
     // Anything else (e.g. ```js title="x") is not a fence line, so it must not toggle fence state.
-    private val FENCE_OPEN_INFO = Regex("""^\s*(`{3,}|~{3,})\s*=?[A-Za-z0-9_-]*\s*("[^"\n]*")?\s*(\[[^\]\n]*\])?\s*$""")
+    // The token class is the spec's `language_info`: letters, digits and `- _ + # . /`, so
+    // `c++`, `c#`, `f#`, `asp.net` and `text/html` open fences.
+    private val FENCE_OPEN_INFO = Regex("""^\s*(`{3,}|~{3,})\s*=?[A-Za-z0-9_+#./-]*\s*("[^"\n]*")?\s*(\[[^\]\n]*\])?\s*$""")
     // A closer is a bare fence run on its own line.
     private val FENCE_CLOSE = Regex("""^\s*(`{3,}|~{3,})\s*$""")
     // MARKER REQUIRES CONTENT: `#` and `#<space>` are prose, not headings
@@ -89,68 +91,189 @@ object CarveMarkerScanner {
     )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
+    private val LONE_PLUS = Regex("""^(\s*)(\+)(?=\s*$)""")
+    private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
-    // A table row starts or ends with a pipe (standard leading/trailing `|`), or is a `+ ... |`
-    // continuation row. Prose like `choose a | b | c` matches none of these.
-    private val TABLE_ROW = Regex("""^\s*(\||\+.*\|)|\|\s*$""")
+    // A table row opens AND closes with a pipe; trailing attributes may follow the closer.
+    // `| a | b` and `a | b |` are paragraphs in carve-js, and so is prose like `choose a | b`.
+    private val TABLE_ROW = Regex("""^\s*\|.*(?<!\\)\|[ \t]*(?:\{[^{}\n]*\})?[ \t]*$""")
+
+    // A `>` marker per level, each followed by a space or the line end (`> > x`).
+    private val QUOTE_PREFIX = Regex("""^[ \t]*>(?: |$)(?:>(?: |$))*""")
+    private val COMMENT_FENCE = Regex("""^[ \t]*(%{3,})""")
+    private val COMMENT_LINE = Regex("""^[ \t]*%%""")
+    // Front matter: a bare or typed `---` opener on the first line, closed by a bare `---`.
+    private val FRONT_MATTER_OPEN = Regex("""^---(?: ?[A-Za-z0-9]+)?[ \t]*$""")
+    private val FRONT_MATTER_CLOSE = Regex("""^---[ \t]*$""")
+    private val THEMATIC_BREAK = Regex("""^[ \t]*(?:-{3,}|\*{3,})[ \t]*$""")
+    private val DESCRIPTION_TERM = Regex("""^::[ \t]+\S""")
+    private val ATTRIBUTE_LINE = Regex("""^[ \t]*$ATTR_BLOCK[ \t]*$""")
 
     fun scan(text: String): List<Span> {
         val spans = ArrayList<Span>()
+        val lines = splitKeepingOffsets(text)
         var inFence = false
         var fenceChar: Char? = null
         var fenceLen = 0
+        var fenceDepth = 0
+        // Index of the line that closes the open `%%%` block; -1 when none.
+        var skipUntil = -1
+        // Block context, so a marker that cannot interrupt a paragraph stays prose:
+        // `para` then `- not a list` is one paragraph in carve-js.
+        var paragraphOpen = false
+        var inList = false
+        var lastWasTable = false
 
-        for (rawLine in splitKeepingOffsets(text)) {
-            val (line, lineStart) = rawLine
+        var startIndex = 0
+        if (lines.isNotEmpty() && FRONT_MATTER_OPEN.matches(lines[0].first)) {
+            val close = (1 until lines.size).firstOrNull { FRONT_MATTER_CLOSE.matches(lines[it].first) }
+            if (close != null) startIndex = close + 1
+        }
 
-            val fence = FENCE.find(line)
-            if (fence != null) {
-                val marker = fence.groupValues[2]
-                val g = fence.groups[2]!!
-                if (!inFence) {
-                    // Only a well-formed opener starts a fenced block; a malformed one
-                    // (```js title="x") is prose and must not suppress markers below it.
-                    if (FENCE_OPEN_INFO.matches(line)) {
-                        spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
-                        inFence = true; fenceChar = marker[0]; fenceLen = marker.length
-                        continue
+        for (index in startIndex until lines.size) {
+            val (line, lineStart) = lines[index]
+            if (index <= skipUntil) continue
+
+            val prefix = QUOTE_PREFIX.find(line)
+            val depth = prefix?.value?.count { it == '>' } ?: 0
+
+            if (inFence) {
+                if (depth < fenceDepth) {
+                    // The quote holding the fence ended, and the fence with it.
+                    inFence = false; fenceChar = null; fenceLen = 0; fenceDepth = 0
+                } else {
+                    val body = if (fenceDepth > 0) line.substring(quotePrefixEnd(line, fenceDepth)) else line
+                    val bodyStart = line.length - body.length
+                    if (fenceDepth > 0) QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
+                    val close = FENCE.find(body)
+                    if (close != null && FENCE_CLOSE.matches(body)) {
+                        val marker = close.groupValues[2]
+                        if (marker[0] == fenceChar && marker.length >= fenceLen) {
+                            // A bare same-char run at least as long as the opener closes the block; a
+                            // shorter run, or one with trailing content, is code - not a closer.
+                            spans += Span(range(lineStart + bodyStart, close.groups[2]!!.range), CarveColors.FENCE_MARKER)
+                            inFence = false; fenceChar = null; fenceLen = 0; fenceDepth = 0
+                            paragraphOpen = false; inList = false; lastWasTable = false
+                        }
                     }
-                } else if (FENCE_CLOSE.matches(line) && marker[0] == fenceChar && marker.length >= fenceLen) {
-                    // A bare same-char run at least as long as the opener closes the block; a
-                    // shorter run, or one with trailing content, is code - not a closer.
-                    spans += Span(range(lineStart, g.range), CarveColors.FENCE_MARKER)
-                    inFence = false; fenceChar = null; fenceLen = 0
                     continue
                 }
             }
-            if (inFence) continue
 
-            HEADING.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.HEADING_MARKER) }
+            val body = if (prefix != null) line.substring(prefix.range.last + 1) else line
+            val bodyStart = line.length - body.length
+
+            val commentOpen = if (depth == 0) COMMENT_FENCE.find(line) else null
+            if (commentOpen != null) {
+                val len = commentOpen.groupValues[1].length
+                val close = (index + 1 until lines.size).firstOrNull {
+                    COMMENT_FENCE.find(lines[it].first)?.groupValues?.get(1)?.length == len
+                }
+                // Without a closer ahead the line is an ordinary `%%` comment.
+                if (close != null) skipUntil = close
+            }
+
+            val fence = FENCE.find(body)
+            if (fence != null && FENCE_OPEN_INFO.matches(body)) {
+                // Only a well-formed opener starts a fenced block; a malformed one
+                // (```js title="x") is prose and must not suppress markers below it.
+                QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
+                val marker = fence.groupValues[2]
+                spans += Span(range(lineStart + bodyStart, fence.groups[2]!!.range), CarveColors.FENCE_MARKER)
+                inFence = true; fenceChar = marker[0]; fenceLen = marker.length; fenceDepth = depth
+                continue
+            }
+
+            if (index <= skipUntil || COMMENT_LINE.containsMatchIn(line)) {
+                paragraphOpen = false; lastWasTable = false
+                continue
+            }
+
+            if (line.isBlank()) {
+                paragraphOpen = false; lastWasTable = false
+                continue
+            }
+
             QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
-            DIV.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.DIV_MARKER) }
-            CONTINUATION.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.CONTINUATION_MARKER) }
-            BULLET.find(line)?.let { m ->
-                val chain = m.groups[2]!!.range
-                for (i in chain.first..chain.last) {
-                    if (line[i] == '-' || line[i] == '*') {
-                        spans += Span(TextRange(lineStart + i, lineStart + i + 1), CarveColors.LIST_MARKER)
+            val tableRow = TABLE_ROW.containsMatchIn(body) || (lastWasTable && CONTINUATION_ROW.containsMatchIn(body))
+            if (tableRow) {
+                // Never a `|` inside an inline `code` span - that pipe is cell content.
+                for (m in PIPE.findAll(body)) {
+                    if (insideInlineCode(body, m.range.first)) continue
+                    val at = lineStart + bodyStart + m.range.first
+                    spans += Span(TextRange(at, at + 1), CarveColors.TABLE_PIPE)
+                }
+                if (depth == 0) {
+                    CONTINUATION.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.CONTINUATION_MARKER) }
+                }
+                paragraphOpen = false; inList = false; lastWasTable = true
+                continue
+            }
+            lastWasTable = false
+
+            if (depth > 0) {
+                // A quoted paragraph takes lazy lines, so a list marker below it is text too.
+                paragraphOpen = body.isNotBlank() && HEADING.find(body) == null && DIV.find(body) == null
+                inList = false
+                continue
+            }
+
+            val heading = HEADING.find(line)
+            val div = DIV.find(line)
+            if (heading != null || div != null || THEMATIC_BREAK.matches(line) ||
+                DESCRIPTION_TERM.containsMatchIn(line) || ATTRIBUTE_LINE.matches(line)
+            ) {
+                heading?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.HEADING_MARKER) }
+                div?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.DIV_MARKER) }
+                paragraphOpen = false
+                if (!line[0].isWhitespace()) inList = false
+                continue
+            }
+
+            // List markers and a lone `+` do not interrupt a paragraph; inside a list they
+            // start a sibling or nested item, or continue the item.
+            val markersAllowed = !paragraphOpen || inList
+            val bullet = BULLET.find(line)
+            val ordered = ORDERED.find(line)
+            if (markersAllowed && (bullet != null || ordered != null)) {
+                bullet?.let { m ->
+                    val chain = m.groups[2]!!.range
+                    for (i in chain.first..chain.last) {
+                        if (line[i] == '-' || line[i] == '*') {
+                            spans += Span(TextRange(lineStart + i, lineStart + i + 1), CarveColors.LIST_MARKER)
+                        }
                     }
                 }
+                ordered?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
+                inList = true
+                paragraphOpen = true
+                continue
             }
-            ORDERED.find(line)?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
-
-            // Table pipes: only on a line shaped like a table row (leading/trailing pipe, or a
-            // `+ ... |` continuation), and never a `|` inside an inline `code` span - that pipe
-            // is cell content and belongs to TextMate's code colour.
-            if (TABLE_ROW.containsMatchIn(line)) {
-                for (m in PIPE.findAll(line)) {
-                    if (insideInlineCode(line, m.range.first)) continue
-                    spans += Span(TextRange(lineStart + m.range.first, lineStart + m.range.first + 1), CarveColors.TABLE_PIPE)
-                }
+            val continuation = if (markersAllowed) LONE_PLUS.find(line) else null
+            if (continuation != null) {
+                spans += Span(range(lineStart, continuation.groups[2]!!.range), CarveColors.CONTINUATION_MARKER)
+                paragraphOpen = false
+                continue
             }
 
+            // Paragraph text. A flush-left line after a blank one ends the list.
+            if (!paragraphOpen && !line[0].isWhitespace()) inList = false
+            paragraphOpen = true
         }
         return spans
+    }
+
+    /** Offset just past the first [levels] `>` markers of a quoted line. */
+    private fun quotePrefixEnd(line: String, levels: Int): Int {
+        var i = 0
+        var seen = 0
+        while (i < line.length && (line[i] == ' ' || line[i] == '\t')) i++
+        while (seen < levels && i < line.length && line[i] == '>') {
+            seen++
+            i++
+            if (i < line.length && line[i] == ' ') i++
+        }
+        return i
     }
 
     private fun range(lineStart: Int, r: IntRange): TextRange =

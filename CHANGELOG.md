@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Comment with Line Comment toggles a `%% ` prefix and Comment with Block Comment wraps the selection in `{%` and `%}` (#257).
+- `()`, `[]` and `{}` are matched at the caret and close as you type. Emphasis delimiters do not auto-close (#257).
+
 ### Fixed
 
 - Long lines full of unclosed emphasis or critic openers no longer stall highlighting: each opener checks for a closer on its line before the expensive scan (#259). `{*a {/b ` repeated 400 times took about 30 seconds to tokenize and now takes well under one.
@@ -15,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A table row needs its closing pipe, top level and behind `> `: `| a | b` is paragraph text (#259).
 - A `::: note Title` opener with a free-text title is highlighted like its closer (#259).
 - A fenced code block behind `> ` scopes the body's `>` as a quote marker and highlights the body in the fence's language (#259).
+- A fence whose language holds punctuation (`c++`, `c#`, `f#`, `asp.net`, `text/html`) is recognized, so its body no longer gets block marker colors and the fence state no longer inverts for the rest of the document (#257).
+- Marker colors stay out of `%%%` comment bodies, front matter and fenced code inside a block quote (#257).
+- List markers, ordered markers and a lone `+` directly after a paragraph line are left as text, as the parser reads them. Inside a list they are still colored (#257).
+- Table pipes are colored only on a row with both an opening and a closing pipe, and a `+ ... |` row only after a table row (#257).
 
 ## [0.1.12] - 2026-10-14
 
