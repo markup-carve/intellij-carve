@@ -11,15 +11,29 @@ import java.util.concurrent.TimeUnit
  *   1. an explicit converter script ([scriptPath]) if set and present;
  *   2. the project's `vendor/bin/carve` CLI if installed;
  *   3. an inline one-liner using `Carve\CarveConverter` against the project autoloader.
+ *
+ * `safe` adds `--safe` to the CLI and turns on safe mode in the one-liner. A custom
+ * script takes no flags and gets `CARVE_SAFE=1` in its environment instead; whether it
+ * honors that is up to the script, and the preview's CSP still blocks script execution.
  */
 object CarvePhpConverter {
 
     private val LOG = Logger.getInstance(CarvePhpConverter::class.java)
 
-    private val inlineScript = """
+    // carve-php moved from `Carve\` to `MarkupCarve\Carve\`; both are tried.
+    private fun inlineScript(safe: Boolean) = """
         require_once 'vendor/autoload.php';
         ${'$'}input = file_get_contents('php://stdin');
-        echo (new \Carve\CarveConverter())->convert(${'$'}input);
+        ${'$'}cls = class_exists('\\MarkupCarve\\Carve\\CarveConverter') ? '\\MarkupCarve\\Carve\\CarveConverter' : '\\Carve\\CarveConverter';
+        ${'$'}converter = new ${'$'}cls();
+        if (${if (safe) "true" else "false"}) {
+            if (!method_exists(${'$'}converter, 'setSafeMode')) {
+                fwrite(STDERR, 'This carve-php has no safe mode; raw HTML cannot be suppressed.');
+                exit(3);
+            }
+            ${'$'}converter->setSafeMode(true);
+        }
+        echo ${'$'}converter->convert(${'$'}input);
     """.trimIndent()
 
     fun toHtml(
@@ -27,6 +41,7 @@ object CarvePhpConverter {
         phpPath: String = "php",
         scriptPath: String = "",
         workingDir: String? = null,
+        safe: Boolean = false,
     ): Result<String> {
         return try {
             val effectivePhpPath = phpPath.ifBlank { "php" }
@@ -36,12 +51,13 @@ object CarvePhpConverter {
                 scriptPath.isNotBlank() && File(scriptPath).exists() ->
                     listOf(effectivePhpPath, scriptPath)
                 vendorCli != null && vendorCli.exists() ->
-                    listOf(effectivePhpPath, vendorCli.absolutePath)
+                    listOfNotNull(effectivePhpPath, vendorCli.absolutePath, "--safe".takeIf { safe })
                 else ->
-                    listOf(effectivePhpPath, "-r", inlineScript)
+                    listOf(effectivePhpPath, "-r", inlineScript(safe))
             }
 
             val processBuilder = ProcessBuilder(command).redirectErrorStream(false)
+            if (safe) processBuilder.environment()["CARVE_SAFE"] = "1"
             if (workingDir != null) {
                 val dir = File(workingDir)
                 if (!dir.exists()) {

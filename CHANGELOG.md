@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Table pipes are colored only on a row with both an opening and a closing pipe, and a `+ ... |` row only after a table row (#257).
 - Enter after a `:::` container or code fence opener leaves the caret on the new body line instead of after the inserted closer (#258), and a quoted opener (`> ::: note`) puts the caret after the `> ` lead. The plugin now sends carve-lsp's on-type request itself and places the caret, in place of LSP4IJ's handler.
 
+### Security
+
+- The preview no longer runs document markup (#256). `=html` blocks and `{=html}` spans show as escaped source unless **Render raw HTML in trusted projects** is on, a Content Security Policy limits script execution to the plugin's own nonce'd scripts, the clipboard bridge only answers the page's copy buttons, and the preview opens web links in the system browser instead of navigating away. HTML export is unchanged.
+
 ## [0.1.12] - 2026-10-14
 
 ### Added

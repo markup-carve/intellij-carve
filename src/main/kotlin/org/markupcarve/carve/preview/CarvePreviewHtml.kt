@@ -44,10 +44,14 @@ object CarvePreviewHtml {
      * @param assetBase   `file://` URL of the unpacked [CarvePreviewAssets] root, trailing slash
      * @param carveCss    the vendored carve-css layers
      * @param userCss     the user's own CSS, injected last so equal-specificity rules win
-     * @param copyBridge  body of `window.carveCopyText(text, onDone)`, or empty when the page
+     * @param copyBridge  body of the IDE copy bridge `(text, onDone)`, or empty when the page
      *                    has no IDE bridge (the button then falls back to the browser clipboard).
      *                    `onDone(ok)` must be called once per request - it is a parameter rather
      *                    than a global so two quick clicks cannot answer each other's callback.
+     *                    It lives in a closure, never on `window`, so document markup cannot call it.
+     * @param nonce       per-page CSP nonce; only the scaffold's own `<script>` tags carry it
+     * @param trustedHtml the user allowed raw HTML in a trusted project. Only relaxes Mermaid's
+     *                    `securityLevel`; the CSP is the same either way.
      */
     fun create(
         initialHtml: String,
@@ -56,19 +60,23 @@ object CarvePreviewHtml {
         carveCss: String = "",
         userCss: String = "",
         copyBridge: String = "",
+        nonce: String = newNonce(),
+        trustedHtml: Boolean = false,
     ): String {
         val themeClass = if (isDark) "dark" else "light"
         val userStyle = if (userCss.isBlank()) "" else "<style id=\"carve-user-css\">\n$userCss\n</style>"
-        val bridgeScript = if (copyBridge.isBlank()) {
-            ""
+        val bridgeFunction = if (copyBridge.isBlank()) {
+            "null"
         } else {
-            "<script>\n        window.carveCopyText = function (text, onDone) {\n            $copyBridge\n        };\n    </script>"
+            "function (text, onDone) {\n                $copyBridge\n            }"
         }
+        val mermaidSecurity = if (trustedHtml) "loose" else "strict"
         return """
 <!DOCTYPE html>
 <html data-theme="$themeClass">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="${contentSecurityPolicy(nonce)}">
     <link id="hljs-light" rel="stylesheet"
         href="${assetBase}${CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS}"${if (isDark) " disabled" else ""}>
     <link id="hljs-dark" rel="stylesheet"
@@ -506,33 +514,32 @@ ${CarveCodeHighlight.DIFF_CSS}
 
         #content { min-height: 100px; }
     </style>
-    <script src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_JS}"></script>
-    <script src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_CARVE_JS}"></script>
-    <script>
+    <script nonce="$nonce" src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_JS}"></script>
+    <script nonce="$nonce" src="${assetBase}${CarvePreviewAssets.HIGHLIGHT_CARVE_JS}"></script>
+    <script nonce="$nonce">
         window.MathJax = {
             tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
             options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
         };
     </script>
-    <script async src="${assetBase}${CarvePreviewAssets.MATHJAX_JS}"></script>
-    <script src="${assetBase}${CarvePreviewAssets.MERMAID_JS}"></script>
-    <script>
+    <script nonce="$nonce" async src="${assetBase}${CarvePreviewAssets.MATHJAX_JS}"></script>
+    <script nonce="$nonce" src="${assetBase}${CarvePreviewAssets.MERMAID_JS}"></script>
+    <script nonce="$nonce">
         // Mermaid auto-runs on window load and rewrites `pre.mermaid` in place.
         // Left alone it races hydrate(): whichever loses re-renders the other's
         // output and throws UnknownDiagramError on it. Turning startOnLoad off
         // the moment the bundle is parsed leaves exactly one renderer.
         if (typeof mermaid !== 'undefined') { mermaid.initialize({ startOnLoad: false }); }
     </script>
-    <script src="${assetBase}${CarvePreviewAssets.CHART_JS}"></script>
+    <script nonce="$nonce" src="${assetBase}${CarvePreviewAssets.CHART_JS}"></script>
     <style id="carve-css">
 $carveCss
     </style>
     $userStyle
-    $bridgeScript
 </head>
 <body class="$themeClass">
     <div id="content" class="carve">$initialHtml</div>
-    <script>
+    <script nonce="$nonce">
         var chartInstances = [];
 
         // A single hydrate() pass, run BOTH on initial load AND after every
@@ -651,6 +658,9 @@ $carveCss
                 '<line x1="6" y1="6" x2="18" y2="18"></line></svg>'
         };
 
+        // The copy machinery sits in a closure so markup in the document cannot
+        // reach the IDE clipboard bridge; only copyButton() leaves it.
+        var copyButton = (function (bridge) {
         function copyButton(code) {
             var button = document.createElement('button');
             button.type = 'button';
@@ -683,7 +693,7 @@ $carveCss
 
         // Three paths, most reliable first.
         //
-        //  1. carveCopyText - a JBCefJSQuery bridge into the IDE, which sets the
+        //  1. bridge - a JBCefJSQuery round trip into the IDE, which sets the
         //     real IDE clipboard through CopyPasteManager. No permission is
         //     involved, and the text lands where a JetBrains user expects it.
         //  2. navigator.clipboard - present under JCEF (a file:// page IS a
@@ -696,7 +706,7 @@ $carveCss
         // string is what turns the button red: a copy button that quietly does
         // nothing is worse than no copy button.
         function copyText(text) {
-            if (typeof window.carveCopyText === 'function') {
+            if (typeof bridge === 'function') {
                 return new Promise(function (resolve) {
                     // settled guards the fallback as much as the promise: resolve()
                     // is idempotent, but legacyCopy() is not - it would write the
@@ -712,7 +722,7 @@ $carveCss
                         // buttons clicked before the first round trip returns
                         // would otherwise share one handler, and the first
                         // answer would light up the second button.
-                        window.carveCopyText(text, function (ok) {
+                        bridge(text, function (ok) {
                             finish(ok ? 'bridge' : legacyCopy(text));
                         });
                     } catch (e) {
@@ -749,6 +759,9 @@ $carveCss
             return ok ? 'execCommand' : '';
         }
 
+        return copyButton;
+        })($bridgeFunction);
+
         // Inline `<span class="spoiler">` reveals on click/keyboard. The block
         // form `<details class="spoiler">` is native and needs no JS.
         function wireSpoilers() {
@@ -775,7 +788,7 @@ ${CarveCodeHighlight.SCRIPT}
             if (typeof mermaid === 'undefined') return;
             var blocks = root().querySelectorAll('pre.mermaid, pre > code.language-mermaid');
             if (!blocks.length) return;
-            mermaid.initialize({ startOnLoad: false, securityLevel: 'loose', theme: isDark() ? 'dark' : 'default' });
+            mermaid.initialize({ startOnLoad: false, securityLevel: '$mermaidSecurity', theme: isDark() ? 'dark' : 'default' });
             Array.prototype.forEach.call(blocks, function (el) {
                 var pre = el.tagName === 'PRE' ? el : el.parentElement;
                 if (!pre) return;
@@ -841,9 +854,40 @@ ${CarveCodeHighlight.SCRIPT}
 
         document.addEventListener('DOMContentLoaded', hydrate);
         if (document.readyState !== 'loading') { hydrate(); }
+        // The bridge body holds the per-page copy token; drop the source text from the DOM.
+        if (document.currentScript) { document.currentScript.remove(); }
     </script>
 </body>
 </html>
         """.trimIndent()
+    }
+
+    /**
+     * Only the scaffold's nonce'd scripts run; `'strict-dynamic'` lets them load
+     * what they load themselves (MathJax components). Document markup gets no
+     * script, no inline handler, no frame, no plugin object and no `<base>`.
+     * Styles stay inline-capable: the user's CSS, MathJax and Mermaid all inject
+     * `<style>`. Images and media keep remote sources, as before.
+     */
+    fun contentSecurityPolicy(nonce: String): String = listOf(
+        "default-src 'none'",
+        "script-src 'nonce-$nonce' 'strict-dynamic'",
+        "style-src 'unsafe-inline' file:",
+        "font-src file: data:",
+        "img-src file: data: blob: http: https:",
+        "media-src file: data: blob: http: https:",
+        "connect-src 'none'",
+        "frame-src 'none'",
+        "object-src 'none'",
+        "base-uri 'none'",
+        "form-action 'none'",
+    ).joinToString("; ")
+
+    private val random = java.security.SecureRandom()
+
+    fun newNonce(): String {
+        val bytes = ByteArray(18)
+        random.nextBytes(bytes)
+        return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
     }
 }

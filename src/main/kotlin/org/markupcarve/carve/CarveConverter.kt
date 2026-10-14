@@ -35,8 +35,16 @@ object CarveConverter {
      *   step with the editor. Off by default so HTML export stays clean. The carve-php
      *   renderer has no equivalent option, so scroll sync simply does nothing there -
      *   the preview still renders, it just has no anchors to jump to.
+     * @param allowRawHtml when false, `=html` blocks and `{=html}` spans render as escaped
+     *   source (carve-js) or through carve-php's `--safe` mode. The preview passes false
+     *   unless the user allowed raw HTML in a trusted project; export keeps the default.
      */
-    fun toHtml(carve: String, project: Project? = null, sourceLine: Boolean = false): String {
+    fun toHtml(
+        carve: String,
+        project: Project? = null,
+        sourceLine: Boolean = false,
+        allowRawHtml: Boolean = true,
+    ): String {
         if (project != null && CarveSettings.getInstance(project).renderer == CarveRenderer.CARVE_PHP) {
             val settings = CarveSettings.getInstance(project)
             val result = CarvePhpConverter.toHtml(
@@ -44,6 +52,7 @@ object CarveConverter {
                 phpPath = settings.phpPath,
                 scriptPath = settings.phpCarveScript,
                 workingDir = project.basePath,
+                safe = !allowRawHtml,
             )
             if (result.isSuccess) {
                 return result.getOrThrow()
@@ -52,7 +61,7 @@ object CarveConverter {
             return errorHtml("Carve PHP error", error)
         }
 
-        return toHtmlWithJs(carve, sourceLine)
+        return renderWithJs(carve, "carveToHtml", sourceLine, allowRawHtml)
     }
 
     /**
@@ -81,6 +90,7 @@ object CarveConverter {
         root: Path,
         documentId: String,
         sourceLine: Boolean = false,
+        allowRawHtml: Boolean = true,
     ): CarveIncludeExpansion.Result? {
         if (carveJs.isEmpty()) return null
         return try {
@@ -99,7 +109,7 @@ object CarveConverter {
                     CarveIncludeExpansion.read(
                         expand.execute(
                             carve,
-                            optionsBuilder.execute(sourceLine),
+                            optionsBuilder.execute(sourceLine, allowRawHtml),
                             CarveIncludeExpansion.resolver(root),
                             documentId,
                         ),
@@ -178,10 +188,12 @@ object CarveConverter {
         }
     }
 
-    private fun toHtmlWithJs(carve: String, sourceLine: Boolean = false): String =
-        renderWithJs(carve, "carveToHtml", sourceLine)
-
-    private fun renderWithJs(carve: String, fnName: String, sourceLine: Boolean = false): String {
+    private fun renderWithJs(
+        carve: String,
+        fnName: String,
+        sourceLine: Boolean = false,
+        allowRawHtml: Boolean = true,
+    ): String {
         if (carveJs.isEmpty()) {
             return errorHtml("Carve renderer unavailable", "Bundled carve.iife.js is missing from the plugin.")
         }
@@ -205,7 +217,7 @@ object CarveConverter {
                     val optionsBuilder = context.eval(
                         Source.newBuilder("js", CARVE_OPTIONS_JS, "carve-options.js").build(),
                     )
-                    val options = optionsBuilder.execute(sourceLine)
+                    val options = optionsBuilder.execute(sourceLine, allowRawHtml)
                     fn.execute(carve, options).asString()
                 }
         } catch (e: Exception) {
@@ -234,7 +246,7 @@ object CarveConverter {
      * renders core Carve rather than throwing.
      */
     private val CARVE_OPTIONS_JS = """
-        (function (sourceLine) {
+        (function (sourceLine, allowRawHtml) {
           var names = [
             'details', 'mermaid', 'mathBlock', 'spoiler', 'chart',
             'headingReference', 'autolink', 'codeGroup', 'tabs', 'listTable',
@@ -247,7 +259,7 @@ object CarveConverter {
               exts.push(factory());
             }
           }
-          return { extensions: exts, sourceLine: !!sourceLine };
+          return { extensions: exts, sourceLine: !!sourceLine, allowRawHtml: allowRawHtml !== false };
         })
     """.trimIndent()
 
