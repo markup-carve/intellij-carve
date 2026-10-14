@@ -9,12 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Long lines full of unclosed emphasis or critic openers no longer stall highlighting: each opener checks for a closer on its line before the expensive scan. `{*a {/b ` repeated 400 times took about 30 seconds to tokenize and now takes well under one.
-- List, caption and lone `+` marker lines directly after a paragraph are highlighted as paragraph text, the way the engine renders them. A list item keeps its lazy lines, so a marker after one still opens a sibling item, and a `^ ` line after a heading or inside a list item is text.
-- Lists, description lists and `:::` containers behind `> ` are highlighted.
-- A table row needs its closing pipe, top level and behind `> `: `| a | b` is paragraph text.
-- A `::: note Title` opener with a free-text title is highlighted like its closer.
-- A fenced code block behind `> ` scopes the body's `>` as a quote marker and highlights the body in the fence's language.
+- Long lines full of unclosed emphasis or critic openers no longer stall highlighting: each opener checks for a closer on its line before the expensive scan (#259). `{*a {/b ` repeated 400 times took about 30 seconds to tokenize and now takes well under one.
+- List, caption and lone `+` marker lines directly after a paragraph are highlighted as paragraph text, the way the engine renders them (#259). A list item keeps its lazy lines, so a marker after one still opens a sibling item, and a `^ ` line after a heading or inside a list item is text.
+- Lists, description lists and `:::` containers behind `> ` are highlighted (#259).
+- A table row needs its closing pipe, top level and behind `> `: `| a | b` is paragraph text (#259).
+- A `::: note Title` opener with a free-text title is highlighted like its closer (#259).
+- A fenced code block behind `> ` scopes the body's `>` as a quote marker and highlights the body in the fence's language (#259).
 
 ## [0.1.12] - 2026-10-14
 
