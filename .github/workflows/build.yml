@@ -6,6 +6,12 @@ on:
   pull_request:
   workflow_dispatch:
 
+# Pull requests share one group per PR so a new push cancels the stale run;
+# every other event gets its own group, since GitHub keeps one pending run per group.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 # Every job below carries a timeout-minutes bound, so a hung step fails in
 # minutes instead of running to GitHub's 360-minute default.
 jobs:
@@ -28,37 +34,20 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build plugin
-        run: ./gradlew --no-daemon buildPlugin
-
-      - name: Run tests
-        run: ./gradlew --no-daemon test
-
-      # Separate from the test task on purpose: this one reaches the network, so
-      # a failure means the vendored battery is stale (or GitHub is down), not
-      # that the grammar is wrong. Keeping it out of `test` also means a local
-      # run never needs a clone.
-      - name: The vendored block battery still matches carve-grammars
-        run: ./tools/check-battery-drift.sh
-
-      # Same shape: the fence-language table the generated fence rules come from.
-      - name: The vendored fence-language table still matches carve-grammars
-        run: ./tools/check-fence-languages-drift.sh
-
-      # Same shape, same reason: the two vendored carve-css layers sat at 0.1.0
-      # while 0.1.1 was published, and nothing said so (#224). Reaches npm, so
-      # it is a step rather than part of `test`.
-      - name: The vendored carve-css layers still match the newest release
-        run: ./tools/check-carve-css-drift.sh
-
+      # One Gradle invocation, so configuration and the daemon are paid once.
       # The two names swapped meaning in the IntelliJ Platform Gradle Plugin 2.x:
       # `verifyPluginStructure` is the descriptor/archive check that 1.x called
       # `verifyPlugin`, and `verifyPlugin` is now the IntelliJ Plugin Verifier that
-      # 1.x called `runPluginVerifier`. Both still run, in the same order.
-      - name: Verify plugin structure
-        run: ./gradlew --no-daemon verifyPluginStructure
+      # 1.x called `runPluginVerifier`.
+      - name: Build, test and verify plugin structure
+        run: ./gradlew --no-daemon buildPlugin test verifyPluginStructure
 
+      # The Plugin Verifier downloads and checks every IDE in build.gradle.kts, and
+      # a pull request rarely changes what it answers, so it runs after merge.
+      # The network drift checks (battery, fence languages, carve-css) live in
+      # grammar-drift.yml: upstream moving is not a reason for a PR to fail.
       - name: Run Plugin Verifier
+        if: github.event_name != 'pull_request'
         run: ./gradlew --no-daemon verifyPlugin
 
       - name: Upload artifact
