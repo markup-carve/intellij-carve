@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.13] - 2026-10-15
+
+### Changed
+
+- The language server bundle moves to carve-lsp 0.1.12, and the preview and the server keep carve 0.1.11. Enter after a `:::` or code fence opener is unchanged: the plugin already places the caret and the line ending itself (#258), so the server's new closer shape for other clients does not reach it (markup-carve/carve-lsp#555, markup-carve/carve-lsp#559).
+
+### Fixed
+
+- The language server keeps running when the IDE refuses one of its capability registrations, instead of exiting (markup-carve/carve-lsp#556).
+- A bare reference definition with an empty destination (`[label]:`) is colored as a definition, and its label is offered in reference completion (markup-carve/carve-lsp#558).
+
 ## [0.1.12] - 2026-10-14
 
 ### Security
@@ -344,7 +355,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.13...HEAD
+[0.1.13]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...0.1.13
 [0.1.12]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...0.1.12
 [0.1.11]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...0.1.11
 [0.1.10]: https://github.com/markup-carve/intellij-carve/compare/0.1.9...0.1.10
