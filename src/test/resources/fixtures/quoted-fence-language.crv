@@ -1,0 +1,5 @@
+> A quoted fence keeps its language.
+>
+> ```js
+> let total = "sum";
+> ```
