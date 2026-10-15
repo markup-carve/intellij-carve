@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.13] - 2026-10-15
+
+### Changed
+
+- The language server bundle moves to carve-lsp 0.1.12, and the preview and the server keep carve 0.1.11. Enter after a `:::` or code fence opener is unchanged: the plugin already places the caret and the line ending itself (#258), so the server's new closer shape for other clients does not reach it (#263, markup-carve/carve-lsp#555, markup-carve/carve-lsp#559).
+
+### Fixed
+
+- The language server keeps running when the IDE refuses one of its capability registrations, instead of exiting (markup-carve/carve-lsp#556).
+- In the preview, a ```` ```carve ```` sample holding a closed code fence longer than 32 KB is highlighted up to that fence's closer, instead of as code to the end of the sample. The preview's carve grammar is vendored from carve-grammars 0.1.16 (markup-carve/carve-grammars#713, #263).
+
 ## [0.1.12] - 2026-10-14
 
 ### Security
@@ -344,7 +355,8 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.13...HEAD
+[0.1.13]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...0.1.13
 [0.1.12]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...0.1.12
 [0.1.11]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...0.1.11
 [0.1.10]: https://github.com/markup-carve/intellij-carve/compare/0.1.9...0.1.10
