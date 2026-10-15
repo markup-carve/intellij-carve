@@ -16,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - The language server keeps running when the IDE refuses one of its capability registrations, instead of exiting (markup-carve/carve-lsp#556).
-- A bare reference definition with an empty destination (`[label]:`) is colored as a definition, and its label is offered in reference completion (markup-carve/carve-lsp#558).
 
 ## [0.1.12] - 2026-10-14
 
