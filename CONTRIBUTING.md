@@ -25,8 +25,8 @@ bundled renderer, grammar updates, and the release process.
 - **Preview/export rendering** uses the bundled `carve.iife.js`
   (`@markup-carve/carve` on GraalJS) or the carve-php CLI. The language server
   carries a second copy of the same engine, and the two have to be one revision,
-  so regenerate them together with
-  `tools/build-engine-bundles.sh ../carve-js ../carve-lsp` when carve-js changes.
+  so pin matching npm releases with `tools/bump-lsp-bundle.sh 0.1.14 0.1.13`
+  and run `tools/check-lsp-bundle.sh`, as CI does.
 
 ## Testing
 

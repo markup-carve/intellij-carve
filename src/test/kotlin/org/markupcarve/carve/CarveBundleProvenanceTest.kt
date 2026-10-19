@@ -5,27 +5,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
-/**
- * Reads the provenance headers the bundle build scripts write.
- *
- * `tools/build-carve-bundle.sh` and `tools/build-lsp-bundle.sh` have always
- * stamped each bundle with the commit it was built from, and until now nothing
- * ever read one back. A recorded provenance no check consumes looks like
- * traceability and cannot fail - the shape catalogued in markup-carve/carve#755
- * - and it is how `carve-js dependency commit unknown` came to sit in a
- * committed bundle: the producer degraded when carve-lsp moved its engine to
- * the registry, and there was no consumer to notice (#62).
- *
- * This is the local, offline half: the header must exist, be well formed, name
- * a real reference, and agree with the sibling `lsp/VERSION` file. Whether those
- * commits are still current upstream is a networked question and lives in
- * `.github/workflows/engine-drift.yml`, which parses the same three lines.
- *
- * Both files are read from the SOURCE TREE rather than the classpath on
- * purpose: `lsp/VERSION` is a build-script output that has to be checked against
- * its own bundle, and comparing two files that were regenerated together is the
- * point.
- */
+/** Checks committed bundle headers and the pinned npm package metadata. */
 class CarveBundleProvenanceTest {
 
     private val sha = Regex("^[0-9a-f]{40}$")
@@ -82,22 +62,7 @@ class CarveBundleProvenanceTest {
         )
     }
 
-    /**
-     * A sha says which commit; it does not say whether that commit was ever
-     * released. Nothing in this repo asked the difference, and so 0.1.5 shipped
-     * a language server built from `ef1ca246` - twelve commits past `v0.1.3`,
-     * thirty-eight short of main, a revision no carve-lsp user could install -
-     * while `lsp/VERSION` recorded that pin perfectly accurately (#110).
-     *
-     * So the build script now derives a release name for each half from the
-     * upstream that owns it, and this is the consumer that makes the field
-     * load-bearing: `none` is what an untagged checkout produces, and a bundle
-     * built from one cannot be committed past here.
-     *
-     * The engine's release name covers BOTH vendored engines, not just this
-     * one: the test below pins the preview bundle to the same carve-js commit,
-     * so naming that commit's tag once names it for the pair.
-     */
+    /** Both npm packages must name published releases in the server header. */
     @Test
     fun bothVendoredHalvesNameTheReleaseTheyWereBuiltFrom() {
         val header = headerOf(resource("lsp/server.js"))
@@ -113,31 +78,13 @@ class CarveBundleProvenanceTest {
                 )
             assertTrue(
                 "lsp/server.js names '$release' as the release of $what. A vendored bundle has " +
-                    "to come from a published release - 'none' means the checkout it was built " +
-                    "from sat on no tag, which is the unreleased-server bug this field exists " +
-                    "to make visible. Check out the release tag and rebuild.",
+                    "to come from a published release. Rebuild from the npm pin.",
                 RELEASE_REF.matches(release),
             )
         }
     }
 
-    /**
-     * The plugin ships the engine twice - carve.iife.js for the preview pane and
-     * HTML export, and a second copy inlined into the language server - and a
-     * user editing one document is looking at both at once. When they disagree,
-     * nothing on screen says which half is right.
-     *
-     * The two used to be built by two scripts that choose an engine two
-     * different ways, so they were free to drift: they shipped 42 carve-js
-     * commits apart, built 21 seconds apart, and the two tests above both passed
-     * the whole time. Each reads one file (the third compares a bundle against
-     * its own sidecar), so nothing here related one bundle's engine to the
-     * other's - provenance recorded, and the one question it exists to answer
-     * never asked. See #93, and markup-carve/carve#755 for the shape.
-     *
-     * tools/build-engine-bundles.sh is what keeps this true: it takes the
-     * revision once and builds both from it.
-     */
+    /** The preview and server must carry the same published carve-js commit. */
     @Test
     fun bothBundlesCarryTheSameCarveJsCommit() {
         val previewHeader = headerOf(resource("js/carve.iife.js"))
@@ -148,23 +95,19 @@ class CarveBundleProvenanceTest {
         val engine = capture(serverHeader, Regex("carve-js dependency (.+)"))?.trim()
             ?: throw AssertionError("lsp/server.js records no carve-js dependency:\n$serverHeader")
 
-        // A published reference is a legitimate thing for carve-lsp itself to
-        // pin, and the test above accepts it - but `npm 0.1.4` and a 40-hex
-        // commit cannot be compared, so a bundle vendored HERE has to name the
-        // commit. That is what tools/build-engine-bundles.sh writes.
+        // A commit is required to compare the server with the preview bundle.
         val server = capture(listOf(engine), Regex("^commit ([0-9a-f]{40})$"))
             ?: throw AssertionError(
                 "lsp/server.js carries carve-js as '$engine', which cannot be compared against the " +
-                    "preview bundle's commit $preview. Rebuild the pair with " +
-                    "tools/build-engine-bundles.sh, which links the language server against an " +
-                    "explicit carve-js commit for exactly this reason.",
+                    "preview bundle's commit $preview. Rebuild it with tools/build-lsp-bundle.sh, " +
+                    "which stamps the npm gitHead of the pinned carve-js.",
             )
 
         assertEquals(
             "The two vendored engines are different builds of carve-js: the preview pane runs " +
                 "$preview and the language server carries $server. They render the same document " +
                 "for the same user, so they have to be one revision. Rebuild both with " +
-                "'tools/build-engine-bundles.sh ../carve-js ../carve-lsp' and commit the pair.",
+                "'tools/bump-lsp-bundle.sh <lsp-version> <carve-version>' with matching releases.",
             preview,
             server,
         )
@@ -175,10 +118,10 @@ class CarveBundleProvenanceTest {
         val header = headerOf(resource("lsp/server.js"))
         val version = resource("lsp/VERSION").readLines().filter { it.isNotBlank() }
 
-        val fromVersion = version.mapNotNull { line ->
+        val fromVersion = version.associate { line ->
             val (key, value) = line.split(' ', limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            if (key == "built") null else key to value.trim()
-        }.toMap()
+            key to value.trim()
+        }
 
         assertEquals(
             "lsp/VERSION names a different carve-lsp commit than the header inside " +
@@ -206,11 +149,24 @@ class CarveBundleProvenanceTest {
             capture(header, Regex("carve-js release (.+)"))?.trim(),
             fromVersion["carve-js-release"],
         )
-        assertEquals(
-            "lsp/VERSION names a different build time than lsp/server.js.",
-            capture(header, BUILT_AT),
-            version.first { it.startsWith("built ") }.removePrefix("built ").trim(),
-        )
+    }
+
+    @Test
+    fun theBundledServerIsThePinnedNpmVersion() {
+        val pin = sourceFile("tools/lsp-bundle/package.json").readText()
+        val lock = sourceFile("tools/lsp-bundle/package-lock.json").readText()
+        val header = headerOf(resource("lsp/server.js"))
+        val lspVersion = Regex(""""@markup-carve/carve-lsp"\s*:\s*"([^"]+)"""")
+            .find(pin)?.groupValues?.get(1) ?: throw AssertionError("Missing carve-lsp pin")
+        val carveVersion = Regex(""""@markup-carve/carve"\s*:\s*"([^"]+)"""")
+            .find(pin)?.groupValues?.get(1) ?: throw AssertionError("Missing carve-js override")
+        assertTrue("carve-lsp pin must be exact", Regex("\\d+\\.\\d+\\.\\d+").matches(lspVersion))
+        assertTrue("carve-js override must be exact", Regex("\\d+\\.\\d+\\.\\d+").matches(carveVersion))
+        assertEquals("v$lspVersion", capture(header, Regex("carve-lsp release (.+)"))?.trim())
+        assertEquals(carveVersion, capture(header, Regex("carve-js release (.+)"))?.trim())
+        val locked = Regex(""""node_modules/@markup-carve/carve-lsp"\s*:\s*\{[^}]*"version"\s*:\s*"([^"]+)"""", RegexOption.DOT_MATCHES_ALL)
+            .find(lock)?.groupValues?.get(1)
+        assertEquals(lspVersion, locked)
     }
 
     /** The leading comment block, which is all the provenance ever occupies. */
@@ -221,13 +177,17 @@ class CarveBundleProvenanceTest {
         header.firstNotNullOfOrNull { pattern.find(it)?.groupValues?.get(1) }
 
     private fun resource(relative: String): File {
+        return sourceFile("src/main/resources/$relative")
+    }
+
+    private fun sourceFile(relative: String): File {
         var dir: File? = File(System.getProperty("user.dir")).absoluteFile
         while (dir != null) {
-            val candidate = File(dir, "src/main/resources/$relative")
+            val candidate = File(dir, relative)
             if (candidate.isFile) return candidate
             dir = dir.parentFile
         }
-        throw AssertionError("src/main/resources/$relative not found from ${System.getProperty("user.dir")}")
+        throw AssertionError("$relative not found from ${System.getProperty("user.dir")}")
     }
 
     private companion object {

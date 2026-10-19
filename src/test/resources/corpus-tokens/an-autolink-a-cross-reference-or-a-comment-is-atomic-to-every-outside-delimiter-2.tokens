@@ -1,0 +1,10 @@
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+a  -> text.carve markup.changed.critic.carve markup.deleted.carve
+< -> text.carve markup.changed.critic.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
+https://x~ -> text.carve markup.changed.critic.carve markup.deleted.carve meta.link.autolink.carve markup.underline.link.carve
+> -> text.carve markup.changed.critic.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
+y -> text.carve markup.changed.critic.carve markup.deleted.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+z b -> text.carve markup.changed.critic.carve markup.inserted.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+\n -> text.carve

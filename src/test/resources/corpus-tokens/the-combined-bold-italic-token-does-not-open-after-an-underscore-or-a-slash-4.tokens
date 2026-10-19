@@ -1,0 +1,6 @@
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+/* -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+x -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> text.carve markup.underline.text.carve markup.underline.text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve

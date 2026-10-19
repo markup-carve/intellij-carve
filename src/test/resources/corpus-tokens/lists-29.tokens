@@ -1,0 +1,24 @@
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item one\n -> text.carve
+\n -> text.carve
+  second para\n -> text.carve
+\n -> text.carve
+   -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+  code\n -> text.carve markup.raw.block.fenced.code.carve
+   -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> text.carve
+\n -> text.carve
+   -> text.carve markup.quote.carve
+> -> text.carve markup.quote.carve keyword.control.quote.carve
+  -> text.carve markup.quote.carve
+quote -> text.carve markup.quote.carve
+\n -> text.carve
+\n -> text.carve
+   -> text.carve markup.list.unnumbered.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+nested\n -> text.carve

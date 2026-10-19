@@ -1,0 +1,12 @@
+{table  -> text.carve meta.attributes.carve
+footer-rows -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+1 -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+csv -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+last\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve

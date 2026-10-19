@@ -1,0 +1,5 @@
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+︎x  -> text.carve markup.underline.text.carve markup.underline.text.carve
+_y -> text.carve markup.underline.text.carve markup.underline.text.carve
+_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
+\n -> text.carve

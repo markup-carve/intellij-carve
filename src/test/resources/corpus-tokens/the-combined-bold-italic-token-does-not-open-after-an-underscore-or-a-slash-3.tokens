@@ -1,0 +1,5 @@
+see snake_ -> text.carve
+/* -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+glob -> text.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+ now\n -> text.carve

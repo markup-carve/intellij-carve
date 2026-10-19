@@ -1,0 +1,6 @@
+{- -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+a  -> text.carve markup.deleted.critic.carve markup.deleted.carve
+{#x-}#} -> text.carve markup.deleted.critic.carve markup.deleted.carve comment.block.critic.carve
+ b -> text.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> text.carve markup.deleted.critic.carve keyword.control.critic.carve
+\n -> text.carve

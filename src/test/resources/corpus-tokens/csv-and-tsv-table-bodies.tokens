@@ -1,0 +1,18 @@
+{table  -> text.carve meta.attributes.carve
+aligns -> text.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> text.carve meta.attributes.carve
+left,right,right -> text.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+csv -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+Item,Qty,Price\n -> text.carve markup.raw.block.fenced.code.carve
+Apple,12,0.40\n -> text.carve markup.raw.block.fenced.code.carve
+"Pear, green",3,0.55\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
+  -> text.carve markup.table.caption.carve
+Stock on hand -> text.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> text.carve

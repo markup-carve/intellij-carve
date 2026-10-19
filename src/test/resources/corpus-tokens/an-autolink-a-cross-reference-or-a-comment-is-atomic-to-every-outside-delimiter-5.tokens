@@ -1,0 +1,6 @@
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+a  -> text.carve markup.inserted.critic.carve markup.inserted.carve
+{#x+}#} -> text.carve markup.inserted.critic.carve markup.inserted.carve comment.block.critic.carve
+ b -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+\n -> text.carve
