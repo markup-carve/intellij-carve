@@ -1,0 +1,13 @@
+{
+  "name": "intellij-carve-lsp-bundle",
+  "private": true,
+  "dependencies": {
+    "@markup-carve/carve-lsp": "0.1.13"
+  },
+  "overrides": {
+    "@markup-carve/carve": "0.1.12"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

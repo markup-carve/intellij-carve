@@ -15,6 +15,17 @@ concurrency:
 # Every job below carries a timeout-minutes bound, so a hung step fails in
 # minutes instead of running to GitHub's 360-minute default.
 jobs:
+  lsp-bundle:
+    name: The bundled language server is the pinned carve-lsp build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: tools/check-lsp-bundle.sh
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 20

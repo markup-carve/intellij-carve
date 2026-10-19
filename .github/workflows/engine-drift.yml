@@ -84,6 +84,7 @@ jobs:
       js_to: ${{ steps.release.outputs.js_to }}
       lsp_from: ${{ steps.release.outputs.lsp_from }}
       lsp_tag: ${{ steps.release.outputs.lsp_tag }}
+      lsp_version: ${{ steps.release.outputs.lsp_version }}
       lsp_to: ${{ steps.release.outputs.lsp_to }}
     steps:
       - uses: actions/checkout@v4
@@ -147,15 +148,14 @@ jobs:
           # The engine inside the language-server bundle. This used to be
           # whatever carve-lsp itself pinned, and the two bundles were free to
           # be different builds of carve-js - they shipped 42 commits apart
-          # (#93). tools/build-engine-bundles.sh now takes the revision as an
-          # input and builds both from it, so the field below should equal the
-          # preview bundle's commit, and CarveBundleProvenanceTest asserts that
+          # (#93). The npm override keeps the server on the preview engine,
+          # and CarveBundleProvenanceTest asserts that
           # offline on every pull request. Repeated here only as a report: the
           # gate lives with the test, which needs no network.
           engine="$(grep -m1 -oP '(?<=// carve-js dependency ).+' src/main/resources/lsp/server.js || true)"
           echo "language server carries engine: ${engine:-MISSING}"
           if [ -z "$engine" ] || [ "$engine" = "commit unknown" ]; then
-            echo "::error::lsp/server.js records no usable carve-js reference ('${engine}') - rebuild with tools/build-engine-bundles.sh"
+            echo "::error::lsp/server.js records no usable carve-js reference ('${engine}') - rebuild with tools/bump-lsp-bundle.sh"
             rc=1
           fi
           exit "$rc"
@@ -171,9 +171,10 @@ jobs:
           js_from="$(grep -m1 -oP '(?<=Bundled from markup-carve/carve-js commit )[0-9a-f]{40}' src/main/resources/js/carve.iife.js)"
           lsp_from="$(grep -m1 -oP '(?<=Bundled from markup-carve/carve-lsp commit )[0-9a-f]{40}' src/main/resources/lsp/server.js)"
           js_tag="$(gh api repos/markup-carve/carve-js/releases/latest --jq .tag_name)"
-          lsp_tag="$(gh api repos/markup-carve/carve-lsp/releases/latest --jq .tag_name)"
+          lsp_version="$(npm view @markup-carve/carve-lsp version)"
+          lsp_tag="v${lsp_version}"
           js_to="$(git -C upstream/carve-js rev-parse "refs/tags/${js_tag}^{commit}")"
-          lsp_to="$(git -C upstream/carve-lsp rev-parse "refs/tags/${lsp_tag}^{commit}")"
+          lsp_to="$(npm view "@markup-carve/carve-lsp@${lsp_version}" gitHead)"
           echo "carve-js:  vendored ${js_from:0:7}, latest release ${js_tag} ${js_to:0:7}"
           echo "carve-lsp: vendored ${lsp_from:0:7}, latest release ${lsp_tag} ${lsp_to:0:7}"
           behind=0
@@ -191,6 +192,7 @@ jobs:
             echo "js_to=${js_to}"
             echo "lsp_from=${lsp_from}"
             echo "lsp_tag=${lsp_tag}"
+            echo "lsp_version=${lsp_version}"
             echo "lsp_to=${lsp_to}"
           } >> "$GITHUB_OUTPUT"
 
@@ -214,15 +216,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Check out carve-lsp at its latest release
-        uses: actions/checkout@v4
-        with:
-          repository: markup-carve/carve-lsp
-          ref: ${{ needs.provenance.outputs.lsp_to }}
-          path: upstream/carve-lsp
-          fetch-depth: 0
-          persist-credentials: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -238,6 +231,7 @@ jobs:
           JS_TO: ${{ needs.provenance.outputs.js_to }}
           LSP_FROM: ${{ needs.provenance.outputs.lsp_from }}
           LSP_TAG: ${{ needs.provenance.outputs.lsp_tag }}
+          LSP_VERSION: ${{ needs.provenance.outputs.lsp_version }}
           LSP_TO: ${{ needs.provenance.outputs.lsp_to }}
         run: |
           set -euo pipefail
@@ -261,18 +255,22 @@ jobs:
           fi
 
           (cd upstream/carve-js && npm ci && npm run build)
-          tools/build-engine-bundles.sh upstream/carve-js upstream/carve-lsp
+          tools/build-carve-bundle.sh upstream/carve-js
+          tools/bump-lsp-bundle.sh "${LSP_VERSION}" "${JS_TAG#v}"
+          spec_sha="$(git -C upstream/carve-js rev-parse HEAD:spec)"
+          git submodule update --init spec
+          git -C spec checkout -q "$spec_sha"
 
           title="chore: re-vendor both engine bundles from carve-js ${JS_TAG} and carve-lsp ${LSP_TAG}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -q -B "${branch}"
-          git add src/main/resources/js/carve.iife.js src/main/resources/lsp/server.js src/main/resources/lsp/VERSION
+          git add tools/lsp-bundle/package.json tools/lsp-bundle/package-lock.json src/main/resources/js/carve.iife.js src/main/resources/lsp/server.js src/main/resources/lsp/VERSION spec
           git commit -q -m "${title}"
           git push -q --force "${remote}" "${branch}"
 
           {
-            echo "Rebuilds both vendored engine bundles with \`tools/build-engine-bundles.sh\`: carve-js \`${JS_FROM:0:7}\` to the ${JS_TAG} release \`${JS_TO:0:7}\`, and carve-lsp \`${LSP_FROM:0:7}\` to the ${LSP_TAG} release \`${LSP_TO:0:7}\`."
+            echo "Rebuilds the preview and pinned LSP bundle: carve-js \`${JS_FROM:0:7}\` to the ${JS_TAG} release \`${JS_TO:0:7}\`, and carve-lsp \`${LSP_FROM:0:7}\` to the ${LSP_TAG} release \`${LSP_TO:0:7}\`."
             echo
             echo "Opened by the scheduled engine-drift job. CI runs \`./gradlew test\`: CarveBundleProvenanceTest checks the headers and CarveBundleCorpusTest renders the pinned spec corpus through the new preview bundle. A red corpus test usually means a pinned golden predates a ruling the new engine implements; record it in \`expectedDivergences\` or bump the \`spec\` submodule."
             echo
@@ -287,7 +285,7 @@ jobs:
             echo "carve-lsp commits in this move:"
             echo
             echo '```text'
-            git -C upstream/carve-lsp log --format='%h %s' "${LSP_FROM}..${LSP_TO}"
+            gh api "repos/markup-carve/carve-lsp/compare/${LSP_FROM}...${LSP_TO}" --jq '.commits[] | "\(.sha[0:7]) \(.commit.message | split("\n")[0])"'
             echo '```'
           } > "${RUNNER_TEMP}/body.md"
 
