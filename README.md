@@ -65,6 +65,8 @@ the same one the other Carve editor grammars use. The language grammars come fro
 the IDE's own TextMate bundles, so a language the IDE ships no bundle for (`toml`,
 `graphql` or `vue` in a stock IDE) keeps a plain body instead. A
 fence inside a block quote also stays plain: its body lines carry the `> ` prefix.
+A `csv` or `tsv` fence uses grammars this plugin bundles from carve-grammars, which
+mark the separator, quoted fields and the header row.
 
 One limit is worth knowing: inside a fence wider than three characters, a bare
 three-character fence line ends the language highlighting for the rest of the body.

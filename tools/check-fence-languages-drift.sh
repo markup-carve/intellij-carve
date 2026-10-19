@@ -31,5 +31,13 @@ if ! diff -q "$local_file" "$remote_file" >/dev/null; then
   echo "Re-copy tools/fence-languages.json, then run node tools/generate-fence-languages.mjs."
   exit 1
 fi
+for language in csv tsv; do
+  local_grammar="$here/../src/main/resources/textmate/$language.tmLanguage.json"
+  remote_grammar="$upstream/textmate/$language.tmLanguage.json"
+  if [[ ! -f "$remote_grammar" ]] || ! diff -q "$local_grammar" "$remote_grammar" >/dev/null; then
+    echo "The vendored $language grammar differs from carve-grammars: $remote_grammar" >&2
+    exit 1
+  fi
+done
 printf 'check-fence-languages-drift: %s row(s) match carve-grammars.\n' \
   "$(python3 -c "import json,sys; print(len(json.load(open(sys.argv[1], encoding='utf-8'))['languages']))" "$local_file")"
