@@ -2,9 +2,9 @@
 \n -> text.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 csv -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-Name,Note\n -> text.carve markup.raw.block.fenced.code.carve
-A,"one\n -> text.carve markup.raw.block.fenced.code.carve
-two"\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+Name,Note\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+A,"one\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+two"\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve

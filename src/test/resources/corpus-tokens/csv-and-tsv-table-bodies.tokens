@@ -6,10 +6,10 @@ left,right,right -> text.carve meta.attributes.carve string.unquoted.attribute.c
 \n -> text.carve
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
 csv -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-Item,Qty,Price\n -> text.carve markup.raw.block.fenced.code.carve
-Apple,12,0.40\n -> text.carve markup.raw.block.fenced.code.carve
-"Pear, green",3,0.55\n -> text.carve markup.raw.block.fenced.code.carve
+\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+Item,Qty,Price\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+Apple,12,0.40\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+"Pear, green",3,0.55\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
 ``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
 \n -> text.carve markup.raw.block.fenced.code.carve
 ^ -> text.carve markup.table.caption.carve keyword.control.caption.carve

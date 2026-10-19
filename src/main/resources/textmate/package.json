@@ -17,6 +17,14 @@
         "language": "carve",
         "scopeName": "text.carve",
         "path": "./carve.tmLanguage.json"
+      },
+      {
+        "scopeName": "text.csv.carve",
+        "path": "./csv.tmLanguage.json"
+      },
+      {
+        "scopeName": "text.tsv.carve",
+        "path": "./tsv.tmLanguage.json"
       }
     ]
   }

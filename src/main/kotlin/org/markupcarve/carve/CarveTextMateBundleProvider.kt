@@ -55,9 +55,12 @@ class CarveTextMateBundleProvider : TextMateBundleProvider {
     }
 
     private companion object {
+        // Every file package.json names; CarveFenceEmbedTest checks the grammars against it.
         val BUNDLE_FILES = listOf(
             "package.json",
             "carve.tmLanguage.json",
+            "csv.tmLanguage.json",
+            "tsv.tmLanguage.json",
             "language-configuration.json",
         )
     }
