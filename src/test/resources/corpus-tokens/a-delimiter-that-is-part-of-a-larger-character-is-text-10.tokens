@@ -1,0 +1,4 @@
+{^ -> text.carve keyword.control.superscript.carve
+⃣x -> text.carve markup.superscript.carve
+^} -> text.carve keyword.control.superscript.carve
+\n -> text.carve

@@ -1,0 +1,8 @@
+< -> text.carve meta.link.autolink.carve keyword.control.link.carve
+https://a[ -> text.carve meta.link.autolink.carve markup.underline.link.carve
+> -> text.carve meta.link.autolink.carve keyword.control.link.carve
+  -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+q](u -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+) z\n -> text.carve

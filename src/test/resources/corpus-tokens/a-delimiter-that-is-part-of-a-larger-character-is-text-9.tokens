@@ -1,0 +1,5 @@
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+ाx  -> text.carve markup.bold.carve markup.bold.carve
+*y -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve

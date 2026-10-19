@@ -1,0 +1,8 @@
+{table} -> text.carve meta.attributes.carve
+\n -> text.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+csv -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> text.carve markup.raw.block.fenced.code.carve
+"a" ,b\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> text.carve markup.raw.block.fenced.code.carve

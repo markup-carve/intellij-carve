@@ -1,0 +1,5 @@
+Run src -> text.carve
+/* -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+test -> text.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+fixtures now\n -> text.carve

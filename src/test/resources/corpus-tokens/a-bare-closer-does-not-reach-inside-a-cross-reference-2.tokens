@@ -1,0 +1,7 @@
+x  -> text.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+a < -> text.carve markup.italic.carve markup.italic.carve
+/ -> text.carve markup.italic.carve keyword.control.italic.carve
+# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+nothing -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+> y\n -> text.carve

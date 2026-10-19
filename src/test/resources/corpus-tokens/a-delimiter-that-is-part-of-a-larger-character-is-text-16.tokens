@@ -1,0 +1,5 @@
+a -> text.carve
+{% y %} -> text.carve comment.block.inline.carve
+b  -> text.carve
+{%ाx%} -> text.carve comment.block.inline.carve
+\n -> text.carve

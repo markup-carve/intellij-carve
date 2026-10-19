@@ -1,0 +1,4 @@
+{, -> text.carve keyword.control.subscript.carve
+︎x -> text.carve markup.subscript.carve
+,} -> text.carve keyword.control.subscript.carve
+\n -> text.carve

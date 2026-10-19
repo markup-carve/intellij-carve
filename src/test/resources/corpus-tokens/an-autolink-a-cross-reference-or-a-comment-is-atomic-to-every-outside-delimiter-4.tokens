@@ -1,0 +1,6 @@
+{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+a <me@x.org -> text.carve markup.changed.critic.carve markup.deleted.carve
+~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+y> b -> text.carve markup.changed.critic.carve markup.inserted.carve
+~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+\n -> text.carve

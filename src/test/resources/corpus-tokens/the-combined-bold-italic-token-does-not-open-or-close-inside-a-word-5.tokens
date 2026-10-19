@@ -1,0 +1,7 @@
+see lib/ -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+.js and src -> text.carve markup.bold.carve markup.bold.carve
+/* -> text.carve markup.bold.carve markup.bold.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+foo -> text.carve markup.bold.carve markup.bold.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> text.carve markup.bold.carve markup.bold.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+bar\n -> text.carve markup.bold.carve markup.bold.carve
