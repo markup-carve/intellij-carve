@@ -87,12 +87,13 @@ class CarveFenceEmbedTest {
     fun `csv fences highlight headers separators and quoted fields`() {
         val src = "{table}\n```csv\nPlan,Seats,Price per month\nStarter,1,\"\$0\"\nTeam,10,\"\$49, billed yearly\"\n```\n"
         scopesOf(withTables, src, "Plan").let { assertTrue(it, it.contains("markup.heading.csv")) }
-        scopesOf(withTables, src, "Plan,").let { assertTrue(it, it.contains("punctuation.separator.delimiter.csv")) }
+        scopesOf(withTables, src, "Plan,").let { assertTrue(it, it.contains("keyword.operator.separator.csv")) }
         val quoted = scopesOf(withTables, src, "billed yearly")
         assertTrue(quoted, quoted.contains("string.quoted.double.csv"))
+        scopesOf(withTables, src, "Starter").let { assertTrue(it, it.contains("string.unquoted.csv")) }
         val quotedComma = scopesOf(withTables, src, ", billed")
         assertTrue(quotedComma, quotedComma.contains("string.quoted.double.csv"))
-        assertFalse(quotedComma, quotedComma.contains("punctuation.separator.delimiter.csv"))
+        assertFalse(quotedComma, quotedComma.contains("keyword.operator.separator.csv"))
     }
 
     @Test
@@ -108,10 +109,10 @@ class CarveFenceEmbedTest {
     fun `tsv fences highlight tabs and quoted tabs`() {
         val src = "```tsv\nPlan\tSeats\nTeam\t\"a\tb\"\n```\n"
         scopesOf(withTables, src, "Plan").let { assertTrue(it, it.contains("markup.heading.tsv")) }
-        scopesOf(withTables, src, "Plan\t").let { assertTrue(it, it.contains("punctuation.separator.delimiter.tsv")) }
+        scopesOf(withTables, src, "Plan\t").let { assertTrue(it, it.contains("keyword.operator.separator.tsv")) }
         val quotedTab = scopesOf(withTables, src, "a\tb")
         assertTrue(quotedTab, quotedTab.contains("string.quoted.double.tsv"))
-        assertFalse(quotedTab, quotedTab.contains("punctuation.separator.delimiter.tsv"))
+        assertFalse(quotedTab, quotedTab.contains("keyword.operator.separator.tsv"))
     }
     private val onAMarkerLine = "- ```js\n  const x = \"hi\"\n  ```\n"
     private val atABodyColumn = "- item\n\n  ```js\n  const x = \"hi\"\n  ```\n"
