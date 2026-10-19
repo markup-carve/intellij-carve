@@ -90,6 +90,7 @@ class CarveFenceEmbedTest {
         scopesOf(withTables, src, "Plan,").let { assertTrue(it, it.contains("punctuation.separator.delimiter.csv")) }
         val quoted = scopesOf(withTables, src, "billed yearly")
         assertTrue(quoted, quoted.contains("string.quoted.double.csv"))
+        scopesOf(withTables, src, "Starter").let { assertTrue(it, it.contains("string.unquoted.csv")) }
         val quotedComma = scopesOf(withTables, src, ", billed")
         assertTrue(quotedComma, quotedComma.contains("string.quoted.double.csv"))
         assertFalse(quotedComma, quotedComma.contains("punctuation.separator.delimiter.csv"))
