@@ -59,6 +59,8 @@ class CarveLonePlusMarkerTest {
         "description body" to ":: t\n: +\n: b\nplain\n",
         "footnote definition" to "[^a]: +\n  b\nplain\n",
         "stacked bullets" to "- - +\n  - b\nplain\n",
+        "open task item" to "- [ ] +\n- b\n> q\nplain\n",
+        "checked task item" to "- [x] +\n- b\nplain\n",
     )
 
     @Test
@@ -89,7 +91,7 @@ class CarveLonePlusMarkerTest {
 
     @Test
     fun plusBeforeTextOrAfterAnIndentIsLiteral() {
-        for (source in listOf("- + text\n", "1. + text\n", "> + text\n", ":: t\n: + text\n", "[^a]: + text\n", "- a\n  +\n", "  +\n")) {
+        for (source in listOf("- + text\n", "- [ ] + text\n", "1. + text\n", "> + text\n", ":: t\n: + text\n", "[^a]: + text\n", "- a\n  +\n", "  +\n")) {
             assertTrue(source, markerOffsets(source).isEmpty())
             assertFalse(source, grammarMarks(source))
         }

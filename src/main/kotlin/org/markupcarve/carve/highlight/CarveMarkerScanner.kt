@@ -94,7 +94,7 @@ object CarveMarkerScanner {
     private val LONE_PLUS = Regex("""^()(\+)(?=[ \t]*$)""")
     // A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `: +`,
     // `[^a]: +`): the continuation marker, like a `+` at column 0 (markup-carve/carve#3421).
-    private val PLUS_AFTER_MARKER = Regex("""^[ \t]+(\+)(?=[ \t]*$)""")
+    private val PLUS_AFTER_MARKER = Regex("""^[ \t]+(?:\[[ xX_>?-]\][ \t]+)?(\+)(?=[ \t]*$)""")
     private val PLUS_AFTER_QUOTE = Regex("""^(\+)(?=[ \t]*$)""")
     private val PLUS_AFTER_DEFINITION = Regex("""^[ \t]*(?::|\[\^[^\]\n]+\]:)[ \t]+(\+)(?=[ \t]*$)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
