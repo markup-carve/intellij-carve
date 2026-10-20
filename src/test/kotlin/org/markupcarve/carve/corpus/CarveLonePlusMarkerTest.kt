@@ -26,7 +26,8 @@ class CarveLonePlusMarkerTest {
     fun flushLeftPlusAfterListItemIsMarker() {
         val source = "- a\n+\nb\n"
         assertEquals(listOf(source.indexOf('+')), markerOffsets(source))
-        assertTrue(grammarMarks(source))
+        // The grammar cannot see the item or the next line, so a lone `+` line stays text there.
+        assertFalse(grammarMarks(source))
     }
 
     @Test
@@ -63,12 +64,15 @@ class CarveLonePlusMarkerTest {
         "checked task item" to "- [x] +\n- b\nplain\n",
     )
 
+    private val grammarTextForms = setOf("quote", "quote then a lazy-looking line", "nested quote", "footnote definition")
+
     @Test
     fun plusAfterAnOpenerIsMarker() {
         for ((label, source) in afterOpener) {
             val plus = source.indexOf('+')
             assertEquals(label, listOf(plus), markerOffsets(source))
-            assertTrue(label, grammarMarks(source))
+            // The grammar scopes only a `+` right after a list or description marker.
+            assertEquals(label, label !in grammarTextForms, grammarMarks(source))
         }
     }
 

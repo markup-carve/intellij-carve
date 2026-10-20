@@ -1155,8 +1155,8 @@
       ]
     },
     "plus-marker-opener-chain": {
-      "comment": "A lone `+` closing a run of stacked openers that the single-opener rules do not reach (`- > +`, `1. - +`, `>+`, `>>+`): the first-block continuation marker (markup-carve/carve#3445).",
-      "begin": "^([ \\t]*)(?=(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+|>[ ]?)*(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+>[ ]?|>(?=[>+])|[0-9A-Za-z]+[.)][ \\t]+[-*][ \\t])(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+|>[ ]?)*\\+[ \\t]*$)",
+      "comment": "A lone `+` after an ordered marker and a nested bullet on one line (`1. - +`), which the single-opener rules do not reach: the first-block continuation marker, provable on its own line (markup-carve/carve#3445).",
+      "begin": "^([ \\t]*)(?=(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+)*(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)][ \\t]+(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+)+\\+[ \\t]*$)",
       "end": "$",
       "patterns": [
         {
@@ -1172,14 +1172,6 @@
           "captures": {
             "1": {
               "name": "markup.list.numbered.carve keyword.control.list.begin.carve"
-            }
-          }
-        },
-        {
-          "match": "\\G[ \\t]*(>)",
-          "captures": {
-            "1": {
-              "name": "markup.quote.carve keyword.control.quote.carve"
             }
           }
         },
@@ -1210,9 +1202,6 @@
     "block-quote-body": {
       "comment": "Block-level and inline rules reachable after a quote marker has consumed its prefix (markup-carve/intellij-carve#98).",
       "patterns": [
-        {
-          "include": "#plus-marker-after-opener"
-        },
         {
           "include": "#nested-block-quote"
         },
@@ -1403,14 +1392,8 @@
           }
         },
         {
-          "comment": "A lone `+` at column 0 is the list-continuation marker, not a bullet (`+` is never a bullet in Carve); an indented `+` is text (markup-carve/carve#3421).",
-          "name": "markup.list.continuation.carve",
-          "match": "^()(\\+)([ \\t]*)$",
-          "captures": {
-            "2": {
-              "name": "keyword.control.list.continuation.carve"
-            }
-          }
+          "comment": "A lone `+` line is plain text here: whether it is the continuation marker depends on the open container's marker column and on the next line (markup-carve/carve#3445), which a line rule cannot see. `+` is never a bullet.",
+          "match": "^[ \\t]*\\+[ \\t]*$"
         },
         {
           "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first. A BULLET MAY BE GLUED TO AN ATTRIBUTE BLOCK, and then the required space comes after the block, not after the marker - so `-{#x} item` and `*{.c} item` went uncoloured on a line that IS a list item, while the ordered rule beside it already had the branch (markup-carve/carve-grammars#126). It is a LOOKAHEAD: consuming the block would make this rule own those characters, so the attribute rule could no longer scope them. KNOWN LIMITATION, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped, because the task branch has none; the bullet is. THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126). THE RULE IS A REGION AND NOT A MATCH, so that a code fence at the item's BODY column can be reached from inside the item and nowhere else (markup-carve/intellij-carve#133). The region carries no scope of its own: the marker keeps its scopes through beginCaptures 0 and the body tokenizes through `$self`, the document's own pattern list, which is what applied to it when this was a line match - so the only reading that changes is the one `#code-fence-at-body-column` adds, and every list golden in the suite is unchanged. THE END IS THE ITEM BOUNDARY: the first line that neither is blank nor sits past the item's own indent. Blank lines are admitted because an item's body may hold several blocks, and the bound is the opener's indent rather than the body column, which is the looseness `#code-fence-on-marker-line`'s own closer already carries.",
@@ -1847,13 +1830,10 @@
         {
           "comment": "A footnote definition has prose rather than a URL after its label. Match it before the general reference-definition rule so neither its construct nor its first body word is misidentified as a link destination.",
           "name": "meta.footnote.definition.carve",
-          "match": "^\\s*(\\[\\^[^\\]]+\\]:)\\s+(?:(\\+)(?=[ \\t]*$)|\\S.*)$",
+          "match": "^\\s*(\\[\\^[^\\]]+\\]:)\\s+(\\S.*)$",
           "captures": {
             "1": {
               "name": "entity.name.reference.footnote.carve"
-            },
-            "2": {
-              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
             }
           }
         },

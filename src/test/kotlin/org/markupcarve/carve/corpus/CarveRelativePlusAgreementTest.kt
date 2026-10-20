@@ -59,8 +59,15 @@ class CarveRelativePlusAgreementTest {
         assertTrue("grammar agreement $agree fell below $GRAMMAR_FLOOR", agree >= GRAMMAR_FLOOR)
     }
 
+    /** The grammar scopes a marker only where one line proves it, so it never marks text. */
+    @Test
+    fun grammarNeverScopesTextAsMarker() {
+        val wrong = samples.filter { !it.marker && grammarMarks(it) }.map { it.id }
+        assertTrue("text scoped as marker: $wrong", wrong.isEmpty())
+    }
+
     private companion object {
         const val SCANNER_FLOOR = 163
-        const val GRAMMAR_FLOOR = 125
+        const val GRAMMAR_FLOOR = 117
     }
 }
