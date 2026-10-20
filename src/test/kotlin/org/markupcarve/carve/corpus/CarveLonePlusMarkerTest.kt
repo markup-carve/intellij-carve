@@ -43,4 +43,63 @@ class CarveLonePlusMarkerTest {
         assertTrue(markerOffsets(source).isEmpty())
         assertFalse(grammarMarks(source))
     }
+
+    private fun scopesPerChar(source: String): List<String> {
+        val out = ArrayList<String>()
+        for (token in CarveTextMateTokenizer.tokenize(source)) repeat(token.text.length) { out += token.scope }
+        return out
+    }
+
+    private val afterOpener = listOf(
+        "bullet" to "- +\n- b\n> q\nplain\n",
+        "numbered" to "1. +\n2. b\n> q\nplain\n",
+        "quote" to "> +\n> b\nplain\n",
+        "quote then a lazy-looking line" to "> +\n flush\n",
+        "nested quote" to "> > +\n> > b\n> c\nplain\n",
+        "description body" to ":: t\n: +\n: b\nplain\n",
+        "footnote definition" to "[^a]: +\n  b\nplain\n",
+        "stacked bullets" to "- - +\n  - b\nplain\n",
+    )
+
+    @Test
+    fun plusAfterAnOpenerIsMarker() {
+        for ((label, source) in afterOpener) {
+            val plus = source.indexOf('+')
+            assertEquals(label, listOf(plus), markerOffsets(source))
+            assertTrue(label, grammarMarks(source))
+        }
+    }
+
+    @Test
+    fun linesBelowAnOpenerPlusKeepTheirScoping() {
+        for ((label, source) in afterOpener) {
+            val control = source.replaceFirst('+', 'x')
+            val firstLineEnd = source.indexOf('\n', source.indexOf('+')) + 1
+            val marked = scopesPerChar(source)
+            val plain = scopesPerChar(control)
+            assertEquals(label, plain.size, marked.size)
+            assertEquals(label, plain.drop(firstLineEnd), marked.drop(firstLineEnd))
+            val markedBelow = CarveMarkerScanner.scan(source)
+                .filter { it.range.startOffset >= firstLineEnd }.map { it.key to it.range.startOffset }
+            val plainBelow = CarveMarkerScanner.scan(control)
+                .filter { it.range.startOffset >= firstLineEnd }.map { it.key to it.range.startOffset }
+            assertEquals(label, plainBelow, markedBelow)
+        }
+    }
+
+    @Test
+    fun plusBeforeTextOrAfterAnIndentIsLiteral() {
+        for (source in listOf("- + text\n", "1. + text\n", "> + text\n", ":: t\n: + text\n", "[^a]: + text\n", "- a\n  +\n", "  +\n")) {
+            assertTrue(source, markerOffsets(source).isEmpty())
+            assertFalse(source, grammarMarks(source))
+        }
+    }
+
+    @Test
+    fun plusAfterAnOpenerInsideAFenceIsCode() {
+        for (source in listOf("```\n- +\n```\n", "```\n> +\n```\n", "```\n: +\n```\n")) {
+            assertTrue(source, markerOffsets(source).isEmpty())
+            assertFalse(source, grammarMarks(source))
+        }
+    }
 }

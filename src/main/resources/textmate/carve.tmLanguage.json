@@ -1151,9 +1151,26 @@
         }
       ]
     },
+    "plus-marker-after-opener": {
+      "comment": "A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `> > +`, `- - +`) is the continuation marker, like a `+` at column 0 (markup-carve/carve#3421); `+` followed by text is literal. A plain match: it changes neither what an opener consumes nor which lines it owns.",
+      "patterns": [
+        {
+          "name": "markup.list.continuation.carve",
+          "match": "\\G(?<=[ \\t])(\\+)(?=[ \\t]*$)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.list.continuation.carve"
+            }
+          }
+        }
+      ]
+    },
     "block-quote-body": {
       "comment": "Block-level and inline rules reachable after a quote marker has consumed its prefix (markup-carve/intellij-carve#98).",
       "patterns": [
+        {
+          "include": "#plus-marker-after-opener"
+        },
         {
           "include": "#nested-block-quote"
         },
@@ -1373,6 +1390,9 @@
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
             {
+              "include": "#plus-marker-after-opener"
+            },
+            {
               "include": "#code-fence-at-body-column"
             },
             {
@@ -1572,6 +1592,9 @@
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
             {
+              "include": "#plus-marker-after-opener"
+            },
+            {
               "include": "#code-fence-at-body-column"
             },
             {
@@ -1759,10 +1782,13 @@
         },
         {
           "name": "markup.list.definition.carve",
-          "match": "^([ \\t]*)(:)[ \\t]+(?![ \\t]*$)",
+          "match": "^([ \\t]*)(:)[ \\t]+(?![ \\t]*$)(?:(\\+)(?=[ \\t]*$))?",
           "captures": {
             "2": {
               "name": "keyword.control.list.begin.carve"
+            },
+            "3": {
+              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
             }
           }
         }
@@ -1773,10 +1799,13 @@
         {
           "comment": "A footnote definition has prose rather than a URL after its label. Match it before the general reference-definition rule so neither its construct nor its first body word is misidentified as a link destination.",
           "name": "meta.footnote.definition.carve",
-          "match": "^\\s*(\\[\\^[^\\]]+\\]:)\\s+(\\S.*)$",
+          "match": "^\\s*(\\[\\^[^\\]]+\\]:)\\s+(?:(\\+)(?=[ \\t]*$)|\\S.*)$",
           "captures": {
             "1": {
               "name": "entity.name.reference.footnote.carve"
+            },
+            "2": {
+              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
             }
           }
         },

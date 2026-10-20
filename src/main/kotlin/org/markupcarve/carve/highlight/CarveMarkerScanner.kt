@@ -92,6 +92,11 @@ object CarveMarkerScanner {
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val LONE_PLUS = Regex("""^()(\+)(?=[ \t]*$)""")
+    // A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `: +`,
+    // `[^a]: +`): the continuation marker, like a `+` at column 0 (markup-carve/carve#3421).
+    private val PLUS_AFTER_MARKER = Regex("""^[ \t]+(\+)(?=[ \t]*$)""")
+    private val PLUS_AFTER_QUOTE = Regex("""^(\+)(?=[ \t]*$)""")
+    private val PLUS_AFTER_DEFINITION = Regex("""^[ \t]*(?::|\[\^[^\]\n]+\]:)[ \t]+(\+)(?=[ \t]*$)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
     // A table row opens AND closes with a pipe; trailing attributes may follow the closer.
@@ -212,10 +217,17 @@ object CarveMarkerScanner {
             lastWasTable = false
 
             if (depth > 0) {
+                PLUS_AFTER_QUOTE.find(body)?.let {
+                    spans += Span(range(lineStart + bodyStart, it.groups[1]!!.range), CarveColors.CONTINUATION_MARKER)
+                }
                 // A quoted paragraph takes lazy lines, so a list marker below it is text too.
                 paragraphOpen = body.isNotBlank() && HEADING.find(body) == null && DIV.find(body) == null
                 inList = false
                 continue
+            }
+
+            PLUS_AFTER_DEFINITION.find(line)?.let {
+                spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.CONTINUATION_MARKER)
             }
 
             val heading = HEADING.find(line)
@@ -237,6 +249,7 @@ object CarveMarkerScanner {
             val ordered = ORDERED.find(line)
             if (markersAllowed && (bullet != null || ordered != null)) {
                 bullet?.let { m ->
+                    plusAfterMarker(line, m.range.last + 1, lineStart)?.let { spans += it }
                     val chain = m.groups[2]!!.range
                     for (i in chain.first..chain.last) {
                         if (line[i] == '-' || line[i] == '*') {
@@ -244,7 +257,10 @@ object CarveMarkerScanner {
                         }
                     }
                 }
-                ordered?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
+                ordered?.let {
+                    spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER)
+                    plusAfterMarker(line, it.range.last + 1, lineStart)?.let { plus -> spans += plus }
+                }
                 inList = true
                 paragraphOpen = true
                 continue
@@ -274,6 +290,12 @@ object CarveMarkerScanner {
             if (i < line.length && line[i] == ' ') i++
         }
         return i
+    }
+
+    private fun plusAfterMarker(line: String, from: Int, lineStart: Int): Span? {
+        val m = PLUS_AFTER_MARKER.find(line.substring(from)) ?: return null
+        val at = lineStart + from + m.groups[1]!!.range.first
+        return Span(TextRange(at, at + 1), CarveColors.CONTINUATION_MARKER)
     }
 
     private fun range(lineStart: Int, r: IntRange): TextRange =
