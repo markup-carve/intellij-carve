@@ -91,12 +91,15 @@ object CarveMarkerScanner {
     )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
-    private val LONE_PLUS = Regex("""^()(\+)(?=[ \t]*$)""")
-    // A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `: +`,
-    // `[^a]: +`): the continuation marker, like a `+` at column 0 (markup-carve/carve#3421).
-    private val PLUS_AFTER_MARKER = Regex("""^[ \t]+(?:\[[ xX_>?-]\][ \t]+)?(\+)(?=[ \t]*$)""")
-    private val PLUS_AFTER_QUOTE = Regex("""^(\+)(?=[ \t]*$)""")
-    private val PLUS_AFTER_DEFINITION = Regex("""^[ \t]*(?::|\[\^[^\]\n]+\]:)[ \t]+(\+)(?=[ \t]*$)""")
+    private val LONE_PLUS = Regex("""^[ \t]*(\+)[ \t]*$""")
+    // A lone `+` after one or more openers on its own line (`- +`, `1. - +`, `- > +`, `>>+`,
+    // `: +`, `[^a]: +`, `- [ ] +`) is a first-block continuation marker (markup-carve/carve#3445).
+    // An ordered item has no task marker, so `1. [ ] +` stays text.
+    private const val ORDERED_MARK = """(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]"""
+    private val FIRST_BLOCK_PLUS = Regex(
+        """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_>?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|>[ ]?|:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
+    )
+    private val OPENER_STEP = Regex("""(?:([-*])[ \t]+(?:\[[ xX_>?-]\][ \t]+)?|($ORDERED_MARK)[ \t]+|(>)[ ]?|(:|\[\^[^\]\n]+\]:)[ \t]+)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
     // A table row opens AND closes with a pipe; trailing attributes may follow the closer.
@@ -128,6 +131,14 @@ object CarveMarkerScanner {
         var paragraphOpen = false
         var inList = false
         var lastWasTable = false
+        // Open containers by marker column: one stack for unquoted lines, one for the body of
+        // the current quote depth. A separate-line `+` is a marker only at one of these columns
+        // (markup-carve/carve#3445, CARVE-P9-031).
+        val outer = ArrayList<Box>()
+        val quoted = ArrayList<Box>()
+        var prevDepth = 0
+        var prevQuoteCols: Set<Int> = emptySet()
+        var fenceCol = 0
 
         var startIndex = 0
         if (lines.isNotEmpty() && FRONT_MATTER_OPEN.matches(lines[0].first)) {
@@ -142,6 +153,14 @@ object CarveMarkerScanner {
             val prefix = QUOTE_PREFIX.find(line)
             val depth = prefix?.value?.count { it == '>' } ?: 0
 
+            if (inFence && depth == fenceDepth) {
+                val inner = if (fenceDepth > 0) line.substring(quotePrefixEnd(line, fenceDepth)) else line
+                val plus = LONE_PLUS.find(inner)
+                if (plus != null && column(inner, plus.groups[1]!!.range.first) < fenceCol) {
+                    // Left of the fence's column the fence's container has ended (CARVE-P9-031).
+                    inFence = false; fenceChar = null; fenceLen = 0; fenceDepth = 0
+                }
+            }
             if (inFence) {
                 if (depth < fenceDepth) {
                     // The quote holding the fence ended, and the fence with it.
@@ -186,6 +205,8 @@ object CarveMarkerScanner {
                 val marker = fence.groupValues[2]
                 spans += Span(range(lineStart + bodyStart, fence.groups[2]!!.range), CarveColors.FENCE_MARKER)
                 inFence = true; fenceChar = marker[0]; fenceLen = marker.length; fenceDepth = depth
+                fenceCol = column(body, fence.groups[2]!!.range.first)
+                prevDepth = depth; prevQuoteCols = emptySet()
                 continue
             }
 
@@ -196,8 +217,41 @@ object CarveMarkerScanner {
 
             if (line.isBlank()) {
                 paragraphOpen = false; lastWasTable = false
+                prevDepth = 0; prevQuoteCols = emptySet()
                 continue
             }
+
+            val lonePlus = LONE_PLUS.find(body)
+            if (lonePlus != null && (depth == 0 || depth <= prevDepth)) {
+                val at = lonePlus.groups[1]!!.range.first
+                val col = column(body, at)
+                val open = if (depth == 0) outer.any { it.marker == col } || col in prevQuoteCols
+                else col == 0 || quoted.any { it.marker == col }
+                val marker = open && followerAttaches(lines, index + 1, depth, col)
+                if (marker) {
+                    QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
+                    spans += Span(TextRange(lineStart + bodyStart + at, lineStart + bodyStart + at + 1), CarveColors.CONTINUATION_MARKER)
+                    paragraphOpen = false; lastWasTable = false
+                    prevDepth = depth; prevQuoteCols = emptySet()
+                    continue
+                }
+            }
+
+            firstBlockPlus(line, depth, prevDepth, outer.isEmpty(), paragraphOpen && !inList)?.let {
+                spans += Span(TextRange(lineStart + it, lineStart + it + 1), CarveColors.CONTINUATION_MARKER)
+            }
+            val quoteCols = HashSet<Int>()
+            if (depth == 0) {
+                track(outer, line, 0, paragraphOpen, quoteCols)
+            } else {
+                val quoteAt = column(line, line.indexOf('>'))
+                while (outer.isNotEmpty() && outer.last().content > quoteAt) outer.removeAt(outer.size - 1)
+                if (depth != prevDepth) quoted.clear()
+                track(quoted, body, 0, paragraphOpen && depth == prevDepth, HashSet())
+            }
+            if (depth > 0) quoteCols += column(line, line.indexOf('>'))
+
+            prevDepth = depth; prevQuoteCols = quoteCols
 
             QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
             val tableRow = TABLE_ROW.containsMatchIn(body) || (lastWasTable && CONTINUATION_ROW.containsMatchIn(body))
@@ -217,17 +271,10 @@ object CarveMarkerScanner {
             lastWasTable = false
 
             if (depth > 0) {
-                PLUS_AFTER_QUOTE.find(body)?.let {
-                    spans += Span(range(lineStart + bodyStart, it.groups[1]!!.range), CarveColors.CONTINUATION_MARKER)
-                }
                 // A quoted paragraph takes lazy lines, so a list marker below it is text too.
                 paragraphOpen = body.isNotBlank() && HEADING.find(body) == null && DIV.find(body) == null
                 inList = false
                 continue
-            }
-
-            PLUS_AFTER_DEFINITION.find(line)?.let {
-                spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.CONTINUATION_MARKER)
             }
 
             val heading = HEADING.find(line)
@@ -249,7 +296,6 @@ object CarveMarkerScanner {
             val ordered = ORDERED.find(line)
             if (markersAllowed && (bullet != null || ordered != null)) {
                 bullet?.let { m ->
-                    plusAfterMarker(line, m.range.last + 1, lineStart)?.let { spans += it }
                     val chain = m.groups[2]!!.range
                     for (i in chain.first..chain.last) {
                         if (line[i] == '-' || line[i] == '*') {
@@ -257,21 +303,11 @@ object CarveMarkerScanner {
                         }
                     }
                 }
-                ordered?.let {
-                    spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER)
-                    plusAfterMarker(line, it.range.last + 1, lineStart)?.let { plus -> spans += plus }
-                }
+                ordered?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }
                 inList = true
                 paragraphOpen = true
                 continue
             }
-            val continuation = if (markersAllowed) LONE_PLUS.find(line) else null
-            if (continuation != null) {
-                spans += Span(range(lineStart, continuation.groups[2]!!.range), CarveColors.CONTINUATION_MARKER)
-                paragraphOpen = false
-                continue
-            }
-
             // Paragraph text. A flush-left line after a blank one ends the list.
             if (!paragraphOpen && !line[0].isWhitespace()) inList = false
             paragraphOpen = true
@@ -292,10 +328,77 @@ object CarveMarkerScanner {
         return i
     }
 
-    private fun plusAfterMarker(line: String, from: Int, lineStart: Int): Span? {
-        val m = PLUS_AFTER_MARKER.find(line.substring(from)) ?: return null
-        val at = lineStart + from + m.groups[1]!!.range.first
-        return Span(TextRange(at, at + 1), CarveColors.CONTINUATION_MARKER)
+    /** An open container: the column of its marker and the column its content starts at. */
+    private data class Box(val marker: Int, val content: Int)
+
+    /** Column of [index] in [text], tabs expanded to the next multiple of four (PART 7). */
+    private fun column(text: String, index: Int): Int {
+        var col = 0
+        for (i in 0 until index) col = if (text[i] == '\t') (col / 4 + 1) * 4 else col + 1
+        return col
+    }
+
+    /**
+     * Offset of a first-block `+` that closes a run of openers on [line], or null. A quote prefix
+     * that only continues the quote above is not an opener; that `+` is a separate-line marker.
+     */
+    private fun firstBlockPlus(line: String, depth: Int, prevDepth: Int, noContainer: Boolean, inParagraph: Boolean): Int? {
+        val m = FIRST_BLOCK_PLUS.find(line) ?: return null
+        val plus = m.groups[1]!!.range.first
+        val head = line.substring(0, plus)
+        val lead = head.indexOfFirst { it != ' ' && it != '\t' }
+        val onlyQuotes = head.all { it == ' ' || it == '\t' || it == '>' }
+        if (onlyQuotes && depth in 1..prevDepth) return null
+        // An indented `>` with nothing open is paragraph text, not a quote.
+        if (head[lead] == '>' && lead > 0 && noContainer) return null
+        // A list marker cannot interrupt a paragraph.
+        if (inParagraph && head[lead] != '>' && head[lead] != ':' && head[lead] != '[') return null
+        if (Regex("""^[ \t]*$ORDERED_MARK[ \t]+\[""").containsMatchIn(head)) return null
+        return plus
+    }
+
+    /** Applies [text]'s openers to [stack]; collects the columns of its `>` markers into [quotes]. */
+    private fun track(stack: ArrayList<Box>, text: String, from: Int, lazy: Boolean, quotes: MutableSet<Int>) {
+        var i = from
+        while (i < text.length && (text[i] == ' ' || text[i] == '\t')) i++
+        if (i >= text.length) return
+        val indent = column(text, i)
+        var first = true
+        while (i < text.length) {
+            val m = OPENER_STEP.matchAt(text, i) ?: break
+            val at = column(text, i)
+            if (m.groups[3] != null) {
+                quotes += at
+            } else {
+                if (first) while (stack.isNotEmpty() && stack.last().marker >= at) stack.removeAt(stack.size - 1)
+                stack += Box(at, column(text, m.range.last + 1))
+            }
+            first = false
+            i = m.range.last + 1
+            while (i < text.length && (text[i] == ' ' || text[i] == '\t')) i++
+        }
+        if (first) {
+            val top = stack.lastOrNull() ?: return
+            if (lazy && indent < top.content) return
+            while (stack.isNotEmpty() && stack.last().content > indent) stack.removeAt(stack.size - 1)
+        }
+    }
+
+    /** True when line [next] carries a block that starts at [col] under the same quote depth. */
+    private fun followerAttaches(lines: List<Pair<String, Int>>, next: Int, depth: Int, col: Int): Boolean {
+        if (next >= lines.size) return false
+        val line = lines[next].first
+        if (line.isBlank()) return false
+        val prefix = QUOTE_PREFIX.find(line)
+        val d = prefix?.value?.count { it == '>' } ?: 0
+        val text = if (depth > 0) {
+            if (d != depth) return false
+            line.substring(prefix!!.range.last + 1)
+        } else line
+        val start = text.indexOfFirst { it != ' ' && it != '\t' }
+        if (start < 0 || column(text, start) != col) return false
+        // A list item at the marker's column is a sibling; the `+` attaches nothing.
+        return BULLET.find(text) == null && ORDERED.find(text) == null
     }
 
     private fun range(lineStart: Int, r: IntRange): TextRange =

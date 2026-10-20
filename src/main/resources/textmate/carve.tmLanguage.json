@@ -4,6 +4,9 @@
   "scopeName": "text.carve",
   "patterns": [
     {
+      "include": "#plus-marker-opener-chain"
+    },
+    {
       "include": "#thematic-break"
     },
     {
@@ -1151,6 +1154,45 @@
         }
       ]
     },
+    "plus-marker-opener-chain": {
+      "comment": "A lone `+` closing a run of stacked openers that the single-opener rules do not reach (`- > +`, `1. - +`, `>+`, `>>+`): the first-block continuation marker (markup-carve/carve#3445).",
+      "begin": "^([ \\t]*)(?=(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+|>[ ]?)*(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+>[ ]?|>(?=[>+])|[0-9A-Za-z]+[.)][ \\t]+[-*][ \\t])(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+|>[ ]?)*\\+[ \\t]*$)",
+      "end": "$",
+      "patterns": [
+        {
+          "match": "\\G[ \\t]*([-*])(?=[ \\t])",
+          "captures": {
+            "1": {
+              "name": "markup.list.unnumbered.carve keyword.control.list.begin.carve"
+            }
+          }
+        },
+        {
+          "match": "\\G[ \\t]*([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])(?=[ \\t])",
+          "captures": {
+            "1": {
+              "name": "markup.list.numbered.carve keyword.control.list.begin.carve"
+            }
+          }
+        },
+        {
+          "match": "\\G[ \\t]*(>)",
+          "captures": {
+            "1": {
+              "name": "markup.quote.carve keyword.control.quote.carve"
+            }
+          }
+        },
+        {
+          "match": "\\G[ \\t]*(\\+)(?=[ \\t]*$)",
+          "captures": {
+            "1": {
+              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
+            }
+          }
+        }
+      ]
+    },
     "plus-marker-after-opener": {
       "comment": "A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `> > +`, `- - +`) is the continuation marker, like a `+` at column 0 (markup-carve/carve#3421); `+` followed by text is literal. A plain match: it changes neither what an opener consumes nor which lines it owns.",
       "patterns": [
@@ -1390,6 +1432,9 @@
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
             {
+              "include": "#plus-marker-opener-chain"
+            },
+            {
               "include": "#plus-marker-after-opener"
             },
             {
@@ -1591,6 +1636,9 @@
           },
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
+            {
+              "include": "#plus-marker-opener-chain"
+            },
             {
               "include": "#plus-marker-after-opener"
             },

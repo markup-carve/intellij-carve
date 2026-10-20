@@ -24,7 +24,7 @@ class CarveLonePlusMarkerTest {
 
     @Test
     fun flushLeftPlusAfterListItemIsMarker() {
-        val source = "- a\n+\n"
+        val source = "- a\n+\nb\n"
         assertEquals(listOf(source.indexOf('+')), markerOffsets(source))
         assertTrue(grammarMarks(source))
     }
