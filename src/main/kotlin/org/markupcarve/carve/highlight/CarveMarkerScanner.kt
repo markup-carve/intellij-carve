@@ -242,12 +242,12 @@ object CarveMarkerScanner {
             }
             val quoteCols = HashSet<Int>()
             if (depth == 0) {
-                track(outer, line, 0, paragraphOpen, quoteCols)
+                track(outer, line, paragraphOpen, !paragraphOpen || inList, quoteCols)
             } else {
                 val quoteAt = column(line, line.indexOf('>'))
                 while (outer.isNotEmpty() && outer.last().content > quoteAt) outer.removeAt(outer.size - 1)
                 if (depth != prevDepth) quoted.clear()
-                track(quoted, body, 0, paragraphOpen && depth == prevDepth, HashSet())
+                track(quoted, body, paragraphOpen && depth == prevDepth, true, HashSet())
             }
             if (depth > 0) quoteCols += column(line, line.indexOf('>'))
 
@@ -357,14 +357,17 @@ object CarveMarkerScanner {
         return plus
     }
 
-    /** Applies [text]'s openers to [stack]; collects the columns of its `>` markers into [quotes]. */
-    private fun track(stack: ArrayList<Box>, text: String, from: Int, lazy: Boolean, quotes: MutableSet<Int>) {
-        var i = from
+    /**
+     * Applies [text]'s openers to [stack]; collects the columns of its `>` markers into [quotes].
+     * Without [opens] a list marker cannot interrupt the open paragraph, so the line is text.
+     */
+    private fun track(stack: ArrayList<Box>, text: String, lazy: Boolean, opens: Boolean, quotes: MutableSet<Int>) {
+        var i = 0
         while (i < text.length && (text[i] == ' ' || text[i] == '\t')) i++
         if (i >= text.length) return
         val indent = column(text, i)
         var first = true
-        while (i < text.length) {
+        while (opens && i < text.length) {
             val m = OPENER_STEP.matchAt(text, i) ?: break
             val at = column(text, i)
             if (m.groups[3] != null) {

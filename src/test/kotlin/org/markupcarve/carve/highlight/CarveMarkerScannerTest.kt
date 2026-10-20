@@ -383,6 +383,8 @@ class CarveMarkerScannerTest {
         assertEquals(listOf(dash, "+" to CarveColors.CONTINUATION_MARKER), covered("- a\n+\nmore\n"))
         // A block at another column refuses the marker, so the `+` is text.
         assertEquals(listOf(dash), covered("- a\n+\n  more\n"))
+        // A list marker that cannot interrupt a paragraph opens no item for the `+` to reach.
+        assertEquals(none, covered("para\n- x\n+\ny\n"))
     }
 
     /** A row needs its opening AND its closing pipe; carve-js renders the rest as paragraphs. */
