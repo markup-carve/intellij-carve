@@ -1344,9 +1344,9 @@
           }
         },
         {
-          "comment": "A lone `+` at the marker column is the list-continuation marker, not a bullet (`+` is never a bullet in Carve).",
+          "comment": "A lone `+` at column 0 is the list-continuation marker, not a bullet (`+` is never a bullet in Carve); an indented `+` is text (markup-carve/carve#3421).",
           "name": "markup.list.continuation.carve",
-          "match": "^(\\s*)(\\+)(\\s*)$",
+          "match": "^()(\\+)([ \\t]*)$",
           "captures": {
             "2": {
               "name": "keyword.control.list.continuation.carve"

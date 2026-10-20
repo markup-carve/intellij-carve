@@ -91,7 +91,7 @@ object CarveMarkerScanner {
     )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
-    private val LONE_PLUS = Regex("""^(\s*)(\+)(?=\s*$)""")
+    private val LONE_PLUS = Regex("""^()(\+)(?=[ \t]*$)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
     // A table row opens AND closes with a pipe; trailing attributes may follow the closer.
