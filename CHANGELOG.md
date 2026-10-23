@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - The language server bundle moves to carve-lsp 0.1.14, and the preview and the server to carve 0.1.13.
+- The bundled language server is built from an exact npm pin of carve-lsp and checked against it in CI, so the server inside the plugin is byte for byte the carve-lsp release it names (#267).
 
 ### Fixed
 
