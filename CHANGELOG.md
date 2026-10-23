@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- The plugin uses no internal IntelliJ Platform or LSP4IJ API, which the JetBrains Marketplace requires. It refused 0.1.12, 0.1.13 and 0.1.14 for it, so this release carries their changes to the Marketplace, where 0.1.11 was the last listed version. Tab, Shift+Tab, Enter and the preview tool window behave as before.
+- The plugin uses no internal IntelliJ Platform or LSP4IJ API, which the JetBrains Marketplace requires. It refused 0.1.12, 0.1.13 and 0.1.14 for it, so this release carries their changes to the Marketplace, where 0.1.11 was the last listed version. Tab, Shift+Tab, Enter and the preview tool window behave as before (#274).
 
 ## [0.1.14] - 2026-10-23
 
