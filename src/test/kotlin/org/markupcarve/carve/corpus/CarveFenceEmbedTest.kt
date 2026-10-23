@@ -1,5 +1,6 @@
 package org.markupcarve.carve.corpus
 
+import com.google.gson.JsonParser
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -37,6 +38,12 @@ class CarveFenceEmbedTest {
         )
 
     private val withStubs by lazy { CarveTextMateTokenizer.grammarsTogether(*stubs) }
+    private val withTables by lazy {
+        CarveTextMateTokenizer.grammarsTogether(
+            File("src/main/resources/textmate/csv.tmLanguage.json"),
+            File("src/main/resources/textmate/tsv.tmLanguage.json"),
+        )
+    }
 
     private fun scopesOf(grammar: CarveTextMateTokenizer.Grammar, src: String, needle: String): String {
         val at = src.indexOf(needle)
@@ -53,6 +60,60 @@ class CarveFenceEmbedTest {
     }
 
     private val atColumnZero = "```js\nconst x = \"hi\"\n```\n"
+
+    @Test
+    fun `the bundle registers both table grammars without file matchers`() {
+        val bundle = JsonParser.parseString(File("src/main/resources/textmate/package.json").readText()).asJsonObject
+        val grammars = bundle.getAsJsonObject("contributes").getAsJsonArray("grammars")
+        for (language in listOf("csv", "tsv")) {
+            val grammar = grammars.map { it.asJsonObject }.single { it.get("scopeName").asString == "text.$language.carve" }
+            assertEquals("./$language.tmLanguage.json", grammar.get("path").asString)
+            assertFalse("$language claims standalone files", grammar.has("language"))
+            assertTrue(File("src/main/resources/textmate/$language.tmLanguage.json").isFile)
+        }
+    }
+
+    @Test
+    fun `the bundle provider extracts every grammar the bundle names`() {
+        val bundle = JsonParser.parseString(File("src/main/resources/textmate/package.json").readText()).asJsonObject
+        val provider = File("src/main/kotlin/org/markupcarve/carve/CarveTextMateBundleProvider.kt").readText()
+        for (grammar in bundle.getAsJsonObject("contributes").getAsJsonArray("grammars")) {
+            val path = grammar.asJsonObject.get("path").asString.removePrefix("./")
+            assertTrue("$path is not in BUNDLE_FILES, so the IDE gets no such file", provider.contains("\"$path\""))
+        }
+    }
+
+    @Test
+    fun `csv fences highlight headers separators and quoted fields`() {
+        val src = "{table}\n```csv\nPlan,Seats,Price per month\nStarter,1,\"\$0\"\nTeam,10,\"\$49, billed yearly\"\n```\n"
+        scopesOf(withTables, src, "Plan").let { assertTrue(it, it.contains("markup.heading.csv")) }
+        scopesOf(withTables, src, "Plan,").let { assertTrue(it, it.contains("keyword.operator.separator.csv")) }
+        val quoted = scopesOf(withTables, src, "billed yearly")
+        assertTrue(quoted, quoted.contains("string.quoted.double.csv"))
+        scopesOf(withTables, src, "Starter").let { assertTrue(it, it.contains("string.unquoted.csv")) }
+        val quotedComma = scopesOf(withTables, src, ", billed")
+        assertTrue(quotedComma, quotedComma.contains("string.quoted.double.csv"))
+        assertFalse(quotedComma, quotedComma.contains("keyword.operator.separator.csv"))
+    }
+
+    @Test
+    fun `csv quoted fields span lines and escape quotes`() {
+        val src = "```csv\nPlan,Note\nTeam,\"line one\nline two\"\nOther,\"say \"\"hi\"\"\"\n```\n"
+        val continued = scopesOf(withTables, src, "line two")
+        assertTrue(continued, continued.contains("string.quoted.double.csv"))
+        val escaped = scopesOf(withTables, src, "\"\"hi")
+        assertTrue(escaped, escaped.contains("constant.character.escape.csv"))
+    }
+
+    @Test
+    fun `tsv fences highlight tabs and quoted tabs`() {
+        val src = "```tsv\nPlan\tSeats\nTeam\t\"a\tb\"\n```\n"
+        scopesOf(withTables, src, "Plan").let { assertTrue(it, it.contains("markup.heading.tsv")) }
+        scopesOf(withTables, src, "Plan\t").let { assertTrue(it, it.contains("keyword.operator.separator.tsv")) }
+        val quotedTab = scopesOf(withTables, src, "a\tb")
+        assertTrue(quotedTab, quotedTab.contains("string.quoted.double.tsv"))
+        assertFalse(quotedTab, quotedTab.contains("keyword.operator.separator.tsv"))
+    }
     private val onAMarkerLine = "- ```js\n  const x = \"hi\"\n  ```\n"
     private val atABodyColumn = "- item\n\n  ```js\n  const x = \"hi\"\n  ```\n"
 

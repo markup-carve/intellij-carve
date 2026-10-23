@@ -1,0 +1,4 @@
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+a -> text.carve markup.deleted.carve markup.deleted.carve
+~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+‍b~\n -> text.carve

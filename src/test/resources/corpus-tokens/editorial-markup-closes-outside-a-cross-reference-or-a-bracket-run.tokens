@@ -1,0 +1,7 @@
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+a < -> text.carve markup.inserted.critic.carve markup.inserted.carve
+/ -> text.carve markup.inserted.critic.carve markup.inserted.carve
+# -> text.carve markup.inserted.critic.carve markup.inserted.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+x -> text.carve markup.inserted.critic.carve markup.inserted.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+> b+}\n -> text.carve

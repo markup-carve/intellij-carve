@@ -9,3 +9,5 @@ out/
 # JVM crash dumps (produced when a forked test JVM aborts)
 hs_err_pid*.log
 replay_pid*.log
+
+/tools/lsp-bundle/node_modules/

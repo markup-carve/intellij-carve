@@ -1,0 +1,6 @@
+^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+a </ -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+# -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+x -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
+> b]\n -> text.carve

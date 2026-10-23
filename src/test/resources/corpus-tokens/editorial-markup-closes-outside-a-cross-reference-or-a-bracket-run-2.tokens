@@ -1,0 +1,11 @@
+{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+a  -> text.carve markup.inserted.critic.carve markup.inserted.carve
+[ -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve keyword.control.link.begin.carve
+x+} -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve markup.inserted.critic.carve markup.inserted.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ b -> text.carve markup.inserted.critic.carve markup.inserted.carve
++} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
+\n -> text.carve

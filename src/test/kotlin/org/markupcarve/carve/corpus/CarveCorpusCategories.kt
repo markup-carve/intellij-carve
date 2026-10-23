@@ -26,6 +26,18 @@ object CarveCorpusCategories {
      * token-stream snapshots generated from every matching corpus `.crv` file.
      */
     val COVERED: Set<String> = linkedSetOf(
+        // Token boundaries added by the carve-js 0.1.12 spec pin (646be4d).
+        "a-bare-closer-does-not-reach-inside-a-cross-reference",
+        "a-delimiter-that-is-part-of-a-larger-character-is-text",
+        "an-autolink-a-cross-reference-or-a-comment-is-atomic-to-every-outside-delimiter",
+        "an-autolink-is-opaque-to-the-bracket-scan",
+        "an-autolink-or-a-cross-reference-is-atomic-to-brackets-and-braces",
+        "an-escaped-cross-reference-spelling-stays-literal",
+        "csv-and-tsv-table-bodies",
+        "editorial-markup-closes-outside-a-cross-reference-or-a-bracket-run",
+        "the-combined-bold-italic-token-does-not-open-after-an-underscore-or-a-slash",
+        "the-combined-bold-italic-token-does-not-open-inside-an-open-bare-italic-or-bold",
+        "the-combined-bold-italic-token-does-not-open-or-close-inside-a-word",
         "braced-emphasis-can-nest-its-own-kind",
         // The golden pins line ONE: `::<TAB>term` carries no marker scope, which
         // is the rule this category exists for and what #50 fixed.
@@ -452,6 +464,31 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        // Block rulings added by the carve-js 0.1.12 spec pin (646be4d).
+        "a-block-at-an-item-content-column-ends-its-paragraph-before-an-unclosed-fence" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether an unclosed fence ends a list paragraph depends on block state; the list and fence tokens are unchanged.",
+        "a-definition-or-attribute-line-in-a-nested-container-leaves-no-paragraph-for-an-unmarked-line" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a definition or attribute line leaves a paragraph open is block state; its marker tokens are unchanged.",
+        "a-line-is-read-in-the-container-whose-column-it-reaches" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which container reads a line depends on its content column; the container tokens are unchanged.",
+        "a-line-past-a-body-s-column-is-read-in-the-body-and-a-quote-does-not-rebase" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Body-column ownership and quote rebasing are block decisions; the quote and body tokens are unchanged.",
+        "a-quoted-comment-or-attribute-line-closes-the-quote-s-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a comment or attribute line closes a quoted paragraph is block state; its tokens are unchanged.",
+        "a-quoted-item-comment-ends-the-quote-before-an-unclosed-fence" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a quoted comment ends its quote before a fence is block structure; the comment and fence tokens are unchanged.",
+        "a-table-row-or-a-definition-under-a-paragraph-ends-it-before-an-unclosed-fence" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a row or definition ends a paragraph before a fence is block state; their marker tokens are unchanged.",
+        "an-item-comment-or-attribute-line-closes-the-item-s-paragraph" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a comment or attribute line closes a list paragraph is block state; its tokens are unchanged.",
+        "an-unclosed-fence-after-an-attribute-line-in-a-container-ends-at-its-closer" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Where an unclosed fence ends inside a container depends on block ownership; its delimiter tokens are unchanged.",
+        "an-unclosed-fence-under-a-multi-line-quote-paragraph-in-a-container-opens-nothing" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a fence under a quoted paragraph opens depends on paragraph state; the quote and fence tokens are unchanged.",
+        "an-unclosed-fence-under-an-open-paragraph-in-a-container-opens-nothing" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a fence under an open paragraph opens depends on paragraph state; the container and fence tokens are unchanged.",
+        "inside-an-unclosed-fence-only-the-innermost-container-s-closer-is-structural" to
+            "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Which container closer is structural inside an unclosed fence depends on nesting; the closer tokens are unchanged.",
         // Parser and writer rulings added by the spec 0.1.9 corpus.
         "a-below-column-line-continues-a-paragraph-only-where-one-is-open" to
             "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether a line below a nested item's column is lazy continuation depends on which block that item left open; the list, heading, fence, table and container tokens are the same either way.",

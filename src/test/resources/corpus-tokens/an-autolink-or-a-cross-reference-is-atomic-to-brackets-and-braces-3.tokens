@@ -1,0 +1,7 @@
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+a < -> text.carve markup.bold.carve markup.bold.carve
+/ -> text.carve markup.bold.carve markup.bold.carve
+# -> text.carve markup.bold.carve markup.bold.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+x -> text.carve markup.bold.carve markup.bold.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+> b*}\n -> text.carve

@@ -1,230 +1,62 @@
 #!/usr/bin/env bash
-#
-# Regenerates src/main/resources/lsp/server.js from markup-carve/carve-lsp.
-#
-# carve-lsp is a Node language server (stdio transport). It is published to npm,
-# but this bundles from a local checkout (a sibling of this repo by default) so
-# the engine inside it can be overridden - see --carve-js below, which needs a
-# real install tree to link against. Check that checkout out at a RELEASE TAG:
-# the bundle ships to users, the header and VERSION now name the release, and
-# CarveBundleProvenanceTest rejects a bundle built from an untagged commit.
-# esbuild produces a single self-contained CommonJS file with every
-# runtime dependency (carve-js, vscode-languageserver, ...) inlined, so the
-# plugin only needs a `node` binary on the host - no node_modules to ship.
-#
-# The plugin launches it as `node <bundledServerDir>/server.js --stdio` through
-# lsp4ij.
-#
-# Usage:
-#   tools/build-lsp-bundle.sh [path-to-carve-lsp] [--carve-js <git-ref>]
-#
-# --carve-js links the server against an explicit carve-js revision instead of
-# whatever carve-lsp itself pins. The plugin ships TWO engine bundles and they
-# have to be the same engine: the preview pane runs carve.iife.js on GraalJS,
-# this server runs its own inlined copy, and a user who sees them disagree about
-# one document has no way to tell which is right. carve-lsp pins its engine
-# exactly, so without this flag the two bundles inherit whatever two revisions
-# their two upstreams happened to be at - which is how they came to ship 42
-# commits apart (#93). tools/build-engine-bundles.sh passes it.
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")/.." && pwd)"
-carve_lsp="$here/../carve-lsp"
-carve_js_override=""
-saw_path=0
-
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --carve-js)
-      if [ $# -lt 2 ]; then
-        echo "--carve-js needs a carve-js git ref" >&2
-        exit 64
-      fi
-      carve_js_override="$2"
-      shift 2
-      ;;
-    -*)
-      echo "unknown option: $1" >&2
-      echo "Usage: tools/build-lsp-bundle.sh [path-to-carve-lsp] [--carve-js <git-ref>]" >&2
-      exit 64
-      ;;
-    *)
-      if [ "$saw_path" -eq 1 ]; then
-        echo "unexpected argument: $1" >&2
-        exit 64
-      fi
-      carve_lsp="$1"
-      saw_path=1
-      shift
-      ;;
-  esac
-done
-
-if [ ! -d "$carve_lsp" ]; then
-  echo "carve-lsp checkout not found at $carve_lsp" >&2
-  echo "Pass the carve-lsp checkout path explicitly." >&2
-  exit 1
-fi
-
-# Always rebuild the server from source so the vendored bundle matches the
-# checked-out commit. carve-lsp pulls carve-js from git; `npm install` (not
-# `npm ci`) is used deliberately so a drifted lockfile still resolves a
-# carve-js that exports everything carve-lsp's source imports.
-echo "Building carve-lsp in $carve_lsp ..."
-(cd "$carve_lsp" && npm install)
-
-if [ -n "$carve_js_override" ]; then
-  # --no-save on purpose: the caller's carve-lsp checkout is a sibling working
-  # copy, and this override belongs to THIS build, not to carve-lsp's own pin.
-  # Its tracked package.json and package-lock.json come out untouched, which is
-  # exactly why the provenance probe further down reads the INSTALLED tree
-  # rather than the declared lockfile - see the comment there.
-  echo "Linking carve-lsp against carve-js ${carve_js_override} ..."
-  (cd "$carve_lsp" && npm install --no-save "github:markup-carve/carve-js#${carve_js_override}")
-fi
-
-(cd "$carve_lsp" && npm run build)
-
-if [ ! -f "$carve_lsp/dist/server.js" ]; then
-  echo "carve-lsp dist not found at $carve_lsp/dist/server.js after build" >&2
-  exit 1
-fi
-
-out_dir="$here/src/main/resources/lsp"
-out="$out_dir/server.js"
-mkdir -p "$out_dir"
-
-# Run esbuild from inside the carve-lsp checkout so the module path comments
-# and __commonJS keys it emits are checkout-relative (dist/..., node_modules/...)
-# instead of embedding machine-local paths from wherever the script happens to
-# be invoked.
-(cd "$carve_lsp" && npx --yes esbuild dist/server.js \
-  --bundle --platform=node --format=cjs --target=node18 \
-  --legal-comments=none --outfile="$out")
-
-# Record the carve-lsp commit this bundle was built from, so staleness is
-# detectable later (compare against carve-lsp HEAD). Written as a sibling
-# VERSION file and prepended as a JS comment in the bundle itself.
-carve_lsp_sha="$(git -C "$carve_lsp" rev-parse HEAD 2>/dev/null || echo unknown)"
-# ... and whether that commit is a RELEASE. A sha alone cannot answer it, which
-# is how 0.1.5 came to ship a server built from a commit twelve past v0.1.3 and
-# thirty-eight short of main: the VERSION file recorded the pin faithfully and
-# still said nothing about what the pin WAS (#110). Derived from the checkout,
-# never passed in, so it cannot be typed wrong; `none` when HEAD is not tagged,
-# which is honest for a local build and which CarveBundleProvenanceTest rejects
-# for a committed one.
-#
-# `|| true` on both lookups because the no-match case is the one they exist to
-# answer: under the `set -euo pipefail` above, a grep that matches nothing makes
-# the whole pipeline nonzero and kills the script, so without it an untagged
-# checkout aborted the build rather than reaching the fallback below.
-carve_lsp_release="$(git -C "$carve_lsp" tag --points-at HEAD 2>/dev/null \
-  | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+' | head -n 1 || true)"
-carve_lsp_release="${carve_lsp_release:-none}"
-# The carve-js dependency this bundle actually CARRIES, read from the installed
-# tree. Two shapes, because carve-lsp has used both: a git tarball URL carrying
-# the commit after a `#`, and (as of carve-lsp 465a0d5, "pin the engine
-# exactly") a plain registry tarball for a published version. Emitted as
-# `commit <40-hex>` or `npm <version>`.
-#
-# It reads node_modules/.package-lock.json, which npm writes to describe what is
-# on disk, and NOT the checkout's own package-lock.json, which records what is
-# declared. The two differ whenever anything installs outside the declaration -
-# most obviously --carve-js above, which leaves the tracked lockfile alone by
-# design. esbuild bundled the installed tree, so the installed tree is the only
-# honest answer to "which engine is in this file"; stamping the declaration
-# would put a commit in the header that is not in the payload, and a stamp that
-# lies is worse than no stamp (#93).
-#
-# This used to read only the `#` fragment and fall back to the literal string
-# `unknown`. When carve-lsp switched to the registry the field degraded to
-# `unknown` in the committed bundle and nobody noticed, because nothing read the
-# header back - the same shape as the drift this file's provenance exists to
-# make visible (#62). `unknown` is now a hard failure here, and
-# CarveBundleProvenanceTest rejects it on the way in as well.
-carve_js_ref="$(node -e '
-  const fs = require("fs");
-  const installed = process.argv[1] + "/node_modules/.package-lock.json";
-  if (!fs.existsSync(installed)) {
-    throw new Error("no installed tree at " + installed + " - npm install did not run");
-  }
-  const lock = JSON.parse(fs.readFileSync(installed, "utf8"));
-  const pkg = lock.packages["node_modules/@markup-carve/carve"];
-  if (!pkg) throw new Error("carve-lsp installed tree has no @markup-carve/carve entry");
-  const resolved = pkg.resolved || "";
-  const frag = resolved.split("#")[1];
-  if (frag && /^[0-9a-f]{40}$/.test(frag)) console.log("commit " + frag);
-  else if (pkg.version) console.log("npm " + pkg.version);
-  else throw new Error("cannot determine the carve-js reference from " + resolved);
-' "$carve_lsp")"
-
-# The stamp has to describe the payload, so an override that did not take is a
-# hard failure rather than a bundle quietly built from something else.
-if [ -n "$carve_js_override" ] && [ "$carve_js_ref" != "commit $carve_js_override" ]; then
-  echo "asked to link carve-js ${carve_js_override}, but the installed tree resolves to '${carve_js_ref}'" >&2
-  echo "Pass a full 40-character carve-js commit; a branch or tag name cannot be stamped." >&2
-  exit 1
-fi
-
-# The same question for the engine this bundle carries. Two shapes to answer it
-# from: a registry reference already IS a version, and a commit has to be looked
-# up against the tags carve-js publishes. `git ls-remote` rather than a checkout
-# because this script never has one - it links the engine through npm - and the
-# build is already online by the time it gets here.
-case "$carve_js_ref" in
-  "npm "*)
-    carve_js_release="${carve_js_ref#npm }"
-    ;;
-  "commit "*)
-    carve_js_release="$(git ls-remote --tags https://github.com/markup-carve/carve-js.git 2>/dev/null \
-      | sed -n "s|^${carve_js_ref#commit }[[:space:]]*refs/tags/||p" \
-      | sed 's|\^{}$||' \
-      | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+' | head -n 1 || true)"
-    carve_js_release="${carve_js_release:-none}"
-    ;;
-  *)
-    carve_js_release="none"
-    ;;
-esac
-
-# Standalone run, no override: say so now if this bundle is about to disagree
-# with the preview bundle sitting next to it. CarveBundleProvenanceTest fails on
-# exactly this, and finding out at build time - with both revisions named - beats
-# finding out from a test three commands later.
-if [ -z "$carve_js_override" ]; then
-  preview_ref="$(sed -n 's|^// Bundled from markup-carve/carve-js commit \([0-9a-f]\{40\}\)$|commit \1|p' \
-    "$here/src/main/resources/js/carve.iife.js" 2>/dev/null | head -n 1)"
-  if [ -n "$preview_ref" ] && [ "$preview_ref" != "$carve_js_ref" ]; then
-    echo >&2
-    echo "WARNING: this bundle carries carve-js '${carve_js_ref}', but the preview bundle" >&2
-    echo "         beside it carries '${preview_ref}'. The plugin would ship two different" >&2
-    echo "         engines and CarveBundleProvenanceTest will reject the pair." >&2
-    echo "         Rebuild both:   tools/build-engine-bundles.sh ../carve-js ../carve-lsp" >&2
-    echo "         Or link this one against the preview's engine:" >&2
-    echo "         tools/build-lsp-bundle.sh ${carve_lsp} --carve-js ${preview_ref#commit }" >&2
-    echo >&2
+pin="$here/tools/lsp-bundle"
+out="$here/src/main/resources/lsp/server.js"
+if [ "$#" -gt 0 ]; then
+  if [ "$#" -ne 2 ] || [ "$1" != "--out" ]; then
+    echo "Usage: tools/build-lsp-bundle.sh [--out <file>]" >&2
+    exit 64
   fi
+  out="$2"
 fi
-built_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+mkdir -p "$(dirname "$out")"
+out="$(cd "$(dirname "$out")" && pwd)/$(basename "$out")"
 
-header="// Generated by tools/build-lsp-bundle.sh - do not edit by hand.
-// Bundled from markup-carve/carve-lsp commit ${carve_lsp_sha}
-// carve-lsp release ${carve_lsp_release}
-// carve-js dependency ${carve_js_ref}
-// carve-js release ${carve_js_release}
-// Built (UTC): ${built_at}
-"
-# esbuild preserves the source shebang (#!/usr/bin/env node) at the top of the
-# bundle. The plugin launches the file as an argument to `node`, never directly,
-# so the shebang is dead weight - and a shebang anywhere but the very first line
-# is a syntax error. Drop any leading shebang, then prepend the header.
-body="$(sed '1{/^#!/d;}' "$out")"
-printf '%s\n%s' "$header" "$body" > "$out"
-
-printf 'carve-lsp %s\ncarve-lsp-release %s\ncarve-js %s\ncarve-js-release %s\nbuilt %s\n' \
-  "$carve_lsp_sha" "$carve_lsp_release" "$carve_js_ref" "$carve_js_release" "$built_at" > "$out_dir/VERSION"
-
-# Sanity check: the bundle must be syntactically valid for `node`.
+npm ci --prefix "$pin" --no-audit --no-fund --silent
+read -r lsp_version carve_version expected_version copies < <(node - "$pin" <<'NODE'
+const fs = require('node:fs');
+const path = require('node:path');
+const root = process.argv[2];
+const installed = JSON.parse(fs.readFileSync(path.join(root, 'node_modules/.package-lock.json')));
+const copies = Object.keys(installed.packages).filter(key => /(?:^|\/)node_modules\/@markup-carve\/carve$/.test(key)).length;
+const declared = require(path.join(root, 'package.json'));
+const lsp = require(path.join(root, 'node_modules/@markup-carve/carve-lsp/package.json'));
+const carve = require(path.join(root, 'node_modules/@markup-carve/carve/package.json'));
+console.log(lsp.version, carve.version, declared.dependencies['@markup-carve/carve-lsp'], copies);
+NODE
+)
+if [ "$lsp_version" != "$expected_version" ] || [ "$carve_version" != "$(node -p "require('$pin/package.json').overrides['@markup-carve/carve']")" ] || [ "$copies" != 1 ]; then
+  echo "Installed LSP or engine does not match the pin, or multiple carve engines are installed" >&2
+  exit 1
+fi
+lsp_sha="$(npm view "@markup-carve/carve-lsp@$lsp_version" gitHead)"
+carve_sha="$(npm view "@markup-carve/carve@$carve_version" gitHead)"
+for sha in "$lsp_sha" "$carve_sha"; do
+  if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
+    echo "npm gitHead is not a 40-character commit: $sha" >&2
+    exit 1
+  fi
+done
+body="$(mktemp)"
+trap 'rm -f "$body"' EXIT
+(cd "$pin" && node_modules/.bin/esbuild node_modules/@markup-carve/carve-lsp/dist/server.js \
+  --bundle --platform=node --format=cjs --target=node18 --legal-comments=none --outfile="$body")
+{
+  printf '// Generated by tools/build-lsp-bundle.sh from tools/lsp-bundle - do not edit by hand.\n'
+  printf '// Bundled from markup-carve/carve-lsp commit %s\n' "$lsp_sha"
+  printf '// carve-lsp release v%s\n' "$lsp_version"
+  printf '// carve-js dependency commit %s\n' "$carve_sha"
+  printf '// carve-js release %s\n' "$carve_version"
+  printf '// npm @markup-carve/carve-lsp@%s @markup-carve/carve@%s\n\n' "$lsp_version" "$carve_version"
+  sed '1{/^#!/d;}' "$body"
+} > "$out"
+printf 'carve-lsp %s\ncarve-lsp-release v%s\ncarve-js commit %s\ncarve-js-release %s\n' \
+  "$lsp_sha" "$lsp_version" "$carve_sha" "$carve_version" > "$(dirname "$out")/VERSION"
 node --check "$out"
-
-echo "Wrote $out (carve-lsp ${carve_lsp_release}, ${carve_lsp_sha})"
+preview_sha="$(sed -n 's|^// Bundled from markup-carve/carve-js commit \([0-9a-f]\{40\}\)$|\1|p' "$here/src/main/resources/js/carve.iife.js" | head -n 1)"
+if [ -n "$preview_sha" ] && [ "$preview_sha" != "$carve_sha" ]; then
+  echo "WARNING: preview bundle carries carve-js $preview_sha, server carries $carve_sha" >&2
+fi
+echo "Wrote $out (carve-lsp $lsp_version, carve-js $carve_version)"
