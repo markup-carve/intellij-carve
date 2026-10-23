@@ -251,7 +251,10 @@ object CarveMarkerScanner {
             }
             val quoteCols = HashSet<Int>()
             if (depth == 0) {
-                track(outer, line, paragraphOpen, !paragraphOpen || inList, quoteCols)
+                // A heading, break, div or table row interrupts the paragraph, so it is no lazy line.
+                val interrupts = HEADING.find(line) != null || THEMATIC_BREAK.matches(line) ||
+                    DIV.find(line) != null || TABLE_ROW.containsMatchIn(line)
+                track(outer, line, paragraphOpen && !interrupts, !paragraphOpen || inList, quoteCols)
             } else {
                 val quoteAt = column(line, line.indexOf('>'))
                 while (outer.isNotEmpty() && outer.last().content > quoteAt) outer.removeAt(outer.size - 1)

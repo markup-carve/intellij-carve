@@ -40,7 +40,7 @@ class CarveLonePlusMarkerTest {
 
     @Test
     fun fenceLeftOfTheItemEndsIt() {
-        for (source in listOf("- item\n```\ncode\n```\n+\ntext\n", "> - item\n> ```\n> code\n> ```\n> +\n> text\n")) {
+        for (source in listOf("- item\n# Heading\n+\ntext\n", "- item\n---\n+\ntext\n", "- item\n| a |\n+\ntext\n", "- item\n::: note\nx\n:::\n+\ntext\n", "- item\n```\ncode\n```\n+\ntext\n", "> - item\n> ```\n> code\n> ```\n> +\n> text\n")) {
             assertTrue(source, markerOffsets(source).isEmpty())
         }
         // A fence inside the item keeps it open.
