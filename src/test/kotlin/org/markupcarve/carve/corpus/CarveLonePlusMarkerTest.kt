@@ -74,8 +74,8 @@ class CarveLonePlusMarkerTest {
     private val afterOpener = listOf(
         "bullet" to "- +\n- b\n> q\nplain\n",
         "numbered" to "1. +\n2. b\n> q\nplain\n",
-        "quote" to "> +\n> b\nplain\n",
-        "nested quote" to "> > +\n> > b\n> c\nplain\n",
+        "quote" to "> +\nflush\n",
+        "nested quote" to "> > +\n> b\nplain\n",
         "description body" to ":: t\n: +\n: b\nplain\n",
         "footnote definition" to "[^a]: +\n  b\nplain\n",
         "stacked bullets" to "- - +\n  - b\nplain\n",
@@ -128,7 +128,7 @@ class CarveLonePlusMarkerTest {
             "> - a\n>>+\n> b\n", "> - a\n> >+\n> b\n", "> - a\n>+\n> b\n", "- >+\n  b\n",
         )
         // A quote's first-block `+` with no block at an eligible column is text too.
-        for (source in listOf("> +\n flush\n", "> > +\n  b\n", "- > > +\n  > q\n", "- > +\n- s\n", "[^a]: +\n- a\n")) {
+        for (source in listOf("> +\n flush\n", "> +\n> x\n", "> > +\n> > b\n", "> > +\n  b\n", "- > > +\n  > q\n", "- > +\n- s\n", "[^a]: +\n- a\n")) {
             assertTrue(source, markerOffsets(source).isEmpty())
         }
         for (source in glued) {

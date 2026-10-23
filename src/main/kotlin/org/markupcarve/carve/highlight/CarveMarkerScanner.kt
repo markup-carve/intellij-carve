@@ -447,6 +447,7 @@ object CarveMarkerScanner {
         var quoteCol = -1
         var lastKind = 0
         var firstKind = 0
+        var quotes = 0
         var footnote = false
         while (i < head.length) {
             val m = OPENER_STEP.matchAt(head, i) ?: break
@@ -454,6 +455,7 @@ object CarveMarkerScanner {
             if (firstKind == 0) firstKind = kind
             // The innermost quote's column counts only when the run starts with an item or description.
             if (kind == 3 && firstKind != 3) quoteCol = column(head, i)
+            if (kind == 3) quotes++
             lastKind = kind
             footnote = lastKind == 4 && m.groups[4]!!.value.startsWith("[^")
             i = m.range.last + 1
@@ -465,6 +467,8 @@ object CarveMarkerScanner {
         if (follow.isBlank()) return false
         val prefix = QUOTE_PREFIX.find(follow)
         val d = prefix?.value?.count { it == '>' } ?: 0
+        // A line that reaches the quote this run opened continues it, so the `+` is its text.
+        if (firstKind == 3 && follow[0] == '>' && d >= depth + quotes) return false
         val text: String
         if (d >= depth) {
             text = if (depth > 0) follow.substring(quotePrefixEnd(follow, depth)) else follow
