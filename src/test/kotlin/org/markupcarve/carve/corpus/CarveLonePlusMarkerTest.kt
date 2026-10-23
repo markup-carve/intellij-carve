@@ -39,6 +39,16 @@ class CarveLonePlusMarkerTest {
     }
 
     @Test
+    fun fenceLeftOfTheItemEndsIt() {
+        for (source in listOf("- item\n```\ncode\n```\n+\ntext\n", "> - item\n> ```\n> code\n> ```\n> +\n> text\n")) {
+            assertTrue(source, markerOffsets(source).isEmpty())
+        }
+        // A fence inside the item keeps it open.
+        val inside = "- item\n\n  ```\n  code\n  ```\n+\ntext\n"
+        assertEquals(listOf(inside.lastIndexOf('+')), markerOffsets(inside))
+    }
+
+    @Test
     fun fencedPlusIsCode() {
         val source = "```\n+\n```\n"
         assertTrue(markerOffsets(source).isEmpty())
@@ -55,7 +65,6 @@ class CarveLonePlusMarkerTest {
         "bullet" to "- +\n- b\n> q\nplain\n",
         "numbered" to "1. +\n2. b\n> q\nplain\n",
         "quote" to "> +\n> b\nplain\n",
-        "quote then a lazy-looking line" to "> +\n flush\n",
         "nested quote" to "> > +\n> > b\n> c\nplain\n",
         "description body" to ":: t\n: +\n: b\nplain\n",
         "footnote definition" to "[^a]: +\n  b\nplain\n",
@@ -64,7 +73,7 @@ class CarveLonePlusMarkerTest {
         "checked task item" to "- [x] +\n- b\nplain\n",
     )
 
-    private val grammarTextForms = setOf("quote", "quote then a lazy-looking line", "nested quote", "footnote definition")
+    private val grammarTextForms = setOf("quote", "nested quote", "footnote definition")
 
     @Test
     fun plusAfterAnOpenerIsMarker() {
@@ -108,6 +117,10 @@ class CarveLonePlusMarkerTest {
             ">+\nq\n", ">>+\nq\n", "> >+\n> q\n", ">> +\nq\n",
             "> - a\n>>+\n> b\n", "> - a\n> >+\n> b\n", "> - a\n>+\n> b\n", "- >+\n  b\n",
         )
+        // A quote's first-block `+` with no block at an eligible column is text too.
+        for (source in listOf("> +\n flush\n", "> > +\n  b\n", "- > > +\n  > q\n", "- > +\n- s\n", "[^a]: +\n- a\n")) {
+            assertTrue(source, markerOffsets(source).isEmpty())
+        }
         for (source in glued) {
             assertTrue(source, markerOffsets(source).isEmpty())
             assertFalse(source, grammarMarks(source))

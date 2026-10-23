@@ -14,9 +14,18 @@ import org.markupcarve.carve.highlight.CarveMarkerScanner
 class CarveRelativePlusAgreementTest {
     private data class Plus(val id: String, val source: String, val offset: Int, val marker: Boolean)
 
-    private val samples: List<Plus> by lazy {
-        val text = javaClass.getResourceAsStream("/relative-plus/samples.json")!!.reader().readText()
-        JsonParser.parseString(text).asJsonArray.flatMap { row ->
+    private val samples: List<Plus> by lazy { load("/relative-plus/samples.json") }
+
+    /**
+     * Rows 635-656 at tag 0.1.11, the 2026-10-22 rulings. Each `+` takes the verdict of its row's
+     * expected HTML: text when every candidate `+` reaches the output, marker when none does.
+     * Rows where only some do are left out.
+     */
+    private val laterRows: List<Plus> by lazy { load("/relative-plus/rows-635-656.json") }
+
+    private fun load(resource: String): List<Plus> {
+        val text = javaClass.getResourceAsStream(resource)!!.reader().readText()
+        return JsonParser.parseString(text).asJsonArray.flatMap { row ->
             val o = row.asJsonObject
             val source = o["source"].asString
             val starts = ArrayList<Int>().apply { add(0); source.forEachIndexed { i, c -> if (c == '\n') add(i + 1) } }
@@ -40,7 +49,7 @@ class CarveRelativePlusAgreementTest {
         return false
     }
 
-    private fun measure(label: String, marks: (Plus) -> Boolean): Int {
+    private fun measure(label: String, marks: (Plus) -> Boolean, samples: List<Plus> = this.samples): Int {
         val misses = samples.filter { marks(it) != it.marker }
         println("$label: agree ${samples.size - misses.size} disagree ${misses.size}")
         misses.forEach { println("  $label ${if (it.marker) "missed marker" else "false marker"}: ${it.id}") }
@@ -59,6 +68,18 @@ class CarveRelativePlusAgreementTest {
         assertTrue("grammar agreement $agree fell below $GRAMMAR_FLOOR", agree >= GRAMMAR_FLOOR)
     }
 
+    @Test
+    fun scannerAgreesWithTheLaterRulings() {
+        val agree = measure("scanner 635-656", ::scannerMarks, laterRows)
+        assertTrue("scanner agreement $agree fell below $LATER_SCANNER_FLOOR", agree >= LATER_SCANNER_FLOOR)
+    }
+
+    @Test
+    fun grammarNeverScopesTextAsMarkerInTheLaterRulings() {
+        val wrong = laterRows.filter { !it.marker && grammarMarks(it) }.map { it.id }
+        assertTrue("text scoped as marker: $wrong", wrong.isEmpty())
+    }
+
     /** The grammar scopes a marker only where one line proves it, so it never marks text. */
     @Test
     fun grammarNeverScopesTextAsMarker() {
@@ -69,5 +90,6 @@ class CarveRelativePlusAgreementTest {
     private companion object {
         const val SCANNER_FLOOR = 163
         const val GRAMMAR_FLOOR = 119
+        const val LATER_SCANNER_FLOOR = 47
     }
 }

@@ -115,7 +115,7 @@ object CarveMarkerScanner {
     private val FRONT_MATTER_OPEN = Regex("""^---(?: ?[A-Za-z0-9]+)?[ \t]*$""")
     private val FRONT_MATTER_CLOSE = Regex("""^---[ \t]*$""")
     private val THEMATIC_BREAK = Regex("""^[ \t]*(?:-{3,}|\*{3,})[ \t]*$""")
-    private val DESCRIPTION_TERM = Regex("""^::[ \t]+\S""")
+    private val DESCRIPTION_TERM = Regex("""^[ \t]*::[ \t]+\S""")
     private val ATTRIBUTE_LINE = Regex("""^[ \t]*$ATTR_BLOCK[ \t]*$""")
 
     fun scan(text: String): List<Span> {
@@ -207,6 +207,9 @@ object CarveMarkerScanner {
                 spans += Span(range(lineStart + bodyStart, fence.groups[2]!!.range), CarveColors.FENCE_MARKER)
                 inFence = true; fenceChar = marker[0]; fenceLen = marker.length; fenceDepth = depth
                 fenceCol = column(body, fence.groups[2]!!.range.first)
+                // A fence left of an open item's content column ends that item.
+                val owners = if (depth == 0) outer else quoted
+                while (owners.isNotEmpty() && owners.last().content > fenceCol) owners.removeAt(owners.size - 1)
                 prevDepth = depth; prevQuoteCols = emptySet()
                 continue
             }
@@ -226,9 +229,11 @@ object CarveMarkerScanner {
             if (lonePlus != null && (depth == 0 || depth <= prevDepth)) {
                 val at = lonePlus.groups[1]!!.range.first
                 val col = column(body, at)
-                val open = if (depth == 0) outer.any { it.marker == col } || col in prevQuoteCols
-                else col == 0 || quoted.any { it.marker == col }
-                val marker = open && followerAttaches(lines, index + 1, depth, col)
+                val owner = (if (depth == 0) outer else quoted).lastOrNull { it.marker == col }
+                val open = if (depth == 0) owner != null || col in prevQuoteCols
+                else owner != null || (col == 0 && prevDepth > depth)
+                // After description or footnote content a `+` also attaches a list.
+                val marker = open && followerAttaches(lines, index + 1, depth, col, owner?.list == false, prevDepth > depth || owner != null)
                 if (marker) {
                     QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
                     spans += Span(TextRange(lineStart + bodyStart + at, lineStart + bodyStart + at + 1), CarveColors.CONTINUATION_MARKER)
@@ -238,7 +243,8 @@ object CarveMarkerScanner {
                 }
             }
 
-            firstBlockPlus(line, depth, prevDepth, outer.isEmpty(), paragraphOpen && !inList)?.let {
+            firstBlockPlus(line, depth, prevDepth, outer.isEmpty(), paragraphOpen && !inList)
+                ?.takeIf { firstBlockFollower(lines, index + 1, line, minOf(depth, prevDepth), it) }?.let {
                 spans += Span(TextRange(lineStart + it, lineStart + it + 1), CarveColors.CONTINUATION_MARKER)
             }
             val quoteCols = HashSet<Int>()
@@ -330,7 +336,7 @@ object CarveMarkerScanner {
     }
 
     /** An open container: the column of its marker and the column its content starts at. */
-    private data class Box(val marker: Int, val content: Int)
+    private data class Box(val marker: Int, val content: Int, val list: Boolean = true)
 
     /** Column of [index] in [text], tabs expanded to the next multiple of four (PART 7). */
     private fun column(text: String, index: Int): Int {
@@ -375,7 +381,7 @@ object CarveMarkerScanner {
                 quotes += at
             } else {
                 if (first) while (stack.isNotEmpty() && stack.last().marker >= at) stack.removeAt(stack.size - 1)
-                stack += Box(at, column(text, m.range.last + 1))
+                stack += Box(at, column(text, m.range.last + 1), m.groups[4] == null)
             }
             first = false
             i = m.range.last + 1
@@ -389,20 +395,74 @@ object CarveMarkerScanner {
     }
 
     /** True when line [next] carries a block that starts at [col] under the same quote depth. */
-    private fun followerAttaches(lines: List<Pair<String, Int>>, next: Int, depth: Int, col: Int): Boolean {
+    private fun followerAttaches(
+        lines: List<Pair<String, Int>>, next: Int, depth: Int, col: Int, listOk: Boolean = false, deeperOk: Boolean = false,
+    ): Boolean {
         if (next >= lines.size) return false
         val line = lines[next].first
         if (line.isBlank()) return false
         val prefix = QUOTE_PREFIX.find(line)
         val d = prefix?.value?.count { it == '>' } ?: 0
         val text = if (depth > 0) {
-            if (d != depth) return false
-            line.substring(prefix!!.range.last + 1)
+            // A deeper quote line at the marker's column is a quote the `+` attaches.
+            if (d < depth || (d > depth && !deeperOk)) return false
+            line.substring(quotePrefixEnd(line, depth))
         } else line
         val start = text.indexOfFirst { it != ' ' && it != '\t' }
         if (start < 0 || column(text, start) != col) return false
         // A list item at the marker's column is a sibling; the `+` attaches nothing.
-        return BULLET.find(text) == null && ORDERED.find(text) == null
+        return listOk || (BULLET.find(text) == null && ORDERED.find(text) == null)
+    }
+
+    /**
+     * Whether a first-block `+` at [plus] on [line] stays a marker. After a list item or a
+     * description it always does (a refused follower leaves the item empty). After a quote it needs
+     * a non-list block at column 0, the line's own column or the innermost quote's column when the
+     * run starts with an item; after a
+     * footnote label, a block other than a column-0 list. Otherwise it is text.
+     */
+    private fun firstBlockFollower(lines: List<Pair<String, Int>>, next: Int, line: String, hostDepth: Int, plus: Int): Boolean {
+        val depth = hostDepth
+        val host = if (depth > 0) quotePrefixEnd(line, depth) else 0
+        val head = line.substring(host, plus)
+        var i = head.indexOfFirst { it != ' ' && it != '\t' }
+        if (i < 0) return false
+        val lead = column(head, i)
+        var quoteCol = -1
+        var lastKind = 0
+        var firstKind = 0
+        var footnote = false
+        while (i < head.length) {
+            val m = OPENER_STEP.matchAt(head, i) ?: break
+            val kind = (1..4).first { m.groups[it] != null }
+            if (firstKind == 0) firstKind = kind
+            // The innermost quote's column counts only when the run starts with an item or description.
+            if (kind == 3 && firstKind != 3) quoteCol = column(head, i)
+            lastKind = kind
+            footnote = lastKind == 4 && m.groups[4]!!.value.startsWith("[^")
+            i = m.range.last + 1
+            while (i < head.length && (head[i] == ' ' || head[i] == '\t')) i++
+        }
+        if (lastKind != 3 && !footnote) return true
+        if (next >= lines.size) return false
+        val follow = lines[next].first
+        if (follow.isBlank()) return false
+        val prefix = QUOTE_PREFIX.find(follow)
+        val d = prefix?.value?.count { it == '>' } ?: 0
+        val text: String
+        if (d >= depth) {
+            text = if (depth > 0) follow.substring(quotePrefixEnd(follow, depth)) else follow
+        } else {
+            // Inside a host quote, an unprefixed block at document column 0 still attaches.
+            if (follow[0] == ' ' || follow[0] == '\t') return false
+            text = follow
+        }
+        val start = text.indexOfFirst { it != ' ' && it != '\t' }
+        if (start < 0) return false
+        val col = column(text, start)
+        val isList = BULLET.find(text) != null || ORDERED.find(text) != null
+        if (footnote) return !(isList && col == 0)
+        return !isList && (col == 0 || col == lead || col == quoteCol)
     }
 
     private fun range(lineStart: Int, r: IntRange): TextRange =
