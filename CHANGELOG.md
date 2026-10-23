@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.15] - 2026-10-23
 
+### Changed
+
+- The preview's `carve` fence grammar moves to carve-grammars 0.1.19 (#275). Definition lists in those fences highlight below paragraph lines, in footnote bodies and after a leading blank line. A list after a leading blank line no longer leaves the fence unhighlighted or stalls the preview.
+
 ### Fixed
 
 - The plugin uses no internal IntelliJ Platform or LSP4IJ API, which the JetBrains Marketplace requires. It refused 0.1.12, 0.1.13 and 0.1.14 for it, so this release carries their changes to the Marketplace, where 0.1.11 was the last listed version. Tab, Shift+Tab, Enter and the preview tool window behave as before (#274).
