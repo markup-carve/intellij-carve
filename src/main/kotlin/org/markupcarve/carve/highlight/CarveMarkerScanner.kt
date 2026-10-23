@@ -91,6 +91,8 @@ object CarveMarkerScanner {
     )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
+    // A line that starts a block of its own and so cannot be a lazy paragraph line.
+    private val LAZY_BREAKER = Regex("""^(?:[-*+>#:|]|[0-9]+[.)]|`{3,}|~{3,}|\{)""")
     private val LONE_PLUS = Regex("""^[ \t]*(\+)[ \t]*$""")
     // A lone `+` after one or more openers on its own line (`- +`, `1. - +`, `- > +`, `> > +`,
     // `: +`, `[^a]: +`, `- [ ] +`) is a first-block continuation marker (markup-carve/carve#3445).
@@ -231,9 +233,9 @@ object CarveMarkerScanner {
                 val col = column(body, at)
                 val owner = (if (depth == 0) outer else quoted).lastOrNull { it.marker == col }
                 val open = if (depth == 0) owner != null || col in prevQuoteCols
-                else owner != null || (col == 0 && prevDepth > depth)
+                else owner != null || (col == 0 && deeperQuoteOpen(lines, index, depth))
                 // After description or footnote content a `+` also attaches a list.
-                val marker = open && followerAttaches(lines, index + 1, depth, col, owner?.list == false, prevDepth > depth || owner != null)
+                val marker = open && followerAttaches(lines, index + 1, depth, col, owner?.list == false, owner != null || deeperQuoteOpen(lines, index, depth))
                 if (marker) {
                     QUOTE.find(line)?.let { spans += Span(range(lineStart, it.groups[1]!!.range), CarveColors.QUOTE_MARKER) }
                     spans += Span(TextRange(lineStart + bodyStart + at, lineStart + bodyStart + at + 1), CarveColors.CONTINUATION_MARKER)
@@ -392,6 +394,20 @@ object CarveMarkerScanner {
             if (lazy && indent < top.content) return
             while (stack.isNotEmpty() && stack.last().content > indent) stack.removeAt(stack.size - 1)
         }
+    }
+
+    /** True when a quote deeper than [depth] is still open above [index], through lazy lines. */
+    private fun deeperQuoteOpen(lines: List<Pair<String, Int>>, index: Int, depth: Int): Boolean {
+        var j = index - 1
+        while (j >= 0 && lines[j].first.isNotBlank()) {
+            val line = lines[j].first
+            val d = QUOTE_PREFIX.find(line)?.value?.count { it == '>' } ?: 0
+            if (d > depth) return true
+            val body = line.substring(quotePrefixEnd(line, d)).trimStart()
+            if (body.isEmpty() || LAZY_BREAKER.containsMatchIn(body)) return false
+            j--
+        }
+        return false
     }
 
     /** True when line [next] carries a block that starts at [col] under the same quote depth. */

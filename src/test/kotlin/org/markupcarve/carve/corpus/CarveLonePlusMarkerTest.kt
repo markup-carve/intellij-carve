@@ -49,6 +49,16 @@ class CarveLonePlusMarkerTest {
     }
 
     @Test
+    fun quotedPlusAfterALazyLineKeepsItsOwner() {
+        // The lazy `b` continues the inner quote, which the `+` then attaches `c` to.
+        val inner = "> - a\n> > q\n>   b\n> +\n> c\n"
+        assertEquals(listOf(inner.lastIndexOf('+')), markerOffsets(inner))
+        // A quote inside the item keeps the item open for the `+`.
+        val item = "> - a\n>   > q\n>   b\n> +\n> c\n"
+        assertEquals(listOf(item.lastIndexOf('+')), markerOffsets(item))
+    }
+
+    @Test
     fun fencedPlusIsCode() {
         val source = "```\n+\n```\n"
         assertTrue(markerOffsets(source).isEmpty())
