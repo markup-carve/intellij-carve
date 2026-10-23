@@ -68,7 +68,7 @@ jobs:
   guard:
     name: The tag, the Gradle version and the tests agree
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
         with:
@@ -101,10 +101,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # The same gate build.yml runs. A release is not the place to find out
-      # the plugin does not compile or that a test is red.
-      - name: Build and test
-        run: ./gradlew --no-daemon buildPlugin test
+      # The same gates build.yml runs. A release is not the place to find out
+      # the plugin does not compile or that a test is red, and the Plugin
+      # Verifier fails on the internal API the Marketplace rejects an upload for.
+      - name: Build, test and verify plugin
+        run: ./gradlew --no-daemon buildPlugin test verifyPlugin
 
   release:
     needs: [tag]

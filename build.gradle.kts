@@ -2,6 +2,7 @@ import org.jetbrains.changelog.Changelog
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
+import org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
@@ -19,7 +20,7 @@ plugins {
 }
 
 group = "org.markupcarve"
-version = "0.1.14"
+version = "0.1.15"
 
 repositories {
     mavenCentral()
@@ -152,26 +153,11 @@ intellijPlatform {
     }
 
     pluginVerification {
-        // 2.x fails on COMPATIBILITY_PROBLEMS, INTERNAL_API_USAGES and
-        // OVERRIDE_ONLY_API_USAGES. 1.x's runPluginVerifier failed only on the first, so the
-        // six internal-API reports below are not new code - they were always there and were
-        // never gated.
-        //
-        // All six are ToolWindowFactory.getAnchor, .getIcon and .manage, and
-        // CarvePreviewToolWindowFactory names none of them: it declares isApplicable,
-        // createToolWindowContent and shouldBeAvailable and nothing else. They exist because
-        // ToolWindowFactory is a KOTLIN interface - `manage` is a suspend function - so the
-        // Kotlin compiler emits a delegating override of every default member into each
-        // implementing class, and the verifier reads the emitted bytecode, not the source.
-        // All three are ApiStatus.Internal, so every Kotlin plugin with a tool window reports
-        // them, and there is no source change here that would remove them.
-        //
-        // ignoredProblemsFile is NOT the lever: it filters compatibility problems, and an
-        // internal-API usage is a separate result field the filter never sees. So the level
-        // is narrowed instead. OVERRIDE_ONLY_API_USAGES is kept - the category is empty here,
-        // and it is the one of the two additions this plugin could actually violate.
+        // The Marketplace rejects an upload that uses internal API (0.1.12 to 0.1.14 were
+        // refused for it), so the gate fails on the same categories it checks.
         failureLevel = listOf(
             VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS,
+            VerifyPluginTask.FailureLevel.INTERNAL_API_USAGES,
             VerifyPluginTask.FailureLevel.OVERRIDE_ONLY_API_USAGES,
         )
 
@@ -206,6 +192,10 @@ kotlin {
         // gradle.properties means this plugin uses the IDE's, not its own).
         apiVersion = KotlinVersion.KOTLIN_2_1
         languageVersion = KotlinVersion.KOTLIN_2_1
+        // The default mode emits a delegating override of every inherited default
+        // member, so ToolWindowFactory's internal getAnchor, getIcon and manage showed
+        // up in the verifier as usages of internal API.
+        jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
     }
 }
 

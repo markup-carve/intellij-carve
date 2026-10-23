@@ -49,6 +49,7 @@ class CarveEnterContinuationHandler : EnterHandlerDelegateAdapter() {
         val line = document.getLineNumber(caret)
         val position = Position(line, caret - document.getLineStartOffset(line))
         val settings = editor.settings
+        // LSP4IJ sends the pending didChange when the document is committed.
         PsiDocumentManager.getInstance(project).commitDocument(document)
         val request = backend.request(project, virtualFile, position, settings.getTabSize(project), !settings.isUseTabCharacter(project))
         val edits = try {
@@ -117,8 +118,6 @@ interface CarveOnTypeBackend {
 /** The real backend: carve-lsp's textDocument/onTypeFormatting through LSP4IJ. */
 object Lsp4ijOnTypeBackend : CarveOnTypeBackend {
 
-    private val LOG = Logger.getInstance(Lsp4ijOnTypeBackend::class.java)
-
     override fun unavailableReason(project: Project, file: PsiFile): String? {
         val manager = LanguageServerManager.getInstance(project)
         val status = manager.getServerStatus(Lsp4ijListIndentBackend.SERVER_ID)
@@ -143,7 +142,7 @@ object Lsp4ijOnTypeBackend : CarveOnTypeBackend {
         LanguageServerManager.getInstance(project).getLanguageServer(Lsp4ijListIndentBackend.SERVER_ID).thenCompose { item ->
             val uri = item?.let { FileUriSupport.toString(file, it.clientFeatures) }
                 ?: return@thenCompose CompletableFuture.completedFuture(emptyList())
-            flushPendingChanges(item, file).thenCompose { item.initializedServer }.thenCompose { server ->
+            item.initializedServer.thenCompose { server ->
                 val params = DocumentOnTypeFormattingParams(
                     TextDocumentIdentifier(uri),
                     FormattingOptions(tabSize, insertSpaces),
@@ -160,17 +159,6 @@ object Lsp4ijOnTypeBackend : CarveOnTypeBackend {
                     }
                 }
             }
-        }
-
-    /** Sends the didChange LSP4IJ still holds for the Enter just typed, as its own on-type request does. */
-    private fun flushPendingChanges(item: com.redhat.devtools.lsp4ij.LanguageServerItem, file: VirtualFile): CompletableFuture<*> =
-        try {
-            val uri = FileUriSupport.getFileUri(file, item.clientFeatures)
-            item.serverWrapper.getOpenedDocument(uri)?.synchronizer?.flushPendingChanges()
-                ?: CompletableFuture.completedFuture(null)
-        } catch (e: LinkageError) {
-            LOG.debug("LSP4IJ offers no pending-change flush", e)
-            CompletableFuture.completedFuture(null)
         }
 }
 

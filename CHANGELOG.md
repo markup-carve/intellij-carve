@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.15] - 2026-10-23
+
+### Fixed
+
+- The plugin uses no internal IntelliJ Platform or LSP4IJ API, which the JetBrains Marketplace requires. It refused 0.1.12, 0.1.13 and 0.1.14 for it, so this release carries their changes to the Marketplace, where 0.1.11 was the last listed version. Tab, Shift+Tab, Enter and the preview tool window behave as before (#274).
+
 ## [0.1.14] - 2026-10-23
 
 ### Changed
@@ -373,7 +379,9 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.13...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.15...HEAD
+[0.1.15]: https://github.com/markup-carve/intellij-carve/compare/0.1.14...0.1.15
+[0.1.14]: https://github.com/markup-carve/intellij-carve/compare/0.1.13...0.1.14
 [0.1.13]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...0.1.13
 [0.1.12]: https://github.com/markup-carve/intellij-carve/compare/0.1.11...0.1.12
 [0.1.11]: https://github.com/markup-carve/intellij-carve/compare/0.1.10...0.1.11

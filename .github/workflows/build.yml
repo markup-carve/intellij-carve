@@ -28,7 +28,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -53,12 +53,12 @@ jobs:
       - name: Build, test and verify plugin structure
         run: ./gradlew --no-daemon buildPlugin test verifyPluginStructure
 
-      # The Plugin Verifier downloads and checks every IDE in build.gradle.kts, and
-      # a pull request rarely changes what it answers, so it runs after merge.
+      # The Plugin Verifier checks every IDE in build.gradle.kts and fails on internal
+      # API, which the Marketplace rejects. It runs on pull requests too: 0.1.12 to
+      # 0.1.14 were refused for internal API that a post-merge-only run let through.
       # The network drift checks (battery, fence languages, carve-css) live in
       # grammar-drift.yml: upstream moving is not a reason for a PR to fail.
       - name: Run Plugin Verifier
-        if: github.event_name != 'pull_request'
         run: ./gradlew --no-daemon verifyPlugin
 
       - name: Upload artifact
