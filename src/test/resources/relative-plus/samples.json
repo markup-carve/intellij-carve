@@ -314,7 +314,7 @@
    {
     "line": 1,
     "col": 2,
-    "verdict": "marker"
+    "verdict": "text"
    }
   ]
  },
@@ -325,7 +325,7 @@
    {
     "line": 1,
     "col": 1,
-    "verdict": "marker"
+    "verdict": "text"
    }
   ]
  },

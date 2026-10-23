@@ -92,14 +92,15 @@ object CarveMarkerScanner {
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
     private val LONE_PLUS = Regex("""^[ \t]*(\+)[ \t]*$""")
-    // A lone `+` after one or more openers on its own line (`- +`, `1. - +`, `- > +`, `>>+`,
+    // A lone `+` after one or more openers on its own line (`- +`, `1. - +`, `- > +`, `> > +`,
     // `: +`, `[^a]: +`, `- [ ] +`) is a first-block continuation marker (markup-carve/carve#3445).
+    // Each `>` needs its space: `>+`, `>>+`, `> >+` and `>> +` are text (markup-carve/carve#3421).
     // An ordered item has no task marker, so `1. [ ] +` stays text.
     private const val ORDERED_MARK = """(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]"""
     private val FIRST_BLOCK_PLUS = Regex(
-        """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_>?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|>[ ]?|:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
+        """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_>?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|> |:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
     )
-    private val OPENER_STEP = Regex("""(?:([-*])[ \t]+(?:\[[ xX_>?-]\][ \t]+)?|($ORDERED_MARK)[ \t]+|(>)[ ]?|(:|\[\^[^\]\n]+\]:)[ \t]+)""")
+    private val OPENER_STEP = Regex("""(?:([-*])[ \t]+(?:\[[ xX_>?-]\][ \t]+)?|($ORDERED_MARK)[ \t]+|(>)(?: |$)|(:|\[\^[^\]\n]+\]:)[ \t]+)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
     // A table row opens AND closes with a pipe; trailing attributes may follow the closer.

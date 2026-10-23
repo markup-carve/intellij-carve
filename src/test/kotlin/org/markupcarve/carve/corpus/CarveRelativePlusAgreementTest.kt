@@ -7,9 +7,9 @@ import org.markupcarve.carve.highlight.CarveColors
 import org.markupcarve.carve.highlight.CarveMarkerScanner
 
 /**
- * Corpus rows 626-634 of markup-carve/carve at f619b320 (carve#3445), each candidate `+`
- * with the spec model's verdict. The floors are the measured counts; a change that loses
- * agreement fails here.
+ * Corpus rows 626-634 of markup-carve/carve at tag 0.1.11 (carve#3445, glued quote prefixes
+ * as text per carve#3421), each candidate `+` with the spec model's verdict. The floors are the
+ * measured counts; a change that loses agreement fails here.
  */
 class CarveRelativePlusAgreementTest {
     private data class Plus(val id: String, val source: String, val offset: Int, val marker: Boolean)
@@ -68,6 +68,6 @@ class CarveRelativePlusAgreementTest {
 
     private companion object {
         const val SCANNER_FLOOR = 163
-        const val GRAMMAR_FLOOR = 117
+        const val GRAMMAR_FLOOR = 119
     }
 }

@@ -102,6 +102,19 @@ class CarveLonePlusMarkerTest {
     }
 
     @Test
+    fun gluedQuotePrefixPlusIsText() {
+        // Each `>` takes one space, so these are not quote lines (markup-carve/carve#3421).
+        val glued = listOf(
+            ">+\nq\n", ">>+\nq\n", "> >+\n> q\n", ">> +\nq\n",
+            "> - a\n>>+\n> b\n", "> - a\n> >+\n> b\n", "> - a\n>+\n> b\n", "- >+\n  b\n",
+        )
+        for (source in glued) {
+            assertTrue(source, markerOffsets(source).isEmpty())
+            assertFalse(source, grammarMarks(source))
+        }
+    }
+
+    @Test
     fun plusAfterAnOpenerInsideAFenceIsCode() {
         for (source in listOf("```\n- +\n```\n", "```\n> +\n```\n", "```\n: +\n```\n")) {
             assertTrue(source, markerOffsets(source).isEmpty())
