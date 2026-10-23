@@ -10,7 +10,7 @@ cd intellij-carve
 ./gradlew runIde      # launches a sandbox IDE with the plugin
 ```
 
-See [docs/development.md](docs/development.md) for the project structure, the
+See [docs/development.md](../docs/development.md) for the project structure, the
 bundled renderer, grammar updates, and the release process.
 
 ## Making changes
