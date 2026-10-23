@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.14] - 2026-10-23
+
+### Changed
+
+- The language server bundle moves to carve-lsp 0.1.14, and the preview and the server to carve 0.1.13.
+
+### Fixed
+
+- A `+` is colored as the continuation marker only where it attaches the next block, following the relative rule of Carve 0.1.11: at an open item's, description's, note's or quote's column, or right after a block opener on its line. A refused `+` stays text, and glued quote prefixes (`>+`, `>>+`, `> >+`, `>> +`) are text (#270).
+- Braces after an escaped bracket, an escaped link closer or a non-link parenthesis stay text instead of an attribute block (#265).
+
+### Added
+
+- `csv` and `tsv` fence bodies are highlighted: separators, quoted and unquoted fields, doubled quotes and the header row (#268, #269).
+
 ## [0.1.13] - 2026-10-15
 
 ### Changed
