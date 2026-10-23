@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- The language server bundle moves to carve-lsp 0.1.14, and the preview and the server to carve 0.1.13.
+- The language server bundle moves to carve-lsp 0.1.14, and the preview and the server to carve 0.1.13 (#273). The preview renders the Carve 0.1.11 rulings, including the `+` continuation rules, region includes and CSV or TSV includes as tables. The preview's `carve` fence grammar comes from carve-grammars 0.1.18.
+- With carve-lsp 0.1.14, `.carverc.json` settings such as `format.alignTables` apply next to the plugin's own settings, and Tab and Shift+Tab keep a `+` on the moved item's marker column.
 - The bundled language server is built from an exact npm pin of carve-lsp and checked against it in CI, so the server inside the plugin is byte for byte the carve-lsp release it names (#267).
 
 ### Fixed
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `csv` and `tsv` fence bodies are highlighted: separators, quoted and unquoted fields, doubled quotes and the header row (#268, #269).
+- From carve-lsp 0.1.14: *Convert to pipe table* and *Convert to CSV table* code actions, quick fixes for a refused `+`, a misplaced list marker or description separator and a near-miss attribute key, lint findings from included files at their include directive, and include completion for regions and code languages.
 
 ## [0.1.13] - 2026-10-15
 
