@@ -1,6 +1,5 @@
 package org.markupcarve.carve.lsp
 
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.redhat.devtools.lsp4ij.LanguageServerItem
@@ -31,8 +30,6 @@ object Lsp4ijListIndentBackend : CarveListIndentBackend {
     /** The server id carve-lsp.xml registers. */
     const val SERVER_ID = "carveLanguageServer"
 
-    private val LOG = Logger.getInstance(Lsp4ijListIndentBackend::class.java)
-
     override fun unavailableReason(project: Project): String? {
         val manager = LanguageServerManager.getInstance(project)
         val status = manager.getServerStatus(SERVER_ID)
@@ -58,7 +55,7 @@ object Lsp4ijListIndentBackend : CarveListIndentBackend {
                     CarveListIndentBackend.Answer(emptyList(), reason ?: "no URI for $file"),
                 )
             }
-            flushPendingChanges(item, file).thenCompose { item.initializedServer }.thenCompose { server ->
+            item.initializedServer.thenCompose { server ->
                 val perLine = lines.map { line ->
                     val params = ExecuteCommandParams(
                         CarveListIndent.COMMAND,
@@ -80,20 +77,4 @@ object Lsp4ijListIndentBackend : CarveListIndentBackend {
         }
         return null
     }
-
-    /**
-     * Sends the didChange LSP4IJ still holds for [file], as its own on-type formatting does
-     * before a request; otherwise the command can overtake it and answer for older text.
-     * The opened-document API is LSP4IJ-internal, so a release that moves it degrades to
-     * the document commit the handler does instead of failing the key.
-     */
-    private fun flushPendingChanges(item: LanguageServerItem, file: VirtualFile): CompletableFuture<*> =
-        try {
-            val uri = FileUriSupport.getFileUri(file, item.clientFeatures)
-            item.serverWrapper.getOpenedDocument(uri)?.synchronizer?.flushPendingChanges()
-                ?: CompletableFuture.completedFuture(null)
-        } catch (e: LinkageError) {
-            LOG.debug("LSP4IJ offers no pending-change flush", e)
-            CompletableFuture.completedFuture(null)
-        }
 }
