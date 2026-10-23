@@ -464,6 +464,46 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        // Spec 0.1.11 corpus (tag 0.1.11), categories 618-656.
+        "a-caption-after-a-continuation-marker-fence-stays-with-the-fence" to BLOCK_STATE_0111,
+        "a-column-zero-marker-below-an-open-div-attaches-beside-the-div" to PLUS_VERDICT_0111,
+        "a-comment-line-leaves-a-description-s-list-item-open-for-a-fence" to BLOCK_STATE_0111,
+        "a-continuation-marker-stands-alone-at-column-zero-or-right-after-a-block-opener" to PLUS_VERDICT_0111,
+        "a-continuation-marker-uses-its-container-column" to PLUS_VERDICT_0111,
+        "a-dangling-plus-marker-adds-nothing-and-a-nested-quote-reads-it-like-an-unnested-one" to PLUS_VERDICT_0111,
+        "a-fence-closer-outside-the-child-folds-and-leaves-the-child-open" to BLOCK_STATE_0111,
+        "a-fence-run-folded-into-a-child-paragraph-loosens-the-outer-item" to BLOCK_STATE_0111,
+        "a-fence-run-folded-into-a-child-paragraph-loosens-the-outer-item-when-it-closes-at-the-outer-column" to BLOCK_STATE_0111,
+        "a-fence-run-that-dedents-out-of-a-child-keeps-the-outer-item-tight" to BLOCK_STATE_0111,
+        "a-first-block-marker-does-not-pull-a-column-zero-list-into-a-note-or-description" to PLUS_VERDICT_0111,
+        "a-first-block-marker-on-an-indented-opener-reads-two-columns" to PLUS_VERDICT_0111,
+        "a-first-block-plus-refuses-a-follower-at-an-intervening-column" to PLUS_VERDICT_0111,
+        "a-folded-child-fence-keeps-the-below-column-line-in-its-paragraph" to BLOCK_STATE_0111,
+        "a-folded-fence-run-leaves-a-later-paragraph-loose" to BLOCK_STATE_0111,
+        "a-hosted-quote-s-first-block-plus-attaches-any-non-list-block-at-column-zero" to PLUS_VERDICT_0111,
+        "a-lazily-folded-fence-opener-line-does-not-keep-a-list-tight" to BLOCK_STATE_0111,
+        "a-lazy-colon-shaped-line-in-a-quote-paragraph-keeps-no-indentation" to BLOCK_STATE_0111,
+        "a-quote-follower-below-stacked-quote-openers-in-an-item-is-read-at-its-raw-column" to PLUS_VERDICT_0111,
+        "a-quote-opened-on-an-item-s-marker-line-attaches-a-quote-at-its-own-depth" to PLUS_VERDICT_0111,
+        "a-quote-opened-on-its-own-line-in-an-item-takes-the-first-block-form" to PLUS_VERDICT_0111,
+        "a-quote-prefixed-plus-takes-one-space-after-each-quote-marker-and-attaches-a-quote" to PLUS_VERDICT_0111,
+        "a-quote-s-first-block-plus-refuses-a-list-follower-in-every-host" to PLUS_VERDICT_0111,
+        "a-refused-continuation-plus-remains-text" to PLUS_VERDICT_0111,
+        "a-refused-marker-leaves-an-open-fence-s-blank-payload" to PLUS_VERDICT_0111,
+        "a-refused-plus-without-the-inner-quote-prefix-renders-as-text" to PLUS_VERDICT_0111,
+        "a-separate-plus-after-content-attaches-a-list-to-a-note-or-description" to PLUS_VERDICT_0111,
+        "a-stacked-first-block-plus-takes-a-follower-only-at-column-zero-or-its-line-s-column" to PLUS_VERDICT_0111,
+        "a-tab-indented-nested-list-starts-at-its-marker" to BLOCK_STATE_0111,
+        "a-task-item-takes-a-first-block-continuation-marker-after-its-checkbox" to PLUS_VERDICT_0111,
+        "a-wrapped-attribute-line-interrupts-like-a-one-line-attribute-line" to BLOCK_STATE_0111,
+        "a-wrapped-attribute-line-opened-at-a-container-s-column-is-one-construct" to BLOCK_STATE_0111,
+        "an-indented-plus-below-a-nested-fence-stays-content-at-every-depth" to PLUS_VERDICT_0111,
+        "an-unclosed-fence-run-with-no-closer-in-its-item-does-not-hide-a-blank-line" to BLOCK_STATE_0111,
+        "captions-in-list-items-do-not-create-a-paragraph-gap" to BLOCK_STATE_0111,
+        "definition-body-note-and-fence-owner-boundaries" to BLOCK_STATE_0111,
+        "generated-container-documents" to BLOCK_STATE_0111,
+        "nested-plus-below-fence-and-description" to PLUS_VERDICT_0111,
+        "the-column-of-the-quote-that-owns-a-first-block-plus-stays-eligible-at-every-depth" to PLUS_VERDICT_0111,
         // Block rulings added by the carve-js 0.1.12 spec pin (646be4d).
         "a-block-at-an-item-content-column-ends-its-paragraph-before-an-unclosed-fence" to
             "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Whether an unclosed fence ends a list paragraph depends on block state; the list and fence tokens are unchanged.",
@@ -1384,6 +1424,19 @@ object CarveCorpusCategories {
      * would pin the scopes and say nothing about the rule. Eleven categories share this
      * shape.
      */
+    /**
+     * Spec 0.1.11 rulings on list tightness, fence ownership, captions and wrapped
+     * attributes. They decide which block a line belongs to, not how it is scoped.
+     */
+    private const val BLOCK_STATE_0111: String =
+        "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot, so a snapshot here would pin nothing new. The `no scope lives only in a skipped category` test re-checks that claim on every run. Tightness, fence ownership and attribute folding are block state; the marker, fence and attribute tokens are unchanged."
+    /**
+     * Spec 0.1.11 `+` rulings. Whether a `+` is a marker is pinned per `+` by
+     * CarveRelativePlusAgreementTest against these rows, which a golden of the
+     * TextMate stream alone would not check.
+     */
+    private const val PLUS_VERDICT_0111: String =
+        "Measured: every file in this category tokenizes to scopes that covered categories and tests/fixtures already snapshot. Which `+` is a continuation marker is pinned per `+` by CarveRelativePlusAgreementTest (rows 626-656 at tag 0.1.11), so a token golden would add nothing."
     private const val CLOSER_GEOMETRY: String =
         "Closer and container columns are block geometry; the grammar scopes opener, closer and body identically at every column, so a golden pins the tokens and not the rule. The well-formed forms are pinned by `fenced-code`, `admonitions` and `blockquote-with-attribution`."
     /**
