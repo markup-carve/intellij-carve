@@ -86,14 +86,10 @@ class CarveCaptureCodeSpanTest {
     }
 
     @Test
-    fun `a caption marker with no figure keeps the reading it had`() {
-        // The engines render a `^ ` line that pairs with no figure as a PARAGRAPH. A
-        // line-local TextMate rule cannot see whether a figure precedes, so this grammar
-        // scopes the line as a caption either way, and did so before this change. Pinned
-        // here so the capture fix is not the place that starts or stops scoping prose as a
-        // caption: only the payload moves.
+    fun `a caption marker that opens the document is a paragraph`() {
+        // No figure can precede the first line, and the engines render it as `<p>`.
         val src = "^ cap `x %% b` c\n"
-        assertEquals("^", scoped(src, "keyword.control.caption"))
+        assertEquals("", scoped(src, "keyword.control.caption"))
         assertEquals("x %% b", scoped(src, "markup.raw.inline.content"))
         assertEquals("", scoped(src, "comment.line.percent"))
     }

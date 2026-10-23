@@ -4,127 +4,227 @@
   "scopeName": "text.carve",
   "patterns": [
     {
-      "include": "#plus-marker-opener-chain"
+      "include": "#caption-literal-at-start"
     },
     {
-      "include": "#thematic-break"
-    },
-    {
-      "include": "#thematic-break-on-marker-line"
-    },
-    {
-      "include": "#frontmatter"
-    },
-    {
-      "include": "#comment-fence-on-marker-line"
-    },
-    {
-      "include": "#comments"
-    },
-    {
-      "include": "#headings"
-    },
-    {
-      "include": "#heading-on-marker-line"
-    },
-    {
-      "include": "#code-blocks"
-    },
-    {
-      "include": "#code-fence-on-marker-line"
-    },
-    {
-      "include": "#figure-group"
-    },
-    {
-      "include": "#divs"
-    },
-    {
-      "include": "#tables"
-    },
-    {
-      "include": "#table-row-on-marker-line"
-    },
-    {
-      "include": "#block-quotes"
-    },
-    {
-      "include": "#lists"
-    },
-    {
-      "include": "#definitions"
-    },
-    {
-      "include": "#caption-paragraph"
-    },
-    {
-      "include": "#links"
-    },
-    {
-      "include": "#images"
-    },
-    {
-      "include": "#footnotes"
-    },
-    {
-      "include": "#citations"
-    },
-    {
-      "include": "#code-callouts"
-    },
-    {
-      "include": "#critic-markup"
-    },
-    {
-      "include": "#emphasis"
-    },
-    {
-      "include": "#attribute-text-guards"
-    },
-    {
-      "include": "#attributes"
-    },
-    {
-      "include": "#raw-inline"
-    },
-    {
-      "include": "#inline-literal"
-    },
-    {
-      "include": "#inline-code"
-    },
-    {
-      "include": "#inline-comment"
-    },
-    {
-      "include": "#trailing-comment"
-    },
-    {
-      "include": "#math"
-    },
-    {
-      "include": "#cross-reference"
-    },
-    {
-      "include": "#autolink"
-    },
-    {
-      "include": "#extension-inline"
-    },
-    {
-      "include": "#include-directive"
-    },
-    {
-      "include": "#mentions-tags"
-    },
-    {
-      "include": "#smart-typography"
-    },
-    {
-      "include": "#hard-break"
+      "include": "#document"
     }
   ],
   "repository": {
+    "document": {
+      "comment": "Holds the whole document, so the root patterns only ever see its first line. A first-line rule needs this: the IDE's regex engine lets `\\A` match at every line start. The cost: no token sits at the root scope, so an editor relex restarts from the top.",
+      "begin": "^",
+      "end": "(?!)",
+      "patterns": [
+        {
+          "include": "#document-body"
+        }
+      ]
+    },
+    "document-body": {
+      "patterns": [
+        {
+          "include": "#plus-marker-opener-chain"
+        },
+        {
+          "include": "#thematic-break"
+        },
+        {
+          "include": "#thematic-break-on-marker-line"
+        },
+        {
+          "include": "#frontmatter"
+        },
+        {
+          "include": "#comment-fence-on-marker-line"
+        },
+        {
+          "include": "#comments"
+        },
+        {
+          "include": "#headings"
+        },
+        {
+          "include": "#heading-on-marker-line"
+        },
+        {
+          "include": "#code-blocks"
+        },
+        {
+          "include": "#code-fence-on-marker-line"
+        },
+        {
+          "include": "#figure-group"
+        },
+        {
+          "include": "#divs"
+        },
+        {
+          "include": "#tables"
+        },
+        {
+          "include": "#table-row-on-marker-line"
+        },
+        {
+          "include": "#block-quotes"
+        },
+        {
+          "include": "#lists"
+        },
+        {
+          "include": "#definitions"
+        },
+        {
+          "include": "#caption-paragraph"
+        },
+        {
+          "include": "#links"
+        },
+        {
+          "include": "#images"
+        },
+        {
+          "include": "#footnotes"
+        },
+        {
+          "include": "#citations"
+        },
+        {
+          "include": "#code-callouts"
+        },
+        {
+          "include": "#critic-markup"
+        },
+        {
+          "include": "#emphasis"
+        },
+        {
+          "include": "#attribute-text-guards"
+        },
+        {
+          "include": "#attributes"
+        },
+        {
+          "include": "#raw-inline"
+        },
+        {
+          "include": "#inline-literal"
+        },
+        {
+          "include": "#inline-code"
+        },
+        {
+          "include": "#inline-comment"
+        },
+        {
+          "include": "#trailing-comment"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#cross-reference"
+        },
+        {
+          "include": "#autolink"
+        },
+        {
+          "include": "#extension-inline"
+        },
+        {
+          "include": "#include-directive"
+        },
+        {
+          "include": "#mentions-tags"
+        },
+        {
+          "include": "#smart-typography"
+        },
+        {
+          "include": "#hard-break"
+        }
+      ]
+    },
+    "caption-literal-at-start": {
+      "comment": "A `^ ` line that opens the document has no host above it, so it is a paragraph.",
+      "begin": "^(?=\\x{FEFF}?[ \\t]*\\^ +(?![ \\t]*$))",
+      "end": "^(?!\\G)(?![ \\t]*$|\\^(?:[ \\t]|$))",
+      "patterns": [
+        {
+          "include": "#paragraph-inline"
+        }
+      ]
+    },
+    "paragraph-inline": {
+      "patterns": [
+        {
+          "include": "#links"
+        },
+        {
+          "include": "#images"
+        },
+        {
+          "include": "#footnotes"
+        },
+        {
+          "include": "#citations"
+        },
+        {
+          "include": "#code-callouts"
+        },
+        {
+          "include": "#critic-markup"
+        },
+        {
+          "include": "#emphasis"
+        },
+        {
+          "include": "#attribute-text-guards"
+        },
+        {
+          "include": "#attributes"
+        },
+        {
+          "include": "#raw-inline"
+        },
+        {
+          "include": "#inline-literal"
+        },
+        {
+          "include": "#inline-code"
+        },
+        {
+          "include": "#inline-comment"
+        },
+        {
+          "include": "#trailing-comment"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#cross-reference"
+        },
+        {
+          "include": "#autolink"
+        },
+        {
+          "include": "#extension-inline"
+        },
+        {
+          "include": "#include-directive"
+        },
+        {
+          "include": "#mentions-tags"
+        },
+        {
+          "include": "#smart-typography"
+        },
+        {
+          "include": "#hard-break"
+        }
+      ]
+    },
     "frontmatter": {
       "patterns": [
         {
@@ -826,7 +926,7 @@
     },
     "fenced-code-languages-on-a-quote-marker-line": {
       "patterns": [
-        {"name":"markup.raw.block.fenced.code.carve","begin":"\\G((?:> )*)((`|~)\\3{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]*(>) \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)","endCaptures":{"1":{"name":"keyword.control.quote.carve"},"2":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"comment":"The quote marker of a body line belongs to the quote, not the code.","match":"^[ \\t]*(>)(?= |$) ?","captures":{"1":{"name":"keyword.control.quote.carve"}}},{"include":"text.carve"}],"contentName":"meta.embedded.block.carve"},
+        {"name":"markup.raw.block.fenced.code.carve","begin":"\\G((?:> )*)((`|~)\\3{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]*(>) \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)","endCaptures":{"1":{"name":"keyword.control.quote.carve"},"2":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"comment":"The quote marker of a body line belongs to the quote, not the code.","match":"^[ \\t]*(>)(?= |$) ?","captures":{"1":{"name":"keyword.control.quote.carve"}}},{"include":"#document-body"}],"contentName":"meta.embedded.block.carve"},
         {"name":"markup.raw.block.fenced.code.carve","begin":"\\G((?:> )*)((`|~)\\3{2,})[ \\t]*((?i:js|javascript|mjs|cjs|node))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]*(>) \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)","endCaptures":{"1":{"name":"keyword.control.quote.carve"},"2":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"comment":"The quote marker of a body line belongs to the quote, not the code.","match":"^[ \\t]*(>)(?= |$) ?","captures":{"1":{"name":"keyword.control.quote.carve"}}},{"include":"source.js"}],"contentName":"meta.embedded.block.javascript"},
         {"name":"markup.raw.block.fenced.code.carve","begin":"\\G((?:> )*)((`|~)\\3{2,})[ \\t]*((?i:jsx))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]*(>) \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)","endCaptures":{"1":{"name":"keyword.control.quote.carve"},"2":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"comment":"The quote marker of a body line belongs to the quote, not the code.","match":"^[ \\t]*(>)(?= |$) ?","captures":{"1":{"name":"keyword.control.quote.carve"}}},{"include":"source.js.jsx"}],"contentName":"meta.embedded.block.javascriptreact"},
         {"name":"markup.raw.block.fenced.code.carve","begin":"\\G((?:> )*)((`|~)\\3{2,})[ \\t]*((?i:ts|typescript|mts|cts))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]*(>) \\1(\\2\\3*)[ \\t]*$|^(?![ \\t]*>)","endCaptures":{"1":{"name":"keyword.control.quote.carve"},"2":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"comment":"The quote marker of a body line belongs to the quote, not the code.","match":"^[ \\t]*(>)(?= |$) ?","captures":{"1":{"name":"keyword.control.quote.carve"}}},{"include":"source.ts"}],"contentName":"meta.embedded.block.typescript"},
@@ -898,7 +998,7 @@
     },
     "fenced-code-languages-at-a-body-column": {
       "patterns": [
-        {"name":"markup.raw.block.fenced.code.carve","begin":"^([ \\t]+)((`|~)\\3{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.carve","patterns":[{"include":"text.carve"}]},
+        {"name":"markup.raw.block.fenced.code.carve","begin":"^([ \\t]+)((`|~)\\3{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.carve","patterns":[{"include":"#document-body"}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^([ \\t]+)((`|~)\\3{2,})[ \\t]*((?i:js|javascript|mjs|cjs|node))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.javascript","patterns":[{"include":"source.js"}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^([ \\t]+)((`|~)\\3{2,})[ \\t]*((?i:jsx))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.javascriptreact","patterns":[{"include":"source.js.jsx"}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^([ \\t]+)((`|~)\\3{2,})[ \\t]*((?i:ts|typescript|mts|cts))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"2":{"name":"keyword.control.raw.begin.carve"},"4":{"name":"entity.name.type.language.carve"},"5":{"name":"string.quoted.double.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"entity.name.label.carve"},"8":{"name":"string.quoted.double.carve"}},"end":"^[ \\t]+(\\2\\3*)[ \\t]*$|^(?![ \\t]*$)(?!\\1)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.typescript","patterns":[{"include":"source.ts"}]},
@@ -970,7 +1070,7 @@
     },
     "fenced-code-languages-on-a-marker-line": {
       "patterns": [
-        {"begin":"^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$","beginCaptures":{"2":{"name":"markup.list.unnumbered.carve"},"3":{"name":"keyword.control.list.begin.carve"},"4":{"name":"keyword.control.task-list.carve"},"5":{"name":"markup.list.numbered.carve"},"6":{"name":"keyword.control.list.begin.carve"},"7":{"name":"markup.raw.block.fenced.code.carve"},"8":{"name":"keyword.control.raw.begin.carve"},"9":{"name":"entity.name.type.language.carve"},"10":{"name":"string.quoted.double.carve"},"11":{"name":"entity.name.label.carve"},"12":{"name":"entity.name.label.carve"},"13":{"name":"string.quoted.double.carve"}},"contentName":"markup.raw.block.fenced.code.carve meta.embedded.block.carve","end":"^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])","endCaptures":{"0":{"name":"markup.raw.block.fenced.code.carve"},"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"include":"text.carve"}]},
+        {"begin":"^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$","beginCaptures":{"2":{"name":"markup.list.unnumbered.carve"},"3":{"name":"keyword.control.list.begin.carve"},"4":{"name":"keyword.control.task-list.carve"},"5":{"name":"markup.list.numbered.carve"},"6":{"name":"keyword.control.list.begin.carve"},"7":{"name":"markup.raw.block.fenced.code.carve"},"8":{"name":"keyword.control.raw.begin.carve"},"9":{"name":"entity.name.type.language.carve"},"10":{"name":"string.quoted.double.carve"},"11":{"name":"entity.name.label.carve"},"12":{"name":"entity.name.label.carve"},"13":{"name":"string.quoted.double.carve"}},"contentName":"markup.raw.block.fenced.code.carve meta.embedded.block.carve","end":"^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])","endCaptures":{"0":{"name":"markup.raw.block.fenced.code.carve"},"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"include":"#document-body"}]},
         {"begin":"^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*((?i:js|javascript|mjs|cjs|node))[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$","beginCaptures":{"2":{"name":"markup.list.unnumbered.carve"},"3":{"name":"keyword.control.list.begin.carve"},"4":{"name":"keyword.control.task-list.carve"},"5":{"name":"markup.list.numbered.carve"},"6":{"name":"keyword.control.list.begin.carve"},"7":{"name":"markup.raw.block.fenced.code.carve"},"8":{"name":"keyword.control.raw.begin.carve"},"9":{"name":"entity.name.type.language.carve"},"10":{"name":"string.quoted.double.carve"},"11":{"name":"entity.name.label.carve"},"12":{"name":"entity.name.label.carve"},"13":{"name":"string.quoted.double.carve"}},"contentName":"markup.raw.block.fenced.code.carve meta.embedded.block.javascript","end":"^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])","endCaptures":{"0":{"name":"markup.raw.block.fenced.code.carve"},"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"include":"source.js"}]},
         {"begin":"^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*((?i:jsx))[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$","beginCaptures":{"2":{"name":"markup.list.unnumbered.carve"},"3":{"name":"keyword.control.list.begin.carve"},"4":{"name":"keyword.control.task-list.carve"},"5":{"name":"markup.list.numbered.carve"},"6":{"name":"keyword.control.list.begin.carve"},"7":{"name":"markup.raw.block.fenced.code.carve"},"8":{"name":"keyword.control.raw.begin.carve"},"9":{"name":"entity.name.type.language.carve"},"10":{"name":"string.quoted.double.carve"},"11":{"name":"entity.name.label.carve"},"12":{"name":"entity.name.label.carve"},"13":{"name":"string.quoted.double.carve"}},"contentName":"markup.raw.block.fenced.code.carve meta.embedded.block.javascriptreact","end":"^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])","endCaptures":{"0":{"name":"markup.raw.block.fenced.code.carve"},"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"include":"source.js.jsx"}]},
         {"begin":"^([ \\t]*)(?:(((?:[-*] +)*[-*] +)(\\[[ xX\\-_>?]\\] +)?)|(([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +))[ \\t]*((`{3,}|~{3,})[ \\t]*((?i:ts|typescript|mts|cts))[ \\t]*(?:(\\\"[^\\\"]*\\\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\\\"[^\\\"]*\\\")?)?[ \\t]*)$","beginCaptures":{"2":{"name":"markup.list.unnumbered.carve"},"3":{"name":"keyword.control.list.begin.carve"},"4":{"name":"keyword.control.task-list.carve"},"5":{"name":"markup.list.numbered.carve"},"6":{"name":"keyword.control.list.begin.carve"},"7":{"name":"markup.raw.block.fenced.code.carve"},"8":{"name":"keyword.control.raw.begin.carve"},"9":{"name":"entity.name.type.language.carve"},"10":{"name":"string.quoted.double.carve"},"11":{"name":"entity.name.label.carve"},"12":{"name":"entity.name.label.carve"},"13":{"name":"string.quoted.double.carve"}},"contentName":"markup.raw.block.fenced.code.carve meta.embedded.block.typescript","end":"^[ \\t]+(`{3,}|~{3,})[ \\t]*$|^(?!\\1[ \\t])","endCaptures":{"0":{"name":"markup.raw.block.fenced.code.carve"},"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"include":"source.ts"}]},
@@ -1042,7 +1142,7 @@
     },
     "fenced-code-languages": {
       "patterns": [
-        {"name":"markup.raw.block.fenced.code.carve","begin":"^((`|~)\\2{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"1":{"name":"keyword.control.raw.begin.carve"},"3":{"name":"entity.name.type.language.carve"},"4":{"name":"string.quoted.double.carve"},"5":{"name":"entity.name.label.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"string.quoted.double.carve"}},"end":"^(\\1\\2*)[ \\t]*(?:\\n|$)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.carve","patterns":[{"include":"text.carve"}]},
+        {"name":"markup.raw.block.fenced.code.carve","begin":"^((`|~)\\2{2,})[ \\t]*((?i:carve|crv))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"1":{"name":"keyword.control.raw.begin.carve"},"3":{"name":"entity.name.type.language.carve"},"4":{"name":"string.quoted.double.carve"},"5":{"name":"entity.name.label.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"string.quoted.double.carve"}},"end":"^(\\1\\2*)[ \\t]*(?:\\n|$)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"contentName":"meta.embedded.block.carve","patterns":[{"include":"#document-body"}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^((`|~)\\2{2,})[ \\t]*((?i:js|javascript|mjs|cjs|node))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"1":{"name":"keyword.control.raw.begin.carve"},"3":{"name":"entity.name.type.language.carve"},"4":{"name":"string.quoted.double.carve"},"5":{"name":"entity.name.label.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"string.quoted.double.carve"}},"end":"^(\\1\\2*)[ \\t]*(?:\\n|$)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"begin":"\\G","while":"(^|\\G)(?![ \\t]*[`~]{3,}[ \\t]*$)","contentName":"meta.embedded.block.javascript","patterns":[{"include":"source.js"}]}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^((`|~)\\2{2,})[ \\t]*((?i:jsx))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"1":{"name":"keyword.control.raw.begin.carve"},"3":{"name":"entity.name.type.language.carve"},"4":{"name":"string.quoted.double.carve"},"5":{"name":"entity.name.label.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"string.quoted.double.carve"}},"end":"^(\\1\\2*)[ \\t]*(?:\\n|$)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"begin":"\\G","while":"(^|\\G)(?![ \\t]*[`~]{3,}[ \\t]*$)","contentName":"meta.embedded.block.javascriptreact","patterns":[{"include":"source.js.jsx"}]}]},
         {"name":"markup.raw.block.fenced.code.carve","begin":"^((`|~)\\2{2,})[ \\t]*((?i:ts|typescript|mts|cts))[ \\t]*(?:(\"[^\"]*\")[ \\t]*(\\[[^\\]]*\\])?|(\\[[^\\]]*\\])[ \\t]*(\"[^\"]*\")?)?[ \\t]*$","beginCaptures":{"1":{"name":"keyword.control.raw.begin.carve"},"3":{"name":"entity.name.type.language.carve"},"4":{"name":"string.quoted.double.carve"},"5":{"name":"entity.name.label.carve"},"6":{"name":"entity.name.label.carve"},"7":{"name":"string.quoted.double.carve"}},"end":"^(\\1\\2*)[ \\t]*(?:\\n|$)","endCaptures":{"1":{"name":"keyword.control.raw.end.carve"}},"patterns":[{"begin":"\\G","while":"(^|\\G)(?![ \\t]*[`~]{3,}[ \\t]*$)","contentName":"meta.embedded.block.typescript","patterns":[{"include":"source.ts"}]}]},
@@ -1921,70 +2021,7 @@
       "end": "^(?!\\G)(?![ \\t]*(?:[-*](?:[ \\t]|\\{|$)|(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$)|\\.(?:[ \\t]|\\{|$)|\\^(?:[ \\t]|$)|\\+[ \\t]*$))",
       "patterns": [
         {
-          "include": "#links"
-        },
-        {
-          "include": "#images"
-        },
-        {
-          "include": "#footnotes"
-        },
-        {
-          "include": "#citations"
-        },
-        {
-          "include": "#code-callouts"
-        },
-        {
-          "include": "#critic-markup"
-        },
-        {
-          "include": "#emphasis"
-        },
-        {
-          "include": "#attribute-text-guards"
-        },
-        {
-          "include": "#attributes"
-        },
-        {
-          "include": "#raw-inline"
-        },
-        {
-          "include": "#inline-literal"
-        },
-        {
-          "include": "#inline-code"
-        },
-        {
-          "include": "#inline-comment"
-        },
-        {
-          "include": "#trailing-comment"
-        },
-        {
-          "include": "#math"
-        },
-        {
-          "include": "#cross-reference"
-        },
-        {
-          "include": "#autolink"
-        },
-        {
-          "include": "#extension-inline"
-        },
-        {
-          "include": "#include-directive"
-        },
-        {
-          "include": "#mentions-tags"
-        },
-        {
-          "include": "#smart-typography"
-        },
-        {
-          "include": "#hard-break"
+          "include": "#paragraph-inline"
         }
       ]
     },

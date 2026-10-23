@@ -8,12 +8,14 @@
 // language capture narrowed to one language, so the fence, title, label and
 // closer handling cannot drift from the generic rule.
 //
-// Ported from vscode-carve's tools/generate-fence-languages.mjs. Three deltas,
+// Ported from vscode-carve's tools/generate-fence-languages.mjs. Four deltas,
 // all forced by the IDE rather than chosen:
 //
 //  * The three generic rules have this grammar's names, and the two container
 //    variants are separate rules here where upstream keeps both in one.
 //  * Kotlin is included under BOTH `source.kotlin` and `source.Kotlin` (IDE_SCOPES).
+//  * A Carve body includes `#document-body`, not `text.carve`: the root holds
+//    a rule that never ends, which would keep the fence from closing.
 //  * No `embeddedLanguages` map. That is a VS Code manifest contribution, and
 //    the IDE's TextMate bridge has no equivalent, so comment toggling and
 //    brackets inside a fence stay Carve's.
@@ -36,6 +38,7 @@ const tablePath = resolve(root, 'tools/fence-languages.json')
 const IDE_SCOPES = {
   // The IDE bundles a legacy-format Kotlin grammar whose scope has a capital K.
   kotlin: ['source.kotlin', 'source.Kotlin'],
+  carve: ['#document-body'],
 }
 
 // Table words are literal (`c++`, `c#`). No `\b` after them: the generic rule's

@@ -19,8 +19,8 @@ import org.junit.Test
  */
 class CarveCaptionInlineTest {
 
-    /** Every spelling that reaches a caption capture, with and without a preceding table. */
-    private val prefixes = listOf("^ ", "> ^ ", "| a |\n^ ", "> | b |\n> ^ ")
+    /** Every spelling that reaches a caption capture: after a figure or a table, flush left or quoted. */
+    private val prefixes = listOf("![i](p.png)\n^ ", "> ^ ", "| a |\n^ ", "> | b |\n> ^ ")
 
     private val captionScopes = listOf("markup.table.caption.carve", "string.unquoted.caption.carve")
 
