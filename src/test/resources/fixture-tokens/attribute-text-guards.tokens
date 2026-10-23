@@ -1,0 +1,125 @@
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]{kbd}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]{.c}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]{}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]{.c}  -> text.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+y -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+.d -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+\\\\ -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]{.c}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+\\] -> text.carve constant.character.escape.carve
+{.c}\n -> text.carve
+\n -> text.carve
+f -> text.carve
+(u -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+f -> text.carve
+(a(b)c -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+(a -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+see  -> text.carve
+(note -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+](u -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+x -> text.carve
+\\](u -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+[a -> text.carve
+\\](u -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+( -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+){.c}\n -> text.carve
+\n -> text.carve
+(a  -> text.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+l -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ b -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+[ -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+a -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+\\](u -> text.carve
+){.c}\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+]( -> text.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+* -> text.carve markup.bold.carve keyword.control.bold.carve
+){.c}\n -> text.carve
+\n -> text.carve
+(a) -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve
+\n -> text.carve
+\\[ -> text.carve constant.character.escape.carve
+x -> text.carve
+] -> text.carve
+{* -> text.carve markup.bold.carve keyword.control.bold.carve
+b -> text.carve markup.bold.carve markup.bold.carve
+*} -> text.carve markup.bold.carve keyword.control.bold.carve
+\n -> text.carve
+\n -> text.carve
+[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
+x -> text.carve meta.link.inline.carve string.other.link.title.carve
+] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> text.carve meta.link.inline.carve markup.underline.link.carve
+) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+\n -> text.carve
+\\\\ -> text.carve constant.character.escape.carve
+[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> text.carve meta.span.inline.carve string.other.span.carve
+] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> text.carve meta.attributes.carve
+.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve

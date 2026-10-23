@@ -79,6 +79,9 @@
       "include": "#emphasis"
     },
     {
+      "include": "#attribute-text-guards"
+    },
+    {
       "include": "#attributes"
     },
     {
@@ -493,6 +496,9 @@
             },
             {
               "include": "#emphasis"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -1322,6 +1328,9 @@
           "include": "#emphasis"
         },
         {
+          "include": "#attribute-text-guards"
+        },
+        {
           "include": "#attributes"
         },
         {
@@ -1450,6 +1459,9 @@
                   "include": "#emphasis"
                 },
                 {
+                  "include": "#attribute-text-guards"
+                },
+                {
                   "include": "#attributes"
                 },
                 {
@@ -1561,6 +1573,9 @@
             },
             {
               "include": "#emphasis"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -1655,6 +1670,9 @@
                   "include": "#emphasis"
                 },
                 {
+                  "include": "#attribute-text-guards"
+                },
+                {
                   "include": "#attributes"
                 },
                 {
@@ -1766,6 +1784,9 @@
             },
             {
               "include": "#emphasis"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -1921,6 +1942,9 @@
           "include": "#emphasis"
         },
         {
+          "include": "#attribute-text-guards"
+        },
+        {
           "include": "#attributes"
         },
         {
@@ -1969,7 +1993,7 @@
         {
           "name": "meta.link.inline.carve",
           "comment": "The optional title may be empty (`[x](u \"\")`) and may contain escaped quotes (`\"ti\\\"tle\"`), so the title run allows backslash escapes and zero characters.",
-          "match": "(\\[)([^\\]]+)(\\])(\\()((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048})(?: (?:\"((?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512})\"|'((?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512})'))?(\\))",
+          "match": "(\\[)((?:[^\\]\\\\]|\\\\.)+)(\\])(\\()((?![ \\t\\r\\n)])(?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]|\\((?:\\\\[()\\\\]|\\\\(?![()\\\\])|[^ \\t\\r\\n()\\\\]){0,256}\\)){0,256}\\)){0,2048})(?: (?:\"((?:\\\\\"|\\\\(?!\")|[^\"\\\\\\r\\n]){0,512})\"|'((?:\\\\'|\\\\(?!')|[^'\\\\\\r\\n]){0,512})'))?(\\))",
           "captures": {
             "1": {
               "name": "keyword.control.link.begin.carve"
@@ -1999,7 +2023,7 @@
         },
         {
           "name": "meta.link.reference.carve",
-          "match": "(\\[)([^\\]]+)(\\])(\\[)([^\\]]*)(\\])",
+          "match": "(\\[)((?:[^\\]\\\\]|\\\\.)+)(\\])(\\[)([^\\]]*)(\\])",
           "captures": {
             "2": {
               "name": "string.other.link.title.carve"
@@ -2011,7 +2035,7 @@
         },
         {
           "name": "meta.span.inline.carve",
-          "match": "(\\[)([^\\^\\]][^\\]]*)(\\])(?=\\{)",
+          "match": "(\\[)((?![\\^\\]])(?:[^\\]\\\\]|\\\\.)+)(\\])(?=\\{)",
           "captures": {
             "1": {
               "name": "keyword.control.span.begin.carve"
@@ -2258,6 +2282,147 @@
         }
       ]
     },
+    "attribute-text-guards": {
+      "comment": "Text the engine never reads as an attribute block: a brace after an escaped bracket, an escaped link closer, or a parenthesis that does not end a link destination. Consumed here so `#attributes` does not scope it. Ported from carve-grammars (#738, #740).",
+      "patterns": [
+        {
+          "match": "(?<!\\\\)(?:\\\\\\\\)*(\\\\\\[)((?:[^\\[\\]\\\\\\n]|\\\\.)*)(\\])(?:\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\))?((?:\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\})?)",
+          "captures": {
+            "1": {
+              "name": "constant.character.escape.carve"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            },
+            "4": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)\\[((?:[^\\[\\]\\\\\\n]|\\\\.)*)\\\\\\]\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(?:\\\\\\\\)*\\\\\\]\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\])\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#attribute-text-inline"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "attribute-text-inline": {
+      "comment": "Inline constructs re-tokenized inside text the attribute guards consume.",
+      "patterns": [
+        {
+          "include": "#links"
+        },
+        {
+          "include": "#images"
+        },
+        {
+          "include": "#footnotes"
+        },
+        {
+          "include": "#citations"
+        },
+        {
+          "include": "#code-callouts"
+        },
+        {
+          "include": "#critic-markup"
+        },
+        {
+          "include": "#emphasis"
+        },
+        {
+          "include": "#attribute-text-guards"
+        },
+        {
+          "include": "#attributes"
+        },
+        {
+          "include": "#raw-inline"
+        },
+        {
+          "include": "#inline-literal"
+        },
+        {
+          "include": "#inline-code"
+        },
+        {
+          "include": "#inline-comment"
+        },
+        {
+          "include": "#trailing-comment"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#cross-reference"
+        },
+        {
+          "include": "#autolink"
+        },
+        {
+          "include": "#extension-inline"
+        },
+        {
+          "include": "#include-directive"
+        },
+        {
+          "include": "#mentions-tags"
+        },
+        {
+          "include": "#smart-typography"
+        },
+        {
+          "include": "#hard-break"
+        }
+      ]
+    },
     "attributes": {
       "patterns": [
         {
@@ -2268,7 +2433,7 @@
         {
           "name": "meta.attributes.carve",
           "comment": "Strict identifier (spec PART 9 S14, corpus 122): a class/id/key may not start with a digit, so `{2=v}` stays literal text. An unquoted value may still contain dots and colons (corpus 110); a quoted value may contain braces and backslash-escaped quotes (corpus 64-3/64-9/64-11); a bare `{}` is literal (corpus 123).",
-          "match": "(?<![\\w\"\\'])(?<![^-+*.)\\]}:\\s][ \\t])(?:(?<=[^\\s])|(?=\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\}(?:[ \\t]*\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\})*[ \\t]*$))(\\{)(\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)(\\})",
+          "match": "(?<!^\\\\[!-/:-@\\[-`{-~]|[^\\\\]\\\\[!-/:-@\\[-`{-~]|^\\\\\\\\\\\\[!-/:-@\\[-`{-~]|[^\\\\]\\\\\\\\\\\\[!-/:-@\\[-`{-~])(?<![\\w\"\\'])(?<![^-+*.)\\]}:\\s][ \\t])(?:(?<=[^\\s])|(?=\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\}(?:[ \\t]*\\{(?:\"(?:\\\\.|[^\"\\\\\\n])*\"|\\'(?:\\\\.|[^\\'\\\\\\n])*\\'|[^{}\"\\'\\n])*\\})*[ \\t]*$))(\\{)(\\s*(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z_][\\w-]*|[A-Za-z_][\\w-]*=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+)|[A-Za-z][\\w-]*))*\\s*)(\\})",
           "captures": {
             "0": {
               "patterns": [
@@ -2603,6 +2768,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -2752,6 +2920,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -2850,6 +3021,9 @@
                   "include": "#footnotes"
                 },
                 {
+                  "include": "#attribute-text-guards"
+                },
+                {
                   "include": "#attributes"
                 },
                 {
@@ -2935,6 +3109,9 @@
                 },
                 {
                   "include": "#footnotes"
+                },
+                {
+                  "include": "#attribute-text-guards"
                 },
                 {
                   "include": "#attributes"
@@ -3512,6 +3689,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -3655,6 +3835,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -3796,6 +3979,9 @@
             },
             {
               "include": "#critic-markup"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -3943,6 +4129,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -4086,6 +4275,9 @@
             },
             {
               "include": "#critic-markup"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -4233,6 +4425,9 @@
               "include": "#critic-markup"
             },
             {
+              "include": "#attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -4376,6 +4571,9 @@
             },
             {
               "include": "#critic-markup"
+            },
+            {
+              "include": "#attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -5181,6 +5379,9 @@
           "include": "#autolink"
         },
         {
+          "include": "#attribute-text-guards"
+        },
+        {
           "include": "#attributes"
         },
         {
@@ -5242,6 +5443,145 @@
               "include": "#block-quote-body"
             }
           ]
+        }
+      ]
+    },
+    "line-inline-attribute-text-guards": {
+      "patterns": [
+        {
+          "match": "(?<!\\\\)(?:\\\\\\\\)*(\\\\\\[)((?:[^\\[\\]\\\\\\n]|\\\\.)*)(\\])(?:\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\))?((?:\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\})?)",
+          "captures": {
+            "1": {
+              "name": "constant.character.escape.carve"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            },
+            "4": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)\\[((?:[^\\[\\]\\\\\\n]|\\\\.)*)\\\\\\]\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\\\)(?:\\\\\\\\)*\\\\\\]\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "(?<!\\])\\(((?:[^()\\n]|\\([^()\\n]{0,256}\\)|\\([^()\\n]{0,256}\\([^()\\n]{0,256}\\)[^()\\n]{0,256}\\)){0,2048})\\)\\{\\s*(?:(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?)(?:\\s+(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\\w-]*|[A-Za-z_][\\w-]*(?:=(?:\"(?:[^\"\\\\\\n]|\\\\.)*\"|'(?:[^'\\\\\\n]|\\\\.)*'|[^\\s\"'{}]+))?))*\\s*)?\\}",
+          "captures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#line-inline-attribute-text-inline"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "line-inline-attribute-text-inline": {
+      "patterns": [
+        {
+          "include": "#links"
+        },
+        {
+          "include": "#images"
+        },
+        {
+          "include": "#line-inline-footnotes"
+        },
+        {
+          "include": "#line-inline-citations"
+        },
+        {
+          "include": "#code-callouts"
+        },
+        {
+          "include": "#line-inline-critic-markup"
+        },
+        {
+          "include": "#line-inline-emphasis"
+        },
+        {
+          "include": "#line-inline-attribute-text-guards"
+        },
+        {
+          "include": "#attributes"
+        },
+        {
+          "include": "#raw-inline"
+        },
+        {
+          "include": "#inline-literal"
+        },
+        {
+          "include": "#line-inline-inline-code"
+        },
+        {
+          "include": "#line-inline-inline-comment"
+        },
+        {
+          "include": "#trailing-comment"
+        },
+        {
+          "include": "#math"
+        },
+        {
+          "include": "#cross-reference"
+        },
+        {
+          "include": "#autolink"
+        },
+        {
+          "include": "#extension-inline"
+        },
+        {
+          "include": "#include-directive"
+        },
+        {
+          "include": "#mentions-tags"
+        },
+        {
+          "include": "#smart-typography"
+        },
+        {
+          "include": "#hard-break"
         }
       ]
     },
@@ -5483,6 +5823,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -5630,6 +5973,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -5727,6 +6073,9 @@
                   "include": "#line-inline-footnotes"
                 },
                 {
+                  "include": "#line-inline-attribute-text-guards"
+                },
+                {
                   "include": "#attributes"
                 },
                 {
@@ -5812,6 +6161,9 @@
                 },
                 {
                   "include": "#line-inline-footnotes"
+                },
+                {
+                  "include": "#line-inline-attribute-text-guards"
                 },
                 {
                   "include": "#attributes"
@@ -6321,6 +6673,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -6464,6 +6819,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -6605,6 +6963,9 @@
             },
             {
               "include": "#line-inline-critic-markup"
+            },
+            {
+              "include": "#line-inline-attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -6751,6 +7112,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -6893,6 +7257,9 @@
             },
             {
               "include": "#line-inline-critic-markup"
+            },
+            {
+              "include": "#line-inline-attribute-text-guards"
             },
             {
               "include": "#attributes"
@@ -7039,6 +7406,9 @@
               "include": "#line-inline-critic-markup"
             },
             {
+              "include": "#line-inline-attribute-text-guards"
+            },
+            {
               "include": "#attributes"
             },
             {
@@ -7181,6 +7551,9 @@
             },
             {
               "include": "#line-inline-critic-markup"
+            },
+            {
+              "include": "#line-inline-attribute-text-guards"
             },
             {
               "include": "#attributes"

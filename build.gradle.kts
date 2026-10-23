@@ -387,6 +387,9 @@ val localRulesGroupedUpstream =
 // a rule here can never hide a later regression in it.
 val divergedByDesign =
     mapOf(
+        "attribute-text-inline" to
+            "Lists this grammar's own top-level inline rules, which differ from upstream's. " +
+                "Pinned by attribute-text-guards.crv.",
         // The three generated per-language fence families. Each rule is a copy of THIS
         // grammar's generic fence rule, and the generic rules diverge from upstream's
         // already (upstream reaches both container spellings from one \\G-anchored rule;
