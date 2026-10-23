@@ -4,6 +4,9 @@
   "scopeName": "text.carve",
   "patterns": [
     {
+      "include": "#plus-marker-opener-chain"
+    },
+    {
       "include": "#thematic-break"
     },
     {
@@ -1157,6 +1160,51 @@
         }
       ]
     },
+    "plus-marker-opener-chain": {
+      "comment": "A lone `+` after an ordered marker and a nested bullet on one line (`1. - +`), which the single-opener rules do not reach: the first-block continuation marker, provable on its own line (markup-carve/carve#3445).",
+      "begin": "^([ \\t]*)(?=(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+)*(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)][ \\t]+(?:(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])[ \\t]+)+\\+[ \\t]*$)",
+      "end": "$",
+      "patterns": [
+        {
+          "match": "\\G[ \\t]*([-*])(?=[ \\t])",
+          "captures": {
+            "1": {
+              "name": "markup.list.unnumbered.carve keyword.control.list.begin.carve"
+            }
+          }
+        },
+        {
+          "match": "\\G[ \\t]*([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)])(?=[ \\t])",
+          "captures": {
+            "1": {
+              "name": "markup.list.numbered.carve keyword.control.list.begin.carve"
+            }
+          }
+        },
+        {
+          "match": "\\G[ \\t]*(\\+)(?=[ \\t]*$)",
+          "captures": {
+            "1": {
+              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
+            }
+          }
+        }
+      ]
+    },
+    "plus-marker-after-opener": {
+      "comment": "A lone `+` right after a block opener on the same line (`- +`, `1. +`, `> +`, `> > +`, `- - +`) is the continuation marker, like a `+` at column 0 (markup-carve/carve#3421); `+` followed by text is literal. A plain match: it changes neither what an opener consumes nor which lines it owns.",
+      "patterns": [
+        {
+          "name": "markup.list.continuation.carve",
+          "match": "\\G(?<=[ \\t])(\\+)(?=[ \\t]*$)",
+          "captures": {
+            "1": {
+              "name": "keyword.control.list.continuation.carve"
+            }
+          }
+        }
+      ]
+    },
     "block-quote-body": {
       "comment": "Block-level and inline rules reachable after a quote marker has consumed its prefix (markup-carve/intellij-carve#98).",
       "patterns": [
@@ -1353,14 +1401,8 @@
           }
         },
         {
-          "comment": "A lone `+` at the marker column is the list-continuation marker, not a bullet (`+` is never a bullet in Carve).",
-          "name": "markup.list.continuation.carve",
-          "match": "^(\\s*)(\\+)(\\s*)$",
-          "captures": {
-            "2": {
-              "name": "keyword.control.list.continuation.carve"
-            }
-          }
+          "comment": "A lone `+` line is plain text here: whether it is the continuation marker depends on the open container's marker column and on the next line (markup-carve/carve#3445), which a line rule cannot see. `+` is never a bullet.",
+          "match": "^[ \\t]*\\+[ \\t]*$"
         },
         {
           "comment": "A marker line may carry several markers (`- - A` opens two nested lists), so scope each one, not only the line-anchored first. A BULLET MAY BE GLUED TO AN ATTRIBUTE BLOCK, and then the required space comes after the block, not after the marker - so `-{#x} item` and `*{.c} item` went uncoloured on a line that IS a list item, while the ordered rule beside it already had the branch (markup-carve/carve-grammars#126). It is a LOOKAHEAD: consuming the block would make this rule own those characters, so the attribute rule could no longer scope them. KNOWN LIMITATION, shared with every Carve TextMate grammar: the checkbox after a glued block (`-{.c} [x] done`) is not scoped, because the task branch has none; the bullet is. THE PAYLOAD MUST BE VALID, not merely brace-delimited: an invalid one means the `{` is literal content and the line is prose. `-{+a+} text` (corpus 90-list-item-attributes-6) and `1.{2=v} text` are paragraphs, while `-{} item` and `-{not attrs} item` are list items. Identifiers are STRICT (PART 9 S14) and admit no colon, which is what carve-js does (markup-carve/carve-grammars#126). THE RULE IS A REGION AND NOT A MATCH, so that a code fence at the item's BODY column can be reached from inside the item and nowhere else (markup-carve/intellij-carve#133). The region carries no scope of its own: the marker keeps its scopes through beginCaptures 0 and the body tokenizes through `$self`, the document's own pattern list, which is what applied to it when this was a line match - so the only reading that changes is the one `#code-fence-at-body-column` adds, and every list golden in the suite is unchanged. THE END IS THE ITEM BOUNDARY: the first line that neither is blank nor sits past the item's own indent. Blank lines are admitted because an item's body may hold several blocks, and the bound is the opener's indent rather than the body column, which is the looseness `#code-fence-on-marker-line`'s own closer already carries.",
@@ -1381,6 +1423,12 @@
           },
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
+            {
+              "include": "#plus-marker-opener-chain"
+            },
+            {
+              "include": "#plus-marker-after-opener"
+            },
             {
               "include": "#code-fence-at-body-column"
             },
@@ -1587,6 +1635,12 @@
           "end": "^(?![ \\t]*$)(?!\\1[ \\t])(?!(?![ \\t])(?!(?:\\d+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)](?:[ \\t]|\\{|$))(?:[\\p{L}\\p{N}(\\\"'/\\\\]|\\*(?![ \\t*\\[{]|$)|_(?!_)|`(?!``)|\\[(?!\\^)(?![^\\]\\n]*\\]:)|~(?!~~)|=(?!==)|#(?![# \\t]|$)|@|\\^(?:[ \\t]|$)))",
           "patterns": [
             {
+              "include": "#plus-marker-opener-chain"
+            },
+            {
+              "include": "#plus-marker-after-opener"
+            },
+            {
               "include": "#code-fence-at-body-column"
             },
             {
@@ -1780,10 +1834,13 @@
         },
         {
           "name": "markup.list.definition.carve",
-          "match": "^([ \\t]*)(:)[ \\t]+(?![ \\t]*$)",
+          "match": "^([ \\t]*)(:)[ \\t]+(?![ \\t]*$)(?:(\\+)(?=[ \\t]*$))?",
           "captures": {
             "2": {
               "name": "keyword.control.list.begin.carve"
+            },
+            "3": {
+              "name": "markup.list.continuation.carve keyword.control.list.continuation.carve"
             }
           }
         }

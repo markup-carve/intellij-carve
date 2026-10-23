@@ -1,0 +1,519 @@
+[
+ {
+  "id": "635-1",
+  "source": "> > - a\n>   +\n>   - b\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 4,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "635-3",
+  "source": "1. ordered\n  > > quote\n+  \n- item\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 0,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "638-1",
+  "source": "- - ```\n\n  +\n  x\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "638-2",
+  "source": "- a\n  - ```\n    x\n\n  +\n  > q\n",
+  "plus": [
+   {
+    "line": 5,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "638-3",
+  "source": ":: t\n:  d\n   :: term\n   :  detail\n   +\n   ```\n   code\n   ```\n",
+  "plus": [
+   {
+    "line": 5,
+    "col": 3,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "643-1",
+  "source": "[^a]: +\n- a list\n\nsee[^a]\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "643-2",
+  "source": ":: t\n: +\n- a list\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "644-1",
+  "source": ":: t\n: a\n+\n- b\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 0,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "644-2",
+  "source": "[^a]: x\n+\n- b\n\nsee[^a]\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 0,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-1",
+  "source": "> +\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-2",
+  "source": "> > +\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-3",
+  "source": ">+\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 1,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-4",
+  "source": ">>+\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 2,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-5",
+  "source": "> >+\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 3,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-6",
+  "source": ">> +\nq\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 3,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-7",
+  "source": "> q\n>+\n> para\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 1,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-8",
+  "source": "> > q\n> +\n> > r\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-9",
+  "source": "> - a\n> +\n> > r\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-10",
+  "source": "> > - a\n> +\n> para\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-11",
+  "source": "> a\n> +\n> > q\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "646-12",
+  "source": "> :: t\n> : a\n> +\n> > q\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "646-13",
+  "source": "> [^a]: a\n> +\n> > q\n\nr[^a]\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "647-1",
+  "source": "- a\n  > +\n  q\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "647-2",
+  "source": "1. a\n   - b\n     > +\n     | c |\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 7,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "648-1",
+  "source": "- > > q\n  > +\n  > > r\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "648-2",
+  "source": "- > > > q\n  > +\n  > > r\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "648-3",
+  "source": ":: t\n: > > q\n  > +\n  > > r\n",
+  "plus": [
+   {
+    "line": 3,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "649-1",
+  "source": "- > +\n b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 4,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "649-2",
+  "source": "- a\n  - > +\n b\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "649-3",
+  "source": "- a\n  - > +\n   b\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "649-4",
+  "source": "> > +\n  > q\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 4,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "649-5",
+  "source": "- a\n  > > +\n    > q\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "650-3",
+  "source": "- - ```\n  +\n{.c\n}\n~~~\ny\n~~~\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 2,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "651-1",
+  "source": "- - > +\n  b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "651-2",
+  "source": "- - +\n  b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 4,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "651-3",
+  "source": "- a\n  - - > +\n  b\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 8,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "652-1",
+  "source": "> - > q\n>   > > +\n>   > - s\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 8,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "652-2",
+  "source": "> - > +\n- s\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "652-3",
+  "source": "- > > +\n  - s\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "654-1",
+  "source": "- > > +\n> q\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "654-2",
+  "source": "- > > +\n  > q\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "text"
+   }
+  ]
+ },
+ {
+  "id": "655-1",
+  "source": "> - > +\n# h\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "655-2",
+  "source": "> - > +\n| c |\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "655-3",
+  "source": "> - a\n> - > +\n# h\n",
+  "plus": [
+   {
+    "line": 2,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "656-1",
+  "source": "- - > +\n    b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "656-2",
+  "source": "- - - > +\n      b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 8,
+    "verdict": "marker"
+   }
+  ]
+ },
+ {
+  "id": "656-3",
+  "source": "- > > +\n    b\n",
+  "plus": [
+   {
+    "line": 1,
+    "col": 6,
+    "verdict": "marker"
+   }
+  ]
+ }
+]

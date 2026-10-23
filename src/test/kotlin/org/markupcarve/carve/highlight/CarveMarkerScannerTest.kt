@@ -28,7 +28,10 @@ class CarveMarkerScannerTest {
     @Test
     fun continuationIsNotABullet() {
         // A lone `+` is a continuation, not a list bullet (bullets are `-` / `*`).
-        assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
+        val dash = "-" to CarveColors.LIST_MARKER
+        assertEquals(listOf(dash, "+" to CarveColors.CONTINUATION_MARKER), covered("- a\n+\nb\n"))
+        // With no open container it is text (markup-carve/carve#3445).
+        assertEquals(none, covered("+\n"))
     }
 
     /**
@@ -99,7 +102,7 @@ class CarveMarkerScannerTest {
     fun plusFollowedByProseIsNotAContinuation() {
         // Only a lone `+` line, or a `+ ... |` table row, is a continuation.
         assertTrue(scan("+ not a continuation\n").isEmpty())
-        assertEquals(listOf("+" to CarveColors.CONTINUATION_MARKER), covered("+\n"))
+        assertTrue(scan("- a\n+ not a continuation\n").none { it.third == CarveColors.CONTINUATION_MARKER })
         // A `+ ... |` row continues a table row and nothing else: on its own, carve-js
         // renders it as a paragraph.
         assertEquals(
@@ -377,7 +380,11 @@ class CarveMarkerScannerTest {
         assertEquals(listOf(dash, dash), covered("- a\nlazy\n- b\n"))
         assertEquals(listOf(dash), covered("- a\n\nlazy\n- b\n"))
         assertEquals(listOf(dash, dash), covered("- a\n\n  more\n- b\n"))
-        assertEquals(listOf(dash, "+" to CarveColors.CONTINUATION_MARKER), covered("- a\n+\n  more\n"))
+        assertEquals(listOf(dash, "+" to CarveColors.CONTINUATION_MARKER), covered("- a\n+\nmore\n"))
+        // A block at another column refuses the marker, so the `+` is text.
+        assertEquals(listOf(dash), covered("- a\n+\n  more\n"))
+        // A list marker that cannot interrupt a paragraph opens no item for the `+` to reach.
+        assertEquals(none, covered("para\n- x\n+\ny\n"))
     }
 
     /** A row needs its opening AND its closing pipe; carve-js renders the rest as paragraphs. */
