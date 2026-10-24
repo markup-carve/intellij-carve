@@ -47,9 +47,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/utils/is.js
+// node_modules/vscode-languageserver/lib/common/utils/is.js
 var require_is = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/utils/is.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/utils/is.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.thenable = exports2.typedArray = exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = void 0;
@@ -92,9 +92,9 @@ var require_is = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/is.js
+// node_modules/vscode-jsonrpc/lib/common/is.js
 var require_is2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/is.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/is.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = void 0;
@@ -129,9 +129,9 @@ var require_is2 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messages.js
+// node_modules/vscode-jsonrpc/lib/common/messages.js
 var require_messages = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messages.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/messages.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Message = exports2.NotificationType9 = exports2.NotificationType8 = exports2.NotificationType7 = exports2.NotificationType6 = exports2.NotificationType5 = exports2.NotificationType4 = exports2.NotificationType3 = exports2.NotificationType2 = exports2.NotificationType1 = exports2.NotificationType0 = exports2.NotificationType = exports2.RequestType9 = exports2.RequestType8 = exports2.RequestType7 = exports2.RequestType6 = exports2.RequestType5 = exports2.RequestType4 = exports2.RequestType3 = exports2.RequestType2 = exports2.RequestType1 = exports2.RequestType = exports2.RequestType0 = exports2.AbstractMessageSignature = exports2.ParameterStructures = exports2.ResponseError = exports2.ErrorCodes = void 0;
@@ -367,9 +367,9 @@ var require_messages = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/linkedMap.js
+// node_modules/vscode-jsonrpc/lib/common/linkedMap.js
 var require_linkedMap = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/linkedMap.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/linkedMap.js"(exports2) {
     "use strict";
     var _a2;
     Object.defineProperty(exports2, "__esModule", { value: true });
@@ -737,9 +737,9 @@ var require_linkedMap = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/disposable.js
+// node_modules/vscode-jsonrpc/lib/common/disposable.js
 var require_disposable = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/disposable.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/disposable.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Disposable = void 0;
@@ -755,9 +755,9 @@ var require_disposable = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/ral.js
+// node_modules/vscode-jsonrpc/lib/common/ral.js
 var require_ral = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/ral.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/ral.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var _ral;
@@ -780,9 +780,9 @@ var require_ral = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/events.js
+// node_modules/vscode-jsonrpc/lib/common/events.js
 var require_events = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/events.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/events.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Emitter = exports2.Event = void 0;
@@ -909,9 +909,9 @@ var require_events = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/cancellation.js
+// node_modules/vscode-jsonrpc/lib/common/cancellation.js
 var require_cancellation = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/cancellation.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/cancellation.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CancellationTokenSource = exports2.CancellationToken = void 0;
@@ -998,9 +998,9 @@ var require_cancellation = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/sharedArrayCancellation.js
+// node_modules/vscode-jsonrpc/lib/common/sharedArrayCancellation.js
 var require_sharedArrayCancellation = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/sharedArrayCancellation.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/sharedArrayCancellation.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.SharedArrayReceiverStrategy = exports2.SharedArraySenderStrategy = void 0;
@@ -1076,9 +1076,9 @@ var require_sharedArrayCancellation = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/semaphore.js
+// node_modules/vscode-jsonrpc/lib/common/semaphore.js
 var require_semaphore = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/semaphore.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/semaphore.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.Semaphore = void 0;
@@ -1144,9 +1144,9 @@ var require_semaphore = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageReader.js
+// node_modules/vscode-jsonrpc/lib/common/messageReader.js
 var require_messageReader = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageReader.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/messageReader.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ReadableStreamMessageReader = exports2.AbstractMessageReader = exports2.MessageReader = void 0;
@@ -1333,9 +1333,9 @@ ${JSON.stringify(Object.fromEntries(headers))}`));
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageWriter.js
+// node_modules/vscode-jsonrpc/lib/common/messageWriter.js
 var require_messageWriter = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageWriter.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/messageWriter.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.WriteableStreamMessageWriter = exports2.AbstractMessageWriter = exports2.MessageWriter = void 0;
@@ -1445,9 +1445,9 @@ var require_messageWriter = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageBuffer.js
+// node_modules/vscode-jsonrpc/lib/common/messageBuffer.js
 var require_messageBuffer = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/messageBuffer.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/messageBuffer.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.AbstractMessageBuffer = void 0;
@@ -1593,9 +1593,9 @@ ${header}`);
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/connection.js
+// node_modules/vscode-jsonrpc/lib/common/connection.js
 var require_connection = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/connection.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/connection.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createMessageConnection = exports2.ConnectionOptions = exports2.MessageStrategy = exports2.CancellationStrategy = exports2.CancellationSenderStrategy = exports2.CancellationReceiverStrategy = exports2.RequestCancellationReceiverStrategy = exports2.IdCancellationReceiverStrategy = exports2.ConnectionStrategy = exports2.ConnectionError = exports2.ConnectionErrors = exports2.LogTraceNotification = exports2.SetTraceNotification = exports2.TraceFormat = exports2.TraceValues = exports2.Trace = exports2.NullLogger = exports2.ProgressType = exports2.ProgressToken = void 0;
@@ -2721,9 +2721,9 @@ ${JSON.stringify(message, null, 4)}`);
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/api.js
+// node_modules/vscode-jsonrpc/lib/common/api.js
 var require_api = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/common/api.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/common/api.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ProgressType = exports2.ProgressToken = exports2.createMessageConnection = exports2.NullLogger = exports2.ConnectionOptions = exports2.ConnectionStrategy = exports2.AbstractMessageBuffer = exports2.WriteableStreamMessageWriter = exports2.AbstractMessageWriter = exports2.MessageWriter = exports2.ReadableStreamMessageReader = exports2.AbstractMessageReader = exports2.MessageReader = exports2.SharedArrayReceiverStrategy = exports2.SharedArraySenderStrategy = exports2.CancellationToken = exports2.CancellationTokenSource = exports2.Emitter = exports2.Event = exports2.Disposable = exports2.LRUCache = exports2.Touch = exports2.LinkedMap = exports2.ParameterStructures = exports2.NotificationType9 = exports2.NotificationType8 = exports2.NotificationType7 = exports2.NotificationType6 = exports2.NotificationType5 = exports2.NotificationType4 = exports2.NotificationType3 = exports2.NotificationType2 = exports2.NotificationType1 = exports2.NotificationType0 = exports2.NotificationType = exports2.ErrorCodes = exports2.ResponseError = exports2.RequestType9 = exports2.RequestType8 = exports2.RequestType7 = exports2.RequestType6 = exports2.RequestType5 = exports2.RequestType4 = exports2.RequestType3 = exports2.RequestType2 = exports2.RequestType1 = exports2.RequestType0 = exports2.RequestType = exports2.Message = exports2.RAL = void 0;
@@ -2923,9 +2923,9 @@ var require_api = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/node/ril.js
+// node_modules/vscode-jsonrpc/lib/node/ril.js
 var require_ril = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/node/ril.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/node/ril.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var util_1 = require("util");
@@ -3079,9 +3079,9 @@ var require_ril = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/node/main.js
+// node_modules/vscode-jsonrpc/lib/node/main.js
 var require_main = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/lib/node/main.js"(exports2) {
+  "node_modules/vscode-jsonrpc/lib/node/main.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -3339,17 +3339,17 @@ var require_main = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-jsonrpc/node.js
+// node_modules/vscode-jsonrpc/node.js
 var require_node = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-jsonrpc/node.js"(exports2, module2) {
+  "node_modules/vscode-jsonrpc/node.js"(exports2, module2) {
     "use strict";
     module2.exports = require_main();
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/node_modules/vscode-languageserver-types/lib/umd/main.js
+// node_modules/vscode-languageserver-protocol/node_modules/vscode-languageserver-types/lib/umd/main.js
 var require_main2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/node_modules/vscode-languageserver-types/lib/umd/main.js"(exports2, module2) {
+  "node_modules/vscode-languageserver-protocol/node_modules/vscode-languageserver-types/lib/umd/main.js"(exports2, module2) {
     (function(factory) {
       if (typeof module2 === "object" && typeof module2.exports === "object") {
         var v = factory(require, exports2);
@@ -4864,9 +4864,9 @@ var require_main2 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/messages.js
+// node_modules/vscode-languageserver-protocol/lib/common/messages.js
 var require_messages2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/messages.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/messages.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ProtocolNotificationType = exports2.ProtocolNotificationType0 = exports2.ProtocolRequestType = exports2.ProtocolRequestType0 = exports2.RegistrationType = exports2.MessageDirection = void 0;
@@ -4910,9 +4910,9 @@ var require_messages2 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/utils/is.js
+// node_modules/vscode-languageserver-protocol/lib/common/utils/is.js
 var require_is3 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/utils/is.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/utils/is.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.objectLiteral = exports2.typedArray = exports2.stringArray = exports2.array = exports2.func = exports2.error = exports2.number = exports2.string = exports2.boolean = void 0;
@@ -4955,9 +4955,9 @@ var require_is3 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.implementation.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.implementation.js
 var require_protocol_implementation = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.implementation.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.implementation.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ImplementationRequest = void 0;
@@ -4971,9 +4971,9 @@ var require_protocol_implementation = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.typeDefinition.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.typeDefinition.js
 var require_protocol_typeDefinition = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.typeDefinition.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.typeDefinition.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TypeDefinitionRequest = void 0;
@@ -4987,9 +4987,9 @@ var require_protocol_typeDefinition = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.workspaceFolder.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.workspaceFolder.js
 var require_protocol_workspaceFolder = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.workspaceFolder.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.workspaceFolder.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DidChangeWorkspaceFoldersNotification = exports2.WorkspaceFoldersRequest = void 0;
@@ -5009,9 +5009,9 @@ var require_protocol_workspaceFolder = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.configuration.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.configuration.js
 var require_protocol_configuration = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.configuration.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.configuration.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ConfigurationRequest = void 0;
@@ -5025,9 +5025,9 @@ var require_protocol_configuration = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.colorProvider.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.colorProvider.js
 var require_protocol_colorProvider = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.colorProvider.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.colorProvider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ColorPresentationRequest = exports2.DocumentColorRequest = void 0;
@@ -5047,9 +5047,9 @@ var require_protocol_colorProvider = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.foldingRange.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.foldingRange.js
 var require_protocol_foldingRange = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.foldingRange.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.foldingRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.FoldingRangeRefreshRequest = exports2.FoldingRangeRequest = void 0;
@@ -5069,9 +5069,9 @@ var require_protocol_foldingRange = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.declaration.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.declaration.js
 var require_protocol_declaration = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.declaration.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.declaration.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DeclarationRequest = void 0;
@@ -5085,9 +5085,9 @@ var require_protocol_declaration = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.selectionRange.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.selectionRange.js
 var require_protocol_selectionRange = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.selectionRange.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.selectionRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.SelectionRangeRequest = void 0;
@@ -5101,9 +5101,9 @@ var require_protocol_selectionRange = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.progress.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.progress.js
 var require_protocol_progress = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.progress.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.progress.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.WorkDoneProgressCancelNotification = exports2.WorkDoneProgressCreateRequest = exports2.WorkDoneProgress = void 0;
@@ -5132,9 +5132,9 @@ var require_protocol_progress = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.callHierarchy.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.callHierarchy.js
 var require_protocol_callHierarchy = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.callHierarchy.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.callHierarchy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CallHierarchyOutgoingCallsRequest = exports2.CallHierarchyIncomingCallsRequest = exports2.CallHierarchyPrepareRequest = void 0;
@@ -5160,9 +5160,9 @@ var require_protocol_callHierarchy = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.semanticTokens.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.semanticTokens.js
 var require_protocol_semanticTokens = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.semanticTokens.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.semanticTokens.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.SemanticTokensRefreshRequest = exports2.SemanticTokensRangeRequest = exports2.SemanticTokensDeltaRequest = exports2.SemanticTokensRequest = exports2.SemanticTokensRegistrationType = exports2.TokenFormat = void 0;
@@ -5206,9 +5206,9 @@ var require_protocol_semanticTokens = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.showDocument.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.showDocument.js
 var require_protocol_showDocument = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.showDocument.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.showDocument.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ShowDocumentRequest = void 0;
@@ -5222,9 +5222,9 @@ var require_protocol_showDocument = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.linkedEditingRange.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.linkedEditingRange.js
 var require_protocol_linkedEditingRange = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.linkedEditingRange.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.linkedEditingRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.LinkedEditingRangeRequest = void 0;
@@ -5238,9 +5238,9 @@ var require_protocol_linkedEditingRange = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.fileOperations.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.fileOperations.js
 var require_protocol_fileOperations = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.fileOperations.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.fileOperations.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.WillDeleteFilesRequest = exports2.DidDeleteFilesNotification = exports2.DidRenameFilesNotification = exports2.WillRenameFilesRequest = exports2.DidCreateFilesNotification = exports2.WillCreateFilesRequest = exports2.FileOperationPatternKind = void 0;
@@ -5289,9 +5289,9 @@ var require_protocol_fileOperations = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.moniker.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.moniker.js
 var require_protocol_moniker = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.moniker.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.moniker.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MonikerRequest = exports2.MonikerKind = exports2.UniquenessLevel = void 0;
@@ -5319,9 +5319,9 @@ var require_protocol_moniker = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.typeHierarchy.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.typeHierarchy.js
 var require_protocol_typeHierarchy = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.typeHierarchy.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.typeHierarchy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TypeHierarchySubtypesRequest = exports2.TypeHierarchySupertypesRequest = exports2.TypeHierarchyPrepareRequest = void 0;
@@ -5347,9 +5347,9 @@ var require_protocol_typeHierarchy = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineValue.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineValue.js
 var require_protocol_inlineValue = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineValue.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineValue.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlineValueRefreshRequest = exports2.InlineValueRequest = void 0;
@@ -5369,9 +5369,9 @@ var require_protocol_inlineValue = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlayHint.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.inlayHint.js
 var require_protocol_inlayHint = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlayHint.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.inlayHint.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlayHintRefreshRequest = exports2.InlayHintResolveRequest = exports2.InlayHintRequest = void 0;
@@ -5397,9 +5397,9 @@ var require_protocol_inlayHint = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.diagnostic.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.diagnostic.js
 var require_protocol_diagnostic = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.diagnostic.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.diagnostic.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DiagnosticRefreshRequest = exports2.WorkspaceDiagnosticRequest = exports2.DocumentDiagnosticRequest = exports2.DocumentDiagnosticReportKind = exports2.DiagnosticServerCancellationData = void 0;
@@ -5442,9 +5442,9 @@ var require_protocol_diagnostic = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.notebook.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.notebook.js
 var require_protocol_notebook = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.notebook.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.notebook.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DidCloseNotebookDocumentNotification = exports2.DidSaveNotebookDocumentNotification = exports2.DidChangeNotebookDocumentNotification = exports2.NotebookCellArrayChange = exports2.DidOpenNotebookDocumentNotification = exports2.NotebookDocumentSyncRegistrationType = exports2.NotebookDocument = exports2.NotebookCell = exports2.ExecutionSummary = exports2.NotebookCellKind = void 0;
@@ -5631,9 +5631,9 @@ var require_protocol_notebook = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineCompletion.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineCompletion.js
 var require_protocol_inlineCompletion = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineCompletion.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.inlineCompletion.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlineCompletionRequest = void 0;
@@ -5647,9 +5647,9 @@ var require_protocol_inlineCompletion = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.js
+// node_modules/vscode-languageserver-protocol/lib/common/protocol.js
 var require_protocol = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/protocol.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/protocol.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.WorkspaceSymbolRequest = exports2.CodeActionResolveRequest = exports2.CodeActionRequest = exports2.DocumentSymbolRequest = exports2.DocumentHighlightRequest = exports2.ReferencesRequest = exports2.DefinitionRequest = exports2.SignatureHelpRequest = exports2.SignatureHelpTriggerKind = exports2.HoverRequest = exports2.CompletionResolveRequest = exports2.CompletionRequest = exports2.CompletionTriggerKind = exports2.PublishDiagnosticsNotification = exports2.WatchKind = exports2.RelativePattern = exports2.FileChangeType = exports2.DidChangeWatchedFilesNotification = exports2.WillSaveTextDocumentWaitUntilRequest = exports2.WillSaveTextDocumentNotification = exports2.TextDocumentSaveReason = exports2.DidSaveTextDocumentNotification = exports2.DidCloseTextDocumentNotification = exports2.DidChangeTextDocumentNotification = exports2.TextDocumentContentChangeEvent = exports2.DidOpenTextDocumentNotification = exports2.TextDocumentSyncKind = exports2.TelemetryEventNotification = exports2.LogMessageNotification = exports2.ShowMessageRequest = exports2.ShowMessageNotification = exports2.MessageType = exports2.DidChangeConfigurationNotification = exports2.ExitNotification = exports2.ShutdownRequest = exports2.InitializedNotification = exports2.InitializeErrorCodes = exports2.InitializeRequest = exports2.WorkDoneProgressOptions = exports2.TextDocumentRegistrationOptions = exports2.StaticRegistrationOptions = exports2.PositionEncodingKind = exports2.FailureHandlingKind = exports2.ResourceOperationKind = exports2.UnregistrationRequest = exports2.RegistrationRequest = exports2.DocumentSelector = exports2.NotebookCellTextDocumentFilter = exports2.NotebookDocumentFilter = exports2.TextDocumentFilter = void 0;
@@ -6283,9 +6283,9 @@ var require_protocol = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/connection.js
+// node_modules/vscode-languageserver-protocol/lib/common/connection.js
 var require_connection2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/connection.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/connection.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createProtocolConnection = void 0;
@@ -6300,9 +6300,9 @@ var require_connection2 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/api.js
+// node_modules/vscode-languageserver-protocol/lib/common/api.js
 var require_api2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/common/api.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/common/api.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -6342,9 +6342,9 @@ var require_api2 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/node/main.js
+// node_modules/vscode-languageserver-protocol/lib/node/main.js
 var require_main3 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/lib/node/main.js"(exports2) {
+  "node_modules/vscode-languageserver-protocol/lib/node/main.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -6374,9 +6374,9 @@ var require_main3 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/utils/uuid.js
+// node_modules/vscode-languageserver/lib/common/utils/uuid.js
 var require_uuid = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/utils/uuid.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/utils/uuid.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.generateUuid = exports2.parse = exports2.isUUID = exports2.v4 = exports2.empty = void 0;
@@ -6465,9 +6465,9 @@ var require_uuid = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/progress.js
+// node_modules/vscode-languageserver/lib/common/progress.js
 var require_progress = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/progress.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/progress.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.attachPartialResult = exports2.ProgressFeature = exports2.attachWorkDone = void 0;
@@ -6623,9 +6623,9 @@ var require_progress = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/configuration.js
+// node_modules/vscode-languageserver/lib/common/configuration.js
 var require_configuration = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/configuration.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/configuration.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ConfigurationFeature = void 0;
@@ -6660,9 +6660,9 @@ var require_configuration = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/workspaceFolder.js
+// node_modules/vscode-languageserver/lib/common/workspaceFolder.js
 var require_workspaceFolder = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/workspaceFolder.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/workspaceFolder.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.WorkspaceFoldersFeature = void 0;
@@ -6706,9 +6706,9 @@ var require_workspaceFolder = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/callHierarchy.js
+// node_modules/vscode-languageserver/lib/common/callHierarchy.js
 var require_callHierarchy = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/callHierarchy.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/callHierarchy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.CallHierarchyFeature = void 0;
@@ -6742,9 +6742,9 @@ var require_callHierarchy = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/semanticTokens.js
+// node_modules/vscode-languageserver/lib/common/semanticTokens.js
 var require_semanticTokens = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/semanticTokens.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/semanticTokens.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.SemanticTokensBuilder = exports2.SemanticTokensDiff = exports2.SemanticTokensFeature = void 0;
@@ -6890,9 +6890,9 @@ var require_semanticTokens = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/showDocument.js
+// node_modules/vscode-languageserver/lib/common/showDocument.js
 var require_showDocument = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/showDocument.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/showDocument.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.ShowDocumentFeature = void 0;
@@ -6908,9 +6908,9 @@ var require_showDocument = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/fileOperations.js
+// node_modules/vscode-languageserver/lib/common/fileOperations.js
 var require_fileOperations = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/fileOperations.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/fileOperations.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.FileOperationsFeature = void 0;
@@ -6953,9 +6953,9 @@ var require_fileOperations = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/linkedEditingRange.js
+// node_modules/vscode-languageserver/lib/common/linkedEditingRange.js
 var require_linkedEditingRange = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/linkedEditingRange.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/linkedEditingRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.LinkedEditingRangeFeature = void 0;
@@ -6973,9 +6973,9 @@ var require_linkedEditingRange = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/typeHierarchy.js
+// node_modules/vscode-languageserver/lib/common/typeHierarchy.js
 var require_typeHierarchy = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/typeHierarchy.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/typeHierarchy.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TypeHierarchyFeature = void 0;
@@ -7009,9 +7009,9 @@ var require_typeHierarchy = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlineValue.js
+// node_modules/vscode-languageserver/lib/common/inlineValue.js
 var require_inlineValue = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlineValue.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/inlineValue.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlineValueFeature = void 0;
@@ -7036,9 +7036,9 @@ var require_inlineValue = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/foldingRange.js
+// node_modules/vscode-languageserver/lib/common/foldingRange.js
 var require_foldingRange = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/foldingRange.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/foldingRange.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.FoldingRangeFeature = void 0;
@@ -7064,9 +7064,9 @@ var require_foldingRange = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlayHint.js
+// node_modules/vscode-languageserver/lib/common/inlayHint.js
 var require_inlayHint = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlayHint.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/inlayHint.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlayHintFeature = void 0;
@@ -7096,9 +7096,9 @@ var require_inlayHint = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/diagnostic.js
+// node_modules/vscode-languageserver/lib/common/diagnostic.js
 var require_diagnostic = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/diagnostic.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/diagnostic.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.DiagnosticFeature = void 0;
@@ -7128,9 +7128,9 @@ var require_diagnostic = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/textDocuments.js
+// node_modules/vscode-languageserver/lib/common/textDocuments.js
 var require_textDocuments = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/textDocuments.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/textDocuments.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TextDocuments = void 0;
@@ -7293,9 +7293,9 @@ var require_textDocuments = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/notebook.js
+// node_modules/vscode-languageserver/lib/common/notebook.js
 var require_notebook = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/notebook.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/notebook.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.NotebookDocuments = exports2.NotebookSyncFeature = void 0;
@@ -7552,9 +7552,9 @@ var require_notebook = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/moniker.js
+// node_modules/vscode-languageserver/lib/common/moniker.js
 var require_moniker = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/moniker.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/moniker.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.MonikerFeature = void 0;
@@ -7577,9 +7577,9 @@ var require_moniker = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/server.js
+// node_modules/vscode-languageserver/lib/common/server.js
 var require_server = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/server.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/server.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createConnection = exports2.combineFeatures = exports2.combineNotebooksFeatures = exports2.combineLanguagesFeatures = exports2.combineWorkspaceFeatures = exports2.combineWindowFeatures = exports2.combineClientFeatures = exports2.combineTracerFeatures = exports2.combineTelemetryFeatures = exports2.combineConsoleFeatures = exports2._NotebooksImpl = exports2._LanguagesImpl = exports2.BulkUnregistration = exports2.BulkRegistration = exports2.ErrorMessageTracker = void 0;
@@ -8324,9 +8324,9 @@ var require_server = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/node/files.js
+// node_modules/vscode-languageserver/lib/node/files.js
 var require_files = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/node/files.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/node/files.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.resolveModulePath = exports2.FileSystem = exports2.resolveGlobalYarnPath = exports2.resolveGlobalNodePath = exports2.resolve = exports2.uriToFilePath = void 0;
@@ -8555,17 +8555,17 @@ var require_files = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-protocol/node.js
+// node_modules/vscode-languageserver-protocol/node.js
 var require_node2 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver-protocol/node.js"(exports2, module2) {
+  "node_modules/vscode-languageserver-protocol/node.js"(exports2, module2) {
     "use strict";
     module2.exports = require_main3();
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlineCompletion.proposed.js
+// node_modules/vscode-languageserver/lib/common/inlineCompletion.proposed.js
 var require_inlineCompletion_proposed = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/inlineCompletion.proposed.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/inlineCompletion.proposed.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.InlineCompletionFeature = void 0;
@@ -8587,9 +8587,9 @@ var require_inlineCompletion_proposed = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/api.js
+// node_modules/vscode-languageserver/lib/common/api.js
 var require_api3 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/common/api.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/common/api.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8634,9 +8634,9 @@ var require_api3 = __commonJS({
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/lib/node/main.js
+// node_modules/vscode-languageserver/lib/node/main.js
 var require_main4 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/lib/node/main.js"(exports2) {
+  "node_modules/vscode-languageserver/lib/node/main.js"(exports2) {
     "use strict";
     var __createBinding = exports2 && exports2.__createBinding || (Object.create ? (function(o, m, k, k2) {
       if (k2 === void 0) k2 = k;
@@ -8889,15 +8889,15 @@ ${stack}`);
   }
 });
 
-// tools/lsp-bundle/node_modules/vscode-languageserver/node.js
+// node_modules/vscode-languageserver/node.js
 var require_node3 = __commonJS({
-  "tools/lsp-bundle/node_modules/vscode-languageserver/node.js"(exports2, module2) {
+  "node_modules/vscode-languageserver/node.js"(exports2, module2) {
     "use strict";
     module2.exports = require_main4();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/extension-transforms.js
+// node_modules/@markup-carve/carve/dist/extension/extension-transforms.js
 function applyTransforms(doc, exts, opts, targetIsHtml) {
   if (!exts)
     return doc;
@@ -8919,11 +8919,11 @@ function applyTransforms(doc, exts, opts, targetIsHtml) {
   return out;
 }
 var init_extension_transforms = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/extension-transforms.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/extension-transforms.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/smart-typography-mode.js
+// node_modules/@markup-carve/carve/dist/extension/smart-typography-mode.js
 function smartTypographyUsesSource(value2, kind2) {
   return value2 === false || value2 === "source" || typeof value2 === "object" && value2 !== null && value2.quotes === false && (kind2 === "left_double_quote" || kind2 === "right_double_quote" || kind2 === "left_single_quote" || kind2 === "right_single_quote");
 }
@@ -8936,11 +8936,11 @@ function normalizeSmartTypography(value2) {
   return value2 ?? "glyph";
 }
 var init_smart_typography_mode = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/smart-typography-mode.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/smart-typography-mode.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/trim-non-nbsp.js
+// node_modules/@markup-carve/carve/dist/trim-non-nbsp.js
 function isTrimmable(text, index2) {
   const code = text.charCodeAt(index2);
   return code === 32 || code === 9 || code === 10 || code === 13;
@@ -9004,14 +9004,14 @@ function trimEndMatchingEdges(text, whitespace2) {
   return end === text.length ? text : text.slice(0, end);
 }
 var init_trim_non_nbsp = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/trim-non-nbsp.js"() {
+  "node_modules/@markup-carve/carve/dist/trim-non-nbsp.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/wire-fields.js
+// node_modules/@markup-carve/carve/dist/ast/wire-fields.js
 var WIRE_FIELDS, WIRE_RECORD_FIELDS, NODE_FIELDS, NODE_POSITION_KIND, WIRE_REQUIRED, WIRE_VALUE_KINDS, WIRE_ARRAY_MIN_ITEMS, NODE_POSITION_TYPES, WIRE_NESTED_RECORDS;
 var init_wire_fields = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/wire-fields.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/wire-fields.js"() {
     WIRE_FIELDS = {
       "abbreviation": ["abbr", "attrs", "expansion", "pos", "type"],
       "abbreviation_def": ["abbr", "attrs", "expansion", "pos", "type"],
@@ -9468,13 +9468,13 @@ var init_wire_fields = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/owned-child-fields.js
+// node_modules/@markup-carve/carve/dist/ast/owned-child-fields.js
 function ownedChildFields(node) {
   return typeof node["type"] === "string" ? fieldsByType.get(node["type"]) ?? ALL_OWNED_CHILD_FIELDS : recordFields;
 }
 var documentOrder, ranks, rank, inDocumentOrder, OWNED_CHILD_FIELDS, OWNED_SINGLE_CHILD_FIELDS, ALL_OWNED_CHILD_FIELDS, fieldsByType, recordFields;
 var init_owned_child_fields = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/owned-child-fields.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/owned-child-fields.js"() {
     init_wire_fields();
     documentOrder = [
       "target",
@@ -9525,7 +9525,7 @@ var init_owned_child_fields = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/document-ids.js
+// node_modules/@markup-carve/carve/dist/ast/document-ids.js
 function visitDocumentIds(doc, visit3) {
   const stack = [doc];
   const seen = /* @__PURE__ */ new Set();
@@ -9635,7 +9635,7 @@ function collectDocumentIds(doc) {
 }
 var DocumentIdRegistry, NO_CHILDREN, DOCUMENT_ID_CHILD_FIELDS, RECORD_CHILD_FIELDS, resolvedNamespaces;
 var init_document_ids = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/document-ids.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/document-ids.js"() {
     init_owned_child_fields();
     DocumentIdRegistry = class _DocumentIdRegistry {
       /** id -> next 1-based suffix candidate (mirrors carve-php usedIds). */
@@ -9762,16 +9762,16 @@ var init_document_ids = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/label-key.js
+// node_modules/@markup-carve/carve/dist/label-key.js
 function normalizeRefLabel(label2) {
   return label2.replace(/ +/g, " ").replace(/^ | $/g, "");
 }
 var init_label_key = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/label-key.js"() {
+  "node_modules/@markup-carve/carve/dist/label-key.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/reference-state.js
+// node_modules/@markup-carve/carve/dist/parse/inline/reference-state.js
 function withResolvedEmptyReferenceDefinitions(document, render) {
   const definitions = /* @__PURE__ */ new Map();
   for (const child of document.children) {
@@ -9870,7 +9870,7 @@ function resolveReferenceDestination(node, destination) {
 }
 var resolvedEmptyReferences, mayHaveResolvedEmptyReferences, activeDefinitions;
 var init_reference_state = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/reference-state.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/reference-state.js"() {
     init_label_key();
     resolvedEmptyReferences = /* @__PURE__ */ new WeakSet();
     mayHaveResolvedEmptyReferences = false;
@@ -9878,7 +9878,7 @@ var init_reference_state = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/block-children.js
+// node_modules/@markup-carve/carve/dist/parse/block/block-children.js
 function forEachChildBlockList(node, visit3) {
   switch (node.type) {
     case "block_quote":
@@ -9973,14 +9973,14 @@ function withClonedChildBlockLists(b) {
   }
 }
 var init_block_children = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/block-children.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/block-children.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast.js
+// node_modules/@markup-carve/carve/dist/ast.js
 var CANONICAL_ADMONITION_KINDS, GENERATED_CONTENT_KINDS, SMART_PUNCTUATION_GLYPHS;
 var init_ast = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast.js"() {
+  "node_modules/@markup-carve/carve/dist/ast.js"() {
     CANONICAL_ADMONITION_KINDS = /* @__PURE__ */ new Set([
       "note",
       "tip",
@@ -10020,7 +10020,7 @@ var init_ast = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/link-destination.js
+// node_modules/@markup-carve/carve/dist/link-destination.js
 function isDestinationWhitespace(char) {
   const code = char.charCodeAt(0);
   return code <= 32 ? code === 32 || code >= 9 && code <= 13 : code > 127 && RE_DESTINATION_WHITESPACE.test(char);
@@ -10106,7 +10106,7 @@ function destinationSlotEnds(text, first = 0) {
 }
 var RE_DESTINATION_WHITESPACE, RE_LINK_REST, RE_EMPTY_LINK_REST, RE_LINK_REST_STICKY, RE_EMPTY_LINK_REST_STICKY;
 var init_link_destination = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/link-destination.js"() {
+  "node_modules/@markup-carve/carve/dist/link-destination.js"() {
     RE_DESTINATION_WHITESPACE = new RegExp("\\p{White_Space}", "u");
     RE_LINK_REST = /^(?: "((?:[^"\\]|\\[\s\S])*)"| '((?:[^'\\]|\\[\s\S])*)')?\)/;
     RE_EMPTY_LINK_REST = /^(?: "((?:[^"\\]|\\[\s\S])*)"| '((?:[^'\\]|\\[\s\S])*)')?[ \t]*\)/;
@@ -10115,7 +10115,7 @@ var init_link_destination = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/grapheme-extender.js
+// node_modules/@markup-carve/carve/dist/grapheme-extender.js
 function extendsGrapheme(text, at) {
   if (!(text.charCodeAt(at) >= 768))
     return false;
@@ -10124,13 +10124,13 @@ function extendsGrapheme(text, at) {
 }
 var GRAPHEME_EXTENDER, LEADING_EXTENDER_REASON;
 var init_grapheme_extender = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/grapheme-extender.js"() {
+  "node_modules/@markup-carve/carve/dist/grapheme-extender.js"() {
     GRAPHEME_EXTENDER = /[\p{Mn}\p{Mc}\p{Me}\u{FE00}-\u{FE0F}\u{200D}]/uy;
     LEADING_EXTENDER_REASON = "whose content starts with a combining mark, a variation selector or a joiner has no Carve source spelling";
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-brackets.js
+// node_modules/@markup-carve/carve/dist/parse/inline/parse-brackets.js
 function verbatimSpanEnd(text, i) {
   let openLen = 1;
   while (text[i + openLen] === "`")
@@ -10380,7 +10380,7 @@ function forEachCrossrefRun(text, visit3) {
 }
 var AUTOLINK_BODY_EXCLUDED, RE_AUTOLINK, BRACKET_RESCAN_BUDGET, RE_AUTOLINK_STICKY;
 var init_parse_brackets = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-brackets.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/parse-brackets.js"() {
     init_link_destination();
     init_grapheme_extender();
     AUTOLINK_BODY_EXCLUDED = "\\p{White_Space}\\p{Cf}\\p{Cc}";
@@ -10390,7 +10390,7 @@ var init_parse_brackets = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-lexer.js
+// node_modules/@markup-carve/carve/dist/parse/parse-lexer.js
 function isBlankLine(line2) {
   return line2 !== void 0 && !RE_NOT_BLANK.test(line2);
 }
@@ -10437,7 +10437,7 @@ function sliceColumns(line2, cols, keepResidual = false, onLiteralStrip) {
 }
 var TRAILING_WS, RE_FRONTMATTER_OPEN, RE_FRONTMATTER_CLOSE, RE_NOT_BLANK, layoutWork, Lexer;
 var init_parse_lexer = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-lexer.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-lexer.js"() {
     TRAILING_WS = "[ \\t]*$";
     RE_FRONTMATTER_OPEN = new RegExp("^--- ?(\\w*)" + TRAILING_WS);
     RE_FRONTMATTER_CLOSE = new RegExp("^---" + TRAILING_WS);
@@ -11014,7 +11014,7 @@ var init_parse_lexer = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/inline-children.js
+// node_modules/@markup-carve/carve/dist/parse/inline/inline-children.js
 function mapInlineChildren(node, map, context) {
   switch (node.type) {
     case "emphasis":
@@ -11157,14 +11157,14 @@ function assertNever2(_node) {
   throw new Error("Unsupported inline node type");
 }
 var init_inline_children = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/inline-children.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/inline-children.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/literal-comment-closers.js
+// node_modules/@markup-carve/carve/dist/parse/block/literal-comment-closers.js
 var LiteralCommentClosers;
 var init_literal_comment_closers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/literal-comment-closers.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/literal-comment-closers.js"() {
     LiteralCommentClosers = class {
       length;
       leaves;
@@ -11232,7 +11232,7 @@ var init_literal_comment_closers = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/own-property.js
+// node_modules/@markup-carve/carve/dist/own-property.js
 function ownValue(record5, key2) {
   if (record5 === void 0 || record5 === null)
     return void 0;
@@ -11250,11 +11250,11 @@ function setOwn(record5, key2, value2) {
   });
 }
 var init_own_property = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/own-property.js"() {
+  "node_modules/@markup-carve/carve/dist/own-property.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/attribute-parser.js
+// node_modules/@markup-carve/carve/dist/extension/attribute-parser.js
 function isValidAttrPayload(inner) {
   if (quotedRunSpansLines(inner))
     return false;
@@ -11351,7 +11351,7 @@ function parseAttrs(src) {
 }
 var ATTR_ITEM_SRC, ATTR_PAYLOAD, ATTR_VALUE_ESCAPABLE;
 var init_attribute_parser = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/attribute-parser.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/attribute-parser.js"() {
     init_own_property();
     ATTR_ITEM_SRC = `(?:#[a-zA-Z0-9_][\\w-]*)|(?:\\.[a-zA-Z0-9_][\\w-]*)|(?:[a-zA-Z_][\\w-]*=(?:"(?:[^"\\\\]|\\\\.)*"|'(?:[^'\\\\]|\\\\.)*'|[^}|"'\\\\ \\t\\n\\r]+))|(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?)|(?:[a-zA-Z][\\w-]*)`;
     ATTR_PAYLOAD = new RegExp(`^[ \\n\\r]*(?:(?:${ATTR_ITEM_SRC})(?:[ \\n\\r]+(?:${ATTR_ITEM_SRC}))*[ \\n\\r]*)?$`);
@@ -11359,7 +11359,7 @@ var init_attribute_parser = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/abbr-budget.js
+// node_modules/@markup-carve/carve/dist/extension/abbr-budget.js
 function utf8ByteLength(s) {
   return UTF8_ENCODER.encode(s).length;
 }
@@ -11379,7 +11379,7 @@ function expansionBudgetLength(ast) {
 }
 var UTF8_ENCODER, ABBR_BUDGET_BASE, ABBR_BUDGET_FACTOR, ingestPayloadLength, AbbrBudget;
 var init_abbr_budget = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/abbr-budget.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/abbr-budget.js"() {
     UTF8_ENCODER = new TextEncoder();
     ABBR_BUDGET_BASE = 1e6;
     ABBR_BUDGET_FACTOR = 8;
@@ -11492,7 +11492,7 @@ var init_abbr_budget = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/delimited-table.js
+// node_modules/@markup-carve/carve/dist/table/delimited-table.js
 function setDelimitedPayloadLines(code, lines) {
   payloadLines.set(code, lines);
 }
@@ -11729,16 +11729,16 @@ function delimitedSource(table) {
 }
 var sourceRecordWidths, payloadLines;
 var init_delimited_table = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/delimited-table.js"() {
+  "node_modules/@markup-carve/carve/dist/table/delimited-table.js"() {
     sourceRecordWidths = /* @__PURE__ */ new WeakMap();
     payloadLines = /* @__PURE__ */ new WeakMap();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source/source-unspellable-error.js
+// node_modules/@markup-carve/carve/dist/source/source-unspellable-error.js
 var SourceUnspellableError;
 var init_source_unspellable_error = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source/source-unspellable-error.js"() {
+  "node_modules/@markup-carve/carve/dist/source/source-unspellable-error.js"() {
     SourceUnspellableError = class extends Error {
       nodeType;
       reason;
@@ -11756,7 +11756,7 @@ var init_source_unspellable_error = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-source-metadata.js
+// node_modules/@markup-carve/carve/dist/table/table-source-metadata.js
 function shiftDecimal(value2, places) {
   const match = /^([+]?)(\d+(?:\.\d*)?|\.\d+)(?:[eE]([+-]?\d+))?$/.exec(value2.trim());
   if (!match)
@@ -11935,12 +11935,12 @@ function authoredSeparator(table) {
   }
 }
 var init_table_source_metadata = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-source-metadata.js"() {
+  "node_modules/@markup-carve/carve/dist/table/table-source-metadata.js"() {
     init_source_unspellable_error();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/definition-list-wire.js
+// node_modules/@markup-carve/carve/dist/ast/definition-list-wire.js
 function span(nodes) {
   if (nodes.length === 0)
     return void 0;
@@ -12051,11 +12051,11 @@ function isRuntimeEntry(value2) {
   return typeof value2 === "object" && value2 !== null && Array.isArray(value2.terms);
 }
 var init_definition_list_wire = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/definition-list-wire.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/definition-list-wire.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-opaque.js
+// node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-opaque.js
 function suffixHasChar(s, ch) {
   const n = s.length;
   const suf = new Uint8Array(n + 1);
@@ -12279,7 +12279,7 @@ function inlineOpaqueEnds(text, codeEnds, destinations, lineComments, attributeT
 }
 var RE_RAW_INLINE, RE_INLINE_ATTR, WS_NO_NL;
 var init_parse_inline_opaque = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-opaque.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-opaque.js"() {
     init_attribute_parser();
     init_parse_brackets();
     init_grapheme_extender();
@@ -12290,7 +12290,7 @@ var init_parse_inline_opaque = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-prepass-core.js
+// node_modules/@markup-carve/carve/dist/parse/parse-prepass-core.js
 function balancedLabelMatcher(re, labelGroups) {
   const exec = (line2) => {
     const m = re.exec(line2);
@@ -12944,7 +12944,7 @@ function leadingWhitespace(line2) {
 }
 var RE_HEADING, RE_HR, FENCE_TRAILING_WS, RE_FENCE, RE_UNORDERED, RE_ORDERED, RE_TASK, RE_ITEM_ATTR, RE_ITEM_ATTR_HEAD, RE_TASK_CONTENT_HEAD, RE_CONTINUATION_MARKER, RE_BLOCKQUOTE, RE_VALID_ADMONITION_OPEN, RE_CONTAINER_PREFIX, RE_ADMONITION_OPEN, RE_ADMONITION_CLOSE, RE_LINE_BLOCK_OPEN, RE_HARDBREAKS_OPEN, RE_QUOTE_BLOCK_OPEN, RE_DIV_OPEN, RE_DEFLIST_TERM, RE_ABBR_DEF, RE_LINK_DEF, RE_EMPTY_LINK_DEF, RE_FOOTNOTE_DEF, RE_TABLE_ROW, isTableRow, RE_TABLE_CONT, RE_RAW_FENCE, RE_COMMENT_BLOCK, RE_COMMENT_LINE, LAZY_FRAME, RE_DESCRIPTION_PREFIX, RE_PREPASS_MARKER, RE_PREPASS_MARKER_STRIP, RE_PREPASS_MARKER_STRIP_AT, RE_DESCRIPTION_PREFIX_AT, RE_QUOTE_RUN, explicitlyClosedQuotes, ENDS_AT_LAST_PLACED_CHILD, INDENT_LATITUDE, EMPTIED_CONTAINER_MARKUP;
 var init_parse_prepass_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-prepass-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-prepass-core.js"() {
     init_parse_brackets();
     init_attribute_parser();
     init_parse_lexer();
@@ -13034,7 +13034,7 @@ var init_parse_prepass_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-quote-core.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-quote-core.js
 function fenceCloseRe(marker) {
   if (marker.length === 3)
     return marker[0] === "`" ? RE_BACKTICK_FENCE_CLOSE_3 : RE_TILDE_FENCE_CLOSE_3;
@@ -13901,7 +13901,7 @@ function opaqueGroupCloser(line2) {
 }
 var RE_BACKTICK_FENCE_CLOSE_3, RE_TILDE_FENCE_CLOSE_3, RE_DEFLIST_DEF, RE_CAPTION, RE_BARE_IMAGE, RE_COMMENT_BLOCK_ANY, commentFenceRun, RE_FENCE_CLOSER, blockQuoteParagraphOpen, blockQuoteParagraphClaimOpen, openQuoteDepth, closeBlockQuoteParagraph, PREFIX_WINDOW;
 var init_parse_quote_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-quote-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-quote-core.js"() {
     init_parse_prepass_core();
     init_parse_lexer();
     init_parse_brackets();
@@ -13946,10 +13946,10 @@ var init_parse_quote_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/scoped-fence-closers.js
+// node_modules/@markup-carve/carve/dist/parse/block/scoped-fence-closers.js
 var ScopedFenceClosers;
 var init_scoped_fence_closers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/scoped-fence-closers.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/scoped-fence-closers.js"() {
     ScopedFenceClosers = class {
       leaves;
       code;
@@ -14024,7 +14024,7 @@ var init_scoped_fence_closers = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-block-scan-core.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-block-scan-core.js
 function subLexer(source, opts, lineNumberOffset, sourceLineMap, unclosedContainerKeys, inherited) {
   const sub = new Lexer(source, opts, lineNumberOffset, unclosedContainerKeys, inherited);
   if (sourceLineMap)
@@ -14878,7 +14878,7 @@ function markerContentColumn(line2, terminatorFree = false, knownColumn) {
 }
 var MAX_NESTING_DEPTH, RE_AFTER_TERM, RE_ANY_COLON_CLOSER, RE_ANY_FENCE_CLOSER, newCommentSpanScan, RE_ITEM_PREFIX, RE_UNORDERED_HEAD, RE_ORDERED_HEAD, RE_TASK_HEAD;
 var init_parse_block_scan_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-block-scan-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-block-scan-core.js"() {
     init_ast();
     init_inline_children();
     init_literal_comment_closers();
@@ -14899,7 +14899,7 @@ var init_parse_block_scan_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-state-runs.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-list-state-runs.js
 function endsOnBlock(state) {
   state.lazyFoldable = false;
   state.inDefList = false;
@@ -15116,12 +15116,12 @@ function createRunPhases(helpers, trackItemLazyState2) {
   return { measureRun, overIndentedTableRow, overIndentedDescription, runOwnership, descendantFrame, authoredFlush };
 }
 var init_parse_list_state_runs = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-state-runs.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-list-state-runs.js"() {
     init_parse_lexer();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-state.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-list-state.js
 function createListStateTracker(helpers) {
   const { FOOTNOTE_BODY_COLUMN: FOOTNOTE_BODY_COLUMN2, RE_ADMONITION_CLOSE: RE_ADMONITION_CLOSE2, RE_ADMONITION_OPEN: RE_ADMONITION_OPEN2, RE_BLOCKQUOTE: RE_BLOCKQUOTE2, RE_COMMENT_LINE: RE_COMMENT_LINE2, RE_DEFLIST_DEF: RE_DEFLIST_DEF2, RE_DEFLIST_TERM: RE_DEFLIST_TERM2, RE_DIV_OPEN: RE_DIV_OPEN2, RE_FENCE: RE_FENCE2, RE_FOOTNOTE_DEF: RE_FOOTNOTE_DEF2, RE_HARDBREAKS_OPEN: RE_HARDBREAKS_OPEN2, RE_HEADING: RE_HEADING2, RE_HR: RE_HR2, RE_INVISIBLE_BLOCK_LEAD: RE_INVISIBLE_BLOCK_LEAD2, RE_LINE_BLOCK_OPEN: RE_LINE_BLOCK_OPEN2, RE_QUOTE_BLOCK_OPEN: RE_QUOTE_BLOCK_OPEN2, RE_RAW_FENCE: RE_RAW_FENCE2, RE_TABLE_CONT: RE_TABLE_CONT2, blockQuoteParagraphOpen: blockQuoteParagraphOpen2, bottomBlockLeavesParagraphOpen: bottomBlockLeavesParagraphOpen2, colonFenceOpenerLen: colonFenceOpenerLen2, commentFenceRun: commentFenceRun2, continuesInlineFenceParagraph: continuesInlineFenceParagraph2, extractItemAttr: extractItemAttr2, fenceCloseRe: fenceCloseRe2, isBlockAttributeLine: isBlockAttributeLine2, isLinkDefLine: isLinkDefLine2, isTableRow: isTableRow2, leadingWhitespace: leadingWhitespace2, markerLineState: markerLineState2, markerPrefixLength: markerPrefixLength2, opaqueGroupCloser: opaqueGroupCloser2, opensCodeFence: opensCodeFence2, orderedMatch: orderedMatch2, prefixWalkBound: prefixWalkBound2, quotedLineText: quotedLineText2, taskMatch: taskMatch2, trackBlockQuoteLazyState: trackBlockQuoteLazyState2, trackWrappedAttributeRun: trackWrappedAttributeRun2, unorderedMatch: unorderedMatch2, verbatimOnlyLazyState: verbatimOnlyLazyState2 } = helpers;
   function fenceCloserOf(text) {
@@ -15681,13 +15681,13 @@ function createListStateTracker(helpers) {
   return trackItemLazyState2;
 }
 var init_parse_list_state = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-state.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-list-state.js"() {
     init_parse_lexer();
     init_parse_list_state_runs();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-rebase.js
+// node_modules/@markup-carve/carve/dist/parse/parse-rebase.js
 function createRebasePass(helpers) {
   const { FOOTNOTE_BODY_COLUMN: FOOTNOTE_BODY_COLUMN2, LAZY_FRAME: LAZY_FRAME2, RE_ADMONITION_CLOSE: RE_ADMONITION_CLOSE2, RE_ADMONITION_OPEN: RE_ADMONITION_OPEN2, RE_BLOCKQUOTE: RE_BLOCKQUOTE2, RE_CAPTION: RE_CAPTION2, RE_COMMENT_LINE: RE_COMMENT_LINE2, RE_DEFLIST_DEF: RE_DEFLIST_DEF2, RE_DEFLIST_TERM: RE_DEFLIST_TERM2, RE_FENCE: RE_FENCE2, RE_FOOTNOTE_DEF: RE_FOOTNOTE_DEF2, RE_HEADING: RE_HEADING2, RE_HR: RE_HR2, RE_LINE_BLOCK_OPEN: RE_LINE_BLOCK_OPEN2, RE_LINK_DEF: RE_LINK_DEF2, RE_ORDERED: RE_ORDERED2, RE_RAW_FENCE: RE_RAW_FENCE2, RE_TASK: RE_TASK2, RE_UNORDERED: RE_UNORDERED2, blockQuoteParagraphOpen: blockQuoteParagraphOpen2, bottomBlockLeavesParagraphOpen: bottomBlockLeavesParagraphOpen2, collectLiteralColonFenceBody: collectLiteralColonFenceBody2, colonBlockOpenerRun: colonBlockOpenerRun2, colonFenceOpenerLen: colonFenceOpenerLen2, commentCloserLookup: commentCloserLookup2, commentFenceRun: commentFenceRun2, extractItemAttr: extractItemAttr2, fenceCloseRe: fenceCloseRe2, hostedAuthoredBlockOpener: hostedAuthoredBlockOpener2, isBlockAttributeLine: isBlockAttributeLine2, isContinuationMarker: isContinuationMarker2, isLinkDefLine: isLinkDefLine2, isListMarkerLine: isListMarkerLine2, isParentAuthoredBlock: isParentAuthoredBlock2, isTableRow: isTableRow2, leadingWhitespace: leadingWhitespace2, lineOpensBlock: lineOpensBlock2, lineOpensItemBlock: lineOpensItemBlock2, markerContentColumn: markerContentColumn2, markerFreeContent: markerFreeContent2, markerLineQuoteState: markerLineQuoteState2, opaqueGroupCloser: opaqueGroupCloser2, opaqueGroupCloses: opaqueGroupCloses2, opensCodeFence: opensCodeFence2, opensWrappedAttributeBlock: opensWrappedAttributeBlock2, peekBlockAttributes: peekBlockAttributes2, quotePrefixDepth: quotePrefixDepth2, rebasedCodeFenceEnd: rebasedCodeFenceEnd2, rebasedColonGroupEnd: rebasedColonGroupEnd2, rebasedQuoteEnd: rebasedQuoteEnd2, sourceCodeFenceEnd: sourceCodeFenceEnd2, sourceColumn: sourceColumn2, stripLazyFrame: stripLazyFrame2, trackBlockQuoteLazyState: trackBlockQuoteLazyState2, trackItemLazyState: trackItemLazyState2, verbatimOnlyLazyState: verbatimOnlyLazyState2 } = helpers;
   function paragraphTextLine(line2) {
@@ -16330,12 +16330,12 @@ function createRebasePass(helpers) {
   };
 }
 var init_parse_rebase = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-rebase.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-rebase.js"() {
     init_parse_lexer();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-block-boundaries.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-block-boundaries.js
 function dropTrailingWhitespace(text) {
   let from = 0;
   let pieces;
@@ -17010,7 +17010,7 @@ function lineOpensItemBlock(line2) {
 }
 var FOOTNOTE_BODY_COLUMN, RE_INVISIBLE_BLOCK_LEAD, groupLineContent, closerReachesBase, listStateHelpers, trackItemLazyState, rebaseHelpers, rebaseOverindentedBlocks;
 var init_parse_block_boundaries = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-block-boundaries.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-block-boundaries.js"() {
     init_parse_block_scan_core();
     init_parse_lexer();
     init_parse_list_state();
@@ -17131,7 +17131,7 @@ var init_parse_block_boundaries = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-indentation-container.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-indentation-container.js
 function nextContainerContent(lexer, deferred = () => false) {
   let offset = 1;
   while (true) {
@@ -17173,7 +17173,7 @@ function runIndentationContainer(lexer, host, markerColumn, contentColumn, quote
 }
 var ContainerBlankBuffer;
 var init_parse_indentation_container = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-indentation-container.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-indentation-container.js"() {
     init_parse_lexer();
     init_parse_block_boundaries();
     ContainerBlankBuffer = class {
@@ -17194,7 +17194,7 @@ var init_parse_indentation_container = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-definition-list.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-definition-list.js
 function createDefinitionListParser(helpers) {
   const { FOOTNOTE_BODY_COLUMN: FOOTNOTE_BODY_COLUMN2, LAZY_FRAME: LAZY_FRAME2, RE_ABBR_DEF: RE_ABBR_DEF2, RE_BLOCKQUOTE: RE_BLOCKQUOTE2, RE_CAPTION: RE_CAPTION2, RE_COMMENT_BLOCK_ANY: RE_COMMENT_BLOCK_ANY2, RE_COMMENT_LINE: RE_COMMENT_LINE2, RE_DEFLIST_DEF: RE_DEFLIST_DEF2, RE_DEFLIST_TERM: RE_DEFLIST_TERM2, RE_FENCE: RE_FENCE2, RE_FOOTNOTE_DEF: RE_FOOTNOTE_DEF2, RE_HEADING: RE_HEADING2, RE_HR: RE_HR2, RE_LINE_BLOCK_OPEN: RE_LINE_BLOCK_OPEN2, RE_RAW_FENCE: RE_RAW_FENCE2, attachesAtDocumentColumnZero: attachesAtDocumentColumnZero2, firstBlockRefusesList: firstBlockRefusesList2, bodyHoldsOpenCommentSpan: bodyHoldsOpenCommentSpan2, colonFenceOpenerLen: colonFenceOpenerLen2, colonFenceShapeEndsLazyContinuation: colonFenceShapeEndsLazyContinuation2, commentBlockHasCloser: commentBlockHasCloser2, commentFenceRun: commentFenceRun2, commentLineContent: commentLineContent2, deflistContentCol: deflistContentCol2, descriptionLeadFenceScans: descriptionLeadFenceScans2, dropTrailingWhitespace: dropTrailingWhitespace2, endsHeadingOrQuote: endsHeadingOrQuote2, fenceCloseRe: fenceCloseRe2, insideOpenFence: insideOpenFence2, insideOpenQuoteParagraph: insideOpenQuoteParagraph2, isBlockAttributeLine: isBlockAttributeLine2, isColonFenceOpener: isColonFenceOpener2, isContinuationMarker: isContinuationMarker2, isLinkDefLine: isLinkDefLine2, isListMarkerLine: isListMarkerLine2, isRetainableLineComment: isRetainableLineComment2, isTableRow: isTableRow2, itemFenceHasCloser: itemFenceHasCloser2, leadingWhitespace: leadingWhitespace2, lineOpensBlock: lineOpensBlock2, lineOpensItemBlock: lineOpensItemBlock2, markerContentColumn: markerContentColumn2, markerDecision: markerDecision2, markerLineState: markerLineState2, markerRunListIsQuoteHeld: markerRunListIsQuoteHeld2, matchedCommentFenceEnd: matchedCommentFenceEnd2, nestedItemHoldsOpenParagraph: nestedItemHoldsOpenParagraph2, nestedSubLexer: nestedSubLexer2, newCommentSpanScan: newCommentSpanScan2, opensCodeFence: opensCodeFence2, parseCommentBlock: parseCommentBlock2, quotePrefixDepth: quotePrefixDepth2, rebaseOverindentedBlocks: rebaseOverindentedBlocks2, restoreVerbatimBlanks: restoreVerbatimBlanks2, retainBelowColumnComment: retainBelowColumnComment2, retainCommentBoundary: retainCommentBoundary2, sourceColumn: sourceColumn2, sourceColumnAt: sourceColumnAt2, startsInterruptingBlock: startsInterruptingBlock2, stripLazyFrame: stripLazyFrame2, trackItemLazyState: trackItemLazyState2, trimEndSpaceTab: trimEndSpaceTab2 } = helpers;
   const entryColumnAt = (line2, offset) => {
@@ -17864,7 +17864,7 @@ function createDefinitionListParser(helpers) {
   };
 }
 var init_parse_definition_list = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-definition-list.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-definition-list.js"() {
     init_parse_lexer();
     init_parse_indentation_container();
     init_parse_block_boundaries();
@@ -17872,7 +17872,7 @@ var init_parse_definition_list = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-scanner.js
+// node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-scanner.js
 function ordinaryAt(text, i) {
   const code = text.charCodeAt(i);
   return code >= 128 || ordinaryAscii[code] === 1 || code === 46 && text[i - 1] !== "." && text[i + 1] !== ".";
@@ -18618,7 +18618,7 @@ function createInlineScanner(helpers) {
 }
 var ordinaryAscii;
 var init_parse_inline_scanner = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-scanner.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-scanner.js"() {
     ordinaryAscii = new Uint8Array(128);
     for (let code = 48; code <= 57; code++)
       ordinaryAscii[code] = 1;
@@ -18631,7 +18631,7 @@ var init_parse_inline_scanner = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-line-block.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-line-block.js
 function createLineBlockParser(helpers) {
   const { RE_LINE_BLOCK_OPEN: RE_LINE_BLOCK_OPEN2, collectLiteralColonFenceBody: collectLiteralColonFenceBody2, dropTrailingSpaces: dropTrailingSpaces2, expandLineBlockWhitespace: expandLineBlockWhitespace2, inlineSource: inlineSource2, isBlankLine: isBlankLine2, mapInlineChildren: mapInlineChildren2, restoreVerseGaps: restoreVerseGaps2, stripLazyFrame: stripLazyFrame2, stripPositions: stripPositions2, trimEndSpaceTab: trimEndSpaceTab2, verseSourceOffset: verseSourceOffset2, visitInlineChildren: visitInlineChildren2 } = helpers;
   return function parseLineBlock(host, lexer) {
@@ -18921,11 +18921,11 @@ function createLineBlockParser(helpers) {
   };
 }
 var init_parse_line_block = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-line-block.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-line-block.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-link-definitions.js
+// node_modules/@markup-carve/carve/dist/parse/parse-link-definitions.js
 function createLinkDefinitionCollector(helpers) {
   const { FOOTNOTE_BODY_COLUMN: FOOTNOTE_BODY_COLUMN2, RE_ABBR_DEF: RE_ABBR_DEF2, RE_ADMONITION_CLOSE: RE_ADMONITION_CLOSE2, RE_AFTER_TERM: RE_AFTER_TERM2, RE_BLOCKQUOTE: RE_BLOCKQUOTE2, RE_COMMENT_BLOCK_ANY: RE_COMMENT_BLOCK_ANY2, RE_DEFLIST_DEF: RE_DEFLIST_DEF2, RE_DEFLIST_SEPARATOR: RE_DEFLIST_SEPARATOR2, RE_DEFLIST_TERM: RE_DEFLIST_TERM2, RE_FENCE: RE_FENCE2, RE_FENCE_CLOSER: RE_FENCE_CLOSER2, RE_FOOTNOTE_DEF: RE_FOOTNOTE_DEF2, RE_PREPASS_ANY_FENCE_CLOSER: RE_PREPASS_ANY_FENCE_CLOSER2, RE_RAW_FENCE: RE_RAW_FENCE2, RE_TASK: RE_TASK2, buildCodeCloserIndex: buildCodeCloserIndex2, codeCloserPossibleIn: codeCloserPossibleIn2, commentBlockHasCloser: commentBlockHasCloser2, commentCloserInScope: commentCloserInScope2, commentFenceRun: commentFenceRun2, composeContainerPrefix: composeContainerPrefix2, containerQuoteDepth: containerQuoteDepth2, deflistContentCol: deflistContentCol2, dropTrailingWhitespace: dropTrailingWhitespace2, isBlockAttributeLine: isBlockAttributeLine2, isColonFenceOpener: isColonFenceOpener2, isContinuationMarker: isContinuationMarker2, leadingWhitespace: leadingWhitespace2, markerContentColumn: markerContentColumn2, markerFreeContent: markerFreeContent2, normalizeRefLabel: normalizeRefLabel2, parseAttrs: parseAttrs3, prepassMarker: prepassMarker2, prepassOpensBlock: prepassOpensBlock2, scopeHoldsLine: scopeHoldsLine2, spendLazyProbeBudget: spendLazyProbeBudget2, stripContainerPrefixes: stripContainerPrefixes2, stripContainerPrefixesKeepIndent: stripContainerPrefixesKeepIndent2, trackWrappedAttributeRun: trackWrappedAttributeRun2, unescapeAttrValue: unescapeAttrValue2, utf8ByteLength: utf8ByteLength2 } = helpers;
   function closers(s) {
@@ -19527,12 +19527,12 @@ function createLinkDefinitionCollector(helpers) {
   };
 }
 var init_parse_link_definitions = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-link-definitions.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-link-definitions.js"() {
     init_parse_lexer();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/table/parse-table-block.js
+// node_modules/@markup-carve/carve/dist/parse/table/parse-table-block.js
 function createTableBlockParser(helpers) {
   const { RE_CAPTION: RE_CAPTION2, RE_TABLE_CONT: RE_TABLE_CONT2, inlineSource: inlineSource2, isBlankLine: isBlankLine2, isGfmDelimiterRow: isGfmDelimiterRow2, isTableRow: isTableRow2, joinFragment: joinFragment2, openVerbatimRun: openVerbatimRun2, parseCellMarkers: parseCellMarkers2, resolveSpanGrid: resolveSpanGrid2, rowAttrsFromLine: rowAttrsFromLine2, splitTableRowSpans: splitTableRowSpans2, stripPositions: stripPositions2, stripPositionsOutsideRow: stripPositionsOutsideRow2, trimCellPadding: trimCellPadding2 } = helpers;
   return function parseTable(host, lexer) {
@@ -19783,11 +19783,11 @@ function createTableBlockParser(helpers) {
   };
 }
 var init_parse_table_block = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/table/parse-table-block.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/table/parse-table-block.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/attribute-merge.js
+// node_modules/@markup-carve/carve/dist/extension/attribute-merge.js
 function mergeAttrs(a, b) {
   if (!a)
     return b;
@@ -19861,12 +19861,12 @@ function accumulateAttrs(a, b) {
 }
 var accumulatedOrder;
 var init_attribute_merge = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/attribute-merge.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/attribute-merge.js"() {
     accumulatedOrder = /* @__PURE__ */ new WeakMap();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/attachment-fence-closers.js
+// node_modules/@markup-carve/carve/dist/parse/block/attachment-fence-closers.js
 function flushColumn(line2) {
   let column = 0, minimum = 0;
   for (const character of line2) {
@@ -19879,7 +19879,7 @@ function flushColumn(line2) {
 }
 var ColumnIndex, AttachmentFenceClosers, FailedScanRanges;
 var init_attachment_fence_closers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/attachment-fence-closers.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/attachment-fence-closers.js"() {
     ColumnIndex = class {
       length;
       groups = /* @__PURE__ */ new Map();
@@ -20139,7 +20139,7 @@ var init_attachment_fence_closers = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/backtick-run-index.js
+// node_modules/@markup-carve/carve/dist/parse/inline/backtick-run-index.js
 function backtickRunEnds(text) {
   if (!text.includes("`"))
     return void 0;
@@ -20161,11 +20161,11 @@ function backtickRunEnds(text) {
   return ends;
 }
 var init_backtick_run_index = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/backtick-run-index.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/backtick-run-index.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/unresolved-reference.js
+// node_modules/@markup-carve/carve/dist/parse/inline/unresolved-reference.js
 function isUnresolvedReference(node) {
   if (node.type === "link")
     return node.ref !== void 0 && !node.href && !isResolvedEmptyReference(node);
@@ -20182,13 +20182,13 @@ function referenceSourceText(rawRef) {
 }
 var RE_COMMENT_ONLY_LINE;
 var init_unresolved_reference = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/unresolved-reference.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/unresolved-reference.js"() {
     init_reference_state();
     RE_COMMENT_ONLY_LINE = /^[ \t]*%%/;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/reference-resolution.js
+// node_modules/@markup-carve/carve/dist/parse/inline/reference-resolution.js
 function applyReferenceDefinition(node, defs) {
   const definition = /[\r\n]/.test(node.ref) ? void 0 : defs.get(normalizeRefLabel(node.ref));
   if (!definition)
@@ -20215,14 +20215,14 @@ function referenceImage(ref, rawRef, alt, attrs) {
   return node;
 }
 var init_reference_resolution = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/reference-resolution.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/reference-resolution.js"() {
     init_attribute_merge();
     init_label_key();
     init_reference_state();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/inline-resolution.js
+// node_modules/@markup-carve/carve/dist/parse/inline/inline-resolution.js
 function fragmentPos(parent, start, end) {
   if (!parent)
     return void 0;
@@ -20293,14 +20293,14 @@ function applyLinkDefs(nodes, defs) {
   return nodes;
 }
 var init_inline_resolution = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/inline-resolution.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/inline-resolution.js"() {
     init_inline_children();
     init_unresolved_reference();
     init_reference_resolution();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/paragraph-indent.js
+// node_modules/@markup-carve/carve/dist/parse/block/paragraph-indent.js
 function markAboveContentColumn(para) {
   aboveContentColumn.add(para);
 }
@@ -20315,13 +20315,13 @@ function hasLazySecondLine(para) {
 }
 var aboveContentColumn, secondLineLazy;
 var init_paragraph_indent = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/paragraph-indent.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/paragraph-indent.js"() {
     aboveContentColumn = /* @__PURE__ */ new WeakSet();
     secondLineLazy = /* @__PURE__ */ new WeakSet();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-marker.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-list-marker.js
 function classifyList(lexer, helpers) {
   const { extractItemAttr: extractItemAttr2, olKindOf: olKindOf2, olStartOf: olStartOf2, orderedMatch: orderedMatch2, taskMatch: taskMatch2, unorderedMarkerChar: unorderedMarkerChar2, RE_ORDERED: RE_ORDERED2 } = helpers;
   const first = lexer.peek();
@@ -20362,12 +20362,12 @@ function classifyList(lexer, helpers) {
   return { firstLineIndex, baseIndent, isTask, isOrdered, firstMarkerChar, firstOrdered, orderedDelim, orderedKind, orderedStart };
 }
 var init_parse_list_marker = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-marker.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-list-marker.js"() {
     init_parse_lexer();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-finish.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-list-finish.js
 function finishList(lexer, items, loose, shape, helpers) {
   const { firstLineIndex, isOrdered, orderedStart, orderedKind, orderedDelim, firstOrdered, firstMarkerChar } = shape;
   const { olTypeOf: olTypeOf2 } = helpers;
@@ -20389,12 +20389,12 @@ function finishList(lexer, items, loose, shape, helpers) {
   return list;
 }
 var init_parse_list_finish = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list-finish.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-list-finish.js"() {
     init_parse_lexer();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source/source-positions.js
+// node_modules/@markup-carve/carve/dist/source/source-positions.js
 function definitionLinePosition(lines, lineOffsets2, line2, sourceLength, startColumn = 1) {
   const text = lines[line2] ?? "";
   const startOffset = Math.min(lineOffsets2[line2] ?? 0, sourceLength);
@@ -20542,7 +20542,7 @@ function toCodepointPositions(doc, source) {
 }
 var POSITION_FIELDS;
 var init_source_positions = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source/source-positions.js"() {
+  "node_modules/@markup-carve/carve/dist/source/source-positions.js"() {
     init_paragraph_indent();
     POSITION_FIELDS = [
       "pos",
@@ -20554,7 +20554,7 @@ var init_source_positions = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-list.js
 function createListParser(helpers, trackItemLazyState2, rebaseOverindentedBlocks2) {
   const { FOOTNOTE_BODY_COLUMN: FOOTNOTE_BODY_COLUMN2, LAZY_FRAME: LAZY_FRAME2, RE_ADMONITION_CLOSE: RE_ADMONITION_CLOSE2, RE_ADMONITION_OPEN: RE_ADMONITION_OPEN2, RE_BLOCKQUOTE: RE_BLOCKQUOTE2, RE_CAPTION: RE_CAPTION2, RE_COLON_RUN: RE_COLON_RUN2, RE_COMMENT_LINE: RE_COMMENT_LINE2, RE_DEFLIST_DEF: RE_DEFLIST_DEF2, RE_DEFLIST_TERM: RE_DEFLIST_TERM2, RE_DIV_OPEN: RE_DIV_OPEN2, RE_FENCE: RE_FENCE2, RE_FIRST_BLOCK_MARKER: RE_FIRST_BLOCK_MARKER2, RE_FOOTNOTE_DEF: RE_FOOTNOTE_DEF2, RE_HARDBREAKS_OPEN: RE_HARDBREAKS_OPEN2, RE_HR: RE_HR2, RE_LINE_BLOCK_OPEN: RE_LINE_BLOCK_OPEN2, RE_ORDERED: RE_ORDERED2, RE_QUOTE_BLOCK_OPEN: RE_QUOTE_BLOCK_OPEN2, RE_RAW_FENCE: RE_RAW_FENCE2, RE_TASK: RE_TASK2, RE_UNORDERED: RE_UNORDERED2, attachBlockPos: attachBlockPos2, attachesAtDocumentColumnZero: attachesAtDocumentColumnZero2, authoredTaskState: authoredTaskState2, blockQuoteParagraphOpen: blockQuoteParagraphOpen2, bodyHoldsOpenCommentSpan: bodyHoldsOpenCommentSpan2, bottomBlockLeavesParagraphOpen: bottomBlockLeavesParagraphOpen2, buildCloserIndex: buildCloserIndex2, codeCloserPossible: codeCloserPossible2, colonFenceOpenerLen: colonFenceOpenerLen2, colonFenceShapeEndsLazyContinuation: colonFenceShapeEndsLazyContinuation2, commentBlockHasCloser: commentBlockHasCloser2, commentBlockSpans: commentBlockSpans2, commentFenceRun: commentFenceRun2, coveredNoteComment: coveredNoteComment2, deflistContentCol: deflistContentCol2, deflistMarkerLine: deflistMarkerLine2, endsInPlus: endsInPlus2, extractItemAttr: extractItemAttr2, fenceCloseRe: fenceCloseRe2, firstBlockOpenerContent: firstBlockOpenerContent2, insideOpenFence: insideOpenFence2, insideOpenQuoteParagraph: insideOpenQuoteParagraph2, isBlockAttributeLine: isBlockAttributeLine2, isColonFenceOpener: isColonFenceOpener2, isContinuationMarker: isContinuationMarker2, isInvisibleLine: isInvisibleLine2, isLinkDefLine: isLinkDefLine2, isListMarkerLine: isListMarkerLine2, isParentAuthoredBlock: isParentAuthoredBlock2, isPhysicalContinuationMarker: isPhysicalContinuationMarker2, isRetainableLineComment: isRetainableLineComment2, isStackedFirstBlockQuoteMarker: isStackedFirstBlockQuoteMarker2, itemFenceHasCloser: itemFenceHasCloser2, lazyContinuationEndsList: lazyContinuationEndsList2, leadingWhitespace: leadingWhitespace2, lineOpensBlock: lineOpensBlock2, lineOpensItemBlock: lineOpensItemBlock2, literalCommentHasCloser: literalCommentHasCloser2, markerContentColumn: markerContentColumn2, markerDecision: markerDecision2, markerFreeContent: markerFreeContent2, markerLineBottomBlock: markerLineBottomBlock2, markerLineQuoteState: markerLineQuoteState2, markerLineState: markerLineState2, markerNoteCommentFenceOpeners: markerNoteCommentFenceOpeners2, markerNoteFenceReach: markerNoteFenceReach2, markerNoteOpenerReach: markerNoteOpenerReach2, markerPrefixLength: markerPrefixLength2, matchListMarker: matchListMarker2, matchedCommentFenceEnd: matchedCommentFenceEnd2, nestedSubLexer: nestedSubLexer2, newCommentSpanScan: newCommentSpanScan2, opensCodeFence: opensCodeFence2, orderedContinues: orderedContinues2, orderedMatch: orderedMatch2, prefixWalkBound: prefixWalkBound2, quoteBodyColumn: quoteBodyColumn2, stackedOpenerColumns: stackedOpenerColumns2, trackWrappedAttributeRun: trackWrappedAttributeRun2, stackedFollowerColumn: stackedFollowerColumn2, quoteIndentHasTab: quoteIndentHasTab2, quotePrefixDepth: quotePrefixDepth2, quotePrefixLength: quotePrefixLength2, quotedLineText: quotedLineText2, restoreVerbatimBlanks: restoreVerbatimBlanks2, retainCommentBoundary: retainCommentBoundary2, sourceColumn: sourceColumn2, sourceQuoteBody: sourceQuoteBody2, sourceQuoteLocalColumn: sourceQuoteLocalColumn2, startsInterruptingBlock: startsInterruptingBlock2, stripLazyFrame: stripLazyFrame2, subLexer: subLexer2, taskMatch: taskMatch2, trackBlockQuoteLazyState: trackBlockQuoteLazyState2, unorderedMarkerChar: unorderedMarkerChar2, unorderedMatch: unorderedMatch2, verbatimOnlyLazyState: verbatimOnlyLazyState2, walkContainerPrefix: walkContainerPrefix2 } = helpers;
   function classifyItemContinuation({ lexer, line: line2, pendingBlankCount, itemQuoteDepth, physicalItemMarkerColumn, contentCol, baseIndent, previousNestedLine }) {
@@ -22844,7 +22844,7 @@ function createListParser(helpers, trackItemLazyState2, rebaseOverindentedBlocks
   };
 }
 var init_parse_list = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-list.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-list.js"() {
     init_parse_list_marker();
     init_parse_list_finish();
     init_parse_lexer();
@@ -22853,10 +22853,10 @@ var init_parse_list = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/substitution-scanner.js
+// node_modules/@markup-carve/carve/dist/parse/inline/substitution-scanner.js
 var SubstitutionScanner, ForwardPaths;
 var init_substitution_scanner = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/substitution-scanner.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/substitution-scanner.js"() {
     init_backtick_run_index();
     init_grapheme_extender();
     SubstitutionScanner = class {
@@ -23088,7 +23088,7 @@ var init_substitution_scanner = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-spans.js
+// node_modules/@markup-carve/carve/dist/table/table-spans.js
 function resolveTableSpans(rows) {
   const grid = [];
   for (const row of rows) {
@@ -23145,11 +23145,11 @@ function stripIsFree(row, c, colspan, markerOf2) {
   return true;
 }
 var init_table_spans = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-spans.js"() {
+  "node_modules/@markup-carve/carve/dist/table/table-spans.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/verbatim-payload.js
+// node_modules/@markup-carve/carve/dist/verbatim-payload.js
 function codeContent(lines, terminated) {
   if (lines.length === 0)
     return "";
@@ -23168,12 +23168,12 @@ function rawSource(content) {
 }
 var codeTerminated;
 var init_verbatim_payload = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/verbatim-payload.js"() {
+  "node_modules/@markup-carve/carve/dist/verbatim-payload.js"() {
     codeTerminated = (content) => content === "" || content.endsWith("\n");
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/verse-whitespace.js
+// node_modules/@markup-carve/carve/dist/parse/block/verse-whitespace.js
 function isAstralAt(line2, i) {
   const high = line2.charCodeAt(i);
   if (high < 55296 || high > 56319)
@@ -23244,12 +23244,12 @@ function restoreVerseGaps(value2) {
   }
 }
 var init_verse_whitespace = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/verse-whitespace.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/verse-whitespace.js"() {
     init_trim_non_nbsp();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/well-formed.js
+// node_modules/@markup-carve/carve/dist/well-formed.js
 function replaceLoneSurrogates(text) {
   let out = null;
   let last = 0;
@@ -23275,11 +23275,11 @@ function replaceLoneSurrogates(text) {
   return out.join("");
 }
 var init_well_formed = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/well-formed.js"() {
+  "node_modules/@markup-carve/carve/dist/well-formed.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-core.js
+// node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-core.js
 function symbolOpensAt(text, offset) {
   if (text[offset] !== ":")
     return false;
@@ -23488,7 +23488,7 @@ function linkDestinations(text, memo) {
 }
 var RE_FOOTNOTE_REF, RE_EXTENSION, RE_RAW_INLINE_FORMAT, RE_SYMBOL, RE_CROSSREF, ATTR_INERT_PREV, RE_REF_TAIL, RE_SPAN_TAIL, RE_BRACED_EN_DASH, PAIR_MARKERS, BRACED_OPENER_MARKERS, FORCED_TYPE, RE_MENTION, RE_TAG, SMART_TOKENS, isFlankSpace, isQuoteSpace, isQuoteAlnum, QUOTE_LETTER_RUN, ELISION_WORDS, closesAfterDash, codePointAfter, isQuoteOpenContext, NO_OPEN_KINDS, RE_RAW_INLINE_STICKY, RE_LINK_REST_STICKY2, RE_EMPTY_LINK_REST_STICKY2;
 var init_parse_inline_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-core.js"() {
     init_ast();
     init_backtick_run_index();
     init_grapheme_extender();
@@ -23581,10 +23581,10 @@ var init_parse_inline_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/append-only-closer.js
+// node_modules/@markup-carve/carve/dist/parse/block/append-only-closer.js
 var AppendOnlyCloser;
 var init_append_only_closer = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/append-only-closer.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/append-only-closer.js"() {
     AppendOnlyCloser = class {
       matches;
       next = 1;
@@ -23610,7 +23610,7 @@ var init_append_only_closer = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-item-core.js
+// node_modules/@markup-carve/carve/dist/parse/list/parse-item-core.js
 function authoredTaskState(state, checked) {
   if (checked || state === " ")
     return void 0;
@@ -24189,7 +24189,7 @@ function nestedItemHoldsOpenParagraph(content, memo) {
 }
 var RE_COLON_RUN, RE_FIRST_BLOCK_MARKER, deflistMarkerLine, OpenMarkerClassifier, markerClassifiers, listHelpers;
 var init_parse_item_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/parse-item-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/parse-item-core.js"() {
     init_append_only_closer();
     init_attachment_fence_closers();
     init_parse_block_boundaries();
@@ -24448,7 +24448,7 @@ var init_parse_item_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/table/parse-table-cells.js
+// node_modules/@markup-carve/carve/dist/parse/table/parse-table-cells.js
 function readCellAttributeBlock(src, from = 0) {
   if (src[from] !== "{")
     return void 0;
@@ -24576,7 +24576,7 @@ function joinFragment(target, frag, at, line2, row, marker, sep, col) {
 }
 var trimCellPadding, TABLE_ALIGNMENT_MARKERS, isGfmDelimiterCell, isGfmDelimiterRow;
 var init_parse_table_cells = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/table/parse-table-cells.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/table/parse-table-cells.js"() {
     init_attribute_parser();
     init_parse_block_boundaries();
     init_parse_inline_opaque();
@@ -24601,7 +24601,7 @@ var init_parse_table_cells = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-core.js
+// node_modules/@markup-carve/carve/dist/parse/parse-core.js
 function hasInvalidContainerMetadata(line2) {
   return RE_VALID_ADMONITION_OPEN.exec(line2) === null && RE_CONTAINER_PREFIX.test(line2);
 }
@@ -24673,7 +24673,7 @@ function parseRawBlock(lexer) {
 }
 var RE_DEFLIST_SEPARATOR, RE_ESCAPABLE_PUNCTUATION, opensInlineComment, inlineDepthState, RE_PREPASS_ANY_FENCE_CLOSER, definitionListHelpers, parseDefinitionListWithHelpers, linkDefinitionHelpers, collectLinkDefsWithHelpers, inlineScannerHelpers, scanInlineInnerWithHelpers, parseListWithHelpers, lineBlockHelpers, parseLineBlockWithHelpers, tableBlockHelpers, parseTableBlock;
 var init_parse_core = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-core.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-core.js"() {
     init_parse_brackets();
     init_parse_definition_list();
     init_parse_inline_opaque();
@@ -24861,10 +24861,10 @@ var init_parse_core = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-session.js
+// node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-session.js
 var smartTokensByFirst, emphasisPairs, InlineParseSession;
 var init_parse_inline_session = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-session.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/parse-inline-session.js"() {
     init_parse_core();
     smartTokensByFirst = /* @__PURE__ */ new Map();
     for (const token of SMART_TOKENS) {
@@ -25856,7 +25856,7 @@ var init_parse_inline_session = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-footnote-session.js
+// node_modules/@markup-carve/carve/dist/parse/block/parse-footnote-session.js
 function parseFootnoteDef(lexer, hooks) {
   const defLineIndex = lexer.pos;
   const defLineRaw = lexer.consume();
@@ -26052,13 +26052,13 @@ function parseFootnoteDef(lexer, hooks) {
   return null;
 }
 var init_parse_footnote_session = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/parse-footnote-session.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/parse-footnote-session.js"() {
     init_parse_indentation_container();
     init_parse_core();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-session.js
+// node_modules/@markup-carve/carve/dist/parse/parse-session.js
 function refusedFirstBlockReason(follower, marker) {
   if (follower === void 0)
     return "document";
@@ -26101,7 +26101,7 @@ function quoteOpensBehindItemMarker(line2, column) {
 }
 var ParseSession;
 var init_parse_session = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-session.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-session.js"() {
     init_parse_core();
     init_parse_inline_session();
     init_parse_footnote_session();
@@ -27772,7 +27772,7 @@ ${lexer.lineAt(candidate)}`;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse.js
+// node_modules/@markup-carve/carve/dist/parse.js
 function parse(source, opts = {}) {
   return new ParseSession().parse(source, opts);
 }
@@ -27783,17 +27783,17 @@ function parseContainerLabelInlines(label2) {
   return stripPositions(new ParseSession().parseRefLabelInlines(label2));
 }
 var init_parse = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse.js"() {
+  "node_modules/@markup-carve/carve/dist/parse.js"() {
     init_parse_session();
     init_parse_core();
     init_parse_core();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/translit-map.js
+// node_modules/@markup-carve/carve/dist/translit-map.js
 var TRANSLIT_MAP;
 var init_translit_map = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/translit-map.js"() {
+  "node_modules/@markup-carve/carve/dist/translit-map.js"() {
     TRANSLIT_MAP = {
       "\xA0": " ",
       "\xA1": "!",
@@ -28702,7 +28702,7 @@ var init_translit_map = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-ids.js
+// node_modules/@markup-carve/carve/dist/heading/heading-ids.js
 function normalizeHeadingRefLabel(label2) {
   return normalizeRefLabel(label2).normalize("NFC");
 }
@@ -29628,7 +29628,7 @@ function numberCaptionsIn(blocks, counters, onNumbered) {
 }
 var SMART_TO_ASCII, ID_STRIP_RE, RE_HAS_CONTENT;
 var init_heading_ids = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-ids.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/heading-ids.js"() {
     init_smart_typography_mode();
     init_trim_non_nbsp();
     init_document_ids();
@@ -29670,7 +29670,7 @@ var init_heading_ids = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/citations.js
+// node_modules/@markup-carve/carve/dist/extension/citations.js
 function isLabelBoundary(ch) {
   if (ch === void 0 || ch === " " || ch === "	")
     return true;
@@ -30323,7 +30323,7 @@ function walkCitationGroups(node, fn) {
 }
 var KEY, ITEM_RE, KEY_RE, LOCATOR_VOCAB, FLAT_TERMS, VALUE_CHAR, REFS_MARK, bracketMaps, matchCitation, ATTR_RE, KV_PAIR_RE;
 var init_citations = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/citations.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/citations.js"() {
     init_trim_non_nbsp();
     init_own_property();
     init_ast();
@@ -30390,7 +30390,7 @@ var init_citations = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-document.js
+// node_modules/@markup-carve/carve/dist/parse/parse-document.js
 function parseDocument(source, opts = {}) {
   return finishDocument(parse(source, opts));
 }
@@ -30407,7 +30407,7 @@ function finishDocument(doc) {
   return doc;
 }
 var init_parse_document = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/parse-document.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/parse-document.js"() {
     init_citations();
     init_heading_ids();
     init_parse();
@@ -30415,7 +30415,7 @@ var init_parse_document = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/carve-escape.js
+// node_modules/@markup-carve/carve/dist/carve-escape.js
 function bracedClass(handled) {
   return [...BRACED_DELIMITER_CHARS].filter((c) => !handled.includes(c)).map((c) => c.replace(/[\\^\-/\]]/, (m) => `\\${m}`)).join("");
 }
@@ -30584,7 +30584,7 @@ function escapeUnclosedImageEditorialOpeners(text) {
 }
 var BRACED_DELIMITER_CHARS, HANDLED_PLAIN, HANDLED_MARKDOWN, HANDLED_DJOT, PRIVATE_USE_FIRST, PRIVATE_USE_LAST;
 var init_carve_escape = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/carve-escape.js"() {
+  "node_modules/@markup-carve/carve/dist/carve-escape.js"() {
     init_trim_non_nbsp();
     BRACED_DELIMITER_CHARS = "^,=+-~/#*_";
     HANDLED_PLAIN = {};
@@ -30595,10 +30595,10 @@ var init_carve_escape = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-unicode-18-data.js
+// node_modules/@markup-carve/carve/dist/table/table-unicode-18-data.js
 var GCB, WIDE, PICT, INCB_CONSONANT, INCB_LINKER, INCB_EXTEND;
 var init_table_unicode_18_data = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-unicode-18-data.js"() {
+  "node_modules/@markup-carve/carve/dist/table/table-unicode-18-data.js"() {
     GCB = [
       0,
       9,
@@ -37455,7 +37455,7 @@ var init_table_unicode_18_data = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-display-width.js
+// node_modules/@markup-carve/carve/dist/table/table-display-width.js
 function property(ranges, codePoint, stride) {
   let low = 0;
   let high = Math.floor(ranges.length / stride) - 1;
@@ -37554,13 +37554,13 @@ function tableDisplayWidth(text) {
 }
 var CR, LF, CONTROL, EXTEND, ZWJ, RI, PREPEND, SPACING_MARK, L, V, T, LV, LVT;
 var init_table_display_width = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-display-width.js"() {
+  "node_modules/@markup-carve/carve/dist/table/table-display-width.js"() {
     init_table_unicode_18_data();
     [CR, LF, CONTROL, EXTEND, ZWJ, RI, PREPEND, SPACING_MARK, L, V, T, LV, LVT] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/include-directive.js
+// node_modules/@markup-carve/carve/dist/include-directive.js
 function unescapeQuotedPath(path9) {
   return unescapeAttrValue(path9);
 }
@@ -37684,7 +37684,7 @@ function findDirectives(text, escapedAt = () => false) {
 }
 var DQUOTED_RUN, SQUOTED_RUN, QUOTE_AWARE_OPTIONS, OPEN, PATH, SECTION, CLOSE, body, QUOTE_AWARE_BODY, FIRST_PAIR_BODY, DIRECTIVE_SCAN_RE, DIRECTIVE_FULL_RE, OPTION_RE, SECTION_TOKEN_RE, DIRECTIVE_SHAPE_RE, RunOffsets;
 var init_include_directive = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/include-directive.js"() {
+  "node_modules/@markup-carve/carve/dist/include-directive.js"() {
     init_attribute_parser();
     DQUOTED_RUN = String.raw`"(?:\\.|[^"\\\n])*?"`;
     SQUOTED_RUN = String.raw`'(?:\\.|[^'\\\n])*?'`;
@@ -37730,10 +37730,10 @@ var init_include_directive = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-depth.js
+// node_modules/@markup-carve/carve/dist/render/render-depth.js
 var MAX_RENDER_DEPTH, RenderDepthError;
 var init_render_depth = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-depth.js"() {
+  "node_modules/@markup-carve/carve/dist/render/render-depth.js"() {
     init_parse();
     MAX_RENDER_DEPTH = MAX_NESTING_DEPTH + 32;
     RenderDepthError = class extends Error {
@@ -37749,7 +37749,7 @@ var init_render_depth = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/legacy-nodes.js
+// node_modules/@markup-carve/carve/dist/ast/legacy-nodes.js
 function normalizeLegacyInline(node) {
   if (node.type !== "footnote")
     return node;
@@ -37780,23 +37780,23 @@ function adoptBlockFootnoteDefs(ast) {
   return { ...ast, children, footnoteDefs: defs };
 }
 var init_legacy_nodes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/legacy-nodes.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/legacy-nodes.js"() {
     init_own_property();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/thematic-break-marker.js
+// node_modules/@markup-carve/carve/dist/parse/block/thematic-break-marker.js
 function thematicBreakSpelling(authored, override) {
   return override ?? (authored ?? "-").repeat(3);
 }
 var FRONTMATTER_SAFE_BREAK;
 var init_thematic_break_marker = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/thematic-break-marker.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/thematic-break-marker.js"() {
     FRONTMATTER_SAFE_BREAK = "***";
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-loss.js
+// node_modules/@markup-carve/carve/dist/render/render-loss.js
 function rubyFlattened(opts, node, target) {
   opts.onRenderLoss?.({
     code: "ruby-flattened",
@@ -37944,7 +37944,7 @@ function checkedRender(render, opts) {
 }
 var RenderLossError, DENIED_SINK_MESSAGE, LIST_STYLES;
 var init_render_loss = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-loss.js"() {
+  "node_modules/@markup-carve/carve/dist/render/render-loss.js"() {
     RenderLossError = class extends Error {
       losses;
       totalLosses;
@@ -37972,7 +37972,7 @@ var init_render_loss = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/sentinel-run.js
+// node_modules/@markup-carve/carve/dist/parse/inline/sentinel-run.js
 function occupiedPrivateUse(root2, includeKeys = false) {
   const occupied = /* @__PURE__ */ new Set();
   const seenKeys = includeKeys ? /* @__PURE__ */ new Set() : void 0;
@@ -38073,13 +38073,13 @@ function treeSentinelNonces(root2) {
 }
 var ALLOCATABLE_START, PRIVATE_USE_END;
 var init_sentinel_run = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/sentinel-run.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/sentinel-run.js"() {
     ALLOCATABLE_START = 57345;
     PRIVATE_USE_END = 63743;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/escape-window.js
+// node_modules/@markup-carve/carve/dist/parse/inline/escape-window.js
 function isSliceable(array, holder, key2) {
   if (array.length === 0)
     return false;
@@ -38089,7 +38089,7 @@ function isSliceable(array, holder, key2) {
 }
 var SLICEABLE_TYPES, EscapeWindows;
 var init_escape_window = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/escape-window.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/escape-window.js"() {
     SLICEABLE_TYPES = /* @__PURE__ */ new Set([
       "heading",
       "section",
@@ -38216,7 +38216,7 @@ var init_escape_window = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/bracket-escapes.js
+// node_modules/@markup-carve/carve/dist/parse/inline/bracket-escapes.js
 function collectLoneBrackets(nodes, bracketed, into, leftToSearch, pairs, crossing, crossingClosers, escaped) {
   const scopes = [{ content: nodes, bracketed }];
   for (let scope = scopes.pop(); scope !== void 0; scope = scopes.pop())
@@ -38413,14 +38413,14 @@ function record(at, sites) {
 }
 var UNWRITABLE_CONTROLS, TRANSPARENT;
 var init_bracket_escapes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/bracket-escapes.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/bracket-escapes.js"() {
     init_parse();
     UNWRITABLE_CONTROLS = /[\u0000\u000d]/g;
     TRANSPARENT = /* @__PURE__ */ new Set(["emphasis", "strong", "underline", "strike", "highlight", "superscript", "subscript", "insert", "delete"]);
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-destination-encoding.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-destination-encoding.js
 function encodeMarkdownDestinationCharacter(char) {
   const point2 = char.codePointAt(0);
   if (point2 > 126 && !/[\p{White_Space}\p{Cc}]/u.test(char) && !(point2 >= 55296 && point2 <= 57343))
@@ -38462,11 +38462,11 @@ function writeMarkdownDestinationValue(value2, inTable = false) {
   return Array.from(escapeDestinationStructure(value2), (char) => inTable && char === "|" ? "%7C" : /[\p{White_Space}\p{Cc}]/u.test(char) ? encodeMarkdownDestinationCharacter(char) : char).join("");
 }
 var init_markdown_destination_encoding = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-destination-encoding.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-destination-encoding.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-carve.js
+// node_modules/@markup-carve/carve/dist/render-carve.js
 function nestedTightItemLosesTightness(item2) {
   return item2.children.some((child, index2) => {
     const previous = item2.children[index2 - 1];
@@ -40011,7 +40011,7 @@ function renderLinkReferenceDefinition(node) {
 }
 var ESCAPE_SEARCH_PARSE_FACTOR, ESCAPE_SEARCH_PROBE_FACTOR, NESTING_CONTAINERS, REGION_MARKER, CLOSED_BEFORE_A_MARKER, FOLDS_INTO_AN_OPEN_PARAGRAPH, A_BLOCK_ATTRIBUTES_LINE, LEAVES_A_PARAGRAPH_OPEN, ENTRY_RAISE_COLUMN, DEFINITION_BODY_INDENT, EMPTY_BODY_SENTINEL, HOISTED_DEFINITION_TYPES, OUT_TAIL_LENGTH, RE_BOUNDARY_STOP, RE_WRITER_BLANK, SENTINEL_BASE, SENTINEL_COUNT, MINIMAL_ESCAPE_SITES, CANDIDATE_ESCAPES, NOT_OFFERED_PER_OCCURRENCE, SINGLE_CHARACTER_OPENERS, EMPHASIS_KINDS, BRACEABLE_TYPES, BRACED_INLINE_TYPES, LABEL_INLINE_TYPES, UNWRITABLE_CONTROLS2, DIRECTIVE_UNSAFE, BLOCK_SEPARATOR, FRONTMATTER_CLOSER, EMPTY_COMMENT, CarveRenderSession;
 var init_render_carve = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-carve.js"() {
+  "node_modules/@markup-carve/carve/dist/render-carve.js"() {
     init_carve_escape();
     init_parse();
     init_trim_non_nbsp();
@@ -42502,7 +42502,7 @@ ${prefix}`;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/canonical-carve-write.js
+// node_modules/@markup-carve/carve/dist/ast/canonical-carve-write.js
 function canonicalCarveWrite(source, opts = {}, transform, parsedSourceHint) {
   const document = parseDocument(source, opts);
   const transformed = transform?.(document) === true;
@@ -42515,14 +42515,14 @@ function canonicalCarveWrite(source, opts = {}, transform, parsedSourceHint) {
   return canReuseSource ? renderCarveFromParsedSource(document, source, opts) : renderCarve(document, opts);
 }
 var init_canonical_carve_write = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/canonical-carve-write.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/canonical-carve-write.js"() {
     init_heading_ids();
     init_parse_document();
     init_render_carve();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/footnote-numbering.js
+// node_modules/@markup-carve/carve/dist/heading/footnote-numbering.js
 function walkBlockInlines(node, visit3, depth = 0) {
   if (depth >= MAX_RENDER_DEPTH)
     throw new RenderDepthError("numberFootnotes", MAX_RENDER_DEPTH);
@@ -42689,7 +42689,7 @@ function footnoteDefsInSourceOrder(ast) {
   return keyed2.map((k) => k.entry);
 }
 var init_footnote_numbering = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/footnote-numbering.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/footnote-numbering.js"() {
     init_render_depth();
     init_own_property();
     init_unresolved_reference();
@@ -42697,7 +42697,7 @@ var init_footnote_numbering = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/roundtrip-carriers.js
+// node_modules/@markup-carve/carve/dist/ast/roundtrip-carriers.js
 function readCarrier(get, name) {
   return get(carrier(name)) ?? (name === "ext" || name === "selected" ? void 0 : get(legacyCarrier(name)));
 }
@@ -42748,7 +42748,7 @@ function reportReservedAuthoredNames(tree, inlineTypes, opts) {
 }
 var MAX_CARRIED_SEPARATOR_WIDTH, CARRIER_MARKER, CARRIER_CHAR, RETIRED_SOURCE_CARRIER, RE_ID_SLOT, PREFIXED, carrier, legacyCarrier, RESERVED_CARRIER_ATTRIBUTES, roundtripExport;
 var init_roundtrip_carriers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/roundtrip-carriers.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/roundtrip-carriers.js"() {
     MAX_CARRIED_SEPARATOR_WIDTH = 1e3;
     CARRIER_MARKER = "data-marker";
     CARRIER_CHAR = "data-char";
@@ -42789,7 +42789,7 @@ var init_roundtrip_carriers = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-html.js
+// node_modules/@markup-carve/carve/dist/render-html.js
 function sanitizeUrl(url, opts) {
   if (opts.sanitizeUrls === false)
     return url;
@@ -44189,7 +44189,7 @@ function escapeAttr(s) {
 }
 var abbrBudget2, suppressAutomaticAbbreviation, docIds, docIdSource, admonitionCount, DANGEROUS_URL_SCHEMES, SCHEME_PROBE_STRIP_RE, DANGEROUS_ATTR_NAMES, HTML_ATTR_NAME_RE, DANGEROUS_VALUE_SCHEMES, ASCII_WHITESPACE, URL_LIST_SEPARATORS, RENDER_MODES, LABEL_DEFAULTS, label, TEXT_ALIGN_ELEMENTS, TEXT_ALIGN_VALUES, CORE_SEMANTIC_SPAN_ORDER, EXTENDED_SEMANTIC_SPAN_ORDER, SEMANTIC_VALUE_ATTRIBUTE, blockDepth, inlineDepth, insideLink, activeRenderOptions, HTML_ESCAPE;
 var init_render_html = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-html.js"() {
+  "node_modules/@markup-carve/carve/dist/render-html.js"() {
     init_smart_typography_mode();
     init_reference_state();
     init_verbatim_payload();
@@ -44292,7 +44292,7 @@ var init_render_html = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/profile.js
+// node_modules/@markup-carve/carve/dist/profile.js
 function withSupertype(type) {
   const parent = ownValue(SUPERTYPE, type);
   return parent === void 0 ? [type] : [type, parent];
@@ -44465,7 +44465,7 @@ function formatProfileViolation(v) {
 }
 var CANONICAL_BLOCK_TYPES, CANONICAL_INLINE_TYPES, FOLDED_NODE_TYPES, BLOCK_SET, INLINE_SET, SUPERTYPE, LinkPolicy, Profile, ProfileViolationError;
 var init_profile = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/profile.js"() {
+  "node_modules/@markup-carve/carve/dist/profile.js"() {
     init_trim_non_nbsp();
     init_own_property();
     init_render_html();
@@ -45044,7 +45044,7 @@ var init_profile = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/profile-filter.js
+// node_modules/@markup-carve/carve/dist/profile-filter.js
 function resolveCanonical(node) {
   if (node.type === "footnote_ref" || node.type === "inline_footnote") {
     return node["inline"] !== void 0 ? "inline_footnote" : "footnote_ref";
@@ -45400,7 +45400,7 @@ function applyProfile(doc, profile, baseHost = null) {
 }
 var BLOCK_CANONICAL, BLOCK_JS_TYPES, ProfileFilter, INLINE_CONCAT;
 var init_profile_filter = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/profile-filter.js"() {
+  "node_modules/@markup-carve/carve/dist/profile-filter.js"() {
     init_verbatim_payload();
     init_ast();
     init_footnote_numbering();
@@ -45889,7 +45889,7 @@ var init_profile_filter = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/referenced-link-labels.js
+// node_modules/@markup-carve/carve/dist/parse/inline/referenced-link-labels.js
 function referencedLinkLabels(ast) {
   const labels = /* @__PURE__ */ new Set();
   const stack = [ast.children, ...Object.values(ast.footnoteDefs ?? {})];
@@ -45933,14 +45933,14 @@ function blocksWithLinkDefinitionsInSourceOrder(ast) {
   return merged;
 }
 var init_referenced_link_labels = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/inline/referenced-link-labels.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/inline/referenced-link-labels.js"() {
     init_reference_state();
     init_label_key();
     init_owned_child_fields();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-cell-content.js
+// node_modules/@markup-carve/carve/dist/render/render-cell-content.js
 function renderCellContent(blocks, inlines, target, depth = 0, flatten = (part) => part.replace(/[ \t\r]*(?:\n[ \t\r]*)+/g, " ")) {
   if (depth >= MAX_RENDER_DEPTH)
     throw new RenderDepthError(target, MAX_RENDER_DEPTH);
@@ -46012,13 +46012,13 @@ function renderCellContent(blocks, inlines, target, depth = 0, flatten = (part) 
   return parts.filter(Boolean).map(flatten).join(" ");
 }
 var init_render_cell_content = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/render-cell-content.js"() {
+  "node_modules/@markup-carve/carve/dist/render/render-cell-content.js"() {
     init_render_depth();
     init_trim_non_nbsp();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/deny-listed-destination.js
+// node_modules/@markup-carve/carve/dist/import/markdown/deny-listed-destination.js
 function blankDeniedDestination(url) {
   const probe = url.replace(SCHEME_PROBE_STRIP_RE, "");
   const scheme = /^([a-zA-Z][a-zA-Z0-9+.-]*):/.exec(probe);
@@ -46028,12 +46028,12 @@ function blankDeniedDestination(url) {
   return DANGEROUS_URL_SCHEMES.some((denied) => denied.toLowerCase() === lowered) ? "" : url;
 }
 var init_deny_listed_destination = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/deny-listed-destination.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/deny-listed-destination.js"() {
     init_render_html();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/bidi-controls.js
+// node_modules/@markup-carve/carve/dist/extension/bidi-controls.js
 function isBidiControl(codePoint) {
   return codePoint >= 8234 && codePoint <= 8238 || codePoint >= 8294 && codePoint <= 8297;
 }
@@ -46042,12 +46042,12 @@ function stripBidiControls(value2) {
 }
 var BIDI_OVERRIDE_OR_ISOLATE;
 var init_bidi_controls = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/bidi-controls.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/bidi-controls.js"() {
     BIDI_OVERRIDE_OR_ISOLATE = /[\u202a-\u202e\u2066-\u2069]/gu;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/carrier-markers.js
+// node_modules/@markup-carve/carve/dist/import/markdown/carrier-markers.js
 function escapeCarrierPayload(payload) {
   return payload.replace(/--(\\*)>/g, (_m, slashes) => `--${slashes}\\>`);
 }
@@ -46121,7 +46121,7 @@ function spellCarrierMarkers(node, depth) {
 }
 var CARRIER_PREFIX, CARRIER_SUFFIX, CARRIER_HEAD;
 var init_carrier_markers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/carrier-markers.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/carrier-markers.js"() {
     init_render_carve();
     CARRIER_PREFIX = "<!-- carve: ";
     CARRIER_SUFFIX = " -->";
@@ -46129,7 +46129,7 @@ var init_carrier_markers = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-markdown.js
+// node_modules/@markup-carve/carve/dist/render-markdown.js
 function renderHtmlAttrs(attrs) {
   if (!attrs)
     return "";
@@ -48120,7 +48120,7 @@ function unwrapStrong(nodes) {
 }
 var suppressAutomaticAbbreviation2, UNMARKED_WRAPPERS, PARAGRAPH_INTERRUPTERS, DELIMITER_ROW, A_TABLE_MAY_FOLLOW, lastNonBlankLine, BARE_MARKER, THEMATIC_BREAK_LINE, markerContent, ALIGNMENTS, inlineCarrierStart, inlineCarrierEnd, INLINE_CARRIER, insideLink2, insideLabel, insideSingleLineSlot, flattenSingleLineSoftBreaks, CHAR_REF_OPENER_RE, NARROWED_SENTINEL, NARROWED_CHARACTER, AUTHORED_INERT, AUTHORED_SENTINEL, hashesEmitted, AUTHORED_KEPT, AUTHORED_CHARACTER, RE_NARROWED_SENTINEL, HAS_NARROWED_SENTINEL, RE_UNDECIDED_HASH, HAS_UNDECIDED_HASH, CONTEXT_SENTINEL, CONTEXT_CHARACTER, RE_CONTEXT_SENTINEL, HAS_CONTEXT_SENTINEL, RE_ANY_SENTINEL, ALL_CARRIERS, MULTI_CHARACTER_CARRIERS, PAYLOAD_BLANK, CARRIER_BASE, CARRIER_COUNT, CHARACTER_REFERENCE, EMAIL_LOCAL_CHARACTER, EMAIL_DOMAIN_CHARACTER, PAD_SPACE, DELIMITER_RUN, FLANK_SPACE, FLANK_PUNCT, lastCharacter, firstCharacter, flankCharacter, runAtStart, runAtEnd, beforeRunInCore, afterRunInCore, mergedRunFlanks;
 var init_render_markdown = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-markdown.js"() {
+  "node_modules/@markup-carve/carve/dist/render-markdown.js"() {
     init_referenced_link_labels();
     init_reference_state();
     init_label_key();
@@ -48254,7 +48254,7 @@ var init_render_markdown = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/abbr-expansion-emitted.js
+// node_modules/@markup-carve/carve/dist/extension/abbr-expansion-emitted.js
 function abbreviationPairKey(abbr, expansion) {
   return `${abbr}\0${expansion}`;
 }
@@ -48284,11 +48284,11 @@ function documentHasAbbreviationDef(ast) {
   return false;
 }
 var init_abbr_expansion_emitted = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/abbr-expansion-emitted.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/abbr-expansion-emitted.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-plain.js
+// node_modules/@markup-carve/carve/dist/render-plain.js
 function renderPlainText(ast, opts = {}) {
   hydrateResolvedEmptyReferences(ast);
   if (!documentHasAbbreviationDef(ast))
@@ -48703,7 +48703,7 @@ function stripControls2(s) {
 }
 var suppressAutomaticAbbreviation3, NO_EXPANDED_DEFINITIONS, insideLink3;
 var init_render_plain = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-plain.js"() {
+  "node_modules/@markup-carve/carve/dist/render-plain.js"() {
     init_referenced_link_labels();
     init_label_key();
     init_render_carve();
@@ -48728,7 +48728,7 @@ var init_render_plain = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-ansi.js
+// node_modules/@markup-carve/carve/dist/render-ansi.js
 function renderAnsi(ast, opts = {}) {
   hydrateResolvedEmptyReferences(ast);
   if (!documentHasAbbreviationDef(ast))
@@ -49337,7 +49337,7 @@ function unwrapStrong2(nodes) {
 }
 var suppressAutomaticAbbreviation4, NO_EXPANDED_DEFINITIONS2, RESET, BOLD, DIM, ITALIC, UNDERLINE, STRIKE, FG_BLUE, FG_MAGENTA, FG_CYAN, FG_YELLOW, FG_GREEN, FG_BRIGHT_BLACK, FG_BRIGHT_YELLOW, FG_BRIGHT_MAGENTA, FG_BRIGHT_CYAN, FG_BRIGHT_BLUE, FG_BRIGHT_GREEN, FG_BRIGHT_WHITE, insideLink4;
 var init_render_ansi = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render-ansi.js"() {
+  "node_modules/@markup-carve/carve/dist/render-ansi.js"() {
     init_referenced_link_labels();
     init_label_key();
     init_render_carve();
@@ -49381,7 +49381,7 @@ var init_render_ansi = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/envelope.js
+// node_modules/@markup-carve/carve/dist/ast/envelope.js
 function toAstEnvelope(doc, options = {}) {
   const envelope = {
     astVersion: AST_CONTRACT_VERSION,
@@ -49480,7 +49480,7 @@ function checkAstVersion(astVersion) {
 }
 var AST_CONTRACT_VERSION, CORE_AST_VOCABULARY, RE_AST_VERSION, ENVELOPE_FIELDS, EXTENSION_FIELDS, AstEnvelopeShapeError, AstEnvelopeVersionError, AstEnvelopeExtensionError, AstEnvelopeVocabularyError;
 var init_envelope = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/envelope.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/envelope.js"() {
     init_json();
     init_own_property();
     AST_CONTRACT_VERSION = "1.2";
@@ -49525,7 +49525,7 @@ var init_envelope = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/json.js
+// node_modules/@markup-carve/carve/dist/ast/json.js
 function rememberIngestedLineBlocks(root2) {
   const stack = [root2.children, ...Object.values(root2.footnoteDefs ?? {})];
   while (stack.length > 0) {
@@ -50463,7 +50463,7 @@ function markResolvedEmptyReferenceNodes(doc) {
 }
 var CHILD_FIELDS, ingestedLineBlockChildren, COLLECTED_DEFINITION_TYPES, AstJsonDepthError, AstJsonRootError, AstJsonRootFieldError, AstJsonUnknownNodeTypeError, AstJsonMisplacedNodeTypeError, AstJsonNodeTypeError, AstJsonUnknownFieldError, AstJsonSchemaError, AstJsonPartitionError, LEGACY_DEFINITION_ENTRY_FIELDS, LEGACY_TYPELESS_POSITIONS, LEGACY_RECORD_FIELDS, OWNED_NODE_POSITIONS, MAX_AST_JSON_DEPTH, MAX_AST_JSON_WALK, DEPTH_WALK_FIELDS;
 var init_json = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/json.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/json.js"() {
     init_owned_child_fields();
     init_table_spans();
     init_unresolved_reference();
@@ -50592,14 +50592,14 @@ var init_json = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-json.js
+// node_modules/@markup-carve/carve/dist/ast-json.js
 var init_ast_json = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-json.js"() {
+  "node_modules/@markup-carve/carve/dist/ast-json.js"() {
     init_json();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/coalesce-text-runs.js
+// node_modules/@markup-carve/carve/dist/coalesce-text-runs.js
 function coalesceTextRuns(doc) {
   visit(doc);
   for (const block of doc.trailerBlocks ?? [])
@@ -50699,12 +50699,12 @@ function joinPos(left, right) {
   };
 }
 var init_coalesce_text_runs = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/coalesce-text-runs.js"() {
+  "node_modules/@markup-carve/carve/dist/coalesce-text-runs.js"() {
     init_owned_child_fields();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source-layout.js
+// node_modules/@markup-carve/carve/dist/source-layout.js
 function toSourceLayout(source, ast) {
   const points = [...source];
   const offsets = [0];
@@ -50742,11 +50742,11 @@ function toSourceLayout(source, ast) {
   return { version: 1, encoding: "utf-8", source, lineEndings, bom: source.startsWith("\uFEFF"), nodes };
 }
 var init_source_layout = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source-layout.js"() {
+  "node_modules/@markup-carve/carve/dist/source-layout.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/sidecars.js
+// node_modules/@markup-carve/carve/dist/ast/sidecars.js
 function fields(value2, allowed, label2) {
   for (const key2 of Object.keys(value2))
     if (!allowed.includes(key2))
@@ -50975,7 +50975,7 @@ function toAuthoredProvenance(ast, source, uri) {
 }
 var AstSidecarError, record2, nonempty, integer, pointer;
 var init_sidecars = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/sidecars.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/sidecars.js"() {
     init_owned_child_fields();
     init_wire_fields();
     AstSidecarError = class extends TypeError {
@@ -50991,14 +50991,14 @@ var init_sidecars = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-sidecars.js
+// node_modules/@markup-carve/carve/dist/ast-sidecars.js
 var init_ast_sidecars = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-sidecars.js"() {
+  "node_modules/@markup-carve/carve/dist/ast-sidecars.js"() {
     init_sidecars();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/fast-html.js
+// node_modules/@markup-carve/carve/dist/fast-html.js
 function completeUtf16End(text, end) {
   const before = text.charCodeAt(end - 1), after = text.charCodeAt(end);
   return before >= 55296 && before <= 56319 && after >= 56320 && after <= 57343 ? end - 1 : end;
@@ -51521,7 +51521,7 @@ function indent2(level) {
 }
 var HtmlOutput, INLINE_MARKER, COMPLEX_INLINE;
 var init_fast_html = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/fast-html.js"() {
+  "node_modules/@markup-carve/carve/dist/fast-html.js"() {
     init_trim_non_nbsp();
     init_heading_ids();
     init_render_html();
@@ -51602,7 +51602,7 @@ var init_fast_html = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/fast-ast-document.js
+// node_modules/@markup-carve/carve/dist/parse/fast-ast-document.js
 function unsupported(line2) {
   return line2[0] === " " || line2[0] === "	" || !(/^[A-Za-z0-9\u0080-\uFFFF]/.test(line2) || line2[0] === "(" || line2[0] === "`" || line2[0] === "[") || line2.startsWith("```") || /^(?:[0-9]+|[ivxlcdm]+|[IVXLCDM]+|[a-z]|[A-Z]|\.)[.)](?:\{| )/.test(line2) || /^\[[^\]]+\]:/.test(line2) || /^[-*_]{3,}$/.test(line2);
 }
@@ -51699,7 +51699,7 @@ function tryFastAstDocument(source) {
 }
 var FastInlineSession, HEADING, BULLET;
 var init_fast_ast_document = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/fast-ast-document.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/fast-ast-document.js"() {
     init_parse_inline_session();
     init_parse_block_boundaries();
     init_abbr_budget();
@@ -51717,7 +51717,7 @@ var init_fast_ast_document = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/editor-session.js
+// node_modules/@markup-carve/carve/dist/editor-session.js
 function codepointToUtf16(source) {
   const result = [0];
   let utf16 = 0;
@@ -52029,7 +52029,7 @@ function createEditorSession(initialSource, parseDocument2, options = {}, allowP
 }
 var EditorChangeError, sessionCounter;
 var init_editor_session = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/editor-session.js"() {
+  "node_modules/@markup-carve/carve/dist/editor-session.js"() {
     init_ast_sidecars();
     EditorChangeError = class extends RangeError {
       constructor(message) {
@@ -52041,7 +52041,7 @@ var init_editor_session = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source-patch.js
+// node_modules/@markup-carve/carve/dist/source-patch.js
 function encodeSource(source) {
   const encoded = encoder.encode(source);
   if (decoder.decode(encoded) !== source)
@@ -52118,14 +52118,14 @@ function applySourcePatch(source, patch) {
 }
 var encoder, decoder, EDIT_KINDS;
 var init_source_patch = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/source-patch.js"() {
+  "node_modules/@markup-carve/carve/dist/source-patch.js"() {
     encoder = new TextEncoder();
     decoder = new TextDecoder("utf-8", { fatal: true });
     EDIT_KINDS = /* @__PURE__ */ new Set(["formatting", "syntax-migration", "quick-fix", "refactor"]);
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-preservation.js
+// node_modules/@markup-carve/carve/dist/table/table-preservation.js
 function assessTablePreservation(ast, target, options = {}) {
   if (!["html", "markdown", "plain", "ansi"].includes(target))
     throw new RangeError("unsupported preservation target");
@@ -52263,7 +52263,7 @@ function assessTablePreservation(ast, target, options = {}) {
 }
 var PreservationError, record3, populated;
 var init_table_preservation = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/table-preservation.js"() {
+  "node_modules/@markup-carve/carve/dist/table/table-preservation.js"() {
     init_json();
     init_owned_child_fields();
     PreservationError = class extends Error {
@@ -52279,7 +52279,7 @@ var init_table_preservation = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/conversion-diagnostics.js
+// node_modules/@markup-carve/carve/dist/import/markdown/conversion-diagnostics.js
 function wirePos(value2) {
   if (!value2 || typeof value2 !== "object")
     return void 0;
@@ -52405,14 +52405,14 @@ function renderCarveWithConversionReport(ast, render, maxDiagnostics = 100) {
   return { ...output === void 0 ? {} : { value: output }, report: { diagnostics: diagnostics2, totalDiagnostics, truncated: totalDiagnostics > diagnostics2.length } };
 }
 var init_conversion_diagnostics = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/conversion-diagnostics.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/conversion-diagnostics.js"() {
     init_table_source_metadata();
     init_verbatim_payload();
     init_source_unspellable_error();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-dom.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-dom.js
 function domTag(node) {
   return node && "tagName" in node ? node.tagName : void 0;
 }
@@ -52442,14 +52442,14 @@ function domChild(node) {
   return node;
 }
 var init_html_import_dom = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-dom.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-dom.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-table-row-groups.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-table-row-groups.js
 var TableRowGroupStage;
 var init_html_import_table_row_groups = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-table-row-groups.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-table-row-groups.js"() {
     init_html_import_dom();
     TableRowGroupStage = class {
       report;
@@ -52629,7 +52629,7 @@ var init_html_import_table_row_groups = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-table-stage.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-table-stage.js
 function holdsBlocks(cell) {
   let paragraphs = 0;
   const stack = [...domChildren(cell) ?? []];
@@ -52725,7 +52725,7 @@ function listTableOf(rows, ownAlignment, caption, attrs, writing) {
 }
 var TableStage, SPAN_MARKER_ITEMS;
 var init_html_import_table_stage = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-table-stage.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-table-stage.js"() {
     init_html_import_dom();
     init_html_import_table_row_groups();
     init_table_source_metadata();
@@ -53144,7 +53144,7 @@ var init_html_import_table_stage = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/unicode.js
+// node_modules/parse5/dist/common/unicode.js
 function isSurrogate(cp) {
   return cp >= 55296 && cp <= 57343;
 }
@@ -53162,7 +53162,7 @@ function isUndefinedCodePoint(cp) {
 }
 var UNDEFINED_CODE_POINTS, REPLACEMENT_CHARACTER, CODE_POINTS, SEQUENCES;
 var init_unicode = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/unicode.js"() {
+  "node_modules/parse5/dist/common/unicode.js"() {
     UNDEFINED_CODE_POINTS = /* @__PURE__ */ new Set([
       65534,
       65535,
@@ -53239,10 +53239,10 @@ var init_unicode = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/error-codes.js
+// node_modules/parse5/dist/common/error-codes.js
 var ERR;
 var init_error_codes = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/error-codes.js"() {
+  "node_modules/parse5/dist/common/error-codes.js"() {
     (function(ERR2) {
       ERR2["controlCharacterInInputStream"] = "control-character-in-input-stream";
       ERR2["noncharacterInInputStream"] = "noncharacter-in-input-stream";
@@ -53308,10 +53308,10 @@ var init_error_codes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/tokenizer/preprocessor.js
+// node_modules/parse5/dist/tokenizer/preprocessor.js
 var DEFAULT_BUFFER_WATERLINE, Preprocessor;
 var init_preprocessor = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/tokenizer/preprocessor.js"() {
+  "node_modules/parse5/dist/tokenizer/preprocessor.js"() {
     init_unicode();
     init_error_codes();
     DEFAULT_BUFFER_WATERLINE = 1 << 16;
@@ -53484,7 +53484,7 @@ var init_preprocessor = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/token.js
+// node_modules/parse5/dist/common/token.js
 function getTokenAttr(token, attrName) {
   for (let i = token.attrs.length - 1; i >= 0; i--) {
     if (token.attrs[i].name === attrName) {
@@ -53495,7 +53495,7 @@ function getTokenAttr(token, attrName) {
 }
 var TokenType;
 var init_token = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/token.js"() {
+  "node_modules/parse5/dist/common/token.js"() {
     (function(TokenType2) {
       TokenType2[TokenType2["CHARACTER"] = 0] = "CHARACTER";
       TokenType2[TokenType2["NULL_CHARACTER"] = 1] = "NULL_CHARACTER";
@@ -53510,10 +53510,10 @@ var init_token = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/entities/dist/esm/generated/decode-data-html.js
+// node_modules/entities/dist/esm/generated/decode-data-html.js
 var htmlDecodeTree;
 var init_decode_data_html = __esm({
-  "tools/lsp-bundle/node_modules/entities/dist/esm/generated/decode-data-html.js"() {
+  "node_modules/entities/dist/esm/generated/decode-data-html.js"() {
     htmlDecodeTree = /* @__PURE__ */ new Uint16Array(
       // prettier-ignore
       /* @__PURE__ */ '\u1D41<\xD5\u0131\u028A\u049D\u057B\u05D0\u0675\u06DE\u07A2\u07D6\u080F\u0A4A\u0A91\u0DA1\u0E6D\u0F09\u0F26\u10CA\u1228\u12E1\u1415\u149D\u14C3\u14DF\u1525\0\0\0\0\0\0\u156B\u16CD\u198D\u1C12\u1DDD\u1F7E\u2060\u21B0\u228D\u23C0\u23FB\u2442\u2824\u2912\u2D08\u2E48\u2FCE\u3016\u32BA\u3639\u37AC\u38FE\u3A28\u3A71\u3AE0\u3B2E\u0800EMabcfglmnoprstu\\bfms\x7F\x84\x8B\x90\x95\x98\xA6\xB3\xB9\xC8\xCFlig\u803B\xC6\u40C6P\u803B&\u4026cute\u803B\xC1\u40C1reve;\u4102\u0100iyx}rc\u803B\xC2\u40C2;\u4410r;\uC000\u{1D504}rave\u803B\xC0\u40C0pha;\u4391acr;\u4100d;\u6A53\u0100gp\x9D\xA1on;\u4104f;\uC000\u{1D538}plyFunction;\u6061ing\u803B\xC5\u40C5\u0100cs\xBE\xC3r;\uC000\u{1D49C}ign;\u6254ilde\u803B\xC3\u40C3ml\u803B\xC4\u40C4\u0400aceforsu\xE5\xFB\xFE\u0117\u011C\u0122\u0127\u012A\u0100cr\xEA\xF2kslash;\u6216\u0176\xF6\xF8;\u6AE7ed;\u6306y;\u4411\u0180crt\u0105\u010B\u0114ause;\u6235noullis;\u612Ca;\u4392r;\uC000\u{1D505}pf;\uC000\u{1D539}eve;\u42D8c\xF2\u0113mpeq;\u624E\u0700HOacdefhilorsu\u014D\u0151\u0156\u0180\u019E\u01A2\u01B5\u01B7\u01BA\u01DC\u0215\u0273\u0278\u027Ecy;\u4427PY\u803B\xA9\u40A9\u0180cpy\u015D\u0162\u017Aute;\u4106\u0100;i\u0167\u0168\u62D2talDifferentialD;\u6145leys;\u612D\u0200aeio\u0189\u018E\u0194\u0198ron;\u410Cdil\u803B\xC7\u40C7rc;\u4108nint;\u6230ot;\u410A\u0100dn\u01A7\u01ADilla;\u40B8terDot;\u40B7\xF2\u017Fi;\u43A7rcle\u0200DMPT\u01C7\u01CB\u01D1\u01D6ot;\u6299inus;\u6296lus;\u6295imes;\u6297o\u0100cs\u01E2\u01F8kwiseContourIntegral;\u6232eCurly\u0100DQ\u0203\u020FoubleQuote;\u601Duote;\u6019\u0200lnpu\u021E\u0228\u0247\u0255on\u0100;e\u0225\u0226\u6237;\u6A74\u0180git\u022F\u0236\u023Aruent;\u6261nt;\u622FourIntegral;\u622E\u0100fr\u024C\u024E;\u6102oduct;\u6210nterClockwiseContourIntegral;\u6233oss;\u6A2Fcr;\uC000\u{1D49E}p\u0100;C\u0284\u0285\u62D3ap;\u624D\u0580DJSZacefios\u02A0\u02AC\u02B0\u02B4\u02B8\u02CB\u02D7\u02E1\u02E6\u0333\u048D\u0100;o\u0179\u02A5trahd;\u6911cy;\u4402cy;\u4405cy;\u440F\u0180grs\u02BF\u02C4\u02C7ger;\u6021r;\u61A1hv;\u6AE4\u0100ay\u02D0\u02D5ron;\u410E;\u4414l\u0100;t\u02DD\u02DE\u6207a;\u4394r;\uC000\u{1D507}\u0100af\u02EB\u0327\u0100cm\u02F0\u0322ritical\u0200ADGT\u0300\u0306\u0316\u031Ccute;\u40B4o\u0174\u030B\u030D;\u42D9bleAcute;\u42DDrave;\u4060ilde;\u42DCond;\u62C4ferentialD;\u6146\u0470\u033D\0\0\0\u0342\u0354\0\u0405f;\uC000\u{1D53B}\u0180;DE\u0348\u0349\u034D\u40A8ot;\u60DCqual;\u6250ble\u0300CDLRUV\u0363\u0372\u0382\u03CF\u03E2\u03F8ontourIntegra\xEC\u0239o\u0274\u0379\0\0\u037B\xBB\u0349nArrow;\u61D3\u0100eo\u0387\u03A4ft\u0180ART\u0390\u0396\u03A1rrow;\u61D0ightArrow;\u61D4e\xE5\u02CAng\u0100LR\u03AB\u03C4eft\u0100AR\u03B3\u03B9rrow;\u67F8ightArrow;\u67FAightArrow;\u67F9ight\u0100AT\u03D8\u03DErrow;\u61D2ee;\u62A8p\u0241\u03E9\0\0\u03EFrrow;\u61D1ownArrow;\u61D5erticalBar;\u6225n\u0300ABLRTa\u0412\u042A\u0430\u045E\u047F\u037Crrow\u0180;BU\u041D\u041E\u0422\u6193ar;\u6913pArrow;\u61F5reve;\u4311eft\u02D2\u043A\0\u0446\0\u0450ightVector;\u6950eeVector;\u695Eector\u0100;B\u0459\u045A\u61BDar;\u6956ight\u01D4\u0467\0\u0471eeVector;\u695Fector\u0100;B\u047A\u047B\u61C1ar;\u6957ee\u0100;A\u0486\u0487\u62A4rrow;\u61A7\u0100ct\u0492\u0497r;\uC000\u{1D49F}rok;\u4110\u0800NTacdfglmopqstux\u04BD\u04C0\u04C4\u04CB\u04DE\u04E2\u04E7\u04EE\u04F5\u0521\u052F\u0536\u0552\u055D\u0560\u0565G;\u414AH\u803B\xD0\u40D0cute\u803B\xC9\u40C9\u0180aiy\u04D2\u04D7\u04DCron;\u411Arc\u803B\xCA\u40CA;\u442Dot;\u4116r;\uC000\u{1D508}rave\u803B\xC8\u40C8ement;\u6208\u0100ap\u04FA\u04FEcr;\u4112ty\u0253\u0506\0\0\u0512mallSquare;\u65FBerySmallSquare;\u65AB\u0100gp\u0526\u052Aon;\u4118f;\uC000\u{1D53C}silon;\u4395u\u0100ai\u053C\u0549l\u0100;T\u0542\u0543\u6A75ilde;\u6242librium;\u61CC\u0100ci\u0557\u055Ar;\u6130m;\u6A73a;\u4397ml\u803B\xCB\u40CB\u0100ip\u056A\u056Fsts;\u6203onentialE;\u6147\u0280cfios\u0585\u0588\u058D\u05B2\u05CCy;\u4424r;\uC000\u{1D509}lled\u0253\u0597\0\0\u05A3mallSquare;\u65FCerySmallSquare;\u65AA\u0370\u05BA\0\u05BF\0\0\u05C4f;\uC000\u{1D53D}All;\u6200riertrf;\u6131c\xF2\u05CB\u0600JTabcdfgorst\u05E8\u05EC\u05EF\u05FA\u0600\u0612\u0616\u061B\u061D\u0623\u066C\u0672cy;\u4403\u803B>\u403Emma\u0100;d\u05F7\u05F8\u4393;\u43DCreve;\u411E\u0180eiy\u0607\u060C\u0610dil;\u4122rc;\u411C;\u4413ot;\u4120r;\uC000\u{1D50A};\u62D9pf;\uC000\u{1D53E}eater\u0300EFGLST\u0635\u0644\u064E\u0656\u065B\u0666qual\u0100;L\u063E\u063F\u6265ess;\u62DBullEqual;\u6267reater;\u6AA2ess;\u6277lantEqual;\u6A7Eilde;\u6273cr;\uC000\u{1D4A2};\u626B\u0400Aacfiosu\u0685\u068B\u0696\u069B\u069E\u06AA\u06BE\u06CARDcy;\u442A\u0100ct\u0690\u0694ek;\u42C7;\u405Eirc;\u4124r;\u610ClbertSpace;\u610B\u01F0\u06AF\0\u06B2f;\u610DizontalLine;\u6500\u0100ct\u06C3\u06C5\xF2\u06A9rok;\u4126mp\u0144\u06D0\u06D8ownHum\xF0\u012Fqual;\u624F\u0700EJOacdfgmnostu\u06FA\u06FE\u0703\u0707\u070E\u071A\u071E\u0721\u0728\u0744\u0778\u078B\u078F\u0795cy;\u4415lig;\u4132cy;\u4401cute\u803B\xCD\u40CD\u0100iy\u0713\u0718rc\u803B\xCE\u40CE;\u4418ot;\u4130r;\u6111rave\u803B\xCC\u40CC\u0180;ap\u0720\u072F\u073F\u0100cg\u0734\u0737r;\u412AinaryI;\u6148lie\xF3\u03DD\u01F4\u0749\0\u0762\u0100;e\u074D\u074E\u622C\u0100gr\u0753\u0758ral;\u622Bsection;\u62C2isible\u0100CT\u076C\u0772omma;\u6063imes;\u6062\u0180gpt\u077F\u0783\u0788on;\u412Ef;\uC000\u{1D540}a;\u4399cr;\u6110ilde;\u4128\u01EB\u079A\0\u079Ecy;\u4406l\u803B\xCF\u40CF\u0280cfosu\u07AC\u07B7\u07BC\u07C2\u07D0\u0100iy\u07B1\u07B5rc;\u4134;\u4419r;\uC000\u{1D50D}pf;\uC000\u{1D541}\u01E3\u07C7\0\u07CCr;\uC000\u{1D4A5}rcy;\u4408kcy;\u4404\u0380HJacfos\u07E4\u07E8\u07EC\u07F1\u07FD\u0802\u0808cy;\u4425cy;\u440Cppa;\u439A\u0100ey\u07F6\u07FBdil;\u4136;\u441Ar;\uC000\u{1D50E}pf;\uC000\u{1D542}cr;\uC000\u{1D4A6}\u0580JTaceflmost\u0825\u0829\u082C\u0850\u0863\u09B3\u09B8\u09C7\u09CD\u0A37\u0A47cy;\u4409\u803B<\u403C\u0280cmnpr\u0837\u083C\u0841\u0844\u084Dute;\u4139bda;\u439Bg;\u67EAlacetrf;\u6112r;\u619E\u0180aey\u0857\u085C\u0861ron;\u413Ddil;\u413B;\u441B\u0100fs\u0868\u0970t\u0500ACDFRTUVar\u087E\u08A9\u08B1\u08E0\u08E6\u08FC\u092F\u095B\u0390\u096A\u0100nr\u0883\u088FgleBracket;\u67E8row\u0180;BR\u0899\u089A\u089E\u6190ar;\u61E4ightArrow;\u61C6eiling;\u6308o\u01F5\u08B7\0\u08C3bleBracket;\u67E6n\u01D4\u08C8\0\u08D2eeVector;\u6961ector\u0100;B\u08DB\u08DC\u61C3ar;\u6959loor;\u630Aight\u0100AV\u08EF\u08F5rrow;\u6194ector;\u694E\u0100er\u0901\u0917e\u0180;AV\u0909\u090A\u0910\u62A3rrow;\u61A4ector;\u695Aiangle\u0180;BE\u0924\u0925\u0929\u62B2ar;\u69CFqual;\u62B4p\u0180DTV\u0937\u0942\u094CownVector;\u6951eeVector;\u6960ector\u0100;B\u0956\u0957\u61BFar;\u6958ector\u0100;B\u0965\u0966\u61BCar;\u6952ight\xE1\u039Cs\u0300EFGLST\u097E\u098B\u0995\u099D\u09A2\u09ADqualGreater;\u62DAullEqual;\u6266reater;\u6276ess;\u6AA1lantEqual;\u6A7Dilde;\u6272r;\uC000\u{1D50F}\u0100;e\u09BD\u09BE\u62D8ftarrow;\u61DAidot;\u413F\u0180npw\u09D4\u0A16\u0A1Bg\u0200LRlr\u09DE\u09F7\u0A02\u0A10eft\u0100AR\u09E6\u09ECrrow;\u67F5ightArrow;\u67F7ightArrow;\u67F6eft\u0100ar\u03B3\u0A0Aight\xE1\u03BFight\xE1\u03CAf;\uC000\u{1D543}er\u0100LR\u0A22\u0A2CeftArrow;\u6199ightArrow;\u6198\u0180cht\u0A3E\u0A40\u0A42\xF2\u084C;\u61B0rok;\u4141;\u626A\u0400acefiosu\u0A5A\u0A5D\u0A60\u0A77\u0A7C\u0A85\u0A8B\u0A8Ep;\u6905y;\u441C\u0100dl\u0A65\u0A6FiumSpace;\u605Flintrf;\u6133r;\uC000\u{1D510}nusPlus;\u6213pf;\uC000\u{1D544}c\xF2\u0A76;\u439C\u0480Jacefostu\u0AA3\u0AA7\u0AAD\u0AC0\u0B14\u0B19\u0D91\u0D97\u0D9Ecy;\u440Acute;\u4143\u0180aey\u0AB4\u0AB9\u0ABEron;\u4147dil;\u4145;\u441D\u0180gsw\u0AC7\u0AF0\u0B0Eative\u0180MTV\u0AD3\u0ADF\u0AE8ediumSpace;\u600Bhi\u0100cn\u0AE6\u0AD8\xEB\u0AD9eryThi\xEE\u0AD9ted\u0100GL\u0AF8\u0B06reaterGreate\xF2\u0673essLes\xF3\u0A48Line;\u400Ar;\uC000\u{1D511}\u0200Bnpt\u0B22\u0B28\u0B37\u0B3Areak;\u6060BreakingSpace;\u40A0f;\u6115\u0680;CDEGHLNPRSTV\u0B55\u0B56\u0B6A\u0B7C\u0BA1\u0BEB\u0C04\u0C5E\u0C84\u0CA6\u0CD8\u0D61\u0D85\u6AEC\u0100ou\u0B5B\u0B64ngruent;\u6262pCap;\u626DoubleVerticalBar;\u6226\u0180lqx\u0B83\u0B8A\u0B9Bement;\u6209ual\u0100;T\u0B92\u0B93\u6260ilde;\uC000\u2242\u0338ists;\u6204reater\u0380;EFGLST\u0BB6\u0BB7\u0BBD\u0BC9\u0BD3\u0BD8\u0BE5\u626Fqual;\u6271ullEqual;\uC000\u2267\u0338reater;\uC000\u226B\u0338ess;\u6279lantEqual;\uC000\u2A7E\u0338ilde;\u6275ump\u0144\u0BF2\u0BFDownHump;\uC000\u224E\u0338qual;\uC000\u224F\u0338e\u0100fs\u0C0A\u0C27tTriangle\u0180;BE\u0C1A\u0C1B\u0C21\u62EAar;\uC000\u29CF\u0338qual;\u62ECs\u0300;EGLST\u0C35\u0C36\u0C3C\u0C44\u0C4B\u0C58\u626Equal;\u6270reater;\u6278ess;\uC000\u226A\u0338lantEqual;\uC000\u2A7D\u0338ilde;\u6274ested\u0100GL\u0C68\u0C79reaterGreater;\uC000\u2AA2\u0338essLess;\uC000\u2AA1\u0338recedes\u0180;ES\u0C92\u0C93\u0C9B\u6280qual;\uC000\u2AAF\u0338lantEqual;\u62E0\u0100ei\u0CAB\u0CB9verseElement;\u620CghtTriangle\u0180;BE\u0CCB\u0CCC\u0CD2\u62EBar;\uC000\u29D0\u0338qual;\u62ED\u0100qu\u0CDD\u0D0CuareSu\u0100bp\u0CE8\u0CF9set\u0100;E\u0CF0\u0CF3\uC000\u228F\u0338qual;\u62E2erset\u0100;E\u0D03\u0D06\uC000\u2290\u0338qual;\u62E3\u0180bcp\u0D13\u0D24\u0D4Eset\u0100;E\u0D1B\u0D1E\uC000\u2282\u20D2qual;\u6288ceeds\u0200;EST\u0D32\u0D33\u0D3B\u0D46\u6281qual;\uC000\u2AB0\u0338lantEqual;\u62E1ilde;\uC000\u227F\u0338erset\u0100;E\u0D58\u0D5B\uC000\u2283\u20D2qual;\u6289ilde\u0200;EFT\u0D6E\u0D6F\u0D75\u0D7F\u6241qual;\u6244ullEqual;\u6247ilde;\u6249erticalBar;\u6224cr;\uC000\u{1D4A9}ilde\u803B\xD1\u40D1;\u439D\u0700Eacdfgmoprstuv\u0DBD\u0DC2\u0DC9\u0DD5\u0DDB\u0DE0\u0DE7\u0DFC\u0E02\u0E20\u0E22\u0E32\u0E3F\u0E44lig;\u4152cute\u803B\xD3\u40D3\u0100iy\u0DCE\u0DD3rc\u803B\xD4\u40D4;\u441Eblac;\u4150r;\uC000\u{1D512}rave\u803B\xD2\u40D2\u0180aei\u0DEE\u0DF2\u0DF6cr;\u414Cga;\u43A9cron;\u439Fpf;\uC000\u{1D546}enCurly\u0100DQ\u0E0E\u0E1AoubleQuote;\u601Cuote;\u6018;\u6A54\u0100cl\u0E27\u0E2Cr;\uC000\u{1D4AA}ash\u803B\xD8\u40D8i\u016C\u0E37\u0E3Cde\u803B\xD5\u40D5es;\u6A37ml\u803B\xD6\u40D6er\u0100BP\u0E4B\u0E60\u0100ar\u0E50\u0E53r;\u603Eac\u0100ek\u0E5A\u0E5C;\u63DEet;\u63B4arenthesis;\u63DC\u0480acfhilors\u0E7F\u0E87\u0E8A\u0E8F\u0E92\u0E94\u0E9D\u0EB0\u0EFCrtialD;\u6202y;\u441Fr;\uC000\u{1D513}i;\u43A6;\u43A0usMinus;\u40B1\u0100ip\u0EA2\u0EADncareplan\xE5\u069Df;\u6119\u0200;eio\u0EB9\u0EBA\u0EE0\u0EE4\u6ABBcedes\u0200;EST\u0EC8\u0EC9\u0ECF\u0EDA\u627Aqual;\u6AAFlantEqual;\u627Cilde;\u627Eme;\u6033\u0100dp\u0EE9\u0EEEuct;\u620Fortion\u0100;a\u0225\u0EF9l;\u621D\u0100ci\u0F01\u0F06r;\uC000\u{1D4AB};\u43A8\u0200Ufos\u0F11\u0F16\u0F1B\u0F1FOT\u803B"\u4022r;\uC000\u{1D514}pf;\u611Acr;\uC000\u{1D4AC}\u0600BEacefhiorsu\u0F3E\u0F43\u0F47\u0F60\u0F73\u0FA7\u0FAA\u0FAD\u1096\u10A9\u10B4\u10BEarr;\u6910G\u803B\xAE\u40AE\u0180cnr\u0F4E\u0F53\u0F56ute;\u4154g;\u67EBr\u0100;t\u0F5C\u0F5D\u61A0l;\u6916\u0180aey\u0F67\u0F6C\u0F71ron;\u4158dil;\u4156;\u4420\u0100;v\u0F78\u0F79\u611Cerse\u0100EU\u0F82\u0F99\u0100lq\u0F87\u0F8Eement;\u620Builibrium;\u61CBpEquilibrium;\u696Fr\xBB\u0F79o;\u43A1ght\u0400ACDFTUVa\u0FC1\u0FEB\u0FF3\u1022\u1028\u105B\u1087\u03D8\u0100nr\u0FC6\u0FD2gleBracket;\u67E9row\u0180;BL\u0FDC\u0FDD\u0FE1\u6192ar;\u61E5eftArrow;\u61C4eiling;\u6309o\u01F5\u0FF9\0\u1005bleBracket;\u67E7n\u01D4\u100A\0\u1014eeVector;\u695Dector\u0100;B\u101D\u101E\u61C2ar;\u6955loor;\u630B\u0100er\u102D\u1043e\u0180;AV\u1035\u1036\u103C\u62A2rrow;\u61A6ector;\u695Biangle\u0180;BE\u1050\u1051\u1055\u62B3ar;\u69D0qual;\u62B5p\u0180DTV\u1063\u106E\u1078ownVector;\u694FeeVector;\u695Cector\u0100;B\u1082\u1083\u61BEar;\u6954ector\u0100;B\u1091\u1092\u61C0ar;\u6953\u0100pu\u109B\u109Ef;\u611DndImplies;\u6970ightarrow;\u61DB\u0100ch\u10B9\u10BCr;\u611B;\u61B1leDelayed;\u69F4\u0680HOacfhimoqstu\u10E4\u10F1\u10F7\u10FD\u1119\u111E\u1151\u1156\u1161\u1167\u11B5\u11BB\u11BF\u0100Cc\u10E9\u10EEHcy;\u4429y;\u4428FTcy;\u442Ccute;\u415A\u0280;aeiy\u1108\u1109\u110E\u1113\u1117\u6ABCron;\u4160dil;\u415Erc;\u415C;\u4421r;\uC000\u{1D516}ort\u0200DLRU\u112A\u1134\u113E\u1149ownArrow\xBB\u041EeftArrow\xBB\u089AightArrow\xBB\u0FDDpArrow;\u6191gma;\u43A3allCircle;\u6218pf;\uC000\u{1D54A}\u0272\u116D\0\0\u1170t;\u621Aare\u0200;ISU\u117B\u117C\u1189\u11AF\u65A1ntersection;\u6293u\u0100bp\u118F\u119Eset\u0100;E\u1197\u1198\u628Fqual;\u6291erset\u0100;E\u11A8\u11A9\u6290qual;\u6292nion;\u6294cr;\uC000\u{1D4AE}ar;\u62C6\u0200bcmp\u11C8\u11DB\u1209\u120B\u0100;s\u11CD\u11CE\u62D0et\u0100;E\u11CD\u11D5qual;\u6286\u0100ch\u11E0\u1205eeds\u0200;EST\u11ED\u11EE\u11F4\u11FF\u627Bqual;\u6AB0lantEqual;\u627Dilde;\u627FTh\xE1\u0F8C;\u6211\u0180;es\u1212\u1213\u1223\u62D1rset\u0100;E\u121C\u121D\u6283qual;\u6287et\xBB\u1213\u0580HRSacfhiors\u123E\u1244\u1249\u1255\u125E\u1271\u1276\u129F\u12C2\u12C8\u12D1ORN\u803B\xDE\u40DEADE;\u6122\u0100Hc\u124E\u1252cy;\u440By;\u4426\u0100bu\u125A\u125C;\u4009;\u43A4\u0180aey\u1265\u126A\u126Fron;\u4164dil;\u4162;\u4422r;\uC000\u{1D517}\u0100ei\u127B\u1289\u01F2\u1280\0\u1287efore;\u6234a;\u4398\u0100cn\u128E\u1298kSpace;\uC000\u205F\u200ASpace;\u6009lde\u0200;EFT\u12AB\u12AC\u12B2\u12BC\u623Cqual;\u6243ullEqual;\u6245ilde;\u6248pf;\uC000\u{1D54B}ipleDot;\u60DB\u0100ct\u12D6\u12DBr;\uC000\u{1D4AF}rok;\u4166\u0AE1\u12F7\u130E\u131A\u1326\0\u132C\u1331\0\0\0\0\0\u1338\u133D\u1377\u1385\0\u13FF\u1404\u140A\u1410\u0100cr\u12FB\u1301ute\u803B\xDA\u40DAr\u0100;o\u1307\u1308\u619Fcir;\u6949r\u01E3\u1313\0\u1316y;\u440Eve;\u416C\u0100iy\u131E\u1323rc\u803B\xDB\u40DB;\u4423blac;\u4170r;\uC000\u{1D518}rave\u803B\xD9\u40D9acr;\u416A\u0100di\u1341\u1369er\u0100BP\u1348\u135D\u0100ar\u134D\u1350r;\u405Fac\u0100ek\u1357\u1359;\u63DFet;\u63B5arenthesis;\u63DDon\u0100;P\u1370\u1371\u62C3lus;\u628E\u0100gp\u137B\u137Fon;\u4172f;\uC000\u{1D54C}\u0400ADETadps\u1395\u13AE\u13B8\u13C4\u03E8\u13D2\u13D7\u13F3rrow\u0180;BD\u1150\u13A0\u13A4ar;\u6912ownArrow;\u61C5ownArrow;\u6195quilibrium;\u696Eee\u0100;A\u13CB\u13CC\u62A5rrow;\u61A5own\xE1\u03F3er\u0100LR\u13DE\u13E8eftArrow;\u6196ightArrow;\u6197i\u0100;l\u13F9\u13FA\u43D2on;\u43A5ing;\u416Ecr;\uC000\u{1D4B0}ilde;\u4168ml\u803B\xDC\u40DC\u0480Dbcdefosv\u1427\u142C\u1430\u1433\u143E\u1485\u148A\u1490\u1496ash;\u62ABar;\u6AEBy;\u4412ash\u0100;l\u143B\u143C\u62A9;\u6AE6\u0100er\u1443\u1445;\u62C1\u0180bty\u144C\u1450\u147Aar;\u6016\u0100;i\u144F\u1455cal\u0200BLST\u1461\u1465\u146A\u1474ar;\u6223ine;\u407Ceparator;\u6758ilde;\u6240ThinSpace;\u600Ar;\uC000\u{1D519}pf;\uC000\u{1D54D}cr;\uC000\u{1D4B1}dash;\u62AA\u0280cefos\u14A7\u14AC\u14B1\u14B6\u14BCirc;\u4174dge;\u62C0r;\uC000\u{1D51A}pf;\uC000\u{1D54E}cr;\uC000\u{1D4B2}\u0200fios\u14CB\u14D0\u14D2\u14D8r;\uC000\u{1D51B};\u439Epf;\uC000\u{1D54F}cr;\uC000\u{1D4B3}\u0480AIUacfosu\u14F1\u14F5\u14F9\u14FD\u1504\u150F\u1514\u151A\u1520cy;\u442Fcy;\u4407cy;\u442Ecute\u803B\xDD\u40DD\u0100iy\u1509\u150Drc;\u4176;\u442Br;\uC000\u{1D51C}pf;\uC000\u{1D550}cr;\uC000\u{1D4B4}ml;\u4178\u0400Hacdefos\u1535\u1539\u153F\u154B\u154F\u155D\u1560\u1564cy;\u4416cute;\u4179\u0100ay\u1544\u1549ron;\u417D;\u4417ot;\u417B\u01F2\u1554\0\u155BoWidt\xE8\u0AD9a;\u4396r;\u6128pf;\u6124cr;\uC000\u{1D4B5}\u0BE1\u1583\u158A\u1590\0\u15B0\u15B6\u15BF\0\0\0\0\u15C6\u15DB\u15EB\u165F\u166D\0\u1695\u169B\u16B2\u16B9\0\u16BEcute\u803B\xE1\u40E1reve;\u4103\u0300;Ediuy\u159C\u159D\u15A1\u15A3\u15A8\u15AD\u623E;\uC000\u223E\u0333;\u623Frc\u803B\xE2\u40E2te\u80BB\xB4\u0306;\u4430lig\u803B\xE6\u40E6\u0100;r\xB2\u15BA;\uC000\u{1D51E}rave\u803B\xE0\u40E0\u0100ep\u15CA\u15D6\u0100fp\u15CF\u15D4sym;\u6135\xE8\u15D3ha;\u43B1\u0100ap\u15DFc\u0100cl\u15E4\u15E7r;\u4101g;\u6A3F\u0264\u15F0\0\0\u160A\u0280;adsv\u15FA\u15FB\u15FF\u1601\u1607\u6227nd;\u6A55;\u6A5Clope;\u6A58;\u6A5A\u0380;elmrsz\u1618\u1619\u161B\u161E\u163F\u164F\u1659\u6220;\u69A4e\xBB\u1619sd\u0100;a\u1625\u1626\u6221\u0461\u1630\u1632\u1634\u1636\u1638\u163A\u163C\u163E;\u69A8;\u69A9;\u69AA;\u69AB;\u69AC;\u69AD;\u69AE;\u69AFt\u0100;v\u1645\u1646\u621Fb\u0100;d\u164C\u164D\u62BE;\u699D\u0100pt\u1654\u1657h;\u6222\xBB\xB9arr;\u637C\u0100gp\u1663\u1667on;\u4105f;\uC000\u{1D552}\u0380;Eaeiop\u12C1\u167B\u167D\u1682\u1684\u1687\u168A;\u6A70cir;\u6A6F;\u624Ad;\u624Bs;\u4027rox\u0100;e\u12C1\u1692\xF1\u1683ing\u803B\xE5\u40E5\u0180cty\u16A1\u16A6\u16A8r;\uC000\u{1D4B6};\u402Amp\u0100;e\u12C1\u16AF\xF1\u0288ilde\u803B\xE3\u40E3ml\u803B\xE4\u40E4\u0100ci\u16C2\u16C8onin\xF4\u0272nt;\u6A11\u0800Nabcdefiklnoprsu\u16ED\u16F1\u1730\u173C\u1743\u1748\u1778\u177D\u17E0\u17E6\u1839\u1850\u170D\u193D\u1948\u1970ot;\u6AED\u0100cr\u16F6\u171Ek\u0200ceps\u1700\u1705\u170D\u1713ong;\u624Cpsilon;\u43F6rime;\u6035im\u0100;e\u171A\u171B\u623Dq;\u62CD\u0176\u1722\u1726ee;\u62BDed\u0100;g\u172C\u172D\u6305e\xBB\u172Drk\u0100;t\u135C\u1737brk;\u63B6\u0100oy\u1701\u1741;\u4431quo;\u601E\u0280cmprt\u1753\u175B\u1761\u1764\u1768aus\u0100;e\u010A\u0109ptyv;\u69B0s\xE9\u170Cno\xF5\u0113\u0180ahw\u176F\u1771\u1773;\u43B2;\u6136een;\u626Cr;\uC000\u{1D51F}g\u0380costuvw\u178D\u179D\u17B3\u17C1\u17D5\u17DB\u17DE\u0180aiu\u1794\u1796\u179A\xF0\u0760rc;\u65EFp\xBB\u1371\u0180dpt\u17A4\u17A8\u17ADot;\u6A00lus;\u6A01imes;\u6A02\u0271\u17B9\0\0\u17BEcup;\u6A06ar;\u6605riangle\u0100du\u17CD\u17D2own;\u65BDp;\u65B3plus;\u6A04e\xE5\u1444\xE5\u14ADarow;\u690D\u0180ako\u17ED\u1826\u1835\u0100cn\u17F2\u1823k\u0180lst\u17FA\u05AB\u1802ozenge;\u69EBriangle\u0200;dlr\u1812\u1813\u1818\u181D\u65B4own;\u65BEeft;\u65C2ight;\u65B8k;\u6423\u01B1\u182B\0\u1833\u01B2\u182F\0\u1831;\u6592;\u65914;\u6593ck;\u6588\u0100eo\u183E\u184D\u0100;q\u1843\u1846\uC000=\u20E5uiv;\uC000\u2261\u20E5t;\u6310\u0200ptwx\u1859\u185E\u1867\u186Cf;\uC000\u{1D553}\u0100;t\u13CB\u1863om\xBB\u13CCtie;\u62C8\u0600DHUVbdhmptuv\u1885\u1896\u18AA\u18BB\u18D7\u18DB\u18EC\u18FF\u1905\u190A\u1910\u1921\u0200LRlr\u188E\u1890\u1892\u1894;\u6557;\u6554;\u6556;\u6553\u0280;DUdu\u18A1\u18A2\u18A4\u18A6\u18A8\u6550;\u6566;\u6569;\u6564;\u6567\u0200LRlr\u18B3\u18B5\u18B7\u18B9;\u655D;\u655A;\u655C;\u6559\u0380;HLRhlr\u18CA\u18CB\u18CD\u18CF\u18D1\u18D3\u18D5\u6551;\u656C;\u6563;\u6560;\u656B;\u6562;\u655Fox;\u69C9\u0200LRlr\u18E4\u18E6\u18E8\u18EA;\u6555;\u6552;\u6510;\u650C\u0280;DUdu\u06BD\u18F7\u18F9\u18FB\u18FD;\u6565;\u6568;\u652C;\u6534inus;\u629Flus;\u629Eimes;\u62A0\u0200LRlr\u1919\u191B\u191D\u191F;\u655B;\u6558;\u6518;\u6514\u0380;HLRhlr\u1930\u1931\u1933\u1935\u1937\u1939\u193B\u6502;\u656A;\u6561;\u655E;\u653C;\u6524;\u651C\u0100ev\u0123\u1942bar\u803B\xA6\u40A6\u0200ceio\u1951\u1956\u195A\u1960r;\uC000\u{1D4B7}mi;\u604Fm\u0100;e\u171A\u171Cl\u0180;bh\u1968\u1969\u196B\u405C;\u69C5sub;\u67C8\u016C\u1974\u197El\u0100;e\u1979\u197A\u6022t\xBB\u197Ap\u0180;Ee\u012F\u1985\u1987;\u6AAE\u0100;q\u06DC\u06DB\u0CE1\u19A7\0\u19E8\u1A11\u1A15\u1A32\0\u1A37\u1A50\0\0\u1AB4\0\0\u1AC1\0\0\u1B21\u1B2E\u1B4D\u1B52\0\u1BFD\0\u1C0C\u0180cpr\u19AD\u19B2\u19DDute;\u4107\u0300;abcds\u19BF\u19C0\u19C4\u19CA\u19D5\u19D9\u6229nd;\u6A44rcup;\u6A49\u0100au\u19CF\u19D2p;\u6A4Bp;\u6A47ot;\u6A40;\uC000\u2229\uFE00\u0100eo\u19E2\u19E5t;\u6041\xEE\u0693\u0200aeiu\u19F0\u19FB\u1A01\u1A05\u01F0\u19F5\0\u19F8s;\u6A4Don;\u410Ddil\u803B\xE7\u40E7rc;\u4109ps\u0100;s\u1A0C\u1A0D\u6A4Cm;\u6A50ot;\u410B\u0180dmn\u1A1B\u1A20\u1A26il\u80BB\xB8\u01ADptyv;\u69B2t\u8100\xA2;e\u1A2D\u1A2E\u40A2r\xE4\u01B2r;\uC000\u{1D520}\u0180cei\u1A3D\u1A40\u1A4Dy;\u4447ck\u0100;m\u1A47\u1A48\u6713ark\xBB\u1A48;\u43C7r\u0380;Ecefms\u1A5F\u1A60\u1A62\u1A6B\u1AA4\u1AAA\u1AAE\u65CB;\u69C3\u0180;el\u1A69\u1A6A\u1A6D\u42C6q;\u6257e\u0261\u1A74\0\0\u1A88rrow\u0100lr\u1A7C\u1A81eft;\u61BAight;\u61BB\u0280RSacd\u1A92\u1A94\u1A96\u1A9A\u1A9F\xBB\u0F47;\u64C8st;\u629Birc;\u629Aash;\u629Dnint;\u6A10id;\u6AEFcir;\u69C2ubs\u0100;u\u1ABB\u1ABC\u6663it\xBB\u1ABC\u02EC\u1AC7\u1AD4\u1AFA\0\u1B0Aon\u0100;e\u1ACD\u1ACE\u403A\u0100;q\xC7\xC6\u026D\u1AD9\0\0\u1AE2a\u0100;t\u1ADE\u1ADF\u402C;\u4040\u0180;fl\u1AE8\u1AE9\u1AEB\u6201\xEE\u1160e\u0100mx\u1AF1\u1AF6ent\xBB\u1AE9e\xF3\u024D\u01E7\u1AFE\0\u1B07\u0100;d\u12BB\u1B02ot;\u6A6Dn\xF4\u0246\u0180fry\u1B10\u1B14\u1B17;\uC000\u{1D554}o\xE4\u0254\u8100\xA9;s\u0155\u1B1Dr;\u6117\u0100ao\u1B25\u1B29rr;\u61B5ss;\u6717\u0100cu\u1B32\u1B37r;\uC000\u{1D4B8}\u0100bp\u1B3C\u1B44\u0100;e\u1B41\u1B42\u6ACF;\u6AD1\u0100;e\u1B49\u1B4A\u6AD0;\u6AD2dot;\u62EF\u0380delprvw\u1B60\u1B6C\u1B77\u1B82\u1BAC\u1BD4\u1BF9arr\u0100lr\u1B68\u1B6A;\u6938;\u6935\u0270\u1B72\0\0\u1B75r;\u62DEc;\u62DFarr\u0100;p\u1B7F\u1B80\u61B6;\u693D\u0300;bcdos\u1B8F\u1B90\u1B96\u1BA1\u1BA5\u1BA8\u622Arcap;\u6A48\u0100au\u1B9B\u1B9Ep;\u6A46p;\u6A4Aot;\u628Dr;\u6A45;\uC000\u222A\uFE00\u0200alrv\u1BB5\u1BBF\u1BDE\u1BE3rr\u0100;m\u1BBC\u1BBD\u61B7;\u693Cy\u0180evw\u1BC7\u1BD4\u1BD8q\u0270\u1BCE\0\0\u1BD2re\xE3\u1B73u\xE3\u1B75ee;\u62CEedge;\u62CFen\u803B\xA4\u40A4earrow\u0100lr\u1BEE\u1BF3eft\xBB\u1B80ight\xBB\u1BBDe\xE4\u1BDD\u0100ci\u1C01\u1C07onin\xF4\u01F7nt;\u6231lcty;\u632D\u0980AHabcdefhijlorstuwz\u1C38\u1C3B\u1C3F\u1C5D\u1C69\u1C75\u1C8A\u1C9E\u1CAC\u1CB7\u1CFB\u1CFF\u1D0D\u1D7B\u1D91\u1DAB\u1DBB\u1DC6\u1DCDr\xF2\u0381ar;\u6965\u0200glrs\u1C48\u1C4D\u1C52\u1C54ger;\u6020eth;\u6138\xF2\u1133h\u0100;v\u1C5A\u1C5B\u6010\xBB\u090A\u016B\u1C61\u1C67arow;\u690Fa\xE3\u0315\u0100ay\u1C6E\u1C73ron;\u410F;\u4434\u0180;ao\u0332\u1C7C\u1C84\u0100gr\u02BF\u1C81r;\u61CAtseq;\u6A77\u0180glm\u1C91\u1C94\u1C98\u803B\xB0\u40B0ta;\u43B4ptyv;\u69B1\u0100ir\u1CA3\u1CA8sht;\u697F;\uC000\u{1D521}ar\u0100lr\u1CB3\u1CB5\xBB\u08DC\xBB\u101E\u0280aegsv\u1CC2\u0378\u1CD6\u1CDC\u1CE0m\u0180;os\u0326\u1CCA\u1CD4nd\u0100;s\u0326\u1CD1uit;\u6666amma;\u43DDin;\u62F2\u0180;io\u1CE7\u1CE8\u1CF8\u40F7de\u8100\xF7;o\u1CE7\u1CF0ntimes;\u62C7n\xF8\u1CF7cy;\u4452c\u026F\u1D06\0\0\u1D0Arn;\u631Eop;\u630D\u0280lptuw\u1D18\u1D1D\u1D22\u1D49\u1D55lar;\u4024f;\uC000\u{1D555}\u0280;emps\u030B\u1D2D\u1D37\u1D3D\u1D42q\u0100;d\u0352\u1D33ot;\u6251inus;\u6238lus;\u6214quare;\u62A1blebarwedg\xE5\xFAn\u0180adh\u112E\u1D5D\u1D67ownarrow\xF3\u1C83arpoon\u0100lr\u1D72\u1D76ef\xF4\u1CB4igh\xF4\u1CB6\u0162\u1D7F\u1D85karo\xF7\u0F42\u026F\u1D8A\0\0\u1D8Ern;\u631Fop;\u630C\u0180cot\u1D98\u1DA3\u1DA6\u0100ry\u1D9D\u1DA1;\uC000\u{1D4B9};\u4455l;\u69F6rok;\u4111\u0100dr\u1DB0\u1DB4ot;\u62F1i\u0100;f\u1DBA\u1816\u65BF\u0100ah\u1DC0\u1DC3r\xF2\u0429a\xF2\u0FA6angle;\u69A6\u0100ci\u1DD2\u1DD5y;\u445Fgrarr;\u67FF\u0900Dacdefglmnopqrstux\u1E01\u1E09\u1E19\u1E38\u0578\u1E3C\u1E49\u1E61\u1E7E\u1EA5\u1EAF\u1EBD\u1EE1\u1F2A\u1F37\u1F44\u1F4E\u1F5A\u0100Do\u1E06\u1D34o\xF4\u1C89\u0100cs\u1E0E\u1E14ute\u803B\xE9\u40E9ter;\u6A6E\u0200aioy\u1E22\u1E27\u1E31\u1E36ron;\u411Br\u0100;c\u1E2D\u1E2E\u6256\u803B\xEA\u40EAlon;\u6255;\u444Dot;\u4117\u0100Dr\u1E41\u1E45ot;\u6252;\uC000\u{1D522}\u0180;rs\u1E50\u1E51\u1E57\u6A9Aave\u803B\xE8\u40E8\u0100;d\u1E5C\u1E5D\u6A96ot;\u6A98\u0200;ils\u1E6A\u1E6B\u1E72\u1E74\u6A99nters;\u63E7;\u6113\u0100;d\u1E79\u1E7A\u6A95ot;\u6A97\u0180aps\u1E85\u1E89\u1E97cr;\u4113ty\u0180;sv\u1E92\u1E93\u1E95\u6205et\xBB\u1E93p\u01001;\u1E9D\u1EA4\u0133\u1EA1\u1EA3;\u6004;\u6005\u6003\u0100gs\u1EAA\u1EAC;\u414Bp;\u6002\u0100gp\u1EB4\u1EB8on;\u4119f;\uC000\u{1D556}\u0180als\u1EC4\u1ECE\u1ED2r\u0100;s\u1ECA\u1ECB\u62D5l;\u69E3us;\u6A71i\u0180;lv\u1EDA\u1EDB\u1EDF\u43B5on\xBB\u1EDB;\u43F5\u0200csuv\u1EEA\u1EF3\u1F0B\u1F23\u0100io\u1EEF\u1E31rc\xBB\u1E2E\u0269\u1EF9\0\0\u1EFB\xED\u0548ant\u0100gl\u1F02\u1F06tr\xBB\u1E5Dess\xBB\u1E7A\u0180aei\u1F12\u1F16\u1F1Als;\u403Dst;\u625Fv\u0100;D\u0235\u1F20D;\u6A78parsl;\u69E5\u0100Da\u1F2F\u1F33ot;\u6253rr;\u6971\u0180cdi\u1F3E\u1F41\u1EF8r;\u612Fo\xF4\u0352\u0100ah\u1F49\u1F4B;\u43B7\u803B\xF0\u40F0\u0100mr\u1F53\u1F57l\u803B\xEB\u40EBo;\u60AC\u0180cip\u1F61\u1F64\u1F67l;\u4021s\xF4\u056E\u0100eo\u1F6C\u1F74ctatio\xEE\u0559nential\xE5\u0579\u09E1\u1F92\0\u1F9E\0\u1FA1\u1FA7\0\0\u1FC6\u1FCC\0\u1FD3\0\u1FE6\u1FEA\u2000\0\u2008\u205Allingdotse\xF1\u1E44y;\u4444male;\u6640\u0180ilr\u1FAD\u1FB3\u1FC1lig;\u8000\uFB03\u0269\u1FB9\0\0\u1FBDg;\u8000\uFB00ig;\u8000\uFB04;\uC000\u{1D523}lig;\u8000\uFB01lig;\uC000fj\u0180alt\u1FD9\u1FDC\u1FE1t;\u666Dig;\u8000\uFB02ns;\u65B1of;\u4192\u01F0\u1FEE\0\u1FF3f;\uC000\u{1D557}\u0100ak\u05BF\u1FF7\u0100;v\u1FFC\u1FFD\u62D4;\u6AD9artint;\u6A0D\u0100ao\u200C\u2055\u0100cs\u2011\u2052\u03B1\u201A\u2030\u2038\u2045\u2048\0\u2050\u03B2\u2022\u2025\u2027\u202A\u202C\0\u202E\u803B\xBD\u40BD;\u6153\u803B\xBC\u40BC;\u6155;\u6159;\u615B\u01B3\u2034\0\u2036;\u6154;\u6156\u02B4\u203E\u2041\0\0\u2043\u803B\xBE\u40BE;\u6157;\u615C5;\u6158\u01B6\u204C\0\u204E;\u615A;\u615D8;\u615El;\u6044wn;\u6322cr;\uC000\u{1D4BB}\u0880Eabcdefgijlnorstv\u2082\u2089\u209F\u20A5\u20B0\u20B4\u20F0\u20F5\u20FA\u20FF\u2103\u2112\u2138\u0317\u213E\u2152\u219E\u0100;l\u064D\u2087;\u6A8C\u0180cmp\u2090\u2095\u209Dute;\u41F5ma\u0100;d\u209C\u1CDA\u43B3;\u6A86reve;\u411F\u0100iy\u20AA\u20AErc;\u411D;\u4433ot;\u4121\u0200;lqs\u063E\u0642\u20BD\u20C9\u0180;qs\u063E\u064C\u20C4lan\xF4\u0665\u0200;cdl\u0665\u20D2\u20D5\u20E5c;\u6AA9ot\u0100;o\u20DC\u20DD\u6A80\u0100;l\u20E2\u20E3\u6A82;\u6A84\u0100;e\u20EA\u20ED\uC000\u22DB\uFE00s;\u6A94r;\uC000\u{1D524}\u0100;g\u0673\u061Bmel;\u6137cy;\u4453\u0200;Eaj\u065A\u210C\u210E\u2110;\u6A92;\u6AA5;\u6AA4\u0200Eaes\u211B\u211D\u2129\u2134;\u6269p\u0100;p\u2123\u2124\u6A8Arox\xBB\u2124\u0100;q\u212E\u212F\u6A88\u0100;q\u212E\u211Bim;\u62E7pf;\uC000\u{1D558}\u0100ci\u2143\u2146r;\u610Am\u0180;el\u066B\u214E\u2150;\u6A8E;\u6A90\u8300>;cdlqr\u05EE\u2160\u216A\u216E\u2173\u2179\u0100ci\u2165\u2167;\u6AA7r;\u6A7Aot;\u62D7Par;\u6995uest;\u6A7C\u0280adels\u2184\u216A\u2190\u0656\u219B\u01F0\u2189\0\u218Epro\xF8\u209Er;\u6978q\u0100lq\u063F\u2196les\xF3\u2088i\xED\u066B\u0100en\u21A3\u21ADrtneqq;\uC000\u2269\uFE00\xC5\u21AA\u0500Aabcefkosy\u21C4\u21C7\u21F1\u21F5\u21FA\u2218\u221D\u222F\u2268\u227Dr\xF2\u03A0\u0200ilmr\u21D0\u21D4\u21D7\u21DBrs\xF0\u1484f\xBB\u2024il\xF4\u06A9\u0100dr\u21E0\u21E4cy;\u444A\u0180;cw\u08F4\u21EB\u21EFir;\u6948;\u61ADar;\u610Firc;\u4125\u0180alr\u2201\u220E\u2213rts\u0100;u\u2209\u220A\u6665it\xBB\u220Alip;\u6026con;\u62B9r;\uC000\u{1D525}s\u0100ew\u2223\u2229arow;\u6925arow;\u6926\u0280amopr\u223A\u223E\u2243\u225E\u2263rr;\u61FFtht;\u623Bk\u0100lr\u2249\u2253eftarrow;\u61A9ightarrow;\u61AAf;\uC000\u{1D559}bar;\u6015\u0180clt\u226F\u2274\u2278r;\uC000\u{1D4BD}as\xE8\u21F4rok;\u4127\u0100bp\u2282\u2287ull;\u6043hen\xBB\u1C5B\u0AE1\u22A3\0\u22AA\0\u22B8\u22C5\u22CE\0\u22D5\u22F3\0\0\u22F8\u2322\u2367\u2362\u237F\0\u2386\u23AA\u23B4cute\u803B\xED\u40ED\u0180;iy\u0771\u22B0\u22B5rc\u803B\xEE\u40EE;\u4438\u0100cx\u22BC\u22BFy;\u4435cl\u803B\xA1\u40A1\u0100fr\u039F\u22C9;\uC000\u{1D526}rave\u803B\xEC\u40EC\u0200;ino\u073E\u22DD\u22E9\u22EE\u0100in\u22E2\u22E6nt;\u6A0Ct;\u622Dfin;\u69DCta;\u6129lig;\u4133\u0180aop\u22FE\u231A\u231D\u0180cgt\u2305\u2308\u2317r;\u412B\u0180elp\u071F\u230F\u2313in\xE5\u078Ear\xF4\u0720h;\u4131f;\u62B7ed;\u41B5\u0280;cfot\u04F4\u232C\u2331\u233D\u2341are;\u6105in\u0100;t\u2338\u2339\u621Eie;\u69DDdo\xF4\u2319\u0280;celp\u0757\u234C\u2350\u235B\u2361al;\u62BA\u0100gr\u2355\u2359er\xF3\u1563\xE3\u234Darhk;\u6A17rod;\u6A3C\u0200cgpt\u236F\u2372\u2376\u237By;\u4451on;\u412Ff;\uC000\u{1D55A}a;\u43B9uest\u803B\xBF\u40BF\u0100ci\u238A\u238Fr;\uC000\u{1D4BE}n\u0280;Edsv\u04F4\u239B\u239D\u23A1\u04F3;\u62F9ot;\u62F5\u0100;v\u23A6\u23A7\u62F4;\u62F3\u0100;i\u0777\u23AElde;\u4129\u01EB\u23B8\0\u23BCcy;\u4456l\u803B\xEF\u40EF\u0300cfmosu\u23CC\u23D7\u23DC\u23E1\u23E7\u23F5\u0100iy\u23D1\u23D5rc;\u4135;\u4439r;\uC000\u{1D527}ath;\u4237pf;\uC000\u{1D55B}\u01E3\u23EC\0\u23F1r;\uC000\u{1D4BF}rcy;\u4458kcy;\u4454\u0400acfghjos\u240B\u2416\u2422\u2427\u242D\u2431\u2435\u243Bppa\u0100;v\u2413\u2414\u43BA;\u43F0\u0100ey\u241B\u2420dil;\u4137;\u443Ar;\uC000\u{1D528}reen;\u4138cy;\u4445cy;\u445Cpf;\uC000\u{1D55C}cr;\uC000\u{1D4C0}\u0B80ABEHabcdefghjlmnoprstuv\u2470\u2481\u2486\u248D\u2491\u250E\u253D\u255A\u2580\u264E\u265E\u2665\u2679\u267D\u269A\u26B2\u26D8\u275D\u2768\u278B\u27C0\u2801\u2812\u0180art\u2477\u247A\u247Cr\xF2\u09C6\xF2\u0395ail;\u691Barr;\u690E\u0100;g\u0994\u248B;\u6A8Bar;\u6962\u0963\u24A5\0\u24AA\0\u24B1\0\0\0\0\0\u24B5\u24BA\0\u24C6\u24C8\u24CD\0\u24F9ute;\u413Amptyv;\u69B4ra\xEE\u084Cbda;\u43BBg\u0180;dl\u088E\u24C1\u24C3;\u6991\xE5\u088E;\u6A85uo\u803B\xAB\u40ABr\u0400;bfhlpst\u0899\u24DE\u24E6\u24E9\u24EB\u24EE\u24F1\u24F5\u0100;f\u089D\u24E3s;\u691Fs;\u691D\xEB\u2252p;\u61ABl;\u6939im;\u6973l;\u61A2\u0180;ae\u24FF\u2500\u2504\u6AABil;\u6919\u0100;s\u2509\u250A\u6AAD;\uC000\u2AAD\uFE00\u0180abr\u2515\u2519\u251Drr;\u690Crk;\u6772\u0100ak\u2522\u252Cc\u0100ek\u2528\u252A;\u407B;\u405B\u0100es\u2531\u2533;\u698Bl\u0100du\u2539\u253B;\u698F;\u698D\u0200aeuy\u2546\u254B\u2556\u2558ron;\u413E\u0100di\u2550\u2554il;\u413C\xEC\u08B0\xE2\u2529;\u443B\u0200cqrs\u2563\u2566\u256D\u257Da;\u6936uo\u0100;r\u0E19\u1746\u0100du\u2572\u2577har;\u6967shar;\u694Bh;\u61B2\u0280;fgqs\u258B\u258C\u0989\u25F3\u25FF\u6264t\u0280ahlrt\u2598\u25A4\u25B7\u25C2\u25E8rrow\u0100;t\u0899\u25A1a\xE9\u24F6arpoon\u0100du\u25AF\u25B4own\xBB\u045Ap\xBB\u0966eftarrows;\u61C7ight\u0180ahs\u25CD\u25D6\u25DErrow\u0100;s\u08F4\u08A7arpoon\xF3\u0F98quigarro\xF7\u21F0hreetimes;\u62CB\u0180;qs\u258B\u0993\u25FAlan\xF4\u09AC\u0280;cdgs\u09AC\u260A\u260D\u261D\u2628c;\u6AA8ot\u0100;o\u2614\u2615\u6A7F\u0100;r\u261A\u261B\u6A81;\u6A83\u0100;e\u2622\u2625\uC000\u22DA\uFE00s;\u6A93\u0280adegs\u2633\u2639\u263D\u2649\u264Bppro\xF8\u24C6ot;\u62D6q\u0100gq\u2643\u2645\xF4\u0989gt\xF2\u248C\xF4\u099Bi\xED\u09B2\u0180ilr\u2655\u08E1\u265Asht;\u697C;\uC000\u{1D529}\u0100;E\u099C\u2663;\u6A91\u0161\u2669\u2676r\u0100du\u25B2\u266E\u0100;l\u0965\u2673;\u696Alk;\u6584cy;\u4459\u0280;acht\u0A48\u2688\u268B\u2691\u2696r\xF2\u25C1orne\xF2\u1D08ard;\u696Bri;\u65FA\u0100io\u269F\u26A4dot;\u4140ust\u0100;a\u26AC\u26AD\u63B0che\xBB\u26AD\u0200Eaes\u26BB\u26BD\u26C9\u26D4;\u6268p\u0100;p\u26C3\u26C4\u6A89rox\xBB\u26C4\u0100;q\u26CE\u26CF\u6A87\u0100;q\u26CE\u26BBim;\u62E6\u0400abnoptwz\u26E9\u26F4\u26F7\u271A\u272F\u2741\u2747\u2750\u0100nr\u26EE\u26F1g;\u67ECr;\u61FDr\xEB\u08C1g\u0180lmr\u26FF\u270D\u2714eft\u0100ar\u09E6\u2707ight\xE1\u09F2apsto;\u67FCight\xE1\u09FDparrow\u0100lr\u2725\u2729ef\xF4\u24EDight;\u61AC\u0180afl\u2736\u2739\u273Dr;\u6985;\uC000\u{1D55D}us;\u6A2Dimes;\u6A34\u0161\u274B\u274Fst;\u6217\xE1\u134E\u0180;ef\u2757\u2758\u1800\u65CAnge\xBB\u2758ar\u0100;l\u2764\u2765\u4028t;\u6993\u0280achmt\u2773\u2776\u277C\u2785\u2787r\xF2\u08A8orne\xF2\u1D8Car\u0100;d\u0F98\u2783;\u696D;\u600Eri;\u62BF\u0300achiqt\u2798\u279D\u0A40\u27A2\u27AE\u27BBquo;\u6039r;\uC000\u{1D4C1}m\u0180;eg\u09B2\u27AA\u27AC;\u6A8D;\u6A8F\u0100bu\u252A\u27B3o\u0100;r\u0E1F\u27B9;\u601Arok;\u4142\u8400<;cdhilqr\u082B\u27D2\u2639\u27DC\u27E0\u27E5\u27EA\u27F0\u0100ci\u27D7\u27D9;\u6AA6r;\u6A79re\xE5\u25F2mes;\u62C9arr;\u6976uest;\u6A7B\u0100Pi\u27F5\u27F9ar;\u6996\u0180;ef\u2800\u092D\u181B\u65C3r\u0100du\u2807\u280Dshar;\u694Ahar;\u6966\u0100en\u2817\u2821rtneqq;\uC000\u2268\uFE00\xC5\u281E\u0700Dacdefhilnopsu\u2840\u2845\u2882\u288E\u2893\u28A0\u28A5\u28A8\u28DA\u28E2\u28E4\u0A83\u28F3\u2902Dot;\u623A\u0200clpr\u284E\u2852\u2863\u287Dr\u803B\xAF\u40AF\u0100et\u2857\u2859;\u6642\u0100;e\u285E\u285F\u6720se\xBB\u285F\u0100;s\u103B\u2868to\u0200;dlu\u103B\u2873\u2877\u287Bow\xEE\u048Cef\xF4\u090F\xF0\u13D1ker;\u65AE\u0100oy\u2887\u288Cmma;\u6A29;\u443Cash;\u6014asuredangle\xBB\u1626r;\uC000\u{1D52A}o;\u6127\u0180cdn\u28AF\u28B4\u28C9ro\u803B\xB5\u40B5\u0200;acd\u1464\u28BD\u28C0\u28C4s\xF4\u16A7ir;\u6AF0ot\u80BB\xB7\u01B5us\u0180;bd\u28D2\u1903\u28D3\u6212\u0100;u\u1D3C\u28D8;\u6A2A\u0163\u28DE\u28E1p;\u6ADB\xF2\u2212\xF0\u0A81\u0100dp\u28E9\u28EEels;\u62A7f;\uC000\u{1D55E}\u0100ct\u28F8\u28FDr;\uC000\u{1D4C2}pos\xBB\u159D\u0180;lm\u2909\u290A\u290D\u43BCtimap;\u62B8\u0C00GLRVabcdefghijlmoprstuvw\u2942\u2953\u297E\u2989\u2998\u29DA\u29E9\u2A15\u2A1A\u2A58\u2A5D\u2A83\u2A95\u2AA4\u2AA8\u2B04\u2B07\u2B44\u2B7F\u2BAE\u2C34\u2C67\u2C7C\u2CE9\u0100gt\u2947\u294B;\uC000\u22D9\u0338\u0100;v\u2950\u0BCF\uC000\u226B\u20D2\u0180elt\u295A\u2972\u2976ft\u0100ar\u2961\u2967rrow;\u61CDightarrow;\u61CE;\uC000\u22D8\u0338\u0100;v\u297B\u0C47\uC000\u226A\u20D2ightarrow;\u61CF\u0100Dd\u298E\u2993ash;\u62AFash;\u62AE\u0280bcnpt\u29A3\u29A7\u29AC\u29B1\u29CCla\xBB\u02DEute;\u4144g;\uC000\u2220\u20D2\u0280;Eiop\u0D84\u29BC\u29C0\u29C5\u29C8;\uC000\u2A70\u0338d;\uC000\u224B\u0338s;\u4149ro\xF8\u0D84ur\u0100;a\u29D3\u29D4\u666El\u0100;s\u29D3\u0B38\u01F3\u29DF\0\u29E3p\u80BB\xA0\u0B37mp\u0100;e\u0BF9\u0C00\u0280aeouy\u29F4\u29FE\u2A03\u2A10\u2A13\u01F0\u29F9\0\u29FB;\u6A43on;\u4148dil;\u4146ng\u0100;d\u0D7E\u2A0Aot;\uC000\u2A6D\u0338p;\u6A42;\u443Dash;\u6013\u0380;Aadqsx\u0B92\u2A29\u2A2D\u2A3B\u2A41\u2A45\u2A50rr;\u61D7r\u0100hr\u2A33\u2A36k;\u6924\u0100;o\u13F2\u13F0ot;\uC000\u2250\u0338ui\xF6\u0B63\u0100ei\u2A4A\u2A4Ear;\u6928\xED\u0B98ist\u0100;s\u0BA0\u0B9Fr;\uC000\u{1D52B}\u0200Eest\u0BC5\u2A66\u2A79\u2A7C\u0180;qs\u0BBC\u2A6D\u0BE1\u0180;qs\u0BBC\u0BC5\u2A74lan\xF4\u0BE2i\xED\u0BEA\u0100;r\u0BB6\u2A81\xBB\u0BB7\u0180Aap\u2A8A\u2A8D\u2A91r\xF2\u2971rr;\u61AEar;\u6AF2\u0180;sv\u0F8D\u2A9C\u0F8C\u0100;d\u2AA1\u2AA2\u62FC;\u62FAcy;\u445A\u0380AEadest\u2AB7\u2ABA\u2ABE\u2AC2\u2AC5\u2AF6\u2AF9r\xF2\u2966;\uC000\u2266\u0338rr;\u619Ar;\u6025\u0200;fqs\u0C3B\u2ACE\u2AE3\u2AEFt\u0100ar\u2AD4\u2AD9rro\xF7\u2AC1ightarro\xF7\u2A90\u0180;qs\u0C3B\u2ABA\u2AEAlan\xF4\u0C55\u0100;s\u0C55\u2AF4\xBB\u0C36i\xED\u0C5D\u0100;r\u0C35\u2AFEi\u0100;e\u0C1A\u0C25i\xE4\u0D90\u0100pt\u2B0C\u2B11f;\uC000\u{1D55F}\u8180\xAC;in\u2B19\u2B1A\u2B36\u40ACn\u0200;Edv\u0B89\u2B24\u2B28\u2B2E;\uC000\u22F9\u0338ot;\uC000\u22F5\u0338\u01E1\u0B89\u2B33\u2B35;\u62F7;\u62F6i\u0100;v\u0CB8\u2B3C\u01E1\u0CB8\u2B41\u2B43;\u62FE;\u62FD\u0180aor\u2B4B\u2B63\u2B69r\u0200;ast\u0B7B\u2B55\u2B5A\u2B5Flle\xEC\u0B7Bl;\uC000\u2AFD\u20E5;\uC000\u2202\u0338lint;\u6A14\u0180;ce\u0C92\u2B70\u2B73u\xE5\u0CA5\u0100;c\u0C98\u2B78\u0100;e\u0C92\u2B7D\xF1\u0C98\u0200Aait\u2B88\u2B8B\u2B9D\u2BA7r\xF2\u2988rr\u0180;cw\u2B94\u2B95\u2B99\u619B;\uC000\u2933\u0338;\uC000\u219D\u0338ghtarrow\xBB\u2B95ri\u0100;e\u0CCB\u0CD6\u0380chimpqu\u2BBD\u2BCD\u2BD9\u2B04\u0B78\u2BE4\u2BEF\u0200;cer\u0D32\u2BC6\u0D37\u2BC9u\xE5\u0D45;\uC000\u{1D4C3}ort\u026D\u2B05\0\0\u2BD6ar\xE1\u2B56m\u0100;e\u0D6E\u2BDF\u0100;q\u0D74\u0D73su\u0100bp\u2BEB\u2BED\xE5\u0CF8\xE5\u0D0B\u0180bcp\u2BF6\u2C11\u2C19\u0200;Ees\u2BFF\u2C00\u0D22\u2C04\u6284;\uC000\u2AC5\u0338et\u0100;e\u0D1B\u2C0Bq\u0100;q\u0D23\u2C00c\u0100;e\u0D32\u2C17\xF1\u0D38\u0200;Ees\u2C22\u2C23\u0D5F\u2C27\u6285;\uC000\u2AC6\u0338et\u0100;e\u0D58\u2C2Eq\u0100;q\u0D60\u2C23\u0200gilr\u2C3D\u2C3F\u2C45\u2C47\xEC\u0BD7lde\u803B\xF1\u40F1\xE7\u0C43iangle\u0100lr\u2C52\u2C5Ceft\u0100;e\u0C1A\u2C5A\xF1\u0C26ight\u0100;e\u0CCB\u2C65\xF1\u0CD7\u0100;m\u2C6C\u2C6D\u43BD\u0180;es\u2C74\u2C75\u2C79\u4023ro;\u6116p;\u6007\u0480DHadgilrs\u2C8F\u2C94\u2C99\u2C9E\u2CA3\u2CB0\u2CB6\u2CD3\u2CE3ash;\u62ADarr;\u6904p;\uC000\u224D\u20D2ash;\u62AC\u0100et\u2CA8\u2CAC;\uC000\u2265\u20D2;\uC000>\u20D2nfin;\u69DE\u0180Aet\u2CBD\u2CC1\u2CC5rr;\u6902;\uC000\u2264\u20D2\u0100;r\u2CCA\u2CCD\uC000<\u20D2ie;\uC000\u22B4\u20D2\u0100At\u2CD8\u2CDCrr;\u6903rie;\uC000\u22B5\u20D2im;\uC000\u223C\u20D2\u0180Aan\u2CF0\u2CF4\u2D02rr;\u61D6r\u0100hr\u2CFA\u2CFDk;\u6923\u0100;o\u13E7\u13E5ear;\u6927\u1253\u1A95\0\0\0\0\0\0\0\0\0\0\0\0\0\u2D2D\0\u2D38\u2D48\u2D60\u2D65\u2D72\u2D84\u1B07\0\0\u2D8D\u2DAB\0\u2DC8\u2DCE\0\u2DDC\u2E19\u2E2B\u2E3E\u2E43\u0100cs\u2D31\u1A97ute\u803B\xF3\u40F3\u0100iy\u2D3C\u2D45r\u0100;c\u1A9E\u2D42\u803B\xF4\u40F4;\u443E\u0280abios\u1AA0\u2D52\u2D57\u01C8\u2D5Alac;\u4151v;\u6A38old;\u69BClig;\u4153\u0100cr\u2D69\u2D6Dir;\u69BF;\uC000\u{1D52C}\u036F\u2D79\0\0\u2D7C\0\u2D82n;\u42DBave\u803B\xF2\u40F2;\u69C1\u0100bm\u2D88\u0DF4ar;\u69B5\u0200acit\u2D95\u2D98\u2DA5\u2DA8r\xF2\u1A80\u0100ir\u2D9D\u2DA0r;\u69BEoss;\u69BBn\xE5\u0E52;\u69C0\u0180aei\u2DB1\u2DB5\u2DB9cr;\u414Dga;\u43C9\u0180cdn\u2DC0\u2DC5\u01CDron;\u43BF;\u69B6pf;\uC000\u{1D560}\u0180ael\u2DD4\u2DD7\u01D2r;\u69B7rp;\u69B9\u0380;adiosv\u2DEA\u2DEB\u2DEE\u2E08\u2E0D\u2E10\u2E16\u6228r\xF2\u1A86\u0200;efm\u2DF7\u2DF8\u2E02\u2E05\u6A5Dr\u0100;o\u2DFE\u2DFF\u6134f\xBB\u2DFF\u803B\xAA\u40AA\u803B\xBA\u40BAgof;\u62B6r;\u6A56lope;\u6A57;\u6A5B\u0180clo\u2E1F\u2E21\u2E27\xF2\u2E01ash\u803B\xF8\u40F8l;\u6298i\u016C\u2E2F\u2E34de\u803B\xF5\u40F5es\u0100;a\u01DB\u2E3As;\u6A36ml\u803B\xF6\u40F6bar;\u633D\u0AE1\u2E5E\0\u2E7D\0\u2E80\u2E9D\0\u2EA2\u2EB9\0\0\u2ECB\u0E9C\0\u2F13\0\0\u2F2B\u2FBC\0\u2FC8r\u0200;ast\u0403\u2E67\u2E72\u0E85\u8100\xB6;l\u2E6D\u2E6E\u40B6le\xEC\u0403\u0269\u2E78\0\0\u2E7Bm;\u6AF3;\u6AFDy;\u443Fr\u0280cimpt\u2E8B\u2E8F\u2E93\u1865\u2E97nt;\u4025od;\u402Eil;\u6030enk;\u6031r;\uC000\u{1D52D}\u0180imo\u2EA8\u2EB0\u2EB4\u0100;v\u2EAD\u2EAE\u43C6;\u43D5ma\xF4\u0A76ne;\u660E\u0180;tv\u2EBF\u2EC0\u2EC8\u43C0chfork\xBB\u1FFD;\u43D6\u0100au\u2ECF\u2EDFn\u0100ck\u2ED5\u2EDDk\u0100;h\u21F4\u2EDB;\u610E\xF6\u21F4s\u0480;abcdemst\u2EF3\u2EF4\u1908\u2EF9\u2EFD\u2F04\u2F06\u2F0A\u2F0E\u402Bcir;\u6A23ir;\u6A22\u0100ou\u1D40\u2F02;\u6A25;\u6A72n\u80BB\xB1\u0E9Dim;\u6A26wo;\u6A27\u0180ipu\u2F19\u2F20\u2F25ntint;\u6A15f;\uC000\u{1D561}nd\u803B\xA3\u40A3\u0500;Eaceinosu\u0EC8\u2F3F\u2F41\u2F44\u2F47\u2F81\u2F89\u2F92\u2F7E\u2FB6;\u6AB3p;\u6AB7u\xE5\u0ED9\u0100;c\u0ECE\u2F4C\u0300;acens\u0EC8\u2F59\u2F5F\u2F66\u2F68\u2F7Eppro\xF8\u2F43urlye\xF1\u0ED9\xF1\u0ECE\u0180aes\u2F6F\u2F76\u2F7Approx;\u6AB9qq;\u6AB5im;\u62E8i\xED\u0EDFme\u0100;s\u2F88\u0EAE\u6032\u0180Eas\u2F78\u2F90\u2F7A\xF0\u2F75\u0180dfp\u0EEC\u2F99\u2FAF\u0180als\u2FA0\u2FA5\u2FAAlar;\u632Eine;\u6312urf;\u6313\u0100;t\u0EFB\u2FB4\xEF\u0EFBrel;\u62B0\u0100ci\u2FC0\u2FC5r;\uC000\u{1D4C5};\u43C8ncsp;\u6008\u0300fiopsu\u2FDA\u22E2\u2FDF\u2FE5\u2FEB\u2FF1r;\uC000\u{1D52E}pf;\uC000\u{1D562}rime;\u6057cr;\uC000\u{1D4C6}\u0180aeo\u2FF8\u3009\u3013t\u0100ei\u2FFE\u3005rnion\xF3\u06B0nt;\u6A16st\u0100;e\u3010\u3011\u403F\xF1\u1F19\xF4\u0F14\u0A80ABHabcdefhilmnoprstux\u3040\u3051\u3055\u3059\u30E0\u310E\u312B\u3147\u3162\u3172\u318E\u3206\u3215\u3224\u3229\u3258\u326E\u3272\u3290\u32B0\u32B7\u0180art\u3047\u304A\u304Cr\xF2\u10B3\xF2\u03DDail;\u691Car\xF2\u1C65ar;\u6964\u0380cdenqrt\u3068\u3075\u3078\u307F\u308F\u3094\u30CC\u0100eu\u306D\u3071;\uC000\u223D\u0331te;\u4155i\xE3\u116Emptyv;\u69B3g\u0200;del\u0FD1\u3089\u308B\u308D;\u6992;\u69A5\xE5\u0FD1uo\u803B\xBB\u40BBr\u0580;abcfhlpstw\u0FDC\u30AC\u30AF\u30B7\u30B9\u30BC\u30BE\u30C0\u30C3\u30C7\u30CAp;\u6975\u0100;f\u0FE0\u30B4s;\u6920;\u6933s;\u691E\xEB\u225D\xF0\u272El;\u6945im;\u6974l;\u61A3;\u619D\u0100ai\u30D1\u30D5il;\u691Ao\u0100;n\u30DB\u30DC\u6236al\xF3\u0F1E\u0180abr\u30E7\u30EA\u30EEr\xF2\u17E5rk;\u6773\u0100ak\u30F3\u30FDc\u0100ek\u30F9\u30FB;\u407D;\u405D\u0100es\u3102\u3104;\u698Cl\u0100du\u310A\u310C;\u698E;\u6990\u0200aeuy\u3117\u311C\u3127\u3129ron;\u4159\u0100di\u3121\u3125il;\u4157\xEC\u0FF2\xE2\u30FA;\u4440\u0200clqs\u3134\u3137\u313D\u3144a;\u6937dhar;\u6969uo\u0100;r\u020E\u020Dh;\u61B3\u0180acg\u314E\u315F\u0F44l\u0200;ips\u0F78\u3158\u315B\u109Cn\xE5\u10BBar\xF4\u0FA9t;\u65AD\u0180ilr\u3169\u1023\u316Esht;\u697D;\uC000\u{1D52F}\u0100ao\u3177\u3186r\u0100du\u317D\u317F\xBB\u047B\u0100;l\u1091\u3184;\u696C\u0100;v\u318B\u318C\u43C1;\u43F1\u0180gns\u3195\u31F9\u31FCht\u0300ahlrst\u31A4\u31B0\u31C2\u31D8\u31E4\u31EErrow\u0100;t\u0FDC\u31ADa\xE9\u30C8arpoon\u0100du\u31BB\u31BFow\xEE\u317Ep\xBB\u1092eft\u0100ah\u31CA\u31D0rrow\xF3\u0FEAarpoon\xF3\u0551ightarrows;\u61C9quigarro\xF7\u30CBhreetimes;\u62CCg;\u42DAingdotse\xF1\u1F32\u0180ahm\u320D\u3210\u3213r\xF2\u0FEAa\xF2\u0551;\u600Foust\u0100;a\u321E\u321F\u63B1che\xBB\u321Fmid;\u6AEE\u0200abpt\u3232\u323D\u3240\u3252\u0100nr\u3237\u323Ag;\u67EDr;\u61FEr\xEB\u1003\u0180afl\u3247\u324A\u324Er;\u6986;\uC000\u{1D563}us;\u6A2Eimes;\u6A35\u0100ap\u325D\u3267r\u0100;g\u3263\u3264\u4029t;\u6994olint;\u6A12ar\xF2\u31E3\u0200achq\u327B\u3280\u10BC\u3285quo;\u603Ar;\uC000\u{1D4C7}\u0100bu\u30FB\u328Ao\u0100;r\u0214\u0213\u0180hir\u3297\u329B\u32A0re\xE5\u31F8mes;\u62CAi\u0200;efl\u32AA\u1059\u1821\u32AB\u65B9tri;\u69CEluhar;\u6968;\u611E\u0D61\u32D5\u32DB\u32DF\u332C\u3338\u3371\0\u337A\u33A4\0\0\u33EC\u33F0\0\u3428\u3448\u345A\u34AD\u34B1\u34CA\u34F1\0\u3616\0\0\u3633cute;\u415Bqu\xEF\u27BA\u0500;Eaceinpsy\u11ED\u32F3\u32F5\u32FF\u3302\u330B\u330F\u331F\u3326\u3329;\u6AB4\u01F0\u32FA\0\u32FC;\u6AB8on;\u4161u\xE5\u11FE\u0100;d\u11F3\u3307il;\u415Frc;\u415D\u0180Eas\u3316\u3318\u331B;\u6AB6p;\u6ABAim;\u62E9olint;\u6A13i\xED\u1204;\u4441ot\u0180;be\u3334\u1D47\u3335\u62C5;\u6A66\u0380Aacmstx\u3346\u334A\u3357\u335B\u335E\u3363\u336Drr;\u61D8r\u0100hr\u3350\u3352\xEB\u2228\u0100;o\u0A36\u0A34t\u803B\xA7\u40A7i;\u403Bwar;\u6929m\u0100in\u3369\xF0nu\xF3\xF1t;\u6736r\u0100;o\u3376\u2055\uC000\u{1D530}\u0200acoy\u3382\u3386\u3391\u33A0rp;\u666F\u0100hy\u338B\u338Fcy;\u4449;\u4448rt\u026D\u3399\0\0\u339Ci\xE4\u1464ara\xEC\u2E6F\u803B\xAD\u40AD\u0100gm\u33A8\u33B4ma\u0180;fv\u33B1\u33B2\u33B2\u43C3;\u43C2\u0400;deglnpr\u12AB\u33C5\u33C9\u33CE\u33D6\u33DE\u33E1\u33E6ot;\u6A6A\u0100;q\u12B1\u12B0\u0100;E\u33D3\u33D4\u6A9E;\u6AA0\u0100;E\u33DB\u33DC\u6A9D;\u6A9Fe;\u6246lus;\u6A24arr;\u6972ar\xF2\u113D\u0200aeit\u33F8\u3408\u340F\u3417\u0100ls\u33FD\u3404lsetm\xE9\u336Ahp;\u6A33parsl;\u69E4\u0100dl\u1463\u3414e;\u6323\u0100;e\u341C\u341D\u6AAA\u0100;s\u3422\u3423\u6AAC;\uC000\u2AAC\uFE00\u0180flp\u342E\u3433\u3442tcy;\u444C\u0100;b\u3438\u3439\u402F\u0100;a\u343E\u343F\u69C4r;\u633Ff;\uC000\u{1D564}a\u0100dr\u344D\u0402es\u0100;u\u3454\u3455\u6660it\xBB\u3455\u0180csu\u3460\u3479\u349F\u0100au\u3465\u346Fp\u0100;s\u1188\u346B;\uC000\u2293\uFE00p\u0100;s\u11B4\u3475;\uC000\u2294\uFE00u\u0100bp\u347F\u348F\u0180;es\u1197\u119C\u3486et\u0100;e\u1197\u348D\xF1\u119D\u0180;es\u11A8\u11AD\u3496et\u0100;e\u11A8\u349D\xF1\u11AE\u0180;af\u117B\u34A6\u05B0r\u0165\u34AB\u05B1\xBB\u117Car\xF2\u1148\u0200cemt\u34B9\u34BE\u34C2\u34C5r;\uC000\u{1D4C8}tm\xEE\xF1i\xEC\u3415ar\xE6\u11BE\u0100ar\u34CE\u34D5r\u0100;f\u34D4\u17BF\u6606\u0100an\u34DA\u34EDight\u0100ep\u34E3\u34EApsilo\xEE\u1EE0h\xE9\u2EAFs\xBB\u2852\u0280bcmnp\u34FB\u355E\u1209\u358B\u358E\u0480;Edemnprs\u350E\u350F\u3511\u3515\u351E\u3523\u352C\u3531\u3536\u6282;\u6AC5ot;\u6ABD\u0100;d\u11DA\u351Aot;\u6AC3ult;\u6AC1\u0100Ee\u3528\u352A;\u6ACB;\u628Alus;\u6ABFarr;\u6979\u0180eiu\u353D\u3552\u3555t\u0180;en\u350E\u3545\u354Bq\u0100;q\u11DA\u350Feq\u0100;q\u352B\u3528m;\u6AC7\u0100bp\u355A\u355C;\u6AD5;\u6AD3c\u0300;acens\u11ED\u356C\u3572\u3579\u357B\u3326ppro\xF8\u32FAurlye\xF1\u11FE\xF1\u11F3\u0180aes\u3582\u3588\u331Bppro\xF8\u331Aq\xF1\u3317g;\u666A\u0680123;Edehlmnps\u35A9\u35AC\u35AF\u121C\u35B2\u35B4\u35C0\u35C9\u35D5\u35DA\u35DF\u35E8\u35ED\u803B\xB9\u40B9\u803B\xB2\u40B2\u803B\xB3\u40B3;\u6AC6\u0100os\u35B9\u35BCt;\u6ABEub;\u6AD8\u0100;d\u1222\u35C5ot;\u6AC4s\u0100ou\u35CF\u35D2l;\u67C9b;\u6AD7arr;\u697Bult;\u6AC2\u0100Ee\u35E4\u35E6;\u6ACC;\u628Blus;\u6AC0\u0180eiu\u35F4\u3609\u360Ct\u0180;en\u121C\u35FC\u3602q\u0100;q\u1222\u35B2eq\u0100;q\u35E7\u35E4m;\u6AC8\u0100bp\u3611\u3613;\u6AD4;\u6AD6\u0180Aan\u361C\u3620\u362Drr;\u61D9r\u0100hr\u3626\u3628\xEB\u222E\u0100;o\u0A2B\u0A29war;\u692Alig\u803B\xDF\u40DF\u0BE1\u3651\u365D\u3660\u12CE\u3673\u3679\0\u367E\u36C2\0\0\0\0\0\u36DB\u3703\0\u3709\u376C\0\0\0\u3787\u0272\u3656\0\0\u365Bget;\u6316;\u43C4r\xEB\u0E5F\u0180aey\u3666\u366B\u3670ron;\u4165dil;\u4163;\u4442lrec;\u6315r;\uC000\u{1D531}\u0200eiko\u3686\u369D\u36B5\u36BC\u01F2\u368B\0\u3691e\u01004f\u1284\u1281a\u0180;sv\u3698\u3699\u369B\u43B8ym;\u43D1\u0100cn\u36A2\u36B2k\u0100as\u36A8\u36AEppro\xF8\u12C1im\xBB\u12ACs\xF0\u129E\u0100as\u36BA\u36AE\xF0\u12C1rn\u803B\xFE\u40FE\u01EC\u031F\u36C6\u22E7es\u8180\xD7;bd\u36CF\u36D0\u36D8\u40D7\u0100;a\u190F\u36D5r;\u6A31;\u6A30\u0180eps\u36E1\u36E3\u3700\xE1\u2A4D\u0200;bcf\u0486\u36EC\u36F0\u36F4ot;\u6336ir;\u6AF1\u0100;o\u36F9\u36FC\uC000\u{1D565}rk;\u6ADA\xE1\u3362rime;\u6034\u0180aip\u370F\u3712\u3764d\xE5\u1248\u0380adempst\u3721\u374D\u3740\u3751\u3757\u375C\u375Fngle\u0280;dlqr\u3730\u3731\u3736\u3740\u3742\u65B5own\xBB\u1DBBeft\u0100;e\u2800\u373E\xF1\u092E;\u625Cight\u0100;e\u32AA\u374B\xF1\u105Aot;\u65ECinus;\u6A3Alus;\u6A39b;\u69CDime;\u6A3Bezium;\u63E2\u0180cht\u3772\u377D\u3781\u0100ry\u3777\u377B;\uC000\u{1D4C9};\u4446cy;\u445Brok;\u4167\u0100io\u378B\u378Ex\xF4\u1777head\u0100lr\u3797\u37A0eftarro\xF7\u084Fightarrow\xBB\u0F5D\u0900AHabcdfghlmoprstuw\u37D0\u37D3\u37D7\u37E4\u37F0\u37FC\u380E\u381C\u3823\u3834\u3851\u385D\u386B\u38A9\u38CC\u38D2\u38EA\u38F6r\xF2\u03EDar;\u6963\u0100cr\u37DC\u37E2ute\u803B\xFA\u40FA\xF2\u1150r\u01E3\u37EA\0\u37EDy;\u445Eve;\u416D\u0100iy\u37F5\u37FArc\u803B\xFB\u40FB;\u4443\u0180abh\u3803\u3806\u380Br\xF2\u13ADlac;\u4171a\xF2\u13C3\u0100ir\u3813\u3818sht;\u697E;\uC000\u{1D532}rave\u803B\xF9\u40F9\u0161\u3827\u3831r\u0100lr\u382C\u382E\xBB\u0957\xBB\u1083lk;\u6580\u0100ct\u3839\u384D\u026F\u383F\0\0\u384Arn\u0100;e\u3845\u3846\u631Cr\xBB\u3846op;\u630Fri;\u65F8\u0100al\u3856\u385Acr;\u416B\u80BB\xA8\u0349\u0100gp\u3862\u3866on;\u4173f;\uC000\u{1D566}\u0300adhlsu\u114B\u3878\u387D\u1372\u3891\u38A0own\xE1\u13B3arpoon\u0100lr\u3888\u388Cef\xF4\u382Digh\xF4\u382Fi\u0180;hl\u3899\u389A\u389C\u43C5\xBB\u13FAon\xBB\u389Aparrows;\u61C8\u0180cit\u38B0\u38C4\u38C8\u026F\u38B6\0\0\u38C1rn\u0100;e\u38BC\u38BD\u631Dr\xBB\u38BDop;\u630Eng;\u416Fri;\u65F9cr;\uC000\u{1D4CA}\u0180dir\u38D9\u38DD\u38E2ot;\u62F0lde;\u4169i\u0100;f\u3730\u38E8\xBB\u1813\u0100am\u38EF\u38F2r\xF2\u38A8l\u803B\xFC\u40FCangle;\u69A7\u0780ABDacdeflnoprsz\u391C\u391F\u3929\u392D\u39B5\u39B8\u39BD\u39DF\u39E4\u39E8\u39F3\u39F9\u39FD\u3A01\u3A20r\xF2\u03F7ar\u0100;v\u3926\u3927\u6AE8;\u6AE9as\xE8\u03E1\u0100nr\u3932\u3937grt;\u699C\u0380eknprst\u34E3\u3946\u394B\u3952\u395D\u3964\u3996app\xE1\u2415othin\xE7\u1E96\u0180hir\u34EB\u2EC8\u3959op\xF4\u2FB5\u0100;h\u13B7\u3962\xEF\u318D\u0100iu\u3969\u396Dgm\xE1\u33B3\u0100bp\u3972\u3984setneq\u0100;q\u397D\u3980\uC000\u228A\uFE00;\uC000\u2ACB\uFE00setneq\u0100;q\u398F\u3992\uC000\u228B\uFE00;\uC000\u2ACC\uFE00\u0100hr\u399B\u399Fet\xE1\u369Ciangle\u0100lr\u39AA\u39AFeft\xBB\u0925ight\xBB\u1051y;\u4432ash\xBB\u1036\u0180elr\u39C4\u39D2\u39D7\u0180;be\u2DEA\u39CB\u39CFar;\u62BBq;\u625Alip;\u62EE\u0100bt\u39DC\u1468a\xF2\u1469r;\uC000\u{1D533}tr\xE9\u39AEsu\u0100bp\u39EF\u39F1\xBB\u0D1C\xBB\u0D59pf;\uC000\u{1D567}ro\xF0\u0EFBtr\xE9\u39B4\u0100cu\u3A06\u3A0Br;\uC000\u{1D4CB}\u0100bp\u3A10\u3A18n\u0100Ee\u3980\u3A16\xBB\u397En\u0100Ee\u3992\u3A1E\xBB\u3990igzag;\u699A\u0380cefoprs\u3A36\u3A3B\u3A56\u3A5B\u3A54\u3A61\u3A6Airc;\u4175\u0100di\u3A40\u3A51\u0100bg\u3A45\u3A49ar;\u6A5Fe\u0100;q\u15FA\u3A4F;\u6259erp;\u6118r;\uC000\u{1D534}pf;\uC000\u{1D568}\u0100;e\u1479\u3A66at\xE8\u1479cr;\uC000\u{1D4CC}\u0AE3\u178E\u3A87\0\u3A8B\0\u3A90\u3A9B\0\0\u3A9D\u3AA8\u3AAB\u3AAF\0\0\u3AC3\u3ACE\0\u3AD8\u17DC\u17DFtr\xE9\u17D1r;\uC000\u{1D535}\u0100Aa\u3A94\u3A97r\xF2\u03C3r\xF2\u09F6;\u43BE\u0100Aa\u3AA1\u3AA4r\xF2\u03B8r\xF2\u09EBa\xF0\u2713is;\u62FB\u0180dpt\u17A4\u3AB5\u3ABE\u0100fl\u3ABA\u17A9;\uC000\u{1D569}im\xE5\u17B2\u0100Aa\u3AC7\u3ACAr\xF2\u03CEr\xF2\u0A01\u0100cq\u3AD2\u17B8r;\uC000\u{1D4CD}\u0100pt\u17D6\u3ADCr\xE9\u17D4\u0400acefiosu\u3AF0\u3AFD\u3B08\u3B0C\u3B11\u3B15\u3B1B\u3B21c\u0100uy\u3AF6\u3AFBte\u803B\xFD\u40FD;\u444F\u0100iy\u3B02\u3B06rc;\u4177;\u444Bn\u803B\xA5\u40A5r;\uC000\u{1D536}cy;\u4457pf;\uC000\u{1D56A}cr;\uC000\u{1D4CE}\u0100cm\u3B26\u3B29y;\u444El\u803B\xFF\u40FF\u0500acdefhiosw\u3B42\u3B48\u3B54\u3B58\u3B64\u3B69\u3B6D\u3B74\u3B7A\u3B80cute;\u417A\u0100ay\u3B4D\u3B52ron;\u417E;\u4437ot;\u417C\u0100et\u3B5D\u3B61tr\xE6\u155Fa;\u43B6r;\uC000\u{1D537}cy;\u4436grarr;\u61DDpf;\uC000\u{1D56B}cr;\uC000\u{1D4CF}\u0100jn\u3B85\u3B87;\u600Dj;\u600C'.split("").map((c) => c.charCodeAt(0))
@@ -53521,13 +53521,13 @@ var init_decode_data_html = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/entities/dist/esm/generated/decode-data-xml.js
+// node_modules/entities/dist/esm/generated/decode-data-xml.js
 var init_decode_data_xml = __esm({
-  "tools/lsp-bundle/node_modules/entities/dist/esm/generated/decode-data-xml.js"() {
+  "node_modules/entities/dist/esm/generated/decode-data-xml.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/entities/dist/esm/decode-codepoint.js
+// node_modules/entities/dist/esm/decode-codepoint.js
 function replaceCodePoint(codePoint) {
   var _a2;
   if (codePoint >= 55296 && codePoint <= 57343 || codePoint > 1114111) {
@@ -53537,7 +53537,7 @@ function replaceCodePoint(codePoint) {
 }
 var _a, decodeMap, fromCodePoint;
 var init_decode_codepoint = __esm({
-  "tools/lsp-bundle/node_modules/entities/dist/esm/decode-codepoint.js"() {
+  "node_modules/entities/dist/esm/decode-codepoint.js"() {
     decodeMap = /* @__PURE__ */ new Map([
       [0, 65533],
       // C1 Unicode control character reference replacements
@@ -53583,7 +53583,7 @@ var init_decode_codepoint = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/entities/dist/esm/decode.js
+// node_modules/entities/dist/esm/decode.js
 function isNumber(code) {
   return code >= CharCodes.ZERO && code <= CharCodes.NINE;
 }
@@ -53623,7 +53623,7 @@ function determineBranch(decodeTree, current, nodeIndex, char) {
 }
 var CharCodes, TO_LOWER_BIT, BinTrieFlags, EntityDecoderState, DecodingMode, EntityDecoder;
 var init_decode = __esm({
-  "tools/lsp-bundle/node_modules/entities/dist/esm/decode.js"() {
+  "node_modules/entities/dist/esm/decode.js"() {
     init_decode_data_html();
     init_decode_data_xml();
     init_decode_codepoint();
@@ -53926,7 +53926,7 @@ var init_decode = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/html.js
+// node_modules/parse5/dist/common/html.js
 var html_exports = {};
 __export(html_exports, {
   ATTRS: () => ATTRS,
@@ -53948,7 +53948,7 @@ function hasUnescapedText(tn, scriptingEnabled) {
 }
 var NS, ATTRS, DOCUMENT_MODE, TAG_NAMES, TAG_ID, TAG_NAME_TO_ID, $, SPECIAL_ELEMENTS, NUMBERED_HEADERS, UNESCAPED_TEXT;
 var init_html = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/html.js"() {
+  "node_modules/parse5/dist/common/html.js"() {
     (function(NS2) {
       NS2["HTML"] = "http://www.w3.org/1999/xhtml";
       NS2["MATHML"] = "http://www.w3.org/1998/Math/MathML";
@@ -54452,7 +54452,7 @@ var init_html = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/tokenizer/index.js
+// node_modules/parse5/dist/tokenizer/index.js
 function isAsciiDigit(cp) {
   return cp >= CODE_POINTS.DIGIT_0 && cp <= CODE_POINTS.DIGIT_9;
 }
@@ -54493,7 +54493,7 @@ function getErrorForNumericCharacterReference(code) {
 }
 var State, TokenizerMode, Tokenizer;
 var init_tokenizer = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/tokenizer/index.js"() {
+  "node_modules/parse5/dist/tokenizer/index.js"() {
     init_preprocessor();
     init_unicode();
     init_token();
@@ -57078,10 +57078,10 @@ var init_tokenizer = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/parser/open-element-stack.js
+// node_modules/parse5/dist/parser/open-element-stack.js
 var IMPLICIT_END_TAG_REQUIRED, IMPLICIT_END_TAG_REQUIRED_THOROUGHLY, SCOPING_ELEMENTS_HTML, SCOPING_ELEMENTS_HTML_LIST, SCOPING_ELEMENTS_HTML_BUTTON, SCOPING_ELEMENTS_MATHML, SCOPING_ELEMENTS_SVG, TABLE_ROW_CONTEXT, TABLE_BODY_CONTEXT, TABLE_CONTEXT, TABLE_CELLS, OpenElementStack;
 var init_open_element_stack = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/parser/open-element-stack.js"() {
+  "node_modules/parse5/dist/parser/open-element-stack.js"() {
     init_html();
     IMPLICIT_END_TAG_REQUIRED = /* @__PURE__ */ new Set([TAG_ID.DD, TAG_ID.DT, TAG_ID.LI, TAG_ID.OPTGROUP, TAG_ID.OPTION, TAG_ID.P, TAG_ID.RB, TAG_ID.RP, TAG_ID.RT, TAG_ID.RTC]);
     IMPLICIT_END_TAG_REQUIRED_THOROUGHLY = /* @__PURE__ */ new Set([
@@ -57401,10 +57401,10 @@ var init_open_element_stack = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/parser/formatting-element-list.js
+// node_modules/parse5/dist/parser/formatting-element-list.js
 var NOAH_ARK_CAPACITY, EntryType, MARKER, FormattingElementList;
 var init_formatting_element_list = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/parser/formatting-element-list.js"() {
+  "node_modules/parse5/dist/parser/formatting-element-list.js"() {
     NOAH_ARK_CAPACITY = 3;
     (function(EntryType2) {
       EntryType2[EntryType2["Marker"] = 0] = "Marker";
@@ -57510,10 +57510,10 @@ var init_formatting_element_list = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/tree-adapters/default.js
+// node_modules/parse5/dist/tree-adapters/default.js
 var defaultTreeAdapter;
 var init_default = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/tree-adapters/default.js"() {
+  "node_modules/parse5/dist/tree-adapters/default.js"() {
     init_html();
     defaultTreeAdapter = {
       //Node construction
@@ -57688,7 +57688,7 @@ var init_default = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/doctype.js
+// node_modules/parse5/dist/common/doctype.js
 function hasPrefix(publicId, prefixes) {
   return prefixes.some((prefix) => publicId.startsWith(prefix));
 }
@@ -57722,7 +57722,7 @@ function getDocumentMode(token) {
 }
 var VALID_DOCTYPE_NAME, VALID_SYSTEM_ID, QUIRKS_MODE_SYSTEM_ID, QUIRKS_MODE_PUBLIC_ID_PREFIXES, QUIRKS_MODE_NO_SYSTEM_ID_PUBLIC_ID_PREFIXES, QUIRKS_MODE_PUBLIC_IDS, LIMITED_QUIRKS_PUBLIC_ID_PREFIXES, LIMITED_QUIRKS_WITH_SYSTEM_ID_PUBLIC_ID_PREFIXES;
 var init_doctype = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/doctype.js"() {
+  "node_modules/parse5/dist/common/doctype.js"() {
     init_html();
     VALID_DOCTYPE_NAME = "html";
     VALID_SYSTEM_ID = "about:legacy-compat";
@@ -57803,7 +57803,7 @@ var init_doctype = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/common/foreign-content.js
+// node_modules/parse5/dist/common/foreign-content.js
 function causesExit(startTagToken) {
   const tn = startTagToken.tagID;
   const isFontWithAttrs = tn === TAG_ID.FONT && startTagToken.attrs.some(({ name }) => name === ATTRS.COLOR || name === ATTRS.SIZE || name === ATTRS.FACE);
@@ -57861,7 +57861,7 @@ function isIntegrationPoint(tn, ns, attrs, foreignNS) {
 }
 var MIME_TYPES, DEFINITION_URL_ATTR, ADJUSTED_DEFINITION_URL_ATTR, SVG_ATTRS_ADJUSTMENT_MAP, XML_ATTRS_ADJUSTMENT_MAP, SVG_TAG_NAMES_ADJUSTMENT_MAP, EXITS_FOREIGN_CONTENT;
 var init_foreign_content = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/common/foreign-content.js"() {
+  "node_modules/parse5/dist/common/foreign-content.js"() {
     init_html();
     MIME_TYPES = {
       TEXT_HTML: "text/html",
@@ -58029,7 +58029,7 @@ var init_foreign_content = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/parser/index.js
+// node_modules/parse5/dist/parser/index.js
 function aaObtainFormattingElementEntry(p, token) {
   let formattingElementEntry = p.activeFormattingElements.getElementEntryInScopeWithTagName(token.tagName);
   if (formattingElementEntry) {
@@ -59951,7 +59951,7 @@ function endTagInForeignContent(p, token) {
 }
 var HIDDEN_INPUT_TYPE, AA_OUTER_LOOP_ITER, AA_INNER_LOOP_ITER, InsertionMode, BASE_LOC, TABLE_STRUCTURE_TAGS, defaultParserOptions, Parser, TABLE_VOID_ELEMENTS;
 var init_parser = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/parser/index.js"() {
+  "node_modules/parse5/dist/parser/index.js"() {
     init_tokenizer();
     init_open_element_stack();
     init_formatting_element_list();
@@ -61068,7 +61068,7 @@ var init_parser = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/entities/dist/esm/escape.js
+// node_modules/entities/dist/esm/escape.js
 function getEscaper(regex, map) {
   return function escape2(data) {
     let match;
@@ -61086,7 +61086,7 @@ function getEscaper(regex, map) {
 }
 var getCodePoint, escapeAttribute, escapeText2;
 var init_escape = __esm({
-  "tools/lsp-bundle/node_modules/entities/dist/esm/escape.js"() {
+  "node_modules/entities/dist/esm/escape.js"() {
     getCodePoint = // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     String.prototype.codePointAt == null ? (c, index2) => (c.charCodeAt(index2) & 64512) === 55296 ? (c.charCodeAt(index2) - 55296) * 1024 + c.charCodeAt(index2 + 1) - 56320 + 65536 : c.charCodeAt(index2) : (
       // http://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
@@ -61106,7 +61106,7 @@ var init_escape = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/serializer/index.js
+// node_modules/parse5/dist/serializer/index.js
 function isVoidElement(node, options) {
   return options.treeAdapter.isElementNode(node) && options.treeAdapter.getNamespaceURI(node) === NS.HTML && VOID_ELEMENTS.has(options.treeAdapter.getTagName(node));
 }
@@ -61198,7 +61198,7 @@ function serializeDocumentTypeNode(node, { treeAdapter }) {
 }
 var VOID_ELEMENTS, defaultOpts;
 var init_serializer = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/serializer/index.js"() {
+  "node_modules/parse5/dist/serializer/index.js"() {
     init_html();
     init_escape();
     init_default();
@@ -61226,7 +61226,7 @@ var init_serializer = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/parse5/dist/index.js
+// node_modules/parse5/dist/index.js
 function parseFragment(fragmentContext, html, options) {
   if (typeof fragmentContext === "string") {
     options = html;
@@ -61238,7 +61238,7 @@ function parseFragment(fragmentContext, html, options) {
   return parser.getFragment();
 }
 var init_dist = __esm({
-  "tools/lsp-bundle/node_modules/parse5/dist/index.js"() {
+  "node_modules/parse5/dist/index.js"() {
     init_parser();
     init_default();
     init_parser();
@@ -61251,10 +61251,10 @@ var init_dist = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-footnote-stage.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-footnote-stage.js
 var FOOTNOTE_DEFINITION_BLOCKS, FOOTNOTE_WRAPPER_BLOCKS, GENERATED_FOOTNOTE_REF_ID, RE_DOWNLEVEL_CONDITIONAL, FootnoteStage;
 var init_html_import_footnote_stage = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-footnote-stage.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-footnote-stage.js"() {
     init_dist();
     init_html_import_dom();
     init_own_property();
@@ -62260,7 +62260,7 @@ var init_html_import_footnote_stage = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-code-language.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-code-language.js
 function codeLanguage(pre, code, wrappers) {
   const attr = (node, name) => domAttrs(node)?.find((a) => a.name === name)?.value ?? "";
   const classes = (node) => attr(node, "class").split(HTML_SPACE);
@@ -62311,14 +62311,14 @@ function codeLanguage(pre, code, wrappers) {
 }
 var HTML_SPACE;
 var init_html_import_code_language = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-code-language.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-code-language.js"() {
     init_trim_non_nbsp();
     init_html_import_dom();
     HTML_SPACE = /[\t\n\f\r ]+/;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/imported-crossrefs.js
+// node_modules/@markup-carve/carve/dist/import/html/imported-crossrefs.js
 function convertedIds(source) {
   const ids = /* @__PURE__ */ new Set();
   visitDocumentIds(resolveHeadingIds(parse(source)), (id) => {
@@ -62378,17 +62378,17 @@ function preserveHtmlTextCrossrefs(doc, ids) {
   walk3(doc);
 }
 var init_imported_crossrefs = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/imported-crossrefs.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/imported-crossrefs.js"() {
     init_document_ids();
     init_heading_ids();
     init_parse();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/import-report-messages.js
+// node_modules/@markup-carve/carve/dist/import/markdown/import-report-messages.js
 var EXTENDER_LEADING_SPAN_UNSPELLABLE, ORDERED_TASK_ITEM_UNSPELLABLE, LEADING_WHITESPACE_UNSPELLABLE, HEADING_LEADING_WHITESPACE_UNSPELLABLE, FRONTMATTER_SYNTHESIZED, RAW_SPAN_WHITESPACE_TRIMMED, CARRIER_MARKERS_DAMAGED, CARRIER_MARKER_DROPPED, CARRIER_MARKER_PAIR_DROPPED;
 var init_import_report_messages = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/import-report-messages.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/import-report-messages.js"() {
     EXTENDER_LEADING_SPAN_UNSPELLABLE = "Dropped a span whose content starts with a combining mark, a variation selector or a joiner: Carve cannot spell its opener there, so the text is kept without it";
     ORDERED_TASK_ITEM_UNSPELLABLE = "An ordered task item is not spellable as a Carve task item; the checkbox marker was kept as text";
     LEADING_WHITESPACE_UNSPELLABLE = "Dropped whitespace a decoded reference put at the start of a line; Carve spells no leading whitespace on a paragraph";
@@ -62401,7 +62401,7 @@ var init_import_report_messages = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-report.js
+// node_modules/@markup-carve/carve/dist/import/html/html-import-report.js
 function diagnosticFidelity(code) {
   switch (code) {
     // Nothing of the attribute was lost: it reached the output inside the bytes
@@ -62452,7 +62452,7 @@ function diagnosticConfidence(code) {
 }
 var HtmlImportReportCollector;
 var init_html_import_report = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/html/html-import-report.js"() {
+  "node_modules/@markup-carve/carve/dist/import/html/html-import-report.js"() {
     init_html_import_dom();
     HtmlImportReportCollector = class {
       maxDiagnostics;
@@ -62663,7 +62663,7 @@ var init_html_import_report = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/html-import.js
+// node_modules/@markup-carve/carve/dist/html-import.js
 function serializedChildren(node) {
   return "content" in node ? node.content.childNodes : domChildren(node) ?? [];
 }
@@ -63053,7 +63053,7 @@ function htmlToCarve(html, options = {}) {
 }
 var HtmlImportLimitError, EMPTY_DROPPED_MARKS, ACTIVE, BLOCK, INLINE_HANDLED, MEDIA_FALLBACK, READABLE_TASK_STATES, TASK_LIST_CLASS, FLATTENED_BLOCK_EXTRA, FIGURE_REBUILDS, FIGURE_UNWRAPPED, FIGCAPTION_DETACHED, ADAPTERS, FOOTNOTE_SHAPED_ADAPTERS, SEMANTIC_SPAN_TAGS, SEMANTIC_SPAN_VALUE_SOURCE, TEX_ANNOTATION_ENCODINGS, LINEAR_MATH_CONTAINERS, LINEAR_MATH_TOKENS, isBlankOrComment, hidden, siblingIndex, indexIn, ROUND_TRIP_MARKER_ATTRIBUTES, DENIED_SCHEMES, CSS_URL_RE, Importer;
 var init_html_import = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/html-import.js"() {
+  "node_modules/@markup-carve/carve/dist/html-import.js"() {
     init_html_import_table_stage();
     init_html_import_footnote_stage();
     init_html_import_code_language();
@@ -66475,7 +66475,7 @@ x
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/accessibility.js
+// node_modules/@markup-carve/carve/dist/extension/accessibility.js
 function lintAccessibility(source) {
   const document = parse(source, { positions: true });
   const diagnostics2 = [];
@@ -66520,22 +66520,22 @@ function lintAccessibility(source) {
   return diagnostics2;
 }
 var init_accessibility = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/accessibility.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/accessibility.js"() {
     init_parse();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/stream.js
+// node_modules/@markup-carve/carve/dist/stream.js
 function tryRenderHtmlStreaming(source, options, sink) {
   return tryFastHtmlStreaming(source, options, sink) ? "complete" : "needs-ast";
 }
 var init_stream = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/stream.js"() {
+  "node_modules/@markup-carve/carve/dist/stream.js"() {
     init_fast_html();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/diff.js
+// node_modules/@markup-carve/carve/dist/diff.js
 function isNode(value2) {
   return typeof value2 === "object" && value2 !== null && !Array.isArray(value2) && typeof value2.type === "string";
 }
@@ -66836,7 +66836,7 @@ ${changes.length} structural ${noun}
 }
 var IGNORED, CHILD_FIELDS2, DISPLAY_DEFAULTS;
 var init_diff = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/diff.js"() {
+  "node_modules/@markup-carve/carve/dist/diff.js"() {
     init_owned_child_fields();
     IGNORED = /* @__PURE__ */ new Set(["pos", "srcByteLength", "lines"]);
     CHILD_FIELDS2 = OWNED_CHILD_FIELDS;
@@ -66847,13 +66847,13 @@ var init_diff = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/structural-index.js
+// node_modules/@markup-carve/carve/dist/ast/structural-index.js
 function astPointer(path9) {
   return path9.map((part) => "/" + String(part).replaceAll("~", "~0").replaceAll("/", "~1")).join("");
 }
 var AstStructuralIndex;
 var init_structural_index = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/structural-index.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/structural-index.js"() {
     init_wire_fields();
     AstStructuralIndex = class {
       objects = /* @__PURE__ */ new WeakMap();
@@ -66903,7 +66903,7 @@ var init_structural_index = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/patch.js
+// node_modules/@markup-carve/carve/dist/ast/patch.js
 function decode(path9) {
   if (path9 === "")
     return [];
@@ -67095,7 +67095,7 @@ function applyAstPatch(ast, operations) {
 }
 var AstPatchError;
 var init_patch = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast/patch.js"() {
+  "node_modules/@markup-carve/carve/dist/ast/patch.js"() {
     init_json();
     init_wire_fields();
     init_structural_index();
@@ -67108,21 +67108,21 @@ var init_patch = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-patch.js
+// node_modules/@markup-carve/carve/dist/ast-patch.js
 var init_ast_patch = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-patch.js"() {
+  "node_modules/@markup-carve/carve/dist/ast-patch.js"() {
     init_patch();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-structural-index.js
+// node_modules/@markup-carve/carve/dist/ast-structural-index.js
 var init_ast_structural_index = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-structural-index.js"() {
+  "node_modules/@markup-carve/carve/dist/ast-structural-index.js"() {
     init_structural_index();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/merge.js
+// node_modules/@markup-carve/carve/dist/merge.js
 function childIsNode2(type, field) {
   return typeof type === "string" && Object.hasOwn(NODE_POSITION_KIND, `${type}.${field}`);
 }
@@ -67572,7 +67572,7 @@ function mergeAst(base, ours, theirs, options = {}) {
 }
 var MISSING, mergeMatchDpCells;
 var init_merge = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/merge.js"() {
+  "node_modules/@markup-carve/carve/dist/merge.js"() {
     init_ast_json();
     init_wire_fields();
     init_ast_structural_index();
@@ -67582,7 +67582,7 @@ var init_merge = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/portability.js
+// node_modules/@markup-carve/carve/dist/portability.js
 function tokenize(html) {
   const tokens = [];
   let i = 0;
@@ -67734,7 +67734,7 @@ function checkPortability(source, djot, renderCarve3) {
 }
 var BLOCK_ELEMENTS, BLOCK_OPEN, IGNORED_ATTRIBUTES, VOID_ELEMENTS2, EXCERPT_LENGTH;
 var init_portability = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/portability.js"() {
+  "node_modules/@markup-carve/carve/dist/portability.js"() {
     BLOCK_ELEMENTS = "html|body|section|div|p|blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|td|th|figure|figcaption|h[1-6]|pre|hr|details|summary|nav|aside|article|header|footer|main";
     BLOCK_OPEN = new RegExp(`^</?(?:${BLOCK_ELEMENTS})(?:\\s|/?>)`, "i");
     IGNORED_ATTRIBUTES = /* @__PURE__ */ new Set(["data-source-line"]);
@@ -67758,14 +67758,14 @@ var init_portability = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-envelope.js
+// node_modules/@markup-carve/carve/dist/ast-envelope.js
 var init_ast_envelope = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/ast-envelope.js"() {
+  "node_modules/@markup-carve/carve/dist/ast-envelope.js"() {
     init_envelope();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-structural-prefix.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-structural-prefix.js
 function djotStructuralPrefixEnd(line2) {
   let at = 0;
   const spaces = () => {
@@ -67811,12 +67811,12 @@ function djotStructuralPrefixEnd(line2) {
 }
 var djotStructuralPrefixSteps;
 var init_djot_structural_prefix = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-structural-prefix.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-structural-prefix.js"() {
     djotStructuralPrefixSteps = { count: 0 };
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-attributes.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-attributes.js
 function attributeContext(source, start) {
   let prefix = source.slice((start > 0 ? source.lastIndexOf("\n", start - 1) : -1) + 1, start), depth = 0;
   if (!prefix)
@@ -68126,7 +68126,7 @@ function rejectedCommentStartsBlock(line2) {
 }
 var commentEnd, quoteValue, paragraphSource, paragraphStarts, plainComment;
 var init_djot_attributes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-attributes.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-attributes.js"() {
     init_djot_structural_prefix();
     commentEnd = /[%}]/g;
     quoteValue = (value2, carve = false) => `"${value2.replace(carve ? /[!-\/:-@\[-`{-~]/g : /[\\"]/g, (char) => "\\" + char)}"`;
@@ -68136,7 +68136,7 @@ var init_djot_attributes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-inline-boundaries.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-inline-boundaries.js
 function isDjotEscaped(source, at) {
   let start = at;
   while (source[start - 1] === "\\")
@@ -68359,7 +68359,7 @@ function djotDestinationRanges(source, mask) {
 }
 var SCOPED_BLOCK_START, SCOPED_CODE_FENCE, InlineBoundaryScanner;
 var init_djot_inline_boundaries = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-inline-boundaries.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-inline-boundaries.js"() {
     init_djot_attributes();
     SCOPED_BLOCK_START = /^(?:#{1,6}(?: |$)|:{3,}|[`~]{3,}|(?:[*-][ \t]*){3,}$)/;
     SCOPED_CODE_FENCE = /^(`{3,}|~{3,})(.*)$/;
@@ -68563,7 +68563,7 @@ var init_djot_inline_boundaries = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-placeholder-prefix.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-placeholder-prefix.js
 function djotPlaceholderPrefix(source, base) {
   if (!source.includes(base))
     return base + "0\0";
@@ -68578,11 +68578,11 @@ function djotPlaceholderPrefix(source, base) {
   return base + serial + "\0";
 }
 var init_djot_placeholder_prefix = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-placeholder-prefix.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-placeholder-prefix.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-emphasis.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-emphasis.js
 function djotEmphasis(source, convert, flattened, omitQuoteDelimiters = false, extenderLeading) {
   return processDjotEmphasis(source, convert, void 0, flattened, omitQuoteDelimiters, false, extenderLeading);
 }
@@ -68847,7 +68847,7 @@ function maskDjotEmphasisSource(source, imageLabels = false) {
 }
 var BRACED_KINDS, LIST_ITEM_PREFIX, LIST_ITEM_MARKER, CODE_FENCE_LINE, BLOCK_RESET_LINE, RAW_ATTRIBUTE, AttributeLineTracker, DelimiterPairer, EmphasisRenderer;
 var init_djot_emphasis = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-emphasis.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-emphasis.js"() {
     init_parse();
     init_djot_placeholder_prefix();
     init_djot_structural_prefix();
@@ -69231,7 +69231,7 @@ var init_djot_emphasis = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-word-attributes.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-word-attributes.js
 function markEscapedNoteBraces(source, literalBraces, escapedBraceCloses) {
   for (const note2 of source.matchAll(/\[\^[^\]\n]*\]/g)) {
     const at = note2.index;
@@ -69394,14 +69394,14 @@ function attributedDjotWords(source, masked, convert, protect, inherited = /* @_
   return output + source.slice(cursor);
 }
 var init_djot_word_attributes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-word-attributes.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-word-attributes.js"() {
     init_djot_attributes();
     init_djot_emphasis();
     init_djot_attributes();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-opaque.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-opaque.js
 function maskDjotOpaque(source, unclosedCode, options = {}) {
   const destinations = options.destinations !== false && options.inlineDestinations !== false ? djotSimpleDestinationRanges(source) ?? djotDestinationRanges(source, maskDjotOpaque(source, unclosedCode, { destinations: false, autolinks: false, attributeValues: false, comments: false })) : /* @__PURE__ */ new Map();
   const definitionLines = /* @__PURE__ */ new Map();
@@ -69549,7 +69549,7 @@ function maskDjotOpaque(source, unclosedCode, options = {}) {
   return out.join("");
 }
 var init_djot_opaque = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-opaque.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-opaque.js"() {
     init_djot_attributes();
     init_djot_inline_boundaries();
     init_backtick_run_index();
@@ -69557,7 +69557,7 @@ var init_djot_opaque = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/djot-migrate.js
+// node_modules/@markup-carve/carve/dist/djot-migrate.js
 function codepointPrefix(src) {
   let astral = false;
   for (let i = 0; i < src.length; i++) {
@@ -70200,7 +70200,7 @@ function formatMigrationWarnings(warnings, file = "<stdin>") {
 }
 var RULES, blanks, migrateScanSteps, migrateCrossSteps, migrateBracedSteps, migrateCandidateChecks, migrateBareSteps;
 var init_djot_migrate = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/djot-migrate.js"() {
+  "node_modules/@markup-carve/carve/dist/djot-migrate.js"() {
     init_djot_inline_boundaries();
     init_djot_inline_boundaries();
     init_trim_non_nbsp();
@@ -70414,7 +70414,7 @@ var init_djot_migrate = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/bbcode-migrate.js
+// node_modules/@markup-carve/carve/dist/bbcode-migrate.js
 function escapePlainBbcodeText(bbcode) {
   const occupied = occupiedPrivateUse(bbcode);
   const [open, close] = pickSentinelRun(occupied, STASH_KEY_BASE, STASH_KEY_LENGTH);
@@ -71214,7 +71214,7 @@ function bbcodeToCarve(bbcode) {
 }
 var BBCODE_MAX_INPUT_LENGTH, UTF8_ENCODER2, BbcodeInputTooLargeError, STASH_KEY_BASE, STASH_KEY_LENGTH, STASH_KEY_CODE, WRITTEN_LINK_KEY, BbcodeSentinelSpaceExhaustedError, MARK_DELIMS, MARK_TAG, FORMATTING, WRITTEN, UNWRITTEN, REPAIR_ROUNDS, LATER_BLOCK_TAGS, isAttributionSpace, ASCII_DIGITS, extenderLeadingSpans, quoteFieldDrops;
 var init_bbcode_migrate = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/bbcode-migrate.js"() {
+  "node_modules/@markup-carve/carve/dist/bbcode-migrate.js"() {
     init_trim_non_nbsp();
     init_carve_escape();
     init_parse();
@@ -71269,7 +71269,7 @@ var init_bbcode_migrate = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/marker-serial.js
+// node_modules/@markup-carve/carve/dist/parse/list/marker-serial.js
 function freeMarkerSerial(text, ...prefixes) {
   const taken = /* @__PURE__ */ new Set();
   const chunks = typeof text === "string" ? [text] : text;
@@ -71292,11 +71292,11 @@ function freeMarkerSerial(text, ...prefixes) {
   return serial;
 }
 var init_marker_serial = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/list/marker-serial.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/list/marker-serial.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-emphasis.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-emphasis.js
 function recordMarkdownProtectedDepth(spans, token, depth) {
   let depths = protectedDepths.get(spans);
   if (!depths)
@@ -71675,7 +71675,7 @@ function markdownEmphasis(source, onFlatten = () => {
 }
 var protectedDepths, punctuation, whitespace;
 var init_markdown_emphasis = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-emphasis.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-emphasis.js"() {
     init_parse();
     init_grapheme_extender();
     init_render_carve();
@@ -71685,7 +71685,7 @@ var init_markdown_emphasis = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-link-scopes.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-link-scopes.js
 function markdownActiveLinkLabelRanges(source, spans, isReference) {
   const ranges = [];
   protectMarkdownLinkLabels(source, spans, (value2) => value2, isReference, () => {
@@ -71972,12 +71972,12 @@ function markdownInlineDestinationEnd(source, open) {
   return source[at] === ")" ? at : void 0;
 }
 var init_markdown_link_scopes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-link-scopes.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-link-scopes.js"() {
     init_markdown_emphasis();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-native-destination-glyphs.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-native-destination-glyphs.js
 function protectNativeMarkdownDestinationGlyphs(source, protect, isReference, opaqueEnd, stripContinuationIndent = false, onEscapedLineBreak, opaqueRanges = []) {
   const codeEnds = backtickRunEnds(source);
   const opens = [];
@@ -72113,13 +72113,13 @@ function protectNativeMarkdownDestinationGlyphs(source, protect, isReference, op
   return output.join("");
 }
 var init_markdown_native_destination_glyphs = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-native-destination-glyphs.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-native-destination-glyphs.js"() {
     init_backtick_run_index();
     init_markdown_link_scopes();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-gfm-autolinks.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-gfm-autolinks.js
 function domainAllowed(text, start, end, short) {
   if (start >= end || text[start] === "\0" || !hostCharacter(text[start]))
     return false;
@@ -72384,7 +72384,7 @@ function markdownRawBareLinks(text, opaqueEnd) {
 }
 var hostCharacter;
 var init_markdown_gfm_autolinks = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-gfm-autolinks.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-gfm-autolinks.js"() {
     init_markdown_link_scopes();
     hostCharacter = (value2) => {
       const code = value2.charCodeAt(0);
@@ -72396,7 +72396,7 @@ var init_markdown_gfm_autolinks = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-email-links.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-email-links.js
 function linkMarkdownEmailText(document, boundaryKey2) {
   const pending = [document, ...Object.values(document.footnoteDefs ?? {})];
   const seen = /* @__PURE__ */ new Set();
@@ -72548,7 +72548,7 @@ function linkMarkdownEmailText(document, boundaryKey2) {
 }
 var record4;
 var init_markdown_email_links = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-email-links.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-email-links.js"() {
     init_render_html();
     init_owned_child_fields();
     init_markdown_gfm_autolinks();
@@ -72556,7 +72556,7 @@ var init_markdown_email_links = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-heading-fragments.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-heading-fragments.js
 function headingFragmentAliases(source) {
   const aliases = /* @__PURE__ */ new Map();
   const document = resolveHeadingIds(parse(source));
@@ -72660,7 +72660,7 @@ function rewriteSameFileHeadingLinks(source, onLoss, authored = /* @__PURE__ */ 
   return { value: value2, unfixed: trim(renderCarve(document)), fixups };
 }
 var init_markdown_heading_fragments = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-heading-fragments.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-heading-fragments.js"() {
     init_parse();
     init_render_carve();
     init_heading_ids();
@@ -72670,7 +72670,7 @@ var init_markdown_heading_fragments = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-reference-definition.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-reference-definition.js
 function readMarkdownReferenceDefinition(source) {
   const opener = /^ {0,3}\[/.exec(source);
   if (!opener)
@@ -72787,11 +72787,11 @@ function readMarkdownReferenceDefinition(source) {
   };
 }
 var init_markdown_reference_definition = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-reference-definition.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-reference-definition.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-empty-destination.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-empty-destination.js
 function trimReferenceWhitespace(value2) {
   let start = 0;
   let end = value2.length;
@@ -73556,7 +73556,7 @@ function unwrapEmptyDestinations(line2, placeholders, protect, decodeEntity, onU
 }
 var NO_REFERENCES, references, boundaryKey, RE_ENTITY, BRACKET_0, BRACKET_1, BRACKET_2, BRACKET_3, LABEL, ANGLE_DESTINATION, DESTINATION, TITLE, leadingSpaces2, LINE_TITLE, opensBlock;
 var init_markdown_empty_destination = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-empty-destination.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-empty-destination.js"() {
     init_marker_serial();
     init_markdown_link_scopes();
     init_parse();
@@ -73581,7 +73581,7 @@ var init_markdown_empty_destination = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/markdown-migrate.js
+// node_modules/@markup-carve/carve/dist/markdown-migrate.js
 function decodeLeadingReference(body2) {
   const reference = /^&(?:#[0-9]{1,7}|#[xX][0-9A-Fa-f]{1,6}|[A-Za-z][A-Za-z0-9]{1,31});/.exec(body2);
   return reference ? decodeHtmlEntitiesRaw(reference[0]) + body2.slice(reference[0].length) : body2;
@@ -79534,7 +79534,7 @@ function plainMarkdownUrlRanges(line2, spans, sources) {
 }
 var RE_MD_FENCE_LINE, fenceRunIsAFence, isMarkdownFenceLine, HTML_TAG_RULES, NAMED_HTML_ENTITIES, RE_HTML_ENTITY, RE_DECODED_CARVE_PUNCTUATION, authoredDestinations, RE_PROTECTED_SPAN_TOKEN, RE_MARKDOWN_ESCAPABLE, RE_MARKDOWN_ESCAPE_OR_ENTITY, RE_QUOTED_TITLE, RE_HEADING_HEAD_WHITESPACE, RE_CONTAINER_PREFIX2, RE_CARVE_HEADING_OPENER, RE_MD_HEADING_OPENER, RE_MARKER_RUN_ALONE, RE_LINE_INITIAL_DEFINITION, NATIVE_INLINE_HTML_TAGS, RE_NATIVE_INLINE_TAG, HTML_BLOCK_TAGS, RAWTEXT_HTML_BLOCK_TAGS, COMMONMARK_GFM, RE_BRACED_DELIMITER_FORM, inlineCarriersEnabled, importedCrossrefIds, inlineCarriersDamaged, footChainMarker, RE_TABLE_DELIMITER, RE_MD_THEMATIC, RE_ATX_HEADING, RE_MD_SETEXT_UNDERLINE, RE_MD_INDENTED_CODE, RE_MD_LINK_REFERENCE, carrierSlots, carrierToken, isDefinitionPayload, importLosses, inlineRunSourceLine, importSourceLine, RE_EMPTY_ITEM_PLACEHOLDER, RE_LIST_MARKER, RE_ITEM_LINE, RE_SOURCE_ITEM, RE_CARVE_TASK_LEAD, RE_EMISSION_HOST, RE_SINGLE_QUOTED_DEFINITION, RE_FREE_MARKER_PADDING, ListMarkers, RE_ITEM_LEAD, RE_MD_FRONTMATTER_OPEN, RE_MD_FRONTMATTER_CLOSE, RE_NEVER, quotedItemColumnCache, FM_KEY, RE_FM_YAML_MAPPING;
 var init_markdown_migrate = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/markdown-migrate.js"() {
+  "node_modules/@markup-carve/carve/dist/markdown-migrate.js"() {
     init_marker_serial();
     init_markdown_native_destination_glyphs();
     init_markdown_destination_encoding();
@@ -80177,7 +80177,7 @@ var init_markdown_migrate = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-tight-definition-descriptions.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-tight-definition-descriptions.js
 function tightDjotDefinitionDescriptions(source) {
   if (!source.includes("::") || !/^[ \t>]*(?:[-*+]|[0-9A-Za-z]+[.)]|\([0-9A-Za-z]+\))[ \t]/m.test(source))
     return source;
@@ -80299,14 +80299,14 @@ function tightDjotDefinitionDescriptions(source) {
   return result.join("");
 }
 var init_djot_tight_definition_descriptions = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-tight-definition-descriptions.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-tight-definition-descriptions.js"() {
     init_block_children();
     init_parse();
     init_render_carve();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-image-empty-destinations.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-image-empty-destinations.js
 function djotImageEmptyDestinations(source) {
   if (!source.includes("]("))
     return source;
@@ -80346,12 +80346,12 @@ function djotImageEmptyDestinations(source) {
   return parts.join("") + source.slice(cursor);
 }
 var init_djot_image_empty_destinations = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-image-empty-destinations.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-image-empty-destinations.js"() {
     init_djot_migrate();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-heading-targets.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-heading-targets.js
 function importedDjotHeadingTargets(carve) {
   const headings2 = (children) => {
     const found = [], pending = [...children].reverse();
@@ -80400,14 +80400,14 @@ function importedDjotHeadingTargets(carve) {
   return result;
 }
 var init_djot_heading_targets = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-heading-targets.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-heading-targets.js"() {
     init_parse();
     init_heading_ids();
     init_block_children();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-heading-ids.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-heading-ids.js
 function headings(blocks) {
   const result = [];
   const visit3 = (children) => {
@@ -80488,14 +80488,14 @@ ${continuation2}` });
   return chunks.join("");
 }
 var init_djot_heading_ids = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-heading-ids.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-heading-ids.js"() {
     init_parse();
     init_heading_ids();
     init_block_children();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-div-classes.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-div-classes.js
 function genericDjotDivClasses(source, contentStart) {
   if (!source.includes(":::"))
     return source;
@@ -80574,7 +80574,7 @@ function genericDjotDivClasses(source, contentStart) {
   return lines.join("\n");
 }
 var init_djot_div_classes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-div-classes.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-div-classes.js"() {
     init_ast();
     init_block_children();
     init_djot_migrate();
@@ -80582,7 +80582,7 @@ var init_djot_div_classes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-destination-lines.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-destination-lines.js
 function djotDestinationLines(source, depth) {
   if (!source.includes("\n"))
     return source;
@@ -80594,11 +80594,11 @@ function djotDestinationLines(source, depth) {
   });
 }
 var init_djot_destination_lines = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-destination-lines.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-destination-lines.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-image-child-text.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-image-child-text.js
 function renderDjotImageChildText(document, preserveBreaks = false) {
   const blocks = [];
   for (const block of document.children)
@@ -80640,14 +80640,14 @@ function renderDjotImageChildText(document, preserveBreaks = false) {
   return renderPlainText(document, { smartTypography: false });
 }
 var init_djot_image_child_text = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-image-child-text.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-image-child-text.js"() {
     init_block_children();
     init_inline_children();
     init_render_plain();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-label.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-reference-label.js
 function djotReferenceText(nodes) {
   const parts = [];
   const pending = [...nodes].reverse();
@@ -80672,12 +80672,12 @@ function djotReferenceText(nodes) {
   return parts.join("");
 }
 var init_djot_reference_label = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-label.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-reference-label.js"() {
     init_heading_ids();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-plain-text.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-plain-text.js
 function unmaskLiftedDjotAutolinkBodies(source, masked) {
   if (!source.includes("<") || !source.includes("\0"))
     return masked;
@@ -80720,14 +80720,14 @@ function escapePlainDjotText(source) {
   return escapePlainCarveInlineSyntaxAround(source, (at) => masked[at] === " " && source[at] !== " " && source[at] !== "\n", HANDLED_DJOT);
 }
 var init_djot_plain_text = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-plain-text.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-plain-text.js"() {
     init_djot_migrate();
     init_djot_attributes();
     init_carve_escape();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-collapsed-reference.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-collapsed-reference.js
 function imageLabelsAsLinks(source) {
   const destinations = /* @__PURE__ */ new Set();
   const mask = maskDjotCodeAndDestinations(source, true, true, true, void 0, [], {
@@ -80865,7 +80865,7 @@ function djotCollapsedReferenceCache() {
   };
 }
 var init_djot_collapsed_reference = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-collapsed-reference.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-collapsed-reference.js"() {
     init_djot_emphasis();
     init_djot_migrate();
     init_djot_word_attributes();
@@ -80876,7 +80876,7 @@ var init_djot_collapsed_reference = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-block-layout.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-block-layout.js
 function djotListKind(marker) {
   const label2 = /[0-9A-Za-z]+/.exec(marker)?.[0];
   if (!label2)
@@ -82336,7 +82336,7 @@ function hasDjotCodeLayoutCandidates(source) {
   return source.includes("`") && /(?:^|\n)[ \t]*:(?:[ \t]|$)/.test(source) || source.includes("\\|") || source.includes("`") && /(?:^|\n)(?:[ \t]*>(?:[ \t]|$))*[ \t]*\[\^[^\]\n]+\]:/.test(source) || source.includes("`") && /(?:^|\n)[ \t]*(?:(?:[-*+]|(?:[0-9]+|[A-Za-z]+)[.)]|\((?:[0-9]+|[A-Za-z]+)\))[ \t]+(?:\[[ xX]\][ \t]+)?|\[\^[^\]\n]+\]:[ \t]*)*>/.test(source) || source.includes("```") && /(?:^|\n)(?:[ \t]*>(?:[ \t]|$))*[ \t]+`{3,}/.test(source);
 }
 var init_djot_block_layout = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-block-layout.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-block-layout.js"() {
     init_djot_migrate();
     init_trim_non_nbsp();
     init_djot_word_attributes();
@@ -82347,7 +82347,7 @@ var init_djot_block_layout = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-import-losses.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-import-losses.js
 function lineOffsets(lines) {
   const offsets = [];
   let offset = 0;
@@ -82830,7 +82830,7 @@ function djotImportLosses(source, rows, contentStart, rawCode = [], accepted, de
 }
 var definitionKey, referenceKey, RAW_FORMAT_MESSAGE, EMPTY_TERM_PREFIX;
 var init_djot_import_losses = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-import-losses.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-import-losses.js"() {
     init_djot_block_layout();
     init_djot_inline_boundaries();
     init_djot_destination_lines();
@@ -82846,7 +82846,7 @@ var init_djot_import_losses = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-layout.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-reference-layout.js
 function literalReferenceAttributes(source, depth) {
   return source.split("\n").map((line2, index2) => {
     let at = 0;
@@ -83547,7 +83547,7 @@ function mergedReferenceAttrs(base, own) {
 }
 var definitionKey2, referenceKey2;
 var init_djot_reference_layout = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-layout.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-reference-layout.js"() {
     init_djot_import_losses();
     init_djot_block_layout();
     init_djot_attributes();
@@ -83561,7 +83561,7 @@ var init_djot_reference_layout = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-fold.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-reference-fold.js
 function foldDjotReferences(source, accepted, originalMask, originalRows) {
   if (!source.includes("]:"))
     return source;
@@ -83580,7 +83580,7 @@ function quoteDepth2(line2) {
 }
 var REFERENCE_DEFINITION, PHYSICAL_PREFIX, ITEM_MARKER, ITEM_OR_DEFINITION_MARKER, PREVIOUS_BLOCK_START, OWNER_CLOSING_BLOCK, CODE_FENCE_OPENER, DjotReferenceFolder;
 var init_djot_reference_fold = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-reference-fold.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-reference-fold.js"() {
     init_djot_attributes();
     init_djot_migrate();
     REFERENCE_DEFINITION = /^\[(?!\^[^\]\n]+\]:(?:[ \t\r]|$))([^\]\n]*)\]:[ \t]*([^ \t\r\n]*)\r?$/;
@@ -83750,7 +83750,7 @@ var init_djot_reference_fold = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-import.js
+// node_modules/@markup-carve/carve/dist/import/djot/djot-import.js
 function replaceDjotImageLabels(source, mask, replace2, allowIncomplete = false) {
   if (!source.includes("!["))
     return source;
@@ -87350,7 +87350,7 @@ function trackDjotNoteAttributeBlocks(state, current, blockAllowed, standalone, 
 }
 var fencedLines, quoted, isMarkerLine, DJOT_NOTE_LIST_PREFIX, DJOT_NOTE_ITEM_START, DJOT_CODE_BLOCK_START, DJOT_CODE_ITEM_MARKER, DJOT_CODE_AUTOLINK, DJOT_ESCAPABLE, isDjotBlockAttributes, djotItemKind, stripDjotQuotePrefixes;
 var init_djot_import = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/djot/djot-import.js"() {
+  "node_modules/@markup-carve/carve/dist/import/djot/djot-import.js"() {
     init_djot_tight_definition_descriptions();
     init_djot_image_empty_destinations();
     init_djot_heading_targets();
@@ -87431,7 +87431,7 @@ var init_djot_import = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-assessment.js
+// node_modules/@markup-carve/carve/dist/import/markdown/markdown-assessment.js
 function htmlShape(html) {
   const visit3 = (node) => {
     if (node.nodeName === "#text")
@@ -87806,7 +87806,7 @@ ${items}</${tag}>
 }
 var escape, encodeDestination, encodeWrittenDestination, definitionPattern, inlineDestinationPattern, destinationValue;
 var init_markdown_assessment = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/markdown-assessment.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/markdown-assessment.js"() {
     init_dist();
     init_html_import_dom();
     init_dist2();
@@ -87829,7 +87829,7 @@ var init_markdown_assessment = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/migration.js
+// node_modules/@markup-carve/carve/dist/migration.js
 function migrateHtml(source, options = {}) {
   const result = htmlToCarve(source, options);
   return {
@@ -87939,7 +87939,7 @@ function migrateBbcode(source) {
   })));
 }
 var init_migration = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/migration.js"() {
+  "node_modules/@markup-carve/carve/dist/migration.js"() {
     init_trim_non_nbsp();
     init_djot_import();
     init_bbcode_migrate();
@@ -87951,16 +87951,16 @@ var init_migration = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/version.js
+// node_modules/@markup-carve/carve/dist/version.js
 var SPEC_VERSION, LIB_VERSION;
 var init_version = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/version.js"() {
+  "node_modules/@markup-carve/carve/dist/version.js"() {
     SPEC_VERSION = "0.1";
     LIB_VERSION = "0.1.14";
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/stamp.js
+// node_modules/@markup-carve/carve/dist/stamp.js
 function buildMarker(generatedBy, form) {
   if (form === "block") {
     return `%%%
@@ -88047,13 +88047,13 @@ function compareSpecVersions(a, b) {
   return 0;
 }
 var init_stamp = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/stamp.js"() {
+  "node_modules/@markup-carve/carve/dist/stamp.js"() {
     init_trim_non_nbsp();
     init_version();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/includes.js
+// node_modules/@markup-carve/carve/dist/includes.js
 function isIncludeDenial(value2) {
   return typeof value2 === "string" && INCLUDE_DENIALS.has(value2);
 }
@@ -89271,7 +89271,7 @@ function findDirectiveSites(doc) {
 }
 var INCLUDE_DENIALS, MIN_BUDGET, INCLUDE_DECODER, NOT_SELECTABLE, RunText;
 var init_includes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/includes.js"() {
+  "node_modules/@markup-carve/carve/dist/includes.js"() {
     init_abbr_budget();
     init_well_formed();
     init_heading_ids();
@@ -89335,7 +89335,7 @@ var init_includes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/colon-fences.js
+// node_modules/@markup-carve/carve/dist/parse/block/colon-fences.js
 function inspectColonFences(source) {
   const unclosed = [];
   const document = parse(source, { positions: true, onUnclosedContainer: (site) => unclosed.push(site) });
@@ -89406,12 +89406,12 @@ function lineRun(line2, at) {
   return match ? { width: match[1].length, bare: /^[ \t]*$/.test(match[2]) } : null;
 }
 var init_colon_fences = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/colon-fences.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/colon-fences.js"() {
     init_parse();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/lint.js
+// node_modules/@markup-carve/carve/dist/lint.js
 function codepointToUtf16Map(source) {
   let needsMap = false;
   for (let i = 0; i < source.length; i++) {
@@ -91727,7 +91727,7 @@ function collectCommentLines(doc, blocksOnly = false) {
 }
 var TRAILING_HEADING_ATTR, LEGACY_RAW_FENCE, BLOCKQUOTE_WITHOUT_SPACE, LEAKED_BLOCK_MARKER, INDENTED_FENCE, FENCE_RUN, LINT_LIST_ITEM, LINT_BLOCK_OPENER, FOOTNOTE_DEF, LINT_MARKER_SHAPED, SEMANTIC_SPAN_NAMES, CORE_SEMANTIC_NAMES, SEMANTIC_NAMES_KEEPING_A_VALUE, VALID_ATTRIBUTE_ON, QUOTED_VALUE_LIMIT, QUOTED_VALUE_ELLIPSIS, BRACE_PAIR, PLATFORM_RULES, PLATFORM_LABEL, KNOWN_LINT_PLATFORMS;
 var init_lint = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/lint.js"() {
+  "node_modules/@markup-carve/carve/dist/lint.js"() {
     init_trim_non_nbsp();
     init_parse_block_boundaries();
     init_parse();
@@ -91788,7 +91788,7 @@ var init_lint = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/case-migrate.js
+// node_modules/@markup-carve/carve/dist/import/markdown/case-migrate.js
 function migrateCaseOnlyReferences(source, opts = {}) {
   const edits = [];
   for (const warning of lintCarve(source, opts)) {
@@ -91901,7 +91901,7 @@ function walk(value2, visit3) {
       walk(child, visit3);
 }
 var init_case_migrate = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/import/markdown/case-migrate.js"() {
+  "node_modules/@markup-carve/carve/dist/import/markdown/case-migrate.js"() {
     init_lint();
     init_parse();
     init_heading_ids();
@@ -91910,7 +91910,7 @@ var init_case_migrate = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/tab-normalize.js
+// node_modules/@markup-carve/carve/dist/tab-normalize.js
 function tabNormalize(width2 = 2) {
   const spaces = " ".repeat(Math.max(0, width2));
   const expand = (s) => s.replace(/\t/g, spaces);
@@ -91943,11 +91943,11 @@ function tabNormalize(width2 = 2) {
   };
 }
 var init_tab_normalize = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/tab-normalize.js"() {
+  "node_modules/@markup-carve/carve/dist/tab-normalize.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/details.js
+// node_modules/@markup-carve/carve/dist/extension/details.js
 function details() {
   return {
     name: "details",
@@ -91992,11 +91992,11 @@ ${pad}</details>`;
   };
 }
 var init_details = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/details.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/details.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/semantic-span.js
+// node_modules/@markup-carve/carve/dist/semantic-span.js
 function semanticSpan() {
   const deprecatedSpelling = (name) => (node, ctx) => `<${name}${ctx.renderAttrs(node.attrs)}>${ctx.renderInlines(node.content)}</${name}>`;
   const renderers = {};
@@ -92011,15 +92011,15 @@ function semanticSpan() {
   };
 }
 var init_semantic_span = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/semantic-span.js"() {
+  "node_modules/@markup-carve/carve/dist/semantic-span.js"() {
     init_render_html();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/column-reservations.js
+// node_modules/@markup-carve/carve/dist/parse/block/column-reservations.js
 var ColumnReservations;
 var init_column_reservations = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/parse/block/column-reservations.js"() {
+  "node_modules/@markup-carve/carve/dist/parse/block/column-reservations.js"() {
     ColumnReservations = class {
       minimum;
       maximum;
@@ -92094,7 +92094,7 @@ var init_column_reservations = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/list-table.js
+// node_modules/@markup-carve/carve/dist/table/list-table.js
 function listTable() {
   return {
     name: "list-table",
@@ -92493,7 +92493,7 @@ function headerCount(value2) {
 }
 var MAX_LIST_TABLE_ROWS, MAX_LIST_TABLE_CELLS;
 var init_list_table = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/table/list-table.js"() {
+  "node_modules/@markup-carve/carve/dist/table/list-table.js"() {
     init_column_reservations();
     init_parse();
     init_table_spans();
@@ -92502,7 +92502,7 @@ var init_list_table = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/glossary.js
+// node_modules/@markup-carve/carve/dist/extension/glossary.js
 function glossary() {
   const defined = /* @__PURE__ */ new Map();
   const containers = /* @__PURE__ */ new WeakSet();
@@ -92636,7 +92636,7 @@ function walkBlocks2(node, fn) {
 }
 var termSlug, termKey;
 var init_glossary = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/glossary.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/glossary.js"() {
     init_heading_ids();
     init_parse();
     termSlug = (term) => slugify(inlineText(term));
@@ -92644,7 +92644,7 @@ var init_glossary = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-numbers.js
+// node_modules/@markup-carve/carve/dist/heading/heading-numbers.js
 function headingNumbers(opts = {}) {
   const minLevel = opts.minLevel ?? 1;
   const label2 = opts.label ?? "Section";
@@ -92774,12 +92774,12 @@ function walkCrossrefs(node, fn) {
   }
 }
 var init_heading_numbers = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-numbers.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/heading-numbers.js"() {
     init_heading_ids();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/code-callouts.js
+// node_modules/@markup-carve/carve/dist/extension/code-callouts.js
 function codeCallouts() {
   const calloutLists = /* @__PURE__ */ new WeakSet();
   return {
@@ -92896,13 +92896,13 @@ function firstText(line2) {
 }
 var ITEM_RE2;
 var init_code_callouts = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/code-callouts.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/code-callouts.js"() {
     init_verbatim_payload();
     ITEM_RE2 = /^<(\d+)> /;
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/smart-quotes.js
+// node_modules/@markup-carve/carve/dist/extension/smart-quotes.js
 function smartQuoteLocales() {
   return Object.keys(SMART_QUOTE_LOCALES);
 }
@@ -92933,7 +92933,7 @@ function localeKeys(locale) {
 }
 var SMART_QUOTE_LOCALES;
 var init_smart_quotes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/smart-quotes.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/smart-quotes.js"() {
     SMART_QUOTE_LOCALES = Object.freeze({
       en: ["\u201C", "\u201D", "\u2018", "\u2019"],
       de: ["\u201E", "\u201C", "\u201A", "\u2018"],
@@ -92959,7 +92959,7 @@ var init_smart_quotes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/index-terms.js
+// node_modules/@markup-carve/carve/dist/heading/index-terms.js
 function index(opts = {}) {
   const occ = /* @__PURE__ */ new WeakMap();
   const counts = /* @__PURE__ */ new Map();
@@ -93111,7 +93111,7 @@ function walkExtensions(node, name, fn) {
 }
 var termSlug2;
 var init_index_terms = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/index-terms.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/index-terms.js"() {
     init_abbr_budget();
     init_heading_ids();
     init_parse();
@@ -93119,7 +93119,7 @@ var init_index_terms = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/fenced-render.js
+// node_modules/@markup-carve/carve/dist/render/fenced-render.js
 function escapeText3(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 }
@@ -93214,7 +93214,7 @@ ${pad}</figure>`;
 }
 var d2, graphviz, wavedrom, abc, plantuml, vegaLite, chart, mermaid, presets;
 var init_fenced_render = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/render/fenced-render.js"() {
+  "node_modules/@markup-carve/carve/dist/render/fenced-render.js"() {
     init_verbatim_payload();
     d2 = () => fencedRender({ language: "d2" });
     graphviz = () => fencedRender({ language: ["dot", "graphviz"], cssClass: "graphviz" });
@@ -93237,7 +93237,7 @@ var init_fenced_render = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/svg-sanitize.js
+// node_modules/@markup-carve/carve/dist/extension/svg-sanitize.js
 function schemeIsSafe(url) {
   const probe = url.replace(SCHEME_STRIP_RE, "");
   const m = /^([a-zA-Z][a-zA-Z0-9+.-]*):/.exec(probe);
@@ -93448,7 +93448,7 @@ function sanitizeSvg(source, opts = {}) {
 }
 var SVG_NS, ALLOWED_TAGS, LINK_TAGS, ANIMATION_TAGS, EXTERNAL_IMAGE_TAGS, ALLOWED_ATTRS, URL_ATTRS, DANGEROUS_URL_SCHEMES2, SCHEME_STRIP_RE, NAMED_REFS, NONLOCAL_URL_RE, ABSOLUTE_SCHEME_RE, REF_VALUE_ATTRS, ATTR_RE2, TOKEN_RE;
 var init_svg_sanitize = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/svg-sanitize.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/svg-sanitize.js"() {
     init_own_property();
     SVG_NS = "http://www.w3.org/2000/svg";
     ALLOWED_TAGS = /* @__PURE__ */ new Set([
@@ -93659,7 +93659,7 @@ var init_svg_sanitize = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/svg-fence.js
+// node_modules/@markup-carve/carve/dist/extension/svg-fence.js
 function consumedValue(attrs, key2) {
   const kv = attrs?.keyValues;
   if (!kv)
@@ -93761,7 +93761,7 @@ function imgFence(opts = {}) {
 }
 var CONSUMED_KEYS;
 var init_svg_fence = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/svg-fence.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/svg-fence.js"() {
     init_svg_sanitize();
     init_verbatim_payload();
     init_own_property();
@@ -93769,7 +93769,7 @@ var init_svg_fence = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/math-block.js
+// node_modules/@markup-carve/carve/dist/extension/math-block.js
 function escapeMath(s) {
   return s.replace(/[&<>]/g, (c) => c === "&" ? "&amp;" : c === "<" ? "&lt;" : "&gt;");
 }
@@ -93811,12 +93811,12 @@ function mathBlock(opts = {}) {
   };
 }
 var init_math_block = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/math-block.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/math-block.js"() {
     init_verbatim_payload();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/spoiler.js
+// node_modules/@markup-carve/carve/dist/extension/spoiler.js
 function spoiler() {
   return {
     name: "spoiler",
@@ -93886,12 +93886,12 @@ function withBaseClass3(attrs, base) {
   return a;
 }
 var init_spoiler = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/spoiler.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/spoiler.js"() {
     init_parse();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/color-swatch.js
+// node_modules/@markup-carve/carve/dist/extension/color-swatch.js
 function colorSwatch(options = {}) {
   const position = options.position ?? "before";
   const shape = options.shape ?? "square";
@@ -94061,14 +94061,14 @@ function inlineText2(nodes) {
 }
 var POSITIONS, SHAPES, NAMED_COLORS;
 var init_color_swatch = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/color-swatch.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/color-swatch.js"() {
     POSITIONS = ["before", "after", "none"];
     SHAPES = ["square", "round", "ring"];
     NAMED_COLORS = new Set("transparent currentcolor aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen".split(" "));
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/wikilinks.js
+// node_modules/@markup-carve/carve/dist/extension/wikilinks.js
 function defaultSlug(page) {
   return page.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-_/]/g, "").replace(/-+/g, "-");
 }
@@ -94127,11 +94127,11 @@ function wikilinks(opts = {}) {
   };
 }
 var init_wikilinks = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/wikilinks.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/wikilinks.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/autolink.js
+// node_modules/@markup-carve/carve/dist/extension/autolink.js
 function autolink(opts = {}) {
   const schemes = opts.allowedSchemes ?? ["https", "http", "mailto"];
   const urlSchemes = schemes.filter((s) => s !== "mailto").map(escapeRe);
@@ -94174,7 +94174,7 @@ function escapeRe(s) {
 }
 var PUNCT, ESCAPE, RE_ESCAPE, EMAIL;
 var init_autolink = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/autolink.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/autolink.js"() {
     init_parse();
     PUNCT = "[!-/:-@\\[-`{-~]";
     ESCAPE = "\\\\" + PUNCT;
@@ -94183,7 +94183,7 @@ var init_autolink = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/external-links.js
+// node_modules/@markup-carve/carve/dist/extension/external-links.js
 function isExternal(href) {
   return /^https?:\/\//i.test(href);
 }
@@ -94245,11 +94245,11 @@ function externalLinks(opts = {}) {
   };
 }
 var init_external_links = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/external-links.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/external-links.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/table-of-contents.js
+// node_modules/@markup-carve/carve/dist/extension/table-of-contents.js
 function escapeHtml3(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
@@ -94497,7 +94497,7 @@ function tocPlacement() {
 }
 var RESERVED_TOC_ATTRS;
 var init_table_of_contents = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/table-of-contents.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/table-of-contents.js"() {
     init_abbr_budget();
     init_heading_ids();
     init_render_html();
@@ -94507,7 +94507,7 @@ var init_table_of_contents = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-permalinks.js
+// node_modules/@markup-carve/carve/dist/heading/heading-permalinks.js
 function stripId2(attrs) {
   if (!attrs?.id)
     return attrs;
@@ -94542,11 +94542,11 @@ function headingPermalinks(opts = {}) {
   };
 }
 var init_heading_permalinks = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-permalinks.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/heading-permalinks.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/tabs.js
+// node_modules/@markup-carve/carve/dist/extension/tabs.js
 function isTabs(node) {
   if (node.type === "admonition")
     return node.kind === "tabs";
@@ -94766,14 +94766,14 @@ ${tab.content}</div>
 }
 var TAB_MODES;
 var init_tabs = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/tabs.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/tabs.js"() {
     init_heading_ids();
     init_roundtrip_carriers();
     TAB_MODES = ["css", "aria"];
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/code-group.js
+// node_modules/@markup-carve/carve/dist/extension/code-group.js
 function isCodeGroup(node) {
   if (node.type === "admonition")
     return node.kind === "code-group";
@@ -94953,14 +94953,14 @@ function codeGroup(opts = {}) {
   };
 }
 var init_code_group = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/code-group.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/code-group.js"() {
     init_trim_non_nbsp();
     init_tabs();
     init_roundtrip_carriers();
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-level-shift.js
+// node_modules/@markup-carve/carve/dist/heading/heading-level-shift.js
 function shiftBlock(node, shift) {
   switch (node.type) {
     case "heading":
@@ -95012,11 +95012,11 @@ function headingLevelShift(opts = {}) {
   };
 }
 var init_heading_level_shift = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-level-shift.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/heading-level-shift.js"() {
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-reference.js
+// node_modules/@markup-carve/carve/dist/heading/heading-reference.js
 function normalizeQuotes(text) {
   return text.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
 }
@@ -95140,13 +95140,13 @@ function walkBlock(node, targets, counts) {
 }
 var MARK;
 var init_heading_reference = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/heading/heading-reference.js"() {
+  "node_modules/@markup-carve/carve/dist/heading/heading-reference.js"() {
     init_heading_ids();
     MARK = "data-heading-ref";
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/default-attributes.js
+// node_modules/@markup-carve/carve/dist/extension/default-attributes.js
 function applyDefaults(node, defaults) {
   const n = node;
   if (!n.attrs)
@@ -95271,7 +95271,7 @@ function defaultAttributes(opts = {}) {
 }
 var TYPE_MAP;
 var init_default_attributes = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/extension/default-attributes.js"() {
+  "node_modules/@markup-carve/carve/dist/extension/default-attributes.js"() {
     TYPE_MAP = {
       paragraph: ["paragraph"],
       heading: ["heading"],
@@ -95296,7 +95296,7 @@ var init_default_attributes = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve/dist/index.js
+// node_modules/@markup-carve/carve/dist/index.js
 var dist_exports = {};
 __export(dist_exports, {
   AST_CONTRACT_VERSION: () => AST_CONTRACT_VERSION,
@@ -95743,7 +95743,7 @@ function carveToPreservationReport(source, target, opts = {}) {
   return { ...renderers[target](source, opts), preservation };
 }
 var init_dist2 = __esm({
-  "tools/lsp-bundle/node_modules/@markup-carve/carve/dist/index.js"() {
+  "node_modules/@markup-carve/carve/dist/index.js"() {
     init_extension_transforms();
     init_heading_ids();
     init_parse_document();
@@ -95829,10 +95829,10 @@ var init_dist2 = __esm({
   }
 });
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/server.js
+// node_modules/@markup-carve/carve-lsp/dist/server.js
 var import_node2 = __toESM(require_node3(), 1);
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-textdocument/lib/esm/main.js
+// node_modules/vscode-languageserver-textdocument/lib/esm/main.js
 var FullTextDocument = class _FullTextDocument {
   constructor(uri, languageId, version, content) {
     this._uri = uri;
@@ -96080,13 +96080,13 @@ function getWellformedEdit(textEdit) {
   return textEdit;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/server.js
+// node_modules/@markup-carve/carve-lsp/dist/server.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/semantic-span-names.js
+// node_modules/@markup-carve/carve-lsp/dist/semantic-span-names.js
 var SEMANTIC_SPAN_EXTENSION_NAMES = ["samp", "var", "cite", "dfn"];
 
-// tools/lsp-bundle/node_modules/vscode-languageserver-types/lib/esm/main.js
+// node_modules/vscode-languageserver-types/lib/esm/main.js
 var DocumentUri;
 (function(DocumentUri2) {
   function is(value2) {
@@ -97377,10 +97377,10 @@ var Is;
   Is2.typedArray = typedArray;
 })(Is || (Is = {}));
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/analyze.js
+// node_modules/@markup-carve/carve-lsp/dist/analyze.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-paths.js
+// node_modules/@markup-carve/carve-lsp/dist/include-paths.js
 var portableIncludePaths = {
   toUri(file) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(file) && !/^[a-z]:[\\/]/i.test(file))
@@ -97398,7 +97398,7 @@ var portableIncludePaths = {
   }
 };
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/inline-text.js
+// node_modules/@markup-carve/carve-lsp/dist/inline-text.js
 function smartPunctuationText(node) {
   if (typeof node !== "object" || node === null)
     return "";
@@ -97410,7 +97410,7 @@ function smartPunctuationText(node) {
   return typeof candidate.value === "string" ? candidate.value : "";
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/ast-walk.js
+// node_modules/@markup-carve/carve-lsp/dist/ast-walk.js
 function walkNodes2(root2, visit3) {
   const ancestors = [];
   const walk3 = (value2) => {
@@ -97436,7 +97436,7 @@ function walkNodes2(root2, visit3) {
   walk3(root2);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/captions.js
+// node_modules/@markup-carve/carve-lsp/dist/captions.js
 function captionTargets(doc) {
   const targets = [];
   const panels = /* @__PURE__ */ new Set();
@@ -97516,7 +97516,7 @@ function plainText(nodes) {
   return out;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-denial.js
+// node_modules/@markup-carve/carve-lsp/dist/include-denial.js
 var DENIALS = {
   "outside-root": {
     code: "include-denied",
@@ -97546,10 +97546,10 @@ function includeDenialMessage(denial, includePath) {
   return entry && `Include "${includePath}" was refused: ${entry.reason}.`;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/includes.js
+// node_modules/@markup-carve/carve-lsp/dist/includes.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/position.js
+// node_modules/@markup-carve/carve-lsp/dist/position.js
 init_dist2();
 function codepointColumnToUtf16(lineText, column) {
   if (column <= 1)
@@ -97630,7 +97630,7 @@ function astOffsetToIndex(source, offset) {
   return index2 + Math.max(0, offset - counted);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/includes.js
+// node_modules/@markup-carve/carve-lsp/dist/includes.js
 function lineStarts(source) {
   const perCharacter = engineColumnUnit() === "codepoint";
   const starts = [0];
@@ -97813,7 +97813,7 @@ function refusalKey(file, written) {
   return `${file ?? ""}\0${written}`;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-diagnostics.js
+// node_modules/@markup-carve/carve-lsp/dist/table-diagnostics.js
 init_dist2();
 function tableDiagnostics(source) {
   let document;
@@ -97860,7 +97860,7 @@ function diagnostic(code, severity, line2, start, end, message) {
   } };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/colon-fences.js
+// node_modules/@markup-carve/carve-lsp/dist/colon-fences.js
 init_dist2();
 var OPAQUE_TYPES = /* @__PURE__ */ new Set(["code_block", "raw_block", "comment"]);
 var FENCE_KIND_LABELS = { hard_break_block: "hard-break block" };
@@ -98012,7 +98012,7 @@ function contains(range, p) {
   return p.line === range.start.line && p.character >= range.start.character && p.character <= range.end.character;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/parse-cache.js
+// node_modules/@markup-carve/carve-lsp/dist/parse-cache.js
 init_dist2();
 var LIMIT = 4;
 var entries = [];
@@ -98030,7 +98030,7 @@ function resolvedDocument(source) {
   return doc;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/folding.js
+// node_modules/@markup-carve/carve-lsp/dist/folding.js
 var FOLDABLE = /* @__PURE__ */ new Set([
   "code_block",
   "raw_block",
@@ -98166,7 +98166,7 @@ function lexicalFolds(source) {
   return ranges;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/analyze.js
+// node_modules/@markup-carve/carve-lsp/dist/analyze.js
 function analyzeCarve(source, options = {}) {
   const diagnostics2 = [];
   let doc = null;
@@ -98542,7 +98542,7 @@ function rangeAt(source, index2, length) {
   };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/preview.js
+// node_modules/@markup-carve/carve-lsp/dist/preview.js
 init_dist2();
 function previewHtml(source, includes) {
   if (includes === void 0)
@@ -98557,7 +98557,7 @@ function previewMarkdown(source, includes) {
   return expanded === void 0 ? carveToMarkdown(source) : renderMarkdown2(expanded);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/export-actions.js
+// node_modules/@markup-carve/carve-lsp/dist/export-actions.js
 var EXPORT_KIND = `${CodeActionKind.Source}.export`;
 var FORMATS = {
   markdown: { title: "Export as Markdown", extension: ".md" },
@@ -98624,12 +98624,12 @@ function endOf(text) {
   return Position.create(lines.length - 1, lines[lines.length - 1].length);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-settings.js
+// node_modules/@markup-carve/carve-lsp/dist/include-settings.js
 var import_node_fs2 = require("node:fs");
 var import_node_path3 = __toESM(require("node:path"), 1);
 var import_node_url2 = require("node:url");
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-path.js
+// node_modules/@markup-carve/carve-lsp/dist/include-path.js
 var import_node_fs = require("node:fs");
 var import_node_path = __toESM(require("node:path"), 1);
 var REMOTE_RE = /^(?:[A-Za-z][A-Za-z0-9+.-]*:)?\/\//;
@@ -98737,7 +98737,7 @@ function fileSystemResolver(includeRoot, opts = {}) {
   };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/node-include-paths.js
+// node_modules/@markup-carve/carve-lsp/dist/node-include-paths.js
 var import_node_path2 = __toESM(require("node:path"), 1);
 var import_node_url = require("node:url");
 var nodeIncludePaths = {
@@ -98754,7 +98754,7 @@ var nodeIncludePaths = {
   }
 };
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-settings.js
+// node_modules/@markup-carve/carve-lsp/dist/include-settings.js
 var DEFAULT_INCLUDE_SETTINGS = { enabled: "auto" };
 function readIncludeSettings(raw, log) {
   const source = raw?.carve?.includes;
@@ -98870,13 +98870,13 @@ function previewIncludeOptionsFor(input) {
   return includeOptionsFor(input);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/definition.js
+// node_modules/@markup-carve/carve-lsp/dist/definition.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-definition.js
+// node_modules/@markup-carve/carve-lsp/dist/include-definition.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-selection.js
+// node_modules/@markup-carve/carve-lsp/dist/include-selection.js
 init_dist2();
 var HEADING_MARKER_RE = /^#{1,6}\s+/;
 function sections(source) {
@@ -98968,7 +98968,7 @@ function walk2(nodes, visit3) {
   }
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-definition.js
+// node_modules/@markup-carve/carve-lsp/dist/include-definition.js
 var FILE_START = {
   start: { line: 0, character: 0 },
   end: { line: 0, character: 0 }
@@ -99034,7 +99034,7 @@ function offsetAt(source, position) {
   return Math.min(source.length, offset + position.character);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/reference-sites.js
+// node_modules/@markup-carve/carve-lsp/dist/reference-sites.js
 init_dist2();
 var VERBATIM = /* @__PURE__ */ new Set(["code_block", "raw_block", "comment", "code", "raw_inline", "math", "frontmatter", "autolink"]);
 function normalizeLabel(label2) {
@@ -99251,7 +99251,7 @@ function escapeRegExp(value2) {
   return value2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/definition.js
+// node_modules/@markup-carve/carve-lsp/dist/definition.js
 function definitionAt(uri, source, position, includes) {
   const included = includeDefinitionAt(source, position, includes);
   if (included)
@@ -99460,7 +99460,7 @@ function escapeRegExp2(value2) {
   return value2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/references.js
+// node_modules/@markup-carve/carve-lsp/dist/references.js
 function referencesAt(uri, source, position, context) {
   const model = referenceModel(source);
   const lines = model.lines;
@@ -99707,7 +99707,7 @@ function dedup(locs) {
   });
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/workspace-index.js
+// node_modules/@markup-carve/carve-lsp/dist/workspace-index.js
 var WorkspaceIndex = class {
   #documents = /* @__PURE__ */ new Map();
   update(uri, source, version) {
@@ -99909,7 +99909,7 @@ function isValidName(kind2, value2) {
   return true;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/codelens.js
+// node_modules/@markup-carve/carve-lsp/dist/codelens.js
 function codeLenses(source) {
   const tokens = scanDocument("file:///document.crv", source);
   const lenses = [];
@@ -99926,7 +99926,7 @@ function codeLenses(source) {
   return lenses;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/completion.js
+// node_modules/@markup-carve/carve-lsp/dist/completion.js
 init_dist2();
 var ADMONITIONS = ["note", "tip", "warning", "danger", "info", "success", "example", "quote"];
 var FIGURE_GROUP = "figure";
@@ -100177,10 +100177,10 @@ function citationLabels(source) {
   return [...labels];
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/format.js
+// node_modules/@markup-carve/carve-lsp/dist/format.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/list-items.js
+// node_modules/@markup-carve/carve-lsp/dist/list-items.js
 init_dist2();
 function markerCharacter(line2, column) {
   const start = codepointColumnToUtf16(line2, column);
@@ -100320,7 +100320,7 @@ function listTree(source) {
   return byLine;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/format.js
+// node_modules/@markup-carve/carve-lsp/dist/format.js
 function formatDocument(source) {
   if (source === "" || source.endsWith("\n"))
     return source;
@@ -100834,10 +100834,10 @@ function columns(run) {
   return width2;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-alignment.js
+// node_modules/@markup-carve/carve-lsp/dist/table-alignment.js
 init_dist2();
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-unicode-18-data.js
+// node_modules/@markup-carve/carve-lsp/dist/table-unicode-18-data.js
 var GCB2 = [
   0,
   9,
@@ -107692,7 +107692,7 @@ var INCB_EXTEND2 = [
   917999
 ];
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-display-width.js
+// node_modules/@markup-carve/carve-lsp/dist/table-display-width.js
 function property2(ranges, codePoint, stride) {
   let low = 0;
   let high = Math.floor(ranges.length / stride) - 1;
@@ -107790,7 +107790,7 @@ function tableDisplayWidth2(text) {
   return width2;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-alignment.js
+// node_modules/@markup-carve/carve-lsp/dist/table-alignment.js
 function splitRow(line2) {
   const marker = line2[0];
   if (marker !== "|" && marker !== "+")
@@ -107934,7 +107934,7 @@ function alignTableCodeAction(uri, source, line2) {
   };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/table-conversion.js
+// node_modules/@markup-carve/carve-lsp/dist/table-conversion.js
 init_dist2();
 function cells2(source) {
   const result = [];
@@ -108084,7 +108084,7 @@ function tableConversionCodeActions(uri, source, line2) {
   }
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/hover.js
+// node_modules/@markup-carve/carve-lsp/dist/hover.js
 init_dist2();
 var lexicalRules = [
   {
@@ -108310,7 +108310,7 @@ function spanSize(pos) {
   return (pos.endLine - pos.startLine) * 1e3 + ((pos.endColumn ?? 1) - (pos.startColumn ?? 1));
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/migration-actions.js
+// node_modules/@markup-carve/carve-lsp/dist/migration-actions.js
 init_dist2();
 function normalize4(source) {
   return source.replace(/\r\n?/g, "\n");
@@ -108376,7 +108376,7 @@ function positionAt2(source, offset) {
   };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/lint-actions.js
+// node_modules/@markup-carve/carve-lsp/dist/lint-actions.js
 init_dist2();
 function lintCodeActions(uri, source, diagnostics2) {
   const lines = source.replace(/\r\n?/g, "\n").split("\n");
@@ -108540,7 +108540,7 @@ function replace(line2, end, newText) {
   return { range: { start: { line: line2, character: 0 }, end: { line: line2, character: end } }, newText };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/rename.js
+// node_modules/@markup-carve/carve-lsp/dist/rename.js
 function labelSites(model) {
   return model.sites.filter((site) => (site.kind === "footnote" || site.kind === "linkref") && site.keyRange !== null);
 }
@@ -108574,7 +108574,7 @@ function contains6(range, position) {
   return position.line === range.start.line && position.character >= range.start.character && position.character <= range.end.character;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/diagnostic-scheduler.js
+// node_modules/@markup-carve/carve-lsp/dist/diagnostic-scheduler.js
 var DEFAULT_DIAGNOSTIC_DELAY_MS = 120;
 var DiagnosticScheduler = class {
   timers = /* @__PURE__ */ new Map();
@@ -108642,7 +108642,7 @@ var DiagnosticScheduler = class {
   }
 };
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-cache.js
+// node_modules/@markup-carve/carve-lsp/dist/include-cache.js
 var IncludeSourceCache = class {
   maxEntries;
   #entries = /* @__PURE__ */ new Map();
@@ -108715,7 +108715,7 @@ var IncludeParseCache = class {
   }
 };
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/dependencies.js
+// node_modules/@markup-carve/carve-lsp/dist/dependencies.js
 var import_node_fs3 = require("node:fs");
 var import_node_path4 = __toESM(require("node:path"), 1);
 var import_node_url3 = require("node:url");
@@ -108773,7 +108773,7 @@ function same(left, right) {
   return left.size === right.size && [...left].every((value2) => right.has(value2));
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/semantic.js
+// node_modules/@markup-carve/carve-lsp/dist/semantic.js
 var import_node = __toESM(require_node3(), 1);
 var semanticTokenTypes = [
   "keyword",
@@ -109421,7 +109421,7 @@ function withoutOverlaps(tokens) {
   return filtered;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/document-links.js
+// node_modules/@markup-carve/carve-lsp/dist/document-links.js
 function documentLinks(uri, source) {
   const model = referenceModel(source);
   const links = [];
@@ -109467,7 +109467,7 @@ function add(links, model, uri, destination, start, end) {
   });
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/document-highlights.js
+// node_modules/@markup-carve/carve-lsp/dist/document-highlights.js
 function documentHighlights(uri, source, position) {
   const fences = colonFenceHighlights(source, position);
   if (fences.length)
@@ -109482,7 +109482,7 @@ function documentHighlights(uri, source, position) {
   }));
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/inlay-hints.js
+// node_modules/@markup-carve/carve-lsp/dist/inlay-hints.js
 function inlayHints(source, requested) {
   const hints = [];
   try {
@@ -109517,7 +109517,7 @@ function inlayHints(source, requested) {
   return hints.sort((a, b) => a.position.line - b.position.line);
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/list-marker-hints.js
+// node_modules/@markup-carve/carve-lsp/dist/list-marker-hints.js
 var BARE_MARKER3 = /^[ \t]*(?:([-*]) +(\[ \] +)?|(?:\.|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]) +)$/;
 function editedLine(changes) {
   const last = changes[changes.length - 1];
@@ -109544,7 +109544,7 @@ function bareListMarkerHints(source, line2, requested) {
   }];
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/selection.js
+// node_modules/@markup-carve/carve-lsp/dist/selection.js
 function selectionRanges(uri, source, positions) {
   const lines = source.replace(/\r\n?/g, "\n").split("\n");
   const tokens = scanDocument(uri, source);
@@ -109580,7 +109580,7 @@ function wordRange(line2, position) {
   return null;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/workspace-graph.js
+// node_modules/@markup-carve/carve-lsp/dist/workspace-graph.js
 var import_node_path5 = __toESM(require("node:path"), 1);
 var import_node_url4 = require("node:url");
 function workspaceGraph(index2) {
@@ -109669,7 +109669,7 @@ function dedupeEdges(edges) {
   });
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/workspace-loader.js
+// node_modules/@markup-carve/carve-lsp/dist/workspace-loader.js
 var import_node_fs4 = require("node:fs");
 var import_node_path6 = __toESM(require("node:path"), 1);
 var import_node_url5 = require("node:url");
@@ -109718,10 +109718,10 @@ function indexWorkspace(index2, roots, limits = {}) {
   return { files, bytes, truncated };
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/server.js
+// node_modules/@markup-carve/carve-lsp/dist/server.js
 var import_node_fs7 = require("node:fs");
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/versioned-cache.js
+// node_modules/@markup-carve/carve-lsp/dist/versioned-cache.js
 var VersionedCache = class {
   #entries = /* @__PURE__ */ new Map();
   get(uri, version) {
@@ -109743,7 +109743,7 @@ var VersionedCache = class {
   }
 };
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/include-completion.js
+// node_modules/@markup-carve/carve-lsp/dist/include-completion.js
 var import_node_fs5 = require("node:fs");
 var import_node_path7 = __toESM(require("node:path"), 1);
 var OPTION_NAMES = [
@@ -109954,7 +109954,7 @@ function isInside(root2, target) {
   return relative === "" || !import_node_path7.default.isAbsolute(relative) && !relative.split(import_node_path7.default.sep).includes("..");
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/settings.js
+// node_modules/@markup-carve/carve-lsp/dist/settings.js
 var import_node_fs6 = require("node:fs");
 var import_node_path8 = __toESM(require("node:path"), 1);
 var DEFAULT_CARVE_SETTINGS = {
@@ -110040,7 +110040,7 @@ function readProjectSection(roots) {
   return void 0;
 }
 
-// tools/lsp-bundle/node_modules/@markup-carve/carve-lsp/dist/server.js
+// node_modules/@markup-carve/carve-lsp/dist/server.js
 var connection = (0, import_node2.createConnection)(import_node2.ProposedFeatures.all);
 var editedLines = /* @__PURE__ */ new Map();
 var documents = new import_node2.TextDocuments({
