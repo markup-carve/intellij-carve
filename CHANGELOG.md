@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.16] - 2026-10-24
+
+### Fixed
+
+- Marketplace rejected 0.1.15 because an internal IntelliJ API call was flagged by 2026.x IDEs. The LSP4IJ availability check now uses the plugin class loader instead (#281).
+- The settings panel no longer loads LSP4IJ code when that optional plugin is unavailable, fixing compatibility with IntelliJ IDEA 2026.1 (#281).
+
 ## [0.1.15] - 2026-10-23
 
 ### Changed
