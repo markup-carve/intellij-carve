@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.17] - 2026-10-24
+
+The preview now shows scrollable code blocks and more accurate list styling.
+
+### Fixes
+
+- Ordered lists with `)` delimiters keep their matching markers, and task checkboxes align with their text (#284).
+
+### Improvements
+
+- Code blocks marked `.scroll` stay within a chosen height in the preview and scroll vertically; captions remain visible, and printing shows the full block (#284).
+
+**Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.16...0.1.17
+
 ## [0.1.16] - 2026-10-24
 
 ### Fixed
@@ -390,7 +404,9 @@ Initial release.
   carve-php (PHP CLI via markup-carve/carve-php).
 - Custom preview CSS, layered from file-, project-, and settings-level sources.
 
-[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.15...HEAD
+[Unreleased]: https://github.com/markup-carve/intellij-carve/compare/0.1.17...HEAD
+[0.1.17]: https://github.com/markup-carve/intellij-carve/compare/0.1.16...0.1.17
+[0.1.16]: https://github.com/markup-carve/intellij-carve/compare/0.1.15...0.1.16
 [0.1.15]: https://github.com/markup-carve/intellij-carve/compare/0.1.14...0.1.15
 [0.1.14]: https://github.com/markup-carve/intellij-carve/compare/0.1.13...0.1.14
 [0.1.13]: https://github.com/markup-carve/intellij-carve/compare/0.1.12...0.1.13
