@@ -1,8 +1,6 @@
 package org.markupcarve.carve.lsp
 
-import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.diagnostic.thisLogger
-import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.project.Project
 
 /**
@@ -17,11 +15,15 @@ import com.intellij.openapi.project.Project
  */
 object CarveLspRestart {
 
-    private const val LSP4IJ_PLUGIN_ID = "com.redhat.devtools.lsp4ij"
+    private const val LSP4IJ_MANAGER_CLASS = "com.redhat.devtools.lsp4ij.LanguageServerManager"
     private const val SERVER_ID = "carveLanguageServer"
 
-    fun isLsp4ijAvailable(): Boolean =
-        PluginManagerCore.getPlugin(PluginId.getId(LSP4IJ_PLUGIN_ID))?.isEnabled == true
+    fun isLsp4ijAvailable(): Boolean = try {
+        Class.forName(LSP4IJ_MANAGER_CLASS, false, javaClass.classLoader)
+        true
+    } catch (_: ClassNotFoundException) {
+        false
+    }
 
     fun restart(project: Project) {
         if (!isLsp4ijAvailable()) return
