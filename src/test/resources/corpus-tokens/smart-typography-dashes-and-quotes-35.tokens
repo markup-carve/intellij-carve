@@ -1,0 +1,18 @@
+Exclude  -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+\\/ -> text.carve constant.character.escape.carve
+trunk/app/config/ -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+.\n -> text.carve
+\n -> text.carve
+see  -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+https://example.org/ -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ here\n -> text.carve
+\n -> text.carve
+the 'tmp/' folder, and/ -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+or -> text.carve
+" -> text.carve keyword.control.smartquote.carve
+ too\n -> text.carve

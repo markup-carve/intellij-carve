@@ -464,6 +464,12 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        "a-definition-marker-line-keeps-a-straddling-tab-s-residual-columns" to
+            "Tab column accounting changes the parsed definition body; the line grammar has no column scope for residual spaces.",
+        "a-description-separator-left-of-its-item-s-column-folds-into-the-definition-body" to
+            "Description body folding depends on the parent item column, which the line grammar does not retain.",
+        "table-spans-keep-alignment-defaults-in-physical-columns" to
+            "Table alignment is a parsed cell property with no distinct token scope.",
         // Spec 0.1.11 corpus (tag 0.1.11), categories 618-656.
         "a-caption-after-a-continuation-marker-fence-stays-with-the-fence" to BLOCK_STATE_0111,
         "a-column-zero-marker-below-an-open-div-attaches-beside-the-div" to PLUS_VERDICT_0111,
