@@ -33,6 +33,8 @@
                          languageId="carve"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceInterface="org.markupcarve.carve.lsp.CarveLspRestarter"
+                        serviceImplementation="org.markupcarve.carve.lsp.Lsp4ijRestarter"/>
         <!--
           Tab / Shift+Tab nest and un-nest list items through carve-lsp's carve.listIndent.
           Every other case, and every non-Carve file, goes to the handler they wrap.
