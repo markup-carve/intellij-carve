@@ -69,6 +69,20 @@ class CarveCssResourcesTest {
         )
     }
 
+    @Test
+    fun `preview core styles cover the hooks added after the previous CSS copy`() {
+        val page = CarvePreviewHtml.create(
+            initialHtml = "",
+            isDark = false,
+            assetBase = "file:///nowhere/",
+            carveCss = resource("recipes").readText(),
+        )
+        assertTrue(page.contains("ol[data-delim=\")\"]"))
+        assertTrue(page.contains("ul.task-list > li"))
+        assertTrue(page.contains("li[data-task-state=\"x\"]"))
+        assertTrue(page.contains("figure.scroll > pre"))
+    }
+
     /**
      * `UPSTREAM` is the record the drift guard reads, so it has to agree with
      * the headers it describes. A refresh that updates one and not the other

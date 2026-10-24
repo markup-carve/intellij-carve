@@ -218,6 +218,12 @@ renders as a drawn tree rather than a bare nested list. Also covered:
 modifiers including per-row status (`{.ok}`, `{.warn}`, `{.fail}` on a row's
 closing pipe).
 
+Add `{.scroll}` above a long code fence or code include to keep it to 25 lines
+with vertical scrolling. Set `--carve-scroll-lines` or
+`--carve-scroll-max-height` on the block to choose a different height. Printed
+pages show the full block. Task lists and ordered lists written with `1)` also
+retain their authored markers in the preview.
+
 Several take a `data-*` attribute instead of a second class - `data-guides`,
 `data-columns`, `data-tone` - and every value resolves through a `--carve-*`
 custom property, so your own preview CSS can retune one without overriding a

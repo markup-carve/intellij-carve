@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/recipes.css
- * version 0.1.6, commit ae9418e
+ * version 0.1.8, commit baaca04
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -347,6 +347,30 @@
  * block flow and the margin between two stacked images there is load-bearing. */
 .carve .scroll > :is(img, video):last-child {
   margin-block-end: 0;
+}
+
+/*
+ * `{.scroll}` on the line above a fence or a `@code` include bounds its height
+ * and scrolls it vertically. The class lands on the `<pre>`, or on the
+ * `<figure>` when the fence has a caption, so the figure case scrolls the `<pre>`
+ * and leaves the caption in view. Height is a line count; a per-block value
+ * goes in `{.scroll style="--carve-scroll-lines: 20"}`, and a length in
+ * `--carve-scroll-max-height` wins over the count. Keyboard scrolling needs the
+ * `<pre>` to be focusable, which is the renderer's concern.
+ */
+.carve :is(pre.scroll, figure.scroll > pre) {
+  max-block-size: var(--carve-scroll-max-height, calc(var(--carve-scroll-lines, 25) * 1lh));
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.carve figure.scroll {
+  overflow: visible;
+}
+@media print {
+  .carve :is(pre.scroll, figure.scroll > pre) {
+    max-block-size: none;
+    overflow: visible;
+  }
 }
 
 /*

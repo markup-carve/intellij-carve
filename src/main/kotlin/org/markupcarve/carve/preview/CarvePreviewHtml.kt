@@ -218,8 +218,36 @@ ${CarveCodeHighlight.DIFF_CSS}
         }
         ul, ol { padding-left: 2em; }
         li { margin: var(--carve-space-1) 0; }
-        li:has(> input[type="checkbox"]) { list-style: none; margin-left: -1.5em; }
         li > input[type="checkbox"] { margin-right: 0.5em; width: 1em; height: 1em; vertical-align: middle; }
+        @counter-style carve-paren-decimal { system: extends decimal; suffix: ") "; }
+        @counter-style carve-paren-lower-alpha { system: extends lower-alpha; suffix: ") "; }
+        @counter-style carve-paren-upper-alpha { system: extends upper-alpha; suffix: ") "; }
+        @counter-style carve-paren-lower-roman { system: extends lower-roman; suffix: ") "; }
+        @counter-style carve-paren-upper-roman { system: extends upper-roman; suffix: ") "; }
+        :where(.carve ol[data-delim=")"]:is(:not([type]), [type="1"])) { list-style-type: carve-paren-decimal; }
+        :where(.carve ol[data-delim=")"][type="a" s]) { list-style-type: carve-paren-lower-alpha; }
+        :where(.carve ol[data-delim=")"][type="A" s]) { list-style-type: carve-paren-upper-alpha; }
+        :where(.carve ol[data-delim=")"][type="i" s]) { list-style-type: carve-paren-lower-roman; }
+        :where(.carve ol[data-delim=")"][type="I" s]) { list-style-type: carve-paren-upper-roman; }
+        @supports (float: inline-start) {
+            .carve ul.task-list > li { list-style: none; }
+            .carve ul.task-list > li > input[type="checkbox"]:first-child {
+                float: inline-start;
+                font-size: inherit;
+                margin-block: calc((var(--carve-line-height) - 1) * 0.5em) 0;
+                margin-inline: calc(-1em - var(--carve-space-2)) var(--carve-space-2);
+            }
+        }
+        @supports selector(:has(> a)) and (float: inline-start) {
+            .carve ul > li:has(> input[type="checkbox"]:first-child) { list-style: none; }
+            .carve ul > li > input[type="checkbox"]:first-child {
+                float: inline-start;
+                font-size: inherit;
+                margin-block: calc((var(--carve-line-height) - 1) * 0.5em) 0;
+                margin-inline: calc(-1em - var(--carve-space-2)) var(--carve-space-2);
+            }
+        }
+        .carve li[data-task-state="x"] { color: var(--carve-ink-soft); }
         sup, sub { font-size: 0.75em; }
         dl { margin: var(--carve-space-4) 0; }
         dt { font-weight: bold; margin-top: var(--carve-space-3); }
