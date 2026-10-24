@@ -9,15 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.17] - 2026-10-24
 
-The preview now shows scrollable code blocks and more accurate list styling.
+The preview now shows scrollable code blocks and follows the published Carve 0.1.12 engine and grammar rules.
 
 ### Fixes
 
 - Ordered lists with `)` delimiters keep their matching markers, and task checkboxes align with their text (#284).
+- Preview and language server rendering follow the current table span, wrapped attribute, and continuation marker rulings.
 
 ### Improvements
 
 - Code blocks marked `.scroll` stay within a chosen height in the preview and scroll vertically; captions remain visible, and printing shows the full block (#284).
+- Carve fences use the latest published grammar scopes.
 
 **Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.16...0.1.17
 

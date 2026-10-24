@@ -5,7 +5,7 @@
     "@markup-carve/carve-lsp": "0.1.14"
   },
   "overrides": {
-    "@markup-carve/carve": "0.1.13"
+    "@markup-carve/carve": "0.1.14"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
