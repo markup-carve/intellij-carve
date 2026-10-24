@@ -162,7 +162,7 @@ intellijPlatform {
         )
 
         ides {
-            // Check binary/API compatibility against every 2025 train, so a Marketplace flag
+            // Check binary/API compatibility against every released train, so a Marketplace flag
             // is caught here instead. The plugin builds against the first of them and claims
             // all of them plus everything after, so the newest train in the list is the one
             // carrying the open-ended until-build.
@@ -175,6 +175,8 @@ intellijPlatform {
             // IntellijIdeaCommunity download URL for version: '2025.3'" - so the type has to
             // change with the train, not the version string.
             create(IntelliJPlatformType.IntellijIdea, "2025.3")
+            create(IntelliJPlatformType.IntellijIdea, "2026.1")
+            create(IntelliJPlatformType.IntellijIdea, "2026.2")
         }
     }
 

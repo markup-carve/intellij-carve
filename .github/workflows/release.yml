@@ -103,7 +103,8 @@ jobs:
 
       # The same gates build.yml runs. A release is not the place to find out
       # the plugin does not compile or that a test is red, and the Plugin
-      # Verifier fails on the internal API the Marketplace rejects an upload for.
+      # Verifier checks 2025.1 through 2026.2 and fails on the internal API
+      # the Marketplace rejects an upload for.
       - name: Build, test and verify plugin
         run: ./gradlew --no-daemon buildPlugin test verifyPlugin
 
