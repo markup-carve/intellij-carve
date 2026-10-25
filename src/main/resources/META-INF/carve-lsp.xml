@@ -6,7 +6,7 @@
       preview, HTML export, live templates, file-type recognition - works without
       it. When LSP4IJ is present, the bundled carve-lsp Node server adds
       diagnostics, completion, folding, document symbols (Structure view), hover,
-      code actions / quick fixes, rename, formatting, semantic tokens and code
+      code actions / quick fixes, rename, formatting and code
       lenses; lsp4ij maps each capability onto the matching native IDE feature.
     -->
     <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">

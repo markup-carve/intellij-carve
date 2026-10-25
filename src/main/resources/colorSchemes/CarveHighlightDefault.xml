@@ -7,4 +7,16 @@
             <option name="FONT_TYPE" value="1" />
         </value>
     </option>
+    <option name="CARVE_TABLE_PIPE">
+        <value><option name="FOREGROUND" value="959DA5" /></value>
+    </option>
+    <option name="CARVE_TABLE_HEADER">
+        <value><option name="FOREGROUND" value="005CC5" /><option name="FONT_TYPE" value="1" /></value>
+    </option>
+    <option name="CARVE_TABLE_ALIGNMENT">
+        <value><option name="FOREGROUND" value="E36209" /><option name="FONT_TYPE" value="1" /></value>
+    </option>
+    <option name="CARVE_TABLE_SPAN">
+        <value><option name="FOREGROUND" value="6F42C1" /><option name="FONT_TYPE" value="1" /></value>
+    </option>
 </list>

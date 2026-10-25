@@ -78,7 +78,7 @@ incompatible bundle fails CI.
 ## Bundled language server (lsp/server.js)
 
 LSP features (diagnostics, completion, folding, document symbols, hover, code
-actions, rename, formatting, semantic tokens, code lenses) come from
+actions, rename, formatting, code lenses) come from
 [carve-lsp](https://github.com/markup-carve/carve-lsp), a Node stdio language
 server, wired up through
 [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij). The compiled server

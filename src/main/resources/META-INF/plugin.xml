@@ -115,6 +115,9 @@
         <additionalTextAttributes
                 scheme="Darcula"
                 file="colorSchemes/CarveHighlightDarcula.xml"/>
+        <additionalTextAttributes
+                scheme="Islands Dark"
+                file="colorSchemes/CarveHighlightDarcula.xml"/>
 
         <defaultLiveTemplates file="/liveTemplates/Carve.xml"/>
 
