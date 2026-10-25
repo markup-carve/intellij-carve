@@ -2,6 +2,7 @@ package org.markupcarve.carve.actions
 
 import org.markupcarve.carve.preview.CarveCodeHighlight
 import org.markupcarve.carve.preview.CarvePreviewAssets
+import org.markupcarve.carve.preview.CarveTaskCheckboxStyles
 
 /**
  * The standalone page written by [ExportHtmlAction].
@@ -92,6 +93,7 @@ ${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS
         li:has(> .error), li:has(> input + .error) { background: #fdf3f2; border-radius: 4px; }
         li:has(> .success), li:has(> input + .success) { background: #f2fbf5; border-radius: 4px; }
 ${CarveCodeHighlight.DIFF_CSS}
+${CarveTaskCheckboxStyles.CSS}
     </style>
     <script>
         window.MathJax = {
