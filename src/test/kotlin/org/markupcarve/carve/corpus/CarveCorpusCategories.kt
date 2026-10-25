@@ -464,6 +464,20 @@ object CarveCorpusCategories {
      * nothing meaningful to snapshot. Each entry records why it is skipped.
      */
     val SKIP: Map<String, String> = linkedMapOf(
+        "a-display-math-span-with-trailing-attributes-takes-a-caption" to
+            "Caption attachment to a math span is a block relationship, not a distinct TextMate token.",
+        "a-line-at-the-marker-column-leaves-a-closed-nested-body" to
+            "Nested-body closure depends on the parent marker column, which the line grammar does not retain.",
+        "a-styled-display-math-span-takes-a-caption-across-one-blank-line" to
+            "A blank line changes caption attachment without changing marker scopes.",
+        "a-tab-after-a-comment-marker-stays-in-its-text" to
+            "The tab changes parsed comment text but adds no token boundary.",
+        "a-tab-cannot-pad-an-empty-link-destination" to
+            "Destination whitespace validation belongs to link parsing, not a dedicated token scope.",
+        "a-titled-admonition-skips-an-authored-heading-id" to
+            "The heading ID is suppressed during rendering without changing source token scopes.",
+        "an-empty-link-destination-takes-spaces" to
+            "Spaces in an empty destination change the parsed link target, not its token scope.",
         "a-definition-marker-line-keeps-a-straddling-tab-s-residual-columns" to
             "Tab column accounting changes the parsed definition body; the line grammar has no column scope for residual spaces.",
         "a-description-separator-left-of-its-item-s-column-folds-into-the-definition-body" to
