@@ -28,6 +28,15 @@ object CarveColors {
     /** `-` `*` bullet and `1.` `a)` ordered-list markers. */
     val LIST_MARKER = key("CARVE_LIST_MARKER", DefaultLanguageHighlighterColors.NUMBER)
 
+    /** The character between task-marker brackets. `_` shares the open color. */
+    val TASK_OPEN = key("CARVE_TASK_OPEN", DefaultLanguageHighlighterColors.IDENTIFIER)
+    val TASK_PROGRESS = key("CARVE_TASK_PROGRESS", DefaultLanguageHighlighterColors.CLASS_NAME)
+    val TASK_BLOCKED = key("CARVE_TASK_BLOCKED", DefaultLanguageHighlighterColors.KEYWORD)
+    val TASK_DONE = key("CARVE_TASK_DONE", DefaultLanguageHighlighterColors.STRING)
+    val TASK_DROPPED = key("CARVE_TASK_DROPPED", DefaultLanguageHighlighterColors.LINE_COMMENT)
+    val TASK_DEFERRED = key("CARVE_TASK_DEFERRED", DefaultLanguageHighlighterColors.DOC_COMMENT_TAG)
+    val TASK_UNCERTAIN = key("CARVE_TASK_UNCERTAIN", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
+
     /** Leading `+` list/table continuation marker. */
     val CONTINUATION_MARKER = key("CARVE_CONTINUATION_MARKER", DefaultLanguageHighlighterColors.METADATA)
 

@@ -31,7 +31,7 @@ class CarveListIndentTest {
 
     @Test
     fun `a bare marker right after Enter is a list line`() {
-        for (line in listOf("- ", "* ", "3. ", "3) ", "b. ", "iv. ", "IV) ", ". ", "-", "3.", "- [ ] ", "- [>] ", "-\t", "  - ", "> - ", "> > 2. ")) {
+        for (line in listOf("- ", "* ", "3. ", "3) ", "b. ", "iv. ", "IV) ", ". ", "-", "3.", "- [ ] ", "- [>] ", "- [/] ", "- [!] ", "-\t", "  - ", "> - ", "> > 2. ")) {
             assertTrue(line, CarveListIndent.isListItemLine(line))
         }
         assertEquals(listOf(2), CarveListIndent.selectedListLines("1. a\n2. b\n3. ", listOf(caret(2, 3))))

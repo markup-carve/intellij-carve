@@ -72,6 +72,18 @@ object CarveMarkerScanner {
 
     // Bullet chain, including marker-line nested bullets (`- - item`): each `-`/`*` is a marker.
     private val BULLET = Regex("""^([ \t]*)([-*](?:[ \t]+[-*])*)$AFTER_MARKER""")
+    private val TASK_BOX = Regex("""^(?:$ATTR_BLOCK)?[ \t]+\[([ xX_/>!?-])\][ \t]+(?=\S)""")
+
+    private fun taskColor(state: Char) = when (state) {
+        ' ', '_' -> CarveColors.TASK_OPEN
+        '/' -> CarveColors.TASK_PROGRESS
+        '!' -> CarveColors.TASK_BLOCKED
+        'x', 'X' -> CarveColors.TASK_DONE
+        '-' -> CarveColors.TASK_DROPPED
+        '>' -> CarveColors.TASK_DEFERRED
+        '?' -> CarveColors.TASK_UNCERTAIN
+        else -> error("not a task state: $state")
+    }
     // Ordered markers: a digit run, a single letter or a roman run, then `.` or `)` -
     // `1.`, `10.`, `1)`, `a.`, `b)`, `iv.`, `XI)` - plus the BARE DOT, which continues an
     // ordered sequence and is the only marker allowed to drop its value
@@ -100,9 +112,9 @@ object CarveMarkerScanner {
     // An ordered item has no task marker, so `1. [ ] +` stays text.
     private const val ORDERED_MARK = """(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]"""
     private val FIRST_BLOCK_PLUS = Regex(
-        """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_>?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|> |:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
+        """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_/>!?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|> |:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
     )
-    private val OPENER_STEP = Regex("""(?:([-*])[ \t]+(?:\[[ xX_>?-]\][ \t]+)?|($ORDERED_MARK)[ \t]+|(>)(?: |$)|(:|\[\^[^\]\n]+\]:)[ \t]+)""")
+    private val OPENER_STEP = Regex("""(?:([-*])[ \t]+(?:\[[ xX_/>!?-]\][ \t]+)?|($ORDERED_MARK)[ \t]+|(>)(?: |$)|(:|\[\^[^\]\n]+\]:)[ \t]+)""")
     private val CONTINUATION_ROW = Regex("""^\s*\+.*(?<!\\)\|""")
     private val PIPE = Regex("""(?<!\\)\|""")
     // A table row opens AND closes with a pipe; trailing attributes may follow the closer.
@@ -313,6 +325,12 @@ object CarveMarkerScanner {
                         if (line[i] == '-' || line[i] == '*') {
                             spans += Span(TextRange(lineStart + i, lineStart + i + 1), CarveColors.LIST_MARKER)
                         }
+                    }
+                    val afterChain = chain.last + 1
+                    TASK_BOX.find(line.substring(afterChain))?.let { task ->
+                        val state = task.groups[1]!!
+                        val at = lineStart + afterChain + state.range.first
+                        spans += Span(TextRange(at, at + 1), taskColor(state.value[0]))
                     }
                 }
                 ordered?.let { spans += Span(range(lineStart, it.groups[2]!!.range), CarveColors.LIST_MARKER) }

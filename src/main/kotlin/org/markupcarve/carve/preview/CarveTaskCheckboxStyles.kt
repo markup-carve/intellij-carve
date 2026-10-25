@@ -34,6 +34,37 @@ internal object CarveTaskCheckboxStyles {
             background-repeat: no-repeat;
             background-size: 80% 80%;
         }
+        li[data-task-state] > input[type="checkbox"] { outline-offset: 2px; }
+        li[data-task-state="-"] > input[type="checkbox"] {
+            border-color: var(--carve-ink-soft, #6a737d);
+            background-image: linear-gradient(var(--carve-ink-soft, #6a737d), var(--carve-ink-soft, #6a737d));
+            background-position: center;
+            background-size: 60% 2px;
+            background-repeat: no-repeat;
+        }
+        li[data-task-state="/"] > input[type="checkbox"] {
+            border-color: var(--carve-accent, #14607f);
+            background-color: var(--carve-accent-soft, #e6f4f8);
+            background-image: linear-gradient(135deg, transparent 38%, var(--carve-accent, #14607f) 39% 61%, transparent 62%);
+            background-position: center;
+            background-size: 70% 70%;
+            background-repeat: no-repeat;
+        }
+        li[data-task-state="!"] > input[type="checkbox"] {
+            border-color: var(--carve-danger, #9c2c1c);
+            background-color: var(--carve-danger-wash, #fff0ec);
+            background-image: linear-gradient(var(--carve-danger, #9c2c1c), var(--carve-danger, #9c2c1c)),
+                radial-gradient(circle, var(--carve-danger, #9c2c1c) 65%, transparent 70%);
+            background-position: center 30%, center 78%;
+            background-size: 2px 47%, 4px 4px;
+            background-repeat: no-repeat;
+        }
+        li[data-task-state=">"] > input[type="checkbox"] {
+            outline: var(--carve-border-width, 1px) solid var(--carve-accent, #14607f);
+        }
+        li[data-task-state="?"] > input[type="checkbox"] {
+            outline: var(--carve-border-width, 1px) dotted var(--carve-ink-soft, #6a737d);
+        }
         :root[data-carve-contrast="high"] li > input[type="checkbox"] { border-width: 2px; }
         @media (prefers-contrast: more) {
             :root:not([data-carve-contrast="normal"]) li > input[type="checkbox"] { border-width: 2px; }
