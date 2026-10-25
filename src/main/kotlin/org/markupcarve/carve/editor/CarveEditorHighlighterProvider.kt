@@ -71,7 +71,11 @@ internal class BracketSplittingIterator(
     private fun computeBounds() {
         val start = inner.start
         val end = inner.end
-        val text = inner.document.immutableCharSequence
+        // Indexing may ask for highlighting before an editor document exists.
+        val text = inner.document?.immutableCharSequence ?: run {
+            bounds = intArrayOf(start, end)
+            return
+        }
         val cuts = ArrayList<Int>()
         cuts += start
         for (i in start until minOf(end, text.length)) {

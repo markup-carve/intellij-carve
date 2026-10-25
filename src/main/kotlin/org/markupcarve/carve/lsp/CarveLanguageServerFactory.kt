@@ -1,9 +1,11 @@
 package org.markupcarve.carve.lsp
 
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiFile
 import com.redhat.devtools.lsp4ij.LanguageServerFactory
 import com.redhat.devtools.lsp4ij.client.LanguageClientImpl
 import com.redhat.devtools.lsp4ij.client.features.LSPClientFeatures
+import com.redhat.devtools.lsp4ij.client.features.LSPSemanticTokensFeature
 import com.redhat.devtools.lsp4ij.server.StreamConnectionProvider
 import org.eclipse.lsp4j.services.LanguageServer
 
@@ -19,7 +21,6 @@ import org.eclipse.lsp4j.services.LanguageServer
  *  - hover               -> documentation on hover
  *  - rename / prepare    -> rename refactoring
  *  - formatting          -> Reformat Code
- *  - semanticTokens      -> semantic highlighting
  *  - codeLens            -> inlay code lenses
  *
  * Wired in plugin.xml under com.redhat.devtools.lsp4ij.server and
@@ -38,7 +39,13 @@ class CarveLanguageServerFactory : LanguageServerFactory {
 
     // Enter's on-type edits go through CarveEnterContinuationHandler, which keeps the caret before a closer.
     override fun createClientFeatures(): LSPClientFeatures =
-        LSPClientFeatures().setOnTypeFormattingFeature(CarveOnTypeFormattingFeature())
+        LSPClientFeatures()
+            .setOnTypeFormattingFeature(CarveOnTypeFormattingFeature())
+            // Generic LSP token types repaint structural markers after our Carve
+            // annotations. TextMate and the annotator provide the richer palette.
+            .setSemanticTokensFeature(object : LSPSemanticTokensFeature() {
+                override fun isSupported(file: PsiFile): Boolean = false
+            })
 }
 
 /**

@@ -13,6 +13,41 @@ import org.markupcarve.carve.corpus.CarveTextMateTokenizer
 class CarveHighlightScannerTest {
 
     @Test
+    fun `table delimiters headers alignment and spans keep separate colors`() {
+        val source = "|=< Name |=~ State |=> Count |\n|= Label |= Value |\n| Apple | ^ | < |\n`|= literal |`"
+        val tokens = CarveTextMateTokenizer.tokenize(source)
+        val highlighter = object : SyntaxHighlighterBase() {
+            override fun getHighlightingLexer() = SnapshotLexer(tokens.map { it.text to it.scope })
+            override fun getTokenHighlights(tokenType: IElementType?) = TextAttributesKey.EMPTY_ARRAY
+        }
+
+        val markers = CarveHighlightScanner.scanWithTableMarkers(source, highlighter).tableMarkers
+            .map { source.substring(it.range.startOffset, it.range.endOffset) to it.key }
+
+        assertEquals(0, markers.count { it.second == CarveColors.TABLE_PIPE })
+        assertEquals(listOf("=", "=", "=", "=", "="), markers.filter { it.second == CarveColors.TABLE_HEADER }.map { it.first })
+        assertEquals(listOf("<", "~", ">"), markers.filter { it.second == CarveColors.TABLE_ALIGNMENT }.map { it.first })
+        assertEquals(listOf("^", "<"), markers.filter { it.second == CarveColors.TABLE_SPAN }.map { it.first })
+        assertEquals(11, CarveMarkerScanner.scan(source).count { it.key == CarveColors.TABLE_PIPE })
+    }
+
+    @Test
+    fun `delimiter row dashes are boundaries and colons are alignment markers`() {
+        val source = "|:---:|---|"
+        val tokens = CarveTextMateTokenizer.tokenize(source)
+        val highlighter = object : SyntaxHighlighterBase() {
+            override fun getHighlightingLexer() = SnapshotLexer(tokens.map { it.text to it.scope })
+            override fun getTokenHighlights(tokenType: IElementType?) = TextAttributesKey.EMPTY_ARRAY
+        }
+
+        val markers = CarveHighlightScanner.scanWithTableMarkers(source, highlighter).tableMarkers
+            .map { source.substring(it.range.startOffset, it.range.endOffset) to it.key }
+
+        assertEquals(listOf("---", "---"), markers.filter { it.second == CarveColors.TABLE_PIPE }.map { it.first })
+        assertEquals(listOf(":", ":"), markers.filter { it.second == CarveColors.TABLE_ALIGNMENT }.map { it.first })
+    }
+
+    @Test
     fun `only bare and braced highlight bodies receive the mark`() {
         val source = "plain =x= and {=y=} and `=code=` and {~old~>new~} and {=a {% note %} b=}"
         val tokens = CarveTextMateTokenizer.tokenize(source)

@@ -11,8 +11,8 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
 ## Features
 
 - **Syntax highlighting** via TextMate grammar (shared with
-  [vscode-carve](https://github.com/markup-carve/vscode-carve)), with fenced code
-  bodies highlighted in the fence's own language
+  [vscode-carve](https://github.com/markup-carve/vscode-carve)), with distinct
+  table markers and fenced code bodies highlighted in the fence's own language
 - **Language Server features** via the bundled
   [carve-lsp](https://github.com/markup-carve/carve-lsp) server (through
   [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij)):
@@ -26,7 +26,6 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   - **Hover** documentation
   - **Rename** refactoring
   - **Reformat Code** (document formatting)
-  - **Semantic highlighting** (semantic tokens)
   - **Code lenses** - footnote reference counts
   - **Tab / Shift+Tab on list items** nest and un-nest the item through the
     server's `carve.listIndent` command, as one undo step. Elsewhere, and while

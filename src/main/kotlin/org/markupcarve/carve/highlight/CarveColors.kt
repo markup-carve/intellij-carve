@@ -34,8 +34,17 @@ object CarveColors {
     /** `:::` div and admonition fences. */
     val DIV_MARKER = key("CARVE_DIV_MARKER", DefaultLanguageHighlighterColors.MARKUP_TAG)
 
-    /** `|` table cell separators. */
-    val TABLE_PIPE = key("CARVE_TABLE_PIPE", DefaultLanguageHighlighterColors.OPERATION_SIGN)
+    /** `|` cell separators and `---` delimiter-row runs. */
+    val TABLE_PIPE = key("CARVE_TABLE_PIPE", DefaultLanguageHighlighterColors.PARENTHESES)
+
+    /** `=` at the start of a header cell. */
+    val TABLE_HEADER = key("CARVE_TABLE_HEADER", DefaultLanguageHighlighterColors.CLASS_NAME)
+
+    /** `<`, `>`, `~`, `?` alignment markers and GFM delimiter-row colons. */
+    val TABLE_ALIGNMENT = key("CARVE_TABLE_ALIGNMENT", DefaultLanguageHighlighterColors.NUMBER)
+
+    /** `^` row spans and `<` column spans. */
+    val TABLE_SPAN = key("CARVE_TABLE_SPAN", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
 
     /** `>` blockquote markers. */
     val QUOTE_MARKER = key("CARVE_QUOTE_MARKER", DefaultLanguageHighlighterColors.DOC_COMMENT_TAG)

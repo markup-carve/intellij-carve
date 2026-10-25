@@ -3,6 +3,7 @@ package org.markupcarve.carve.highlight
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import org.markupcarve.carve.lang.CarvePsiFile
 
@@ -15,7 +16,7 @@ import org.markupcarve.carve.lang.CarvePsiFile
  * override TextMate's single keyword colour for the markers while leaving everything else -
  * code, strings, comments, emphasis, links - exactly as TextMate rendered it.
  */
-class CarveAnnotator : Annotator {
+class CarveAnnotator : Annotator, DumbAware {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element !is CarvePsiFile) return
         for (span in CarveMarkerScanner.scan(element.text)) {
@@ -25,7 +26,14 @@ class CarveAnnotator : Annotator {
                 .create()
         }
 
-        for (range in CarveHighlightScanner.scan(element.text, element.project, element.viewProvider.virtualFile)) {
+        val textMate = CarveHighlightScanner.scanWithTableMarkers(element.text, element.project, element.viewProvider.virtualFile)
+        for (span in textMate.tableMarkers) {
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(span.range)
+                .textAttributes(span.key)
+                .create()
+        }
+        for (range in textMate.highlights) {
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(range)
                 .textAttributes(CarveColors.HIGHLIGHT)

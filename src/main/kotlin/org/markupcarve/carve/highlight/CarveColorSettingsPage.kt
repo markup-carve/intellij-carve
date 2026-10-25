@@ -39,7 +39,10 @@ class CarveColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("List marker (-, *, 1.)", CarveColors.LIST_MARKER),
             AttributesDescriptor("Continuation marker (+)", CarveColors.CONTINUATION_MARKER),
             AttributesDescriptor("Div / admonition (:::)", CarveColors.DIV_MARKER),
-            AttributesDescriptor("Table pipe (|)", CarveColors.TABLE_PIPE),
+            AttributesDescriptor("Table boundary (|, ---)", CarveColors.TABLE_PIPE),
+            AttributesDescriptor("Table header (=)", CarveColors.TABLE_HEADER),
+            AttributesDescriptor("Table alignment (<, >, ~, ?)", CarveColors.TABLE_ALIGNMENT),
+            AttributesDescriptor("Table span (^, <)", CarveColors.TABLE_SPAN),
             AttributesDescriptor("Blockquote marker (>)", CarveColors.QUOTE_MARKER),
             AttributesDescriptor("Code fence (``` ~~~)", CarveColors.FENCE_MARKER),
             AttributesDescriptor("Highlight (=...=)", CarveColors.HIGHLIGHT),
@@ -51,6 +54,9 @@ class CarveColorSettingsPage : ColorSettingsPage {
             "cont" to CarveColors.CONTINUATION_MARKER,
             "div" to CarveColors.DIV_MARKER,
             "pipe" to CarveColors.TABLE_PIPE,
+            "tableHeader" to CarveColors.TABLE_HEADER,
+            "tableAlignment" to CarveColors.TABLE_ALIGNMENT,
+            "tableSpan" to CarveColors.TABLE_SPAN,
             "q" to CarveColors.QUOTE_MARKER,
             "fence" to CarveColors.FENCE_MARKER,
             "mark" to CarveColors.HIGHLIGHT,
@@ -71,8 +77,9 @@ class CarveColorSettingsPage : ColorSettingsPage {
             Inside an admonition.
             <div>:::</div>
 
-            <pipe>|</pipe> Name <pipe>|</pipe> Role <pipe>|</pipe>
+            <pipe>|</pipe><tableHeader>=</tableHeader><tableAlignment>~</tableAlignment> Name <pipe>|</pipe><tableHeader>=</tableHeader> Role <pipe>|</pipe>
             <pipe>|</pipe> Ada  <pipe>|</pipe> Dev  <pipe>|</pipe>
+            <pipe>|</pipe> Ada  <pipe>|</pipe><tableSpan>^</tableSpan> <pipe>|</pipe>
 
             <fence>```</fence> js
             const x = 1

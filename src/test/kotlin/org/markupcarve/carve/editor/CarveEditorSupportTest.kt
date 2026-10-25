@@ -3,7 +3,9 @@ package org.markupcarve.carve.editor
 import com.intellij.codeInsight.highlighting.BraceMatchingUtil
 import com.intellij.openapi.actionSystem.IdeActions
 import com.intellij.openapi.editor.ex.EditorEx
+import com.intellij.openapi.editor.highlighter.HighlighterIterator
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import java.lang.reflect.Proxy
 
 /** Commenter, brace matching and bracket auto-close, through the real editor actions. */
 class CarveEditorSupportTest : BasePlatformTestCase() {
@@ -69,6 +71,24 @@ class CarveEditorSupportTest : BasePlatformTestCase() {
             it.advance()
         }
         assertEquals(text.length, expected)
+    }
+
+    fun testHighlightingWithoutAnEditorDocumentKeepsTheTokenBounds() {
+        val inner = Proxy.newProxyInstance(
+            HighlighterIterator::class.java.classLoader,
+            arrayOf(HighlighterIterator::class.java),
+        ) { _, method, _ ->
+            when (method.name) {
+                "atEnd" -> false
+                "getStart" -> 2
+                "getEnd" -> 7
+                "getDocument" -> null
+                else -> error("Unexpected iterator method: ${method.name}")
+            }
+        } as HighlighterIterator
+        val iterator = BracketSplittingIterator(inner, 2)
+        assertEquals(2, iterator.start)
+        assertEquals(7, iterator.end)
     }
 
     fun testOpeningBracketsAutoClose() {
