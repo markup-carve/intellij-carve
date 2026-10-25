@@ -100,6 +100,8 @@ class CarvePreviewPanel(
     private val updatePending = AtomicBoolean(false)
     private val updateTimer: Timer
     private var initialized = false
+    @Volatile
+    private var disposed = false
     private val messageBusConnection: MessageBusConnection
 
     private val documentListener = object : DocumentListener {
@@ -244,16 +246,19 @@ class CarvePreviewPanel(
         browser.jbCefClient.addLoadHandler(
             object : CefLoadHandlerAdapter() {
                 override fun onLoadEnd(cefBrowser: CefBrowser?, frame: CefFrame?, httpStatusCode: Int) {
-                    if (frame?.isMain == false) return
+                    if (disposed || frame?.isMain == false) return
                     pageReady = true
                     lastSyncedLine = -1 // fresh page: nothing has been synced to it yet
-                    ApplicationManager.getApplication().invokeLater { syncFromEditor() }
+                    ApplicationManager.getApplication().invokeLater {
+                        if (!disposed) syncFromEditor()
+                    }
                 }
             },
             browser.cefBrowser,
         )
 
         updateTimer = Timer(300) {
+            if (disposed) return@Timer
             if (updatePending.getAndSet(false)) {
                 updatePreviewUnlessHeld()
             }
@@ -321,9 +326,10 @@ class CarvePreviewPanel(
     }
 
     private fun updateTheme() {
-        if (!initialized) return
+        if (disposed || !initialized) return
         val isDark = isDarkTheme()
         ApplicationManager.getApplication().invokeLater {
+            if (disposed) return@invokeLater
             browser.cefBrowser.executeJavaScript(
                 """
                 document.documentElement.setAttribute('data-theme', '${if (isDark) "dark" else "light"}');
@@ -441,9 +447,11 @@ class CarvePreviewPanel(
         CarveSettings.previewAllowsRawHtml(CarveSettings.getInstance(project).previewRawHtml, project.isTrusted())
 
     private fun loadPreviewShell() {
+        if (disposed) return
         val content = readDocumentText() ?: ""
         val isDark = isDarkTheme()
         ApplicationManager.getApplication().executeOnPooledThread {
+            if (disposed) return@executeOnPooledThread
             val html = renderHtml(content)
             val css = userCss()
             // Both touch the disk on first use; neither may run on the EDT below.
@@ -451,6 +459,7 @@ class CarvePreviewPanel(
             val carveStyles = carveCss()
             val trustedHtml = rawHtmlAllowed()
             ApplicationManager.getApplication().invokeLater {
+                if (disposed) return@invokeLater
                 // Load with the file's directory as the document URL so relative image
                 // paths (e.g. `![](logo.svg)`) resolve against the .crv file's folder.
                 pageReady = false
@@ -566,17 +575,20 @@ class CarvePreviewPanel(
     }
 
     private fun updatePreview() {
+        if (disposed) return
         heldLine = -1
         if (!initialized) {
             loadPreviewShell()
             return
         }
         ApplicationManager.getApplication().executeOnPooledThread {
+            if (disposed) return@executeOnPooledThread
             val content = readDocumentText()
                 ?: return@executeOnPooledThread
             val html = renderHtml(content)
             val escaped = escapeForJs(html)
             ApplicationManager.getApplication().invokeLater {
+                if (disposed) return@invokeLater
                 browser.cefBrowser.executeJavaScript(
                     "updateContentHtml(`$escaped`);",
                     browser.cefBrowser.url,
@@ -601,6 +613,7 @@ class CarvePreviewPanel(
             .replace("\r", "\n")
 
     override fun dispose() {
+        disposed = true
         updateTimer.stop()
         copyQuery.dispose()
         browser.dispose()
