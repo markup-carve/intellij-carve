@@ -218,7 +218,7 @@ ${CarveCodeHighlight.DIFF_CSS}
         }
         ul, ol { padding-left: 2em; }
         li { margin: var(--carve-space-1) 0; }
-        li > input[type="checkbox"] { margin-right: 0.5em; width: 1em; height: 1em; vertical-align: middle; }
+${CarveTaskCheckboxStyles.CSS}
         @counter-style carve-paren-decimal { system: extends decimal; suffix: ") "; }
         @counter-style carve-paren-lower-alpha { system: extends lower-alpha; suffix: ") "; }
         @counter-style carve-paren-upper-alpha { system: extends upper-alpha; suffix: ") "; }
@@ -234,7 +234,7 @@ ${CarveCodeHighlight.DIFF_CSS}
             .carve ul.task-list > li > input[type="checkbox"]:first-child {
                 float: inline-start;
                 font-size: inherit;
-                margin-block: calc((var(--carve-line-height) - 1) * 0.5em) 0;
+                margin-block: calc((var(--carve-line-height) - 1) * 0.5em - 0.1em) 0;
                 margin-inline: calc(-1em - var(--carve-space-2)) var(--carve-space-2);
             }
         }
@@ -243,7 +243,7 @@ ${CarveCodeHighlight.DIFF_CSS}
             .carve ul > li > input[type="checkbox"]:first-child {
                 float: inline-start;
                 font-size: inherit;
-                margin-block: calc((var(--carve-line-height) - 1) * 0.5em) 0;
+                margin-block: calc((var(--carve-line-height) - 1) * 0.5em - 0.1em) 0;
                 margin-inline: calc(-1em - var(--carve-space-2)) var(--carve-space-2);
             }
         }
