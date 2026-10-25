@@ -5,7 +5,15 @@ dropped\n -> text.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 [_]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-paused\n -> text.carve
+open alias\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[/]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+in progress\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+[!]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+blocked\n -> text.carve
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 [>]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve

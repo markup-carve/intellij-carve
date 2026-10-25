@@ -92,7 +92,7 @@ The server bundle is built from the exact npm versions in
 `VERSION` files are committed together. To bump the server and its engine:
 
 ```bash
-tools/bump-lsp-bundle.sh 0.1.14 0.1.13
+tools/bump-lsp-bundle.sh 0.1.15 0.1.15
 ```
 
 The first argument pins `@markup-carve/carve-lsp`. The optional second argument

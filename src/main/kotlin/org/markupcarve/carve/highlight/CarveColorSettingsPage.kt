@@ -37,6 +37,13 @@ class CarveColorSettingsPage : ColorSettingsPage {
         val DESCRIPTORS = arrayOf(
             AttributesDescriptor("Heading marker (#)", CarveColors.HEADING_MARKER),
             AttributesDescriptor("List marker (-, *, 1.)", CarveColors.LIST_MARKER),
+            AttributesDescriptor("Task open ([ ], [_])", CarveColors.TASK_OPEN),
+            AttributesDescriptor("Task in progress ([/])", CarveColors.TASK_PROGRESS),
+            AttributesDescriptor("Task blocked ([!])", CarveColors.TASK_BLOCKED),
+            AttributesDescriptor("Task done ([x])", CarveColors.TASK_DONE),
+            AttributesDescriptor("Task dropped ([-])", CarveColors.TASK_DROPPED),
+            AttributesDescriptor("Task deferred ([>])", CarveColors.TASK_DEFERRED),
+            AttributesDescriptor("Task uncertain ([?])", CarveColors.TASK_UNCERTAIN),
             AttributesDescriptor("Continuation marker (+)", CarveColors.CONTINUATION_MARKER),
             AttributesDescriptor("Div / admonition (:::)", CarveColors.DIV_MARKER),
             AttributesDescriptor("Table boundary (|, ---)", CarveColors.TABLE_PIPE),
@@ -51,6 +58,13 @@ class CarveColorSettingsPage : ColorSettingsPage {
         val TAGS = mapOf(
             "h" to CarveColors.HEADING_MARKER,
             "li" to CarveColors.LIST_MARKER,
+            "taskOpen" to CarveColors.TASK_OPEN,
+            "taskProgress" to CarveColors.TASK_PROGRESS,
+            "taskBlocked" to CarveColors.TASK_BLOCKED,
+            "taskDone" to CarveColors.TASK_DONE,
+            "taskDropped" to CarveColors.TASK_DROPPED,
+            "taskDeferred" to CarveColors.TASK_DEFERRED,
+            "taskUncertain" to CarveColors.TASK_UNCERTAIN,
             "cont" to CarveColors.CONTINUATION_MARKER,
             "div" to CarveColors.DIV_MARKER,
             "pipe" to CarveColors.TABLE_PIPE,
@@ -67,6 +81,14 @@ class CarveColorSettingsPage : ColorSettingsPage {
 
             <li>-</li> a bullet item
             <li>1.</li> an ordered item
+            <li>-</li> [<taskOpen> </taskOpen>] open
+            <li>-</li> [<taskOpen>_</taskOpen>] open alias
+            <li>-</li> [<taskProgress>/</taskProgress>] in progress
+            <li>-</li> [<taskBlocked>!</taskBlocked>] blocked
+            <li>-</li> [<taskDone>x</taskDone>] done
+            <li>-</li> [<taskDropped>-</taskDropped>] dropped
+            <li>-</li> [<taskDeferred>></taskDeferred>] deferred
+            <li>-</li> [<taskUncertain>?</taskUncertain>] uncertain
             <cont>+</cont> a continuation line
 
             <q>></q> a blockquote

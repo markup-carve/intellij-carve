@@ -101,7 +101,7 @@ object CarvePreviewHold {
 
     private const val ROMAN_LOWER = "ivxlcdm"
     private const val ROMAN_UPPER = "IVXLCDM"
-    private const val TASK_STATES = " xX_>?-"
+    private const val TASK_STATES = " xX_/>!?-"
 
     /**
      * Whether `line` (0-based) sits inside a backtick or tilde code fence.

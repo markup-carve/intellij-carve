@@ -30,7 +30,7 @@ object CarveListIndent {
 
     private const val MARKER =
         """(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]{2,}[.)]|[IVXLCDM]{2,}[.)]|\.)"""
-    private const val TASK = """\[[ xX_>?-]\]"""
+    private const val TASK = """\[[ xX_/>!?-]\]"""
 
     // A marker followed by a space, a tab or the end of the line, so `-a` and `1.5` stay
     // text, while a bare marker right after Enter (`- `, `3. `) counts: the server reads it

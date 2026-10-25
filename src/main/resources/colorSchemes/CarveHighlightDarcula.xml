@@ -19,4 +19,11 @@
     <option name="CARVE_TABLE_SPAN">
         <value><option name="FOREGROUND" value="B392F0" /><option name="FONT_TYPE" value="1" /></value>
     </option>
+    <option name="CARVE_TASK_OPEN"><value><option name="FOREGROUND" value="9AA4B0" /></value></option>
+    <option name="CARVE_TASK_PROGRESS"><value><option name="FOREGROUND" value="6FB6D4" /><option name="FONT_TYPE" value="1" /></value></option>
+    <option name="CARVE_TASK_BLOCKED"><value><option name="FOREGROUND" value="F4A69D" /><option name="FONT_TYPE" value="1" /></value></option>
+    <option name="CARVE_TASK_DONE"><value><option name="FOREGROUND" value="85E89D" /><option name="FONT_TYPE" value="1" /></value></option>
+    <option name="CARVE_TASK_DROPPED"><value><option name="FOREGROUND" value="9AA4B0" /><option name="FONT_TYPE" value="2" /></value></option>
+    <option name="CARVE_TASK_DEFERRED"><value><option name="FOREGROUND" value="DBB867" /><option name="FONT_TYPE" value="1" /></value></option>
+    <option name="CARVE_TASK_UNCERTAIN"><value><option name="FOREGROUND" value="B392F0" /><option name="FONT_TYPE" value="1" /></value></option>
 </list>

@@ -26,6 +26,21 @@ class CarveMarkerScannerTest {
     }
 
     @Test
+    fun taskStateCharactersHaveDistinctEditorKeys() {
+        val states = listOf(
+            ' ' to CarveColors.TASK_OPEN, '_' to CarveColors.TASK_OPEN,
+            '/' to CarveColors.TASK_PROGRESS, '!' to CarveColors.TASK_BLOCKED,
+            'x' to CarveColors.TASK_DONE, '-' to CarveColors.TASK_DROPPED,
+            '>' to CarveColors.TASK_DEFERRED, '?' to CarveColors.TASK_UNCERTAIN,
+        )
+        for ((state, key) in states) {
+            assertEquals(listOf("-" to CarveColors.LIST_MARKER, state.toString() to key), covered("- [$state] task\n"))
+        }
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("- [|] literal\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("- [/]\n"))
+    }
+
+    @Test
     fun continuationIsNotABullet() {
         // A lone `+` is a continuation, not a list bullet (bullets are `-` / `*`).
         val dash = "-" to CarveColors.LIST_MARKER
@@ -192,7 +207,7 @@ class CarveMarkerScannerTest {
     fun markerGluedToAnAttributeBlock() {
         assertEquals(listOf("1." to CarveColors.LIST_MARKER), covered("1.{#x} item\n"))
         assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{#x} item\n"))
-        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("-{#x} [x] done\n"))
+        assertEquals(listOf("-" to CarveColors.LIST_MARKER, "x" to CarveColors.TASK_DONE), covered("-{#x} [x] done\n"))
         assertEquals(listOf("." to CarveColors.LIST_MARKER), covered(".{#x} item\n"))
     }
 

@@ -12,6 +12,13 @@ class CarveColorSettingsPageTest {
     private val allKeys = listOf(
         CarveColors.HEADING_MARKER,
         CarveColors.LIST_MARKER,
+        CarveColors.TASK_OPEN,
+        CarveColors.TASK_PROGRESS,
+        CarveColors.TASK_BLOCKED,
+        CarveColors.TASK_DONE,
+        CarveColors.TASK_DROPPED,
+        CarveColors.TASK_DEFERRED,
+        CarveColors.TASK_UNCERTAIN,
         CarveColors.CONTINUATION_MARKER,
         CarveColors.DIV_MARKER,
         CarveColors.TABLE_PIPE,
