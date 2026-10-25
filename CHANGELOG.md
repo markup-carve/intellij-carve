@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.18] - 2026-10-26
+
+Task lists show progress and blocked states in the editor and preview, and table markers have clearer colors.
+
+### Fixes
+
+- Closing a preview during rendering no longer lets pending copy and theme callbacks act on the closed panel (#287).
+- Completed task boxes show a checkmark and align with list text in light, dark, and high contrast themes (#288).
+
+### Improvements
+
+- Table boundaries, headers, alignment markers, and spans have separate editor colors that can be changed in settings (#289).
+- Progress `[/]`, blocked `[!]`, and open alias `[_]` task items are colored in the editor and shown in the preview and exported HTML (#290).
+
+**Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.17...0.1.18
+
 ## [0.1.17] - 2026-10-24
 
 The preview now shows scrollable code blocks and follows the published Carve 0.1.12 engine and grammar rules.
