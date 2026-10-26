@@ -26,7 +26,3 @@ Open a `.crv` file to edit beside its live preview.
 - [Carve documentation](https://markup-carve.github.io/carve/)
 - [Setup and full guide](docs/guide.md)
 - [Documentation index](docs/README.md)
-
-## License
-
-[MIT](LICENSE)
