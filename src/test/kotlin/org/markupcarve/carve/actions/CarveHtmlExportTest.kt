@@ -66,6 +66,8 @@ class CarveHtmlExportTest {
         assertTrue(page.contains(CarveHtmlExport.inlineStyle(theme)))
         val tables = CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS)
         assertTrue(page.contains(CarveHtmlExport.inlineStyle(tables)))
+        val carve = CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_CARVE_CSS)
+        assertTrue(page.contains(CarveHtmlExport.inlineStyle(carve)))
         assertTrue(page.contains("pre code, pre code.hljs { background: none; padding: 0; }"))
     }
 

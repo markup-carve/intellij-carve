@@ -27,6 +27,9 @@ ${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS
 ${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_TABLE_CSS))}
     </style>
     <style>
+${inlineStyle(CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_CARVE_CSS))}
+    </style>
+    <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
