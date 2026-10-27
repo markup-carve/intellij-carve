@@ -55,6 +55,7 @@ object CarvePreviewAssets {
     /** Registers itself on the global hljs, so it loads after [HIGHLIGHT_JS]. */
     const val HIGHLIGHT_CARVE_JS: String = "carve/highlightjs-carve.js"
     const val HIGHLIGHT_TABLE_CSS: String = "carve/table-tokens.css"
+    const val HIGHLIGHT_CARVE_CSS: String = "carve/carve-code.css"
     const val CHART_JS: String = "chart/chart.umd.min.js"
     const val MATHJAX_JS: String = "mathjax/tex-mml-chtml.js"
     const val MERMAID_JS: String = "mermaid/mermaid.min.js"
@@ -66,6 +67,7 @@ object CarvePreviewAssets {
         HIGHLIGHT_DARK_CSS,
         HIGHLIGHT_CARVE_JS,
         HIGHLIGHT_TABLE_CSS,
+        HIGHLIGHT_CARVE_CSS,
         CHART_JS,
         MATHJAX_JS,
         MERMAID_JS,

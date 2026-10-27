@@ -196,8 +196,10 @@ class CarvePreviewHtmlTest {
     fun `a code block is one flat surface`() {
         val html = page()
         val themeAt = html.indexOf(CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS)
+        val carveAt = html.indexOf(CarvePreviewAssets.HIGHLIGHT_CARVE_CSS)
         val resetAt = html.indexOf("pre code, pre code.hljs")
         assertTrue("the hljs theme link is missing", themeAt >= 0)
+        assertTrue("the Carve palette link must follow highlight.js", carveAt > themeAt)
         assertTrue("the hljs background reset is missing", resetAt >= 0)
         assertTrue(
             "the highlight.js theme is loaded AFTER the scaffold's own rules, so its " +
