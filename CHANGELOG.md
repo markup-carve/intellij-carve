@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Captioned `{.diff}` fences show tinted add and remove rows in the preview and HTML export (#295).
+- Carve fence captions use the updated marker and text colors from carve-grammars (#295).
+
 ## [0.1.18] - 2026-10-26
 
 Task lists show progress and blocked states in the editor and preview, and table markers have clearer colors.
