@@ -61,6 +61,38 @@ class CarveHtmlExportTest {
     }
 
     @Test
+    fun `captioned diff uses figure class but side-diff does not`() {
+        Context.newBuilder("js").option("engine.WarnInterpreterOnly", "false").build().use { context ->
+            context.eval("js", """
+                var highlighted = 0;
+                var hljs = {
+                    getLanguage: function () { return false; },
+                    highlightElement: function () { highlighted++; }
+                };
+                function block(figureClass) {
+                    var figure = { tagName: 'FIGURE', classList: { contains: function (name) { return figureClass.split(' ').includes(name); } } };
+                    var pre = { parentElement: figure, classList: {
+                        contains: function () { return false; }, add: function (name) { this.added = name; }
+                    } };
+                    var code = { parentElement: pre, textContent: '-a\n+b\n', classList: {
+                        contains: function () { return false; },
+                        0: 'language-js', length: 1
+                    } };
+                    carveHighlightCode({ querySelectorAll: function () { return [code]; } });
+                    return { code: code, pre: pre };
+                }
+            """.trimIndent())
+            context.eval("js", CarveCodeHighlight.SCRIPT)
+            val diff = context.eval("js", "block('listing diff')")
+            assertTrue(diff.getMember("code").getMember("innerHTML").asString().contains("line diff add"))
+            assertEquals("has-diff", diff.getMember("pre").getMember("classList").getMember("added").asString())
+            val side = context.eval("js", "block('side-diff')")
+            assertFalse(side.getMember("code").hasMember("innerHTML"))
+            assertEquals(1, context.eval("js", "highlighted").asInt())
+        }
+    }
+
+    @Test
     fun `the page inlines the light highlight theme`() {
         val theme = CarvePreviewAssets.readText(CarvePreviewAssets.HIGHLIGHT_LIGHT_CSS)
         assertTrue(page.contains(CarveHtmlExport.inlineStyle(theme)))

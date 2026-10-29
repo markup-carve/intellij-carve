@@ -173,7 +173,7 @@ class CarvePreviewHtmlTest {
         assertTrue(html.contains("line diff remove"))
         assertTrue(html.contains("class=\"diff-marker\""))
         // The presentation CSS is in the scaffold.
-        assertTrue(html.contains("pre.diff.has-diff .diff-marker"))
+        assertTrue(html.contains(":is(pre.diff, figure.diff > pre).has-diff .diff-marker"))
     }
 
     /** The Carve grammar registers itself on the global hljs, so it has to load after it. */

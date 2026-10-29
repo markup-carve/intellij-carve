@@ -11,12 +11,12 @@ object CarveCodeHighlight {
 
     /** Styles for the `{.diff}` presentation built by `carveHighlightCode`. */
     val DIFF_CSS: String = """
-        pre.diff.has-diff .line { display: inline-block; width: 100%; }
-        pre.diff.has-diff .line.diff.add { background: rgb(46 160 67 / 15%); }
-        pre.diff.has-diff .line.diff.remove { background: rgb(248 81 73 / 15%); }
-        pre.diff.has-diff .diff-marker { display: inline-block; width: 1ch; font-weight: 700; }
-        pre.diff.has-diff .line.diff.add .diff-marker { color: #1a7f37; }
-        pre.diff.has-diff .line.diff.remove .diff-marker { color: #cf222e; }
+        :is(pre.diff, figure.diff > pre).has-diff .line { display: inline-block; width: 100%; }
+        :is(pre.diff, figure.diff > pre).has-diff .line.diff.add { background: rgb(46 160 67 / 15%); }
+        :is(pre.diff, figure.diff > pre).has-diff .line.diff.remove { background: rgb(248 81 73 / 15%); }
+        :is(pre.diff, figure.diff > pre).has-diff .diff-marker { display: inline-block; width: 1ch; font-weight: 700; }
+        :is(pre.diff, figure.diff > pre).has-diff .line.diff.add .diff-marker { color: #1a7f37; }
+        :is(pre.diff, figure.diff > pre).has-diff .line.diff.remove .diff-marker { color: #cf222e; }
     """.trimIndent()
 
     /** Defines `renderLanguageDiff(code)` and `carveHighlightCode(scope)`. */
@@ -52,7 +52,10 @@ object CarveCodeHighlight {
             scope.querySelectorAll('pre > code[class*="language-"]').forEach(function (block) {
                 if (block.classList.contains('language-mermaid')) return;
                 var pre = block.parentElement;
-                if (pre && pre.classList.contains('diff')) { try { renderLanguageDiff(block); } catch (e) {} return; }
+                if (pre && (pre.classList.contains('diff') ||
+                    (pre.parentElement && pre.parentElement.tagName === 'FIGURE' && pre.parentElement.classList.contains('diff')))) {
+                    try { renderLanguageDiff(block); } catch (e) {} return;
+                }
                 hljs.highlightElement(block);
             });
         }
