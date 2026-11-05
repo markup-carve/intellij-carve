@@ -113,7 +113,7 @@ object CarveMarkerScanner {
     // `: +`, `[^a]: +`, `- [ ] +`) is a first-block continuation marker (markup-carve/carve#3445).
     // Each `>` needs its space: `>+`, `>>+`, `> >+` and `>> +` are text (markup-carve/carve#3421).
     // An ordered item has no task marker, so `1. [ ] +` stays text.
-    private const val INITIAL_MARK = """(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?=  |\{[^}\n]*\}  ))"""
+    private const val INITIAL_MARK = """(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?=  |\{(?:[^}"'\\\n]|"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')*\}  ))"""
     private const val ORDERED_MARK = """(?:[0-9]+[.)]|$INITIAL_MARK)"""
     private val FIRST_BLOCK_PLUS = Regex(
         """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_/>!?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|> |:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",

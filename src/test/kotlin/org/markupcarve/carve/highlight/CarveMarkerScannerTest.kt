@@ -145,6 +145,7 @@ class CarveMarkerScannerTest {
         assertTrue(scan("a.\titem\n").isEmpty())
         assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a.{.c}  item\n"))
         assertTrue(scan("a.{.c} item\n").isEmpty())
+        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a.{title=\"a}b\"}  item\n"))
         // Prose must not be recoloured: a multi-letter word, or a parenthesized counter.
         assertTrue(scan("Note. This is prose\n").isEmpty())
         assertTrue(scan("(1) explain\n").isEmpty())
