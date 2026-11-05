@@ -94,6 +94,23 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                 }
             }
 
+            group("PDF Export") {
+                row("crv2pdf executable:") {
+                    textFieldWithBrowseButton(
+                        FileChooserDescriptorFactory.createSingleLocalFileDescriptor()
+                            .withTitle("Select crv2pdf Executable"), project,
+                    ).columns(COLUMNS_LARGE).bindText(settings::pdfToolPath)
+                        .comment("Leave empty to find crv2pdf on PATH.")
+                }
+                row("Chromium browser:") {
+                    textFieldWithBrowseButton(
+                        FileChooserDescriptorFactory.createSingleLocalFileDescriptor()
+                            .withTitle("Select Chrome, Chromium, or Edge Executable"), project,
+                    ).columns(COLUMNS_LARGE).bindText(settings::pdfBrowserPath)
+                        .comment("Used when crv2pdf is unavailable. Leave empty for automatic discovery.")
+                }
+            }
+
             group("Includes") {
                 row {
                     text(

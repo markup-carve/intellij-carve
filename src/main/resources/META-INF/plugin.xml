@@ -22,6 +22,7 @@
             recipes - admonitions, sidebars and the rest of the family</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
         <li>Export to HTML and to Markdown</li>
+        <li>Export to PDF through crv2pdf or a Chromium browser</li>
         <li>Import Markdown or HTML files as Carve</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
         <li>Line and block comments (<code>%%</code>, <code>{% %}</code>) and bracket matching</li>
@@ -153,6 +154,13 @@
                 text="Export to HTML"
                 description="Export Carve file to HTML">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+
+        <action id="Carve.ExportPdf"
+                class="org.markupcarve.carve.actions.ExportPdfAction"
+                text="Export to PDF"
+                description="Export Carve file to PDF">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Carve.ExportHtml"/>
         </action>
 
         <action id="Carve.ExportMarkdown"
