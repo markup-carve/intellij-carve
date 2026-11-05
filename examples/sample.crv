@@ -40,7 +40,7 @@ Post-Markdown reading flow means a list can follow a paragraph with no blank lin
 > A blockquote line.
 > Continued.
 
-``` php
+```php
 echo (new \Carve\CarveConverter())->convert('# Hi');
 ```
 
@@ -115,7 +115,7 @@ A non-canonical type renders as a generic `<div>` with that class.
 
 See </#Carve-sample> to jump back to the top.
 
----
+***
 
 Attributes attach to blocks too, on the line above the block they describe.
 
@@ -135,17 +135,17 @@ spoiler, details, mermaid, chart, and math (each should render in preview).
 
 A fenced block carries a language badge and a quoted-header caption bar:
 
-``` php "app/Service.php" [Service]
+```php "app/Service.php" [Service]
 <?php echo "hi";
 ```
 
 A code group switches panels on tab click:
 
 ::: code-group
-``` js [JavaScript]
+```js [JavaScript]
 const x = 1;
 ```
-``` ts [TypeScript]
+```ts [TypeScript]
 const x: number = 1;
 ```
 :::
@@ -173,18 +173,18 @@ A native details/summary disclosure.
 
 A mermaid diagram:
 
-``` mermaid
+```mermaid
 graph TD; A[Start] --> B{Choice}; B -->|yes| C[Do it]; B -->|no| D[Skip];
 ```
 
 A chart:
 
-``` chart
+```chart
 {"type":"bar","data":{"labels":["Q1","Q2","Q3"],"datasets":[{"label":"Sales","data":[12,19,7]}]}}
 ```
 
-Display math: ``` math `` and inline math $`a^2 + b^2 = c^2`$.
+Display math uses a `` ```math `` fence, inline math $`a^2 + b^2 = c^2`.
 
-``` math
+```math
 \int_0^1 x^2 \, dx = \frac{1}{3}
 ```

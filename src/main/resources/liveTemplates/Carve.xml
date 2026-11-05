@@ -84,7 +84,7 @@
     </template>
 
     <!-- Blocks -->
-    <template name="ccode" value="``` $LANG$&#10;$BODY$&#10;```&#10;$END$" description="Fenced code block" toReformat="false" toShortenFQNames="false">
+    <template name="ccode" value="```$LANG$&#10;$BODY$&#10;```&#10;$END$" description="Fenced code block" toReformat="false" toShortenFQNames="false">
         <variable name="LANG" expression="" defaultValue="&quot;php&quot;" alwaysStopAt="true"/>
         <variable name="BODY" expression="" defaultValue="&quot;&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
@@ -93,7 +93,7 @@
         <variable name="TEXT" expression="" defaultValue="&quot;quote&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="chr" value="---&#10;$END$" description="Thematic break" toReformat="false" toShortenFQNames="false">
+    <template name="chr" value="***&#10;$END$" description="Thematic break" toReformat="false" toShortenFQNames="false">
         <context><option name="OTHER" value="true"/></context>
     </template>
     <template name="cul" value="- $TEXT$&#10;$END$" description="Bullet list item" toReformat="false" toShortenFQNames="false">
@@ -108,7 +108,7 @@
         <variable name="TEXT" expression="" defaultValue="&quot;todo&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="ctable" value="| $H1$ | $H2$ |&#10;|------|------|&#10;| $C1$ | $C2$ |&#10;$END$" description="Table" toReformat="false" toShortenFQNames="false">
+    <template name="ctable" value="|= $H1$ |= $H2$ |&#10;| $C1$ | $C2$ |&#10;$END$" description="Table" toReformat="false" toShortenFQNames="false">
         <variable name="H1" expression="" defaultValue="&quot;Header 1&quot;" alwaysStopAt="true"/>
         <variable name="H2" expression="" defaultValue="&quot;Header 2&quot;" alwaysStopAt="true"/>
         <variable name="C1" expression="" defaultValue="&quot;Cell 1&quot;" alwaysStopAt="true"/>
