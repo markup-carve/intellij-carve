@@ -32,6 +32,26 @@ class CarveHighlightScannerTest {
     }
 
     @Test
+    fun `braced alignment colors the symbols inside the block`() {
+        // carve#5091 D3: alignment leads the cell's attribute block.
+        val source = "|={~} Name |={>^} Qty |= Note |\n| a |{> .num} 12 |{?v} x |\n|={<} ^ | b |{} c |\n"
+        val tokens = CarveTextMateTokenizer.tokenize(source)
+        val highlighter = object : SyntaxHighlighterBase() {
+            override fun getHighlightingLexer() = SnapshotLexer(tokens.map { it.text to it.scope })
+            override fun getTokenHighlights(tokenType: IElementType?) = TextAttributesKey.EMPTY_ARRAY
+        }
+
+        val markers = CarveHighlightScanner.scanWithTableMarkers(source, highlighter).tableMarkers
+            .map { source.substring(it.range.startOffset, it.range.endOffset) to it.key }
+
+        assertEquals(listOf("=", "=", "=", "="), markers.filter { it.second == CarveColors.TABLE_HEADER }.map { it.first })
+        assertEquals(listOf("~", ">^", ">", "?v", "<"), markers.filter { it.second == CarveColors.TABLE_ALIGNMENT }.map { it.first })
+        assertEquals(listOf("^"), markers.filter { it.second == CarveColors.TABLE_SPAN }.map { it.first })
+        val num = tokens.filter { "num" in it.text }
+        assertEquals(num.toString(), true, num.any { it.scope.contains("entity.other.attribute-name.class.carve") })
+    }
+
+    @Test
     fun `delimiter row dashes are boundaries and colons are alignment markers`() {
         val source = "|:---:|---|"
         val tokens = CarveTextMateTokenizer.tokenize(source)

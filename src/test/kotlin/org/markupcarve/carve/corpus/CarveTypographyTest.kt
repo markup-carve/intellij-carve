@@ -80,9 +80,13 @@ class CarveTypographyTest {
         for (arrow in listOf("<--", "-->", "<-->", "<==", "==>", "<=>")) {
             converts("the canonical arrow `$arrow`", "a $arrow b\n", arrow)
         }
+        // Single-hyphen arrows are gone (carve#4831), and `(c)` and `(r)` stay text (carve#4824).
         for (arrow in listOf("<-", "->", "<->")) {
-            converts("the deprecated arrow `$arrow`", "a $arrow b\n", arrow)
+            literal("the retired arrow `$arrow`", "a $arrow b\n", arrow)
         }
+        literal("`(c)`", "a (c) b\n", "(c)")
+        literal("`(r)`", "a (r) b\n", "(r)")
+        converts("`(tm)`", "a (tm) b\n", "(tm)")
     }
 
     @Test
