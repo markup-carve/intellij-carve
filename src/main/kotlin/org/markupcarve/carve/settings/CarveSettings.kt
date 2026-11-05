@@ -50,6 +50,8 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
         var phpCarveScript: String = "",
         var customCssPath: String = "",
         var nodePath: String = "",
+        var pdfToolPath: String = "",
+        var pdfBrowserPath: String = "",
         var includeMode: CarveIncludeMode = CarveIncludeMode.AUTO,
         var includeRoot: String = "",
         var previewRawHtml: Boolean = false,
@@ -82,6 +84,14 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
     var nodePath: String
         get() = state.nodePath
         set(value) { state.nodePath = value }
+
+    var pdfToolPath: String
+        get() = state.pdfToolPath
+        set(value) { state.pdfToolPath = value }
+
+    var pdfBrowserPath: String
+        get() = state.pdfBrowserPath
+        set(value) { state.pdfBrowserPath = value }
 
     var includeMode: CarveIncludeMode
         get() = state.includeMode

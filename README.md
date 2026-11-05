@@ -21,6 +21,10 @@ Install [Carve from JetBrains Marketplace](https://plugins.jetbrains.com/plugin/
 
 Open a `.crv` file to edit beside its live preview.
 
+### Export to PDF
+
+Right-click a Carve file in the editor and choose **Export to PDF**. The plugin uses `crv2pdf` when installed, preserving its print layout. If `crv2pdf` is unavailable, it renders the same standalone page as **Export to HTML** and prints it with an installed Chrome, Chromium, or Edge browser. Set either executable path under **Settings | Tools | Carve | PDF Export** if automatic discovery does not find it. The export reports command failures and missing tools in an IDE notification.
+
 ## Documentation
 
 - [Carve documentation](https://markup-carve.github.io/carve/)
