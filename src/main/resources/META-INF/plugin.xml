@@ -21,7 +21,8 @@
         <li>Live preview panel (split editor view), styled for the container
             recipes - admonitions, sidebars and the rest of the family</li>
         <li>IDE theme sync - preview follows dark/light mode</li>
-        <li>Export to HTML, PDF, and Markdown</li>
+        <li>Export to HTML and to Markdown</li>
+        <li>Export to PDF through crv2pdf or a Chromium browser</li>
         <li>Import Markdown or HTML files as Carve</li>
         <li>Live templates for quick element insertion (type <code>c</code> + Tab to see all)</li>
         <li>Line and block comments (<code>%%</code>, <code>{% %}</code>) and bracket matching</li>
