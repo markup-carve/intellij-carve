@@ -70,13 +70,7 @@ Canonical:  -> text.carve
 <=> -> text.carve constant.character.entity.typography.carve
 \n -> text.carve
 \n -> text.carve
-Deprecated but still rendered:  -> text.carve
-<- -> text.carve constant.character.entity.typography.carve
-  -> text.carve
--> -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-<-> -> text.carve constant.character.entity.typography.carve
-\n -> text.carve
+Deprecated but still rendered: <- -> <->\n -> text.carve
 \n -> text.carve
 Not an arrow: key => value stays literal, and p  -> text.carve
 <= -> text.carve constant.character.entity.typography.carve
@@ -88,11 +82,7 @@ x  -> text.carve
 >= -> text.carve constant.character.entity.typography.carve
  s,  -> text.carve
 +- -> text.carve constant.character.entity.typography.carve
-1,  -> text.carve
-(c) -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-(r) -> text.carve constant.character.entity.typography.carve
-  -> text.carve
+1, (c) (r)  -> text.carve
 (tm) -> text.carve constant.character.entity.typography.carve
 , wait -> text.carve
 ... -> text.carve constant.character.entity.typography.carve

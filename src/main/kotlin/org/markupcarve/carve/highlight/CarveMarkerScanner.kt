@@ -98,8 +98,11 @@ object CarveMarkerScanner {
     // is prose - `Vim. text` and `Mix. text` are paragraphs where `ivx.` and `IVX.` are
     // lists, checked against carve-js. The bundled grammar uses the mixed class and
     // colours `Vim. text` as a list; this deliberately does not copy that.
+    //
+    // A letter or roman marker with `.` needs two spaces after it, so initials such as
+    // `J. R. R. Tolkien` stay prose (markup-carve/carve#4811).
     private val ORDERED = Regex(
-        """^([ \t]*)([0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\.)$AFTER_MARKER""",
+        """^([ \t]*)([0-9]+[.)]|$INITIAL_MARK|\.)$AFTER_MARKER""",
     )
     // Continuation is a LONE `+` line, or a `+ ... |` table-continuation row - NOT `+ prose`.
     private val CONTINUATION = Regex("""^(\s*)(\+)(?=\s*$|.*\|)""")
@@ -110,7 +113,8 @@ object CarveMarkerScanner {
     // `: +`, `[^a]: +`, `- [ ] +`) is a first-block continuation marker (markup-carve/carve#3445).
     // Each `>` needs its space: `>+`, `>>+`, `> >+` and `>> +` are text (markup-carve/carve#3421).
     // An ordered item has no task marker, so `1. [ ] +` stays text.
-    private const val ORDERED_MARK = """(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]"""
+    private const val INITIAL_MARK = """(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?=  |\{(?:[^}"'\\\n]|"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')*\}  ))"""
+    private const val ORDERED_MARK = """(?:[0-9]+[.)]|$INITIAL_MARK)"""
     private val FIRST_BLOCK_PLUS = Regex(
         """^[ \t]*(?:(?:[-*][ \t]+(?:\[[ xX_/>!?-]\][ \t]+)?|$ORDERED_MARK[ \t]+|> |:[ \t]+|\[\^[^\]\n]+\]:[ \t]+))+(\+)[ \t]*$""",
     )
@@ -128,7 +132,8 @@ object CarveMarkerScanner {
     // Front matter: a bare or typed `---` opener on the first line, closed by a bare `---`.
     private val FRONT_MATTER_OPEN = Regex("""^---(?: ?[A-Za-z0-9]+)?[ \t]*$""")
     private val FRONT_MATTER_CLOSE = Regex("""^---[ \t]*$""")
-    private val THEMATIC_BREAK = Regex("""^[ \t]*(?:-{3,}|\*{3,})[ \t]*$""")
+    // A `-` or `*` run may be spaced by single spaces (markup-carve/carve#4814).
+    private val THEMATIC_BREAK = Regex("""^[ \t]*(?:-{3,}|\*{3,}|_{3,}|-(?: -){2,}|\*(?: \*){2,})[ \t]*$""")
     private val DESCRIPTION_TERM = Regex("""^[ \t]*::[ \t]+\S""")
     private val ATTRIBUTE_LINE = Regex("""^[ \t]*$ATTR_BLOCK[ \t]*$""")
 
@@ -158,7 +163,8 @@ object CarveMarkerScanner {
         var startIndex = 0
         if (lines.isNotEmpty() && FRONT_MATTER_OPEN.matches(lines[0].first)) {
             val close = (1 until lines.size).firstOrNull { FRONT_MATTER_CLOSE.matches(lines[it].first) }
-            if (close != null) startIndex = close + 1
+            // Without a closer the frontmatter runs to the end of the document (markup-carve/carve#5016).
+            startIndex = if (close != null) close + 1 else lines.size
         }
 
         for (index in startIndex until lines.size) {
@@ -228,10 +234,13 @@ object CarveMarkerScanner {
                 continue
             }
 
-            if (index <= skipUntil || COMMENT_LINE.containsMatchIn(line)) {
+            // A `%%` line is erased before layout, so the paragraph or table above continues past
+            // it (markup-carve/carve#5012); a `%%%` block still ends them.
+            if (index <= skipUntil) {
                 paragraphOpen = false; lastWasTable = false
                 continue
             }
+            if (COMMENT_LINE.containsMatchIn(line)) continue
 
             if (line.isBlank()) {
                 paragraphOpen = false; lastWasTable = false

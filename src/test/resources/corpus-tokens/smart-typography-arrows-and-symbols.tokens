@@ -15,9 +15,6 @@ Flow: a  -> text.carve
  s,  -> text.carve
 +- -> text.carve constant.character.entity.typography.carve
 1.\n -> text.carve
-(c) -> text.carve constant.character.entity.typography.carve
- 2024,  -> text.carve
-(r) -> text.carve constant.character.entity.typography.carve
-,  -> text.carve
+(c) 2024, (r),  -> text.carve
 (tm) -> text.carve constant.character.entity.typography.carve
 . Dates like 1/2/2024 stay literal.\n -> text.carve

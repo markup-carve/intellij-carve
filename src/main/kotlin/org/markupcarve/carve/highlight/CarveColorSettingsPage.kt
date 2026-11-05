@@ -99,7 +99,7 @@ class CarveColorSettingsPage : ColorSettingsPage {
             Inside an admonition.
             <div>:::</div>
 
-            <pipe>|</pipe><tableHeader>=</tableHeader><tableAlignment>~</tableAlignment> Name <pipe>|</pipe><tableHeader>=</tableHeader> Role <pipe>|</pipe>
+            <pipe>|</pipe><tableHeader>=</tableHeader>{<tableAlignment>~</tableAlignment>} Name <pipe>|</pipe><tableHeader>=</tableHeader> Role <pipe>|</pipe>
             <pipe>|</pipe> Ada  <pipe>|</pipe> Dev  <pipe>|</pipe>
             <pipe>|</pipe> Ada  <pipe>|</pipe><tableSpan>^</tableSpan> <pipe>|</pipe>
 

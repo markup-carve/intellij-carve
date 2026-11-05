@@ -46,21 +46,21 @@ echo (new \Carve\CarveConverter())->convert('# Hi');
 
 ## Tables
 
-Header cells use `|=`; `|=>` right-aligns and `|=~` centers a column:
+Header cells use `|=`; `|={>}` right-aligns and `|={~}` centers a column:
 
-|= Feature  |=> Marker |=~ Tier |
-| Italic     | `/x/`    | core   |
-| Highlight  | `=x=`    | core   |
+|= Feature  |={>} Marker |={~} Tier |
+| Italic    | `/x/`      | core     |
+| Highlight | `=x=`      | core     |
 ^ Inline marks at a glance
 
 ### Rowspan and colspan
 
 `^` extends the cell above (rowspan); `<` merges into the cell at left (colspan):
 
-|= Category |= Item   |=> Price |
-| Fruit      | Apple   | $1.00   |
-| ^          | Banana  | $0.50   |
-| Total      | <       | $1.50   |
+|= Category |= Item  |={>} Price |
+| Fruit     | Apple  | $1.00     |
+| ^         | Banana | $0.50     |
+| Total     | <      | $1.50     |
 
 ### A table inside a list item
 
@@ -68,9 +68,9 @@ The `+` continuation marker attaches a block (kept flush-left) to a list item:
 
 - Quarterly revenue:
 +
-|= Quarter |=> Revenue |
-| Q1        | 100       |
-| Q2        | 140       |
+|= Quarter |={>} Revenue |
+| Q1       | 100         |
+| Q2       | 140         |
 - Next steps follow as an ordinary item.
 
 ## Image with caption

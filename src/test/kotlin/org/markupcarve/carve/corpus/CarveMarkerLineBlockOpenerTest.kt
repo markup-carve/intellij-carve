@@ -203,12 +203,9 @@ class CarveMarkerLineBlockOpenerTest {
             prose.contains("keyword.control.thematic-break.carve"),
         )
 
-        // `- - -` is nested lists in the engine, not a thematic break.
-        val nested = scopesOf("- - -\n", "- - -")
-        assertFalse(
-            "`- - -` must not be a thematic break, got $nested",
-            nested.contains("keyword.control.thematic-break.carve"),
-        )
+        // `- - -` is a spaced thematic break, tested before a list marker (carve#4814).
+        val spaced = scopesOf("- - -\n", "- - -")
+        assertTrue("`- - -` must be a thematic break, got $spaced", spaced.contains("meta.separator.thematic-break.carve"))
 
         // The single-colon DEFINITION line has no marker-line form: `- :  def` is
         // ordinary item text in the engine.

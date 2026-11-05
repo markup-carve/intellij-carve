@@ -137,7 +137,15 @@ class CarveMarkerScannerTest {
         // Digit run or single letter, with `.` or `)`.
         assertEquals(listOf("10." to CarveColors.LIST_MARKER), covered("10. item\n"))
         assertEquals(listOf("1)" to CarveColors.LIST_MARKER), covered("1) item\n"))
-        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a. item\n"))
+        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a.  item\n"))
+        assertEquals(listOf("a)" to CarveColors.LIST_MARKER), covered("a) item\n"))
+        // A letter or roman `.` marker takes two spaces; with one it is an initial (carve#4811).
+        assertTrue(scan("a. item\n").isEmpty())
+        assertTrue(scan("J. R. R. Tolkien wrote it\n").isEmpty())
+        assertTrue(scan("a.\titem\n").isEmpty())
+        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a.{.c}  item\n"))
+        assertTrue(scan("a.{.c} item\n").isEmpty())
+        assertEquals(listOf("a." to CarveColors.LIST_MARKER), covered("a.{title=\"a}b\"}  item\n"))
         // Prose must not be recoloured: a multi-letter word, or a parenthesized counter.
         assertTrue(scan("Note. This is prose\n").isEmpty())
         assertTrue(scan("(1) explain\n").isEmpty())
@@ -250,8 +258,8 @@ class CarveMarkerScannerTest {
      */
     @Test
     fun romanRunsAreMarkersWhenTheCaseIsConsistent() {
-        assertEquals(listOf("iv." to CarveColors.LIST_MARKER), covered("iv. fourth\n"))
-        assertEquals(listOf("IV." to CarveColors.LIST_MARKER), covered("IV. fourth\n"))
+        assertEquals(listOf("iv." to CarveColors.LIST_MARKER), covered("iv.  fourth\n"))
+        assertEquals(listOf("IV." to CarveColors.LIST_MARKER), covered("IV.  fourth\n"))
         assertEquals(listOf("xi)" to CarveColors.LIST_MARKER), covered("xi) eleventh\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("Vim. text\n"))
         assertEquals(emptyList<Pair<String, TextAttributesKey>>(), covered("Mix. text\n"))
@@ -343,8 +351,9 @@ class CarveMarkerScannerTest {
             covered("---toml\n# c\n- x\n| a |\n---\n# after\n"),
         )
         assertEquals(none, covered("---\n- a\n---\n"))
-        // Without a closer the `---` is a thematic break and the list below is real.
-        assertEquals(listOf("-" to CarveColors.LIST_MARKER), covered("---\n- a\n"))
+        // Without a closer the frontmatter runs to the end of the document (carve#5016).
+        assertEquals(none, covered("---\n- a\n"))
+        assertEquals(none, covered("--- toml\n# a\n"))
     }
 
     @Test
@@ -381,10 +390,20 @@ class CarveMarkerScannerTest {
     @Test
     fun aBlockBetweenAParagraphAndAMarkerEndsTheParagraph() {
         val dash = "-" to CarveColors.LIST_MARKER
-        assertEquals(listOf(dash), covered("para\n%% c\n- x\n"))
+        // An erased `%%` line ends nothing (carve#5012); a `%%%` block does.
+        assertEquals(none, covered("para\n%% c\n- x\n"))
+        assertEquals(listOf(dash), covered("para\n%%%\nc\n%%%\n- x\n"))
         assertEquals(listOf(dash), covered("para\n{.c}\n- x\n"))
         assertEquals(listOf("#" to CarveColors.HEADING_MARKER, dash), covered("# H\n- x\n"))
         assertEquals(listOf(dash), covered("para\n\n- x\n"))
+    }
+
+    @Test
+    fun spacedThematicBreaksAreNotListMarkers() {
+        // Single spaces only, and never `_` (carve#4814).
+        assertEquals(none, covered("- - -\n"))
+        assertEquals(none, covered("* * * *\n"))
+        assertEquals(List(3) { "-" to CarveColors.LIST_MARKER }, covered("-  -  - x\n"))
     }
 
     @Test

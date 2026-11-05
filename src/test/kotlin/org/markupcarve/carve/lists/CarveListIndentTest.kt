@@ -24,9 +24,11 @@ class CarveListIndentTest {
 
     @Test
     fun `recognizes list item markers`() {
-        for (line in listOf("- a", "* a", "1. a", "1) a", "a. a", "iv. a", "IV) a", ". a", "-", "  - nested", "> - quoted", "- [x] task")) {
+        for (line in listOf("- a", "* a", "1. a", "1) a", "a.  a", "iv.  a", "IV) a", ". a", "-", "  - nested", "> - quoted", "- [x] task")) {
             assertTrue(line, CarveListIndent.isListItemLine(line))
         }
+        // An initial is prose (carve#4811).
+        for (line in listOf("a. a", "iv. a", "J. R. Tolkien")) assertFalse(line, CarveListIndent.isListItemLine(line))
     }
 
     @Test

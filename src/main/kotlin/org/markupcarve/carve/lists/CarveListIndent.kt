@@ -28,8 +28,9 @@ object CarveListIndent {
 
     data class TextEdit(val start: Position, val end: Position, val newText: String)
 
+    // A letter or roman `.` marker takes two spaces; with one it is an initial (markup-carve/carve#4811).
     private const val MARKER =
-        """(?:[-*]|[0-9]+[.)]|[A-Za-z][.)]|[ivxlcdm]{2,}[.)]|[IVXLCDM]{2,}[.)]|\.)"""
+        """(?:[-*]|[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]{2,}|[IVXLCDM]{2,})(?:\)|\.(?=  |[ \t]*$))|\.)"""
     private const val TASK = """\[[ xX_/>!?-]\]"""
 
     // A marker followed by a space, a tab or the end of the line, so `-a` and `1.5` stay
