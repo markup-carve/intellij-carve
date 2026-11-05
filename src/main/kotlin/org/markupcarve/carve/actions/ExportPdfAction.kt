@@ -40,7 +40,7 @@ class ExportPdfAction : AnAction() {
             var temporary: java.nio.file.Path? = null
             var output: java.nio.file.Path? = null
             try {
-                val inputDir = sourceDir ?: target.parentFile.toPath()
+                val inputDir = sourceDir?.takeIf { Files.isWritable(it) } ?: target.parentFile.toPath()
                 temporary = Files.createTempFile(inputDir, ".carve-pdf-", if (tool.kind == PdfExportTools.Kind.CRV2PDF) ".crv" else ".html")
                 output = Files.createTempFile(target.parentFile.toPath(), ".carve-pdf-", ".pdf")
                 Files.delete(output)
@@ -49,9 +49,12 @@ class ExportPdfAction : AnAction() {
                     input.writeText(content)
                 } else {
                     val html = CarveConverter.toHtml(content, project)
-                    input.writeText(CarveHtmlExport.page(file.nameWithoutExtension, html))
+                    val page = CarveHtmlExport.page(file.nameWithoutExtension, html)
+                    val base = sourceDir?.takeIf { it != inputDir }?.toUri()?.toASCIIString()
+                    input.writeText(if (base == null) page else page.replace("<head>", "<head>\n    <base href=\"$base\">"))
                 }
-                val result = CapturingProcessHandler(PdfExportTools.command(tool, input, output.toFile())).runProcess(120_000)
+                val includeRoot = sourceDir?.takeIf { it != inputDir }?.toFile()
+                val result = CapturingProcessHandler(PdfExportTools.command(tool, input, output.toFile(), includeRoot)).runProcess(120_000)
                 if (result.isTimeout || result.exitCode != 0 || !Files.isRegularFile(output) || Files.size(output) == 0L) {
                     val detail = result.stderr.trim().ifEmpty { result.stdout.trim() }.ifEmpty {
                         if (result.isTimeout) "Timed out after 120 seconds" else "No PDF was produced"

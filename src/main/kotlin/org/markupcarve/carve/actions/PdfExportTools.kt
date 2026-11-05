@@ -57,10 +57,13 @@ internal object PdfExportTools {
         return locate(browserPath, names, defaults)?.let { Tool(Kind.CHROMIUM, it) }
     }
 
-    fun command(tool: Tool, input: File, output: File): GeneralCommandLine =
+    fun command(tool: Tool, input: File, output: File, includeRoot: File? = null): GeneralCommandLine =
         GeneralCommandLine(tool.executable).apply {
             when (tool.kind) {
-                Kind.CRV2PDF -> addParameters(input.absolutePath, output.absolutePath)
+                Kind.CRV2PDF -> {
+                    addParameters(input.absolutePath, output.absolutePath)
+                    if (includeRoot != null) addParameters("--include-root", includeRoot.absolutePath)
+                }
                 Kind.CHROMIUM -> addParameters(
                     "--headless", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
                     "--print-to-pdf=${output.absolutePath}", input.toURI().toASCIIString(),

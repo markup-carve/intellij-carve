@@ -54,6 +54,16 @@ class PdfExportToolsTest {
     }
 
     @Test
+    fun `crv2pdf can resolve includes from the original read-only directory`() {
+        val command = PdfExportTools.command(
+            PdfExportTools.Tool(PdfExportTools.Kind.CRV2PDF, "/tools/crv2pdf"),
+            File("/writable temporary/input.crv"), File("/writable temporary/output.pdf"),
+            File("/read only/source"),
+        )
+        assertEquals(listOf("--include-root", "/read only/source"), command.parametersList.list.takeLast(2))
+    }
+
+    @Test
     fun `headless Chromium produces a PDF when installed`() {
         val browser = PdfExportTools.find("missing", "", "Linux")
         if (browser?.kind != PdfExportTools.Kind.CHROMIUM) {
