@@ -7,10 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
+## [0.1.19] - 2026-11-11
+
+The editor follows the Carve 0.1.14 readings, documents export to PDF, and preview colors come from the shared Carve palette.
+
+### Fixes
 
 - Captioned `{.diff}` fences show tinted add and remove rows in the preview and HTML export (#295).
-- Carve fence captions use the updated marker and text colors from carve-grammars (#295).
+- Carve fence captions use the updated marker and text colors from carve-grammars (#295, #297).
+- The thematic break live template inserts `***` instead of `---`, which opens frontmatter on a first line, and the table template writes native `|=` header cells (#298).
+
+### Improvements
+
+- Highlighting follows the Carve 0.1.14 readings: braced cell alignment (`|={>}`, `|{> .num}`), two spaces after a letter or roman dot marker, and the other wave rulings (#299).
+- Carve documents export to PDF, also from read-only source folders (#302).
+- The preview and HTML export use the shared Carve light and dark palette (#294) and carve-css 0.1.9 (#300).
+- The bundled engine and language server follow carve-js 0.1.16 and the matching carve-lsp release.
+
+**Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.18...0.1.19
 
 ## [0.1.18] - 2026-10-26
 
