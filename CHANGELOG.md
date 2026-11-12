@@ -22,8 +22,8 @@ The editor follows the Carve 0.1.14 readings, documents export to PDF, and previ
 
 - Highlighting follows the Carve 0.1.14 readings: braced cell alignment (`|={>}`, `|{> .num}`), two spaces after a letter or roman dot marker, and the other wave rulings (#299).
 - Carve documents export to PDF, also from read-only source folders (#302).
-- The preview and HTML export use the shared Carve light and dark palette (#294) and carve-css 0.1.9 (#300).
-- The preview engine is carve-js 0.1.16, and the bundled language server is carve-lsp 0.1.16 on the same engine (#305).
+- The preview and HTML export use the shared Carve light and dark palette (#294) and carve-css 0.1.10 (#300, #306).
+- The preview engine is carve-js 0.1.17, which parses and renders faster, and the bundled language server is carve-lsp 0.1.16 on the same engine (#305, #306).
 
 **Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.18...0.1.19
 

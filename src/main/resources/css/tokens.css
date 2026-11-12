@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/tokens.css
- * version 0.1.9, commit 247db22
+ * version 0.1.10, commit 6370272
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -67,9 +67,8 @@
 
   /* Type. No @font-face and no @import: a stylesheet that reaches out to a font
    * host cannot be used behind a strict CSP, and every consumer here already
-   * has its own type stack. These inherit by default. */
-  --carve-font-body: inherit;
-  --carve-font-heading: inherit;
+   * has its own type stack. --carve-font-body and --carve-font-heading are
+   * left unset so the host's fonts apply; set them to override. */
   --carve-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
   --carve-font-size-small: 0.875em;
