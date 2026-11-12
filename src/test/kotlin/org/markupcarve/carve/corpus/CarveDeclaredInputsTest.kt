@@ -35,4 +35,28 @@ class CarveDeclaredInputsTest {
         assertEquals(3, CarveCorpus.declaredInputs(page).size)
         assertEquals(2, CarveCorpus.declaredInputs(page).toSet().size)
     }
+
+    @Test
+    fun aModifierThatLeavesTheBytesAloneMakesNoSecondFixture() {
+        val page = """
+            ::: compare
+            ```carve
+            same
+            ```
+            ```html
+            <p>same</p>
+            ```
+            :::
+            ::: compare no-render
+            ```carve
+            same
+            ```
+            ```html
+            <p>same</p>
+            ```
+            :::
+        """.trimIndent().lines()
+
+        assertEquals(1, CarveCorpus.declaredInputs(page).toSet().size)
+    }
 }

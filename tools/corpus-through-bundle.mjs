@@ -118,7 +118,7 @@ try {
     .sort()
     .map((file) => `edge-cases/${file}`)
 } catch {
-  sectionPages = ['edge-cases']
+  sectionPages = ['edge-cases.md']
 }
 for (const page of ['core.md', 'extensions.md', ...sectionPages]) {
   const path = resolve(examplesDir, page)

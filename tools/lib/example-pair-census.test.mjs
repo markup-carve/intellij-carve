@@ -35,3 +35,17 @@ test('a repeated input is one corpus fixture unless its modifiers differ', () =>
   assert.equal(declaredInputs(page).length, 3)
   assert.equal(new Set(declaredInputs(page)).size, 2)
 })
+
+test('a modifier that leaves the bytes alone does not make a second fixture', () => {
+  const page = [
+    '::: compare',
+    '```carve', 'same', '```',
+    '```html', '<p>same</p>', '```',
+    ':::',
+    '::: compare no-render',
+    '```carve', 'same', '```',
+    '```html', '<p>same</p>', '```',
+    ':::',
+  ]
+  assert.equal(new Set(declaredInputs(page)).size, 1)
+})

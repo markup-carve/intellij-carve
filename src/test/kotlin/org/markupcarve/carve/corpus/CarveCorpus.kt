@@ -88,20 +88,20 @@ object CarveCorpus {
     fun countDeclaredPairs(lines: List<String>): Int = declaredInputs(lines).size
 
     /**
-     * One key per declared pair: the block's `::: compare` modifiers plus the
-     * `carve` fence's content, so equal keys are one corpus fixture.
+     * One key per declared pair: the `.crv` bytes the spec's generator writes for
+     * it after the block's byte modifiers, so equal keys are one corpus fixture.
      */
     fun declaredInputs(lines: List<String>): List<String> {
         val inputs = mutableListOf<String>()
         var marker: String? = null
-        var modifiers = ""
+        var modifiers = emptySet<String>()
         var fence: String? = null
         var body: MutableList<String>? = null
         for (line in lines) {
             val openFence = fence
             if (openFence != null) {
                 if (line.startsWith(openFence) && line.substring(openFence.length).isBlank()) {
-                    body?.let { inputs += modifiers + "\u0000" + it.joinToString("\n") }
+                    body?.let { inputs += applyModifiers(it.joinToString("\n") + "\n", modifiers) }
                     fence = null
                     body = null
                 } else {
@@ -123,13 +123,24 @@ object CarveCorpus {
                 val rest = trimmed.substring(colons.length)
                 if (COMPARE_OPENER.containsMatchIn(rest)) {
                     marker = colons
-                    modifiers = rest.trim().split(Regex("""\s+""")).drop(1).sorted().joinToString(" ")
+                    modifiers = rest.trim().split(Regex("""\s+""")).drop(1).toSet()
                 }
             } else if (trimmed == openMarker) {
                 marker = null
             }
         }
         return inputs
+    }
+
+    /** The byte transforms of the spec's `scripts/generate-corpus.mjs`, in its order. */
+    private fun applyModifiers(carve: String, modifiers: Set<String>): String {
+        var out = carve
+        if ("no-final-newline" in modifiers) out = out.removeSuffix("\n")
+        if ("crlf" in modifiers) out = out.replace("\n", "\r\n")
+        if ("cr" in modifiers) out = out.replace("\n", "\r")
+        if ("bom" in modifiers) out = "\uFEFF" + out
+        if ("nul" in modifiers) out = out.replace("\u2400", "\u0000")
+        return out
     }
 
     private val COMPARE_OPENER = Regex("""^[ \t]+compare(?:[ \t]|$)""")
