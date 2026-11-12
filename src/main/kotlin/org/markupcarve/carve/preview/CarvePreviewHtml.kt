@@ -85,10 +85,11 @@ object CarvePreviewHtml {
     <link rel="stylesheet" href="${assetBase}${CarvePreviewAssets.HIGHLIGHT_CARVE_CSS}">
     <style>
         * { box-sizing: border-box; }
-        /* --carve-font-body is unset by default, so the stack lives on the
-           root and a consumer overriding the token still wins. */
+        /* carve-css leaves the font tokens for the host to set. */
         html {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --carve-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --carve-font-heading: var(--carve-font-body);
+            font-family: var(--carve-font-body);
             --carve-highlight-background: #f5df8a;
             --carve-highlight-ink: #1f1f1f;
         }
