@@ -1,2 +1,6 @@
-a. apple\n -> text.carve
-b. banana\n -> text.carve
+a. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> text.carve markup.list.numbered.carve
+apple\n -> text.carve
+b. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> text.carve markup.list.numbered.carve
+banana\n -> text.carve

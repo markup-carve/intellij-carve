@@ -2278,7 +2278,7 @@
         {
           "comment": "An unquoted value may contain dots and colons (`k=v.w`, corpus 110); consume it whole so the dot is not mistaken for a class.",
           "name": "string.unquoted.attribute.carve",
-          "match": "(?<==)[^\\s\"'}]+"
+          "match": "(?<==)[^\\s\"'{}]+"
         }
       ]
     },

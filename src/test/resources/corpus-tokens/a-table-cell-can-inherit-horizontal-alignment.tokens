@@ -1,21 +1,29 @@
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 = -> text.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
 >^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
  Name  -> text.carve markup.table.row.carve
 |= -> text.carve markup.table.row.carve keyword.control.table.header.carve
  Value  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
 ?v -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
  Bottom  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
 ?~ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
  Middle  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
 ?^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
  Top  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
  plain  -> text.carve markup.table.row.carve

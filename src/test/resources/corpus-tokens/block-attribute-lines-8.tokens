@@ -1,0 +1,9 @@
+{ -> text.carve meta.attributes.carve
+.a -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> text.carve meta.attributes.carve
+\n -> text.carve
+[^f]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ note -> text.carve meta.footnote.definition.carve
+\n -> text.carve
+\n -> text.carve
+Visible\n -> text.carve
