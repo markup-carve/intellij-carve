@@ -60,10 +60,7 @@ class CarveBundleCorpusTest {
      * predicted: the bundle now renders all 2200 documents byte-identically. No
      * golden was touched to get there.
      */
-    private val expectedDivergences: Map<String, String> = linkedMapOf(
-        "1070-a-lazy-comment-opener-is-measured-where-its-brace-is-written-4" to
-            "carve-js 0.1.16 drops the tab-led refused lazy comment run in a note's description (markup-carve/carve-js#5008)",
-    )
+    private val expectedDivergences: Map<String, String> = linkedMapOf()
 
     /**
      * Documents whose outcome depends on the HOST, not on the bundle.
