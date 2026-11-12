@@ -84,6 +84,9 @@ class CarveBundleCorpusTest {
         // not what this test is measuring. Tracked separately.
         "182-openers-past-the-nesting-cap-are-one-paragraph" to
             "100 nested containers overflow the GraalJS host stack; Node renders the same bundle fine",
+        // Bracket spans nested to the spec's inline cap: the same host stack limit.
+        "882-attributed-bracket-spans-share-the-inline-cap" to
+            "spans nested to the inline cap overflow the GraalJS host stack; Node renders the same bundle fine",
     )
 
     @Test

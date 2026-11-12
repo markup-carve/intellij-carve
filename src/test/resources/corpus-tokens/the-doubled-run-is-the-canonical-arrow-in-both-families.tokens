@@ -12,7 +12,7 @@ Canonical:  -> text.carve
 <=> -> text.carve constant.character.entity.typography.carve
 \n -> text.carve
 \n -> text.carve
-Deprecated but still rendered: <- -> <->\n -> text.carve
+Removed, now text: <- -> <->\n -> text.carve
 \n -> text.carve
 Not an arrow: key => value stays literal, and p  -> text.carve
 <= -> text.carve constant.character.entity.typography.carve
