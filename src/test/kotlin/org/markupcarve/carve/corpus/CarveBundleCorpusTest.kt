@@ -61,6 +61,8 @@ class CarveBundleCorpusTest {
      * golden was touched to get there.
      */
     private val expectedDivergences: Map<String, String> = linkedMapOf(
+        "1070-a-lazy-comment-opener-is-measured-where-its-brace-is-written-4" to
+            "carve-js 0.1.16 drops the tab-led refused lazy comment run in a note's description (markup-carve/carve-js#5008)",
     )
 
     /**
@@ -111,8 +113,8 @@ class CarveBundleCorpusTest {
         )
         assertEquals(
             "${pairs.size} corpus pair(s) found under ${corpus?.path}, but the spec's example " +
-                "pages declare $declared. Every carve fence in a ::: compare block in " +
-                "spec/resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, " +
+                "pages declare $declared. Every distinct carve input in a ::: compare block in " +
+                "spec/resources/examples/{core,extensions}.md and edge-cases/ becomes one corpus pair, " +
                 "so a difference means the corpus checked out here is not the one those pages " +
                 "describe - a truncated submodule, or a corpus that needs regenerating upstream. " +
                 "It does not mean this run was clean.",

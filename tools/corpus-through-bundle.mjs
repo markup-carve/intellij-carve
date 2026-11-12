@@ -41,7 +41,7 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { resolve, basename } from 'node:path'
 import vm from 'node:vm'
-import { countDeclaredPairs } from './lib/example-pair-census.mjs'
+import { declaredInputs } from './lib/example-pair-census.mjs'
 
 const argv = process.argv.slice(2)
 const list = argv.includes('--list')
@@ -107,11 +107,20 @@ for (const name of names) {
 // would move both sides together and guard nothing, and a hardcoded number goes
 // stale the day an example lands upstream - so the reference is the corpus's
 // SOURCE. tests/corpus is generated from the `::: compare` blocks in
-// resources/examples/{core,extensions,edge-cases}.md, one pair per `carve`
-// fence inside a block, and both live in the same checkout.
+// resources/examples/{core,extensions}.md and resources/examples/edge-cases/*.md,
+// one fixture per distinct `carve` input in a block, and both live in the same checkout.
 const examplesDir = resolve(corpusDir, '..', '..', 'resources', 'examples')
-let declared = 0
-for (const page of ['core.md', 'extensions.md', 'edge-cases.md']) {
+const inputs = new Set()
+let sectionPages
+try {
+  sectionPages = readdirSync(resolve(examplesDir, 'edge-cases'))
+    .filter((file) => file.endsWith('.md') && file !== 'README.md')
+    .sort()
+    .map((file) => `edge-cases/${file}`)
+} catch {
+  sectionPages = ['edge-cases']
+}
+for (const page of ['core.md', 'extensions.md', ...sectionPages]) {
   const path = resolve(examplesDir, page)
   let text
   try {
@@ -123,8 +132,9 @@ for (const page of ['core.md', 'extensions.md', 'edge-cases.md']) {
     console.error(`No corpus source page at ${path}; tests/corpus is generated from these pages, so if the spec moved them this guard has to move with them`)
     process.exit(2)
   }
-  declared += countDeclaredPairs(text.split('\n'))
+  for (const input of declaredInputs(text.split('\n'))) inputs.add(input)
 }
+const declared = inputs.size
 if (declared === 0) {
   console.error(`The corpus source pages under ${examplesDir} declare no ::: compare blocks at all; that is a wiring problem, not a corpus of size zero`)
   process.exit(2)
@@ -132,7 +142,7 @@ if (declared === 0) {
 if (pairs.length !== declared) {
   console.error(
     `${pairs.length} corpus pairs found under ${corpusDir}, but the spec's example pages declare ${declared}. ` +
-      'Every carve fence in a ::: compare block in resources/examples/{core,extensions,edge-cases}.md becomes one corpus pair, so a ' +
+      'Every distinct carve input in a ::: compare block in resources/examples/{core,extensions}.md and edge-cases/*.md becomes one corpus pair, so a ' +
       'difference means the corpus checked out here is not the one those pages describe. It does not mean this run was clean.',
   )
   process.exit(2)

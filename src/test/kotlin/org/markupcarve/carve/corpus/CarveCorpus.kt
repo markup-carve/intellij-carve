@@ -56,10 +56,11 @@ object CarveCorpus {
      * the state such a guard exists to reject.
      *
      * So the reference is the corpus's SOURCE. `spec/tests/corpus` is generated
-     * from the `::: compare` blocks in
-     * `spec/resources/examples/{core,extensions,edge-cases}.md`, one pair per
-     * `carve` fence inside a block, and the generator upstream refuses to write a corpus where the two
-     * disagree. Both live in the same submodule, so this costs nothing to read.
+     * from the `::: compare` blocks in `spec/resources/examples/{core,extensions}.md`
+     * and each section file under `spec/resources/examples/edge-cases`, one fixture per distinct
+     * `carve` input in a block (the generator writes a repeated input once), and
+     * the generator upstream refuses to write a corpus where the two disagree.
+     * Both live in the same submodule, so this costs nothing to read.
      * Counting the source also leaves no literal here to go stale: adding an
      * example upstream moves the expectation on the next bump by itself.
      *
@@ -69,33 +70,49 @@ object CarveCorpus {
     fun declaredSize(): Int? {
         val root = directory?.parentFile?.parentFile ?: return null
         val examples = File(root, "resources/examples")
-        var declared = 0
-        for (page in listOf("core.md", "extensions.md", "edge-cases.md")) {
-            val file = File(examples, page)
+        val sections = File(examples, "edge-cases").listFiles { f -> f.isFile && f.name.endsWith(".md") && f.name != "README.md" }
+            ?.sortedBy { it.name }
+            ?: listOf(File(examples, "edge-cases.md"))
+        val inputs = HashSet<String>()
+        for (file in listOf(File(examples, "core.md"), File(examples, "extensions.md")) + sections) {
             if (!file.isFile) return null
-            declared += countDeclaredPairs(file.readLines())
+            inputs += declaredInputs(file.readLines())
         }
-        return declared.takeIf { it > 0 }
+        return inputs.size.takeIf { it > 0 }
     }
 
     /**
      * Same census as the spec's `scripts/lib/example-pair-census.mjs`: one pair per
      * `carve` fence inside a `::: compare` block, and nothing inside a fence is markup.
      */
-    fun countDeclaredPairs(lines: List<String>): Int {
-        var declared = 0
+    fun countDeclaredPairs(lines: List<String>): Int = declaredInputs(lines).size
+
+    /**
+     * One key per declared pair: the block's `::: compare` modifiers plus the
+     * `carve` fence's content, so equal keys are one corpus fixture.
+     */
+    fun declaredInputs(lines: List<String>): List<String> {
+        val inputs = mutableListOf<String>()
         var marker: String? = null
+        var modifiers = ""
         var fence: String? = null
+        var body: MutableList<String>? = null
         for (line in lines) {
             val openFence = fence
             if (openFence != null) {
-                if (line.startsWith(openFence) && line.substring(openFence.length).isBlank()) fence = null
+                if (line.startsWith(openFence) && line.substring(openFence.length).isBlank()) {
+                    body?.let { inputs += modifiers + "\u0000" + it.joinToString("\n") }
+                    fence = null
+                    body = null
+                } else {
+                    body?.add(line)
+                }
                 continue
             }
             val ticks = line.takeWhile { it == '`' }
             if (ticks.length >= 3) {
                 fence = ticks
-                if (marker != null && line.substring(ticks.length).trim() == "carve") declared++
+                if (marker != null && line.substring(ticks.length).trim() == "carve") body = mutableListOf()
                 continue
             }
             val trimmed = line.trim()
@@ -103,12 +120,16 @@ object CarveCorpus {
             if (colons.length < 3) continue
             val openMarker = marker
             if (openMarker == null) {
-                if (COMPARE_OPENER.containsMatchIn(trimmed.substring(colons.length))) marker = colons
+                val rest = trimmed.substring(colons.length)
+                if (COMPARE_OPENER.containsMatchIn(rest)) {
+                    marker = colons
+                    modifiers = rest.trim().split(Regex("""\s+""")).drop(1).sorted().joinToString(" ")
+                }
             } else if (trimmed == openMarker) {
                 marker = null
             }
         }
-        return declared
+        return inputs
     }
 
     private val COMPARE_OPENER = Regex("""^[ \t]+compare(?:[ \t]|$)""")
