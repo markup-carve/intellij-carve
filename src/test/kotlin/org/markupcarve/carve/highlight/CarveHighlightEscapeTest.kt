@@ -45,8 +45,11 @@ class CarveHighlightEscapeTest {
             .filter { it.scope.contains(BODY) && !it.scope.contains(DELIMITER) }
             .joinToString("") { it.text }
 
+    // A bare `=` pair is text in Carve 0.2 (U-067), so no shape below is marked; `expected`
+    // records the 0.1 reading each shape was written for.
+    @Suppress("UNUSED_PARAMETER")
     private fun check(src: String, expected: String) =
-        assertEquals("highlight body for ${quote(src)}", expected, markedRun(src))
+        assertEquals("highlight body for ${quote(src)}", "", markedRun(src))
 
     private fun quote(s: String) = "\"" + s.replace("\\", "\\\\") + "\""
 

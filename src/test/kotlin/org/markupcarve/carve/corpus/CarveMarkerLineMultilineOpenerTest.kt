@@ -97,10 +97,11 @@ class CarveMarkerLineMultilineOpenerTest {
     }
 
     @Test
-    fun aTildeFenceReachesItToo() = eachMarker { marker, indent ->
+    fun aTildeFenceIsText() = eachMarker { marker, indent ->
+        // Carve 0.2 fences are backticks only (U-049, U-116).
         val src = "$marker~~~\n${indent}code\n$indent~~~\n\nafter\n"
         val body = scopesOf(src, "code")
-        if (!body.contains(code)) "the body is not inside the code block, got $body" else null
+        if (body.contains(code)) "a tilde run opened a code block, got $body" else null
     }
 
     /**

@@ -2,7 +2,11 @@
   -> text.carve markup.list.unnumbered.carve
 item\n -> text.carve
 \n -> text.carve
-   -> text.carve meta.abbreviation.definition.carve
+\n -> text.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
+item\n -> text.carve
+\n -> text.carve
 * -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
 [ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
 HTML -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
@@ -12,11 +16,6 @@ HTML -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.c
 HyperText Markup Language -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
 \n -> text.carve
 \n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-item\n -> text.carve
-\n -> text.carve
-   -> text.carve meta.link.reference.definition.carve
 [r]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
   -> text.carve meta.link.reference.definition.carve
 /url -> text.carve meta.link.reference.definition.carve markup.underline.link.carve

@@ -9,10 +9,7 @@
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-hot -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
- is the reading  -> text.carve markup.table.row.carve
+=hot= is the reading  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
@@ -45,34 +42,27 @@ hot -> text.carve markup.table.row.carve markup.changed.carve markup.changed.car
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve keyword.control.table.header.carve
->^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
- Qty  -> text.carve markup.table.row.carve
+=>^ Qty  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve keyword.control.table.header.carve
-~ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
- Item  -> text.carve markup.table.row.carve
+=~ Item  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-<v -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
- 12  -> text.carve markup.table.row.carve
+<v 12  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-~~ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
- both  -> text.carve markup.table.row.carve
+~~ both  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-?v -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
- Bottom  -> text.carve markup.table.row.carve
+?v Bottom  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 \n -> text.carve
@@ -156,7 +146,7 @@ a -> text.carve markup.table.row.carve markup.inserted.critic.carve markup.inser
 \n -> text.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-> -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+> -> text.carve markup.table.row.carve
 { -> text.carve markup.table.row.carve meta.attributes.carve
 .num -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
 } -> text.carve markup.table.row.carve meta.attributes.carve

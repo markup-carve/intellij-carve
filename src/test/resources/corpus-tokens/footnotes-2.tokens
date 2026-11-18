@@ -4,7 +4,9 @@ See the note -> text.carve
 m -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
 ] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
 .\n -> text.carve
-[^m]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- First line of the note -> text.carve meta.footnote.definition.carve
-\n -> text.carve
+[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+m -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+: First line of the note\n -> text.carve
    and a continuation line.\n -> text.carve

@@ -31,14 +31,16 @@ x -> text.carve markup.deleted.critic.carve markup.deleted.carve
 \n -> text.carve
 \n -> text.carve
 The braced form converts anywhere: a  -> text.carve
-{--} -> text.carve constant.character.entity.typography.carve
+-- -> text.carve constant.character.entity.typography.carve
  b, x -> text.carve
-{--} -> text.carve constant.character.entity.typography.carve
-y,  -> text.carve
-{--} -> text.carve constant.character.entity.typography.carve
-start.\n -> text.carve
+-- -> text.carve constant.character.entity.typography.carve
+y, --start.\n -> text.carve
 \n -> text.carve
-git log --oneline and --force-with-lease stay literal.\n -> text.carve
+git log - -> text.carve
+\\- -> text.carve constant.character.escape.carve
+oneline and - -> text.carve
+\\- -> text.carve constant.character.escape.carve
+force-with-lease stay literal.\n -> text.carve
 \n -> text.carve
 But pages 1 -> text.carve
 -- -> text.carve constant.character.entity.typography.carve
@@ -52,7 +54,9 @@ Fri window, a -> text.carve
 -- -> text.carve constant.character.entity.typography.carve
  b all convert.\n -> text.carve
 \n -> text.carve
-x ---That stays literal, a -> text.carve
+x - -> text.carve
+\\- -> text.carve constant.character.escape.carve
+-That stays literal, a -> text.carve
 -- -> text.carve constant.character.entity.typography.carve
  b does not.\n -> text.carve
 \n -> text.carve

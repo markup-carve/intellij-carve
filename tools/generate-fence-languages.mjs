@@ -65,7 +65,7 @@ export function languages(table = JSON.parse(readFileSync(tablePath, 'utf8'))) {
 // the marker-line rule escapes the quote inside the character class, the other
 // two do not. Both parse to the same class.
 const LANGUAGE_CAPTURES = ['([^`~\\s\\["]+)?', '([^`~\\s\\[\\"]+)?']
-const BARE_FENCE = '[ \\t]*[`~]{3,}[ \\t]*$'
+const BARE_FENCE = '[ \\t]*`{3,}[ \\t]*$'
 
 // [generated entry, hand-written entry, how the body is embedded]
 //

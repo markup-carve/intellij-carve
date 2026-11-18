@@ -20,11 +20,9 @@ class CarveOpaqueDestinationTest {
             }
             .joinToString("") { it.text }
 
+    // Bare `_`, `~` and `=` are text in Carve 0.2 (U-065 to U-067), so only `/` and `*` pair.
     private val runs = listOf(
         "/" to "markup.italic.carve",
-        "_" to "markup.underline.text.carve",
-        "~" to "markup.deleted.carve",
-        "=" to "markup.changed.carve",
         "*" to "markup.bold.carve",
     )
 
@@ -96,21 +94,11 @@ class CarveOpaqueDestinationTest {
         assertEquals(emptyList<String>(), wrong)
     }
 
-    @Test
-    fun anEmailAutolinkTakesUnicodeLettersAndUnderscores() {
-        for (address in listOf("<\u00e4_@b.cd>", "<a@b_c.de>")) {
-            assertEquals("see $address now", covered("_see $address now_", "markup.underline.text.carve"))
-        }
-    }
+    // An email address can hold none of the 0.2 bare delimiters (`/`, `*`), so it needs no case here.
 
     @Test
     fun boldItalicDoesNotReadAnEscapedBracketAsALabel() {
         assertEquals("see \\[x", covered("/*see \\[x*/](a) now*/", "markup.bold.italic.carve"))
-    }
-
-    @Test
-    fun anEmailAutolinkIsOpaqueToo() {
-        assertEquals("see <me_@x.y> now", covered("_see <me_@x.y> now_", "markup.underline.text.carve"))
     }
 
     /** Bold is left out: its begin/end rule opens without seeing a closer. */

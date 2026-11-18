@@ -203,7 +203,7 @@ kotlin {
 
 val textmateDir = "src/main/resources/textmate"
 val grammarUrl =
-    "https://raw.githubusercontent.com/markup-carve/vscode-carve/main/syntaxes/carve.tmLanguage.json"
+    "https://raw.githubusercontent.com/markup-carve/vscode-carve/next2/syntaxes/carve.tmLanguage.json"
 
 // ---------------------------------------------------------------------------
 // Grammar drift: intended, permanent deltas from the vscode-carve upstream copy
@@ -323,11 +323,9 @@ val localRulesGroupedUpstream =
         "heading-span-attributes" to GroupedUpstream("attributes", "heading-inline.crv"),
         // Emphasis nested in a bare run. The IDE's engine ignores patterns in a numbered
         // capture, so the bare runs are regions here and nest these line-bounded rules.
+        // Carve 0.2 keeps only the bare `*` and `/` runs (U-065 to U-067).
         "bold-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
         "italic-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "underline-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "strike-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "highlight-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
         // A reference definition's trailing block. Upstream spells it as a capture of
         // #definitions; the IDE's engine ignores patterns in a numbered capture, so the
         // block is its own rule here, reached from a region.
@@ -437,17 +435,6 @@ val upstreamRulesCoveredLocally = mapOf(
     // prefix and the `>` in one go, so every marker spelling reaches it.
     // Also asserted in CarveMarkerLineQuoteTest.
     "block-quote-on-marker-line" to CoveredLocally("block-quotes", "quote-on-list-marker-line.crv"),
-    // A definition at a container's content column. Upstream's `#definitions` is
-    // anchored flush-left, so the indented form needs a rule of its own; this
-    // grammar's `#definitions` is anchored `^\s*` and takes both forms through
-    // one rule, tokenizing them identically. Both upstream patterns are covered:
-    // the abbreviation definition and the link reference definition.
-    // CarveDefinitionInContainerTest asserts the indented form tokenizes as the
-    // flush-left form does.
-    // The attribute-block capture upstream carries on a link reference
-    // definition is missing on BOTH local forms, so that delta belongs to the
-    // shared `definitions` rule and is already reported in the structural diff.
-    "definitions-in-container" to CoveredLocally("definitions", "definition-in-container.crv"),
     // Upstream's rule has TWO patterns and this grammar splits them: a fence on the item's
     // own marker line is `code-fence-on-marker-line`, a fence at the item's body column is
     // `code-fence-at-body-column`. The entry names the second because it was the missing

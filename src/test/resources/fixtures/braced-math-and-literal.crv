@@ -4,12 +4,12 @@ x{*$`a`*} here
 
 x{/$$`b`/} here
 
-x{*$`a*} here
+x{*$`a*} here`
 
-x{~$$`b~} here
+x{~$$`b~} here`
 
-x{/!`c/} here
+x{/!`c/} here`
 
-{~`a~}
+{~`a~}`
 
 {+`a`+}

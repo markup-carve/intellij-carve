@@ -1,8 +1,1 @@
-~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-old -> text.carve markup.deleted.carve markup.deleted.carve
-~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-  -> text.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-new -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-\n -> text.carve
+~old~ =new=\n -> text.carve

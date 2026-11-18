@@ -10,18 +10,8 @@ bold -> text.carve markup.bold.carve markup.bold.carve
 bold italic -> text.carve markup.bold.italic.carve markup.bold.italic.carve
 */ -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
 \n -> text.carve
-_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
-underline -> text.carve markup.underline.text.carve markup.underline.text.carve
-_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
-   -> text.carve
-~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-strikethrough -> text.carve markup.deleted.carve markup.deleted.carve
-~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-\n -> text.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-highlight -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-   -> text.carve
+_underline_  ~strikethrough~\n -> text.carve
+=highlight=   -> text.carve
 {^ -> text.carve keyword.control.superscript.carve
 super -> text.carve markup.superscript.carve
 ^} -> text.carve keyword.control.superscript.carve

@@ -1,14 +1,17 @@
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-^ Top | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
-=v Bottom | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-{<^} Paired  -> text.carve markup.table.row.carve
+=^ Top  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-v> Reverse | -> text.carve markup.table.row.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.table.row.carve markup.changed.carve keyword.control.highlight.carve
-~> Middle  -> text.carve markup.table.row.carve
+=v Bottom  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> text.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
+<^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
+ Paired  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+=v> Reverse  -> text.carve markup.table.row.carve
+| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
+=~> Middle  -> text.carve markup.table.row.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve
 \n -> text.carve
 | -> text.carve markup.table.row.carve keyword.control.separator.table.carve

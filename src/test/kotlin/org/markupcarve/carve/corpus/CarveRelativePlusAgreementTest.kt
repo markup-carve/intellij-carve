@@ -62,11 +62,9 @@ class CarveRelativePlusAgreementTest {
         assertTrue("scanner agreement $agree fell below $SCANNER_FLOOR", agree >= SCANNER_FLOOR)
     }
 
-    @Test
-    fun grammarAgreesWithTheSpecModel() {
-        val agree = measure("grammar", ::grammarMarks)
-        assertTrue("grammar agreement $agree fell below $GRAMMAR_FLOOR", agree >= GRAMMAR_FLOOR)
-    }
+    // The grammar-agreement floor measured the 0.1 continuation marker; Carve 0.2 has none
+    // (U-014 to U-017), so the grammar marks no `+` and the two "never marks text" tests
+    // below are what remains of it.
 
     @Test
     fun scannerAgreesWithTheLaterRulings() {
@@ -89,7 +87,6 @@ class CarveRelativePlusAgreementTest {
 
     private companion object {
         const val SCANNER_FLOOR = 163
-        const val GRAMMAR_FLOOR = 119
         const val LATER_SCANNER_FLOOR = 47
     }
 }

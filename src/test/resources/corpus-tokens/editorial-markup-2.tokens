@@ -1,7 +1,4 @@
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-x -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
- and  -> text.carve
+=x= and  -> text.carve
 {= -> text.carve keyword.control.highlight.carve
 y -> text.carve markup.changed.carve
 =} -> text.carve keyword.control.highlight.carve
