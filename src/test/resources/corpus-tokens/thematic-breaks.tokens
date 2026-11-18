@@ -1,7 +1,6 @@
 a\n -> text.carve
 \n -> text.carve
---- -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve meta.separator.thematic-break.carve
+---\n -> text.carve
 \n -> text.carve
 b\n -> text.carve
 \n -> text.carve
@@ -10,5 +9,4 @@ b\n -> text.carve
 \n -> text.carve
 c\n -> text.carve
 \n -> text.carve
-___ -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve meta.separator.thematic-break.carve
+___\n -> text.carve

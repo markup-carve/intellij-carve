@@ -16,6 +16,9 @@
 > -> text.carve keyword.control.quote.carve
  quoted -> text.carve markup.quote.carve
 \n -> text.carve
+\n -> text.carve
+\n -> text.carve
+\n -> text.carve
 - -  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
 > -> text.carve keyword.control.quote.carve
  quoted -> text.carve markup.quote.carve
@@ -24,6 +27,7 @@
 - -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
   -> text.carve markup.list.unnumbered.carve
 item\n -> text.carve
+\n -> text.carve
    -> text.carve markup.quote.carve
 > -> text.carve markup.quote.carve keyword.control.quote.carve
   -> text.carve markup.quote.carve

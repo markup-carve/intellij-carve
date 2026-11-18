@@ -1,14 +1,13 @@
-{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-a -> text.carve markup.changed.critic.carve markup.deleted.carve
-~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+a -> text.carve markup.deleted.carve markup.deleted.carve
+~> -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
  deletes,  -> text.carve
-{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-b -> text.carve markup.changed.critic.carve markup.inserted.carve
-~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+~>b -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
  inserts, and  -> text.carve
-{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
+{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
+~> -> text.carve markup.deleted.carve markup.deleted.carve
+~} -> text.carve markup.deleted.carve keyword.control.strike.carve
  still does both to nothing.\n -> text.carve

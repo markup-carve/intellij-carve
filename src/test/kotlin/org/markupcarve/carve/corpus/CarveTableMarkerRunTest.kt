@@ -52,11 +52,12 @@ class CarveTableMarkerRunTest {
             "a header cell" to Triple("|= a |\n", "|=", header),
             "an empty header cell" to Triple("|= |\n", "|=", header),
             "a header with an attribute block" to Triple("|={#x} R |\n", "|=", header),
-            "a right-top run" to Triple("|=>^ Qty |\n", ">^", alignment),
-            "a centre run" to Triple("|=~ Item |\n", "~", alignment),
-            "a left-bottom run" to Triple("|<v 12 |\n", "<v", alignment),
-            "a centre-middle run" to Triple("|~~ both |\n", "~~", alignment),
-            "an inherited horizontal run" to Triple("|?v Bottom |\n", "?v", alignment),
+            // Carve 0.2 alignment is braced (U-056, CC-894).
+            "a right-top run" to Triple("|={>^} Qty |\n", ">^", alignment),
+            "a centre run" to Triple("|={~} Item |\n", "~", alignment),
+            "a left-bottom run" to Triple("|{<v} 12 |\n", "<v", alignment),
+            "a centre-middle run" to Triple("|{~~} both |\n", "~~", alignment),
+            "an inherited horizontal run" to Triple("|{?v} Bottom |\n", "?v", alignment),
         )
         for ((what, case) in runs) {
             val (src, needle, scope) = case
@@ -144,8 +145,8 @@ class CarveTableMarkerRunTest {
             "two boolean attributes" to Triple("|={not attrs} x |\n", "|=", header),
             "an id" to Triple("|={#ok} x |\n", "|=", header),
             "a language" to Triple("|={:en-GB} x |\n", "|=", header),
-            "a class on an alignment marker" to Triple("|>{.num} 9 |\n", ">", alignment),
-            "a quoted value holding a brace" to Triple("|<{title=\"a}b\"} x |\n", "<", alignment),
+            "a class on an alignment marker" to Triple("|{> .num} 9 |\n", ">", alignment),
+            "a quoted value holding a brace" to Triple("|{< title=\"a}b\"} x |\n", "<", alignment),
         )
         for ((what, case) in valid) {
             val (src, needle, scope) = case

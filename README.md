@@ -9,7 +9,7 @@ Carve support for JetBrains IDEs, with highlighting, preview, and optional langu
 
 ## Features
 
-- Syntax highlighting and live preview.
+- Syntax highlighting and live preview. On the `next2` branch the TextMate grammar reads Carve 0.2 source; preview, export and the language server still use the bundled 0.1 engine until a 0.2 engine is published.
 - Import and export commands.
 - Optional diagnostics, completion, and navigation through LSP4IJ.
 

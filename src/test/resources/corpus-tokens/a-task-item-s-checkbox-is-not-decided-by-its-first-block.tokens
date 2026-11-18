@@ -9,7 +9,7 @@
   -> text.carve markup.heading.carve
 h -> text.carve markup.heading.carve entity.name.section.carve
 \n -> text.carve
--  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> text.carve markup.list.unnumbered.carve
 [ ]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
---- -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve
+---\n -> text.carve

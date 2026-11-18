@@ -1,4 +1,4 @@
-iv. lower roman
+iv\. lower roman
 
 IV. upper roman
 
@@ -6,7 +6,7 @@ ivx. a longer lower run
 
 IVX. a longer upper run
 
-mix. a word made only of roman letters
+mix\. a word made only of roman letters
 
 Vim. mixed case is prose
 

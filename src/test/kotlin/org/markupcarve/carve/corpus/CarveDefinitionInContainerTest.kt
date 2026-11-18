@@ -46,33 +46,24 @@ class CarveDefinitionInContainerTest {
         return sb.toString()
     }
 
+    // A definition stands at column 0 outside every container in Carve 0.2 (C2-B-081): the 0.2
+    // reference engine renders each of these lines as item text.
     @Test
-    fun `an abbreviation definition at an item's body column is a definition`() {
-        val src = "- item\n\n  *[HTML]: HyperText Markup Language\n"
-        val scopes = scopesOf(src, "*[HTML]: HyperText Markup Language")
-        assertTrue("indented abbreviation definition lost its rule: $scopes", scopes.contains(abbreviation))
-        assertTrue("the term lost its scope: $scopes", scopes.contains("entity.name.abbreviation.carve"))
-        assertFalse("the leading star was read as emphasis: $scopes", scopes.contains("markup.bold"))
+    fun `an abbreviation line at an item's body column is text`() {
+        val scopes = scopesOf("- item\n\n  *[HTML]: HyperText Markup Language\n", "*[HTML]: HyperText Markup Language")
+        assertFalse("the line carries a definition scope: $scopes", scopes.contains(abbreviation))
     }
 
     @Test
-    fun `a link reference definition at an item's body column is a definition`() {
-        val src = "- item\n\n  [r]: /url\n"
-        val scopes = scopesOf(src, "[r]: /url")
-        assertTrue("indented link reference definition lost its rule: $scopes", scopes.contains(linkDefinition))
-        assertTrue("the destination lost its scope: $scopes", scopes.contains("markup.underline.link.carve"))
+    fun `a link reference line at an item's body column is text`() {
+        val scopes = scopesOf("- item\n\n  [r]: /url\n", "[r]: /url")
+        assertFalse("the line carries a definition scope: $scopes", scopes.contains(linkDefinition))
     }
 
     @Test
-    fun `the indented form tokenizes as the flush-left form does`() {
-        for (line in listOf("*[HTML]: HyperText Markup Language", "[r]: /url")) {
-            val flush = scopesOf("$line\n", line)
-            val indented = scopesOf("- item\n\n  $line\n", line)
-            assertTrue(
-                "indent changed the scopes for `$line`:\n  flush-left: $flush\n  indented:   $indented",
-                flush == indented,
-            )
-        }
+    fun `a flush-left definition is still a definition`() {
+        assertTrue(scopesOf("*[HTML]: HyperText Markup Language\n", "*[HTML]: HyperText Markup Language").contains(abbreviation))
+        assertTrue(scopesOf("[r]: /url\n", "[r]: /url").contains(linkDefinition))
     }
 
     @Test

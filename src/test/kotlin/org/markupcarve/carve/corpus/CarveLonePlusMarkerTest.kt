@@ -83,15 +83,14 @@ class CarveLonePlusMarkerTest {
         "checked task item" to "- [x] +\n- b\nplain\n",
     )
 
-    private val grammarTextForms = setOf("quote", "nested quote", "footnote definition")
 
     @Test
     fun plusAfterAnOpenerIsMarker() {
         for ((label, source) in afterOpener) {
             val plus = source.indexOf('+')
             assertEquals(label, listOf(plus), markerOffsets(source))
-            // The grammar scopes only a `+` right after a list or description marker.
-            assertEquals(label, label !in grammarTextForms, grammarMarks(source))
+            // Carve 0.2 has no continuation marker (U-014 to U-017), so the grammar marks no `+`.
+            assertEquals(label, false, grammarMarks(source))
         }
     }
 

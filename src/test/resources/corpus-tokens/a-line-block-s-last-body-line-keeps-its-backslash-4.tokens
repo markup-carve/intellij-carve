@@ -5,7 +5,6 @@
 a  -> text.carve
 \\ -> text.carve constant.character.escape.hard-break.carve
 \n -> text.carve
-%% c -> text.carve comment.line.percent.carve
-\n -> text.carve
+%% c\n -> text.carve
 ::: -> text.carve markup.other.div.carve keyword.control.div.carve
 \n -> text.carve
