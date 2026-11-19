@@ -83,6 +83,11 @@ class CarveBundleCorpusTest {
         // Bracket spans nested to the spec's inline cap: the same host stack limit.
         "882-attributed-bracket-spans-share-the-inline-cap" to
             "spans nested to the inline cap overflow the GraalJS host stack; Node renders the same bundle fine",
+        // The 0.2 examples of the same limit: `{^` superscripts nested to the inline cap.
+        "syntax-inline-104" to
+            "superscripts nested to the inline cap in a quote overflow the GraalJS host stack; Node renders the same bundle fine",
+        "syntax-inline-112" to
+            "superscripts nested to the inline cap overflow the GraalJS host stack; Node renders the same bundle fine",
     )
 
     @Test
