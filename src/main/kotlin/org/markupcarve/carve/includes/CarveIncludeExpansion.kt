@@ -8,18 +8,11 @@ import java.nio.file.Path
 /**
  * Drives the engine's include pass (spec PART 9 section 19) from the preview.
  *
- * The composition is the engine's, entered one step later than `carveToHtml`:
- * parse, [expandIncludes], then `renderDocument`. Reproducing that order by
- * hand is what this avoids - it is internal, and a pipeline that omits a step
- * still renders, so what it omits shows up as output that looks right
- * (markup-carve/carve-js#1677).
- *
- * `renderDocument` names two host obligations, and this is where both are met.
- * The extension set reaches the parse, the child parse and the render alike, so
- * a construct means the same thing in a child as in its parent. `positions:
- * true` RESTATES the parser's own default rather than changing anything; it is
- * written out so a default flip cannot silently alter figure resolution, and no
- * document in the suite tells the two settings apart today.
+ * The composition is the engine's: `parse` with the `includes` option merges
+ * every child, then `render` draws the tree (Carve 0.2, C2-N-001). The
+ * extension set reaches the parse, every child parse (C2-N-015) and the
+ * render alike, so a construct means the same thing in a child as in its
+ * parent. Warnings are the parse diagnostics whose code starts with `include`.
  */
 object CarveIncludeExpansion {
 
@@ -110,73 +103,115 @@ object CarveIncludeExpansion {
         }
 
     /**
+     * Shared by [EXPAND_JS] and [FLATTEN_JS]: the 0.2 resolver over the host
+     * resolver, and the warnings and dependencies of a parse. The engine names
+     * the including file in `from`, which is the host resolver's parent id
+     * (the 0.1 stack started with the document's own id too).
+     */
+    private val INCLUDE_HELPERS_JS = """
+          var denials = {};
+          var missing = {};
+          var resolver = function (request) {
+            var answer = hostResolve(request.path, request.from === undefined ? null : request.from);
+            if (answer.source === null || answer.source === undefined) {
+              if (answer.denial) denials[request.path] = answer.denial;
+              if (answer.id) missing[request.path] = answer.id;
+              var outside = answer.denial === 'outside-root' || answer.denial === 'absolute-denied' || answer.denial === 'remote-not-allowed';
+              return { error: outside ? 'outside_root' : 'not_found' };
+            }
+            return { text: String(answer.source).replace(/\r(?!\n)/g, '\n'), id: answer.id };
+          };
+          var place = function (byte) {
+            var bytes = 0, line = 1, column = 1;
+            for (var i = 0; i < source.length && bytes < byte; i++) {
+              var code = source.codePointAt(i);
+              if (code > 0xffff) i++;
+              bytes += code < 0x80 ? 1 : code < 0x800 ? 2 : code < 0x10000 ? 3 : 4;
+              if (code === 10) { line++; column = 1; } else { column++; }
+            }
+            return { line: line, column: column };
+          };
+          var anchor = function (doc, d) {
+            if (d.range && (d.file === undefined || d.file === sourcePath)) return d.range.startOffset;
+            var node = doc, at = 0;
+            var parts = (d.path || '').split('/').slice(1);
+            for (var k = 0; k < parts.length && node; k++) {
+              node = node[parts[k]];
+              if (node && node.pos && node.pos.file === undefined) at = node.pos.startOffset;
+            }
+            return at;
+          };
+          var report = function (parsed) {
+            var warnings = parsed.diagnostics
+              .filter(function (d) { return d.code.indexOf('include') === 0; })
+              .map(function (d) {
+                var where = place(anchor(parsed.document, d));
+                return { rule: d.code, message: d.message, line: where.line, column: where.column };
+              });
+            var dependencies = carve.includeDependencies(parsed.document).map(function (d) {
+              // An unread target is named by where it would be, the host's id (I11).
+              return { id: d.file || missing[d.path] || d.path, resolved: d.read, denial: d.read ? null : (denials[d.path] || null) };
+            });
+            return { warnings: warnings, dependencies: dependencies, suppressedWarnings: parsed.suppressedDiagnostics };
+          };
+    """
+
+    /**
      * `(source, options, hostResolve, sourcePath) -> { html, warnings, dependencies, suppressedWarnings }`.
      */
     val EXPAND_JS = """
         (function (source, options, hostResolve, sourcePath) {
-          var doc = carve.parse(source, { extensions: options.extensions, positions: true });
-          var result = carve.expandIncludes(doc, source, {
-            sourcePath: sourcePath,
+        $INCLUDE_HELPERS_JS
+          var parsed = carve.parseWithDiagnostics(source, {
             extensions: options.extensions,
-            resolve: function (path, ctx) {
-              var stack = ctx.stack;
-              var parent = stack && stack.length ? stack[stack.length - 1] : null;
-              var answer = hostResolve(path, parent);
-              if (answer.source === null || answer.source === undefined) {
-                return { source: null, id: answer.id, denial: answer.denial || undefined };
-              }
-              return { source: answer.source, id: answer.id };
-            }
+            positions: true,
+            includes: { resolver: resolver, file: sourcePath }
           });
-          return {
-            html: carve.renderDocument(result.doc, options),
-            warnings: result.warnings.map(function (w) {
-              return { rule: w.rule, message: w.message, line: w.line, column: w.column };
-            }),
-            dependencies: result.dependencies.map(function (d) {
-              return { id: d.id, resolved: d.resolved, denial: d.denial || null };
-            }),
-            suppressedWarnings: result.suppressedWarnings
-          };
+          var result = report(parsed);
+          result.html = carve.render(carve.decorateLinks(parsed.document), options);
+          return result;
         })
     """.trimIndent()
 
     /**
      * `(source, hostResolve, sourcePath) -> { carve, warnings, dependencies, suppressedWarnings }`.
      *
-     * The `carve flatten` shape, and deliberately NOT [EXPAND_JS] with a
-     * different renderer on the end. `renderCarve` runs a different composition
-     * on purpose - no resolution, no transforms, no profile - because a
-     * flattened document is still source, and routing it through the render
-     * seam would bake render-time enrichment into a file someone goes on
-     * editing. That is why the parse here passes no extensions either: the CLI
-     * flattens with none, and the two have to produce the same file.
+     * The `carve flatten` shape: the children of each expanded include are
+     * spliced in place (included frontmatter goes) and the tree is written as
+     * canonical Carve, with no extension set, as the CLI does. An include that
+     * did not expand keeps its directive.
      */
     val FLATTEN_JS = """
         (function (source, hostResolve, sourcePath) {
-          var doc = carve.parse(source, { positions: true });
-          var result = carve.expandIncludes(doc, source, {
-            sourcePath: sourcePath,
-            resolve: function (path, ctx) {
-              var stack = ctx.stack;
-              var parent = stack && stack.length ? stack[stack.length - 1] : null;
-              var answer = hostResolve(path, parent);
-              if (answer.source === null || answer.source === undefined) {
-                return { source: null, id: answer.id, denial: answer.denial || undefined };
+        $INCLUDE_HELPERS_JS
+          var splice = function (nodes) {
+            var out = [];
+            nodes.forEach(function (node) {
+              if (node.type === 'include' && node.children !== undefined) {
+                splice(node.children.filter(function (c) { return c.type !== 'frontmatter'; }))
+                  .forEach(function (c) { out.push(c); });
+                return;
               }
-              return { source: answer.source, id: answer.id };
-            }
-          });
-          return {
-            carve: carve.renderCarve(result.doc),
-            warnings: result.warnings.map(function (w) {
-              return { rule: w.rule, message: w.message, line: w.line, column: w.column };
-            }),
-            dependencies: result.dependencies.map(function (d) {
-              return { id: d.id, resolved: d.resolved, denial: d.denial || null };
-            }),
-            suppressedWarnings: result.suppressedWarnings
+              var copy = null;
+              Object.keys(node).forEach(function (key) {
+                var value = node[key];
+                if (!Array.isArray(value) || !value.some(function (v) { return v && typeof v === 'object' && 'type' in v; })) return;
+                copy = copy || Object.assign({}, node);
+                copy[key] = splice(value);
+              });
+              out.push(copy || node);
+            });
+            return out;
           };
+          var parsed = carve.parseWithDiagnostics(source, {
+            positions: true,
+            includes: { resolver: resolver, file: sourcePath }
+          });
+          var result = report(parsed);
+          var tree = Object.assign({}, parsed.document, { children: splice(parsed.document.children) });
+          delete tree.stages;
+          result.carve = carve.write(tree);
+          return result;
         })
     """.trimIndent()
 }

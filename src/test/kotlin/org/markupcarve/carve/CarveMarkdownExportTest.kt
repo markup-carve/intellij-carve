@@ -19,9 +19,11 @@ class CarveMarkdownExportTest {
     @Test
     fun theBundleExportsTheMarkdownConverterTheActionAsksFor() {
         val bundle = File("src/main/resources/js/carve.iife.js").readText()
+        // Carve 0.2: the Markdown export is `toMarkdown` of `@markup-carve/carve/export`,
+        // reached as `carve.exporters.toMarkdown` (carve-js docs/api.md, migration table).
         assertTrue(
-            "the vendored bundle must export carveToMarkdown - the export action names it",
-            bundle.contains("carveToMarkdown"),
+            "the vendored bundle must export toMarkdown - the export action names it",
+            bundle.contains("toMarkdown") && bundle.contains("exporters"),
         )
     }
 

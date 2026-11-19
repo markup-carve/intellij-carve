@@ -24,6 +24,11 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '20'
+      # The pins are git commits on next2, which the lockfile records as SSH URLs.
+      - name: Prefer HTTPS for Git dependencies
+        run: |
+          git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global --add url."https://github.com/".insteadOf git@github.com:
       - run: tools/check-lsp-bundle.sh
 
   build:

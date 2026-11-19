@@ -5,7 +5,6 @@ import org.graalvm.polyglot.Source
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.io.File
 
 /**
  * Renders the whole shared corpus through the VENDORED `carve.iife.js`, on
@@ -88,56 +87,34 @@ class CarveBundleCorpusTest {
 
     @Test
     fun everyCorpusDocumentRendersLikeItsGolden() {
-        val corpus = CarveCorpus.directory
-        assertTrue(CarveCorpus.MISSING_MESSAGE, corpus != null)
-
-        val pairs = CarveCorpus.crvFiles()
-            .map { it to File(corpus, it.name.removeSuffix(".crv") + ".html") }
-            .filter { (_, html) -> html.isFile }
-
-        // A truncated or half-checked-out corpus would otherwise let this pass
-        // by having nothing to compare - the check has to be able to fail.
-        //
-        // EQUALITY, not a floor. This was `pairs.size >= 500` against a corpus
-        // of 1131, so it passed with more than half the documents absent, which
-        // is the condition it exists to reject. The reference is the corpus's
-        // own source rather than a number recorded here; see
-        // CarveCorpus.declaredSize.
-        val declared = CarveCorpus.declaredSize()
-        assertTrue(
-            "No ::: compare blocks found under spec/resources/examples. " +
-                "spec/tests/corpus is generated from those pages, so without them there is no " +
-                "independent statement of how big the corpus should be and this check would be " +
-                "comparing the corpus against itself. " + CarveCorpus.MISSING_MESSAGE,
-            declared != null,
-        )
-        assertEquals(
-            "${pairs.size} corpus pair(s) found under ${corpus?.path}, but the spec's example " +
-                "pages declare $declared. Every distinct carve input in a ::: compare block in " +
-                "spec/resources/examples/{core,extensions}.md and edge-cases/ becomes one corpus pair, " +
-                "so a difference means the corpus checked out here is not the one those pages " +
-                "describe - a truncated submodule, or a corpus that needs regenerating upstream. " +
-                "It does not mean this run was clean.",
-            declared,
-            pairs.size,
-        )
+        // The 0.2 conformance examples (spec/0.2/conformance/examples.json in
+        // markup-carve/carve), option-free renders only, vendored by
+        // tools/vendor-conformance.mjs from the spec commit the bundle reads.
+        val examples = CarveBundleCorpusTest::class.java.getResourceAsStream(CONFORMANCE_RESOURCE)
+            ?.bufferedReader()
+            ?.use { it.readText() }
+            ?: throw AssertionError("$CONFORMANCE_RESOURCE is missing from the test resources")
 
         val diverging = linkedMapOf<String, String>()
+        var total = 0
         newContext().use { context ->
             context.eval(Source.newBuilder("js", bundleSource(), BUNDLE_RESOURCE).build())
-            val carveToHtml = context.getBindings("js").getMember("carve")
-                ?.getMember("carveToHtml")
-                ?: throw AssertionError("Bundled $BUNDLE_RESOURCE exposes no carve.carveToHtml")
-
-            for ((crv, html) in pairs) {
-                val name = crv.name.removeSuffix(".crv")
+            context.getBindings("js").putMember("conformanceText", examples)
+            val list = context.eval("js", "JSON.parse(conformanceText).examples")
+            val render = context.eval("js", "(function (source) { return carve.render(source); })")
+            total = list.arraySize.toInt()
+            // A file with no examples would let this pass by having nothing to compare.
+            assertTrue("$CONFORMANCE_RESOURCE holds no examples", total > 0)
+            for (index in 0 until total) {
+                val example = list.getArrayElement(index.toLong())
+                val name = example.getMember("id").asString()
                 val actual = try {
-                    carveToHtml.execute(crv.readText()).asString()
+                    render.execute(example.getMember("input").asString()).asString()
                 } catch (e: Exception) {
                     diverging[name] = "threw ${e.javaClass.simpleName}: ${e.message}"
                     continue
                 }
-                if (actual.trim() != html.readText().trim()) {
+                if (actual.trim() != example.getMember("html").asString().trim()) {
                     diverging[name] = "rendered HTML differs from the golden"
                 }
             }
@@ -150,7 +127,7 @@ class CarveBundleCorpusTest {
         // cover a second, unrelated failure.
         val attributable = diverging.filterKeys { it !in hostDependent || !diverging.getValue(it).startsWith("threw") }
         assertEquals(
-            "The vendored $BUNDLE_RESOURCE renders ${attributable.size} of ${pairs.size} corpus " +
+            "The vendored $BUNDLE_RESOURCE renders ${attributable.size} of $total corpus " +
                 "document(s) differently from their goldens, against the expected " +
                 "${expectedDivergences.size}. Rebuild it with " +
                 "`tools/build-carve-bundle.sh ../carve-js` if the bundle is stale, or record " +
@@ -180,5 +157,6 @@ class CarveBundleCorpusTest {
 
     private companion object {
         const val BUNDLE_RESOURCE = "/js/carve.iife.js"
+        const val CONFORMANCE_RESOURCE = "/conformance-0.2.json"
     }
 }
