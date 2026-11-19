@@ -23,7 +23,7 @@
 #      header forbids.
 #
 # Needs network. Run out of the `test` task for that reason, the same way
-# check-battery-drift.sh is.
+# check-fence-languages-drift.sh is.
 set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -1,4 +1,4 @@
-{* -> text.carve markup.bold.carve keyword.control.bold.carve
-️⃣abc -> text.carve markup.bold.carve markup.bold.carve
-*} -> text.carve markup.bold.carve keyword.control.bold.carve
-\n -> text.carve
+{* -> source.carve markup.bold.carve keyword.control.bold.carve
+️⃣abc -> source.carve markup.bold.carve markup.bold.carve
+*} -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve

@@ -1,6 +1,6 @@
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-# not a heading\n -> text.carve markup.raw.block.fenced.code.carve
-/not italic/  *not bold*  #notatag\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+# not a heading\n -> source.carve markup.raw.block.fenced.code.carve
+/not italic/  *not bold*  #notatag\n -> source.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve

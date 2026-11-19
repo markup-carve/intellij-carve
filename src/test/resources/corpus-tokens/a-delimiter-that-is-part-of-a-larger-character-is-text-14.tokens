@@ -1,10 +1,10 @@
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-́a -> text.carve markup.deleted.carve markup.deleted.carve
-~>b -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-  -> text.carve
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-c -> text.carve markup.deleted.carve markup.deleted.carve
-~>d -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-\n -> text.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+́a -> source.carve markup.deleted.carve markup.deleted.carve
+~>b -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+  -> source.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+c -> source.carve markup.deleted.carve markup.deleted.carve
+~>d -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+\n -> source.carve

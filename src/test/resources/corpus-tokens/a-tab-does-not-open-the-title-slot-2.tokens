@@ -1,5 +1,5 @@
-![a](/i\t -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-t -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-)\n -> text.carve
+![a](/i\t -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+t -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+)\n -> source.carve

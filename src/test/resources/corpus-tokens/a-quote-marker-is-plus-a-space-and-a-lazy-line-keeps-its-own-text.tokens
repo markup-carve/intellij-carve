@@ -1,5 +1,5 @@
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-ok -> text.carve markup.quote.carve
-\n -> text.carve
->bad\n -> text.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+ok -> source.carve markup.quote.carve
+\n -> source.carve
+>bad\n -> source.carve

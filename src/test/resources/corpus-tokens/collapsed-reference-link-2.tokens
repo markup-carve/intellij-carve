@@ -1,13 +1,13 @@
-See  -> text.carve
-[ -> text.carve meta.link.reference.carve
-Other -> text.carve meta.link.reference.carve string.other.link.title.carve
-][] -> text.carve meta.link.reference.carve
-{ -> text.carve meta.attributes.carve
-.ext -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
- for details.\n -> text.carve
-\n -> text.carve
-[Other]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/other -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\n -> text.carve
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+Other -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+{ -> source.carve meta.attributes.carve
+.ext -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+ for details.\n -> source.carve
+\n -> source.carve
+[Other]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/other -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve

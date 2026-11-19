@@ -1,22 +1,22 @@
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-italic -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-   -> text.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-bold -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-   -> text.carve
-/* -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
-bold italic -> text.carve markup.bold.italic.carve markup.bold.italic.carve
-*/ -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
-\n -> text.carve
-_underline_  ~strikethrough~\n -> text.carve
-=highlight=   -> text.carve
-{^ -> text.carve keyword.control.superscript.carve
-super -> text.carve markup.superscript.carve
-^} -> text.carve keyword.control.superscript.carve
-   -> text.carve
-{, -> text.carve keyword.control.subscript.carve
-sub -> text.carve markup.subscript.carve
-,} -> text.carve keyword.control.subscript.carve
-\n -> text.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+italic -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+   -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+bold -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+   -> source.carve
+/* -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+bold italic -> source.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+\n -> source.carve
+_underline_  ~strikethrough~\n -> source.carve
+=highlight=   -> source.carve
+{^ -> source.carve keyword.control.superscript.carve
+super -> source.carve markup.superscript.carve
+^} -> source.carve keyword.control.superscript.carve
+   -> source.carve
+{, -> source.carve keyword.control.subscript.carve
+sub -> source.carve markup.subscript.carve
+,} -> source.carve keyword.control.subscript.carve
+\n -> source.carve

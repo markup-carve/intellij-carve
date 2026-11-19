@@ -1,10 +1,10 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-{ -> text.carve meta.attributes.carve
-.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
- A classed item.\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-{ -> text.carve meta.attributes.carve
-#intro -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-} -> text.carve meta.attributes.carve
- An item with an id.\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+ A classed item.\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+{ -> source.carve meta.attributes.carve
+#intro -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+ An item with an id.\n -> source.carve

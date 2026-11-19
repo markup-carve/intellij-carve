@@ -1,22 +1,22 @@
->no space\n -> text.carve
-\n -> text.carve
->>x\n -> text.carve
-\n -> text.carve
->> x\n -> text.carve
-\n -> text.carve
->\tx\n -> text.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-\n -> text.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-real quote -> text.carve markup.quote.carve
-\n -> text.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-> -> text.carve markup.quote.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve markup.quote.carve
-nested -> text.carve markup.quote.carve markup.quote.carve
-\n -> text.carve
+>no space\n -> source.carve
+\n -> source.carve
+>>x\n -> source.carve
+\n -> source.carve
+>> x\n -> source.carve
+\n -> source.carve
+>\tx\n -> source.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+\n -> source.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+real quote -> source.carve markup.quote.carve
+\n -> source.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+> -> source.carve markup.quote.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve markup.quote.carve
+nested -> source.carve markup.quote.carve markup.quote.carve
+\n -> source.carve

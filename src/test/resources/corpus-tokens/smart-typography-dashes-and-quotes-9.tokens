@@ -1,16 +1,16 @@
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-'q' -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-\n -> text.carve
-\n -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-hello -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
-\n -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-'nested' -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
-\n -> text.carve
-a*'q'*\n -> text.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+'q' -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+\n -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+hello -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve
+\n -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+'nested' -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve
+\n -> source.carve
+a*'q'*\n -> source.carve

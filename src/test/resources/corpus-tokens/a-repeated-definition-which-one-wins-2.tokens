@@ -1,18 +1,18 @@
-* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-A -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
-] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
-  -> text.carve meta.abbreviation.definition.carve
-a -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
-\n -> text.carve
-* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-A -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
-] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
-  -> text.carve meta.abbreviation.definition.carve
-b -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
-\n -> text.carve
-\n -> text.carve
-A here.\n -> text.carve
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+A -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+a -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> source.carve
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+A -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+b -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> source.carve
+\n -> source.carve
+A here.\n -> source.carve

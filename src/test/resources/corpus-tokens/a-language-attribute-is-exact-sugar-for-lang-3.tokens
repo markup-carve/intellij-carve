@@ -1,15 +1,15 @@
-{ -> text.carve meta.attributes.carve
-:de -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-Der Titel ist  -> text.carve markup.quote.carve
-[ -> text.carve markup.quote.carve meta.span.inline.carve keyword.control.span.begin.carve
-unbekannt -> text.carve markup.quote.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve markup.quote.carve meta.span.inline.carve keyword.control.span.end.carve
-{ -> text.carve markup.quote.carve meta.attributes.carve
-: -> text.carve markup.quote.carve meta.attributes.carve entity.other.attribute-name.language.carve
-} -> text.carve markup.quote.carve meta.attributes.carve
-. -> text.carve markup.quote.carve
-\n -> text.carve
+{ -> source.carve meta.attributes.carve
+:de -> source.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+Der Titel ist  -> source.carve markup.quote.carve
+[ -> source.carve markup.quote.carve meta.span.inline.carve keyword.control.span.begin.carve
+unbekannt -> source.carve markup.quote.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve markup.quote.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve markup.quote.carve meta.attributes.carve
+: -> source.carve markup.quote.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> source.carve markup.quote.carve meta.attributes.carve
+. -> source.carve markup.quote.carve
+\n -> source.carve

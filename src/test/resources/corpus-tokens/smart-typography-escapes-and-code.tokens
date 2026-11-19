@@ -1,9 +1,9 @@
-Escaped  -> text.carve
-\\- -> text.carve constant.character.escape.carve
-> and  -> text.carve
-\\. -> text.carve constant.character.escape.carve
-.. stay; code  -> text.carve
-` -> text.carve markup.raw.inline.carve keyword.control.raw.carve
-a -- b ... -> text.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.raw.inline.carve keyword.control.raw.carve
- stays.\n -> text.carve
+Escaped  -> source.carve
+\\- -> source.carve constant.character.escape.carve
+> and  -> source.carve
+\\. -> source.carve constant.character.escape.carve
+.. stay; code  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+a -- b ... -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ stays.\n -> source.carve

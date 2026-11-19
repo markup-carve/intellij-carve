@@ -1,36 +1,36 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-item\n -> text.carve
-\n -> text.carve
-\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-item\n -> text.carve
-\n -> text.carve
-* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-HTML -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
-] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
-  -> text.carve meta.abbreviation.definition.carve
-HyperText Markup Language -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
-\n -> text.carve
-\n -> text.carve
-[r]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/url -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\n -> text.carve
-\n -> text.carve
-* -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-[ -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-CSS -> text.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
-] -> text.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
-: -> text.carve meta.abbreviation.definition.carve keyword.control.separator.carve
-  -> text.carve meta.abbreviation.definition.carve
-Cascading Style Sheets -> text.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
-\n -> text.carve
-\n -> text.carve
-[s]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/other -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+item\n -> source.carve
+\n -> source.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+item\n -> source.carve
+\n -> source.carve
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+HTML -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+HyperText Markup Language -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> source.carve
+\n -> source.carve
+[r]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/url -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve
+\n -> source.carve
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+CSS -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+Cascading Style Sheets -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> source.carve
+\n -> source.carve
+[s]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/other -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve

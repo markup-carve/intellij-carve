@@ -1,4 +1,4 @@
-< -> text.carve meta.link.autolink.carve keyword.control.link.carve
-mailto:a@b -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve keyword.control.link.carve
-\n -> text.carve
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+mailto:a@b -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+\n -> source.carve

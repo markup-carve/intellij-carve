@@ -1,5 +1,5 @@
-=x= and  -> text.carve
-{= -> text.carve keyword.control.highlight.carve
-y -> text.carve markup.changed.carve
-=} -> text.carve keyword.control.highlight.carve
- both mark.\n -> text.carve
+=x= and  -> source.carve
+{= -> source.carve keyword.control.highlight.carve
+y -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve
+ both mark.\n -> source.carve

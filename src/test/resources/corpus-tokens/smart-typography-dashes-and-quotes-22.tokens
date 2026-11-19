@@ -1,1 +1,1 @@
-say 'word\n -> text.carve
+say 'word\n -> source.carve

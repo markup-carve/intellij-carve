@@ -1,8 +1,8 @@
-{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
-️⃣ x -> text.carve comment.block.critic.carve comment.block.content.carve
-#} -> text.carve comment.block.critic.carve keyword.control.critic.carve
-  -> text.carve
-{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
-y -> text.carve comment.block.critic.carve comment.block.content.carve
-#} -> text.carve comment.block.critic.carve keyword.control.critic.carve
-\n -> text.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+️⃣ x -> source.carve comment.block.critic.carve comment.block.content.carve
+#} -> source.carve comment.block.critic.carve keyword.control.critic.carve
+  -> source.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+y -> source.carve comment.block.critic.carve comment.block.content.carve
+#} -> source.carve comment.block.critic.carve keyword.control.critic.carve
+\n -> source.carve

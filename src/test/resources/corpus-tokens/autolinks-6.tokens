@@ -1,5 +1,5 @@
-<a@b>  -> text.carve
-< -> text.carve meta.link.autolink.email.carve keyword.control.link.carve
-a@b.com -> text.carve meta.link.autolink.email.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.email.carve keyword.control.link.carve
- <x@y:z>\n -> text.carve
+<a@b>  -> source.carve
+< -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+a@b.com -> source.carve meta.link.autolink.email.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+ <x@y:z>\n -> source.carve

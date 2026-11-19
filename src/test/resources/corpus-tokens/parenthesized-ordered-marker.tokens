@@ -1,2 +1,2 @@
-(1) First\n -> text.carve
-(2) Second\n -> text.carve
+(1) First\n -> source.carve
+(2) Second\n -> source.carve

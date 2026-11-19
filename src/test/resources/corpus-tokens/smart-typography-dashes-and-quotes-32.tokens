@@ -1,5 +1,5 @@
-“'word'” and ‘ -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-word -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-’\n -> text.carve
+“'word'” and ‘ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+word -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+’\n -> source.carve

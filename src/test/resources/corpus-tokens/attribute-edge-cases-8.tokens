@@ -1,8 +1,8 @@
-: -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-widget -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
-[ -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-x -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
-] -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-{k="{y} -> text.carve meta.extension.inline.carve meta.attributes.carve
-" -> text.carve keyword.control.smartquote.carve
-}\n -> text.carve
+: -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+widget -> source.carve meta.extension.inline.carve entity.name.function.extension.carve
+[ -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+x -> source.carve meta.extension.inline.carve string.unquoted.extension.carve
+] -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+{k="{y} -> source.carve meta.extension.inline.carve meta.attributes.carve
+" -> source.carve keyword.control.smartquote.carve
+}\n -> source.carve

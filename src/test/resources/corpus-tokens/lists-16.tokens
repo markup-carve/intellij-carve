@@ -1,2 +1,2 @@
-Die Frage ist x = 5\n -> text.carve
-* 3 + 17 wahr.\n -> text.carve
+Die Frage ist x = 5\n -> source.carve
+* 3 + 17 wahr.\n -> source.carve

@@ -1,28 +1,28 @@
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-=^ Top  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-=v Bottom  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-= -> text.carve markup.table.row.carve keyword.control.table.header.carve
-{ -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
-<^ -> text.carve markup.table.row.carve keyword.control.table.alignment.carve
-} -> text.carve markup.table.row.carve punctuation.definition.attributes.carve
- Paired  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-=v> Reverse  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-=~> Middle  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- a  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- b  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- c  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- d  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- e  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+=^ Top  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+=v Bottom  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+<^ -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ Paired  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+=v> Reverse  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+=~> Middle  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ c  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ e  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve

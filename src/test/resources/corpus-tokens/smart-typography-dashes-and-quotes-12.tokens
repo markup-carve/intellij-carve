@@ -1,5 +1,5 @@
-" -> text.carve keyword.control.smartquote.carve
-Wait -> text.carve
---- -> text.carve constant.character.entity.typography.carve
-" -> text.carve keyword.control.smartquote.carve
- he said.\n -> text.carve
+" -> source.carve keyword.control.smartquote.carve
+Wait -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+" -> source.carve keyword.control.smartquote.carve
+ he said.\n -> source.carve

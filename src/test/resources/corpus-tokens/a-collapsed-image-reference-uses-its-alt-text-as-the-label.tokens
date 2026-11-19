@@ -1,14 +1,14 @@
-![ -> text.carve meta.image.reference.carve keyword.control.image.begin.carve
-moon -> text.carve meta.image.reference.carve string.other.image.alt.carve
-] -> text.carve meta.image.reference.carve keyword.control.image.end.carve
-[] -> text.carve meta.image.reference.carve
-\n -> text.carve
-\n -> text.carve
-[moon]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/moon.png -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-Title -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
+![ -> source.carve meta.image.reference.carve keyword.control.image.begin.carve
+moon -> source.carve meta.image.reference.carve string.other.image.alt.carve
+] -> source.carve meta.image.reference.carve keyword.control.image.end.carve
+[] -> source.carve meta.image.reference.carve
+\n -> source.carve
+\n -> source.carve
+[moon]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/moon.png -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+Title -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve

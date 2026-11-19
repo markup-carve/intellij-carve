@@ -1,10 +1,10 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-| -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
-a\n -> text.carve
-\\ -> text.carve constant.character.escape.hard-break.carve
-\n -> text.carve
-b\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+a\n -> source.carve
+\\ -> source.carve constant.character.escape.hard-break.carve
+\n -> source.carve
+b\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

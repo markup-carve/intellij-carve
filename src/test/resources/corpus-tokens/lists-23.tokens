@@ -1,9 +1,9 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-apples\n -> text.carve
-\n -> text.carve
-\n -> text.carve
-\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-oranges\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+apples\n -> source.carve
+\n -> source.carve
+\n -> source.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+oranges\n -> source.carve

@@ -1,18 +1,18 @@
-Exclude  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\\/ -> text.carve constant.character.escape.carve
-trunk/app/config/ -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-.\n -> text.carve
-\n -> text.carve
-see  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-https://example.org/ -> text.carve
-" -> text.carve keyword.control.smartquote.carve
- here\n -> text.carve
-\n -> text.carve
-the 'tmp/' folder, and/ -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-or -> text.carve
-" -> text.carve keyword.control.smartquote.carve
- too\n -> text.carve
+Exclude  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\\/ -> source.carve constant.character.escape.carve
+trunk/app/config/ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+.\n -> source.carve
+\n -> source.carve
+see  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+https://example.org/ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ here\n -> source.carve
+\n -> source.carve
+the 'tmp/' folder, and/ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+or -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ too\n -> source.carve

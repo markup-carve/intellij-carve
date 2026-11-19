@@ -1,6 +1,6 @@
-![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
-Apollo 11 -> text.carve meta.image.inline.carve string.other.image.alt.carve
-]( -> text.carve meta.image.inline.carve
-apollo.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
-) -> text.carve meta.image.inline.carve
-\n -> text.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+Apollo 11 -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+apollo.jpg -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
