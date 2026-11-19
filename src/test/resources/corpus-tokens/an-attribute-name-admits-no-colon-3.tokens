@@ -1,9 +1,9 @@
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- a  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- b  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-{.a:b} -> text.carve markup.table.row.carve
-\n -> text.carve
-\n -> text.carve
--{.a:b} item\n -> text.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{.a:b} -> source.carve markup.table.row.carve
+\n -> source.carve
+\n -> source.carve
+-{.a:b} item\n -> source.carve

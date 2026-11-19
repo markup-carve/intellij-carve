@@ -324,7 +324,7 @@ object CarveCorpusCategories {
         //
         // The golden also pins two false positives on the REST of those lines, measured and
         // recorded in markup-carve/intellij-carve#77 rather than repaired here: `# h` gets bare
-        // `text.carve` with no heading scope at all (while the `>` on line one keeps its quote
+        // `source.carve` with no heading scope at all (while the `>` on line one keeps its quote
         // scope, so the task marker does not disqualify every rule), and `---` is claimed by the
         // em-dash rule as `constant.character.entity.typography.carve` instead of a thematic
         // break. Both predate the bump; this is the first corpus document that reaches them.
@@ -1118,7 +1118,7 @@ object CarveCorpusCategories {
         "a-bracketed-construct-spanning-a-verse-boundary" to
             "A line block puts a container prefix in front of the same question; the inline tokens are the ones `links` and `reference-link` pin.",
         "a-comment-fence-reached-through-a-quote-registers-nothing-either" to
-            "Negative case with nothing to assert, measured against its own documents: the definition line inside the quoted fence scopes as `text.carve markup.quote.carve`, and a quoted definition with NO fence around it scopes identically, so the token stream cannot tell the two apart. The one chain the category adds is the `%%%` delimiter falling back to `comment.line.percent.carve`; the fence body carries no comment scope at all, so the comment-block rule does not survive a container prefix. Measured across spellings: a fence at column 0, an indented one, and one inside a div all give their body `comment.block.carve`, while behind a quote marker or a list marker neither does. Recorded, not repaired - the same family as the heading gap in markup-carve/vscode-carve#123.",
+            "Negative case with nothing to assert, measured against its own documents: the definition line inside the quoted fence scopes as `source.carve markup.quote.carve`, and a quoted definition with NO fence around it scopes identically, so the token stream cannot tell the two apart. The one chain the category adds is the `%%%` delimiter falling back to `comment.line.percent.carve`; the fence body carries no comment scope at all, so the comment-block rule does not survive a container prefix. Measured across spellings: a fence at column 0, an indented one, and one inside a div all give their body `comment.block.carve`, while behind a quote marker or a list marker neither does. Recorded, not repaired - the same family as the heading gap in markup-carve/vscode-carve#123.",
         "a-comment-only-line-in-a-line-block-is-removed-before-any-inline-run" to
             "Removal before the inline pass is render-time ordering; the comment line still scopes as a comment, pinned by `comments`.",
         "a-container-whose-table-ends-on-a-continuation-row" to
@@ -1126,7 +1126,7 @@ object CarveCorpusCategories {
         "a-container-whose-table-ends-on-a-joined-header-row" to
             "The same extent question with a joined header row; those tokens are pinned by `tables` and `table-header-cell-rowspan`.",
         "a-continuation-row-joins-the-row-above-it-whatever-its-cells-hold" to
-            "Which row a continuation row joins is parsing. The one chain it adds is `text.carve markup.table.row.separator.carve` covering a bare SPACE inside a separator row - the same scope the `tables` goldens already pin, over whitespace rather than over a marker, so it is not a signal for the rule.",
+            "Which row a continuation row joins is parsing. The one chain it adds is `source.carve markup.table.row.separator.carve` covering a bare SPACE inside a separator row - the same scope the `tables` goldens already pin, over whitespace rather than over a marker, so it is not a signal for the rule.",
         "a-definition-at-a-container-s-content-column" to
             "Which content column a definition registers at is resolution; the six documents produce 20 scopes and no new one, and the definition tokens are pinned by `reference-link` and `footnotes`.",
         "a-definition-behind-an-alternating-container-prefix-registers-at-the-innermost-content-column" to
@@ -1146,9 +1146,9 @@ object CarveCorpusCategories {
         // tokenized against its own documents before landing here, and the scope counts below
         // are from that run rather than from reading the grammar.
         "a-paragraph-opened-after-a-block-in-an-item-is-still-open-for-a-lazy-line" to
-            "Whether a paragraph survives a block and stays open for a lazy line is block context, which a line-based grammar does not have. The five documents produce 7 scopes and no new one, and the variants the rule distinguishes are indistinguishable in the stream: `| a |` on a marker line and the lazy `tail` under it are both bare `text.carve`. The list, quote and table tokens are pinned by `lists`, `blockquote-with-attribution` and `tables`.",
+            "Whether a paragraph survives a block and stays open for a lazy line is block context, which a line-based grammar does not have. The five documents produce 7 scopes and no new one, and the variants the rule distinguishes are indistinguishable in the stream: `| a |` on a marker line and the lazy `tail` under it are both bare `source.carve`. The list, quote and table tokens are pinned by `lists`, `blockquote-with-attribution` and `tables`.",
         "an-unterminated-container-does-not-extend-the-item-past-a-blank-line" to
-            "Container extent across a blank line is block context. The three documents produce 5 scopes and differ only in bare `text.carve` runs, so the token stream cannot tell the rule's two sides apart. The one chain not pinned elsewhere is `markup.other.div.carve keyword.control.list.begin.carve` - the same list-marker token `lists` pins, wearing the div parent it inherits from sharing the opener line, which is a nesting artifact and not a signal for the rule.",
+            "Container extent across a blank line is block context. The three documents produce 5 scopes and differ only in bare `source.carve` runs, so the token stream cannot tell the rule's two sides apart. The one chain not pinned elsewhere is `markup.other.div.carve keyword.control.list.begin.carve` - the same list-marker token `lists` pins, wearing the div parent it inherits from sharing the opener line, which is a nesting artifact and not a signal for the rule.",
         "only-lazy-folding-demotes-a-marker-line-colon-opener" to
             "Whether the opener is demoted depends on what folds into it, which needs the block parser. Both documents tokenize IDENTICALLY apart from a blank line, so there is nothing for a golden to assert; the div and list tokens are pinned by `admonitions` and `lists`, and the div-parented list marker is the same artifact as the category above.",
         "a-blank-line-before-a-sibling-marker-separates-the-items-whatever-consumed-it" to

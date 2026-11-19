@@ -1,21 +1,21 @@
-[ -> text.carve meta.link.reference.carve
-Example -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-ex -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
- and  -> text.carve
-[ -> text.carve meta.link.reference.carve
-again -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-ex -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
-\n -> text.carve
-\n -> text.carve
-[ex]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-https://example.com -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-  -> text.carve meta.link.reference.definition.carve
-{ -> text.carve meta.link.reference.definition.carve meta.attributes.carve
-.external -> text.carve meta.link.reference.definition.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.link.reference.definition.carve meta.attributes.carve
-\n -> text.carve
+[ -> source.carve meta.link.reference.carve
+Example -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ex -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+again -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ex -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+\n -> source.carve
+\n -> source.carve
+[ex]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+https://example.com -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve meta.link.reference.definition.carve
+{ -> source.carve meta.link.reference.definition.carve meta.attributes.carve
+.external -> source.carve meta.link.reference.definition.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.link.reference.definition.carve meta.attributes.carve
+\n -> source.carve

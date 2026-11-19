@@ -1,12 +1,12 @@
-{ -> text.carve meta.attributes.carve
-k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-v -> text.carve meta.attributes.carve string.unquoted.attribute.carve
-  -> text.carve meta.attributes.carve
-.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[ ]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-a\n -> text.carve
+{ -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+v -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[ ]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+a\n -> source.carve

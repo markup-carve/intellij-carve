@@ -1,15 +1,15 @@
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
- a  -> text.carve markup.table.row.carve
-{% hidden %} -> text.carve markup.table.row.carve comment.block.inline.carve
- b  -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
- c  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- d  -> text.carve markup.table.row.carve
-%% tail  -> text.carve markup.table.row.carve comment.line.percent.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- e  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ a  -> source.carve markup.table.row.carve
+{% hidden %} -> source.carve markup.table.row.carve comment.block.inline.carve
+ b  -> source.carve markup.table.row.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ c  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> source.carve markup.table.row.carve
+%% tail  -> source.carve markup.table.row.carve comment.line.percent.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ e  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve

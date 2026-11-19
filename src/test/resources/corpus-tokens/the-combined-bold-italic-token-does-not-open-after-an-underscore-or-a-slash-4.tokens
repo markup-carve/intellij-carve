@@ -1,5 +1,5 @@
-_ -> text.carve
-/* -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
-x -> text.carve markup.bold.italic.carve markup.bold.italic.carve
-*/ -> text.carve markup.bold.italic.carve keyword.control.bold-italic.carve
-_\n -> text.carve
+_ -> source.carve
+/* -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+x -> source.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+_\n -> source.carve

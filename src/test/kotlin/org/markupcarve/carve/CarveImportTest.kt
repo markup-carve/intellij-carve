@@ -40,7 +40,8 @@ class CarveImportTest {
     @Test
     fun `markdown converts through the bundled engine`() {
         val carve = CarveConverter.importToCarve("# T\n\n**b** _i_\n", CarveImportFormat.MARKDOWN).getOrThrow()
-        assertEquals("# T\n\n*b* /i/\n", carve)
+        // C2-W-035: the 0.2 writer spells a heading with `=`.
+        assertEquals("= T\n\n*b* /i/\n", carve)
     }
 
     @Test
@@ -49,7 +50,8 @@ class CarveImportTest {
             "<h1>T</h1><p><strong>b</strong> <em>i</em></p>",
             CarveImportFormat.HTML,
         ).getOrThrow()
-        assertEquals("# T\n\n*b* /i/\n", carve)
+        // C2-W-035: the 0.2 writer spells a heading with `=`.
+        assertEquals("= T\n\n*b* /i/\n", carve)
     }
 
     @Test
@@ -84,20 +86,22 @@ class CarveImportTest {
 
         val carve = CarveConverter.importToCarve(markdown, CarveImportFormat.MARKDOWN).getOrThrow()
 
+        // C2-W-035: headings are written with `=`. C2-W-044: with no sidecar a
+        // decimal list is written in the bare dot form.
         assertEquals(
             """
-            |# Title
+            |= Title
             |
             |Some *bold*, /italic/, and `code` with a [link](https://example.com).
             |
-            |## Lists
+            |== Lists
             |
             |- one
             |- two
             |  - nested
             |
-            |1. first
-            |2. second
+            |. first
+            |. second
             |
             |```js
             |const x = 1;
@@ -129,9 +133,10 @@ class CarveImportTest {
 
         val carve = CarveConverter.importToCarve(html, CarveImportFormat.HTML).getOrThrow()
 
+        // C2-W-035: the 0.2 writer spells a heading with `=`.
         assertEquals(
             """
-            |# Title
+            |= Title
             |
             |Some *bold*, /italic/, `code` and [link](https://example.com).
             |

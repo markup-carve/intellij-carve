@@ -1,5 +1,5 @@
-x\n -> text.carve
-   -> text.carve
-%% indented comment -> text.carve comment.line.percent.carve
-\n -> text.carve
-y\n -> text.carve
+x\n -> source.carve
+   -> source.carve
+%% indented comment -> source.carve comment.line.percent.carve
+\n -> source.carve
+y\n -> source.carve

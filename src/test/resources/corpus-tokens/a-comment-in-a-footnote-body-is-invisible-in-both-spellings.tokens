@@ -1,13 +1,13 @@
-[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- intro -> text.carve meta.footnote.definition.carve
-\n -> text.carve
-  %% c -> text.carve comment.line.percent.carve
-\n -> text.carve
-  more\n -> text.carve
-\n -> text.carve
-see -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-\n -> text.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ intro -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+  %% c -> source.carve comment.line.percent.carve
+\n -> source.carve
+  more\n -> source.carve
+\n -> source.carve
+see -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+a -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> source.carve

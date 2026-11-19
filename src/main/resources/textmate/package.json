@@ -15,7 +15,7 @@
     "grammars": [
       {
         "language": "carve",
-        "scopeName": "text.carve",
+        "scopeName": "source.carve",
         "path": "./carve.tmLanguage.json"
       },
       {

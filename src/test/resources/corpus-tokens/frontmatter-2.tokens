@@ -1,9 +1,9 @@
---- -> text.carve meta.frontmatter.carve keyword.control.frontmatter.begin.carve
-json -> text.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
-\n -> text.carve meta.frontmatter.carve
-{"title": "My Document"} -> text.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
-\n -> text.carve meta.frontmatter.carve
---- -> text.carve meta.frontmatter.carve keyword.control.frontmatter.end.carve
-\n -> text.carve meta.frontmatter.carve
-\n -> text.carve
-Content begins here.\n -> text.carve
+--- -> source.carve meta.frontmatter.carve keyword.control.frontmatter.begin.carve
+json -> source.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+{"title": "My Document"} -> source.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+--- -> source.carve meta.frontmatter.carve keyword.control.frontmatter.end.carve
+\n -> source.carve meta.frontmatter.carve
+\n -> source.carve
+Content begins here.\n -> source.carve

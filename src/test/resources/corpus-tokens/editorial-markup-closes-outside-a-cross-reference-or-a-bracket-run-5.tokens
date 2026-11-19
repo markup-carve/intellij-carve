@@ -1,8 +1,8 @@
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a < -> text.carve markup.deleted.carve markup.deleted.carve
-/ -> text.carve markup.deleted.carve markup.deleted.carve
-# -> text.carve markup.deleted.carve markup.deleted.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
-x -> text.carve markup.deleted.carve markup.deleted.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
-~>y> b -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-\n -> text.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+a < -> source.carve markup.deleted.carve markup.deleted.carve
+/ -> source.carve markup.deleted.carve markup.deleted.carve
+# -> source.carve markup.deleted.carve markup.deleted.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+x -> source.carve markup.deleted.carve markup.deleted.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+~>y> b -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+\n -> source.carve

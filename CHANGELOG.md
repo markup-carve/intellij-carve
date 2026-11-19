@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking
+
+- Preview, export, import and the bundled language server run on the Carve 0.2 engine (carve-js and carve-lsp `next2`). Carve 0.1 source can read differently; `carve upgrade` rewrites it.
+- The grammar's root scope is `source.carve`, as in carve-grammars and vscode-carve (#309).
+- The preview no longer renders `[@key]` citations or `[[Heading]]` references: Carve 0.2 has no citation extension yet (carve-js#5082), and a heading reference is `[Heading][]`, which the `cwiki` template now writes.
+
 ## [0.1.19] - 2026-11-12
 
 The editor follows the Carve 0.1.14 readings, documents export to PDF, and preview colors come from the shared Carve palette.

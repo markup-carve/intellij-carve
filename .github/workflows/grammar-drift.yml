@@ -86,11 +86,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: The vendored block battery still matches carve-grammars
-        run: ./tools/check-battery-drift.sh
-
+      # carve-grammars#903 removed the 0.1 block battery; the copy in
+      # src/test/resources/battery is a local fixture now.
       - name: The vendored fence-language table still matches carve-grammars
-        if: always()
         run: ./tools/check-fence-languages-drift.sh
 
       - name: The vendored carve-css layers still match the newest release

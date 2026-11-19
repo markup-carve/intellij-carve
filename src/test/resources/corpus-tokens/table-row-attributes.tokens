@@ -1,18 +1,18 @@
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
- Name  -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
- Score  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-{ -> text.carve markup.table.row.carve meta.attributes.carve
-.head -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve markup.table.row.carve meta.attributes.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Ann   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- 9      -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-{ -> text.carve markup.table.row.carve meta.attributes.carve
-.win -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve markup.table.row.carve meta.attributes.carve
-\n -> text.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ Name  -> source.carve markup.table.row.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ Score  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+.head -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Ann   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 9      -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+.win -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+\n -> source.carve

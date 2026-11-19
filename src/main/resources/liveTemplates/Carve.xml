@@ -78,7 +78,7 @@
         <variable name="ID" expression="" defaultValue="&quot;id&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="cwiki" value="[[$HEADING$]]$END$" description="Implicit heading reference ([[Heading]])" toReformat="false" toShortenFQNames="false">
+    <template name="cwiki" value="[$HEADING$][]$END$" description="Implicit heading reference ([Heading][])" toReformat="false" toShortenFQNames="false">
         <variable name="HEADING" expression="" defaultValue="&quot;Heading&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>

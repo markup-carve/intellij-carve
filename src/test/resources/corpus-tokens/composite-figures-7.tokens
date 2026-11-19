@@ -1,11 +1,11 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-note -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
-Body text.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-Not a caption -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+Body text.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Not a caption -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve

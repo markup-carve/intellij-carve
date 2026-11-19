@@ -1,30 +1,30 @@
--  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-note -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
-   -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-para text\n -> text.carve
-   -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-*  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-warning -> text.carve markup.other.div.carve entity.name.type.div.carve
-  -> text.carve markup.other.div.carve
-"Title" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve
-  body\n -> text.carve
-   -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-note -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
-plain div, no bullet\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+-  -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+   -> source.carve markup.list.unnumbered.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+para text\n -> source.carve
+   -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+*  -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+warning -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Title" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+  body\n -> source.carve
+   -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+plain div, no bullet\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

@@ -1,5 +1,5 @@
-*[ß]: sharp s\n -> text.carve
-*[e.g.]: for example\n -> text.carve
-*[HTTP API]: an interface\n -> text.carve
-\n -> text.carve
-Text about ss and eg below.\n -> text.carve
+*[ß]: sharp s\n -> source.carve
+*[e.g.]: for example\n -> source.carve
+*[HTTP API]: an interface\n -> source.carve
+\n -> source.carve
+Text about ss and eg below.\n -> source.carve

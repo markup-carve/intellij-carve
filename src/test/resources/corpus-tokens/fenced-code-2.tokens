@@ -1,5 +1,5 @@
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-\tindented with a tab\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+\tindented with a tab\n -> source.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve

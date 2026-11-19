@@ -1,6 +1,6 @@
-{ -> text.carve meta.attributes.carve
-#id -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-\n -> text.carve
-Text\n -> text.carve
+{ -> source.carve meta.attributes.carve
+#id -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+\n -> source.carve
+Text\n -> source.carve

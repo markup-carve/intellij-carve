@@ -1,16 +1,16 @@
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-bold with  -> text.carve markup.bold.carve markup.bold.carve
-/ -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
-italic -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
- inside -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
- and  -> text.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-italic with  -> text.carve markup.italic.carve markup.italic.carve
-* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
-bold -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
- inside -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-\n -> text.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+bold with  -> source.carve markup.bold.carve markup.bold.carve
+/ -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+italic -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+ inside -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+italic with  -> source.carve markup.italic.carve markup.italic.carve
+* -> source.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+bold -> source.carve markup.italic.carve markup.italic.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.italic.carve markup.italic.carve markup.bold.carve keyword.control.bold.carve
+ inside -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+\n -> source.carve

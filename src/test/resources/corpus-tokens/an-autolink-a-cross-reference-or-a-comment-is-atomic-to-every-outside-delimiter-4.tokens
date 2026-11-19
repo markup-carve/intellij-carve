@@ -1,5 +1,5 @@
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a <me@x.org -> text.carve markup.deleted.carve markup.deleted.carve
-~>y> b -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-\n -> text.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+a <me@x.org -> source.carve markup.deleted.carve markup.deleted.carve
+~>y> b -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+\n -> source.carve

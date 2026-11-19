@@ -1,4 +1,4 @@
-{# -> text.carve comment.block.critic.carve keyword.control.critic.carve
-id\n -> text.carve comment.block.critic.carve comment.block.content.carve
- .foo}\n -> text.carve comment.block.critic.carve comment.block.content.carve
-Text\n -> text.carve comment.block.critic.carve comment.block.content.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+id\n -> source.carve comment.block.critic.carve comment.block.content.carve
+ .foo}\n -> source.carve comment.block.critic.carve comment.block.content.carve
+Text\n -> source.carve comment.block.critic.carve comment.block.content.carve

@@ -1,7 +1,7 @@
-< -> text.carve meta.link.autolink.carve keyword.control.link.carve
-https://example.com -> text.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve meta.link.autolink.carve keyword.control.link.carve
-{ -> text.carve meta.attributes.carve
-.ext -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+https://example.com -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+{ -> source.carve meta.attributes.carve
+.ext -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

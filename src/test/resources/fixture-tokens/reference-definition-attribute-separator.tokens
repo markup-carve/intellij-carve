@@ -1,22 +1,22 @@
-[a]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/u -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-  -> text.carve meta.link.reference.definition.carve
-{ -> text.carve meta.link.reference.definition.carve meta.attributes.carve
-.c -> text.carve meta.link.reference.definition.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.link.reference.definition.carve meta.attributes.carve
-\n -> text.carve
-\n -> text.carve
-[b]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/v -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\t{.c}\n -> text.carve
-\n -> text.carve
-[c]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/w -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
- \t -> text.carve
-{ -> text.carve meta.attributes.carve
-.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+[a]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve meta.link.reference.definition.carve
+{ -> source.carve meta.link.reference.definition.carve meta.attributes.carve
+.c -> source.carve meta.link.reference.definition.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.link.reference.definition.carve meta.attributes.carve
+\n -> source.carve
+\n -> source.carve
+[b]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/v -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\t{.c}\n -> source.carve
+\n -> source.carve
+[c]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/w -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+ \t -> source.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

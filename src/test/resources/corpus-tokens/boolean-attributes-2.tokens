@@ -1,15 +1,15 @@
-{ -> text.carve meta.attributes.carve
-.callout -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
- open} -> text.carve meta.attributes.carve
-\n -> text.carve
-Bare spelling.\n -> text.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-.callout -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-  -> text.carve meta.attributes.carve
-open -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-"" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-Explicit empty string.\n -> text.carve
+{ -> source.carve meta.attributes.carve
+.callout -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+ open} -> source.carve meta.attributes.carve
+\n -> source.carve
+Bare spelling.\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.callout -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+open -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Explicit empty string.\n -> source.carve

@@ -1,9 +1,9 @@
-1. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.numbered.carve
-one\n -> text.carve
-\n -> text.carve
-   -> text.carve markup.quote.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-q -> text.carve markup.quote.carve
-\n -> text.carve
+1. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+one\n -> source.carve
+\n -> source.carve
+   -> source.carve markup.quote.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+q -> source.carve markup.quote.carve
+\n -> source.carve

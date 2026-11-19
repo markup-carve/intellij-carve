@@ -1,19 +1,19 @@
-Canonical:  -> text.carve
-<-- -> text.carve constant.character.entity.typography.carve
-  -> text.carve
---> -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-<--> -> text.carve constant.character.entity.typography.carve
- and  -> text.carve
-<== -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-==> -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-<=> -> text.carve constant.character.entity.typography.carve
-\n -> text.carve
-\n -> text.carve
-Removed, now text: <- -> <->\n -> text.carve
-\n -> text.carve
-Not an arrow: key => value stays literal, and p  -> text.carve
-<= -> text.carve constant.character.entity.typography.carve
- q is a comparison.\n -> text.carve
+Canonical:  -> source.carve
+<-- -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+<--> -> source.carve constant.character.entity.typography.carve
+ and  -> source.carve
+<== -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+==> -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+<=> -> source.carve constant.character.entity.typography.carve
+\n -> source.carve
+\n -> source.carve
+Removed, now text: <- -> <->\n -> source.carve
+\n -> source.carve
+Not an arrow: key => value stays literal, and p  -> source.carve
+<= -> source.carve constant.character.entity.typography.carve
+ q is a comparison.\n -> source.carve

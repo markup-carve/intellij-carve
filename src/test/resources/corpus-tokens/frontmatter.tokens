@@ -1,7 +1,7 @@
----\n -> text.carve
-title: My Document\n -> text.carve
-author: Jane Doe\n -> text.carve
-date: 2026-03-15\n -> text.carve
----\n -> text.carve
-\n -> text.carve
-Content begins here.\n -> text.carve
+---\n -> source.carve
+title: My Document\n -> source.carve
+author: Jane Doe\n -> source.carve
+date: 2026-03-15\n -> source.carve
+---\n -> source.carve
+\n -> source.carve
+Content begins here.\n -> source.carve

@@ -4,8 +4,9 @@
 #
 # Carve-js is not published to npm yet, so this bundles from a local checkout of
 # the carve-js repo (a sibling of this repo by default). It produces a single
-# IIFE that exposes a global `carve` with `carveToHtml(source)`, which the plugin
-# runs on GraalJS for preview and HTML export.
+# IIFE that exposes a global `carve` with the Carve 0.2 API (see
+# tools/carve-bundle-entry.js), which the plugin runs on GraalJS for preview,
+# export, import and include expansion.
 #
 # Usage:
 #   tools/build-carve-bundle.sh [path-to-carve-js] [output-file]
@@ -39,11 +40,12 @@ out="$(cd "$(dirname "$out")" && pwd)/$(basename "$out")"
 # paths from wherever the script happens to be invoked.
 # --target=es2020 keeps the output digestible for GraalJS, and the banner
 # polyfills TextEncoder/TextDecoder, which GraalJS does not provide.
-(cd "$carve_js" && npx --yes esbuild dist/index.js \
+(cd "$carve_js" && npx --yes esbuild --sourcefile=carve-bundle-entry.js \
   --bundle --format=iife --global-name=carve --platform=neutral \
+  --main-fields=module,main \
   --target=es2020 \
   --banner:js="$(cat "$here/tools/graaljs-polyfill.js")" \
-  --legal-comments=none --outfile="$out")
+  --legal-comments=none --outfile="$out" < "$here/tools/carve-bundle-entry.js")
 
 # Record the carve-js commit this bundle was built from, so staleness is
 # detectable later (compare against carve-js HEAD). Prepended as a JS comment.

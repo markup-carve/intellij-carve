@@ -48,7 +48,11 @@ tools/preview-css-probe.mjs   # browser check: the stylesheet rules reach what t
 
 The default preview/export engine runs the bundled `carve.iife.js` on GraalJS.
 It is an IIFE build of [`@markup-carve/carve`](https://github.com/markup-carve/carve-js)
-exposing a global `carve` with `carveToHtml(source)`.
+from `tools/carve-bundle-entry.js`, exposing a global `carve` with the Carve 0.2
+root API (`parse`, `render`, `write`, `includeDependencies`, ...), the standard
+extensions as `carve.extensions`, the Markdown, plain text and ANSI exports as
+`carve.exporters`, the importers as `carve.importers`, and the plugin's
+`carve.decorateLinks` transform (bare URLs and off-site links).
 
 The bundle is generated from a tagged local checkout and committed. To refresh it:
 
@@ -87,8 +91,9 @@ is bundled into the plugin as a single self-contained file
 launched as `node lsp/server.js --stdio`. Only a `node` binary is needed at
 runtime - no `node_modules` are shipped.
 
-The server bundle is built from the exact npm versions in
-`tools/lsp-bundle/package.json`. The lockfile and generated `server.js` and
+The server bundle is built from the pins in `tools/lsp-bundle/package.json`:
+exact npm versions, or on `next2` a commit (`github:markup-carve/carve-lsp#<sha>`),
+whose commit the build stamps directly. The lockfile and generated `server.js` and
 `VERSION` files are committed together. To bump the server and its engine:
 
 ```bash
@@ -215,7 +220,7 @@ Editor syntax highlighting uses the TextMate bundle in
 `src/main/resources/textmate/`. The grammar (`carve.tmLanguage.json`) is
 committed here and is *related to* - but deliberately not identical to -
 [vscode-carve](https://github.com/markup-carve/vscode-carve)'s copy (scope
-`text.carve`).
+`source.carve`).
 
 Three differences are by design:
 

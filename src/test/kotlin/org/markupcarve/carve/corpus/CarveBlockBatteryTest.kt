@@ -15,9 +15,9 @@ import java.io.File
  * kept colouring `-`, `1.` and `::` as markers. It was found by someone
  * comparing the copies by hand (#46).
  *
- * `battery/block-battery.json` is that comparison made routine - carve-grammars'
- * table, vendored, with a drift check keeping the copy honest. `want` is what
- * carve-rs renders.
+ * `battery/block-battery.json` is that comparison made routine. It was
+ * carve-grammars' table; carve-grammars#903 removed it upstream, so the copy is
+ * a local fixture now. `want` is what carve-rs renders.
  */
 class CarveBlockBatteryTest {
 

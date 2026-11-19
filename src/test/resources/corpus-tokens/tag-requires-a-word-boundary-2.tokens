@@ -1,7 +1,7 @@
-Issue  -> text.carve
-# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
-123 -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
- and  -> text.carve
-# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
-v2 -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
- here.\n -> text.carve
+Issue  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+123 -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+ and  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+v2 -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+ here.\n -> source.carve

@@ -1,15 +1,15 @@
-[ -> text.carve meta.link.reference.carve
-r -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-r -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
-\n -> text.carve
-\n -> text.carve
-[r]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/url -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-Title -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
+[ -> source.carve meta.link.reference.carve
+r -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+r -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+\n -> source.carve
+\n -> source.carve
+[r]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/url -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+Title -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve

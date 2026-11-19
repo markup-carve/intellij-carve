@@ -160,6 +160,19 @@ class CarveBundleProvenanceTest {
             .find(pin)?.groupValues?.get(1) ?: throw AssertionError("Missing carve-lsp pin")
         val carveVersion = Regex(""""@markup-carve/carve"\s*:\s*"([^"]+)"""")
             .find(pin)?.groupValues?.get(1) ?: throw AssertionError("Missing carve-js override")
+        // On next2 both are pinned to an unreleased commit (github:owner/repo#<sha>);
+        // the header must then carry exactly those commits.
+        val commitPin = Regex("^github:markup-carve/[\\w-]+#([0-9a-f]{40})$")
+        val lspCommit = commitPin.find(lspVersion)?.groupValues?.get(1)
+        val carveCommit = commitPin.find(carveVersion)?.groupValues?.get(1)
+        if (lspCommit != null || carveCommit != null) {
+            assertTrue("carve-lsp pin must be a commit: $lspVersion", lspCommit != null)
+            assertTrue("carve-js override must be a commit: $carveVersion", carveCommit != null)
+            assertEquals(lspCommit, capture(header, Regex("Bundled from markup-carve/carve-lsp commit (\\S+)")))
+            assertEquals("commit $carveCommit", capture(header, Regex("carve-js dependency (.+)"))?.trim())
+            assertTrue("the lockfile must resolve carve-lsp at $lspCommit", lock.contains("carve-lsp.git#$lspCommit"))
+            return
+        }
         assertTrue("carve-lsp pin must be exact", Regex("\\d+\\.\\d+\\.\\d+").matches(lspVersion))
         assertTrue("carve-js override must be exact", Regex("\\d+\\.\\d+\\.\\d+").matches(carveVersion))
         assertEquals("v$lspVersion", capture(header, Regex("carve-lsp release (.+)"))?.trim())

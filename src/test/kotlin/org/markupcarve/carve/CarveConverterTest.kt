@@ -80,12 +80,13 @@ class CarveConverterTest {
 
     @Test
     fun testImplicitHeadingReference() {
-        // The plugin's cwiki template documents `[[Heading]]` as an implicit
-        // heading reference, so it must resolve to the local heading id (#id),
-        // not render as an off-document wiki page link.
-        val html = CarveConverter.toHtml("# Home\n\nSee [[Home]].")
-        assertTrue("[[Heading]] should resolve to local anchor: $html", html.contains("href=\"#Home\""))
-        assertTrue("[[Heading]] should not be a wiki page link: $html", !html.contains("class=\"wikilink\""))
+        // The plugin's cwiki template writes an implicit heading reference, so it
+        // must resolve to the local heading id (#id), not render as an
+        // off-document wiki page link. Carve 0.2 spells it `[Heading][]`
+        // (C2-I-081, C2-I-084); `[[Heading]]` is text in 0.2.
+        val html = CarveConverter.toHtml("# Home\n\nSee [Home][].")
+        assertTrue("[Heading][] should resolve to local anchor: $html", html.contains("href=\"#Home\""))
+        assertTrue("[Heading][] should not be a wiki page link: $html", !html.contains("class=\"wikilink\""))
     }
 
     @Test

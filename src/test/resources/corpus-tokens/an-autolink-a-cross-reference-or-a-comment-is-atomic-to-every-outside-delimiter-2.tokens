@@ -1,9 +1,9 @@
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-a  -> text.carve markup.deleted.carve markup.deleted.carve
-< -> text.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
-https://x~ -> text.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve markup.underline.link.carve
-> -> text.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
-y -> text.carve markup.deleted.carve markup.deleted.carve
-~>z b -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-\n -> text.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+a  -> source.carve markup.deleted.carve markup.deleted.carve
+< -> source.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
+https://x~ -> source.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve markup.deleted.carve markup.deleted.carve meta.link.autolink.carve keyword.control.link.carve
+y -> source.carve markup.deleted.carve markup.deleted.carve
+~>z b -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+\n -> source.carve

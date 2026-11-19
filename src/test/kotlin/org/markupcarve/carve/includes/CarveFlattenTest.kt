@@ -59,7 +59,8 @@ class CarveFlattenTest {
 
         val carve = flatten(doc)!!.carve
         assertFalse("rendered HTML reached the flattened source: $carve", carve.contains("<p>"))
-        assertTrue(carve, carve.contains("# Chapter"))
+        // C2-W-035: the 0.2 writer spells a heading with `=`.
+        assertTrue(carve, carve.contains("= Chapter"))
     }
 
     @Test

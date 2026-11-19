@@ -1,32 +1,32 @@
-\\! -> text.carve constant.character.escape.carve
-\\ -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\\# -> text.carve constant.character.escape.carve
-\\$ -> text.carve
-\\% -> text.carve constant.character.escape.carve
-\\&\\' -> text.carve
-\\( -> text.carve constant.character.escape.carve
-\\) -> text.carve constant.character.escape.carve
-\\* -> text.carve constant.character.escape.carve
-\\+ -> text.carve constant.character.escape.carve
-\\, -> text.carve constant.character.escape.carve
-\\- -> text.carve constant.character.escape.carve
-\\. -> text.carve constant.character.escape.carve
-\\/ -> text.carve constant.character.escape.carve
-\\:\\; -> text.carve
-\\< -> text.carve constant.character.escape.carve
-\\= -> text.carve constant.character.escape.carve
-\\> -> text.carve constant.character.escape.carve
-\\? -> text.carve
-\\@ -> text.carve constant.character.escape.carve
-\\[ -> text.carve constant.character.escape.carve
-\\\\ -> text.carve constant.character.escape.carve
-\\] -> text.carve constant.character.escape.carve
-\\^ -> text.carve constant.character.escape.carve
-\\_ -> text.carve constant.character.escape.carve
-\\` -> text.carve constant.character.escape.carve
-\\{ -> text.carve constant.character.escape.carve
-\\| -> text.carve constant.character.escape.carve
-\\} -> text.carve constant.character.escape.carve
-\\~ -> text.carve constant.character.escape.carve
- done\n -> text.carve
+\\! -> source.carve constant.character.escape.carve
+\\ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\\# -> source.carve constant.character.escape.carve
+\\$ -> source.carve
+\\% -> source.carve constant.character.escape.carve
+\\&\\' -> source.carve
+\\( -> source.carve constant.character.escape.carve
+\\) -> source.carve constant.character.escape.carve
+\\* -> source.carve constant.character.escape.carve
+\\+ -> source.carve constant.character.escape.carve
+\\, -> source.carve constant.character.escape.carve
+\\- -> source.carve constant.character.escape.carve
+\\. -> source.carve constant.character.escape.carve
+\\/ -> source.carve constant.character.escape.carve
+\\:\\; -> source.carve
+\\< -> source.carve constant.character.escape.carve
+\\= -> source.carve constant.character.escape.carve
+\\> -> source.carve constant.character.escape.carve
+\\? -> source.carve
+\\@ -> source.carve constant.character.escape.carve
+\\[ -> source.carve constant.character.escape.carve
+\\\\ -> source.carve constant.character.escape.carve
+\\] -> source.carve constant.character.escape.carve
+\\^ -> source.carve constant.character.escape.carve
+\\_ -> source.carve constant.character.escape.carve
+\\` -> source.carve constant.character.escape.carve
+\\{ -> source.carve constant.character.escape.carve
+\\| -> source.carve constant.character.escape.carve
+\\} -> source.carve constant.character.escape.carve
+\\~ -> source.carve constant.character.escape.carve
+ done\n -> source.carve

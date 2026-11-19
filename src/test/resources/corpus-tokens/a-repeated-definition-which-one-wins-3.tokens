@@ -1,14 +1,14 @@
-see  -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-f -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-.\n -> text.carve
-\n -> text.carve
-[^f]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- one -> text.carve meta.footnote.definition.carve
-\n -> text.carve
-\n -> text.carve
-[^f]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- two -> text.carve meta.footnote.definition.carve
-\n -> text.carve
+see  -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+f -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> source.carve
+\n -> source.carve
+[^f]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ one -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+[^f]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ two -> source.carve meta.footnote.definition.carve
+\n -> source.carve
