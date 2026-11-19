@@ -172,7 +172,7 @@ object CarveIncludeExpansion {
             includes: { resolver: resolver, file: sourcePath }
           });
           var result = report(parsed);
-          result.html = carve.render(carve.decorateLinks(parsed.document), options);
+          result.html = carve.renderPreview(carve.decorateLinks(parsed.document), options);
           return result;
         })
     """.trimIndent()
@@ -180,41 +180,20 @@ object CarveIncludeExpansion {
     /**
      * `(source, hostResolve, sourcePath) -> { carve, warnings, dependencies, suppressedWarnings }`.
      *
-     * The `carve flatten` shape: the children of each expanded include are
-     * spliced in place (included frontmatter goes) and the tree is written as
-     * canonical Carve, with no extension set, as the CLI does. An include that
-     * did not expand keeps its directive.
+     * The `carve flatten` shape, through the engine's `flatten`: the children
+     * of each expanded include are spliced in place (included frontmatter goes)
+     * and the tree is written as canonical Carve, with no extension set, as the
+     * CLI does. An include that did not expand keeps its directive.
      */
     val FLATTEN_JS = """
         (function (source, hostResolve, sourcePath) {
         $INCLUDE_HELPERS_JS
-          var splice = function (nodes) {
-            var out = [];
-            nodes.forEach(function (node) {
-              if (node.type === 'include' && node.children !== undefined) {
-                splice(node.children.filter(function (c) { return c.type !== 'frontmatter'; }))
-                  .forEach(function (c) { out.push(c); });
-                return;
-              }
-              var copy = null;
-              Object.keys(node).forEach(function (key) {
-                var value = node[key];
-                if (!Array.isArray(value) || !value.some(function (v) { return v && typeof v === 'object' && 'type' in v; })) return;
-                copy = copy || Object.assign({}, node);
-                copy[key] = splice(value);
-              });
-              out.push(copy || node);
-            });
-            return out;
-          };
           var parsed = carve.parseWithDiagnostics(source, {
             positions: true,
             includes: { resolver: resolver, file: sourcePath }
           });
           var result = report(parsed);
-          var tree = Object.assign({}, parsed.document, { children: splice(parsed.document.children) });
-          delete tree.stages;
-          result.carve = carve.write(tree);
+          result.carve = carve.flatten(parsed.document).source;
           return result;
         })
     """.trimIndent()

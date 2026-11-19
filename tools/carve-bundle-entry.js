@@ -6,6 +6,13 @@ export * from './dist/index.js'
 export * as extensions from './dist/extensions.js'
 export * as exporters from './dist/export.js'
 export * as importers from './dist/import.js'
+import { renderWithDocumentTransforms } from './dist/index.js'
+
+// The preview render: the document transforms of the extension set (C2-X-053) run first.
+export function renderPreview(document, options) {
+  const { transforms = [], ...rest } = options
+  return renderWithDocumentTransforms(document, transforms, rest).html
+}
 
 const BARE_URL = /https?:\/\/[^\s<>]+/g
 const TRAILING_PUNCTUATION = /[.,;:!?'")\]]+$/
