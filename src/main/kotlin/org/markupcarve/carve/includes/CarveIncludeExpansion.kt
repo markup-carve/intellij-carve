@@ -104,21 +104,29 @@ object CarveIncludeExpansion {
 
     /**
      * Shared by [EXPAND_JS] and [FLATTEN_JS]: the 0.2 resolver over the host
-     * resolver, and the warnings and dependencies of a parse. The engine names
+     * resolver, and the warnings of a parse. The dependencies are every target
+     * the resolver was asked for, in order, as the 0.1 walk reported them. The engine names
      * the including file in `from`, which is the host resolver's parent id
      * (the 0.1 stack started with the document's own id too).
      */
     private val INCLUDE_HELPERS_JS = """
-          var denials = {};
-          var missing = {};
+          var touched = [];
+          var seen = {};
+          var touch = function (id, resolved, denial) {
+            var key = id + '|' + resolved;
+            if (seen[key]) return;
+            seen[key] = true;
+            touched.push({ id: id, resolved: resolved, denial: denial });
+          };
           var resolver = function (request) {
             var answer = hostResolve(request.path, request.from === undefined ? null : request.from);
             if (answer.source === null || answer.source === undefined) {
-              if (answer.denial) denials[request.path] = answer.denial;
-              if (answer.id) missing[request.path] = answer.id;
+              // An unread target is named by where it would be, the host's id (I11).
+              touch(answer.id || request.path, false, answer.denial || null);
               var outside = answer.denial === 'outside-root' || answer.denial === 'absolute-denied' || answer.denial === 'remote-not-allowed';
               return { error: outside ? 'outside_root' : 'not_found' };
             }
+            touch(answer.id, true, null);
             return { text: String(answer.source).replace(/\r(?!\n)/g, '\n'), id: answer.id };
           };
           var place = function (byte) {
@@ -148,11 +156,7 @@ object CarveIncludeExpansion {
                 var where = place(anchor(parsed.document, d));
                 return { rule: d.code, message: d.message, line: where.line, column: where.column };
               });
-            var dependencies = carve.includeDependencies(parsed.document).map(function (d) {
-              // An unread target is named by where it would be, the host's id (I11).
-              return { id: d.file || missing[d.path] || d.path, resolved: d.read, denial: d.read ? null : (denials[d.path] || null) };
-            });
-            return { warnings: warnings, dependencies: dependencies, suppressedWarnings: parsed.suppressedDiagnostics };
+            return { warnings: warnings, dependencies: touched, suppressedWarnings: parsed.suppressedDiagnostics };
           };
     """
 
