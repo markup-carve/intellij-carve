@@ -222,7 +222,7 @@ object CarveConverter {
     private val RENDER_HTML_JS = """
         (function (source, options) {
           var tree = carve.parse(source, { extensions: options.extensions });
-          return carve.render(carve.decorateLinks(tree), options);
+          return carve.renderPreview(carve.decorateLinks(tree), options);
         })
     """.trimIndent()
 
@@ -238,21 +238,22 @@ object CarveConverter {
      * preview can draw zero-config (from `carve.extensions`, tabs from the root),
      * scroll anchors and the raw-HTML switch.
      *
-     * `headingReference`, `autolink`, `externalLinks`, `headingPermalinks` and
-     * `citations` were 0.1 extensions with no 0.2 counterpart. Bare URLs and
-     * off-site links are decorated by `carve.decorateLinks` instead; citations
-     * wait for carve-js#5082. Each factory is called fresh per render.
+     * Bare URLs and off-site links are decorated by `carve.decorateLinks`.
+     * `citations`, `glossary` and `index` resolve through document transforms,
+     * which `carve.renderPreview` runs. Each factory is called fresh per render.
      */
     private val CARVE_OPTIONS_JS = """
         (function (sourceLine, allowRawHtml) {
           var e = carve.extensions;
           var set = e.withExtensions(
             e.details(), e.mermaid(), e.mathBlock(), e.spoiler(), e.chart(), e.codeGroup(), e.listTable(),
+            e.citations(), e.glossary(), e.index(),
             { extensions: carve.tabsExtensions, renderers: { 'carve.tabs': carve.tabsRenderer } }
           );
           return {
             extensions: set.extensions,
             renderers: set.renderers,
+            transforms: set.transforms || [],
             sourceLines: !!sourceLine,
             rawHtml: allowRawHtml !== false
           };

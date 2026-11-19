@@ -2,10 +2,10 @@
   "name": "intellij-carve-lsp-bundle",
   "private": true,
   "dependencies": {
-    "@markup-carve/carve-lsp": "github:markup-carve/carve-lsp#f480f092eb38544ef775aec321ad707f3d858976"
+    "@markup-carve/carve-lsp": "github:markup-carve/carve-lsp#344d5617b32ed24982eefe4d2a9ae9c502923fec"
   },
   "overrides": {
-    "@markup-carve/carve": "github:markup-carve/carve-js#11de2ad3652448277905e0980e72a49936139c0b"
+    "@markup-carve/carve": "github:markup-carve/carve-js#32a638230abcc321dfcab8c814106f16a2a8093e"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
