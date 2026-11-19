@@ -107,11 +107,13 @@ class CarveBlockContextTest {
     fun aTableRowNeedsItsClosingPipe() {
         assertFalse(scopesOf("| a | b\n", "| b").contains(tableRow))
         assertFalse(scopesOf("> | a | b\n", "| b").contains(tableRow))
-        assertFalse(scopesOf("| a | b | %% note\n", "| b").contains(tableRow))
+        assertFalse(scopesOf("| a | b |%% note\n", "| b").contains(tableRow))
         assertTrue(scopesOf("| a | b |\n", "| b").contains(tableRow))
         assertTrue(scopesOf("| a | b |{.x}\n", "| b").contains(tableRow))
         assertTrue(scopesOf("> | a | b |\n", "| b").contains(tableRow))
         assertTrue(scopesOf("- | a | b |\n", "| b").contains(tableRow))
+        assertTrue(scopesOf("| a | b | %% note\n", "| b").contains(tableRow))
+        assertTrue(scopesOf("> | a | b |  %% note\n", "| b").contains(tableRow))
     }
 
     @Test
