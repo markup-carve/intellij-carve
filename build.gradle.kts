@@ -809,6 +809,12 @@ tasks {
         // JVM is forked, and forward the golden-regeneration switch into it.
         workingDir = rootDir
 
+        // CI uploads no test report, so a failure's message has to reach the log.
+        testLogging {
+            events("failed")
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+
         // THE CORPUS IS AN INPUT, AND GRADLE HAD NO WAY TO KNOW.
         //
         // These tests reach the corpus by FILE PATH from `workingDir`, not
