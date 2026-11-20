@@ -236,7 +236,8 @@ object CarveConverter {
     /**
      * Returns the render options: the standard Carve 0.2 extensions an embedded
      * preview can draw zero-config (from `carve.extensions`, tabs from the root),
-     * scroll anchors and the raw-HTML switch.
+     * scroll anchors and the raw-HTML switch. Heading permalinks and the
+     * `heading-ref` class on `[Heading][]` links are document transforms (C2-X-053).
      *
      * Bare URLs and off-site links are decorated by `carve.decorateLinks`.
      * `citations`, `glossary` and `index` resolve through document transforms,
@@ -251,7 +252,7 @@ object CarveConverter {
             { extensions: carve.tabsExtensions, renderers: { 'carve.tabs': carve.tabsRenderer } }
           );
           return {
-            extensions: set.extensions,
+            extensions: set.extensions.concat([e.headingPermalinks(), e.headingReference()]),
             renderers: set.renderers,
             transforms: set.transforms || [],
             sourceLines: !!sourceLine,

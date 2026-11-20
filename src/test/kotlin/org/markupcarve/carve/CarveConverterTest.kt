@@ -78,6 +78,13 @@ class CarveConverterTest {
     }
 
     @Test
+    fun testHeadingPermalinksAndReferences() {
+        val html = CarveConverter.toHtml("# Intro\n\nSee [Intro][].")
+        assertTrue("heading should carry a permalink: $html", html.contains("<a href=\"#Intro\" class=\"permalink\""))
+        assertTrue("heading reference should carry its class: $html", html.contains("class=\"heading-ref\""))
+    }
+
+    @Test
     fun testDetailsExtension() {
         // details extension: a `::: details "Title"` div renders a disclosure widget.
         val carve = "::: details \"More\"\nhidden\n:::"
