@@ -29564,7 +29564,7 @@ var itemFacts = (src, _node, origin, quotes, facts) => {
   if (first === HYPHEN || first === STAR) {
     setMarker(src, start, start + 1, quotes, facts);
     const content2 = bulletMarkerEnd(src, start, end);
-    setContent2(src, origin, origin.aux !== 0 && content2 >= 0 ? taskBoxEnd(src, content2, end) : content2, end, quotes, facts);
+    setContent2(src, origin, content2, end, quotes, facts);
     return;
   }
   const delimiter = orderedDelimiter(src, start, end);
@@ -44593,7 +44593,7 @@ var K = Uint32Array.from([
 ]);
 var SPEC_VERSION = Object.freeze({
   version: "0.2",
-  commit: "8e56382c0b983f486bf9c848bddf542e7791c9ff"
+  commit: "9768ba7799c3850380edb886a7785631d82a1595"
 });
 var NODE_TYPES = Object.freeze({
   block: Object.freeze([
@@ -59718,7 +59718,7 @@ var itemFacts2 = (src, _node, origin, quotes, facts) => {
   if (first === HYPHEN3 || first === STAR3) {
     setMarker2(src, start, start + 1, quotes, facts);
     const content = bulletMarkerEnd2(src, start, end);
-    setContent22(src, origin, origin.aux !== 0 && content >= 0 ? taskBoxEnd2(src, content, end) : content, end, quotes, facts);
+    setContent22(src, origin, content, end, quotes, facts);
     return;
   }
   const delimiter = orderedDelimiter2(src, start, end);
@@ -74072,12 +74072,6 @@ function definition2(name) {
   };
 }
 var imgFenceExtensions = [definition2("img"), definition2("image")];
-function svgTitle(svg) {
-  const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(svg)?.[1];
-  if (title === void 0) return void 0;
-  const text = title.replace(/<[^>]*>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#3[49];/g, "'").replace(/&amp;/g, "&").trim();
-  return text === "" ? void 0 : text;
-}
 function mergeRoot(svg, attrs) {
   if (attrs === "") return svg;
   const names = [...attrs.matchAll(/\s([a-z_:][\w:.-]*)\s*=/gi)].map((match) => match[1]?.toLowerCase() ?? "");
@@ -74109,7 +74103,7 @@ function createImgFence(options = {}, reportFailure = false) {
     }
     const src = `data:image/svg+xml,${encodeURIComponent(sanitized.svg)}`;
     if (src.length > 8 * 1024 * 1024) return failure(node, host, reportFailure, "the sanitized SVG URL is above 8 MiB");
-    const alt = attrValue(node.attrs, "alt") ?? svgTitle(sanitized.svg) ?? "";
+    const alt = attrValue(node.attrs, "alt") ?? "";
     return `<img src="${host.escapeAttribute(src)}" alt="${host.escapeAttribute(alt)}"${attrs}>`;
   };
   const renderer = { version: "1", render: renderImage, buildTime: renderImage };
@@ -102135,7 +102129,7 @@ var itemFacts3 = (src, _node, origin, quotes, facts) => {
   if (first === HYPHEN4 || first === STAR4) {
     setMarker3(src, start, start + 1, quotes, facts);
     const content = bulletMarkerEnd3(src, start, end);
-    setContent23(src, origin, origin.aux !== 0 && content >= 0 ? taskBoxEnd3(src, content, end) : content, end, quotes, facts);
+    setContent23(src, origin, content, end, quotes, facts);
     return;
   }
   const delimiter = orderedDelimiter3(src, start, end);
