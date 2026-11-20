@@ -5,7 +5,7 @@
     "@markup-carve/carve-lsp": "github:markup-carve/carve-lsp#9bdefb1ec81fa38d708d8f56f0938997f53f5c27"
   },
   "overrides": {
-    "@markup-carve/carve": "github:markup-carve/carve-js#d4d723d3d697b74cf7972b97a94a059845f58e7b"
+    "@markup-carve/carve": "github:markup-carve/carve-js#b8f88ab1efdc93dbe72dccc870e901ec0341faa6"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
