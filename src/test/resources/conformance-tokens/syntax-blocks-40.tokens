@@ -1,0 +1,12 @@
+{ -> source.carve meta.attributes.carve
+start -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+5 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+a\n -> source.carve
+. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+b -> source.carve

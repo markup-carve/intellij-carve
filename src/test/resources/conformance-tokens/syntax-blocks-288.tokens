@@ -1,0 +1,7 @@
+-  -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+  a\n -> source.carve
+b -> source.carve

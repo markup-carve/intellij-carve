@@ -1,0 +1,35 @@
+{/ -> source.carve markup.italic.carve keyword.control.italic.carve
+x -> source.carve markup.italic.carve markup.italic.carve
+/} -> source.carve markup.italic.carve keyword.control.italic.carve
+  -> source.carve
+{* -> source.carve markup.bold.carve keyword.control.bold.carve
+x -> source.carve markup.bold.carve markup.bold.carve
+*} -> source.carve markup.bold.carve keyword.control.bold.carve
+  -> source.carve
+{_ -> source.carve markup.underline.text.carve keyword.control.underline.carve
+x -> source.carve markup.underline.text.carve markup.underline.text.carve
+_} -> source.carve markup.underline.text.carve keyword.control.underline.carve
+  -> source.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+x -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+  -> source.carve
+{= -> source.carve keyword.control.highlight.carve
+x -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve
+ H -> source.carve
+{, -> source.carve keyword.control.subscript.carve
+2 -> source.carve markup.subscript.carve
+,} -> source.carve keyword.control.subscript.carve
+O mc -> source.carve
+{^ -> source.carve keyword.control.superscript.carve
+2 -> source.carve markup.superscript.carve
+^} -> source.carve keyword.control.superscript.carve
+  -> source.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+new -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+  -> source.carve
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+old -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve

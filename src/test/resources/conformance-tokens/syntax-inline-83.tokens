@@ -1,0 +1,13 @@
+color  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+fff -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+, issue  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+123 -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+, C# and  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+/sub and  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+release-1 -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+.0. -> source.carve

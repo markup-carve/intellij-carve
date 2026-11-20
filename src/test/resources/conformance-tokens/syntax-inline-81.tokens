@@ -1,0 +1,5 @@
+a[^my\n -> source.carve
+note] b\n -> source.carve
+\n -> source.carve
+[^my note]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Text. -> source.carve meta.footnote.definition.carve

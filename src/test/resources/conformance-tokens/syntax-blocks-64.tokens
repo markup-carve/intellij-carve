@@ -1,0 +1,5 @@
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+term\n -> source.carve
+   indented line\n -> source.carve
+: desc -> source.carve

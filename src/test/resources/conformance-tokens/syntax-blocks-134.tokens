@@ -1,0 +1,13 @@
+:::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+tip -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+inner\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+outer\n -> source.carve
+:::: -> source.carve markup.other.div.carve keyword.control.div.carve

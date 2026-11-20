@@ -1,0 +1,17 @@
+! -> source.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> source.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+/kaet/ -> source.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+ and  -> source.carve
+! -> source.carve markup.raw.inline.literal.carve keyword.control.literal.carve
+` -> source.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+a<b> -> source.carve markup.raw.inline.literal.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.literal.carve keyword.control.raw.carve
+{ -> source.carve meta.attributes.carve
+.ipa -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+ and  -> source.carve
+\\! -> source.carve constant.character.escape.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+x -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve

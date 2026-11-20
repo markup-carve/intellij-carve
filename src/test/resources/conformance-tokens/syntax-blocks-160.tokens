@@ -1,0 +1,7 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Table -> source.carve markup.table.caption.carve string.unquoted.caption.carve

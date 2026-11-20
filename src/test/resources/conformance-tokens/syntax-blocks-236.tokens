@@ -1,0 +1,20 @@
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+a.crv -> source.carve meta.directive.include.carve string.other.link.include.carve
+  -> source.carve meta.directive.include.carve
+@shift -> source.carve meta.directive.include.carve variable.parameter.include.carve
+: -> source.carve meta.directive.include.carve keyword.control.separator.include.carve
+-123456789 -> source.carve meta.directive.include.carve constant.other.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> source.carve
+\n -> source.carve
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+a.crv -> source.carve meta.directive.include.carve string.other.link.include.carve
+  -> source.carve meta.directive.include.carve
+@shift -> source.carve meta.directive.include.carve variable.parameter.include.carve
+: -> source.carve meta.directive.include.carve keyword.control.separator.include.carve
+1234567890 -> source.carve meta.directive.include.carve constant.other.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve

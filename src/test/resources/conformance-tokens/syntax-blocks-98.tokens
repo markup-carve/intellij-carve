@@ -1,0 +1,10 @@
+{ -> source.carve meta.attributes.carve
+.a -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.b -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+\n -> source.carve
+para -> source.carve

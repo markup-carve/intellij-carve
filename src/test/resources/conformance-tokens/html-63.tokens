@@ -1,0 +1,10 @@
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+T\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+x.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve

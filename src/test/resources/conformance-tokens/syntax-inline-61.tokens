@@ -1,0 +1,40 @@
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+a -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+a -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+ " -> source.carve meta.link.inline.carve
+T -> source.carve meta.link.inline.carve string.quoted.double.link-title.carve
+" -> source.carve meta.link.inline.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+a -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+ ' -> source.carve meta.link.inline.carve
+T -> source.carve meta.link.inline.carve string.quoted.single.link-title.carve
+' -> source.carve meta.link.inline.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ [a]()  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+a -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u(1) -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+*b* -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve

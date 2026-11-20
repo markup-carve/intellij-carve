@@ -1,0 +1,16 @@
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+old -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+new -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+old -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+new -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+{ -> source.carve meta.attributes.carve
+.k -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve

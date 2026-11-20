@@ -1,0 +1,12 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+a\n -> source.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve comment.block.carve
+hidden\n -> source.carve comment.block.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve
+b\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

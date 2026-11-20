@@ -1,0 +1,24 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+glossary> -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+q\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+js} -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+code\n -> source.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+\n -> source.carve
+``` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+=html~\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+<b>x</b>\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+``` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+\n -> source.carve
+\n -> source.carve
+::: note{.x}\n -> source.carve
+n\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

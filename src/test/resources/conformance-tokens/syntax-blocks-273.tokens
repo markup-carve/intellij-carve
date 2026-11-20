@@ -1,0 +1,25 @@
+{ -> source.carve meta.attributes.carve
+valigns -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"top,bottom" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+aligns -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"left,right" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ A  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+?^ -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ B  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

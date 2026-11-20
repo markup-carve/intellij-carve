@@ -1,0 +1,7 @@
+\\ -> source.carve constant.character.escape.hard-break.carve
+\n -> source.carve
+{% c %} -> source.carve comment.block.inline.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

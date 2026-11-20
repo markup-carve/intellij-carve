@@ -1,0 +1,11 @@
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+data.csv -> source.carve meta.directive.include.carve string.other.link.include.carve
+  -> source.carve meta.directive.include.carve
+@code -> source.carve meta.directive.include.carve variable.parameter.include.carve
+: -> source.carve meta.directive.include.carve keyword.control.separator.include.carve
+csv -> source.carve meta.directive.include.carve constant.other.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> source.carve
+next line -> source.carve

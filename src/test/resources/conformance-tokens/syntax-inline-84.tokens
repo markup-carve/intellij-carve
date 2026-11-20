@@ -1,0 +1,11 @@
+at 10:30:00 and  -> source.carve
+:+1: -> source.carve constant.language.symbol.carve
+ and  -> source.carve
+:-: -> source.carve constant.language.symbol.carve
+ and :a b: and  -> source.carve
+: -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+note -> source.carve meta.extension.inline.carve entity.name.function.extension.carve
+[ -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+a *b* c -> source.carve meta.extension.inline.carve string.unquoted.extension.carve
+] -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+ and :1note[t] and :note[a -> source.carve

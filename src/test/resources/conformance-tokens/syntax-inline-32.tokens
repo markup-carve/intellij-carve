@@ -1,0 +1,20 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+#id -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+ and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+id -> source.carve comment.block.critic.carve comment.block.content.carve
+#} -> source.carve comment.block.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+id k=v -> source.carve comment.block.critic.carve comment.block.content.carve
+#} -> source.carve comment.block.critic.carve keyword.control.critic.carve

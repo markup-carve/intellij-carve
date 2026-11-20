@@ -1,0 +1,9 @@
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a\n -> source.carve markup.bold.carve markup.bold.carve
+\n -> source.carve
+b* and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+c\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+\n -> source.carve
+d -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve

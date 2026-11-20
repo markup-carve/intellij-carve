@@ -1,0 +1,8 @@
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+bold  -> source.carve markup.bold.carve markup.bold.carve
+{/ -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+note -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve
+\\* -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve constant.character.escape.carve
+/} -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+ more -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve

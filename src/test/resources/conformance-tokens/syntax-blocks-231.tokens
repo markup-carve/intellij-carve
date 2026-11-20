@@ -1,0 +1,12 @@
+%% #region intro -> source.carve comment.line.percent.carve
+\n -> source.carve
+%% carve-lint-disable-next-line empty-link-destination -> source.carve comment.line.percent.carve
+\n -> source.carve
+See [a]().\n -> source.carve
+\n -> source.carve
+See [b]().  -> source.carve
+%% carve-lint-disable-line -> source.carve comment.line.percent.carve
+\n -> source.carve
+\n -> source.carve
+See [c]().\n -> source.carve
+%% #endregion intro -> source.carve comment.line.percent.carve

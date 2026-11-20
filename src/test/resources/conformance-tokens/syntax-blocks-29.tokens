@@ -1,0 +1,7 @@
+-a\n -> source.carve
+\n -> source.carve
+-\n -> source.carve
+\n -> source.carve
+1.\n -> source.carve
+\n -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve

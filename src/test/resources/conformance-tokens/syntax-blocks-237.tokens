@@ -1,0 +1,6 @@
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+   -> source.carve markup.raw.block.fenced.code.carve
+b -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+text\n -> source.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve

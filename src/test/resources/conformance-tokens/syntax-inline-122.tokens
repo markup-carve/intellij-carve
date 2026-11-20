@@ -1,0 +1,5 @@
+a = -> source.carve
+==> -> source.carve constant.character.entity.typography.carve
+ b  -> source.carve
+<== -> source.carve constant.character.entity.typography.carve
+> c -> source.carve

@@ -1,0 +1,27 @@
+{ -> source.carve meta.attributes.carve
+aligns -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+right,x -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+widths -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+25,,25 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+footer-rows -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+two -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+.t -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ c  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

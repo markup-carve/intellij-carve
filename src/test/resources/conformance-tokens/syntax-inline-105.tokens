@@ -1,0 +1,5 @@
+[open and (x and { -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+y and  -> source.carve markup.bold.carve markup.bold.carve
+{% -> source.carve markup.bold.carve markup.bold.carve comment.block.inline.carve keyword.control.comment.carve
+ z and ^[w and :ext[v and <http://u -> source.carve markup.bold.carve markup.bold.carve comment.block.inline.carve

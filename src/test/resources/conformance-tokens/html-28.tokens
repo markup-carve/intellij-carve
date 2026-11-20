@@ -1,0 +1,52 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+Plain.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+warning -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Be careful" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+Body.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+tip -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+[Tab] -> source.carve markup.other.div.carve entity.name.label.carve
+\n -> source.carve
+Labeled.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+custom -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Title" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+c\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+toc -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Contents" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+index -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

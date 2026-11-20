@@ -1,0 +1,15 @@
+the  -> source.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+etc -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+ dir and  -> source.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+usr -> source.carve markup.italic.carve markup.italic.carve
+/local -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+ and  -> source.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+etc -> source.carve markup.italic.carve markup.italic.carve
+/hosts -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+ file -> source.carve

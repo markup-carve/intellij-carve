@@ -1,0 +1,24 @@
+The HTML spec and HTMLs and XHTML and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+HTML -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+HTML -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+HTML -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+.\n -> source.carve
+\n -> source.carve
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+HTML -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+Hypertext Markup Language -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve

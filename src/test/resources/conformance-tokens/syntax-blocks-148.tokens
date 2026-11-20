@@ -1,0 +1,7 @@
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+%% c -> source.carve comment.line.percent.carve
+\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+d -> source.carve

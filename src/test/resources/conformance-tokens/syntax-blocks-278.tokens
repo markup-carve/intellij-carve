@@ -1,0 +1,14 @@
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+Intro text -> source.carve markup.quote.carve
+\n -> source.carve
+%% #region steps -> source.carve comment.line.percent.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+one\n -> source.carve
+%% #endregion steps -> source.carve comment.line.percent.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+two -> source.carve

@@ -1,0 +1,15 @@
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+Term\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+one\n -> source.carve
+\n -> source.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+Other\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+one\n -> source.carve
+\n -> source.carve
+  two -> source.carve

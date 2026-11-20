@@ -1,0 +1,7 @@
+%%% -> source.carve comment.block.carve
+\n -> source.carve comment.block.carve
+x\n -> source.carve comment.block.carve
+%%% not a closer\n -> source.carve comment.block.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve
+after -> source.carve

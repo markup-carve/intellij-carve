@@ -1,0 +1,11 @@
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+Roses are red,\\  -> source.carve markup.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+violets are blue,\\  \t -> source.carve markup.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+sugar is sweet. -> source.carve markup.quote.carve

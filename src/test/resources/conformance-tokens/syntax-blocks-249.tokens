@@ -1,0 +1,10 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> source.carve markup.table.row.carve
+` -> source.carve markup.table.row.carve markup.raw.inline.carve keyword.control.raw.carve
+a | 1 |\n -> source.carve markup.table.row.carve markup.raw.inline.carve markup.raw.inline.content.carve
++ b -> source.carve markup.table.row.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.table.row.carve markup.raw.inline.carve keyword.control.raw.carve
+  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 2  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

@@ -1,0 +1,3 @@
+Some text\n -> source.carve
+= not a heading\n -> source.carve
+- not a list -> source.carve

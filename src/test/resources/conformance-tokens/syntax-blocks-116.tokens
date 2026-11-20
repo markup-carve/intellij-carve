@@ -1,0 +1,3 @@
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+code -> source.carve markup.raw.block.fenced.code.carve

@@ -1,0 +1,37 @@
+{ -> source.carve meta.attributes.carve
+#manual -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Intro -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+[ -> source.carve meta.link.reference.carve
+Intro -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+manual -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+![ -> source.carve meta.image.reference.carve keyword.control.image.begin.carve
+x -> source.carve meta.image.reference.carve string.other.image.alt.carve
+] -> source.carve meta.image.reference.carve keyword.control.image.end.carve
+[ -> source.carve meta.image.reference.carve
+Intro -> source.carve meta.image.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.image.reference.carve
+ and [Intro] and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+Setup -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Setup -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+[Setup]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/setup -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

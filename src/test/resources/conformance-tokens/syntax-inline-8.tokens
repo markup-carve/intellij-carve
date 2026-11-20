@@ -1,0 +1,15 @@
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+code -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+`` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ a ` b  -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+`` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ x  -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+*a* -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve

@@ -1,0 +1,15 @@
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[ ]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+first  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+\n -> source.carve
+  second\n -> source.carve
+\n -> source.carve
+   -> source.carve markup.quote.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+quote -> source.carve markup.quote.carve

@@ -1,0 +1,10 @@
+[ -> source.carve meta.link.reference.carve
+*a* -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+nope -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and [a  -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+n -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ b][nope] -> source.carve
