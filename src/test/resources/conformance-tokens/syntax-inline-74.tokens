@@ -1,0 +1,31 @@
+[ -> source.carve meta.link.reference.carve
+a -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+r -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+b -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+r -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+{ -> source.carve meta.attributes.carve
+.own -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+2 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.def -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+1 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+[r]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

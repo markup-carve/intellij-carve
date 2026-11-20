@@ -1,0 +1,13 @@
+{ -> source.carve meta.attributes.carve
+align -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+center -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+Roses are red,\n -> source.carve
+violets are blue.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

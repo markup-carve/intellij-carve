@@ -1,8 +1,8 @@
-:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.term.carve
-term\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.carve
-A definition can now hold\n -> text.carve
-\n -> text.carve
-  more than one paragraph.\n -> text.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+term\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+A definition can now hold\n -> source.carve
+\n -> source.carve
+  more than one paragraph.\n -> source.carve

@@ -1,12 +1,12 @@
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-[ref]: /url -> text.carve markup.quote.carve
-\n -> text.carve
-\n -> text.carve
-See  -> text.carve
-[ -> text.carve meta.link.reference.carve
-it -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-ref -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
-.\n -> text.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+[ref]: /url -> source.carve markup.quote.carve
+\n -> source.carve
+\n -> source.carve
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+it -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ref -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+.\n -> source.carve

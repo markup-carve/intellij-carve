@@ -1,0 +1,17 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 1  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 2  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+.r -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+  -> source.carve markup.table.row.carve
+%% note\n -> source.carve markup.table.row.carve comment.line.percent.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 3  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 4  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> source.carve markup.table.row.carve
+%% n2 -> source.carve markup.table.row.carve comment.line.percent.carve

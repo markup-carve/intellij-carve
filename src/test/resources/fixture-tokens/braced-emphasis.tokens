@@ -1,32 +1,32 @@
-Superscript mc -> text.carve
-{^ -> text.carve keyword.control.superscript.carve
-2 -> text.carve markup.superscript.carve
-^} -> text.carve keyword.control.superscript.carve
- and subscript H -> text.carve
-{, -> text.carve keyword.control.subscript.carve
-2 -> text.carve markup.subscript.carve
-,} -> text.carve keyword.control.subscript.carve
-O are intraword.\n -> text.carve
-Forced  -> text.carve
-{* -> text.carve markup.bold.carve keyword.control.bold.carve
-bold -> text.carve markup.bold.carve markup.bold.carve
-*} -> text.carve markup.bold.carve keyword.control.bold.carve
- and  -> text.carve
-{/ -> text.carve markup.italic.carve keyword.control.italic.carve
-italic -> text.carve markup.italic.carve markup.italic.carve
-/} -> text.carve markup.italic.carve keyword.control.italic.carve
- and  -> text.carve
-{_ -> text.carve markup.underline.text.carve keyword.control.underline.carve
-underline -> text.carve markup.underline.text.carve markup.underline.text.carve
-_} -> text.carve markup.underline.text.carve keyword.control.underline.carve
- and  -> text.carve
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-strike -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
-.\n -> text.carve
-Forced highlight  -> text.carve
-{= -> text.carve keyword.control.highlight.carve
-mark -> text.carve markup.changed.carve
-=} -> text.carve keyword.control.highlight.carve
- too.\n -> text.carve
-A boolean attribute block {disabled} is not a forced span.\n -> text.carve
+Superscript mc -> source.carve
+{^ -> source.carve keyword.control.superscript.carve
+2 -> source.carve markup.superscript.carve
+^} -> source.carve keyword.control.superscript.carve
+ and subscript H -> source.carve
+{, -> source.carve keyword.control.subscript.carve
+2 -> source.carve markup.subscript.carve
+,} -> source.carve keyword.control.subscript.carve
+O are intraword.\n -> source.carve
+Forced  -> source.carve
+{* -> source.carve markup.bold.carve keyword.control.bold.carve
+bold -> source.carve markup.bold.carve markup.bold.carve
+*} -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+{/ -> source.carve markup.italic.carve keyword.control.italic.carve
+italic -> source.carve markup.italic.carve markup.italic.carve
+/} -> source.carve markup.italic.carve keyword.control.italic.carve
+ and  -> source.carve
+{_ -> source.carve markup.underline.text.carve keyword.control.underline.carve
+underline -> source.carve markup.underline.text.carve markup.underline.text.carve
+_} -> source.carve markup.underline.text.carve keyword.control.underline.carve
+ and  -> source.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+strike -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+.\n -> source.carve
+Forced highlight  -> source.carve
+{= -> source.carve keyword.control.highlight.carve
+mark -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve
+ too.\n -> source.carve
+A boolean attribute block {disabled} is not a forced span.\n -> source.carve

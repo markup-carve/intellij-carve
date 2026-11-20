@@ -1,8 +1,8 @@
-{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-⃣x -> text.carve markup.inserted.critic.carve markup.inserted.carve
-+} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-  -> text.carve
-{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-y -> text.carve markup.inserted.critic.carve markup.inserted.carve
-+} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-\n -> text.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+⃣x -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+  -> source.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+y -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+\n -> source.carve

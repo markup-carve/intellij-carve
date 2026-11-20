@@ -1,14 +1,14 @@
-$ -> text.carve markup.other.math.inline.carve keyword.control.math.carve
-` -> text.carve markup.other.math.inline.carve keyword.control.raw.carve
-a^2 -> text.carve markup.other.math.inline.carve markup.other.math.content.carve
-` -> text.carve markup.other.math.inline.carve keyword.control.raw.carve
-{ -> text.carve meta.attributes.carve
-.boxed -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-  -> text.carve meta.attributes.carve
-#eq1 -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-  -> text.carve meta.attributes.carve
-data-k -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-v -> text.carve meta.attributes.carve string.unquoted.attribute.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+$ -> source.carve markup.other.math.inline.carve keyword.control.math.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+a^2 -> source.carve markup.other.math.inline.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+{ -> source.carve meta.attributes.carve
+.boxed -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+#eq1 -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> source.carve meta.attributes.carve
+data-k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+v -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

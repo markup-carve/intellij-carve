@@ -1,2 +1,2 @@
-" -> text.carve keyword.control.smartquote.carve
-'word\n -> text.carve
+" -> source.carve keyword.control.smartquote.carve
+'word\n -> source.carve

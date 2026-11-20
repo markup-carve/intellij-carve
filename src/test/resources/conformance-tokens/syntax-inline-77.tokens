@@ -1,0 +1,16 @@
+[ -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+foo -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+bar][] and [x][foo\n -> source.carve
+bar]\n -> source.carve
+\n -> source.carve
+[*foo* bar]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve
+\n -> source.carve
+[foo bar]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/v -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

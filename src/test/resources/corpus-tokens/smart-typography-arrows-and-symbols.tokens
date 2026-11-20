@@ -1,20 +1,20 @@
-Flow: a  -> text.carve
---> -> text.carve constant.character.entity.typography.carve
- b  -> text.carve
-<-- -> text.carve constant.character.entity.typography.carve
- c  -> text.carve
-<--> -> text.carve constant.character.entity.typography.carve
- d  -> text.carve
-==> -> text.carve constant.character.entity.typography.carve
- e; x  -> text.carve
-!= -> text.carve constant.character.entity.typography.carve
- y, p  -> text.carve
-<= -> text.carve constant.character.entity.typography.carve
- q, r  -> text.carve
->= -> text.carve constant.character.entity.typography.carve
- s,  -> text.carve
-+- -> text.carve constant.character.entity.typography.carve
-1.\n -> text.carve
-(c) 2024, (r),  -> text.carve
-(tm) -> text.carve constant.character.entity.typography.carve
-. Dates like 1/2/2024 stay literal.\n -> text.carve
+Flow: a  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+ b  -> source.carve
+<-- -> source.carve constant.character.entity.typography.carve
+ c  -> source.carve
+<--> -> source.carve constant.character.entity.typography.carve
+ d  -> source.carve
+==> -> source.carve constant.character.entity.typography.carve
+ e; x  -> source.carve
+!= -> source.carve constant.character.entity.typography.carve
+ y, p  -> source.carve
+<= -> source.carve constant.character.entity.typography.carve
+ q, r  -> source.carve
+>= -> source.carve constant.character.entity.typography.carve
+ s,  -> source.carve
++- -> source.carve constant.character.entity.typography.carve
+1.\n -> source.carve
+(c) 2024, (r),  -> source.carve
+(tm) -> source.carve constant.character.entity.typography.carve
+. Dates like 1/2/2024 stay literal.\n -> source.carve

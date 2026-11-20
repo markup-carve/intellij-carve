@@ -1,0 +1,9 @@
+/* -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+both -> source.carve markup.bold.italic.carve markup.bold.italic.carve
+*/ -> source.carve markup.bold.italic.carve keyword.control.bold-italic.carve
+ and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+/ -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+both -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.bold.carve markup.bold.carve markup.italic.carve keyword.control.italic.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve

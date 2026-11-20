@@ -1,0 +1,18 @@
+[ -> source.carve meta.link.reference.carve
+text -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+nope -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+nope -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+a -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+nope -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve

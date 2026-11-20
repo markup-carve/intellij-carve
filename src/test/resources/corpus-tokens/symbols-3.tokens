@@ -1,11 +1,11 @@
-Vote  -> text.carve
-:+1: -> text.carve constant.language.symbol.carve
- or  -> text.carve
-:-1: -> text.carve constant.language.symbol.carve
-. Tolerance  -> text.carve
-:+-: -> text.carve constant.language.symbol.carve
- is a symbol, but a  -> text.carve
-+- -> text.carve constant.character.entity.typography.carve
- b and word: -> text.carve
-+- -> text.carve constant.character.entity.typography.carve
-: are not.\n -> text.carve
+Vote  -> source.carve
+:+1: -> source.carve constant.language.symbol.carve
+ or  -> source.carve
+:-1: -> source.carve constant.language.symbol.carve
+. Tolerance  -> source.carve
+:+-: -> source.carve constant.language.symbol.carve
+ is a symbol, but a  -> source.carve
++- -> source.carve constant.character.entity.typography.carve
+ b and word: -> source.carve
++- -> source.carve constant.character.entity.typography.carve
+: are not.\n -> source.carve

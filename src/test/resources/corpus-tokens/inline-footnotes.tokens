@@ -1,17 +1,17 @@
-A note -> text.carve
-^[ -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
-see  -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve
-* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
-later -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
-* -> text.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
-] -> text.carve meta.footnote.inline.carve keyword.control.footnote.carve
- inline. And a ref -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-a -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-.\n -> text.carve
-\n -> text.carve
-[^a]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- reference body. -> text.carve meta.footnote.definition.carve
-\n -> text.carve
+A note -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+see  -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+later -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ inline. And a ref -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+a -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> source.carve
+\n -> source.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ reference body. -> source.carve meta.footnote.definition.carve
+\n -> source.carve

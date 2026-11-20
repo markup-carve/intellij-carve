@@ -1,20 +1,20 @@
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Name  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Age  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
------ -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
----- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Alice  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- 28   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Name  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Age  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+: -> source.carve markup.table.row.carve
+----- -> source.carve markup.table.row.carve constant.character.entity.typography.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+---- -> source.carve markup.table.row.carve constant.character.entity.typography.carve
+: -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Alice  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 28   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve

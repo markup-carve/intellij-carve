@@ -1,0 +1,7 @@
+a -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+>b and a -> source.carve
+<-- -> source.carve constant.character.entity.typography.carve
+-b and a  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+ b -> source.carve

@@ -1,11 +1,11 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[ref]: /url\n -> text.carve
-\n -> text.carve
-See  -> text.carve
-[ -> text.carve meta.link.reference.carve
-it -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-ref -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
-.\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[ref]: /url\n -> source.carve
+\n -> source.carve
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+it -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ref -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+.\n -> source.carve

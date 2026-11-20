@@ -1,6 +1,6 @@
-a. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.numbered.carve
-apple\n -> text.carve
-b. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.numbered.carve
-banana\n -> text.carve
+a. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.numbered.carve
+apple\n -> source.carve
+b. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.numbered.carve
+banana\n -> source.carve

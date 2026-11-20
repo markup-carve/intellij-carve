@@ -1,0 +1,29 @@
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+A  -> source.carve markup.heading.carve entity.name.section.carve
+* -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve keyword.control.bold.carve
+b -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+A b -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+A  -> source.carve markup.heading.carve entity.name.section.carve
+* -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve keyword.control.bold.carve
+c -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve markup.bold.carve
+\n -> source.carve
+\n -> source.carve
+[ -> source.carve meta.link.reference.carve
+A b -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+x -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+A *c -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve

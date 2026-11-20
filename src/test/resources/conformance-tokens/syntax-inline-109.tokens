@@ -1,0 +1,5 @@
+[later] and ![later] and [missing]\n -> source.carve
+\n -> source.carve
+[later]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

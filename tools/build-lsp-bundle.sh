@@ -14,8 +14,10 @@ fi
 mkdir -p "$(dirname "$out")"
 out="$(cd "$(dirname "$out")" && pwd)/$(basename "$out")"
 
-npm ci --prefix "$pin" --no-audit --no-fund --silent
-read -r lsp_version carve_version expected_version copies < <(node - "$pin" <<'NODE'
+# npm 11+ refuses a git dependency below the root unless allowed; npm 10 ignores the setting.
+npm_config_allow_git=all npm ci --prefix "$pin" --no-audit --no-fund --silent
+# A git pin (`github:owner/repo#<sha>`) names its commit; a registry pin is looked up.
+read -r lsp_version carve_version lsp_sha carve_sha copies < <(node - "$pin" <<'NODE'
 const fs = require('node:fs');
 const path = require('node:path');
 const root = process.argv[2];
@@ -24,15 +26,25 @@ const copies = Object.keys(installed.packages).filter(key => /(?:^|\/)node_modul
 const declared = require(path.join(root, 'package.json'));
 const lsp = require(path.join(root, 'node_modules/@markup-carve/carve-lsp/package.json'));
 const carve = require(path.join(root, 'node_modules/@markup-carve/carve/package.json'));
-console.log(lsp.version, carve.version, declared.dependencies['@markup-carve/carve-lsp'], copies);
+const commitOf = (spec, key) => {
+  const pinned = /#([0-9a-f]{40})$/.exec(spec);
+  if (!pinned) return '-';
+  const resolved = installed.packages[`node_modules/${key}`]?.resolved ?? '';
+  return resolved.endsWith(`#${pinned[1]}`) ? pinned[1] : 'mismatch';
+};
+const lspSpec = declared.dependencies['@markup-carve/carve-lsp'];
+const carveSpec = declared.overrides['@markup-carve/carve'];
+const lspOk = commitOf(lspSpec, '@markup-carve/carve-lsp') !== '-' || lsp.version === lspSpec;
+const carveOk = commitOf(carveSpec, '@markup-carve/carve') !== '-' || carve.version === carveSpec;
+console.log(lsp.version, carve.version, commitOf(lspSpec, '@markup-carve/carve-lsp'), commitOf(carveSpec, '@markup-carve/carve'), lspOk && carveOk ? copies : 'pin-mismatch');
 NODE
 )
-if [ "$lsp_version" != "$expected_version" ] || [ "$carve_version" != "$(node -p "require('$pin/package.json').overrides['@markup-carve/carve']")" ] || [ "$copies" != 1 ]; then
+if [ "$copies" != 1 ] || [ "$lsp_sha" = mismatch ] || [ "$carve_sha" = mismatch ]; then
   echo "Installed LSP or engine does not match the pin, or multiple carve engines are installed" >&2
   exit 1
 fi
-lsp_sha="$(npm view "@markup-carve/carve-lsp@$lsp_version" gitHead)"
-carve_sha="$(npm view "@markup-carve/carve@$carve_version" gitHead)"
+[ "$lsp_sha" = - ] && lsp_sha="$(npm view "@markup-carve/carve-lsp@$lsp_version" gitHead)"
+[ "$carve_sha" = - ] && carve_sha="$(npm view "@markup-carve/carve@$carve_version" gitHead)"
 for sha in "$lsp_sha" "$carve_sha"; do
   if [[ ! "$sha" =~ ^[0-9a-f]{40}$ ]]; then
     echo "npm gitHead is not a 40-character commit: $sha" >&2

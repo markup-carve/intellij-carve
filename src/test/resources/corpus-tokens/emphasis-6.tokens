@@ -1,5 +1,5 @@
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-usr -> text.carve markup.italic.carve markup.italic.carve
-/local -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-\n -> text.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+usr -> source.carve markup.italic.carve markup.italic.carve
+/local -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+\n -> source.carve

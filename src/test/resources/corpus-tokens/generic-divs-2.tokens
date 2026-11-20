@@ -1,8 +1,8 @@
-:::  -> text.carve
-{ -> text.carve meta.attributes.carve
-.sidebar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-not a div\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+:::  -> source.carve
+{ -> source.carve meta.attributes.carve
+.sidebar -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+not a div\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

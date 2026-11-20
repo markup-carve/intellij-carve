@@ -1,0 +1,12 @@
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+- -> source.carve markup.quote.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.quote.carve markup.list.unnumbered.carve
+a -> source.carve markup.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+   -> source.carve markup.quote.carve
+- -> source.carve markup.quote.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.quote.carve markup.list.unnumbered.carve
+b -> source.carve markup.quote.carve

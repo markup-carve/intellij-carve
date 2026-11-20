@@ -1,9 +1,9 @@
-iv. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.numbered.carve
-four\n -> text.carve
-v. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.numbered.carve
-five\n -> text.carve
-vi. -> text.carve markup.list.numbered.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.numbered.carve
-six\n -> text.carve
+iv. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.numbered.carve
+four\n -> source.carve
+v. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.numbered.carve
+five\n -> source.carve
+vi. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.numbered.carve
+six\n -> source.carve

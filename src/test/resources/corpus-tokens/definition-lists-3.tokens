@@ -1,8 +1,8 @@
-:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.term.carve
-term\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.carve
-A first paragraph,\n -> text.carve
-+\n -> text.carve
-then a flush-left block joined with +.\n -> text.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+term\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+A first paragraph,\n -> source.carve
++\n -> source.carve
+then a flush-left block joined with +.\n -> source.carve

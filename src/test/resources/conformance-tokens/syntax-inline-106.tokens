@@ -1,0 +1,8 @@
+later markup still works: [a and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+b -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and {=c and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+d -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve

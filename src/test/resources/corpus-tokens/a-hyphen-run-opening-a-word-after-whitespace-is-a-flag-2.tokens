@@ -1,5 +1,5 @@
-<! -> text.carve
--- -> text.carve constant.character.entity.typography.carve
- a comment  -> text.carve
---> -> text.carve constant.character.entity.typography.carve
-\n -> text.carve
+<! -> source.carve
+-- -> source.carve constant.character.entity.typography.carve
+ a comment  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+\n -> source.carve

@@ -1,5 +1,5 @@
-// Minimal TextEncoder/TextDecoder (UTF-8) polyfill for GraalJS, which does
-// not provide the WHATWG Encoding API that carve-js relies on. Prepended to
+// Minimal TextEncoder/TextDecoder (UTF-8) and structuredClone polyfills for
+// GraalJS, which does not provide the WHATWG APIs that carve-js relies on. Prepended to
 // the bundled renderer by tools/build-carve-bundle.sh.
 (function (g) {
   if (typeof g.TextEncoder === 'undefined') {
@@ -56,6 +56,12 @@
         out += String.fromCodePoint(c);
       }
       return out;
+    };
+  }
+  // The Carve 0.2 exports clone the tree, which is plain JSON data.
+  if (typeof g.structuredClone === 'undefined') {
+    g.structuredClone = function (value) {
+      return value === undefined ? undefined : JSON.parse(JSON.stringify(value));
     };
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this);

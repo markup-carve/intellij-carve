@@ -1,0 +1,17 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+   -> source.carve markup.other.div.carve
+"T" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+x\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+[l] -> source.carve markup.other.div.carve entity.name.label.carve
+\n -> source.carve
+z\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+:::[x] y -> source.carve

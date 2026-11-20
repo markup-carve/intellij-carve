@@ -1,0 +1,6 @@
+--- -> source.carve meta.frontmatter.carve keyword.control.frontmatter.begin.carve
+- -> source.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+title: x -> source.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+---- -> source.carve meta.frontmatter.carve string.unquoted.frontmatter.carve

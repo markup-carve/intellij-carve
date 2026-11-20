@@ -1,0 +1,12 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+title -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve markup.table.row.carve meta.attributes.carve
+"p|q" -> source.carve markup.table.row.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve markup.table.row.carve meta.attributes.carve
+.c -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve

@@ -1,0 +1,13 @@
+a  -> source.carve
+{% -> source.carve comment.block.inline.carve keyword.control.comment.carve
+ one\n -> source.carve comment.block.inline.carve
+two %} -> source.carve comment.block.inline.carve
+ b and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+bo -> source.carve markup.bold.carve markup.bold.carve
+{% c %} -> source.carve markup.bold.carve markup.bold.carve comment.block.inline.carve
+ld -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and a  -> source.carve
+{% -> source.carve comment.block.inline.carve keyword.control.comment.carve
+ oops -> source.carve comment.block.inline.carve

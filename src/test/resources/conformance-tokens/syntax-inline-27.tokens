@@ -1,0 +1,8 @@
+word{k= -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+v -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+} and  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+v -> source.carve
+" -> source.carve keyword.control.smartquote.carve

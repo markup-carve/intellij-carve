@@ -1,0 +1,11 @@
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ Name  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
++ -> source.carve markup.table.continuation.carve keyword.control.table.continuation.carve
+ | Role |\n -> source.carve markup.table.continuation.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Ada  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Lead  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

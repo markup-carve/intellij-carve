@@ -1,4 +1,1 @@
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
-marked -> text.carve markup.changed.carve markup.changed.carve
-= -> text.carve markup.changed.carve keyword.control.highlight.carve
- here, but ==doubled== is literal.\n -> text.carve
+=marked= here, but ==doubled== is literal.\n -> source.carve

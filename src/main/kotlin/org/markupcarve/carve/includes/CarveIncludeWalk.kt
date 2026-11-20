@@ -56,8 +56,9 @@ data class IncludeWalk(
  * `textDocument/definition` names a target it could read. It cannot name one it
  * could not: there is no location to return, so a missing file, a target
  * outside the root and a `{{` that was never a directive all answer null
- * alike. The published `include-unresolved`, `include-denied` or
- * `include-non-text` diagnostic is what separates the first two from the third,
+ * alike. The published resolver diagnostic (`include-not-found`,
+ * `include-outside-root`, `include-unreadable`, `include-non-text`, or the
+ * server's `include-denied`) is what separates the first two from the third,
  * and its message carries the path as written. Both
  * are collected, which is why a bundle can report what it could not copy
  * instead of quietly shipping a document whose includes do not resolve.
@@ -89,10 +90,13 @@ object CarveIncludeWalk {
      * still contributes its directive.
      */
     private val UNRESOLVED_MESSAGE =
-        Regex("""^Include "(.+)" (?:could not be resolved|was refused: .+)\.$""")
+        Regex("""^Include "(.+)" (?:could not be resolved|was refused: .+|was not expanded: .+)\.$""")
 
-    /** A miss, and the two refusal codes carve-lsp 0.1.7 splits out of it. */
-    private val UNRESOLVED_CODES = setOf("include-unresolved", "include-denied", "include-non-text")
+    /** A miss, the server's own denial, and the 0.2 resolver causes (C2-N-061). */
+    private val UNRESOLVED_CODES = setOf(
+        "include-unresolved", "include-denied", "include-non-text",
+        "include-not-found", "include-outside-root", "include-unreadable",
+    )
 
     class WalkFailed(message: String) : Exception(message)
 

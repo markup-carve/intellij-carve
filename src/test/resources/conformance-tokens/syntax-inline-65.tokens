@@ -1,0 +1,8 @@
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+https://example.com/a_b?c=*d* -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+ and  -> source.carve
+< -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+a@b.com -> source.carve meta.link.autolink.email.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+ and <a@b> and <not a link> -> source.carve

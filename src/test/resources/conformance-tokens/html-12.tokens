@@ -1,0 +1,19 @@
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ Name  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+> -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ Price  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ tea    -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ 2          -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Table #: Drinks -> source.carve markup.table.caption.carve string.unquoted.caption.carve

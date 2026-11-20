@@ -1,7 +1,5 @@
-:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.term.carve
-A term that\n -> text.carve
-wraps onto the next line\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.carve
-its definition\n -> text.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+A term that\n -> source.carve
+wraps onto the next line\n -> source.carve
+: its definition\n -> source.carve

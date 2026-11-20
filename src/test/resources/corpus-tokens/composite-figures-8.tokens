@@ -1,32 +1,32 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-figure -> text.carve markup.other.div.carve entity.name.type.div.carve
-  -> text.carve markup.other.div.carve
-"A titled figure div" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve
-![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
-one -> text.carve meta.image.inline.carve string.other.image.alt.carve
-]( -> text.carve meta.image.inline.carve
-a.png -> text.carve meta.image.inline.carve markup.underline.link.image.carve
-) -> text.carve meta.image.inline.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-(a) One -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-Not a group caption -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
-\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-figure -> text.carve markup.other.div.carve entity.name.type.div.carve
-  -> text.carve markup.other.div.carve
-[g] -> text.carve markup.other.div.carve entity.name.label.carve
-\n -> text.carve
-Body.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+figure -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"A titled figure div" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+one -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+a.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+(a) One -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Not a group caption -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+figure -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+[g] -> source.carve markup.other.div.carve entity.name.label.carve
+\n -> source.carve
+Body.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

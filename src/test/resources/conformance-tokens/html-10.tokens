@@ -1,0 +1,29 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+roses are red\n -> source.carve
+  violets\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+\\ -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+a\n -> source.carve
+b\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.hardbreaks -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+a -> source.carve
+\\ -> source.carve constant.character.escape.hard-break.carve
+\n -> source.carve
+b\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

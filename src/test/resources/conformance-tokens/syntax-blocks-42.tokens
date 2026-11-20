@@ -1,0 +1,16 @@
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[ ]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+a\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[x]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+b\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[X]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+c\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[_]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+d -> source.carve

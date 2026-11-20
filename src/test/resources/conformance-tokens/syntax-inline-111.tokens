@@ -1,0 +1,22 @@
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+- -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-> -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+<-- -> source.carve markup.deleted.critic.carve markup.deleted.carve constant.character.entity.typography.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
++-1 -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
++- -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+ and C+ -> source.carve
++- -> source.carve constant.character.entity.typography.carve
+style and a -> source.carve
+{%x%} -> source.carve comment.block.inline.carve
++- -> source.carve constant.character.entity.typography.carve
+b -> source.carve

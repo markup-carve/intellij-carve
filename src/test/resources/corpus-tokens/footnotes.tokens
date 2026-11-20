@@ -1,10 +1,10 @@
-Carve has footnotes. -> text.carve
-[ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-^ -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-fn -> text.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
-] -> text.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
-\n -> text.carve
-\n -> text.carve
-[^fn]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- Defined anywhere; resolved by label. -> text.carve meta.footnote.definition.carve
-\n -> text.carve
+Carve has footnotes. -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+fn -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> source.carve
+\n -> source.carve
+[^fn]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Defined anywhere; resolved by label. -> source.carve meta.footnote.definition.carve
+\n -> source.carve

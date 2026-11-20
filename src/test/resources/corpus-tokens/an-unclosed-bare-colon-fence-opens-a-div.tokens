@@ -1,4 +1,4 @@
-before\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-after\n -> text.carve
+before\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+after\n -> source.carve

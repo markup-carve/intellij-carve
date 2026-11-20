@@ -1,16 +1,16 @@
 # What the vendored carve-css layers are a copy OF.
 #
-# Read by tools/check-carve-css-drift.sh (which re-fetches the recorded version
-# from npm and compares bytes) and by CarveCssResourcesTest (which compares the
+# Read by tools/check-carve-css-drift.sh (which checks the pinned next2
+# commit and compares bytes) and by CarveCssResourcesTest (which compares the
 # SHA-256s offline, so a hand-edit fails the build without network).
 #
-# package: @markup-carve/carve-css on npm
+# source: markup-carve/carve-css next2
 # Lines are `key value` or `sha256 <digest> <bytes> <file>`.
 
 version 0.1.10
-commit 6370272
+commit ad402980774f107c239cc03afc13f8e18c634eb8
 
-sha256 01dcbadcea72e717f33b890d68737159f0220d6080672e2d510b27bd30ae08bf 5816 tokens.css
-sha256 15c8d890b0c00711d7701899729274b4c463c46f6b687c89a2a9b03297b2b240 16842 recipes.css
-sha256 9e124c0592aef96bd08ed40f715e325d7adebee00edce3341ab1ea735797b40d 3876 contrast.css
-sha256 f55d87ce11b327af5c9fd4e03c804151ef1d587de75fb6a56b0dd02d66a3e59a 23202 extensions.css
+sha256 4f2b3e780f8a9ac26cc60061b41557b83bc496d220e1bfd3317700c22e4e87c0 5538 tokens.css
+sha256 ba2489bca2234ee8e94753ad2a87fcdaa4f6279c7333e23f002fe99337ea6f5b 16885 recipes.css
+sha256 eacb72119a7365ebc3bd2e52eb9080a73114a14a6c741b5e15c48369788382ef 3669 contrast.css
+sha256 713c71b14ed11e9af9bb45eecfc6794de202675999f1670811524af59c55318a 17465 extensions.css

@@ -1,4 +1,6 @@
-text\n -> text.carve
-[^f]: -> text.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
- note -> text.carve meta.footnote.definition.carve
-\n -> text.carve
+text\n -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+f -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+: note\n -> source.carve

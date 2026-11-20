@@ -1,0 +1,4 @@
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+ note *x*  -> source.carve comment.block.critic.carve comment.block.content.carve
+#} -> source.carve comment.block.critic.carve keyword.control.critic.carve
+ and {**} and {==} -> source.carve

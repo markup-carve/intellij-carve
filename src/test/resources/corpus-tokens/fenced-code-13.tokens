@@ -1,6 +1,3 @@
-~~~ -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
-yaml -> text.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.yaml
-key: value\n -> text.carve markup.raw.block.fenced.code.carve meta.embedded.block.yaml
-~~~ -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
+~~~yaml\n -> source.carve
+key: value\n -> source.carve
+~~~\n -> source.carve

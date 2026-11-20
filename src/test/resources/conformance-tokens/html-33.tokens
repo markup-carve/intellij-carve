@@ -1,0 +1,20 @@
+[see  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+this[^a] -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+inline -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ page -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+b -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+](/u)\n -> source.carve
+\n -> source.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ A -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+[^b]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ B -> source.carve meta.footnote.definition.carve

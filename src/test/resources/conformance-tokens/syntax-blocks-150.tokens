@@ -1,0 +1,9 @@
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+a -> source.carve markup.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+%% c -> source.carve markup.quote.carve comment.line.percent.carve

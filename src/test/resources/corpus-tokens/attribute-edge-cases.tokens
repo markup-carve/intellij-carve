@@ -1,15 +1,15 @@
-[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
-note -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
-{ -> text.carve meta.attributes.carve
-.a -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-  -> text.carve meta.attributes.carve
-.b -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-  -> text.carve meta.attributes.carve
-#n -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-  -> text.carve meta.attributes.carve
-key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-val -> text.carve meta.attributes.carve string.unquoted.attribute.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+note -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+.a -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+.b -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+#n -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> source.carve meta.attributes.carve
+key -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+val -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

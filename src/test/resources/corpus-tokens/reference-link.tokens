@@ -1,16 +1,16 @@
-Read the  -> text.carve
-[ -> text.carve meta.link.reference.carve
-introduction -> text.carve meta.link.reference.carve string.other.link.title.carve
-][ -> text.carve meta.link.reference.carve
-intro -> text.carve meta.link.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.link.reference.carve
- first.\n -> text.carve
-\n -> text.carve
-[intro]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-https://example.com/intro -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-Introduction -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
+Read the  -> source.carve
+[ -> source.carve meta.link.reference.carve
+introduction -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+intro -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ first.\n -> source.carve
+\n -> source.carve
+[intro]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+https://example.com/intro -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+Introduction -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve

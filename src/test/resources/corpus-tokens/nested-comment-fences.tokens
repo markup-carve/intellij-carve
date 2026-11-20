@@ -1,9 +1,9 @@
-before\n -> text.carve
-\n -> text.carve
-%%%% -> text.carve comment.block.carve
-\n -> text.carve comment.block.carve
-hidden %%% inner fence stays hidden\n -> text.carve comment.block.carve
-%%%% -> text.carve comment.block.carve
-\n -> text.carve
-\n -> text.carve
-after\n -> text.carve
+before\n -> source.carve
+\n -> source.carve
+%%%% -> source.carve comment.block.carve
+\n -> source.carve comment.block.carve
+hidden %%% inner fence stays hidden\n -> source.carve comment.block.carve
+%%%% -> source.carve comment.block.carve
+\n -> source.carve
+\n -> source.carve
+after\n -> source.carve

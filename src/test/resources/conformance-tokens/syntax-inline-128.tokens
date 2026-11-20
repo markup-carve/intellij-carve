@@ -1,0 +1,8 @@
+a  -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+see b %% check  -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+this -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ c -> source.carve

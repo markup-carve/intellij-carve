@@ -110,7 +110,8 @@ class CarveIncludeExpansionTest {
             result.dependencies.map { it.id },
         )
         assertEquals(listOf("not-found"), result.dependencies.map { it.denial })
-        assertEquals(listOf("include-unresolved"), result.warnings.map { it.rule })
+        // C2-N-061: 0.2 names the class in the parse code (was `include-unresolved`).
+        assertEquals(listOf("include-not-found"), result.warnings.map { it.rule })
     }
 
     @Test

@@ -203,7 +203,7 @@ kotlin {
 
 val textmateDir = "src/main/resources/textmate"
 val grammarUrl =
-    "https://raw.githubusercontent.com/markup-carve/vscode-carve/main/syntaxes/carve.tmLanguage.json"
+    "https://raw.githubusercontent.com/markup-carve/vscode-carve/next2/syntaxes/carve.tmLanguage.json"
 
 // ---------------------------------------------------------------------------
 // Grammar drift: intended, permanent deltas from the vscode-carve upstream copy
@@ -323,11 +323,9 @@ val localRulesGroupedUpstream =
         "heading-span-attributes" to GroupedUpstream("attributes", "heading-inline.crv"),
         // Emphasis nested in a bare run. The IDE's engine ignores patterns in a numbered
         // capture, so the bare runs are regions here and nest these line-bounded rules.
+        // Carve 0.2 keeps only the bare `*` and `/` runs (U-065 to U-067).
         "bold-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
         "italic-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "underline-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "strike-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
-        "highlight-in-run" to GroupedUpstream("emphasis", "bare-run-content.crv"),
         // A reference definition's trailing block. Upstream spells it as a capture of
         // #definitions; the IDE's engine ignores patterns in a numbered capture, so the
         // block is its own rule here, reached from a region.
@@ -437,17 +435,6 @@ val upstreamRulesCoveredLocally = mapOf(
     // prefix and the `>` in one go, so every marker spelling reaches it.
     // Also asserted in CarveMarkerLineQuoteTest.
     "block-quote-on-marker-line" to CoveredLocally("block-quotes", "quote-on-list-marker-line.crv"),
-    // A definition at a container's content column. Upstream's `#definitions` is
-    // anchored flush-left, so the indented form needs a rule of its own; this
-    // grammar's `#definitions` is anchored `^\s*` and takes both forms through
-    // one rule, tokenizing them identically. Both upstream patterns are covered:
-    // the abbreviation definition and the link reference definition.
-    // CarveDefinitionInContainerTest asserts the indented form tokenizes as the
-    // flush-left form does.
-    // The attribute-block capture upstream carries on a link reference
-    // definition is missing on BOTH local forms, so that delta belongs to the
-    // shared `definitions` rule and is already reported in the structural diff.
-    "definitions-in-container" to CoveredLocally("definitions", "definition-in-container.crv"),
     // Upstream's rule has TWO patterns and this grammar splits them: a fence on the item's
     // own marker line is `code-fence-on-marker-line`, a fence at the item's body column is
     // `code-fence-at-body-column`. The entry names the second because it was the missing
@@ -822,39 +809,16 @@ tasks {
         // JVM is forked, and forward the golden-regeneration switch into it.
         workingDir = rootDir
 
-        // THE CORPUS IS AN INPUT, AND GRADLE HAD NO WAY TO KNOW.
-        //
-        // These tests reach the corpus by FILE PATH from `workingDir`, not
-        // through the classpath, so none of it was a declared input to this
-        // task. Bumping the `spec` submodule therefore changed nothing Gradle
-        // tracks, and `./gradlew test` reported BUILD SUCCESSFUL with
-        // `> Task :test UP-TO-DATE` - having run no test at all.
-        //
-        // Measured on this repository: with the pin moved from bbd7d8e to
-        // carve 287b4b8, a 108-document corpus change, `./gradlew test`
-        // succeeded in 9 seconds. Forced with --rerun-tasks the same tree
-        // fails twice, on 23 documents the vendored bundle renders
-        // differently and on 17 unclassified categories.
-        //
-        // CI never saw this because every run is a fresh checkout with no
-        // build cache, so the task always executes. A human bumping the pin
-        // locally sees the opposite, and spec-drift.yml prints exactly that
-        // command as its remediation - `git -C spec checkout origin/main &&
-        // git add spec && ./gradlew test` - so the instruction for fixing a
-        // stale pin was an instruction to run nothing.
-        //
-        // fileTree rather than inputs.dir: the submodule may not be checked
-        // out, and a missing declared input directory is a hard failure with
-        // a worse message than CarveCorpus.MISSING_MESSAGE, which is written
-        // for exactly that case.
-        inputs.files(fileTree("spec/tests/corpus"))
+        // CI uploads no test report, so a failure's message has to reach the log.
+        testLogging {
+            events("failed")
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+
+        // The tests read conformance data by file path. Declaring it as a task
+        // input makes a spec pin bump rerun them instead of returning UP-TO-DATE.
+        inputs.files(fileTree("spec/spec/0.2/conformance"))
             .withPropertyName("sharedCorpus")
-            .withPathSensitivity(PathSensitivity.RELATIVE)
-        // The corpus's own source. CarveBundleCorpusTest counts the pairs in
-        // the `::: compare` blocks on these pages to decide how many there
-        // should be, so they decide the outcome as much as the corpus does.
-        inputs.files(fileTree("spec/resources/examples"))
-            .withPropertyName("corpusSourcePages")
             .withPathSensitivity(PathSensitivity.RELATIVE)
         // Read by path for the same reason and with the same consequence:
         // CarveWorkflowCheckoutTest reads the workflow files, and without this

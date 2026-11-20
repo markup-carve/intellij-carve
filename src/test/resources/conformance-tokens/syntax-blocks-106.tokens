@@ -1,0 +1,9 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+span -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+.a -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+{ -> source.carve meta.attributes.carve
+#i -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve

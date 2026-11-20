@@ -1,7 +1,7 @@
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-x -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-{ -> text.carve meta.attributes.carve
-.real -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+x -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+{ -> source.carve meta.attributes.carve
+.real -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

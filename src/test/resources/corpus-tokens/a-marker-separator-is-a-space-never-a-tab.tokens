@@ -1,4 +1,2 @@
-::\tterm\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
-d\n -> text.carve
+::\tterm\n -> source.carve
+:  d\n -> source.carve

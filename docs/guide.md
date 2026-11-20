@@ -129,7 +129,7 @@ Type a prefix and press `Tab` to expand:
 | `cu`, `cs`, `chl` | Underline `_…_`, strike `~…~`, highlight `=…=` |
 | `csup`, `csub`, `cc` | Superscript `{^…^}`, subscript `{,…,}`, inline code |
 | `clink`, `cimg` | Link, image |
-| `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[[Heading]]` |
+| `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[Heading][]` |
 | `ccode`, `cquote`, `chr` | Fenced code block, blockquote, thematic break |
 | `cul`, `col`, `ctask`, `ctable` | Lists and table |
 | `cdiv` | Div / admonition `::: name` |

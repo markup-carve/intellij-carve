@@ -1,0 +1,9 @@
+Text -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+n -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+ here.\n -> source.carve
+\n -> source.carve
+[^n]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ The note. -> source.carve meta.footnote.definition.carve

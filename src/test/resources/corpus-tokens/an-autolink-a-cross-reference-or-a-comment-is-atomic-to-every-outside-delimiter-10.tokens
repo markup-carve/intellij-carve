@@ -1,9 +1,9 @@
-[a  -> text.carve
-</# -> text.carve keyword.control.link.begin.carve
-x] -> text.carve markup.underline.link.cross-reference.carve
-> -> text.carve keyword.control.link.end.carve
- b] -> text.carve
-{ -> text.carve meta.attributes.carve
-.c -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
+[a  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+x] -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+ b] -> source.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve

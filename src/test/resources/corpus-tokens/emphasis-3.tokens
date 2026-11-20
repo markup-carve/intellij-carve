@@ -1,1 +1,1 @@
-/foo bar\n -> text.carve
+/foo bar\n -> source.carve

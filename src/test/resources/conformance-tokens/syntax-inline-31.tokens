@@ -1,0 +1,17 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{} -> source.carve meta.attributes.carve
+ and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{} -> source.carve meta.attributes.carve
+{ -> source.carve meta.attributes.carve
+.b -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+ and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+{} and a {} b -> source.carve

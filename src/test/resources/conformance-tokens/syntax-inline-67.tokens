@@ -1,0 +1,25 @@
+[ -> source.carve meta.link.reference.carve
+text -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ref -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+ref -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ and [ref] and  -> source.carve
+![ -> source.carve meta.image.reference.carve keyword.control.image.begin.carve
+img -> source.carve meta.image.reference.carve string.other.image.alt.carve
+] -> source.carve meta.image.reference.carve keyword.control.image.end.carve
+[ -> source.carve meta.image.reference.carve
+ref -> source.carve meta.image.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.image.reference.carve
+\n -> source.carve
+\n -> source.carve
+[ref]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+T -> source.carve
+" -> source.carve keyword.control.smartquote.carve

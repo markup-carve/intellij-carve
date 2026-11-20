@@ -22,9 +22,9 @@ rather than shipping.
 | [Chart.js](https://github.com/chartjs/Chart.js) | 4.5.1 | `chart/chart.umd.min.js` | 208,522 | MIT |
 | [MathJax](https://github.com/mathjax/MathJax) | 3.2.2 | `mathjax/tex-mml-chtml.js` + 23 WOFF faces | 1,520,979 | Apache-2.0 |
 | [Mermaid](https://github.com/mermaid-js/mermaid) | 11.17.2 | `mermaid/mermaid.min.js` | 3,572,661 | MIT |
-| [carve-grammars](https://github.com/markup-carve/carve-grammars) | 32341bc7 | `carve/highlightjs-carve.js`, `carve/table-tokens.css`, `carve/carve-code.css`, `carve/LICENSE` | 181,643 | MIT |
+| [carve-grammars](https://github.com/markup-carve/carve-grammars) | 31215996 | `carve/highlightjs-carve.js`, `carve/table-tokens.css`, `carve/carve-code.css`, `carve/LICENSE` | 210,483 | MIT |
 
-Total 5,623,159 bytes across 37 files, licence texts included. All five
+Total 5,652,050 bytes across 37 files, licence texts included. All five
 licences permit redistribution in binary/compiled form; each package's own
 licence text is kept next to its files (`highlight/LICENSE`,
 `chart/LICENSE.md`, `mathjax/LICENSE`, `mermaid/LICENSE`, `carve/LICENSE`) and is shipped with

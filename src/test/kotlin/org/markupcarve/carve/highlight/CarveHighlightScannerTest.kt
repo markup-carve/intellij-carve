@@ -14,7 +14,7 @@ class CarveHighlightScannerTest {
 
     @Test
     fun `table delimiters headers alignment and spans keep separate colors`() {
-        val source = "|=< Name |=~ State |=> Count |\n|= Label |= Value |\n| Apple | ^ | < |\n`|= literal |`"
+        val source = "|={<} Name |={~} State |={>} Count |\n|= Label |= Value |\n| Apple | ^ | < |\n`|= literal |`"
         val tokens = CarveTextMateTokenizer.tokenize(source)
         val highlighter = object : SyntaxHighlighterBase() {
             override fun getHighlightingLexer() = SnapshotLexer(tokens.map { it.text to it.scope })
@@ -52,7 +52,8 @@ class CarveHighlightScannerTest {
     }
 
     @Test
-    fun `delimiter row dashes are boundaries and colons are alignment markers`() {
+    fun `a GFM separator row carries no alignment markers`() {
+        // An ordinary row of cells in Carve 0.2 (U-055).
         val source = "|:---:|---|"
         val tokens = CarveTextMateTokenizer.tokenize(source)
         val highlighter = object : SyntaxHighlighterBase() {
@@ -63,8 +64,7 @@ class CarveHighlightScannerTest {
         val markers = CarveHighlightScanner.scanWithTableMarkers(source, highlighter).tableMarkers
             .map { source.substring(it.range.startOffset, it.range.endOffset) to it.key }
 
-        assertEquals(listOf("---", "---"), markers.filter { it.second == CarveColors.TABLE_PIPE }.map { it.first })
-        assertEquals(listOf(":", ":"), markers.filter { it.second == CarveColors.TABLE_ALIGNMENT }.map { it.first })
+        assertEquals(emptyList<String>(), markers.filter { it.second == CarveColors.TABLE_ALIGNMENT }.map { it.first })
     }
 
     @Test
@@ -79,7 +79,8 @@ class CarveHighlightScannerTest {
         val marked = CarveHighlightScanner.scan(source, highlighter)
             .map { source.substring(it.startOffset, it.endOffset) }
 
-        assertEquals(listOf("x", "y", "a ", " b"), marked)
+        // A bare `=` pair is text in Carve 0.2 (U-067).
+        assertEquals(listOf("y", "a ", " b"), marked)
     }
 
     private class SnapshotLexer(private val tokens: List<Pair<String, String>>) : LexerBase() {

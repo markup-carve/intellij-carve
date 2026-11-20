@@ -1,0 +1,17 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{.a.b}  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{k=}  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{1=2}  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{# -> source.carve comment.block.critic.carve keyword.control.critic.carve
+} word{.c} a {.b} c -> source.carve comment.block.critic.carve comment.block.content.carve

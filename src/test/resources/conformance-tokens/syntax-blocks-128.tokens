@@ -1,0 +1,9 @@
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+php -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+  -> source.carve markup.raw.block.fenced.code.carve
+"t" -> source.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
+  -> source.carve markup.raw.block.fenced.code.carve
+[Composer] -> source.carve markup.raw.block.fenced.code.carve entity.name.label.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
+code\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.php
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve

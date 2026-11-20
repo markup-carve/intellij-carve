@@ -1,11 +1,11 @@
-He paused  -> text.carve
--- -> text.carve constant.character.entity.typography.carve
- then ran  -> text.carve
---- -> text.carve constant.character.entity.typography.carve
- fast -> text.carve
-... -> text.carve constant.character.entity.typography.carve
-  -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-Stop! -> text.carve
-" -> text.carve keyword.control.smartquote.carve
- it's over.\n -> text.carve
+He paused  -> source.carve
+-- -> source.carve constant.character.entity.typography.carve
+ then ran  -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+ fast -> source.carve
+... -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+Stop! -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ it's over.\n -> source.carve

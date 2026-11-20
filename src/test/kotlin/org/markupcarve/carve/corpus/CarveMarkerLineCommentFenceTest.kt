@@ -67,7 +67,8 @@ class CarveMarkerLineCommentFenceTest {
         "a marker run" to "- - %%%\n    [r]: /url\n    %%%\n\n[r][]\n",
         "a task marker" to "- [ ] %%%\n      [r]: /url\n      %%%\n\n[r][]\n",
         "a wider fence" to "- %%%%\n  [r]: /url\n  %%%%\n\n[r][]\n",
-        "an insignificant tail" to "- %%% TODO\n  [r]: /url\n  %%% end\n\n[r][]\n",
+        // An opener keeps an insignificant tail; a closer takes none in Carve 0.2 (U-050).
+        "an insignificant tail" to "- %%% TODO\n  [r]: /url\n  %%%\n\n[r][]\n",
         // A fence one item deeper: the closer sits at the NESTED item's content
         // column, and the boundary below has to measure from the opener's own
         // indent rather than from the document's.
@@ -78,7 +79,7 @@ class CarveMarkerLineCommentFenceTest {
         "a quote marker" to "> %%%\n> [r]: /url\n> %%%\n\n[r][]\n",
         "a nested quote marker" to "> > %%%\n> > [r]: /url\n> > %%%\n\n[r][]\n",
         "a wider quote fence" to "> %%%%\n> [r]: /url\n> %%%%\n\n[r][]\n",
-        "an insignificant tail on a quote fence" to "> %%% TODO\n> [r]: /url\n> %%% end\n\n[r][]\n",
+        "an insignificant tail on a quote fence" to "> %%% TODO\n> [r]: /url\n> %%%\n\n[r][]\n",
         "a quote inside a list item" to "- a\n  > %%%\n  > [r]: /url\n  > %%%\n\n[r][]\n",
         // A quote that itself opened on the item's marker line, which reaches
         // the fence through the marker-line quote rule rather than the

@@ -1,1 +1,1 @@
-/ not emphasis /\n -> text.carve
+/ not emphasis /\n -> source.carve

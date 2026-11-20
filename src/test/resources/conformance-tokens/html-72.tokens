@@ -1,0 +1,23 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+rowspan -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve markup.table.row.carve meta.attributes.carve
+2 -> source.carve markup.table.row.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+ColSpan -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve markup.table.row.carve meta.attributes.carve
+3 -> source.carve markup.table.row.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve markup.table.row.carve meta.attributes.carve
+.wide -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ c  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ d  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

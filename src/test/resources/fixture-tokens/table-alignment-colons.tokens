@@ -1,50 +1,50 @@
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Name   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Age  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- City  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
------- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
----- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
----- -> text.carve markup.table.row.separator.carve keyword.control.table.separator.carve
-: -> text.carve markup.table.row.separator.carve keyword.control.table.alignment.carve
-| -> text.carve markup.table.row.separator.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- Alice  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-  30  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- NYC   -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- H -> text.carve markup.table.row.carve
-{, -> text.carve markup.table.row.carve keyword.control.subscript.carve
-2 -> text.carve markup.table.row.carve markup.subscript.carve
-,} -> text.carve markup.table.row.carve keyword.control.subscript.carve
-O  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- mc -> text.carve markup.table.row.carve
-{^ -> text.carve markup.table.row.carve keyword.control.superscript.carve
-2 -> text.carve markup.table.row.carve markup.superscript.carve
-^} -> text.carve markup.table.row.carve keyword.control.superscript.carve
-  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-  -> text.carve markup.table.row.carve
-{* -> text.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
-b -> text.carve markup.table.row.carve markup.bold.carve markup.bold.carve
-*} -> text.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
-  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-+ -> text.carve markup.table.continuation.carve keyword.control.table.continuation.carve
- cont |\n -> text.carve markup.table.continuation.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+< -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ Name   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+> -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ Age  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+~ -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ City  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ Alice  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+  30  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ NYC   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ H -> source.carve markup.table.row.carve
+{, -> source.carve markup.table.row.carve keyword.control.subscript.carve
+2 -> source.carve markup.table.row.carve markup.subscript.carve
+,} -> source.carve markup.table.row.carve keyword.control.subscript.carve
+O  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ mc -> source.carve markup.table.row.carve
+{^ -> source.carve markup.table.row.carve keyword.control.superscript.carve
+2 -> source.carve markup.table.row.carve markup.superscript.carve
+^} -> source.carve markup.table.row.carve keyword.control.superscript.carve
+  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+  -> source.carve markup.table.row.carve
+{* -> source.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
+b -> source.carve markup.table.row.carve markup.bold.carve markup.bold.carve
+*} -> source.carve markup.table.row.carve markup.bold.carve keyword.control.bold.carve
+  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
++ -> source.carve markup.table.continuation.carve keyword.control.table.continuation.carve
+ cont |\n -> source.carve markup.table.continuation.carve

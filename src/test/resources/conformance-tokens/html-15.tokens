@@ -1,0 +1,16 @@
+a  -> source.carve
+%% c -> source.carve comment.line.percent.carve
+\n -> source.carve
+\n -> source.carve
+{% only %} -> source.carve comment.block.inline.carve
+\n -> source.carve
+\n -> source.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve comment.block.carve
+block\n -> source.carve comment.block.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve
+\n -> source.carve
+b  -> source.carve
+{% mid %} -> source.carve comment.block.inline.carve
+ c -> source.carve

@@ -1,20 +1,20 @@
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-A -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-/a -> text.carve meta.link.inline.carve markup.underline.link.carve
- ' -> text.carve meta.link.inline.carve
-plain -> text.carve meta.link.inline.carve string.quoted.single.link-title.carve
-' -> text.carve meta.link.inline.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
- and  -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-B -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-/b -> text.carve meta.link.inline.carve markup.underline.link.carve
- " -> text.carve meta.link.inline.carve
-Bob's -> text.carve meta.link.inline.carve string.quoted.double.link-title.carve
-" -> text.carve meta.link.inline.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
-\n -> text.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+A -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/a -> source.carve meta.link.inline.carve markup.underline.link.carve
+ ' -> source.carve meta.link.inline.carve
+plain -> source.carve meta.link.inline.carve string.quoted.single.link-title.carve
+' -> source.carve meta.link.inline.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+B -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/b -> source.carve meta.link.inline.carve markup.underline.link.carve
+ " -> source.carve meta.link.inline.carve
+Bob's -> source.carve meta.link.inline.carve string.quoted.double.link-title.carve
+" -> source.carve meta.link.inline.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> source.carve

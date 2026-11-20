@@ -1,0 +1,6 @@
+@ -> source.carve entity.name.mention.carve keyword.control.mention.carve
+user -> source.carve entity.name.mention.carve variable.parameter.mention.carve
+ and ( -> source.carve
+@ -> source.carve entity.name.mention.carve keyword.control.mention.carve
+user -> source.carve entity.name.mention.carve variable.parameter.mention.carve
+.name). and mail a@b.com and x@user -> source.carve

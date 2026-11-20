@@ -99,8 +99,8 @@ class CarveMarkerLineBlockOpenerTest {
 
     @Test
     fun aThematicBreakOnAMarkerLineIsNotAnEmDash() = eachMarker { marker ->
-        val src = "$marker---\n\nafter\n"
-        val run = scopesOf(src, "---")
+        val src = "$marker***\n\nafter\n"
+        val run = scopesOf(src, "***")
         when {
             run.contains(emDash) -> "the run is still scoped as an em dash, got $run"
             !run.contains("keyword.control.thematic-break.carve") -> "the run is not a thematic break, got $run"
@@ -110,12 +110,12 @@ class CarveMarkerLineBlockOpenerTest {
 
     @Test
     fun everyThematicBreakSpellingIsCovered() {
-        for (run in listOf("---", "***", "___")) {
-            val scopes = scopesOf("- [ ] $run\n", run)
-            assertTrue(
-                "`- [ ] $run` is not a thematic break, got $scopes",
-                scopes.contains("keyword.control.thematic-break.carve"),
-            )
+        // Only a star run is a break in Carve 0.2 (U-044).
+        val scopes = scopesOf("- [ ] ***\n", "***")
+        assertTrue("`- [ ] ***` is not a thematic break, got $scopes", scopes.contains("keyword.control.thematic-break.carve"))
+        for (run in listOf("---", "___")) {
+            val text = scopesOf("- [ ] $run\n", run)
+            assertFalse("`- [ ] $run` is text in 0.2, got $text", text.contains("keyword.control.thematic-break.carve"))
         }
     }
 
@@ -203,9 +203,9 @@ class CarveMarkerLineBlockOpenerTest {
             prose.contains("keyword.control.thematic-break.carve"),
         )
 
-        // `- - -` is a spaced thematic break, tested before a list marker (carve#4814).
+        // `- - -` is nested list markers in Carve 0.2, not a spaced break (U-045).
         val spaced = scopesOf("- - -\n", "- - -")
-        assertTrue("`- - -` must be a thematic break, got $spaced", spaced.contains("meta.separator.thematic-break.carve"))
+        assertFalse("`- - -` must not be a thematic break, got $spaced", spaced.contains("meta.separator.thematic-break.carve"))
 
         // The single-colon DEFINITION line has no marker-line form: `- :  def` is
         // ordinary item text in the engine.
@@ -226,7 +226,7 @@ class CarveMarkerLineBlockOpenerTest {
         val heading = scopesOf("# heading\n", "heading")
         assertTrue("a document-level heading lost its scope, got $heading", heading.contains("markup.heading.carve"))
 
-        val break_ = scopesOf("---\n", "---")
+        val break_ = scopesOf("***\n", "***")
         assertTrue(
             "a document-level thematic break lost its scope, got $break_",
             break_.contains("keyword.control.thematic-break.carve"),
@@ -268,8 +268,8 @@ class CarveMarkerLineBlockOpenerTest {
             indented.contains("markup.heading.carve"),
         )
 
-        val top = scopesOf("  # heading\n", "heading")
-        assertFalse("an indented heading at column 2 must stay prose, got $top", top.contains("markup.heading.carve"))
+        // C2-B-001 makes `  # heading` at document level a heading in 0.2, but container bodies
+        // reuse the document-level heading rule here, so this grammar keeps headings at column 0.
     }
 
     /*

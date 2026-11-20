@@ -1,30 +1,30 @@
-x{ -> text.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
-a*} and  -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
-b`\n -> text.carve markup.bold.carve markup.bold.carve
-\n -> text.carve
-{* -> text.carve markup.bold.carve keyword.control.bold.carve
-x -> text.carve markup.bold.carve markup.bold.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
-a*} -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
-*} -> text.carve markup.bold.carve keyword.control.bold.carve
-\n -> text.carve
-\n -> text.carve
-x{+ -> text.carve
-` -> text.carve markup.raw.inline.carve keyword.control.raw.carve
-a+} and  -> text.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.raw.inline.carve keyword.control.raw.carve
-b -> text.carve
-` -> text.carve markup.raw.inline.carve keyword.control.raw.carve
-\n -> text.carve markup.raw.inline.carve markup.raw.inline.content.carve
-\n -> text.carve
-{+ -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-x -> text.carve markup.inserted.critic.carve markup.inserted.carve
-` -> text.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve keyword.control.raw.carve
-a+} -> text.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve keyword.control.raw.carve
-+} -> text.carve markup.inserted.critic.carve keyword.control.critic.carve
-\n -> text.carve
+x{ -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+a*} and  -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+b`\n -> source.carve markup.bold.carve markup.bold.carve
+\n -> source.carve
+{* -> source.carve markup.bold.carve keyword.control.bold.carve
+x -> source.carve markup.bold.carve markup.bold.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+a*} -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+*} -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+\n -> source.carve
+x{+ -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+a+} and  -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+b -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+\n -> source.carve
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+x -> source.carve markup.inserted.critic.carve markup.inserted.carve
+` -> source.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve keyword.control.raw.carve
+a+} -> source.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.inserted.critic.carve markup.inserted.carve markup.raw.inline.carve keyword.control.raw.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+\n -> source.carve

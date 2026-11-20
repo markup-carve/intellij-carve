@@ -70,6 +70,21 @@ class CarveConverterTest {
     }
 
     @Test
+    fun testImgFenceExtension() {
+        // imgFence extension (C2-X-059): an SVG `img` fence renders as a data-URL image.
+        val carve = "```img\n<svg width=\"1\" height=\"1\"><rect width=\"1\" height=\"1\"/></svg>\n```"
+        val html = CarveConverter.toHtml(carve)
+        assertTrue("img fence should render an image: $html", html.contains("<img src=\"data:image/svg+xml,"))
+    }
+
+    @Test
+    fun testHeadingPermalinksAndReferences() {
+        val html = CarveConverter.toHtml("# Intro\n\nSee [Intro][].")
+        assertTrue("heading should carry a permalink: $html", html.contains("<a href=\"#Intro\" class=\"permalink\""))
+        assertTrue("heading reference should carry its class: $html", html.contains("class=\"heading-ref\""))
+    }
+
+    @Test
     fun testDetailsExtension() {
         // details extension: a `::: details "Title"` div renders a disclosure widget.
         val carve = "::: details \"More\"\nhidden\n:::"
@@ -80,12 +95,13 @@ class CarveConverterTest {
 
     @Test
     fun testImplicitHeadingReference() {
-        // The plugin's cwiki template documents `[[Heading]]` as an implicit
-        // heading reference, so it must resolve to the local heading id (#id),
-        // not render as an off-document wiki page link.
-        val html = CarveConverter.toHtml("# Home\n\nSee [[Home]].")
-        assertTrue("[[Heading]] should resolve to local anchor: $html", html.contains("href=\"#Home\""))
-        assertTrue("[[Heading]] should not be a wiki page link: $html", !html.contains("class=\"wikilink\""))
+        // The plugin's cwiki template writes an implicit heading reference, so it
+        // must resolve to the local heading id (#id), not render as an
+        // off-document wiki page link. Carve 0.2 spells it `[Heading][]`
+        // (C2-I-081, C2-I-084); `[[Heading]]` is text in 0.2.
+        val html = CarveConverter.toHtml("# Home\n\nSee [Home][].")
+        assertTrue("[Heading][] should resolve to local anchor: $html", html.contains("href=\"#Home\""))
+        assertTrue("[Heading][] should not be a wiki page link: $html", !html.contains("class=\"wikilink\""))
     }
 
     @Test

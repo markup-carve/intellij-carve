@@ -1,5 +1,5 @@
-{ -> text.carve meta.attributes.carve
-:grc -> text.carve meta.attributes.carve entity.other.attribute-name.language.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-Μῆνιν ἄειδε θεά\n -> text.carve
+{ -> source.carve meta.attributes.carve
+:grc -> source.carve meta.attributes.carve entity.other.attribute-name.language.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Μῆνιν ἄειδε θεά\n -> source.carve

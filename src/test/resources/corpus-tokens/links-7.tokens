@@ -1,4 +1,4 @@
-\\[ -> text.carve constant.character.escape.carve
-not a link -> text.carve
-\\] -> text.carve constant.character.escape.carve
-(https://example.com)\n -> text.carve
+\\[ -> source.carve constant.character.escape.carve
+not a link -> source.carve
+\\] -> source.carve constant.character.escape.carve
+(https://example.com)\n -> source.carve

@@ -1,0 +1,6 @@
+\\* -> source.carve constant.character.escape.carve
+not strong -> source.carve
+\\* -> source.carve constant.character.escape.carve
+ and  -> source.carve
+\\# -> source.carve constant.character.escape.carve
+ and a\\ b and \\a and C:\\dir -> source.carve

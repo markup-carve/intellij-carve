@@ -1,8 +1,8 @@
-An unclosed literal !`oops leaves the rest of the line alone.
+An unclosed literal !`oops leaves the rest of the line alone.`
 
 This paragraph must stay ordinary prose, not literal content.
 
-An unclosed math $`oops must not leak either.
+An unclosed math $`oops must not leak either.`
 
 This paragraph must stay ordinary prose, not math content.
 

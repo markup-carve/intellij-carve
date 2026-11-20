@@ -1,24 +1,24 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[-]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-dropped\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[_]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-open alias\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[/]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-in progress\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[!]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-blocked\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[>]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-deferred\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-[?]  -> text.carve markup.list.unnumbered.carve keyword.control.task-list.carve
-maybe\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[-]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+dropped\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[_]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+open alias\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[/]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+in progress\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[!]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+blocked\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[>]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+deferred\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+[?]  -> source.carve markup.list.unnumbered.carve keyword.control.task-list.carve
+maybe\n -> source.carve

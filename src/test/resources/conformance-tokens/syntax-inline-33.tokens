@@ -1,0 +1,15 @@
+a  -> source.carve
+{= -> source.carve keyword.control.highlight.carve
+a}b -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve
+ c and  -> source.carve
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+- -> source.carve markup.deleted.critic.carve markup.deleted.carve
+-} -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+ and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+s -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{= -> source.carve keyword.control.highlight.carve
+x -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve

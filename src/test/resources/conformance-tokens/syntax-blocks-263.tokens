@@ -1,0 +1,7 @@
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+js -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\t -> source.carve markup.raw.block.fenced.code.carve
+"T" -> source.carve markup.raw.block.fenced.code.carve string.quoted.double.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+x\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
