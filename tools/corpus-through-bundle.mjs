@@ -1,47 +1,13 @@
-// Render a corpus through a built Carve bundle and report how many documents
-// come out differently from their goldens.
+// Compare the vendored Carve 0.2 preview bundle with the option-free render
+// examples in the spec's conformance JSON. A reference bundle isolates editor
+// bundle drift from upstream engine debt. The caller decides its tolerance.
 //
-// The point is the ARTIFACT. Comparing the commit recorded in a bundle's
-// provenance header against upstream tells you which commit was bundled; it
-// never tells you what the bundled code now does. The preview bundle here sat
-// 363 commits behind for three weeks rendering 140 of 690 documents wrongly,
-// none of them throwing, so nothing surfaced as an error anywhere (#62).
-//
-// This is the networked half, used by .github/workflows/engine-drift.yml
-// against markup-carve/carve `main`. The offline half is
-// CarveBundleCorpusTest, which asks a narrower question - does the vendored
-// bundle still agree with the corpus this repo PINS - on GraalJS, the host the
-// plugin actually renders with. Both are needed: this one notices the pin going
-// stale, that one notices the bundle going wrong on the plugin's own runtime.
-//
-// ## Why a reference bundle
-//
-// Counting how many of carve `main`'s documents the vendored bundle renders
-// differently measures TWO lags added together:
-//
-//   1. the vendored bundle behind carve-js `main` - this repo's to fix, by
-//      rerunning tools/build-carve-bundle.sh and committing the result;
-//   2. carve-js `main` behind carve `main` - upstream's own conformance debt,
-//      which no amount of rebuilding here can close.
-//
-// Gating on the sum makes the job fail for (2) with a remediation ("rebuild the
-// bundle") that cannot work, and the only way out is to raise the tolerance -
-// which is how a gate stops being read. So when `--reference` is given, the
-// same corpus is driven through a bundle built from carve-js `main` and the
-// gate number becomes the DIFFERENCE: documents the vendored bundle gets wrong
-// that a freshly built one gets right. That is exactly the part this repo can
-// act on, and it was 140 in the state nobody noticed.
-//
-// Usage:
-//   node tools/corpus-through-bundle.mjs <bundle.iife.js> <corpus-dir> [--list]
-//                                        [--reference <bundle.iife.js>]
-//
-// Exits 0 always; the caller decides what count is tolerable.
+// Usage: node tools/corpus-through-bundle.mjs <bundle.iife.js> <examples.json>
+//        [--list] [--reference <bundle.iife.js>]
 
-import { readFileSync, readdirSync } from 'node:fs'
-import { resolve, basename } from 'node:path'
+import { readFileSync } from 'node:fs'
+import { basename } from 'node:path'
 import vm from 'node:vm'
-import { declaredInputs } from './lib/example-pair-census.mjs'
 
 const argv = process.argv.slice(2)
 const list = argv.includes('--list')
@@ -59,11 +25,11 @@ if (referenceAt !== -1 && !referencePath) {
 // path - leaving the no-reference invocation to die on a usage message.
 const valueAt = referenceAt === -1 ? -1 : referenceAt + 1
 const positional = argv.filter((a, i) => !a.startsWith('--') && i !== valueAt)
-const [bundlePath, corpusDir] = positional
+const [bundlePath, conformancePath] = positional
 
-if (!bundlePath || !corpusDir) {
+if (!bundlePath || !conformancePath) {
   console.error(
-    'usage: node tools/corpus-through-bundle.mjs <bundle.iife.js> <corpus-dir> [--list] [--reference <bundle.iife.js>]',
+    'usage: node tools/corpus-through-bundle.mjs <bundle.iife.js> <conformance-json> [--list] [--reference <bundle.iife.js>]',
   )
   process.exit(2)
 }
@@ -75,76 +41,33 @@ if (!bundlePath || !corpusDir) {
 function load(path) {
   const context = vm.createContext({ console, TextEncoder, TextDecoder })
   vm.runInContext(readFileSync(path, 'utf8'), context, { filename: basename(path) })
-  const carveToHtml = vm.runInContext('carve.carveToHtml', context)
+  const carveToHtml = vm.runInContext('carve.render', context)
   if (typeof carveToHtml !== 'function') {
-    console.error(`${path} exposes no carve.carveToHtml`)
+    console.error(`${path} exposes no carve.render`)
     process.exit(2)
   }
   return carveToHtml
 }
 
-const names = readdirSync(corpusDir)
-  .filter((f) => f.endsWith('.crv'))
-  .map((f) => basename(f, '.crv'))
-  .sort()
-
-// Read every pair once; both bundles are measured against the same inputs.
-const pairs = []
-for (const name of names) {
-  let expected
-  try {
-    expected = readFileSync(resolve(corpusDir, `${name}.html`), 'utf8')
-  } catch {
-    continue // a .crv with no .html pair is not a rendering assertion
-  }
-  pairs.push({ name, expected, source: readFileSync(resolve(corpusDir, `${name}.crv`), 'utf8') })
-}
-
-// EQUALITY, not a floor. `pairs.length === 0` only rejects a corpus that is
-// entirely absent; a corpus checked out half way reports every remaining
-// document identical and reads as a clean run, with the diverging ones simply
-// missing. Counting the corpus directory to decide how big the corpus should be
-// would move both sides together and guard nothing, and a hardcoded number goes
-// stale the day an example lands upstream - so the reference is the corpus's
-// SOURCE. tests/corpus is generated from the `::: compare` blocks in
-// resources/examples/{core,extensions}.md and resources/examples/edge-cases/*.md,
-// one fixture per distinct `carve` input in a block, and both live in the same checkout.
-const examplesDir = resolve(corpusDir, '..', '..', 'resources', 'examples')
-const inputs = new Set()
-let sectionPages
+// Only option-free render examples have the same call contract as the plugin's
+// bundled default renderer. The pinned 0.2 conformance source is the population
+// guard: an absent or empty file is a failed measurement.
+let examples
 try {
-  sectionPages = readdirSync(resolve(examplesDir, 'edge-cases'))
-    .filter((file) => file.endsWith('.md') && file !== 'README.md')
-    .sort()
-    .map((file) => `edge-cases/${file}`)
-} catch {
-  sectionPages = ['edge-cases.md']
-}
-for (const page of ['core.md', 'extensions.md', ...sectionPages]) {
-  const path = resolve(examplesDir, page)
-  let text
-  try {
-    text = readFileSync(path, 'utf8')
-  } catch {
-    // Not a soft skip: without this page there is no independent statement of
-    // how big the corpus should be, and a corpus check with nothing to compare
-    // against is the shape of check this file exists to replace.
-    console.error(`No corpus source page at ${path}; tests/corpus is generated from these pages, so if the spec moved them this guard has to move with them`)
-    process.exit(2)
-  }
-  for (const input of declaredInputs(text.split('\n'))) inputs.add(input)
-}
-const declared = inputs.size
-if (declared === 0) {
-  console.error(`The corpus source pages under ${examplesDir} declare no ::: compare blocks at all; that is a wiring problem, not a corpus of size zero`)
+  examples = JSON.parse(readFileSync(conformancePath, 'utf8')).examples
+} catch (error) {
+  console.error(`Cannot read 0.2 conformance at ${conformancePath}: ${error.message}`)
   process.exit(2)
 }
-if (pairs.length !== declared) {
-  console.error(
-    `${pairs.length} corpus pairs found under ${corpusDir}, but the spec's example pages declare ${declared}. ` +
-      'Every distinct carve input in a ::: compare block in resources/examples/{core,extensions}.md and edge-cases/*.md becomes one corpus pair, so a ' +
-      'difference means the corpus checked out here is not the one those pages describe. It does not mean this run was clean.',
-  )
+if (!Array.isArray(examples)) {
+  console.error(`${conformancePath} has no examples list`)
+  process.exit(2)
+}
+const pairs = examples.filter((e) => e.kind === 'render' &&
+  Object.keys(e.options ?? {}).length === 0 && typeof e.expected?.html === 'string')
+  .map((e) => ({ name: e.id, source: e.input, expected: e.expected.html }))
+if (pairs.length === 0 || new Set(pairs.map((p) => p.name)).size !== pairs.length) {
+  console.error(`${conformancePath} has no applicable render examples or duplicate IDs`)
   process.exit(2)
 }
 
@@ -181,7 +104,7 @@ const attributable = [...vendored.wrong.keys()].filter(
 
 if (list) {
   for (const [name, why] of vendored.wrong) {
-    const upstream = reference && reference.wrong.has(name) ? ' [also wrong in carve-js main]' : ''
+    const upstream = reference && reference.wrong.has(name) ? ' [also wrong in carve-js next2]' : ''
     console.log(why === 'differs' ? `${name}${upstream}` : `${name} (${why})${upstream}`)
   }
 }

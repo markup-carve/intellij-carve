@@ -327,7 +327,7 @@ jobs:
           echo "Auto-merge (squash) enabled on #${pr}."
 
   corpus:
-    name: The vendored bundle still renders carve main's corpus
+    name: The vendored bundle still renders carve next2's conformance examples
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -335,16 +335,18 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Check out the corpus from carve main
+      - name: Check out the conformance data from carve next2
         uses: actions/checkout@v7
         with:
           repository: markup-carve/carve
-          path: carve-main
+          ref: next2
+          path: carve-next2
 
       - name: Check out carve-js
         uses: actions/checkout@v7
         with:
           repository: markup-carve/carve-js
+          ref: next2
           path: upstream/carve-js
 
       - uses: actions/setup-node@v7
@@ -356,7 +358,7 @@ jobs:
       # was vendored. Built through tools/build-carve-bundle.sh deliberately -
       # a reference assembled with different esbuild flags would measure the
       # flags rather than the engine.
-      - name: Build a reference bundle from carve-js main
+      - name: Build a reference bundle from carve-js next2
         run: |
           set -euo pipefail
           (cd upstream/carve-js && npm ci && npm run build)
@@ -367,7 +369,7 @@ jobs:
           set -euo pipefail
           out="$(node tools/corpus-through-bundle.mjs \
             src/main/resources/js/carve.iife.js \
-            carve-main/tests/corpus --list \
+            carve-next2/spec/0.2/conformance/examples.json --list \
             --reference "$RUNNER_TEMP/reference.iife.js" | tee /dev/stderr)"
           field() { printf '%s\n' "$out" | sed -n "s/^$1=//p"; }
           documents="$(field documents)"
@@ -375,18 +377,18 @@ jobs:
           reference_wrong="$(field reference_wrong)"
           attributable="$(field attributable)"
 
-          echo "the vendored preview bundle renders ${wrong} of ${documents} carve main documents differently"
-          echo "a bundle built from carve-js main renders ${reference_wrong} of them differently"
+          echo "the vendored preview bundle renders ${wrong} of ${documents} carve next2 documents differently"
+          echo "a bundle built from carve-js next2 renders ${reference_wrong} of them differently"
           echo "so ${attributable} are attributable to this repo's vendored bundle being stale"
 
           if [ "$reference_wrong" -gt 0 ]; then
-            echo "::notice::carve-js main itself renders ${reference_wrong} of ${documents} carve main documents differently. That is upstream engine debt and rebuilding here cannot close it."
+            echo "::notice::carve-js next2 itself renders ${reference_wrong} of ${documents} carve next2 documents differently. That is upstream engine debt and rebuilding here cannot close it."
           fi
 
           # Reported, not failed: the revendor job rebuilds from each new
-          # release, and a gap only carve-js main closes waits on a release.
+          # release, and a gap only carve-js next2 closes waits on a release.
           if [ "$attributable" -gt "${DRIFT_MAX_DOCUMENTS}" ]; then
-            echo "::warning::${attributable} of ${documents} corpus documents render differently through the vendored bundle but correctly through carve-js main, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. If the revendor job did not run, the fix is unreleased and lands here once carve-js publishes a release."
+            echo "::warning::${attributable} of ${documents} conformance examples render differently through the vendored bundle but correctly through carve-js next2, over the tolerance of ${DRIFT_MAX_DOCUMENTS}. If the revendor job did not run, the fix is unreleased and lands here once carve-js publishes a release."
           elif [ "$attributable" -gt 0 ]; then
-            echo "::notice::${attributable} of ${documents} corpus documents would be fixed by rebuilding from carve-js main (tolerance ${DRIFT_MAX_DOCUMENTS})"
+            echo "::notice::${attributable} of ${documents} conformance examples would be fixed by rebuilding from carve-js next2 (tolerance ${DRIFT_MAX_DOCUMENTS})"
           fi
