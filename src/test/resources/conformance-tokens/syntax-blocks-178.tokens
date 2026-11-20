@@ -1,0 +1,9 @@
+{ -> source.carve meta.attributes.carve
+#top -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> source.carve meta.attributes.carve
+.big -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+== -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Section -> source.carve markup.heading.carve entity.name.section.carve

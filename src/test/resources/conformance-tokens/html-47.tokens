@@ -1,0 +1,6 @@
+a\n -> source.carve
+{ -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+x\n -> source.carve markup.bold.carve markup.bold.carve
+%% c\n -> source.carve markup.bold.carve markup.bold.carve
+*} b -> source.carve markup.bold.carve markup.bold.carve

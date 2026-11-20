@@ -1,0 +1,9 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{^ -> source.carve markup.table.row.carve keyword.control.superscript.carve
+} a | -> source.carve markup.table.row.carve markup.superscript.carve
+{v} -> source.carve markup.table.row.carve markup.superscript.carve meta.attributes.carve
+ b |{> -> source.carve markup.table.row.carve markup.superscript.carve
+^ -> source.carve markup.table.row.carve markup.superscript.carve
+^} -> source.carve markup.table.row.carve keyword.control.superscript.carve
+ c  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

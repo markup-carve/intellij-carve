@@ -1,0 +1,15 @@
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+"my file.crv" -> source.carve meta.directive.include.carve string.other.link.include.carve
+    -> source.carve meta.directive.include.carve
+#Intro -> source.carve meta.directive.include.carve entity.name.section.include.carve
+  -> source.carve meta.directive.include.carve
+@shift -> source.carve meta.directive.include.carve variable.parameter.include.carve
+: -> source.carve meta.directive.include.carve keyword.control.separator.include.carve
+1 -> source.carve meta.directive.include.carve constant.other.include.carve
+  -> source.carve meta.directive.include.carve
+@lines -> source.carve meta.directive.include.carve variable.parameter.include.carve
+: -> source.carve meta.directive.include.carve keyword.control.separator.include.carve
+1-5 -> source.carve meta.directive.include.carve constant.other.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve

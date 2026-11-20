@@ -92,34 +92,23 @@ class CarveBundleCorpusTest {
 
     @Test
     fun everyCorpusDocumentRendersLikeItsGolden() {
-        // The 0.2 conformance examples (spec/0.2/conformance/examples.json in
-        // markup-carve/carve), option-free renders only, vendored by
-        // tools/vendor-conformance.mjs from the spec commit the bundle reads.
-        val examples = CarveBundleCorpusTest::class.java.getResourceAsStream(CONFORMANCE_RESOURCE)
-            ?.bufferedReader()
-            ?.use { it.readText() }
-            ?: throw AssertionError("$CONFORMANCE_RESOURCE is missing from the test resources")
+        val examples = CarveCorpus.examples()
+        assertTrue(CarveCorpus.MISSING_MESSAGE, examples.isNotEmpty())
 
         val diverging = linkedMapOf<String, String>()
-        var total = 0
+        val total = examples.size
         newContext().use { context ->
             context.eval(Source.newBuilder("js", bundleSource(), BUNDLE_RESOURCE).build())
-            context.getBindings("js").putMember("conformanceText", examples)
-            val list = context.eval("js", "JSON.parse(conformanceText).examples")
             val render = context.eval("js", "(function (source) { return carve.render(source); })")
-            total = list.arraySize.toInt()
-            // A file with no examples would let this pass by having nothing to compare.
-            assertTrue("$CONFORMANCE_RESOURCE holds no examples", total > 0)
-            for (index in 0 until total) {
-                val example = list.getArrayElement(index.toLong())
-                val name = example.getMember("id").asString()
+            for (example in examples) {
+                val name = example.id
                 val actual = try {
-                    render.execute(example.getMember("input").asString()).asString()
+                    render.execute(example.input).asString()
                 } catch (e: Exception) {
                     diverging[name] = "threw ${e.javaClass.simpleName}: ${e.message}"
                     continue
                 }
-                if (actual.trim() != example.getMember("html").asString().trim()) {
+                if (actual.trim() != example.html.trim()) {
                     diverging[name] = "rendered HTML differs from the golden"
                 }
             }
@@ -162,6 +151,5 @@ class CarveBundleCorpusTest {
 
     private companion object {
         const val BUNDLE_RESOURCE = "/js/carve.iife.js"
-        const val CONFORMANCE_RESOURCE = "/conformance-0.2.json"
     }
 }

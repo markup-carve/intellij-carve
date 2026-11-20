@@ -1,0 +1,10 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+> -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+q\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Attr -> source.carve markup.table.caption.carve string.unquoted.caption.carve

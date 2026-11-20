@@ -1,0 +1,10 @@
+{- -> source.carve markup.deleted.critic.carve keyword.control.critic.carve
+@ -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.mention.carve keyword.control.mention.carve
+user- -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.mention.carve variable.parameter.mention.carve
+} and  -> source.carve markup.deleted.critic.carve markup.deleted.carve
+@ -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.mention.carve keyword.control.mention.carve
+user-name -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.mention.carve variable.parameter.mention.carve
+ and  -> source.carve markup.deleted.critic.carve markup.deleted.carve
+# -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag- -> source.carve markup.deleted.critic.carve markup.deleted.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+ x -> source.carve markup.deleted.critic.carve markup.deleted.carve

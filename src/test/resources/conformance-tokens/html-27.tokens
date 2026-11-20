@@ -1,0 +1,46 @@
+See -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+a -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> source.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+a.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Table #: Body -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Note. -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+     -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ x  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+     -> source.carve markup.table.caption.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Table #: In the note -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+[^b]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Unused. -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+     -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ y  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+     -> source.carve markup.table.caption.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Table #: Never -> source.carve markup.table.caption.carve string.unquoted.caption.carve

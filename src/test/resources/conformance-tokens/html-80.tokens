@@ -1,0 +1,17 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{KBD} -> source.carve meta.attributes.carve
+ and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+y -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+abbr -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"a" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+ABBR -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"b" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve

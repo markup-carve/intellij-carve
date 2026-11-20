@@ -1,0 +1,9 @@
+--- -> source.carve meta.frontmatter.carve keyword.control.frontmatter.begin.carve
+toml -> source.carve meta.frontmatter.carve entity.name.type.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+a = 1 -> source.carve meta.frontmatter.carve string.unquoted.frontmatter.carve
+\n -> source.carve meta.frontmatter.carve
+--- -> source.carve meta.frontmatter.carve keyword.control.frontmatter.end.carve
+\n -> source.carve meta.frontmatter.carve
+\n -> source.carve
+text -> source.carve

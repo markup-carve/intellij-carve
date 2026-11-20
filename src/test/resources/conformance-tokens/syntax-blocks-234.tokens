@@ -1,0 +1,30 @@
+{table} -> source.carve meta.attributes.carve
+\n -> source.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+csv -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+a,"b ""q"" c", d\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+*x*,\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+"m\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+n"x,y\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+\n -> source.carve
+{table} -> source.carve meta.attributes.carve
+\n -> source.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+CSV -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+a,b\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.csv
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+\n -> source.carve
+{table} -> source.carve meta.attributes.carve
+\n -> source.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+tsv -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.tsv
+a\tb,c\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.tsv
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve

@@ -1,0 +1,40 @@
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+bad -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+javascript:alert(1) -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+  -> source.carve
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+JavaScript:x -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+ok -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/a#b -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+  -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+p -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+data:image/png;base64,AA -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+title -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"Shell: bash" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+onclick -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"x()" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+style -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"color: u\\72l(a)" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Text. -> source.carve

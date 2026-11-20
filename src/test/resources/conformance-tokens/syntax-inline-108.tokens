@@ -1,0 +1,22 @@
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+https://例え.jp/パス?q=1#f -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+  -> source.carve
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+h:x -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+  -> source.carve
+< -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+a@b.co.uk -> source.carve meta.link.autolink.email.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+  -> source.carve
+< -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+x+y@b-c.de -> source.carve meta.link.autolink.email.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.email.carve keyword.control.link.carve
+\n -> source.carve
+\n -> source.carve
+<1a:x> <http://a b>  -> source.carve
+< -> source.carve meta.link.autolink.carve keyword.control.link.carve
+http://a|b -> source.carve meta.link.autolink.carve markup.underline.link.carve
+> -> source.carve meta.link.autolink.carve keyword.control.link.carve
+ <a@b.c1> <a_b@c_d.e-f> -> source.carve

@@ -284,57 +284,34 @@ All three need network, so none runs on a pull request;
 and the constructs and reporting the drift. Without a fetched upstream grammar
 the construct arms SKIP rather than pass.
 
-## Shared-corpus highlighter conformance
+## Carve 0.2 highlighter conformance
 
-The highlighter is tested against the shared Carve corpus from
-[markup-carve/carve](https://github.com/markup-carve/carve), pinned as the `spec`
-git submodule (inputs under `spec/tests/corpus`). Clone with submodules, or
-initialize them after the fact:
+The `spec` submodule pins the Carve 0.2 conformance data at
+`spec/spec/0.2/conformance/`. Clone with submodules or run
+`git submodule update --init spec` in an existing checkout.
+
+`CarveBundleCorpusTest` renders every option-free render example through the
+vendored GraalJS bundle and compares its HTML with the spec. `CarveCorpusSnapshotTest`
+tokenizes the same inputs with the IDE TextMate engine and compares each token
+stream with `src/test/resources/conformance-tokens/<example-id>.tokens`.
+`CarveCorpusCoverageMatrixTest` checks the complete example population, the
+vendored subset against the pinned JSON, and the snapshot filenames. This
+replaces the 0.1 category matrix, since 0.2 cases have stable example IDs and
+no category slugs.
+
+After a grammar change, regenerate the token goldens and review the diff:
 
 ```bash
-git clone --recurse-submodules https://github.com/markup-carve/intellij-carve
-# or, in an existing checkout:
-git submodule update --init spec
+./gradlew test --tests "*CarveCorpusSnapshotTest" -Dcarve.updateGoldens=true
 ```
 
-Two test layers live in `src/test/kotlin/org/markupcarve/carve/corpus/`:
-
-- **Snapshot tests** (`CarveCorpusSnapshotTest`) run every covered `.crv` through
-  the IDE's own TextMate engine over the committed grammar - the same code path
-  editor highlighting uses - and compare the token-scope stream against golden
-  resources in `src/test/resources/corpus-tokens/`. Each golden is one line per
-  token (`escaped-text -> full.scope.chain`) and is meant to be reviewed by hand.
-
-  Regenerate goldens after a deliberate grammar change, then review the diff:
-
-  ```bash
-  ./gradlew test --tests "*CarveCorpusSnapshotTest" -Dcarve.updateGoldens=true
-  ```
-
-- **Coverage matrix** (`CarveCorpusCoverageMatrixTest` + `CarveCorpusCategories`)
-  classifies every corpus category as `COVERED` (the grammar highlights it, so it
-  is snapshotted) or `SKIP` (a parser/render behavior with no token-level signal,
-  recorded with a reason). The test fails if the live corpus contains a category
-  absent from both lists, so a new spec category - pulled in by bumping the
-  submodule - forces a deliberate COVERED-or-SKIP decision instead of silently
-  drifting behind the spec.
-
-- **Skip premise** (`CarveSkipPremiseTest`) measures the claim every `SKIP`
-  reason rests on. It tokenizes each skipped category and requires every scope it
-  produces to appear in a covered corpus document or a committed fixture under
-  `src/test/resources/fixtures/`. A reason nobody re-asks goes stale: when this
-  test was added it rejected three reasons that had stopped being true, one of
-  which said the grammar carried no rule for a construct it had since grown.
-
-  It checks scope EXISTENCE, so it cannot see a rule that lives in a
-  combination of scopes that each appear elsewhere. Two categories are covered
-  for exactly that reason, and both say so where they are classified.
-
-To bump the corpus to a newer spec commit:
+To move the spec pin, update the vendored render subset, regenerate any changed
+token goldens, and run the corpus tests:
 
 ```bash
-git -C spec fetch origin && git -C spec checkout origin/main
-git add spec && ./gradlew test    # resolve any new-category coverage failure
+git -C spec fetch origin next2 && git -C spec checkout origin/next2
+node tools/vendor-conformance.mjs spec
+./gradlew test --tests "*CarveCorpus*" -Dcarve.updateGoldens=true
 ```
 
 ## Publishing

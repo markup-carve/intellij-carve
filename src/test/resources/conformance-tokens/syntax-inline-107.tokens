@@ -1,0 +1,11 @@
+$$ -> source.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+E = mc^2 -> source.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+\n -> source.carve
+\n -> source.carve
+text  -> source.carve
+$$ -> source.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+E = mc^2 -> source.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve

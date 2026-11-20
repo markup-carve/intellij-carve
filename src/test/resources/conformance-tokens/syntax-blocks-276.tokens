@@ -1,0 +1,26 @@
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+Example -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+ex -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+![ -> source.carve meta.image.reference.carve keyword.control.image.begin.carve
+logo -> source.carve meta.image.reference.carve string.other.image.alt.carve
+] -> source.carve meta.image.reference.carve keyword.control.image.end.carve
+[ -> source.carve meta.image.reference.carve
+ex -> source.carve meta.image.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.image.reference.carve
+{ -> source.carve meta.attributes.carve
+.wide -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+.\n -> source.carve
+\n -> source.carve
+[ex]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/a.png -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+Home -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ {.external} -> source.carve

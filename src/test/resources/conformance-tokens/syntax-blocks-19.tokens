@@ -1,0 +1,7 @@
+  -> source.carve markup.list.numbered.carve
+9. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+a\n -> source.carve
+10. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+b -> source.carve

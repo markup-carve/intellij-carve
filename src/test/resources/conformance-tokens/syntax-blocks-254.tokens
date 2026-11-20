@@ -1,0 +1,8 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"a %% b" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+c\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

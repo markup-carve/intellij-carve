@@ -1,0 +1,17 @@
+$ -> source.carve markup.other.math.inline.carve keyword.control.math.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+x^2 -> source.carve markup.other.math.inline.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+$$ -> source.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+E = mc^2 -> source.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+ and $5 and  -> source.carve
+$ -> source.carve markup.other.math.inline.carve keyword.control.math.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+x -> source.carve markup.other.math.inline.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.inline.carve keyword.control.raw.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve

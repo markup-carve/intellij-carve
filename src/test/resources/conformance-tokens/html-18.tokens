@@ -1,0 +1,12 @@
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Intro -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+the intro -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+Intro -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+. -> source.carve

@@ -1,0 +1,26 @@
+a -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+n -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+ b -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+inline  -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+x -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ c -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+n -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> source.carve
+\n -> source.carve
+After.\n -> source.carve
+\n -> source.carve
+[^n]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ Note. -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+    More. -> source.carve

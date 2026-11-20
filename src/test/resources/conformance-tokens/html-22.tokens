@@ -1,0 +1,15 @@
+Hi  -> source.carve
+@ -> source.carve entity.name.mention.carve keyword.control.mention.carve
+ann -> source.carve entity.name.mention.carve variable.parameter.mention.carve
+ and  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+ and  -> source.carve
+:smile: -> source.carve constant.language.symbol.carve
+ and  -> source.carve
+: -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+kbd -> source.carve meta.extension.inline.carve entity.name.function.extension.carve
+[ -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+Tab -> source.carve meta.extension.inline.carve string.unquoted.extension.carve
+] -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+. -> source.carve

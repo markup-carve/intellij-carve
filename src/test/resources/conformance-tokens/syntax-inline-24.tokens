@@ -1,0 +1,6 @@
+@ -> source.carve entity.name.mention.carve keyword.control.mention.carve
+user -> source.carve entity.name.mention.carve variable.parameter.mention.carve
+{.c} and  -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+tag -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+{.c} -> source.carve

@@ -1,0 +1,20 @@
+{ -> source.carve meta.attributes.carve
+valigns -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"middle" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+{ -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+?v -> source.carve markup.table.row.carve keyword.control.table.alignment.carve
+  -> source.carve markup.table.row.carve meta.attributes.carve
+style -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve markup.table.row.carve meta.attributes.carve
+"color: red;" -> source.carve markup.table.row.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve markup.table.row.carve punctuation.definition.attributes.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

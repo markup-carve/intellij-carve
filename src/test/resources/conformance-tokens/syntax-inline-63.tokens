@@ -1,0 +1,9 @@
+[a\n -> source.carve
+b](/u) and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+[x -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/y -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+](/z) -> source.carve

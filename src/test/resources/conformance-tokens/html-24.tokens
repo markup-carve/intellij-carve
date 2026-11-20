@@ -1,0 +1,33 @@
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Hello, World! -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Don't stop  -> source.carve markup.heading.carve entity.name.section.carve
+-- -> source.carve markup.heading.carve entity.name.section.carve constant.character.entity.typography.carve
+ go -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Café 日本語 -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+2nd  -> source.carve markup.heading.carve entity.name.section.carve
+* -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve keyword.control.bold.carve
+try -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.heading.carve entity.name.section.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+*** -> source.carve markup.heading.carve entity.name.section.carve
+\n -> source.carve
+\n -> source.carve
+# -> source.carve markup.heading.carve keyword.control.heading.carve
+  -> source.carve markup.heading.carve
+Hello-World -> source.carve markup.heading.carve entity.name.section.carve

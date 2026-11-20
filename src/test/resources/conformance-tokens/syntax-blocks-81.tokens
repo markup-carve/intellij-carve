@@ -1,0 +1,17 @@
+One -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+a -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+ two -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+b -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> source.carve
+\n -> source.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ first -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+[^b]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ second -> source.carve meta.footnote.definition.carve

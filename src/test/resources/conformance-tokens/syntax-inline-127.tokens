@@ -1,0 +1,12 @@
+a  -> source.carve
+^[ -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+see  -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+[^1] -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve markup.bold.carve
+* -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve markup.bold.carve keyword.control.bold.carve
+ there -> source.carve meta.footnote.inline.carve string.other.footnote.inline.carve
+] -> source.carve meta.footnote.inline.carve keyword.control.footnote.carve
+ d\n -> source.carve
+\n -> source.carve
+[^1]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ note -> source.carve meta.footnote.definition.carve

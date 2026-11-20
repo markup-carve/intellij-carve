@@ -1,0 +1,19 @@
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+note -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"[^a]" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+b -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+[^a]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ A -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+[^b]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ B -> source.carve meta.footnote.definition.carve

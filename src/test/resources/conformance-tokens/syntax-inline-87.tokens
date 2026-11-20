@@ -1,0 +1,4 @@
+é -> source.carve
+@ -> source.carve entity.name.mention.carve keyword.control.mention.carve
+user -> source.carve entity.name.mention.carve variable.parameter.mention.carve
+ and _@user -> source.carve

@@ -1,0 +1,3 @@
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+x -> source.carve

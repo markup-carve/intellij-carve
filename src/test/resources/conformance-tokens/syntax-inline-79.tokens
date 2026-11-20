@@ -1,0 +1,10 @@
+[ -> source.carve meta.link.reference.carve
+x -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+a\\ -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+b]\n -> source.carve
+\n -> source.carve
+[a -> source.carve
+\\] -> source.carve constant.character.escape.carve
+b]: /u -> source.carve

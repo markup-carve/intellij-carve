@@ -2,93 +2,37 @@ package org.markupcarve.carve.corpus
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import java.io.File
 
-/**
- * Lexer/highlighter snapshot tests (item #3).
- *
- * Runs every COVERED shared-corpus `.crv` file through the IDE's TextMate engine
- * over the committed Carve grammar and compares the resulting token-scope stream
- * against a golden resource under `src/test/resources/corpus-tokens/`.
- *
- * The goldens are checked-in, human-reviewable snapshots: one line per token,
- * `escaped-text -> full.scope.chain`. Reviewing them catches grammar regressions
- * (a heading losing `markup.heading.carve`, an indented `#` wrongly highlighted,
- * emphasis bleeding across a delimiter, and so on).
- *
- * Regenerate after a deliberate grammar change with:
- *   ./gradlew test --tests "*CarveCorpusSnapshotTest" -Dcarve.updateGoldens=true
- * then review the diff before committing.
- */
+/** Token snapshots for every option-free render example in the pinned 0.2 spec. */
 @RunWith(Parameterized::class)
 class CarveCorpusSnapshotTest(
-    private val categoryAndFile: String,
-    private val crv: File,
+    private val id: String,
+    private val input: String,
 ) {
-
     @Test
     fun tokenStreamMatchesGolden() {
-        assumeTrue(CarveCorpus.MISSING_MESSAGE, CarveCorpus.directory != null)
-
-        val input = crv.readText()
         val actual = CarveTextMateTokenizer.snapshot(input)
-        val golden = goldenFile(crv.name)
-
+        val golden = File(goldensDirectory, "$id.tokens")
         if (updateGoldens) {
             golden.parentFile.mkdirs()
             golden.writeText(actual)
             return
         }
-
-        assertTrue(
-            "Missing golden for ${crv.name}. Generate it with " +
-                "`./gradlew test -Dcarve.updateGoldens=true` and review before committing. " +
-                "Expected at: ${golden.path}",
-            golden.isFile,
-        )
-        assertEquals(
-            "Token stream changed for ${crv.name}. If intentional, regenerate goldens with " +
-                "`-Dcarve.updateGoldens=true` and review the diff.",
-            golden.readText(),
-            actual,
-        )
+        assertTrue("Missing 0.2 token snapshot for $id at ${golden.path}", golden.isFile)
+        assertEquals("Token stream changed for 0.2 example $id", golden.readText(), actual)
     }
 
     companion object {
-        private val updateGoldens: Boolean =
-            System.getProperty("carve.updateGoldens", "false").toBoolean()
-
-        /** Where goldens live, for the orphan check in the coverage-matrix test. */
-        val goldensDirectory: File get() = goldensDir
-
-        /** Where goldens are written and read. Located next to the test source tree. */
-        private val goldensDir: File by lazy {
-            // Walk up to the project root, then into the test resources directory.
-            var dir: File? = File(System.getProperty("user.dir")).absoluteFile
-            while (dir != null && !File(dir, "settings.gradle.kts").isFile) {
-                dir = dir.parentFile
-            }
-            val root = dir ?: File(System.getProperty("user.dir"))
-            File(root, "src/test/resources/corpus-tokens")
-        }
-
-        // Named by SLUG, not by the corpus file name: the leading number is the
-        // spec's ordering, and keying goldens on it renamed all 286 of them on
-        // every upstream renumbering.
-        private fun goldenFile(crvName: String): File =
-            File(goldensDir, CarveCorpusCategories.slugOf(crvName) + ".tokens")
+        private val updateGoldens = System.getProperty("carve.updateGoldens", "false").toBoolean()
+        val goldensDirectory: File get() = File("src/test/resources/conformance-tokens")
 
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun data(): Collection<Array<Any>> {
-            val covered = CarveCorpusCategories.COVERED
-            return CarveCorpus.crvFiles()
-                .filter { CarveCorpusCategories.categoryOf(it.name) in covered }
-                .map { arrayOf<Any>(it.name, it) }
-        }
+        fun data(): Collection<Array<Any>> = CarveCorpus.examples()
+            .map { arrayOf<Any>(it.id, it.input) }
     }
 }

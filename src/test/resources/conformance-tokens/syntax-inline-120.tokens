@@ -1,0 +1,3 @@
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a\\   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve

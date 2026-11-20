@@ -1,0 +1,18 @@
+{ -> source.carve meta.attributes.carve
+.verse -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+| -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+roses\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+1) -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+one\n -> source.carve
+2) -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+two -> source.carve

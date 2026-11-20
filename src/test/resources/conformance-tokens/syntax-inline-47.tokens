@@ -1,0 +1,9 @@
+glob  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+.js or src/ -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and 5  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+3 and 4 -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ 2 -> source.carve

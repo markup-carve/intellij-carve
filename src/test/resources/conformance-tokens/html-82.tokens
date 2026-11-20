@@ -1,0 +1,4 @@
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+a -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{abbr} -> source.carve meta.attributes.carve
