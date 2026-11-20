@@ -247,7 +247,7 @@ object CarveConverter {
           var e = carve.extensions;
           var set = e.withExtensions(
             e.details(), e.mermaid(), e.mathBlock(), e.spoiler(), e.chart(), e.codeGroup(), e.listTable(),
-            e.citations(), e.glossary(), e.index(),
+            e.citations(), e.glossary(), e.index(), e.imgFence(),
             { extensions: carve.tabsExtensions, renderers: { 'carve.tabs': carve.tabsRenderer } }
           );
           return {

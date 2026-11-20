@@ -70,6 +70,14 @@ class CarveConverterTest {
     }
 
     @Test
+    fun testImgFenceExtension() {
+        // imgFence extension (C2-X-059): an SVG `img` fence renders as a data-URL image.
+        val carve = "```img\n<svg width=\"1\" height=\"1\"><rect width=\"1\" height=\"1\"/></svg>\n```"
+        val html = CarveConverter.toHtml(carve)
+        assertTrue("img fence should render an image: $html", html.contains("<img src=\"data:image/svg+xml,"))
+    }
+
+    @Test
     fun testDetailsExtension() {
         // details extension: a `::: details "Title"` div renders a disclosure widget.
         val carve = "::: details \"More\"\nhidden\n:::"
