@@ -1,0 +1,7 @@
+[a]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/docs/ -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve
+  guide.html\n -> source.carve
+\n -> source.carve
+See [a]. -> source.carve

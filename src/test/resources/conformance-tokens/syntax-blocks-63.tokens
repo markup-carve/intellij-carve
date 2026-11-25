@@ -1,8 +1,9 @@
 :: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
   -> source.carve markup.list.definition.term.carve
 term\n -> source.carve
-more term text\n -> source.carve
-: first description\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.carve
+first description\n -> source.carve
 \n -> source.carve
 : -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
   -> source.carve markup.list.definition.carve

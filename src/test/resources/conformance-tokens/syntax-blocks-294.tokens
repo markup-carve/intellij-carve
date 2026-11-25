@@ -1,0 +1,15 @@
+* -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+[ -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+HTML -> source.carve meta.abbreviation.definition.carve entity.name.abbreviation.carve
+] -> source.carve meta.abbreviation.definition.carve keyword.control.abbreviation.carve
+: -> source.carve meta.abbreviation.definition.carve keyword.control.separator.carve
+  -> source.carve meta.abbreviation.definition.carve
+Hyper Text -> source.carve meta.abbreviation.definition.carve string.unquoted.abbreviation.carve
+\n -> source.carve
+   -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+\n -> source.carve
+HTML -> source.carve
