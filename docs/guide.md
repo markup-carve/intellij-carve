@@ -22,7 +22,7 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   - **Code folding** for headings, blocks, and other foldable regions
   - **Structure view + breadcrumbs** - a heading outline of the document
   - **Quick fixes / intentions** - convert Djot/Markdown delimiters to Carve
-    (for example `**bold**` to `*bold*`, `_em_` to `/em/`, `{=x=}` to `==x==`)
+    (for example `**bold**` to `*bold*`, `_em_` to `/em/`)
   - **Hover** documentation
   - **Rename** refactoring
   - **Reformat Code** (document formatting)
@@ -126,7 +126,7 @@ Type a prefix and press `Tab` to expand:
 |--------|------------|
 | `ch1`-`ch6` | Headings |
 | `cb`, `ci`, `cbi` | Bold `*…*`, italic `/…/`, bold-italic `/*…*/` |
-| `cu`, `cs`, `chl` | Underline `_…_`, strike `~…~`, highlight `=…=` |
+| `cu`, `cs`, `chl` | Underline `{_…_}`, strike `{~…~}`, highlight `{=…=}` |
 | `csup`, `csub`, `cc` | Superscript `{^…^}`, subscript `{,…,}`, inline code |
 | `clink`, `cimg` | Link, image |
 | `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[Heading][]` |
@@ -288,8 +288,8 @@ these editor commands have not been wired to it.
 
 [Carve](https://github.com/markup-carve/carve) is a lightweight markup language
 for documents and the web that builds on Djot with inline delimiters that look
-like their output (`/italic/`, `*bold*`, `_underline_`, `~strike~`,
-`=highlight=`) - plus a Markdown-like reading flow.
+like their output (`/italic/`, `*bold*`, `{_underline_}`, `{~strike~}`,
+`{=highlight=}`) - plus a Markdown-like reading flow.
 
 ## Development
 
