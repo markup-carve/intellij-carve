@@ -101,6 +101,7 @@ class CarveLspServer(private val project: Project) : OSProcessStreamConnectionPr
                 mode = settings.includeMode,
                 includeRoot = settings.includeRoot,
                 workspaceTrusted = project.isTrusted(),
+                lintUpgrade = settings.lintUpgrade,
             )
         }
     }

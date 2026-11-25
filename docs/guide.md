@@ -17,7 +17,9 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   [carve-lsp](https://github.com/markup-carve/carve-lsp) server (through
   [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij)):
   - **Diagnostics** - Djot/Markdown migration warnings (with quick fixes) and
-    semantic lint (broken cross-references, duplicate heading ids)
+    semantic lint (broken cross-references, duplicate heading ids). The 0.1
+    migration rules (`deprecated-*` and the other upgrade rules) run only with
+    **Settings → Tools → Carve → Language Server → Lint upgrade mode** on.
   - **Completion** - context-aware suggestions
   - **Code folding** for headings, blocks, and other foldable regions
   - **Structure view + breadcrumbs** - a heading outline of the document
