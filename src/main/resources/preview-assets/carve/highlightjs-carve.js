@@ -93,11 +93,17 @@ function adaptGrammar(grammar, hljs) {
     }
     adapt(grammar);
     const hashHeading = grammar.contains.find(mode => mode?.className === 'section' && mode.begin?.source.includes('#{1,6}'));
-    hashHeading['on:begin'] = (match) => {
+    const markerLineHeading = hashHeading['on:begin'];
+    hashHeading['on:begin'] = (match, response) => {
+        markerLineHeading(match, response);
+        if (match.index > 0 && !/[\r\n]/.test(match.input[match.index - 1])) return;
         match.rule.scope = inParagraph(match.input, match.index) ? undefined : 'section';
     };
-    grammar.contains = grammar.contains.filter(mode => !mode?.begin?.source?.includes('-{3,}|\\*{3,}|_{3,}'));
+    const horizontalRule = grammar.contains.find(mode => mode?.begin?.source?.includes('-{3,}|\\*{3,}|_{3,}'));
+    grammar.contains = grammar.contains.filter(mode => mode !== horizontalRule);
     const lineStart = '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*';
+    // A div body shares the mode: a thematic break is stars only (C2-B-159).
+    if (horizontalRule) horizontalRule.begin = new RegExp(lineStart + '\\*{3,}[ \\t]*$(?![^\\r\\n])');
     // C2-B-081: a definition stands at column 0 outside every container and
     // is text below a paragraph line.
     function definitionAllowed(source, offset) {
@@ -145,9 +151,7 @@ function adaptGrammar(grammar, hljs) {
     grammar.contains.unshift(
         { className: 'comment', begin: new RegExp(lineStart + '%%[ \\t]*#(?:region[ \\t]+[A-Za-z_][A-Za-z_0-9-]*|endregion(?:[ \\t]+[A-Za-z_][A-Za-z_0-9-]*)?)[ \\t]*$') },
         { className: 'bullet', begin: new RegExp(lineStart + letterMarker) },
-        { className: 'section', begin: new RegExp(lineStart + '={1,6} +\\S[^\\r\\n]*$'), 'on:begin': (match) => {
-            match.rule.scope = inParagraph(match.input, match.index) ? undefined : 'section';
-        } },
+        { ...hashHeading, begin: new RegExp(lineStart + '={1,6} +(?=\\S)') },
         { className: 'meta', begin: new RegExp(lineStart + '\\*{3,}[ \\t]*$') },
     );
     return grammar;
@@ -256,7 +260,14 @@ function adaptGrammar(grammar, hljs) {
     // attribute block, and one invalid name is enough to leave the whole run
     // literal. A colon belongs to the VALUE grammar, not the key: an unquoted
     // value may contain dots and colons, so `{k=a:b}` is a real attribute block.
-    const ATTR_ITEM = /(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\w-]*|[A-Za-z_][\w-]*(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}]+))?)/.source;
+    const ATTR_ITEM = /(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\w-]*|[A-Za-z_][\w-]*(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}|\\]+))?)/.source;
+    // The parts of C2-I-029 to C2-I-032: an unquoted value holds no pipe or backslash.
+    const STRICT_ATTR_ITEM = /(?::(?:[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)?|[.#][\w-]+|[A-Za-z_][\w-]*=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'\\|}]+)|[A-Za-z][\w-]*)/.source;
+    // A valid block glued to no host is one literal atom (C2-I-035, C2-I-036).
+    const ATTRIBUTE_UNATTACHED = {
+        begin: new RegExp('(?<!(?<!\\\\)(?:\\\\\\\\){0,32}\\\\)\\{[ \\t]*' + STRICT_ATTR_ITEM + '(?:[ \\t]+' + STRICT_ATTR_ITEM + ')*[ \\t]*\\}'),
+        relevance: 0,
+    };
     // A LIST MARKER MAY BE GLUED TO AN ATTRIBUTE BLOCK (`-{#x} item`), so the
     // marker rules have to look past a whole block to decide there is a marker
     // at all. That lookahead spelled the item alternation out again, and the
@@ -269,8 +280,16 @@ function adaptGrammar(grammar, hljs) {
         '(?=\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\}[ \\t]+[^ \\t\\n])';
     // A list marker glued to an attribute block, the block consumed.
     const GLUED_MARKER =
-        '(?:[-*] +)*(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.)'
+        '(?:[-*] +)*(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))'
         + '\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\} +';
+    // The markers a block on a marker line may follow: any chain of bullet,
+    // ordered and task markers, each optionally glued to an attribute block
+    // (`- # T`, `1. - # T`, `-{.c} > x`, carve-grammars#947). An uppercase dot
+    // marker needs two spaces (C2-B-040). Read through lookbehinds only.
+    const GLUED_ATTR_RUN = '\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\}';
+    const MARKER_LINE_PREFIX = '(?:(?:[-*]|[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)\\)|(?:[a-z]|[ivxlcdm]{2,9})\\.'
+        + '|(?:[A-Z]|[IVXLCDM]{2,9})\\.(?=(?:' + GLUED_ATTR_RUN + ')? {2})|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))'
+        + '(?:' + GLUED_ATTR_RUN + ')? +(?:\\[[ xX\\-_>\\/!?]\\] +)?)+';
     // BALANCED BRACKET TEXT - the body of a link label, an image alt text and a
     // bracketed span. See the long note on Prism's `bracketText`, which this
     // mirrors; the short version is that the spec closes a label at the
@@ -571,8 +590,8 @@ function adaptGrammar(grammar, hljs) {
         begin: new RegExp(
             '(?:' + attrLineBlocks + ')' + '(?=(?:[ \\t]*\\{(?:"(?:\\\\.|[^"\\\\\\n])*"|\'(?:\\\\.|[^\'\\\\\\n])*\'|[^{}"\'\\n])*\\})*[ \\t]*(?:\\n|$(?![^\\r\\n])))'
             + '|(?=\\{)(?:(?<=[*/_~=`>}:\\]$<|])|' + linkDestinationBeforeAttr + ')' + afterEscape + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + noCommentRun
-            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.))' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}'
-            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.)(?:\\{[^{}\\n]*\\})?(?:[ \\t]+\\[[ xX]\\])?[ \\t]+)' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + '(?=[ \\t]*(?:\\n|$(?![^\\r\\n])))',
+            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )))' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}'
+            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:\\{[^{}\\n]*\\})?(?:[ \\t]+\\[[ xX]\\])?[ \\t]+)' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + '(?=[ \\t]*(?:\\n|$(?![^\\r\\n])))',
         ),
         // Group 1 is set only on a `{` past ATTR_LINE_COLUMNS. A refused block
         // keeps its match and drops the scope, as `scopeUnless` does.
@@ -708,16 +727,22 @@ function adaptGrammar(grammar, hljs) {
     // An opener with no closing dash line runs to the end of the document
     // (carve#5016), so no closer lookahead.
     const FRONT_MATTER_CLOSER = /^(?<![^\r\n])---[ \t]*$(?![^\r\n])/;
-    const frontMatterOpener = (format) => new RegExp('^(?<![^\\r\\n])(?<![\\s\\S])\\uFEFF?---' + format + '[ \\t]*$(?![^\\r\\n])');
-    const frontMatter = (format) => ({
+    // A typed opener after line 1 also opens a top-level metadata block when a
+    // blank line, or attribute lines that follow one or start on line 1, stand
+    // directly above it (C2-B-232, C2-B-233); bare `---` stays line-1 only.
+    const LINE_ONE = '(?<![\\s\\S])\\uFEFF?';
+    const ATTRIBUTE_LINES = '(?:\\{[^{}\\r\\n]*\\}[ \\t]*)+(?:\\r\\n?|\\n)';
+    const LATER = '(?=---)(?<=(?:(?<![\\s\\S])|\\r\\n?|\\n)[ \\t]*(?:\\r\\n?|\\n)(?:' + ATTRIBUTE_LINES + ')*|(?<![\\s\\S])\\uFEFF?(?:' + ATTRIBUTE_LINES + ')+)';
+    const frontMatterOpener = (format, anchor = LINE_ONE) => new RegExp('^(?<![^\\r\\n])' + anchor + '---' + format + '[ \\t]*$(?![^\\r\\n])');
+    const frontMatter = (format, anchor) => ({
         className: 'meta',
-        begin: frontMatterOpener(format),
+        begin: frontMatterOpener(format, anchor),
         end: FRONT_MATTER_CLOSER,
         relevance: 10,
     });
-    const delegatedFrontMatter = (format, subLanguage) => ({
+    const delegatedFrontMatter = (format, subLanguage, anchor) => ({
         className: 'meta',
-        begin: frontMatterOpener(format),
+        begin: frontMatterOpener(format, anchor),
         end: /$(?![^\r\n])/,
         relevance: 10,
         starts: {
@@ -733,7 +758,14 @@ function adaptGrammar(grammar, hljs) {
         // `toml` is an alias, but subLanguage resolution requires the key.
         delegatedFrontMatter(' ?toml', 'ini'),
         delegatedFrontMatter('(?: ?(?:yaml|yml))?', 'yaml'),
-        frontMatter(' ?[A-Za-z0-9_]+'),
+        frontMatter(' ?[A-Za-z0-9]+'),
+    ];
+    // Top level only: a div body leaves the opener as text (C2-B-232).
+    const LATER_METADATA = [
+        delegatedFrontMatter(' ?json', 'json', LATER),
+        delegatedFrontMatter(' ?toml', 'ini', LATER),
+        delegatedFrontMatter(' ?(?:yaml|yml)', 'yaml', LATER),
+        frontMatter(' ?[A-Za-z0-9]+', LATER),
     ];
 
     // Headings: # to ######
@@ -741,8 +773,27 @@ function adaptGrammar(grammar, hljs) {
         className: 'section',
         // Anchored `^[ \t]*` on purpose - no container model here, see the
         // indented-block-openers note in the module docblock (carve-grammars#138).
-        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*#{1,6} (?![ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // Or right after a list marker the list rules took (`- # T`, `1. = T`,
+        // carve-grammars#945); an uppercase dot marker needs two spaces (C2-B-040).
+        begin: RegExp('(?:^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*#{1,6}'
+            + '|(?=[#=])(?<=^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + MARKER_LINE_PREFIX + ')(?:#{1,6}|={1,6}))'
+            + ' (?![ \\t]*$(?![^\\r\\n]))'),
+        // A marker that continues a paragraph opens no heading.
+        'on:begin': (m, resp) => {
+            const start = lineStartBefore(m.input, m.index);
+            m.rule.scope = markerIsParagraphText({ input: m.input, index: start }) ? undefined : 'section';
+            resp.data.label = { column: columnOf(m.input.slice(start, m.index + m[0].search(/[#=]/))), until: -1 };
+        },
+        // A heading is a label: it holds every line below it indented past its
+        // marker, comment-only lines unseen (C2-B-154, C2-B-234). The end takes
+        // the line break, so an ignored end still advances.
+        end: /\r\n?|\n/,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            // A comment-only line below is the heading's own (C2-B-138).
+            const next = m.index + m[0].length;
+            if (COMMENT_ONLY_LINE.test(lineAt(m.input, next)) || labelContinues(m.input, next, resp.data.label, true)) resp.ignoreMatch();
+        },
         relevance: 10,
     };
 
@@ -910,56 +961,21 @@ function adaptGrammar(grammar, hljs) {
      */
     function verbatimFence({ className, sigil = '', relevance = 0 }) {
         const RUN = '(?<!`)`+(?!`)';
-        /*
-         * A PARAGRAPH BREAK ALSO ENDS THE SPAN.
-         *
-         * An unpartnered run has no closer to find, and a mode with no closer
-         * ahead runs to END OF FILE - so `unclosed `code here`, a blank line,
-         * and the rest of the document came back scoped as code. That is the
-         * runaway carve-grammars#81 took out of every emphasis mode, still in
-         * this one because a verbatim run has no `illegal` to trip on.
-         *
-         * The engine ends the run at the same place: an unpartnered run is a
-         * code span reaching to the end of its PARAGRAPH, and the paragraph
-         * stops at the blank line. So this is where the span stops rather than
-         * where it is abandoned, and the text before the break keeps its
-         * scope. `tests/unclosed-delimiter-test.js` drives it.
-         *
-         * AT A RUN OF ONE OR TWO ONLY, for the reason the Prism grammar bounds
-         * its own unpartnered run the same way: a run of three or more is
-         * fence-shaped, and a fence carried on a list marker (`- ```) lands in
-         * THIS mode, because the block rule above is anchored at the start of
-         * a line and cannot reach it. Such a block may legitimately hold a
-         * blank line - corpus 75-list-nesting-and-looseness-5 is a fence whose
-         * body is two paragraphs - so ending it at the break would put the
-         * second half of its payload back in play.
-         */
-        // The `\r` is there so a CRLF document gets the same answer: a blank
-        // line is `\r\n\r\n`, and without it the span ran past the break to
-        // end of file on exactly the input this guard exists for.
+        // A run of one or two cannot cross a paragraph break. A run of three or
+        // more is fence-shaped: a fence on a list marker (`- ```) lands in this
+        // mode, and its payload may hold a blank line (corpus
+        // 75-list-nesting-and-looseness-5). The `\r` keeps CRLF input the same.
         //
         // Named BREAK and not PARAGRAPH_BREAK: the construct ledger's probe reads
-        // this file's UPPER_CASE constants as its vocabulary, and a constant
-        // holding the word `paragraph` would seed `paragraph` as a rule this
-        // grammar has (tests/construct-ledger-test.js).
+        // this file's UPPER_CASE constants as its vocabulary (tests/construct-ledger-test.js).
         const BREAK = '\\n[ \\t\\r]*\\n';
-        // The width is read off match[0], NOT a capture group: highlight.js
-        // concatenates every sibling mode's `begin` into one alternation, so
-        // group NUMBERS shift with unrelated modes and an index-based read
-        // silently grabs the wrong group (it threw here, which made the mode
-        // disappear entirely rather than fail loudly).
-        const widthOf = (text) => /`*$(?![^\r\n])/.exec(text)[0].length;
         return {
             className,
             begin: new RegExp(sigil + RUN),
-            'on:begin': (m, resp) => {
-                resp.data._fenceWidth = widthOf(m[0]);
-            },
+            'on:begin': runOpener((width) => (width >= 3 ? null : PARAGRAPH_END)),
             end: new RegExp(RUN + '|' + BREAK),
             'on:end': (m, resp) => {
-                // The paragraph break is an end in its own right, not a
-                // candidate closer, so it is never width-checked - but it only
-                // ends a run too narrow to be a fence.
+                // The paragraph break only ends a run too narrow to be a fence.
                 if (!m[0].includes('`')) {
                     if (resp.data._fenceWidth >= 3) resp.ignoreMatch();
 
@@ -969,6 +985,50 @@ function adaptGrammar(grammar, hljs) {
             },
             relevance,
         };
+    }
+
+    /*
+     * A run with no closing run of its width later in the same content opens
+     * nothing, and a `!`, `$` or `$$` glued before it is text too (C2-I-017).
+     * highlight.js has no begin-to-end backreference, so the closer is looked for
+     * here. The walk visits each later run once and stops at `stop`, so it costs
+     * the distance to the closer or to the end of the content.
+     */
+    // The width is read off match[0], NOT a capture group: highlight.js
+    // concatenates every sibling mode's `begin` into one alternation, so
+    // group NUMBERS shift with unrelated modes.
+    const widthOf = (text) => /`*$(?![^\r\n])/.exec(text)[0].length;
+    const PARAGRAPH_END = /\n[ \t\r]*\n/y;
+    const LINE_END = /\n/y;
+    // A table cell's content ends at its row, unless a continuation row follows.
+    const TABLE_ROW_END = /\n(?![ \t]*\+(?:\\.|[^\\\n])*\|[ \t]*$(?![^\r\n]))/my;
+    function runOpener(stopFor) {
+        return (m, resp) => {
+            const width = widthOf(m[0]);
+            if (!closerAhead(m.input, m.index + m[0].length, width, stopFor(width))) {
+                resp.ignoreMatch();
+
+                return;
+            }
+            resp.data._fenceWidth = width;
+        };
+    }
+    function closerAhead(input, from, width, stop) {
+        const scan = /`+|\n/g;
+        scan.lastIndex = from;
+        let m;
+        while ((m = scan.exec(input))) {
+            if (m[0] === '\n') {
+                if (stop) {
+                    stop.lastIndex = m.index;
+                    if (stop.test(input)) return false;
+                }
+                continue;
+            }
+            if (m[0].length === width) return true;
+        }
+
+        return false;
     }
 
     // Math: $$`...` (display) and $`...` (inline). Per grammar.ebnf PART 9 SS18
@@ -992,6 +1052,7 @@ function adaptGrammar(grammar, hljs) {
     const TABLE_INLINE_CODE = {
         ...INLINE_CODE,
         end: /(?<!`)`+(?!`)|(?=\n(?![ \t]*\+(?:\\.|[^\\\n])*\|[ \t]*$(?![^\r\n])))/,
+        'on:begin': runOpener(() => TABLE_ROW_END),
         'on:end': (match, response) => {
             if (match[0] === '') return;
             INLINE_CODE['on:end'](match, response);
@@ -1071,15 +1132,40 @@ function adaptGrammar(grammar, hljs) {
         relevance: 5,
     };
 
+    // A label or definition ends at its line break unless `on:end` hands it the
+    // next line; `returnEnd` leaves the break for the parent when it ends.
+    const LINE_BREAK_END = /\r\n|\r(?!\n)|\n|$(?![\s\S])/;
+
     // Reference definitions: [ref]: url "title". The destination and the
     // `link_title` are scoped apart, as TextMate does (#523).
     const REFERENCE_DEF = {
         className: 'symbol',
         // Anchored at end of line, so `[a]: /u zzz` stays prose (#533).
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\[(?!@|\^[^\]])(?!\^\]:[ \t]*$)[^\]]+\]:(?=(?: [^\S\n]*(?:\S|\uFEFF)+(?: (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'))?(?: \{[^{}\n]*\})?)?[ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // The indented lines below it continue it while they hold the rest of
+        // its tail: a title, an attribute block, at most one of each, in that
+        // order (C2-B-083). `data.tail` holds the parts still open.
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:begin': (m, resp) => {
+            const line = lineAt(m.input, m.index);
+            const parts = /\]: [^\S\n]*(?:\S|\uFEFF)+( (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'))?( \{[^{}\n]*\})?[ \t]*$/.exec(line);
+            resp.data.tail = !parts ? '' : parts[2] ? '' : parts[1] ? 'a' : 'ta';
+        },
+        'on:end': (m, resp) => {
+            const tail = resp.data.tail;
+            const next = m[0] ? lineAt(m.input, m.index + m[0].length) : '';
+            const shape = /^[ \t]+(?:("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')( \{[^{}\n]*\})?|\{[^{}\n]*\})[ \t]*$/.exec(next);
+            if (!shape || (shape[1] ? tail !== 'ta' : !tail)) return;
+            resp.data.tail = shape[1] && !shape[2] ? 'a' : '';
+            resp.ignoreMatch();
+        },
         relevance: 10,
         contains: [
+            {
+                className: 'string',
+                begin: /(?<=^(?<![^\r\n])[ \t]+)(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')(?=(?: \{[^\n]*\})?[ \t]*$(?![^\r\n]))/,
+            },
             // Only on a line that completes a definition; `[a]: /u zzz` is
             // prose (grammar.ebnf `reference_definition`, anchored at end of line).
             {
@@ -1118,7 +1204,12 @@ function adaptGrammar(grammar, hljs) {
     const DEFINITION_TERM = {
         className: 'title',
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*:: (?![ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // The lines definitionListLines gave the term continue it (C2-B-069).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            if (m[0] && definitionListLines(m.input).termLines.has(m.index + m[0].length)) resp.ignoreMatch();
+        },
         relevance: 5,
     };
 
@@ -1131,7 +1222,7 @@ function adaptGrammar(grammar, hljs) {
     // blank line (corpus 25-definition-lists-7) scoped correctly.
     const OTHER_BLOCK_OPENER_SOURCE =
         '[ \\t]*(?:#{1,6} |-{3,}[ \\t]*$(?![^\\r\\n])|\\*{3,}[ \\t]*$(?![^\\r\\n])|_{3,}[ \\t]*$(?![^\\r\\n])|`{3,}|~{3,}|:{3,}|>(?: |$(?![^\\r\\n]))'
-        + '|\\^ |\\||[-*][ \\t]|[-*]\\{|\\d+[.)][ \\t]|[A-Za-z]+(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))[ \\t]|\\.[ \\t])';
+        + '|\\^ |\\||[-*][ \\t]|[-*]\\{|\\d+[.)][ \\t]|[A-Za-z]+(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))[ \\t]|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )[ \\t])';
 
     // The continuation marker at RELATIVE column 0 (markup-carve/carve#3445,
     // CARVE-P9-031). A lone `+` is the marker only where the lines around it
@@ -1141,7 +1232,7 @@ function adaptGrammar(grammar, hljs) {
     // group is captured on the `+` line before the lines above it are read;
     // the `(?=\+)` in front of each keeps them off every other position.
     function relativePlusSource(g) {
-        var item = '(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.)';
+        var item = '(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))';
         var notItem = '(?!' + item + '(?:[ \\t]|\\r?$|\\{))';
         // A list item does not interrupt a paragraph, so one under prose opens nothing.
         var notUnderProse = '(?<!(?<![^\\n])[^ \\t\\r\\n>|#:`~*\\-+\\d[{%][^\\n]*\\n)';
@@ -1336,7 +1427,7 @@ function adaptGrammar(grammar, hljs) {
             // opens no list item: a column-0 list stays outside (carve#3482).
             {
                 className: 'punctuation',
-                begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n(?!(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2})))|\.)(?:[ \t]|\r?$|\{))[^ \t\r\n])/,
+                begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n(?!(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2})))|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. ))(?:[ \t]|\r?$|\{))[^ \t\r\n])/,
             },
             bodyAttribute('\\[\\^[^\\]\\r\\n]+\\]:'),
         ],
@@ -1354,7 +1445,17 @@ function adaptGrammar(grammar, hljs) {
         // Anchored `^[ \t]*` on purpose - no container model here, see the
         // indented-block-openers note in the module docblock (carve-grammars#138).
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\*\[[A-Za-z0-9]+\]:(?= +[^\r\n]*[^ \t\r\n])/,
-        end: /$(?![^\r\n])/,
+        // Every line below it indented past its `*` continues the expansion; a
+        // block line or a comment-only line ends it (C2-B-084).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:begin': (m, resp) => {
+            resp.data.column = markerColumn(m.input, m.index);
+            resp.data.until = -1;
+        },
+        'on:end': (m, resp) => {
+            if (m[0] && labelContinues(m.input, m.index + m[0].length, resp.data, false)) resp.ignoreMatch();
+        },
         relevance: 10,
     };
 
@@ -1373,10 +1474,7 @@ function adaptGrammar(grammar, hljs) {
     // marker-line fence, and with the quote rules sharing the prefix it coloured
     // `-<TAB>> q` as a quote on a line the language renders as prose
     // (carve-grammars#259).
-    const LIST_MARKER_BEFORE_BLOCK =
-        '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*'
-        + '(?:(?:[-*] +)*[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?'
-        + '|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))) +|\\. +)';
+    const LIST_MARKER_BEFORE_BLOCK = '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + MARKER_LINE_PREFIX;
 
     // The lookbehinds built from this prefix are variable length. The modes
     // below check their sentinel before reading the prefix, so irrelevant
@@ -1523,16 +1621,16 @@ function adaptGrammar(grammar, hljs) {
     const QUOTED = '(?<=(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*>(?: >)* )';
     const NO_EMPTY = '(?![ \\t]*$(?![^\\r\\n]))';
     BLOCKQUOTE.contains.push(
-        { className: 'section', begin: RegExp('(?=#)' + QUOTED + '#{1,6}(?= )' + NO_EMPTY) },
+        { className: 'section', begin: RegExp('(?=[#=])' + QUOTED.slice(0, -1) + '(?:' + MARKER_LINE_PREFIX + ')?)(?:#{1,6}|={1,6})(?= )' + NO_EMPTY) },
         { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '[-*] \\[[ xX\\-_>\\/!?]\\](?= )' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
         { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '(?:[-*] +)*[-*](?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
-        { className: 'bullet', begin: RegExp('(?=[\\dA-Za-z.])' + QUOTED + '(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.)(?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
+        { className: 'bullet', begin: RegExp('(?=[\\dA-Za-z.])' + QUOTED + '(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
         // The `+` continuation marker: after a quoted list marker always, and
         // a lone `+` in a quote where the lines around it prove it.
         {
             className: 'punctuation',
             begin: RegExp('(?=\\+)' + QUOTED.slice(0, -1)
-                + '(?:[-*] \\[[ xX\\-_>\\/!?]\\] +|(?:[-*] +)+|(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.) +|'
+                + '(?:[-*] \\[[ xX\\-_>\\/!?]\\] +|(?:[-*] +)+|(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )) +|'
                 + GLUED_MARKER + '))\\+[ \\t]*$(?![^\\r\\n])'),
         },
         { className: 'punctuation', begin: RegExp(relativePlusSource(1)) },
@@ -1612,9 +1710,36 @@ function adaptGrammar(grammar, hljs) {
     const lineAt = (input, start) => input.slice(start, lineEndFrom(input, start));
     const previousLineStart = (input, start) => start === 0 ? -1
         : lineStartBefore(input, start - (input[start - 1] === '\n' && input[start - 2] === '\r' ? 2 : 1));
+    const columnOf = (lead) => {
+        let col = 0;
+        for (const ch of lead) col = ch === '\t' ? col + 4 - (col % 4) : col + 1;
+        return col;
+    };
+    // A fence, a table row, a `***` break or a block comment ends a label even when indented (C2-B-234).
+    const LABEL_END_LINE = /^[ \t]*(?:`{3,}|:{3,}|%|\|[^\r\n]*\||\*{3,}[ \t]*$)/;
+    const COMMENT_ONLY_LINE = /^[ \t]*%%(?!%)(?![ \t]*#(?:region|endregion)\b)/;
+    // Whether the line starting at `at` continues a label whose marker stands at
+    // `column`: indented past it, after any comment-only lines when `comments`.
+    // `data.until` keeps the line found, so a run of comment lines is read once.
+    const labelContinues = (input, at, data, comments) => {
+        if (at <= data.until) return true;
+        while (at < input.length) {
+            const line = lineAt(input, at);
+            if (!(comments && COMMENT_ONLY_LINE.test(line))) {
+                const lead = /^[ \t]*/.exec(line)[0];
+                const held = lead.length < line.length && columnOf(lead) > data.column && !LABEL_END_LINE.test(line);
+                if (held) data.until = at;
+                return held;
+            }
+            at += line.length;
+            at += input[at] === '\r' && input[at + 1] === '\n' ? 2 : 1;
+        }
+        return false;
+    };
+    const markerColumn = (input, index) => columnOf(/^\uFEFF?([ \t]*)/.exec(lineAt(input, lineStartBefore(input, index + 1)))[1]);
     // A line after which a new block starts: it ends any paragraph above.
     const BLOCK_BOUNDARY_LINE = /^\uFEFF?(?:[ \t]*(?:#{1,6}(?: |$)|`{3,}|~{3,}|:{3,}|%{3,}|(?:-{3,}|\*{3,}|_{3,})[ \t]*$|\|.*\|(?:\{[^{}]*\})?[ \t]*$|\{[^{}]*\}[ \t]*$|%%|\[\^?[^\]]+\]:(?: |$)|\*\[[A-Za-z0-9]+\]:|:: )|\+[ \t]*$)/;
-    const LIST_ITEM_LINE = /^\uFEFF?[ \t]*(?:[-*]|\d{1,9}[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))|\.)(?: +[^ \t]|\{)/;
+    const LIST_ITEM_LINE = /^\uFEFF?[ \t]*(?:[-*]|\d{1,9}[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. ))(?: +[^ \t]|\{)/;
     const lineKind = (line) => {
         if (/^\uFEFF?[ \t]*$/.test(line)) return 'blank';
         // So is one in a quote or a description (`> # h`, `:  [^n]: x`).
@@ -1769,7 +1894,7 @@ function adaptGrammar(grammar, hljs) {
     const LIST_NUMBER = {
         className: 'bullet',
         begin: RegExp(
-            '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.)(?:(?= )|' + GLUED_ATTR_BLOCK + ')(?![ \\t]*$(?![^\\r\\n]))',
+            '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:(?= )|' + GLUED_ATTR_BLOCK + ')(?![ \\t]*$(?![^\\r\\n]))',
         ),
         'on:begin': scopeUnless('bullet', markerIsParagraphText),
         relevance: 0,
@@ -1792,7 +1917,7 @@ function adaptGrammar(grammar, hljs) {
         className: 'punctuation',
         begin: RegExp('(?=\\+)(?<=' + LIST_MARKER_BEFORE_BLOCK + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*'
             + GLUED_MARKER + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(?:(?:[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?'
-            + '|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))) +|\\. +))+)\\+[ \\t]*$(?![^\\r\\n])'),
+            + '|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))) +|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ) +))+)\\+[ \\t]*$(?![^\\r\\n])'),
         relevance: 0,
     };
 
@@ -1816,13 +1941,15 @@ function adaptGrammar(grammar, hljs) {
         for (var m = 0; m < definitionListMemo.length; m++) {
             if (definitionListMemo[m].text === text) return definitionListMemo[m];
         }
-        var result = { text: text, terms: new Set(), markers: new Set(), lists: [], fenced: new Set(), fences: [] };
+        var result = { text: text, terms: new Set(), markers: new Set(), termEnds: new Map(), termLines: new Set(), lists: [], fenced: new Set(), fences: [] };
         definitionListMemo.unshift(result);
         if (definitionListMemo.length > 4) definitionListMemo.pop();
 
         var frames = [{ kind: 'document', width: 0, list: null }];
         var para = -1;
         var fence = null;
+        // The open term: its frame, the column of its `::` and the offset of the mark.
+        var openTerm = null;
         // A line block's span pairing is not modeled here, so a fence after
         // one in the same frame is not reported in `fences`; nor is one in a
         // frame a `+` shifted.
@@ -1834,8 +1961,10 @@ function adaptGrammar(grammar, hljs) {
         var lineRe = /[^\r\n]*(?:\r\n|\r|\n)?/g;
         var start = text.charCodeAt(0) === 0xFEFF ? 1 : 0;
         lineRe.lastIndex = start;
-        var listMarker = /^(?:[-*.]|[0-9]+[.)]|[A-Za-z]+\)|[A-Za-z]+\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))( +(?=[^ \t])|$)/;
+        var listMarker = /^(?:[-*]|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. )|[0-9]+[.)]|[A-Za-z]+\)|[A-Za-z]+\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))( +(?=[^ \t])|$)/;
         var opener = /^(?:#{1,6}(?:[ \t]|$)|`{3,}|~{3,}|%{3,}|:{3,}|>|\[\^[^\]\r\n]+\]:|\|[^\r\n]*\|(?:\{[^{}\r\n]*\})?[ \t]*$|\^ |(?:-[ \t]*){3,}$|(?:\*[ \t]*){3,}$|(?:_[ \t]*){3,}$)/;
+        // The lines that end a label even indented past its marker (C2-B-234).
+        var labelEnd = /^(?:`{3,}|:{3,}|%{3,}|%%[ \t]*#(?:region|endregion)\b|\|[^\r\n]*\||\*{3,}[ \t]*$)/;
         var line, at, end;
         // Closerless front matter runs to the end of the text.
         var frontMatter = start === lineRe.lastIndex && /^---(?:[ \t][^\r\n]*)?(?:\r\n|\r|\n|$)/.test(text.slice(start));
@@ -1956,6 +2085,20 @@ function adaptGrammar(grammar, hljs) {
                 }
                 fence = null;
             }
+            // A term holds the lines indented past its `::`; a comment-only line between is not seen (C2-B-069, C2-B-234).
+            if (openTerm && /^%%(?!%)(?![ \t]*#(?:region|endregion)\b)/.test(rest)) openTerm.comments.push(at);
+            else if (openTerm) {
+                if (!blank && rest && reached >= openTerm.depth && indent > openTerm.indent && !labelEnd.test(rest)) {
+                    result.termEnds.set(openTerm.at, end);
+                    openTerm.comments.push(at);
+                    openTerm.comments.forEach(function (line) { result.termLines.add(line); });
+                    openTerm.comments = [];
+                    blanks = 0;
+                    extend(end);
+                    continue;
+                }
+                openTerm = null;
+            }
             // S1: a line comment and a one-line link definition are erased.
             if (/^%%(?!%)/.test(rest) || /^\[(?!\^)[^\]\r\n]+\]:(?:[ \t]+[^ \t]+)?[ \t]*$/.test(rest)) {
                 blanks = 0;
@@ -2039,6 +2182,7 @@ function adaptGrammar(grammar, hljs) {
                 if (termMatch) {
                     openList(owner, restAt);
                     result.terms.add(restAt);
+                    openTerm = { depth: depth, indent: indent, at: restAt, comments: [] };
                     para = -1;
                     break;
                 }
@@ -2501,8 +2645,8 @@ function adaptGrammar(grammar, hljs) {
         MARKER_CODE_FORMS.push(['(?:[ivxlcdm]{' + roman + '}|[IVXLCDM]{' + roman + '})\\) ', roman + 2]);
         MARKER_CODE_FORMS.push(['(?:[ivxlcdm]{' + roman + '}|[IVXLCDM]{' + roman + '})\\.  ', roman + 3]);
     }
-    MARKER_CODE_FORMS.push(['[A-Za-z]\\) ', 3], ['[A-Za-z]\\.  ', 4], ['\\. ', 2]);
-    const PLAIN_LINE_BEFORE_MARKER = '(?<![^\\n])(?!(?:[-*] +|[0-9]+[.)] +|(?:[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|[A-Za-z](?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|\\. +|> |#{1,6} |:{2,}|\\||[-*_]{3,}|[`~]{3,}|%%|\\+))[\\S][^\\n]*\\n';
+    MARKER_CODE_FORMS.push(['[A-Za-z]\\) ', 3], ['[A-Za-z]\\.  ', 4], ['\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ) ', 2]);
+    const PLAIN_LINE_BEFORE_MARKER = '(?<![^\\n])(?!(?:[-*] +|[0-9]+[.)] +|(?:[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|[A-Za-z](?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|\\.(?! [ \\t]*\\. ) +|> |#{1,6} |:{2,}|\\||[-*_]{3,}|[`~]{3,}|%%|\\+))[\\S][^\\n]*\\n';
     const markerLineFence = (info, marker, width) => ({
         className: 'code',
         beginScope: 'keyword',
@@ -3013,9 +3157,20 @@ function adaptGrammar(grammar, hljs) {
 
     // Mentions and tags: @name / #name (a heading `#` is line-anchored and is
     // matched earlier, so an inline `#tag` is unambiguous).
+    // A mention or tag name (C2-I-092): runs of letters, digits, `_` and `-`
+    // joined by single dots, holding a letter, not ending in a hyphen. A run
+    // directly followed by a Unicode letter, number or mark is text, which
+    // needs `u`, so 'on:begin' tests it.
+    const TAG_NAME = '(?=(?:[A-Za-z0-9_-]|\\.(?=[A-Za-z0-9_-]))*[A-Za-z])[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*(?<!-)';
+    const TAG_RUN_FOLLOWER = /[A-Za-z0-9_.-]*([\p{L}\p{N}\p{M}])?/uy;
+    const refuseGluedName = (m, resp) => {
+        TAG_RUN_FOLLOWER.lastIndex = m.index + 1;
+        if (TAG_RUN_FOLLOWER.exec(m.input)[1]) resp.ignoreMatch();
+    };
     const MENTION = {
         className: 'symbol',
-        begin: /(?<![\w@])@[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w@])@' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
     /*
@@ -3044,7 +3199,8 @@ function adaptGrammar(grammar, hljs) {
     };
     const TAG = {
         className: 'symbol',
-        begin: /(?<![\w#])#[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w#])#' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
     // Used only inside HEADING (carve-grammars#125), not TAG itself: a
@@ -3055,7 +3211,8 @@ function adaptGrammar(grammar, hljs) {
     // corpus 118 (`# A </#a>`), which pins the whole thing staying unscoped.
     const HEADING_TAG = {
         className: 'symbol',
-        begin: /(?<![\w#])(?<!<\/)#[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w#])(?<!<\\/)#' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
 
@@ -3107,7 +3264,7 @@ function adaptGrammar(grammar, hljs) {
             { begin: [/\|/, /=(?= |\{)/], beginScope: { 1: 'table-boundary', 2: 'table-header' } },
             // Braced cell alignment leads the cell's attribute block (carve#5091 D3).
             {
-                begin: [/(?<=(?<!\\)(?:\\\\)*\|=?)\{/, /(?:[<>~][\^~v]?|\?[\^~v])/, /(?=(?:[ \t]+(?::[\w-]*|[.#]?[\w-]+(?:=(?:"(?:\\.|[^"\\\n]){0,256}"|'(?:\\.|[^'\\\n]){0,256}'|[^\s"'{}]{1,256}))?))*[ \t]*\})/],
+                begin: [/(?<=(?<!\\)(?:\\\\)*\|=?)\{/, /(?:[<>~][\^~v]?|\?[\^~v])/, /(?=(?:[ \t]+(?::[\w-]*|[.#]?[\w-]+(?:=(?:"(?:\\.|[^"\\\n]){0,256}"|'(?:\\.|[^'\\\n]){0,256}'|[^\s"'{}|\\]{1,256}))?))*[ \t]*\})/],
                 beginScope: { 2: 'table-alignment' },
             },
             { className: 'table-span', begin: /(?<=\|)[ \t]*[<^](?=[ \t]*\|)/ },
@@ -3175,8 +3332,17 @@ function adaptGrammar(grammar, hljs) {
         className: 'title.caption',
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*(?=\^ (?![ \t]*$(?![^\r\n])))/,
         // Without a host the line is paragraph text, inline runs and all.
-        'on:begin': scopeUnless('title.caption', (m) => !captionHost(m.input, m.index)),
-        end: /$(?![^\r\n])/,
+        'on:begin': (m, resp) => {
+            scopeUnless('title.caption', (m) => !captionHost(m.input, m.index))(m);
+            resp.data.column = markerColumn(m.input, m.index);
+            resp.data.until = -1;
+        },
+        // A caption is a label (C2-B-148, C2-B-234).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            if (m[0] && labelContinues(m.input, m.index + m[0].length, resp.data, true)) resp.ignoreMatch();
+        },
         relevance: 5,
     };
 
@@ -3368,6 +3534,7 @@ function adaptGrammar(grammar, hljs) {
         // line, so the child popped past the parent's `$` and carried the block
         // scope onward.
         end: new RegExp(`(?=\\n)|${mode.end.source}`),
+        'on:begin': runOpener(() => LINE_END),
         'on:end': (match, response) => {
             // The line boundary is an end in its own right, never width-checked.
             if (match[0] === '') return;
@@ -3597,6 +3764,7 @@ function adaptGrammar(grammar, hljs) {
     const CONTAINS = [
         // Block-level elements (order matters - more specific first)
         ...FRONT_MATTER,
+        ...LATER_METADATA,
         HEADING,
         CODE_BLOCK,        // ``` ... ``` - before the delimiter-only fallback
         RAW_BLOCK,         // ```=html ... ``` - same, with the raw info string
@@ -3707,6 +3875,7 @@ function adaptGrammar(grammar, hljs) {
     // bare opener, which BARE_FENCE_LINE stands in for. DIV_BLOCK is in that
     // list, so a div nests in a div.
     const IN_CONTAINER = CONTAINS
+        .filter((mode) => !LATER_METADATA.includes(mode))
         .map((mode) => (mode === BARE_DIV_BLOCK ? BARE_FENCE_LINE : mode));
     DIV_BLOCK.contains = IN_CONTAINER;
     BARE_DIV_BLOCK.contains = IN_CONTAINER;
@@ -3743,6 +3912,27 @@ function adaptGrammar(grammar, hljs) {
     DIV_ON_MARKER_LINE.contains = [DIV_MARKER_LINE_CLOSER, ...IN_CONTAINER];
     FIGURE_GROUP_ON_MARKER_LINE.contains = [FIGURE_GROUP_MARKER_LINE_CLOSER, ...IN_GROUP];
     DIV_ON_MARKER_LINE_IN_GROUP.contains = [DIV_IN_GROUP_MARKER_LINE_CLOSER, ...IN_GROUP];
+
+    // Every inline list that reads a tag reads an unattached block as one atom
+    // first: after the attached-block rules, before a sink that takes a lone `{`.
+    {
+        const attached = [ATTRIBUTE, ATTRIBUTE_EMPTY, SPAN_ATTRIBUTE];
+        const tagish = [TAG, HEADING_TAG, MENTION];
+        const braceSink = (mode) => mode && !mode.className && mode.begin instanceof RegExp && mode.begin.source.startsWith('\\{(?=(');
+        const seen = new Set();
+        const visit = (mode) => {
+            if (!mode || typeof mode !== 'object' || seen.has(mode)) return;
+            seen.add(mode);
+            for (const child of [].concat(mode.contains || [], mode.starts || [], mode.variants || [])) visit(child);
+            const list = mode.contains;
+            if (!Array.isArray(list) || list.includes(ATTRIBUTE_UNATTACHED) || !list.some((m) => tagish.includes(m))) return;
+            const last = Math.max(...attached.map((m) => list.indexOf(m)));
+            const first = list.findIndex((m) => tagish.includes(m) || braceSink(m));
+            list.splice(last >= 0 ? last + 1 : first, 0, ATTRIBUTE_UNATTACHED);
+        };
+        CONTAINS.forEach(visit);
+        visit({ contains: CONTAINS });
+    }
 
     return {
         // `crv` is the canonical file extension, and every surface this package

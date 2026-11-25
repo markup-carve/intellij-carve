@@ -19,6 +19,7 @@ object CarveLspInitializationOptions {
         mode: CarveIncludeMode,
         includeRoot: String,
         workspaceTrusted: Boolean,
+        lintUpgrade: Boolean = false,
     ): JsonObject {
         val includes = JsonObject()
         includes.addProperty("enabled", mode.wireValue)
@@ -36,6 +37,12 @@ object CarveLspInitializationOptions {
         carve.add("includes", includes)
         // The plugin ships its own export actions; the server's would list export twice.
         carve.addProperty("exportActions", false)
+        // Only an opted-in upgrade mode is sent, so `.carverc.json` decides otherwise.
+        if (lintUpgrade) {
+            val lint = JsonObject()
+            lint.addProperty("upgrade", true)
+            carve.add("lint", lint)
+        }
 
         val options = JsonObject()
         options.add("carve", carve)

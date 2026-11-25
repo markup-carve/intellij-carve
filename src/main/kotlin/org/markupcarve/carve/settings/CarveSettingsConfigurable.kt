@@ -19,9 +19,9 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
      * radio button appears to do nothing until the IDE is restarted.
      */
     override fun apply() {
-        val before = settings.includeMode to settings.includeRoot
+        val before = Triple(settings.includeMode, settings.includeRoot, settings.lintUpgrade)
         super.apply()
-        if (before != settings.includeMode to settings.includeRoot) {
+        if (before != Triple(settings.includeMode, settings.includeRoot, settings.lintUpgrade)) {
             CarveLspRestart.restart(project)
         }
     }
@@ -90,6 +90,15 @@ class CarveSettingsConfigurable(private val project: Project) : BoundConfigurabl
                             "Path to the Node.js binary that runs the bundled Carve language " +
                                 "server (diagnostics, completion, folding, outline, code actions). " +
                                 "Leave empty to use <code>node</code> from your PATH.",
+                        )
+                }
+                row {
+                    checkBox("Lint upgrade mode")
+                        .bindSelected(settings::lintUpgrade)
+                        .comment(
+                            "Run the 0.1 migration rules (<code>deprecated-*</code>, " +
+                                "<code>thematic-break-spelling</code> and the other upgrade rules) and offer " +
+                                "their quick fixes. Turn it on while moving a 0.1 document to 0.2.",
                         )
                 }
             }
