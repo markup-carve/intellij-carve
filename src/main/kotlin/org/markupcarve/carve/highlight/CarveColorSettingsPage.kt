@@ -93,7 +93,7 @@ class CarveColorSettingsPage : ColorSettingsPage {
 
             <q>></q> a blockquote
 
-            This <mark>=highlight=</mark> stays visible on light and dark themes.
+            This <mark>{=highlight=}</mark> stays visible on light and dark themes.
 
             <div>:::</div> note
             Inside an admonition.

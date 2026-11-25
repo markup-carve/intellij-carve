@@ -38,15 +38,15 @@
         <variable name="TEXT" expression="" defaultValue="&quot;bold italic&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="cu" value="_$TEXT$_$END$" description="Underline (_underline_)" toReformat="false" toShortenFQNames="false">
+    <template name="cu" value="{_$TEXT$_}$END$" description="Underline ({_underline_})" toReformat="false" toShortenFQNames="false">
         <variable name="TEXT" expression="" defaultValue="&quot;underline&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="cs" value="~$TEXT$~$END$" description="Strikethrough (~strike~)" toReformat="false" toShortenFQNames="false">
+    <template name="cs" value="{~$TEXT$~}$END$" description="Strikethrough ({~strike~})" toReformat="false" toShortenFQNames="false">
         <variable name="TEXT" expression="" defaultValue="&quot;strike&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
-    <template name="chl" value="=$TEXT$=$END$" description="Highlight (=highlight=)" toReformat="false" toShortenFQNames="false">
+    <template name="chl" value="{=$TEXT$=}$END$" description="Highlight ({=highlight=})" toReformat="false" toShortenFQNames="false">
         <variable name="TEXT" expression="" defaultValue="&quot;highlight&quot;" alwaysStopAt="true"/>
         <context><option name="OTHER" value="true"/></context>
     </template>
