@@ -2,7 +2,7 @@
   "name": "intellij-carve-lsp-bundle",
   "private": true,
   "dependencies": {
-    "@markup-carve/carve-lsp": "0.1.16"
+    "@markup-carve/carve-lsp": "0.1.17"
   },
   "overrides": {
     "@markup-carve/carve": "0.1.17"
