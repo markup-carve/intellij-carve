@@ -203,7 +203,7 @@ kotlin {
 
 val textmateDir = "src/main/resources/textmate"
 val grammarUrl =
-    "https://raw.githubusercontent.com/markup-carve/vscode-carve/next2/syntaxes/carve.tmLanguage.json"
+    "https://raw.githubusercontent.com/markup-carve/vscode-carve/main/syntaxes/carve.tmLanguage.json"
 
 // ---------------------------------------------------------------------------
 // Grammar drift: intended, permanent deltas from the vscode-carve upstream copy

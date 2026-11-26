@@ -1,10 +1,10 @@
 # What the vendored carve-css layers are a copy OF.
 #
-# Read by tools/check-carve-css-drift.sh (which checks the pinned next2
+# Read by tools/check-carve-css-drift.sh (which checks the pinned main
 # commit and compares bytes) and by CarveCssResourcesTest (which compares the
 # SHA-256s offline, so a hand-edit fails the build without network).
 #
-# source: markup-carve/carve-css next2
+# source: markup-carve/carve-css main
 # Lines are `key value` or `sha256 <digest> <bytes> <file>`.
 
 version 0.1.10

@@ -9,7 +9,7 @@ Carve support for JetBrains IDEs, with highlighting, preview, and optional langu
 
 ## Features
 
-- Syntax highlighting and live preview. On the `next2` branch the TextMate grammar reads Carve 0.2 source (root scope `source.carve`), and preview, export, import and the bundled language server run on the unreleased Carve 0.2 engine (carve-js and carve-lsp `next2`, pinned by commit).
+- Syntax highlighting and live preview. The TextMate grammar reads Carve 0.2 source (root scope `source.carve`), and preview, export, import and the bundled language server run on the unreleased Carve 0.2 engine (carve-js and carve-lsp `next2`, pinned by commit).
 - The preview enables the standard 0.2 extensions it can draw (details, spoiler, tabs, code groups, list tables, math, mermaid, charts, `:cite[...]` citations with a `references` list, `:term[...]` glossary links, `:index[...]` entries and SVG `img` fences drawn as images) and links bare URLs. The `cwiki` template writes the 0.2 heading reference `[Heading][]`.
 - Import and export commands.
 - Optional diagnostics, completion, and navigation through LSP4IJ.
