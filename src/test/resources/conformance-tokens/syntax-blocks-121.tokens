@@ -1,0 +1,6 @@
+%%% -> source.carve comment.block.carve
+\n -> source.carve comment.block.carve
+hidden\n -> source.carve comment.block.carve
+%%% -> source.carve comment.block.carve
+\n -> source.carve
+after -> source.carve

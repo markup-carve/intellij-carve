@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [main]
+    branches: [main, next2]
   pull_request:
   workflow_dispatch:
 
@@ -21,9 +21,15 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+      # carve-js next2 builds on install and runs scripts/*.ts directly, which needs Node 22.
       - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '22'
+      # The pins are git commits on next2, which the lockfile records as SSH URLs.
+      - name: Prefer HTTPS for Git dependencies
+        run: |
+          git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
+          git config --global --add url."https://github.com/".insteadOf git@github.com:
       - run: tools/check-lsp-bundle.sh
 
   build:
@@ -35,6 +41,10 @@ jobs:
           # The shared-corpus highlighter conformance tests read inputs from the
           # `spec` submodule (markup-carve/carve), so it must be checked out.
           submodules: recursive
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v6

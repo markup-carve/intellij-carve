@@ -1,9 +1,10 @@
 package org.markupcarve.carve
 
 /** Source formats the bundled engine can import into Carve. */
-enum class CarveImportFormat(val label: String, val jsFunction: String, val extensions: Set<String>) {
-    MARKDOWN("Markdown", "markdownToCarve", setOf("md", "markdown")),
-    HTML("HTML", "htmlToCarve", setOf("html", "htm"));
+enum class CarveImportFormat(val label: String, val from: String, val extensions: Set<String>) {
+    // Markdown files are read as GFM, the dialect the 0.1 Markdown importer took.
+    MARKDOWN("Markdown", "gfm", setOf("md", "markdown")),
+    HTML("HTML", "html", setOf("html", "htm"));
 
     companion object {
         private const val TARGET_EXTENSION = "crv"

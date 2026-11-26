@@ -1,0 +1,5 @@
+[ -> source.carve meta.link.reference.carve
+x -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+a %% b -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve

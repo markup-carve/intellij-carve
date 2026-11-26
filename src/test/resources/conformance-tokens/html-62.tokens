@@ -1,0 +1,27 @@
+{ -> source.carve meta.attributes.carve
+style -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"color:red" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+align -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+center -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+v -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Text.\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+v -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+align -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+center -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Text. -> source.carve

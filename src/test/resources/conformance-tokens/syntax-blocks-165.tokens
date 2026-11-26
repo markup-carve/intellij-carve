@@ -1,0 +1,8 @@
+$$ -> source.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+x^2 -> source.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Equation -> source.carve markup.table.caption.carve string.unquoted.caption.carve

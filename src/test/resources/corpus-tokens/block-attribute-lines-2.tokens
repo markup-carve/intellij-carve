@@ -1,31 +1,31 @@
-{ -> text.carve meta.attributes.carve
-#id -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-val -> text.carve meta.attributes.carve string.unquoted.attribute.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-.foo -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-  -> text.carve meta.attributes.carve
-.bar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-key -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-val2 -> text.carve meta.attributes.carve string.unquoted.attribute.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-.baz -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-#id2 -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-Okay\n -> text.carve
+{ -> source.carve meta.attributes.carve
+#id -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+key -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+val -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.foo -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+.bar -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+key -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+val2 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.baz -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+#id2 -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+Okay\n -> source.carve

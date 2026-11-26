@@ -1,15 +1,15 @@
-[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
-x -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
-{.123}  -> text.carve
-[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
-y -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
-{ -> text.carve
-# -> text.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
-7-x -> text.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
-} and  -> text.carve
-[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
-z -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
-{12=v}\n -> text.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+x -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{.123}  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+y -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve
+# -> source.carve entity.name.tag.hashtag.carve punctuation.definition.tag.carve
+7-x -> source.carve entity.name.tag.hashtag.carve variable.parameter.tag.carve
+} and  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+z -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{12=v}\n -> source.carve

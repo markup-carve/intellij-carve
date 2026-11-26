@@ -1,14 +1,14 @@
-![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
-a -> text.carve meta.image.inline.carve string.other.image.alt.carve
-]( -> text.carve meta.image.inline.carve
-a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
-) -> text.carve meta.image.inline.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-a  -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-* -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
-# x -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
- b -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+a.jpg -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+a  -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+* -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+# x -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+ b -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve

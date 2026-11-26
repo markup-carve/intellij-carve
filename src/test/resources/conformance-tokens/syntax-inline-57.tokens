@@ -1,0 +1,4 @@
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+a -> source.carve markup.deleted.carve markup.deleted.carve
+~>b -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve

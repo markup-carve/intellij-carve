@@ -1,0 +1,17 @@
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+a.txt -> source.carve meta.directive.include.carve string.other.link.include.carve
+ @code -> source.carve meta.directive.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve
+\n -> source.carve
+   -> source.carve markup.table.caption.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+cap -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+b -> source.carve

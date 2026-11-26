@@ -1,0 +1,17 @@
+x  -> source.carve
+-- -> source.carve constant.character.entity.typography.carve
+ y and wait -> source.carve
+... -> source.carve constant.character.entity.typography.carve
+ really and a  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+ b  -> source.carve
+<-- -> source.carve constant.character.entity.typography.carve
+ c  -> source.carve
+<--> -> source.carve constant.character.entity.typography.carve
+ d  -> source.carve
+==> -> source.carve constant.character.entity.typography.carve
+ e  -> source.carve
+<== -> source.carve constant.character.entity.typography.carve
+ f  -> source.carve
+<=> -> source.carve constant.character.entity.typography.carve
+ g -> source.carve

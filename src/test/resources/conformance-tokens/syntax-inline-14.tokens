@@ -1,0 +1,8 @@
+a  -> source.carve
+` -> source.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
+<br> -> source.carve markup.raw.inline.passthrough.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.passthrough.carve keyword.control.raw.carve
+{= -> source.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.begin.carve
+html -> source.carve markup.raw.inline.passthrough.carve entity.name.type.format.carve
+} -> source.carve markup.raw.inline.passthrough.carve keyword.control.raw.format.end.carve
+ b -> source.carve

@@ -1,18 +1,18 @@
-:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.term.carve
-term  -> text.carve
-%% a trailing comment -> text.carve comment.line.percent.carve
-\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
-definition body\n -> text.carve
-:: -> text.carve markup.list.definition.term.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.definition.term.carve
-a  -> text.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
-styled -> text.carve markup.italic.carve markup.italic.carve
-/ -> text.carve markup.italic.carve keyword.control.italic.carve
- term\n -> text.carve
-: -> text.carve markup.list.definition.carve keyword.control.list.begin.carve
-   -> text.carve markup.list.definition.carve
-another definition\n -> text.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+term  -> source.carve
+%% a trailing comment -> source.carve comment.line.percent.carve
+\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.definition.carve
+definition body\n -> source.carve
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+a  -> source.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+styled -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+ term\n -> source.carve
+: -> source.carve markup.list.definition.carve keyword.control.list.begin.carve
+   -> source.carve markup.list.definition.carve
+another definition\n -> source.carve

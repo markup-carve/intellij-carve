@@ -1,0 +1,4 @@
+:: -> source.carve markup.list.definition.term.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.definition.term.carve
+Term\n -> source.carve
+More prose. -> source.carve

@@ -1,0 +1,6 @@
+. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+a\n -> source.carve
+{c} -> source.carve meta.attributes.carve
+\n -> source.carve
+%% -> source.carve comment.line.percent.carve

@@ -1,0 +1,17 @@
+" -> source.carve keyword.control.smartquote.carve
+Wait -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+" -> source.carve keyword.control.smartquote.carve
+ he said and he said -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+" -> source.carve keyword.control.smartquote.carve
+Go -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ and  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+app/config/ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+. and and/ -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+or -> source.carve
+" -> source.carve keyword.control.smartquote.carve

@@ -1,0 +1,53 @@
+{ -> source.carve meta.attributes.carve
+#fig-x -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.figure-group.carve keyword.control.div.carve
+  -> source.carve markup.other.figure-group.carve
+figure -> source.carve markup.other.figure-group.carve entity.name.type.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+{ -> source.carve markup.other.figure-group.carve meta.attributes.carve
+#fig-x-a -> source.carve markup.other.figure-group.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve markup.other.figure-group.carve meta.attributes.carve
+\n -> source.carve markup.other.figure-group.carve
+![ -> source.carve markup.other.figure-group.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve markup.other.figure-group.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve markup.other.figure-group.carve meta.image.inline.carve
+a.png -> source.carve markup.other.figure-group.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve markup.other.figure-group.carve meta.image.inline.carve
+\n -> source.carve markup.other.figure-group.carve
+^ -> source.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.other.figure-group.carve markup.table.caption.carve
+Before -> source.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve markup.other.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+{ -> source.carve markup.other.figure-group.carve meta.attributes.carve
+#fig-x-b -> source.carve markup.other.figure-group.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve markup.other.figure-group.carve meta.attributes.carve
+\n -> source.carve markup.other.figure-group.carve
+![ -> source.carve markup.other.figure-group.carve meta.image.inline.carve keyword.control.image.begin.carve
+b -> source.carve markup.other.figure-group.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve markup.other.figure-group.carve meta.image.inline.carve
+b.png -> source.carve markup.other.figure-group.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve markup.other.figure-group.carve meta.image.inline.carve
+\n -> source.carve markup.other.figure-group.carve
+^ -> source.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.other.figure-group.carve markup.table.caption.carve
+After -> source.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve markup.other.figure-group.carve
+::: -> source.carve markup.other.figure-group.carve keyword.control.div.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Figure #: Both -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+See  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+fig-x-b -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+ and  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+fig-x -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+. -> source.carve

@@ -1,17 +1,17 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-A plain box.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-\n -> text.carve
-{ -> text.carve meta.attributes.carve
-#s -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-  -> text.carve meta.attributes.carve
-.sidebar -> text.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
-A div with attributes.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+A plain box.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+#s -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> source.carve meta.attributes.carve
+.sidebar -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+A div with attributes.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

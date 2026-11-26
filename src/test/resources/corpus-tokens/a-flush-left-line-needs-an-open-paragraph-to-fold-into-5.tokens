@@ -1,8 +1,8 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
--  -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-a\n -> text.carve
-  -> text.carve markup.list.unnumbered.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-b\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+-  -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+a\n -> source.carve
+  -> source.carve markup.list.unnumbered.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+b\n -> source.carve

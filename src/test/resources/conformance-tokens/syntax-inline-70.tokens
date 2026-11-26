@@ -1,0 +1,16 @@
+[ -> source.carve meta.link.reference.carve
+x -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+foo  bar -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+ and  -> source.carve
+[ -> source.carve meta.link.reference.carve
+x -> source.carve meta.link.reference.carve string.other.link.title.carve
+][ -> source.carve meta.link.reference.carve
+Foo -> source.carve meta.link.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.link.reference.carve
+\n -> source.carve
+\n -> source.carve
+[foo bar]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

@@ -1,7 +1,7 @@
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
-code\n -> text.carve markup.raw.block.fenced.code.carve
-  ```\n -> text.carve markup.raw.block.fenced.code.carve
-still code\n -> text.carve markup.raw.block.fenced.code.carve
-``` -> text.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
-\n -> text.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+code\n -> source.carve markup.raw.block.fenced.code.carve
+  ```\n -> source.carve markup.raw.block.fenced.code.carve
+still code\n -> source.carve markup.raw.block.fenced.code.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve

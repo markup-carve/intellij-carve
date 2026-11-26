@@ -1,224 +1,128 @@
 /*
  * VENDORED from markup-carve/carve-css src/extensions.css
- * version 0.1.10, commit 6370272
+ * version 0.1.10, commit ad402980774f107c239cc03afc13f8e18c634eb8
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
  */
-/*
- * Carve extension constructs.
- *
- * These render only when the corresponding extension is enabled, so this layer
- * is separate: a consumer running the core renderer alone can ship core.css and
- * nothing here.
- *
- * The constructs in this file are the reason the package exists. Across the six
- * hand-written Carve stylesheets in this organization, callouts, the glossary
- * and the index were each styled by exactly ONE of them, and critic markup by
- * one - so the union of six copies still left most of this unstyled everywhere
- * but a single repo.
- */
+/* Optional Carve 0.2 renderers. Core constructs live in core.css. */
 
-/* --- Tab sets ------------------------------------------------------------ */
-
-/* THREE shapes reach the page and all three are current. Every rule below says
- * which it serves, because a rule that fits one and matches nothing in the
- * others is invisible rather than wrong.
- *
- * Two different options pick the shape. `tabs({ mode })` takes `css` or `aria`
- * and rejects anything else; the static shape comes from the DOCUMENT mode,
- * `carveToHtml(src, { mode: 'static' })`, which overrides the tab mode.
- *
- * css     <input class="tabs-radio"> elements, then their
- *         <label class="tabs-label"> partners, then one
- *         <div class="tabs-panel"> per tab. No JavaScript, which is why it
- *         exists. Note the ORDER: controls first, panels after.
- * aria    <div class="tabs" role="tablist"> with
- *         <button role="tab" aria-selected> controls and
- *         <div role="tabpanel" class="tabs-panel"> panels, the unselected ones
- *         marked `hidden` by the runtime that drives it.
- * static  <section class="tabs-panel"> per tab, each opening with an
- *         <h3 class="tabs-label">. No controls and nothing to hide. Not a tab
- *         mode: `tabs({ mode: 'static' })` throws.
- *
- * A fourth shape used to be styled here - <div class="tabs"> holding
- * <div class="tab"> children - and no engine emits it. `tab` is a word the
- * three engines recognize on the way IN; the panel class they render is
- * `tabs-panel` in every mode, and `tabClass` would have to be reconfigured to
- * `tab` for those rules to match anything. */
-
+/* C2-X-043 to C2-X-048: standard tabs. Without CSS all panels stay visible. */
 .carve .tabs {
   border: var(--carve-border-width) solid var(--carve-rule);
   border-radius: var(--carve-radius);
   margin-block-end: var(--carve-space-4);
-  /* Establishes the row for the radio shape's labels; harmless for the other. */
   display: flex;
   flex-wrap: wrap;
 }
 
-/* The inputs drive the panels and must never be seen, but must stay focusable -
- * so they are clipped, not display:none, which would take them out of the tab
- * order and make the whole construct keyboard-inert. */
-.carve .tabs-radio {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
+/* Without the optional renderer, the 0.2 core writes named divs. Keep every
+ * tab body visible and separated as a readable fallback. */
+.carve .tabs > .tab {
+  flex: 1 0 100%;
+  padding: var(--carve-space-3);
+  border-block-start: var(--carve-border-width) solid var(--carve-rule);
+}
+.carve .tabs > .tab > .admonition-title {
+  margin-block: 0 var(--carve-space-2);
 }
 
-.carve .tabs-label {
+/* Carve 0.2's optional tabs renderer uses bare radio controls and tab-panel
+ * children. Every panel stays readable without CSS; the checked control
+ * selects one panel when this layer is present. */
+.carve .tabs > input[type="radio"] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+}
+.carve .tabs > label {
   order: -1;
   padding: var(--carve-space-2) var(--carve-space-4);
   cursor: pointer;
   color: var(--carve-ink-soft);
   border-block-end: var(--carve-accent-width) solid transparent;
-  font-size: var(--carve-font-size-small);
-  font-weight: 600;
 }
-/* `aria` mode emits the control as a <button>, which arrives with a UA
- * background, border and font. Without the reset the two modes draw the same
- * tab set as two different things. */
-.carve button.tabs-label {
-  background: none;
-  border-inline: 0;
-  border-block-start: 0;
-  font-family: inherit;
-}
-.carve .tabs-label:hover {
-  color: var(--carve-ink);
-}
-.carve .tabs-radio:checked + .tabs-label,
-.carve .tabs-label[aria-selected="true"] {
+.carve .tabs > input[type="radio"]:checked + label {
   color: var(--carve-accent);
   border-block-end-color: var(--carve-accent);
 }
-/* The focus ring belongs on the label, because the input it belongs to is
- * clipped out of sight. */
-.carve .tabs-radio:focus-visible + .tabs-label {
+.carve .tabs > input[type="radio"]:focus-visible + label {
   outline: 2px solid var(--carve-accent);
   outline-offset: -2px;
 }
-
-/*
- * A panel is VISIBLE by default, and each mode takes its own visibility away.
- *
- * The three modes the extension renders are three different documents, and only
- * one of them has radios. `display: none` as the default plus a single unhiding
- * rule keyed on `.tabs-radio:checked` left every panel in every mode at height
- * 0 with no way to reach any of them: `aria` and `static` have no radios at
- * all, and in `css` the selector assumed an adjacency the engine does not emit.
- * A documented public option (`tabs({ mode: 'aria' })`) rendered nothing, the
- * static path that exists to be the graceful-degradation shape degraded to
- * blank, and the mode the rule was written for was no better.
- *
- * So the default is visible and each mode subtracts:
- *   css     - the positional ladder below hides all but the checked one
- *   aria    - the runtime marks the panels it is hiding with `hidden`
- *   static  - nothing hides anything; every panel shows, which is the intent
- *
- * These stay in extensions.css rather than moving to the opt-in recipes layer,
- * which is where the gallery's reset went: all three modes are output of an
- * extension this file already owns, and a consumer who loads carve.css for a
- * tab set has to get a readable one. The gallery case was a core rule reaching
- * a recipes-only shape; this is one file's rule for one file's construct.
- */
-.carve .tabs-panel {
-  display: block;
-  /* Full row, below the labels. */
+.carve .tabs > .tab-panel {
   flex: 1 0 100%;
-  padding: var(--carve-space-4);
+  padding: var(--carve-space-3);
   border-block-start: var(--carve-border-width) solid var(--carve-rule);
 }
-/* Static mode shows every panel, so the first one would draw a separator with
- * nothing above it. In the other two modes a control precedes every panel, so
- * no panel is the first child and this cannot reach them. */
-.carve .tabs-panel:first-child {
-  border-block-start: 0;
-}
-.carve .tabs-panel > :last-child {
-  margin-block-end: 0;
-}
-/*
- * css mode, BY POSITION.
- *
- * The rule that stood here was `.tabs-radio:checked + .tabs-label +
- * .tabs-panel`, which assumes the engine interleaves radio, label and panel. It
- * does not: every radio and label comes first and the panels follow, so a panel
- * is not the sibling of its own label and that selector matched nothing. The
- * labels only LOOK interleaved because `order: -1` moves them in the flex row,
- * and the stylesheet was read off the rendered picture rather than the DOM.
- *
- * That the panels follow the radios is what makes the sibling combinator the
- * right tool: radio three and panel three are siblings, three apart in their own
- * element counts. The `.tabs:has(.tabs-radio:nth-of-type(3):checked)` compound
- * that stood here asked the question from the container, and `:has()` takes a
- * DESCENDANT, so a nested tab set answered for its parent - checking inner tab
- * two revealed outer panel two as well, measured in all three engines. The
- * sibling form is scoped to one set by construction, and needs no `:has()`,
- * which was this package's only use of it.
- *
- * Three rules, in order:
- *   1. a CHECKED radio hides every panel beside it. Keyed on `:checked` rather
- *      than on the radio's presence so that markup with no radio checked shows
- *      everything instead of nothing.
- *   2. radio N reveals panel N, to a finite bound because CSS cannot count -
- *      12 here, where reveal-carve carries 6 for the same reason.
- *   3. a radio PAST the bound reveals every panel. Without it a tab set of 13
- *      hides all of them once the reader leaves tab 12, which loses the content
- *      rather than degrading it. This is where static mode lands, and readable.
- */
-.carve .tabs > .tabs-radio:checked ~ .tabs-panel,
-.carve .code-group > .code-group-radio:checked ~ .code-group-panel {
+.carve .tabs > input[type="radio"]:checked ~ .tab-panel {
   display: none;
 }
-.carve .tabs > .tabs-radio:nth-of-type(1):checked ~ .tabs-panel:nth-of-type(1),
-.carve .tabs > .tabs-radio:nth-of-type(2):checked ~ .tabs-panel:nth-of-type(2),
-.carve .tabs > .tabs-radio:nth-of-type(3):checked ~ .tabs-panel:nth-of-type(3),
-.carve .tabs > .tabs-radio:nth-of-type(4):checked ~ .tabs-panel:nth-of-type(4),
-.carve .tabs > .tabs-radio:nth-of-type(5):checked ~ .tabs-panel:nth-of-type(5),
-.carve .tabs > .tabs-radio:nth-of-type(6):checked ~ .tabs-panel:nth-of-type(6),
-.carve .tabs > .tabs-radio:nth-of-type(7):checked ~ .tabs-panel:nth-of-type(7),
-.carve .tabs > .tabs-radio:nth-of-type(8):checked ~ .tabs-panel:nth-of-type(8),
-.carve .tabs > .tabs-radio:nth-of-type(9):checked ~ .tabs-panel:nth-of-type(9),
-.carve .tabs > .tabs-radio:nth-of-type(10):checked ~ .tabs-panel:nth-of-type(10),
-.carve .tabs > .tabs-radio:nth-of-type(11):checked ~ .tabs-panel:nth-of-type(11),
-.carve .tabs > .tabs-radio:nth-of-type(12):checked ~ .tabs-panel:nth-of-type(12),
-.carve .code-group > .code-group-radio:nth-of-type(1):checked ~ .code-group-panel:nth-of-type(1),
-.carve .code-group > .code-group-radio:nth-of-type(2):checked ~ .code-group-panel:nth-of-type(2),
-.carve .code-group > .code-group-radio:nth-of-type(3):checked ~ .code-group-panel:nth-of-type(3),
-.carve .code-group > .code-group-radio:nth-of-type(4):checked ~ .code-group-panel:nth-of-type(4),
-.carve .code-group > .code-group-radio:nth-of-type(5):checked ~ .code-group-panel:nth-of-type(5),
-.carve .code-group > .code-group-radio:nth-of-type(6):checked ~ .code-group-panel:nth-of-type(6),
-.carve .code-group > .code-group-radio:nth-of-type(7):checked ~ .code-group-panel:nth-of-type(7),
-.carve .code-group > .code-group-radio:nth-of-type(8):checked ~ .code-group-panel:nth-of-type(8),
-.carve .code-group > .code-group-radio:nth-of-type(9):checked ~ .code-group-panel:nth-of-type(9),
-.carve .code-group > .code-group-radio:nth-of-type(10):checked ~ .code-group-panel:nth-of-type(10),
-.carve .code-group > .code-group-radio:nth-of-type(11):checked ~ .code-group-panel:nth-of-type(11),
-.carve .code-group > .code-group-radio:nth-of-type(12):checked ~ .code-group-panel:nth-of-type(12) {
+.carve .tabs > input[type="radio"]:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+.carve .tabs > input[type="radio"]:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+.carve .tabs > input[type="radio"]:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3),
+.carve .tabs > input[type="radio"]:nth-of-type(4):checked ~ .tab-panel:nth-of-type(4),
+.carve .tabs > input[type="radio"]:nth-of-type(5):checked ~ .tab-panel:nth-of-type(5),
+.carve .tabs > input[type="radio"]:nth-of-type(n + 6):checked ~ .tab-panel {
   display: block;
 }
-.carve .tabs > .tabs-radio:nth-of-type(n + 13):checked ~ .tabs-panel,
-.carve .code-group > .code-group-radio:nth-of-type(n + 13):checked ~ .code-group-panel {
-  display: block;
+
+/* The ARIA renderer writes buttons instead of radio/label pairs. */
+.carve .tabs > button[role="tab"] {
+  order: -1;
+  padding: var(--carve-space-2) var(--carve-space-4);
+  color: var(--carve-ink-soft);
+  background: none;
+  border: 0;
+  border-block-end: var(--carve-accent-width) solid transparent;
+  font: inherit;
+  cursor: pointer;
 }
-/* aria mode: `hidden` is the runtime's own state, and the default above would
- * otherwise override the UA rule that honors it. */
-.carve .tabs-panel[hidden] {
+.carve .tabs > button[role="tab"][aria-selected="true"] {
+  color: var(--carve-accent);
+  border-block-end-color: var(--carve-accent);
+}
+.carve .tabs > .tab-panel[hidden] {
   display: none;
 }
 
-/* The static shape's label is an `<h3 class="tabs-label">` inside the panel
- * rather than a control beside it, so it reads as a heading: no pointer, no
- * underline for a selection that cannot change. */
-.carve .tabs-panel > .tabs-label {
-  order: 0;
-  margin: 0 0 var(--carve-space-2);
-  padding: 0;
-  cursor: default;
-  border-block-end: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+/* The build-time tabs renderer writes sections and headings without controls. */
+.carve .tabs > .tabs-panel {
+  flex: 1 0 100%;
+  padding: var(--carve-space-3);
+  border-block-start: var(--carve-border-width) solid var(--carve-rule);
+}
+.carve .tabs > .tabs-panel > .tabs-label {
+  margin-block: 0 var(--carve-space-2);
+  font-size: 1em;
+}
+
+/* C2-X migration color swatch renderer. */
+.carve .swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--carve-space-1);
+  white-space: nowrap;
+}
+.carve .swatch-chip {
+  /* The chip's background is the color being shown, set inline by the engine.
+   * A border keeps a white or transparent swatch visible on white. */
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  border: var(--carve-border-width) solid var(--carve-border);
+  border-radius: 2px;
+  vertical-align: -0.05em;
+  /* The chip IS the color. A forced-colors palette repaints every background,
+   * so without this opt-out every swatch in a document collapses to one
+   * system color and the construct says nothing. This is the case the
+   * forced-color-adjust escape hatch exists for: the color is the content. */
+  forced-color-adjust: none;
+}
+.carve .swatch-val {
+  font-family: var(--carve-font-mono);
+  font-size: var(--carve-font-size-small);
 }
 
 /* --- Code groups --------------------------------------------------------- */
@@ -308,6 +212,29 @@
   border-radius: 0;
 }
 
+/* Radio groups use the same positional selection as tabs. Keep the default
+ * visible for static sections and for a group with no checked control. */
+.carve .code-group > .code-group-radio:checked ~ .code-group-panel {
+  display: none;
+}
+.carve .code-group > .code-group-radio:nth-of-type(1):checked ~ .code-group-panel:nth-of-type(1),
+.carve .code-group > .code-group-radio:nth-of-type(2):checked ~ .code-group-panel:nth-of-type(2),
+.carve .code-group > .code-group-radio:nth-of-type(3):checked ~ .code-group-panel:nth-of-type(3),
+.carve .code-group > .code-group-radio:nth-of-type(4):checked ~ .code-group-panel:nth-of-type(4),
+.carve .code-group > .code-group-radio:nth-of-type(5):checked ~ .code-group-panel:nth-of-type(5),
+.carve .code-group > .code-group-radio:nth-of-type(6):checked ~ .code-group-panel:nth-of-type(6),
+.carve .code-group > .code-group-radio:nth-of-type(7):checked ~ .code-group-panel:nth-of-type(7),
+.carve .code-group > .code-group-radio:nth-of-type(8):checked ~ .code-group-panel:nth-of-type(8),
+.carve .code-group > .code-group-radio:nth-of-type(9):checked ~ .code-group-panel:nth-of-type(9),
+.carve .code-group > .code-group-radio:nth-of-type(10):checked ~ .code-group-panel:nth-of-type(10),
+.carve .code-group > .code-group-radio:nth-of-type(11):checked ~ .code-group-panel:nth-of-type(11),
+.carve .code-group > .code-group-radio:nth-of-type(12):checked ~ .code-group-panel:nth-of-type(12) {
+  display: block;
+}
+.carve .code-group > .code-group-radio:nth-of-type(n + 13):checked ~ .code-group-panel {
+  display: block;
+}
+
 /* --- Spoiler ------------------------------------------------------------- */
 
 /* One class, two shapes. The INLINE spoiler is a `<span class="spoiler">` in a
@@ -373,6 +300,7 @@
  * `tabindex` and this layer cannot add one - so there is no keyboard parity
  * here, and a host that wants it has to supply the attribute. */
 .carve :where(span).spoiler {
+  display: inline-block;
   filter: blur(var(--carve-spoiler-blur));
 }
 /* The static render is `<span class="spoiler spoiler-revealed">`, verified
@@ -539,7 +467,7 @@
 
 /* Diagram fences degrade to their source in static mode, and are replaced by a
  * client-side renderer otherwise. Either way the container must not clip. */
-.carve :is(.mermaid, .d2, .plantuml, .graphviz, .wavedrom, .abc, .vega-lite, .chart) {
+.carve :is(.mermaid, .d2, .plantuml, .puml, .graphviz, .dot, .wavedrom, .abc, .vega-lite, .chart) {
   overflow-x: auto;
   margin-block-end: var(--carve-space-4);
 }
@@ -548,33 +476,6 @@
   height: auto;
 }
 
-/* --- Colour swatches ----------------------------------------------------- */
-
-.carve .swatch {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--carve-space-1);
-  white-space: nowrap;
-}
-.carve .swatch-chip {
-  /* The chip's background is the colour being shown, set inline by the engine.
-   * A border keeps a white or transparent swatch visible on white. */
-  display: inline-block;
-  width: 0.85em;
-  height: 0.85em;
-  border: var(--carve-border-width) solid var(--carve-border);
-  border-radius: 2px;
-  vertical-align: -0.05em;
-  /* The chip IS the color. A forced-colors palette repaints every background,
-   * so without this opt-out every swatch in a document collapses to one
-   * system color and the construct says nothing. This is the case the
-   * forced-color-adjust escape hatch exists for: the color is the content. */
-  forced-color-adjust: none;
-}
-.carve .swatch-val {
-  font-family: var(--carve-font-mono);
-  font-size: var(--carve-font-size-small);
-}
 
 /* --- Wiki links ----------------------------------------------------------- */
 

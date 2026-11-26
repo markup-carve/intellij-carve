@@ -1,0 +1,9 @@
+a  -> source.carve
+{_ -> source.carve markup.underline.text.carve keyword.control.underline.carve
+k -> source.carve markup.underline.text.carve markup.underline.text.carve
+=v -> source.carve markup.underline.text.carve markup.underline.text.carve
+_} -> source.carve markup.underline.text.carve keyword.control.underline.carve
+ b and  -> source.carve
+{_ -> source.carve markup.underline.text.carve keyword.control.underline.carve
+a -> source.carve markup.underline.text.carve markup.underline.text.carve
+_} -> source.carve markup.underline.text.carve keyword.control.underline.carve

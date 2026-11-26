@@ -1,0 +1,19 @@
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+'a' -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+x -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+'s and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+b -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+'s and  -> source.carve
+{%c%} -> source.carve comment.block.inline.carve
+'d' and x -> source.carve
+{%c%} -> source.carve comment.block.inline.carve
+'s -> source.carve

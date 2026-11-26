@@ -8,7 +8,7 @@ import java.io.File
 /**
  * A workflow job that runs the test task checks out the `spec` submodule.
  *
- * The corpus tests reach `spec/tests/corpus` by path, so without the submodule
+ * The corpus tests reach `spec/spec/0.2/conformance` by path, so without the submodule
  * they fail on an empty directory rather than on anything about the grammar.
  * `grammar-drift.yml` checked out with the default `submodules: false` while
  * running `checkGrammarConstructs`, which depends on `test`, so every run died

@@ -1,15 +1,15 @@
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
-{ -> text.carve markup.table.row.carve meta.attributes.carve
-.highlight -> text.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
-} -> text.carve markup.table.row.carve meta.attributes.carve
- Total  -> text.carve markup.table.row.carve
-|= -> text.carve markup.table.row.carve keyword.control.table.header.carve
- 99  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- a  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- b  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+{ -> source.carve markup.table.row.carve meta.attributes.carve
+.highlight -> source.carve markup.table.row.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve markup.table.row.carve meta.attributes.carve
+ Total  -> source.carve markup.table.row.carve
+|= -> source.carve markup.table.row.carve keyword.control.table.header.carve
+ 99  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve

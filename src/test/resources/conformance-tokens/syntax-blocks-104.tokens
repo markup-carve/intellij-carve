@@ -1,0 +1,11 @@
+{ -> source.carve meta.attributes.carve
+Class -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+x -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+#a -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+  -> source.carve meta.attributes.carve
+#b -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+para -> source.carve

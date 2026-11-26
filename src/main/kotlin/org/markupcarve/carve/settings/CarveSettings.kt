@@ -55,6 +55,7 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
         var includeMode: CarveIncludeMode = CarveIncludeMode.AUTO,
         var includeRoot: String = "",
         var previewRawHtml: Boolean = false,
+        var lintUpgrade: Boolean = false,
     )
 
     private var state = State()
@@ -117,6 +118,11 @@ class CarveSettings : PersistentStateComponent<CarveSettings.State> {
     var previewRawHtml: Boolean
         get() = state.previewRawHtml
         set(value) { state.previewRawHtml = value }
+
+    /** Sent to the language server as `lint.upgrade`: run the 0.1 migration rules (C2-W-156). */
+    var lintUpgrade: Boolean
+        get() = state.lintUpgrade
+        set(value) { state.lintUpgrade = value }
 
     companion object {
         /** The preview renders raw HTML only when the user opted in AND the project is trusted. */

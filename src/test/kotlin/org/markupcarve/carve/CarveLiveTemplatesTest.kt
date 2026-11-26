@@ -47,4 +47,14 @@ class CarveLiveTemplatesTest {
         val html = CarveConverter.toHtml(source)
         assertTrue(html, html.contains("class=\"language-kotlin\""))
     }
+
+    @Test
+    fun underlineStrikeAndHighlightUseTheBracedDelimiters() {
+        // C2-I-046: a bare `_x_`, `~x~` or `=x=` is text in 0.2.
+        for ((name, tag) in listOf("cu" to "u", "cs" to "s", "chl" to "mark")) {
+            val source = expand(name, "TEXT" to "word")
+            val html = CarveConverter.toHtml(source + "\n")
+            assertTrue("$name: $source -> $html", html.contains("<$tag>word</$tag>"))
+        }
+    }
 }

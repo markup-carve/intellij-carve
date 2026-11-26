@@ -1,15 +1,14 @@
-re -> text.carve
-{~ -> text.carve markup.deleted.carve keyword.control.strike.carve
-view -> text.carve markup.deleted.carve markup.deleted.carve
-~} -> text.carve markup.deleted.carve keyword.control.strike.carve
- it, then  -> text.carve
-{~ -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-old -> text.carve markup.changed.critic.carve markup.deleted.carve
-~> -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-new -> text.carve markup.changed.critic.carve markup.inserted.carve
-~} -> text.carve markup.changed.critic.carve keyword.control.critic.carve
-, and  -> text.carve
-{= -> text.carve keyword.control.highlight.carve
-mark -> text.carve markup.changed.carve
-=} -> text.carve keyword.control.highlight.carve
- it.\n -> text.carve
+re -> source.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+view -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+ it, then  -> source.carve
+{~ -> source.carve markup.deleted.carve keyword.control.strike.carve
+old -> source.carve markup.deleted.carve markup.deleted.carve
+~>new -> source.carve markup.deleted.carve markup.deleted.carve
+~} -> source.carve markup.deleted.carve keyword.control.strike.carve
+, and  -> source.carve
+{= -> source.carve keyword.control.highlight.carve
+mark -> source.carve markup.changed.carve
+=} -> source.carve keyword.control.highlight.carve
+ it.\n -> source.carve

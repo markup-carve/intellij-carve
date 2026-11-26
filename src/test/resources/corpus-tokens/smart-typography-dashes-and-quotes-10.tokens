@@ -1,32 +1,32 @@
-He paused, then said\n -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-I will not go, -> text.carve
-" -> text.carve keyword.control.smartquote.carve
- and left. -> text.carve
-\\ -> text.carve constant.character.escape.hard-break.carve
-\n -> text.carve
-'Fine,' she said.\n -> text.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-She said -> text.carve markup.quote.carve
-\n -> text.carve
-> -> text.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.quote.carve
-" -> text.carve markup.quote.carve keyword.control.smartquote.carve
-no -> text.carve markup.quote.carve
-" -> text.carve markup.quote.carve keyword.control.smartquote.carve
- twice. -> text.carve markup.quote.carve
-\n -> text.carve
-\n -> text.carve
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-He said\n -> text.carve
-   -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-no -> text.carve
-" -> text.carve keyword.control.smartquote.carve
- twice.\n -> text.carve
-\n -> text.carve
-Back in the\n -> text.carve
-'90s it was rare.\n -> text.carve
+He paused, then said\n -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+I will not go, -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ and left. -> source.carve
+\\ -> source.carve constant.character.escape.hard-break.carve
+\n -> source.carve
+'Fine,' she said.\n -> source.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+She said -> source.carve markup.quote.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+" -> source.carve markup.quote.carve keyword.control.smartquote.carve
+no -> source.carve markup.quote.carve
+" -> source.carve markup.quote.carve keyword.control.smartquote.carve
+ twice. -> source.carve markup.quote.carve
+\n -> source.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+He said\n -> source.carve
+   -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+no -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ twice.\n -> source.carve
+\n -> source.carve
+Back in the\n -> source.carve
+'90s it was rare.\n -> source.carve

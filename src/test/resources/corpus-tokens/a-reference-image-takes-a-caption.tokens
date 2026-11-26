@@ -1,16 +1,16 @@
-![ -> text.carve meta.image.reference.carve keyword.control.image.begin.carve
-a -> text.carve meta.image.reference.carve string.other.image.alt.carve
-] -> text.carve meta.image.reference.carve keyword.control.image.end.carve
-[ -> text.carve meta.image.reference.carve
-ok -> text.carve meta.image.reference.carve entity.name.reference.link.carve
-] -> text.carve meta.image.reference.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-cap -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
-\n -> text.carve
-[ok]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/p.png -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\n -> text.carve
+![ -> source.carve meta.image.reference.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.reference.carve string.other.image.alt.carve
+] -> source.carve meta.image.reference.carve keyword.control.image.end.carve
+[ -> source.carve meta.image.reference.carve
+ok -> source.carve meta.image.reference.carve entity.name.reference.link.carve
+] -> source.carve meta.image.reference.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+cap -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+[ok]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/p.png -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve

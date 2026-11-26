@@ -1,1 +1,1 @@
-foo*bar*baz and a/b/c stay literal.\n -> text.carve
+foo*bar*baz and a/b/c stay literal.\n -> source.carve

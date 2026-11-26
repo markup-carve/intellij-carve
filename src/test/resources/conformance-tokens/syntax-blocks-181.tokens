@@ -1,0 +1,6 @@
+text\n -> source.carve
+{{ -> source.carve meta.directive.include.carve keyword.control.directive.begin.carve
+  -> source.carve meta.directive.include.carve
+part.crv -> source.carve meta.directive.include.carve string.other.link.include.carve
+  -> source.carve meta.directive.include.carve
+}} -> source.carve meta.directive.include.carve keyword.control.directive.end.carve

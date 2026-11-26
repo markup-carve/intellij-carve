@@ -1,17 +1,27 @@
-iv. lower roman\n -> text.carve
-\n -> text.carve
-IV. upper roman\n -> text.carve
-\n -> text.carve
-ivx. a longer lower run\n -> text.carve
-\n -> text.carve
-IVX. a longer upper run\n -> text.carve
-\n -> text.carve
-mix. a word made only of roman letters\n -> text.carve
-\n -> text.carve
-Vim. mixed case is prose\n -> text.carve
-\n -> text.carve
-Mix. mixed case is prose\n -> text.carve
-\n -> text.carve
-Ix. two letters, mixed case, prose\n -> text.carve
-\n -> text.carve
-Note. an ordinary sentence start\n -> text.carve
+iv -> source.carve
+\\. -> source.carve constant.character.escape.carve
+ lower roman\n -> source.carve
+\n -> source.carve
+IV. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+upper roman\n -> source.carve
+\n -> source.carve
+ivx. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+a longer lower run\n -> source.carve
+\n -> source.carve
+IVX. -> source.carve markup.list.numbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.numbered.carve
+a longer upper run\n -> source.carve
+\n -> source.carve
+mix -> source.carve
+\\. -> source.carve constant.character.escape.carve
+ a word made only of roman letters\n -> source.carve
+\n -> source.carve
+Vim. mixed case is prose\n -> source.carve
+\n -> source.carve
+Mix. mixed case is prose\n -> source.carve
+\n -> source.carve
+Ix. two letters, mixed case, prose\n -> source.carve
+\n -> source.carve
+Note. an ordinary sentence start\n -> source.carve

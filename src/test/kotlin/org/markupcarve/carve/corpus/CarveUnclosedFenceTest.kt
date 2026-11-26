@@ -108,7 +108,8 @@ class CarveUnclosedFenceTest {
      */
     @Test
     fun anUnclosedCodeFenceRunsToTheEndOfTheDocument() {
-        for (fence in listOf("```js", "~~~")) {
+        // Carve 0.2 fences are backticks only (U-049, U-116).
+        for (fence in listOf("```js", "```")) {
             val src = "$fence\ncode\n\nafter\n"
             val after = scopesOf(src, "after")
             assertTrue(

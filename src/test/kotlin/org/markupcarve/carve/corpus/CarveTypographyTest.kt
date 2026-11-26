@@ -117,23 +117,7 @@ class CarveTypographyTest {
         }
     }
 
-    /**
-     * The near miss. Refusing the OPENER is the whole fix; the closer takes
-     * `<`, `>` and `!` as content, which is what the engine renders - `a =b>= c`
-     * comes back as a mark holding `b>`. A guard written on both ends would
-     * suppress all three.
-     */
-    @Test
-    fun aClosingEqualsStillTakesTheCharacterBeforeIt() {
-        for (src in listOf("a =b<= c\n", "a =b>= c\n", "a =b!= c\n")) {
-            val scopes = scopesOf(src, "=b")
-            assertTrue("`${src.trim()}` is still a highlight: $scopes", scopes.contains("markup.changed"))
-        }
-        assertTrue(
-            "a plain highlight beside a refused `=>` still opens",
-            scopesOf("note =highlight= and x => y\n", "=highlight=").contains("markup.changed"),
-        )
-    }
+    // A bare `=` pair is text in Carve 0.2 (U-067), so the closer cases that sat here are gone.
 
     @Test
     fun anEmptyBracePairIsNotAConstruct() {

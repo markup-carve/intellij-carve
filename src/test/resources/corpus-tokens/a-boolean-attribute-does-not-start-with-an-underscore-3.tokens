@@ -1,2 +1,2 @@
-{_foo}\n -> text.carve
-para\n -> text.carve
+{_foo}\n -> source.carve
+para\n -> source.carve

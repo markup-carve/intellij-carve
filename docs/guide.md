@@ -17,12 +17,14 @@ WebStorm, PyCharm, GoLand, RubyMine, Rider, and the rest of the family).
   [carve-lsp](https://github.com/markup-carve/carve-lsp) server (through
   [LSP4IJ](https://plugins.jetbrains.com/plugin/23257-lsp4ij)):
   - **Diagnostics** - Djot/Markdown migration warnings (with quick fixes) and
-    semantic lint (broken cross-references, duplicate heading ids)
+    semantic lint (broken cross-references, duplicate heading ids). The 0.1
+    migration rules (`deprecated-*` and the other upgrade rules) run only with
+    **Settings → Tools → Carve → Language Server → Lint upgrade mode** on.
   - **Completion** - context-aware suggestions
   - **Code folding** for headings, blocks, and other foldable regions
   - **Structure view + breadcrumbs** - a heading outline of the document
   - **Quick fixes / intentions** - convert Djot/Markdown delimiters to Carve
-    (for example `**bold**` to `*bold*`, `_em_` to `/em/`, `{=x=}` to `==x==`)
+    (for example `**bold**` to `*bold*`, `_em_` to `/em/`)
   - **Hover** documentation
   - **Rename** refactoring
   - **Reformat Code** (document formatting)
@@ -126,10 +128,10 @@ Type a prefix and press `Tab` to expand:
 |--------|------------|
 | `ch1`-`ch6` | Headings |
 | `cb`, `ci`, `cbi` | Bold `*…*`, italic `/…/`, bold-italic `/*…*/` |
-| `cu`, `cs`, `chl` | Underline `_…_`, strike `~…~`, highlight `=…=` |
+| `cu`, `cs`, `chl` | Underline `{_…_}`, strike `{~…~}`, highlight `{=…=}` |
 | `csup`, `csub`, `cc` | Superscript `{^…^}`, subscript `{,…,}`, inline code |
 | `clink`, `cimg` | Link, image |
-| `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[[Heading]]` |
+| `cref`, `cwiki` | Cross-reference `</#id>`, implicit heading ref `[Heading][]` |
 | `ccode`, `cquote`, `chr` | Fenced code block, blockquote, thematic break |
 | `cul`, `col`, `ctask`, `ctable` | Lists and table |
 | `cdiv` | Div / admonition `::: name` |
@@ -288,8 +290,8 @@ these editor commands have not been wired to it.
 
 [Carve](https://github.com/markup-carve/carve) is a lightweight markup language
 for documents and the web that builds on Djot with inline delimiters that look
-like their output (`/italic/`, `*bold*`, `_underline_`, `~strike~`,
-`=highlight=`) - plus a Markdown-like reading flow.
+like their output (`/italic/`, `*bold*`, `{_underline_}`, `{~strike~}`,
+`{=highlight=}`) - plus a Markdown-like reading flow.
 
 ## Development
 

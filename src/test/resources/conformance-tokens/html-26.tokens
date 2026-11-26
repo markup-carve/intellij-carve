@@ -1,0 +1,58 @@
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+a.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Figure #: One -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+b -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+b.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+* -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+Figure -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.table.caption.carve string.unquoted.caption.carve markup.bold.carve keyword.control.bold.carve
+ #. Two # more -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+c -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+c.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Fig. # Three -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+d -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+d.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+figure #: Four -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+e -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+e.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Figure  -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\\# -> source.carve markup.table.caption.carve string.unquoted.caption.carve constant.character.escape.carve
+5 -> source.carve markup.table.caption.carve string.unquoted.caption.carve

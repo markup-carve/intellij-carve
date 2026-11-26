@@ -1,3 +1,162 @@
+/** Carve 0.2 highlight.js grammar. */
+
+function adaptGrammar(grammar, hljs) {
+    let paragraphCacheSource;
+    const paragraphCache = new Map();
+    function inParagraph(source, offset) {
+        if (source !== paragraphCacheSource) {
+            paragraphCacheSource = source;
+            paragraphCache.clear();
+        }
+        let end = offset;
+        const visited = [];
+        let result = false;
+        while (end > 0) {
+            if (paragraphCache.has(end)) {
+                result = paragraphCache.get(end);
+                break;
+            }
+            visited.push(end);
+            if (source[end - 1] === '\n') {
+                end--;
+                if (source[end - 1] === '\r') end--;
+            } else if (source[end - 1] === '\r') end--;
+            const start = Math.max(source.lastIndexOf('\n', end - 1), source.lastIndexOf('\r', end - 1)) + 1;
+            const line = source.slice(start, end).trim();
+            if (!line) break;
+            if (/^%%(?!%)(?![ \t]*#(?:region|endregion)\b)/.test(line)
+                || /^(?:#{1,6}|={1,6}) +\S/.test(line)) {
+                end = start;
+                continue;
+            }
+            result = !/^\*{3,}$|^`{3,}|^\|.*\||^%%[ \t]*#(?:region|endregion)\b|^%{3,}/.test(line);
+            break;
+        }
+        for (const position of visited) paragraphCache.set(position, result);
+        return result;
+    }
+    const visited = new WeakSet();
+    const excluded = (mode) => {
+        const source = mode?.begin?.source || '';
+        return mode?.className === 'table-alignment'
+            || (mode?.className === 'punctuation' && source.includes('(?=\\+)'))
+            || source.startsWith('(?<![\\w~])~')
+            || source.startsWith('(?<![\\w/])_')
+            || source.startsWith('(?<![=\\w])=')
+            || (source.startsWith('\\{~') && source.includes('~>'))
+            || source.includes('(?=[-:| ]+\\|');
+    };
+    function adapt(node) {
+        if (!node || typeof node !== 'object' || visited.has(node)) return;
+        visited.add(node);
+        if (node instanceof RegExp) return;
+        if (Array.isArray(node)) {
+            for (let i = node.length - 1; i >= 0; i--) {
+                if (excluded(node[i])) node.splice(i, 1);
+                else adapt(node[i]);
+            }
+            return;
+        }
+        if (Array.isArray(node.begin) && node.beginScope) {
+            for (let i = 0; i < node.begin.length; i++) {
+                if (node.beginScope[String(i + 1)] === 'table-alignment' && i > 0 && (node.begin[i - 1]?.source || node.begin[i - 1]) === '=') {
+                    node.begin[i] = /(?= |\t|\{|\||$|[<>?~])/;
+                    delete node.beginScope[String(i + 1)];
+                }
+            }
+        }
+        if (node.className === 'attr' && node.begin instanceof RegExp && node.begin.source.includes('\\r?\\n')) {
+            const originalBegin = node['on:begin'];
+            node['on:begin'] = (match, response) => {
+                if (/[\r\n]/.test(match[0])) {
+                    match.rule.scope = undefined;
+                    return;
+                }
+                originalBegin?.(match, response);
+            };
+        }
+        if (node.className === 'comment' && node.end instanceof RegExp && node.end.source.includes('%{3,}')) {
+            node.end = new RegExp(node.end.source.replace('[^\\n]*$', '[ \\t]*$'), node.end.flags);
+        }
+        for (const [key, value] of Object.entries(node)) {
+            if (value instanceof RegExp) {
+                let source = value.source;
+                if (source.includes('~{3,}') || source.includes('[`~]') || source.includes('(`|~)')) {
+                    source = source.replaceAll('`{3,}|~{3,}', '`{3,}')
+                        .replaceAll('~{3,}', '(?!)')
+                        .replaceAll('[`~]', '`')
+                        .replaceAll('(`|~)', '(`)');
+                    node[key] = new RegExp(source, value.flags);
+                }
+            } else adapt(value);
+        }
+    }
+    adapt(grammar);
+    const hashHeading = grammar.contains.find(mode => mode?.className === 'section' && mode.begin?.source.includes('#{1,6}'));
+    const markerLineHeading = hashHeading['on:begin'];
+    hashHeading['on:begin'] = (match, response) => {
+        markerLineHeading(match, response);
+        if (match.index > 0 && !/[\r\n]/.test(match.input[match.index - 1])) return;
+        match.rule.scope = inParagraph(match.input, match.index) ? undefined : 'section';
+    };
+    const horizontalRule = grammar.contains.find(mode => mode?.begin?.source?.includes('-{3,}|\\*{3,}|_{3,}'));
+    grammar.contains = grammar.contains.filter(mode => mode !== horizontalRule);
+    const lineStart = '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*';
+    // A div body shares the mode: a thematic break is stars only (C2-B-159).
+    if (horizontalRule) horizontalRule.begin = new RegExp(lineStart + '\\*{3,}[ \\t]*$(?![^\\r\\n])');
+    // C2-B-081: a definition stands at column 0 outside every container and
+    // is text below a paragraph line.
+    function definitionAllowed(source, offset) {
+        let start = offset;
+        while (start > 0) {
+            const end = source[start - 1] === '\n' && source[start - 2] === '\r' ? start - 2 : start - 1;
+            const previous = Math.max(source.lastIndexOf('\n', end - 1), source.lastIndexOf('\r', end - 1)) + 1;
+            if (!/^\uFEFF?(?:\[[^\]\r\n]+\]:|\*\[[A-Za-z0-9]+\]:)/.test(source.slice(previous, end))) break;
+            start = previous;
+        }
+        return !inParagraph(source, start);
+    }
+    const isDefinition = mode => /\\\]:/.test(mode?.begin?.source || '');
+    const seen = new WeakSet();
+    function dropNestedDefinitions(mode) {
+        if (!mode || typeof mode !== 'object' || seen.has(mode) || mode instanceof RegExp) return;
+        seen.add(mode);
+        for (const value of Object.values(mode)) {
+            if (Array.isArray(value)) {
+                for (let i = value.length - 1; i >= 0; i--) {
+                    if (isDefinition(value[i])) value.splice(i, 1);
+                    else dropNestedDefinitions(value[i]);
+                }
+            } else dropNestedDefinitions(value);
+        }
+    }
+    grammar.contains = grammar.contains.filter((mode) => {
+        if (!isDefinition(mode)) return true;
+        if (!mode.begin.source.startsWith('^(?<![^\\r\\n])')) return false;
+        const originalBegin = mode['on:begin'];
+        mode['on:begin'] = (match, response) => {
+            if (/^\uFEFF?[ \t]/.test(match.input.slice(match.index)) || !definitionAllowed(match.input, match.index)) {
+                response.ignoreMatch();
+                return;
+            }
+            originalBegin?.(match, response);
+        };
+        return true;
+    });
+    for (const mode of grammar.contains) {
+        if (!isDefinition(mode)) dropNestedDefinitions(mode);
+    }
+    // C2-B-040: an uppercase marker with a dot needs two spaces, a lowercase one needs one.
+    const letterMarker = '(?:(?:[a-z]|[ivxlcdm]{2,9})\\.(?= \\S)|(?:[A-Z]|[IVXLCDM]{2,9})\\.(?= {2}\\S))';
+    grammar.contains.unshift(
+        { className: 'comment', begin: new RegExp(lineStart + '%%[ \\t]*#(?:region[ \\t]+[A-Za-z_][A-Za-z_0-9-]*|endregion(?:[ \\t]+[A-Za-z_][A-Za-z_0-9-]*)?)[ \\t]*$') },
+        { className: 'bullet', begin: new RegExp(lineStart + letterMarker) },
+        { ...hashHeading, begin: new RegExp(lineStart + '={1,6} +(?=\\S)') },
+        { className: 'meta', begin: new RegExp(lineStart + '\\*{3,}[ \\t]*$') },
+    );
+    return grammar;
+}
+
 /**
  * Carve language definition for highlight.js
  *
@@ -74,7 +233,7 @@
  * @see https://github.com/markup-carve/carve for the Carve specification
  */
 (function (root, factory) {
-    var carve = factory();
+    var carve = function (hljs) { return adaptGrammar(factory()(hljs), hljs); };
     if (typeof module === 'object' && module.exports) {
         module.exports = carve;
     }
@@ -101,7 +260,14 @@
     // attribute block, and one invalid name is enough to leave the whole run
     // literal. A colon belongs to the VALUE grammar, not the key: an unquoted
     // value may contain dots and colons, so `{k=a:b}` is a real attribute block.
-    const ATTR_ITEM = /(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\w-]*|[A-Za-z_][\w-]*(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}]+))?)/.source;
+    const ATTR_ITEM = /(?::(?:[A-Za-z0-9]{1,8}(?:-[A-Za-z0-9]{1,8})*)?|[.#][A-Za-z0-9_][\w-]*|[A-Za-z_][\w-]*(?:=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'{}|\\]+))?)/.source;
+    // The parts of C2-I-029 to C2-I-032: an unquoted value holds no pipe or backslash.
+    const STRICT_ATTR_ITEM = /(?::(?:[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)?|[.#][\w-]+|[A-Za-z_][\w-]*=(?:"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|[^\s"'\\|}]+)|[A-Za-z][\w-]*)/.source;
+    // A valid block glued to no host is one literal atom (C2-I-035, C2-I-036).
+    const ATTRIBUTE_UNATTACHED = {
+        begin: new RegExp('(?<!(?<!\\\\)(?:\\\\\\\\){0,32}\\\\)\\{[ \\t]*' + STRICT_ATTR_ITEM + '(?:[ \\t]+' + STRICT_ATTR_ITEM + ')*[ \\t]*\\}'),
+        relevance: 0,
+    };
     // A LIST MARKER MAY BE GLUED TO AN ATTRIBUTE BLOCK (`-{#x} item`), so the
     // marker rules have to look past a whole block to decide there is a marker
     // at all. That lookahead spelled the item alternation out again, and the
@@ -114,8 +280,16 @@
         '(?=\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\}[ \\t]+[^ \\t\\n])';
     // A list marker glued to an attribute block, the block consumed.
     const GLUED_MARKER =
-        '(?:[-*] +)*(?:[-*]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]|\\.)'
+        '(?:[-*] +)*(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))'
         + '\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\} +';
+    // The markers a block on a marker line may follow: any chain of bullet,
+    // ordered and task markers, each optionally glued to an attribute block
+    // (`- # T`, `1. - # T`, `-{.c} > x`, carve-grammars#947). An uppercase dot
+    // marker needs two spaces (C2-B-040). Read through lookbehinds only.
+    const GLUED_ATTR_RUN = '\\{\\s*(?:' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*)?\\}';
+    const MARKER_LINE_PREFIX = '(?:(?:[-*]|[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)\\)|(?:[a-z]|[ivxlcdm]{2,9})\\.'
+        + '|(?:[A-Z]|[IVXLCDM]{2,9})\\.(?=(?:' + GLUED_ATTR_RUN + ')? {2})|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))'
+        + '(?:' + GLUED_ATTR_RUN + ')? +(?:\\[[ xX\\-_>\\/!?]\\] +)?)+';
     // BALANCED BRACKET TEXT - the body of a link label, an image alt text and a
     // bracketed span. See the long note on Prism's `bracketText`, which this
     // mirrors; the short version is that the spec closes a label at the
@@ -197,8 +371,11 @@
     // digit after it. Without the `u` flag, any non-ASCII character counts as
     // a letter.
     const LETTER_OR_DIGIT = '[A-Za-z0-9\\u0080-\\uFFFF]';
+    // A delimiter before one of these is part of a larger character, not a delimiter.
+    const GRAPHEME_EXTENDER = '[\\u0300-\\u036F\\u1AB0-\\u1AFF\\u1DC0-\\u1DFF\\u200D\\u20D0-\\u20FF\\uFE00-\\uFE0F\\uFE20-\\uFE2F]';
     const BARE_CODE = '```(?:[^`\\n]|`(?!``)){1,4096}```(?!`)|``(?:[^`\\n]|`(?!`)){1,4096}``(?!`)|`[^`\\n]{1,4096}`(?!`)';
-    const bareCloser = (d) => `(?<=\\S)${d}(?!${LETTER_OR_DIGIT})`;
+    // The `=` of a comparison neither opens nor closes (PART 9 §9).
+    const bareCloser = (d) => `(?<=\\S)${d === '=' ? '(?<!(?<!\\\\)(?:\\\\\\\\){0,32}[>!])(?:(?<!(?<!\\\\)(?:\\\\\\\\){0,32}<)=|=(?=[=>]))' : d}(?!${LETTER_OR_DIGIT})`;
     // A braced span's body: a braced span of another kind, a closed code span
     // and a link destination or autolink are atoms, so the closer is the first
     // one outside all three. An insertion or deletion (`atoms` false) closes at
@@ -217,16 +394,20 @@
             end: new RegExp(`${d}\\}`),
         };
     };
+    // A whole bare run per delimiter, for a block glued to its closer (carve-grammars#867).
+    const BARE_RUNS = [];
     const bare = (d, opener) => {
         const opaque = OPAQUE_INLINE_SOURCE.replace(OPAQUE_BRACED_SOURCE, sameKindAtoms(d) + '|' + bracedSource(BRACED_KINDS.filter((kind) => kind !== d)));
         // Keep the whitespace and letter cases disjoint for repeated `*a`.
-        const atom = `(?:\\\\(?:[^\\n]|\\n(?![ \\t]*\\n))|${BARE_CODE}|${opaque}|(?<=\\s)${d}(?!${LETTER_OR_DIGIT})|${d}(?=${LETTER_OR_DIGIT})`
-            + `|(?!${opaque})[^${d}\\\\\\n\`]|\\n(?![ \\t]*\\n))`;
+        // An own delimiter between two word characters ends the run (PART 9 §9 R2).
+        const atom = `(?:\\\\(?:[^\\n]|\\n(?![ \\t]*\\n))|${BARE_CODE}|${opaque}|(?<=\\s)${d}(?!${LETTER_OR_DIGIT})|(?<!${LETTER_OR_DIGIT})${d}(?=${LETTER_OR_DIGIT})|(?<=${LETTER_OR_DIGIT})${d}(?=${GRAPHEME_EXTENDER})`
+            + `${d === '=' ? '|[>!]=|<=(?![=>])' : ''}|(?!${opaque})[^${d}\\\\\\n\`]|\\n(?![ \\t]*\\n))`;
         // A plain scan for any closer runs first: the atom scan re-reads every
         // braced span from each opener, so openers with no closer went cubic.
         // Tempered on disjoint non-closer cases, so a failure costs one pass.
-        const precheck = `(?:[^${d}\\n]|\\n(?![ \\t]*\\n)|(?<=\\s)${d}|(?<!\\s)${d}(?=${LETTER_OR_DIGIT})){0,4096}${bareCloser(d)}`;
+        const precheck = `(?:[^${d}\\n]|${d === '=' ? '[>!]=|<=(?![=>])|' : ''}\\n(?![ \\t]*\\n)|(?<=\\s)${d}|(?<!\\s)${d}(?=${LETTER_OR_DIGIT})){0,4096}${bareCloser(d)}`;
         opener = new RegExp(`${opener.source}(?=${precheck})`);
+        BARE_RUNS.push([d.replace('\\', ''), new RegExp(`${opener.source}${atom}{1,4096}?${bareCloser(d)}`, 'g')]);
         return {
             begin: new RegExp(`${opener.source}(?=${atom}{1,4096}?${bareCloser(d)})`),
             // A lookbehind in `end` never matches in highlight.js, so a delimiter
@@ -299,7 +480,7 @@
     // `const` cannot be read before its own declaration.
     const ESCAPE = {
         className: 'symbol',
-        begin: /\\[!"#$%&'()*+,.\/:;<=>?@\[\\\]^_`{|}~-]/,
+        begin: /\\(?:[!"#$%&'()*+,.\/:;<=>?@\[\\\]^_`{|}~-]| (?![ \t]*$))/,
         relevance: 0,
     };
 
@@ -370,6 +551,35 @@
         ],
         relevance: 5,
     };
+    // `08-attributes.ebnf` `continuation`: an attribute line wraps only onto a
+    // line indented past its `{` column, tabs expanded to stops of 4 (PART 7).
+    // One branch per opener column counts both lines exactly. A `{` past
+    // ATTR_LINE_COLUMNS takes any continuation past that column and `on:begin`
+    // checks the rest: it cannot veto (`ignoreMatch()` is banned here), and the
+    // scope it drops leaves that text unhighlighted, so the regex refuses first.
+    const ATTR_LINE_COLUMNS = 16;
+    const tabStops = (count) => count ? '(?: {4}| {0,3}\\t){' + count + '}' : '';
+    const atColumn = (column) => tabStops(column >> 2) + (column & 3 ? ' {' + (column & 3) + '}' : '');
+    const pastColumn = (column) => {
+        const reach = column + 1;
+        return tabStops(reach >> 2) + (reach & 3 ? '(?: {' + (reach & 3) + '}| {0,' + ((reach & 3) - 1) + '}\\t)' : '') + '[ \\t]*';
+    };
+    const indentColumn = (text, from) => {
+        let column = 0;
+        for (let at = from; at < text.length; at++) {
+            if (text[at] === ' ') column++;
+            else if (text[at] === '\t') column += 4 - column % 4;
+            else break;
+        }
+        return column;
+    };
+    const attrLineBlock = (opener, indent) => '(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)' + opener + ')\\{(?!__\\})'
+        + '[ \\t]*(?:\\r?\\n' + indent + ')?' + ATTR_ITEM
+        + '(?:(?:[ \\t]*\\r?\\n' + indent + '|[ \\t]+)' + ATTR_ITEM + ')*'
+        + '[ \\t]*(?:\\r?\\n' + indent + ')?\\}';
+    const attrLineBlocks = Array.from({ length: ATTR_LINE_COLUMNS }, (_, column) => attrLineBlock(atColumn(column), pastColumn(column)))
+        .concat(attrLineBlock('(' + tabStops(ATTR_LINE_COLUMNS >> 2) + '[ \\t]*)', pastColumn(ATTR_LINE_COLUMNS)))
+        .join('|');
     const ATTRIBUTE = {
         className: 'attr',
         // TWO ROLES, ONE TOKEN - see the note on Prism's `attributes`. A standalone
@@ -378,31 +588,161 @@
         // engine renders prose (#164). The line-anchored branch is a lookbehind so
         // the match still starts at the `{`.
         begin: new RegExp(
-            '(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*)\\{(?!__\\})\\s*' + ATTR_ITEM + '(?:\\s+' + ATTR_ITEM + ')*\\s*\\}' + '(?=(?:[ \\t]*\\{(?:"(?:\\\\.|[^"\\\\\\n])*"|\'(?:\\\\.|[^\'\\\\\\n])*\'|[^{}"\'\\n])*\\})*[ \\t]*(?:\\n|$(?![^\\r\\n])))'
+            '(?:' + attrLineBlocks + ')' + '(?=(?:[ \\t]*\\{(?:"(?:\\\\.|[^"\\\\\\n])*"|\'(?:\\\\.|[^\'\\\\\\n])*\'|[^{}"\'\\n])*\\})*[ \\t]*(?:\\n|$(?![^\\r\\n])))'
             + '|(?=\\{)(?:(?<=[*/_~=`>}:\\]$<|])|' + linkDestinationBeforeAttr + ')' + afterEscape + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + noCommentRun
-            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}[.)]|\\.))' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}'
-            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}[.)]|\\.)(?:\\{[^{}\\n]*\\})?(?:[ \\t]+\\[[ xX]\\])?[ \\t]+)' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + '(?=[ \\t]*(?:\\n|$(?![^\\r\\n])))',
+            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )))' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}'
+            + '|(?=\\{)(?<=(?:^(?<![^\\r\\n])|\\n)[ \\t]*(?:[-+*]|\\d{1,9}[.)]|[A-Za-z]{1,8}(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:\\{[^{}\\n]*\\})?(?:[ \\t]+\\[[ xX]\\])?[ \\t]+)' + '\\{(?!__\\})[ \\t]*' + ATTR_ITEM + '(?:[ \\t]+' + ATTR_ITEM + ')*[ \\t]*\\}' + '(?=[ \\t]*(?:\\n|$(?![^\\r\\n])))',
         ),
+        // Group 1 is set only on a `{` past ATTR_LINE_COLUMNS. A refused block
+        // keeps its match and drops the scope, as `scopeUnless` does.
+        'on:begin': (m) => {
+            m.rule.scope = attachedAttribute(m.input, m) ? 'attr' : undefined;
+        },
         relevance: 5,
+    };
+    // A block glued to a `}` that closes no forced emphasis needs that `}` to
+    // close an attached block: `a}{.b}`, `x {.a}{.b}` and a refused `{.a` + `}`
+    // run are text (carve-grammars#847). An empty `{}` joins only a bracketed
+    // span's run (`[a]{}{.b}`; `*x*{}{.b}` is text).
+    const ATTRIBUTE_PROBE = new RegExp(ATTRIBUTE.begin.source, 'y');
+    const CRITIC_SUBSTITUTION = /\{~(?:[^~}\r\n]|~(?![>}])){0,4096}~>(?:[^~}\r\n]|~(?!\})){0,4096}~\}$/;
+    const lineBefore = (source, at) => source.slice(Math.max(source.lastIndexOf('\n', at - 1) + 1, at - 4096), at);
+    // The `{` that opens the block a `}` at `close` ends: quoted values are skipped, -1 when none.
+    const blockOpener = (source, close) => {
+        let open = source.lastIndexOf('{', close - 1);
+        if (open === -1 || !/["']/.test(source.slice(open, close))) return open;
+        open = -1;
+        for (let i = Math.max(0, close - 4096); i < close; i++) {
+            const c = source.charAt(i);
+            if (c === '\\') { i++; continue; }
+            if (c === '{') { open = i; continue; }
+            if (c === '}') { open = -1; continue; }
+            if (open !== -1 && (c === '"' || c === "'")) {
+                let j = i + 1;
+                for (; j < close && source.charAt(j) !== c && source.charAt(j) !== '\n'; j++) {
+                    if (source.charAt(j) === '\\') j++;
+                }
+                if (source.charAt(j) === c) i = j;
+            }
+        }
+        return open;
+    };
+    // The `[` that opens the bracket closed by the `]` before `at`, -1 when none.
+    const bracketOpener = (source, at) => {
+        let depth = 0;
+        for (let i = at - 1, stop = Math.max(0, at - 4096); i >= stop && source.charAt(i) !== '\n'; i--) {
+            const c = source.charAt(i);
+            if (source.charAt(i - 1) === '\\' && source.charAt(i - 2) !== '\\') { i--; continue; }
+            if (c === '`') {
+                let run = 1;
+                while (source.charAt(i - run) === '`') run++;
+                const tick = source.lastIndexOf('`'.repeat(run), i - run);
+                const line = source.lastIndexOf('\n', i);
+                if (tick > line) { i = tick; continue; }
+                i -= run - 1;
+                continue;
+            }
+            if (c === ']') depth++;
+            else if (c === '[' && --depth === 0) return i;
+        }
+        return -1;
+    };
+    // A bracketed span, not a footnote reference or a reference link (`[a][r]`).
+    const closesSpan = (source, at) => {
+        const open = bracketOpener(source, at);
+        return open !== -1 && source.charAt(open + 1) !== '^' && !(source.charAt(open - 1) === ']' && bracketOpener(source, open) !== -1);
+    };
+    let hostMemo = { source: null, hosts: null };
+    // 'span', 'other', or null when the `}` before `at` closes nothing attached.
+    const attributeHost = (source, at) => {
+        if (hostMemo.source !== source) hostMemo = { source, hosts: new Map() };
+        if (!hostMemo.hosts.has(at)) hostMemo.hosts.set(at, findAttributeHost(source, at));
+        return hostMemo.hosts.get(at);
+    };
+    // A block glued to a bare delimiter needs a run of that kind to close there:
+    // `a*{.q}` and `x _a_ b_{.q}` are text (carve-grammars#867). A run crosses
+    // soft breaks, so the scan covers the paragraph.
+    const paragraphStart = (source, at) => {
+        let start = source.lastIndexOf('\n', at - 1) + 1;
+        while (start > 0 && at - start < 8192) {
+            const previous = source.lastIndexOf('\n', start - 2) + 1;
+            if (/^[ \t\r]*$/.test(source.slice(previous, start - 1))) break;
+            start = previous;
+        }
+        return start;
+    };
+    const paragraphEnd = (source, at) => {
+        const blank = /\n[ \t\r]*(?:\n|$)/g;
+        blank.lastIndex = at;
+        const found = blank.exec(source);
+        return Math.min(found ? found.index : source.length, at + 8192);
+    };
+    let runEnds = { source: null, windows: null };
+    const closesBareRun = (source, at) => {
+        if (runEnds.source !== source) runEnds = { source, windows: new Map() };
+        const from = paragraphStart(source, at);
+        const to = paragraphEnd(source, at);
+        const key = from + ':' + to;
+        if (!runEnds.windows.has(key)) {
+            const found = new Set();
+            for (const [d, rule] of BARE_RUNS) {
+                rule.lastIndex = from;
+                for (let run; (run = rule.exec(source)) && run.index < to;) {
+                    // An escaped opener opens nothing: `x \*a*{.q}` is text.
+                    let slashes = 0;
+                    while (source[run.index - 1 - slashes] === '\\') slashes++;
+                    if (slashes % 2) rule.lastIndex = run.index + 1;
+                    else found.add(d + (run.index + run[0].length));
+                }
+            }
+            runEnds.windows.set(key, found);
+        }
+        return runEnds.windows.get(key).has(source[at - 1] + at);
+    };
+    const findAttributeHost = (source, at) => {
+        // The `=` of a header cell marker (`|={.c}`) is no delimiter.
+        if (/[*/_~=]/.test(source[at - 1] ?? '') && source.slice(at - 2, at) !== '|=') return closesBareRun(source, at) ? 'other' : null;
+        if (source[at - 1] !== '}') return source[at - 1] === ']' && closesSpan(source, at) ? 'span' : 'other';
+        const brace = blockOpener(source, at - 1);
+        if (brace !== -1) {
+            if (/^\{[ \t]*\}$/.test(source.slice(brace, at))) return attributeHost(source, brace) === 'span' ? 'span' : null;
+            ATTRIBUTE_PROBE.lastIndex = brace;
+            const host = ATTRIBUTE_PROBE.exec(source);
+            if (host && brace + host[0].length === at) return attachedAttribute(source, host) ? attributeHost(source, brace) : null;
+        }
+        return /[*/_~=^,+-]/.test(source[at - 2] ?? '') && !CRITIC_SUBSTITUTION.test(lineBefore(source, at)) ? 'other' : null;
+    };
+    const attachedAttribute = (source, m) => {
+        if (m[1] === undefined) return attributeHost(source, m.index) !== null;
+        const opener = indentColumn(m[1], 0);
+        for (let at = m[0].indexOf('\n'); at !== -1; at = m[0].indexOf('\n', at + 1)) {
+            if (indentColumn(m[0], at + 1) <= opener) return false;
+        }
+        return true;
     };
 
     // Front matter is valid only at byte offset zero. Unlike the historical
     // `^---$` rule, the negative lookbehind below cannot match a thematic break
     // on a later line even though highlight.js compiles modes with `m`.
-    // An opener with no closing dash line ahead is a thematic break, so the
-    // closer is required up front; the scan runs at offset zero only.
+    // An opener with no closing dash line runs to the end of the document
+    // (carve#5016), so no closer lookahead.
     const FRONT_MATTER_CLOSER = /^(?<![^\r\n])---[ \t]*$(?![^\r\n])/;
-    const frontMatterOpener = (format) => new RegExp('^(?<![^\\r\\n])(?<![\\s\\S])\\uFEFF?---' + format + '[ \\t]*$(?![^\\r\\n])'
-        + '(?=[\\s\\S]*?(?:\\r\\n|\\r|\\n)---[ \\t]*$(?![^\\r\\n]))');
-    const frontMatter = (format) => ({
+    // A typed opener after line 1 also opens a top-level metadata block when a
+    // blank line, or attribute lines that follow one or start on line 1, stand
+    // directly above it (C2-B-232, C2-B-233); bare `---` stays line-1 only.
+    const LINE_ONE = '(?<![\\s\\S])\\uFEFF?';
+    const ATTRIBUTE_LINES = '(?:\\{[^{}\\r\\n]*\\}[ \\t]*)+(?:\\r\\n?|\\n)';
+    const LATER = '(?=---)(?<=(?:(?<![\\s\\S])|\\r\\n?|\\n)[ \\t]*(?:\\r\\n?|\\n)(?:' + ATTRIBUTE_LINES + ')*|(?<![\\s\\S])\\uFEFF?(?:' + ATTRIBUTE_LINES + ')+)';
+    const frontMatterOpener = (format, anchor = LINE_ONE) => new RegExp('^(?<![^\\r\\n])' + anchor + '---' + format + '[ \\t]*$(?![^\\r\\n])');
+    const frontMatter = (format, anchor) => ({
         className: 'meta',
-        begin: frontMatterOpener(format),
+        begin: frontMatterOpener(format, anchor),
         end: FRONT_MATTER_CLOSER,
         relevance: 10,
     });
-    const delegatedFrontMatter = (format, subLanguage) => ({
+    const delegatedFrontMatter = (format, subLanguage, anchor) => ({
         className: 'meta',
-        begin: frontMatterOpener(format),
+        begin: frontMatterOpener(format, anchor),
         end: /$(?![^\r\n])/,
         relevance: 10,
         starts: {
@@ -418,7 +758,14 @@
         // `toml` is an alias, but subLanguage resolution requires the key.
         delegatedFrontMatter(' ?toml', 'ini'),
         delegatedFrontMatter('(?: ?(?:yaml|yml))?', 'yaml'),
-        frontMatter(' ?[A-Za-z0-9_]+'),
+        frontMatter(' ?[A-Za-z0-9]+'),
+    ];
+    // Top level only: a div body leaves the opener as text (C2-B-232).
+    const LATER_METADATA = [
+        delegatedFrontMatter(' ?json', 'json', LATER),
+        delegatedFrontMatter(' ?toml', 'ini', LATER),
+        delegatedFrontMatter(' ?(?:yaml|yml)', 'yaml', LATER),
+        frontMatter(' ?[A-Za-z0-9]+', LATER),
     ];
 
     // Headings: # to ######
@@ -426,8 +773,27 @@
         className: 'section',
         // Anchored `^[ \t]*` on purpose - no container model here, see the
         // indented-block-openers note in the module docblock (carve-grammars#138).
-        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*#{1,6} (?![ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // Or right after a list marker the list rules took (`- # T`, `1. = T`,
+        // carve-grammars#945); an uppercase dot marker needs two spaces (C2-B-040).
+        begin: RegExp('(?:^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*#{1,6}'
+            + '|(?=[#=])(?<=^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + MARKER_LINE_PREFIX + ')(?:#{1,6}|={1,6}))'
+            + ' (?![ \\t]*$(?![^\\r\\n]))'),
+        // A marker that continues a paragraph opens no heading.
+        'on:begin': (m, resp) => {
+            const start = lineStartBefore(m.input, m.index);
+            m.rule.scope = markerIsParagraphText({ input: m.input, index: start }) ? undefined : 'section';
+            resp.data.label = { column: columnOf(m.input.slice(start, m.index + m[0].search(/[#=]/))), until: -1 };
+        },
+        // A heading is a label: it holds every line below it indented past its
+        // marker, comment-only lines unseen (C2-B-154, C2-B-234). The end takes
+        // the line break, so an ignored end still advances.
+        end: /\r\n?|\n/,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            // A comment-only line below is the heading's own (C2-B-138).
+            const next = m.index + m[0].length;
+            if (COMMENT_ONLY_LINE.test(lineAt(m.input, next)) || labelContinues(m.input, next, resp.data.label, true)) resp.ignoreMatch();
+        },
         relevance: 10,
     };
 
@@ -510,9 +876,9 @@
      * `=` IS IN THE OPENER'S OWN LOOKAHEAD: a doubled run opens nothing, so
      * `x == y` stays literal.
      *
-     * THE CLOSER IS DELIBERATELY NOT GUARDED AGAINST SMART TYPOGRAPHY, and the
-     * asymmetry is the engine's: once a highlight is open the closer wins over
-     * the pattern, so `x =y z<= w` marks `y z<` and `x =y z=> w` marks `y z`.
+     * THE `=` OF A COMPARISON NEITHER OPENS NOR CLOSES (PART 9 §9): `x =y z<= w`
+     * marks nothing and `x =!== y` marks the `≠`. An arrow is no such guard:
+     * `x =y z=> w` marks `y z`.
      *
      * AN ESCAPED `=` IS NOT A DELIMITER (carve-grammars#385): `x =\= y`
      * renders `x == y` with no mark. The guard consumes an escape as a pair,
@@ -595,56 +961,21 @@
      */
     function verbatimFence({ className, sigil = '', relevance = 0 }) {
         const RUN = '(?<!`)`+(?!`)';
-        /*
-         * A PARAGRAPH BREAK ALSO ENDS THE SPAN.
-         *
-         * An unpartnered run has no closer to find, and a mode with no closer
-         * ahead runs to END OF FILE - so `unclosed `code here`, a blank line,
-         * and the rest of the document came back scoped as code. That is the
-         * runaway carve-grammars#81 took out of every emphasis mode, still in
-         * this one because a verbatim run has no `illegal` to trip on.
-         *
-         * The engine ends the run at the same place: an unpartnered run is a
-         * code span reaching to the end of its PARAGRAPH, and the paragraph
-         * stops at the blank line. So this is where the span stops rather than
-         * where it is abandoned, and the text before the break keeps its
-         * scope. `tests/unclosed-delimiter-test.js` drives it.
-         *
-         * AT A RUN OF ONE OR TWO ONLY, for the reason the Prism grammar bounds
-         * its own unpartnered run the same way: a run of three or more is
-         * fence-shaped, and a fence carried on a list marker (`- ```) lands in
-         * THIS mode, because the block rule above is anchored at the start of
-         * a line and cannot reach it. Such a block may legitimately hold a
-         * blank line - corpus 75-list-nesting-and-looseness-5 is a fence whose
-         * body is two paragraphs - so ending it at the break would put the
-         * second half of its payload back in play.
-         */
-        // The `\r` is there so a CRLF document gets the same answer: a blank
-        // line is `\r\n\r\n`, and without it the span ran past the break to
-        // end of file on exactly the input this guard exists for.
+        // A run of one or two cannot cross a paragraph break. A run of three or
+        // more is fence-shaped: a fence on a list marker (`- ```) lands in this
+        // mode, and its payload may hold a blank line (corpus
+        // 75-list-nesting-and-looseness-5). The `\r` keeps CRLF input the same.
         //
         // Named BREAK and not PARAGRAPH_BREAK: the construct ledger's probe reads
-        // this file's UPPER_CASE constants as its vocabulary, and a constant
-        // holding the word `paragraph` would seed `paragraph` as a rule this
-        // grammar has (tests/construct-ledger-test.js).
+        // this file's UPPER_CASE constants as its vocabulary (tests/construct-ledger-test.js).
         const BREAK = '\\n[ \\t\\r]*\\n';
-        // The width is read off match[0], NOT a capture group: highlight.js
-        // concatenates every sibling mode's `begin` into one alternation, so
-        // group NUMBERS shift with unrelated modes and an index-based read
-        // silently grabs the wrong group (it threw here, which made the mode
-        // disappear entirely rather than fail loudly).
-        const widthOf = (text) => /`*$(?![^\r\n])/.exec(text)[0].length;
         return {
             className,
             begin: new RegExp(sigil + RUN),
-            'on:begin': (m, resp) => {
-                resp.data._fenceWidth = widthOf(m[0]);
-            },
+            'on:begin': runOpener((width) => (width >= 3 ? null : PARAGRAPH_END)),
             end: new RegExp(RUN + '|' + BREAK),
             'on:end': (m, resp) => {
-                // The paragraph break is an end in its own right, not a
-                // candidate closer, so it is never width-checked - but it only
-                // ends a run too narrow to be a fence.
+                // The paragraph break only ends a run too narrow to be a fence.
                 if (!m[0].includes('`')) {
                     if (resp.data._fenceWidth >= 3) resp.ignoreMatch();
 
@@ -654,6 +985,50 @@
             },
             relevance,
         };
+    }
+
+    /*
+     * A run with no closing run of its width later in the same content opens
+     * nothing, and a `!`, `$` or `$$` glued before it is text too (C2-I-017).
+     * highlight.js has no begin-to-end backreference, so the closer is looked for
+     * here. The walk visits each later run once and stops at `stop`, so it costs
+     * the distance to the closer or to the end of the content.
+     */
+    // The width is read off match[0], NOT a capture group: highlight.js
+    // concatenates every sibling mode's `begin` into one alternation, so
+    // group NUMBERS shift with unrelated modes.
+    const widthOf = (text) => /`*$(?![^\r\n])/.exec(text)[0].length;
+    const PARAGRAPH_END = /\n[ \t\r]*\n/y;
+    const LINE_END = /\n/y;
+    // A table cell's content ends at its row, unless a continuation row follows.
+    const TABLE_ROW_END = /\n(?![ \t]*\+(?:\\.|[^\\\n])*\|[ \t]*$(?![^\r\n]))/my;
+    function runOpener(stopFor) {
+        return (m, resp) => {
+            const width = widthOf(m[0]);
+            if (!closerAhead(m.input, m.index + m[0].length, width, stopFor(width))) {
+                resp.ignoreMatch();
+
+                return;
+            }
+            resp.data._fenceWidth = width;
+        };
+    }
+    function closerAhead(input, from, width, stop) {
+        const scan = /`+|\n/g;
+        scan.lastIndex = from;
+        let m;
+        while ((m = scan.exec(input))) {
+            if (m[0] === '\n') {
+                if (stop) {
+                    stop.lastIndex = m.index;
+                    if (stop.test(input)) return false;
+                }
+                continue;
+            }
+            if (m[0].length === width) return true;
+        }
+
+        return false;
     }
 
     // Math: $$`...` (display) and $`...` (inline). Per grammar.ebnf PART 9 SS18
@@ -677,6 +1052,7 @@
     const TABLE_INLINE_CODE = {
         ...INLINE_CODE,
         end: /(?<!`)`+(?!`)|(?=\n(?![ \t]*\+(?:\\.|[^\\\n])*\|[ \t]*$(?![^\r\n])))/,
+        'on:begin': runOpener(() => TABLE_ROW_END),
         'on:end': (match, response) => {
             if (match[0] === '') return;
             INLINE_CODE['on:end'](match, response);
@@ -756,15 +1132,40 @@
         relevance: 5,
     };
 
+    // A label or definition ends at its line break unless `on:end` hands it the
+    // next line; `returnEnd` leaves the break for the parent when it ends.
+    const LINE_BREAK_END = /\r\n|\r(?!\n)|\n|$(?![\s\S])/;
+
     // Reference definitions: [ref]: url "title". The destination and the
     // `link_title` are scoped apart, as TextMate does (#523).
     const REFERENCE_DEF = {
         className: 'symbol',
         // Anchored at end of line, so `[a]: /u zzz` stays prose (#533).
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\[(?!@|\^[^\]])(?!\^\]:[ \t]*$)[^\]]+\]:(?=(?: [^\S\n]*(?:\S|\uFEFF)+(?: (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'))?(?: \{[^{}\n]*\})?)?[ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // The indented lines below it continue it while they hold the rest of
+        // its tail: a title, an attribute block, at most one of each, in that
+        // order (C2-B-083). `data.tail` holds the parts still open.
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:begin': (m, resp) => {
+            const line = lineAt(m.input, m.index);
+            const parts = /\]: [^\S\n]*(?:\S|\uFEFF)+( (?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'))?( \{[^{}\n]*\})?[ \t]*$/.exec(line);
+            resp.data.tail = !parts ? '' : parts[2] ? '' : parts[1] ? 'a' : 'ta';
+        },
+        'on:end': (m, resp) => {
+            const tail = resp.data.tail;
+            const next = m[0] ? lineAt(m.input, m.index + m[0].length) : '';
+            const shape = /^[ \t]+(?:("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')( \{[^{}\n]*\})?|\{[^{}\n]*\})[ \t]*$/.exec(next);
+            if (!shape || (shape[1] ? tail !== 'ta' : !tail)) return;
+            resp.data.tail = shape[1] && !shape[2] ? 'a' : '';
+            resp.ignoreMatch();
+        },
         relevance: 10,
         contains: [
+            {
+                className: 'string',
+                begin: /(?<=^(?<![^\r\n])[ \t]+)(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')(?=(?: \{[^\n]*\})?[ \t]*$(?![^\r\n]))/,
+            },
             // Only on a line that completes a definition; `[a]: /u zzz` is
             // prose (grammar.ebnf `reference_definition`, anchored at end of line).
             {
@@ -803,7 +1204,12 @@
     const DEFINITION_TERM = {
         className: 'title',
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*:: (?![ \t]*$(?![^\r\n]))/,
-        end: /$(?![^\r\n])/,
+        // The lines definitionListLines gave the term continue it (C2-B-069).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            if (m[0] && definitionListLines(m.input).termLines.has(m.index + m[0].length)) resp.ignoreMatch();
+        },
         relevance: 5,
     };
 
@@ -816,7 +1222,7 @@
     // blank line (corpus 25-definition-lists-7) scoped correctly.
     const OTHER_BLOCK_OPENER_SOURCE =
         '[ \\t]*(?:#{1,6} |-{3,}[ \\t]*$(?![^\\r\\n])|\\*{3,}[ \\t]*$(?![^\\r\\n])|_{3,}[ \\t]*$(?![^\\r\\n])|`{3,}|~{3,}|:{3,}|>(?: |$(?![^\\r\\n]))'
-        + '|\\^ |\\||[-*][ \\t]|[-*]\\{|\\d+[.)][ \\t]|[A-Za-z]+[.)][ \\t]|\\.[ \\t])';
+        + '|\\^ |\\||[-*][ \\t]|[-*]\\{|\\d+[.)][ \\t]|[A-Za-z]+(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))[ \\t]|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )[ \\t])';
 
     // The continuation marker at RELATIVE column 0 (markup-carve/carve#3445,
     // CARVE-P9-031). A lone `+` is the marker only where the lines around it
@@ -826,7 +1232,7 @@
     // group is captured on the `+` line before the lines above it are read;
     // the `(?=\+)` in front of each keeps them off every other position.
     function relativePlusSource(g) {
-        var item = '(?:[-*]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]|\\.)';
+        var item = '(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))';
         var notItem = '(?!' + item + '(?:[ \\t]|\\r?$|\\{))';
         // A list item does not interrupt a paragraph, so one under prose opens nothing.
         var notUnderProse = '(?<!(?<![^\\n])[^ \\t\\r\\n>|#:`~*\\-+\\d[{%][^\\n]*\\n)';
@@ -866,16 +1272,14 @@
         var b = at(g + 2);
         var held = '(?=\\+)(?<=(?<![^\\n])' + b.q + b.s + holderOpener + '[^\\n]*\\n' + run(b.q, b.s, false) + lineAt + ')'
             + lone + b.q + b.s + '(?![ \\t])[^\\r\\n])';
-        // A quote's own first line (`> +`, `> > +`), one branch per depth k: the
-        // line above is no quote line of depth k or more, and the line below has
-        // fewer than k `> ` prefixes before its block, indented freely after at
-        // least one of them. Every `>` needs its space
+        // A quote's own first line (`> +`, `  > > +`), one branch per depth k:
+        // the line above is no quote line of depth exactly k, and then the `+`
+        // is the marker whatever follows. Every `>` needs its space
         // (markup-carve/carve#3421): `>+`, `>>+`, `>> +` are text.
         var opened = [];
         for (var k = 1; k <= 8; k++) {
-            var deep = '(?:> ){' + (k - 1) + '}>[ \\r\\n]';
-            opened.push('(?=\\+)(?<=(?:(?<![\\s\\S])\\uFEFF?|(?<![^\\n])(?!' + deep + ')[^\\n]*\\n)(?:> ){' + k + '})'
-                + lone + '(?:' + (k > 1 ? '(?:> ){1,' + (k - 1) + '} +|' : '') + '(?:> ){0,' + (k - 1) + '}(?!>(?: |\\r?$)))(?![ \\t])' + notItem + '[^\\r\\n])');
+            opened.push('(?=\\+)(?<=(?:(?<![\\s\\S])\\uFEFF?|(?<![^\\n])(?!(?:[ \\t]*(?:' + item + ') +)*(?:[ \\t]*>){' + k + '}(?![ \\t]*>)[ \\t\\r\\n])[^\\n]*\\n)(?:[ \\t]*>(?= )){' + k + '} )'
+                + '\\+[ \\t]*(?![^\\r\\n])');
         }
         opened = opened.join('|');
         // A quote's own first line inside a list item or description (`- a` /
@@ -967,11 +1371,17 @@
     //
     // A hyphen run that OPENS a word after whitespace is a command-line flag
     // and stays literal (carve#1443), so `--oneline` is not an en dash while
-    // `1--10`, `Mon--Fri` and `a -- b` still are. That is the guard around the
-    // dash alternatives: preceded by a non-space, or not followed by a word.
+    // `1--10`, `Mon--Fri` and `a -- b` still are. Both neighbors are read
+    // through the closed `typography_flank` class (CARVE-P3-021), so `a --. b`
+    // stays text too (carve-grammars#833). An opening `(` `"` `'` after a flank
+    // counts as one.
+    const TYPOGRAPHY_FLAG = {
+        begin: /(?:(?<=^|[ \t\r\n\u00A0])|(?<=(?:^|[ \t\r\n\u00A0])["'(]))(?<!-)(?!--(?!-)>)-{2,}(?![- \t\r\n\u00A0]|\\(?:[ \r\n]|$)|$|[*/_~=^+]+(?:[ \t\r\n\u00A0}.,;:!?)\]]|$))/,
+        relevance: 0,
+    };
     const TYPOGRAPHY = {
         className: 'literal',
-        begin: /\{--\}|\.\.\.|<-->|<--|-->|<=>|<==|==>|<->|<-|->|(?:(?<=\S)(?:---|--)|(?:---|--)(?!\w))|!=|<=|>=|\+-|\(c\)|\(r\)|\(tm\)/,
+        begin: /\{--\}|\.\.\.|<-->|<--(?!-)|(?<!-)-->|<=>|<==|==>|---|--|!=|<=|>=|\+-|\(tm\)/,
         relevance: 0,
     };
 
@@ -1017,7 +1427,7 @@
             // opens no list item: a column-0 list stays outside (carve#3482).
             {
                 className: 'punctuation',
-                begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n(?!(?:[-*]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]|\.)(?:[ \t]|\r?$|\{))[^ \t\r\n])/,
+                begin: /(?=\+)(?<=^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?\[\^[^\]\r\n]+\]: +)\+[ \t]*(?=\r?\n(?!(?:[-*]|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2})))|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. ))(?:[ \t]|\r?$|\{))[^ \t\r\n])/,
             },
             bodyAttribute('\\[\\^[^\\]\\r\\n]+\\]:'),
         ],
@@ -1034,8 +1444,18 @@
         className: 'symbol',
         // Anchored `^[ \t]*` on purpose - no container model here, see the
         // indented-block-openers note in the module docblock (carve-grammars#138).
-        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\*\[[A-Za-z0-9]+\]:(?= )/,
-        end: /$(?![^\r\n])/,
+        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*\*\[[A-Za-z0-9]+\]:(?= +[^\r\n]*[^ \t\r\n])/,
+        // Every line below it indented past its `*` continues the expansion; a
+        // block line or a comment-only line ends it (C2-B-084).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:begin': (m, resp) => {
+            resp.data.column = markerColumn(m.input, m.index);
+            resp.data.until = -1;
+        },
+        'on:end': (m, resp) => {
+            if (m[0] && labelContinues(m.input, m.index + m[0].length, resp.data, false)) resp.ignoreMatch();
+        },
         relevance: 10,
     };
 
@@ -1054,10 +1474,7 @@
     // marker-line fence, and with the quote rules sharing the prefix it coloured
     // `-<TAB>> q` as a quote on a line the language renders as prose
     // (carve-grammars#259).
-    const LIST_MARKER_BEFORE_BLOCK =
-        '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*'
-        + '(?:(?:[-*] +)*[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?'
-        + '|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)] +|\\. +)';
+    const LIST_MARKER_BEFORE_BLOCK = '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + MARKER_LINE_PREFIX;
 
     // The lookbehinds built from this prefix are variable length. The modes
     // below check their sentinel before reading the prefix, so irrelevant
@@ -1150,6 +1567,12 @@
             '(?:^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*|(?=>)(?<=' + LIST_MARKER_BEFORE_BLOCK + '))'
             + '>(?= |$(?![^\\r\\n]))',
         ),
+        // A marker that continues a paragraph opens no quote (carve-grammars#851).
+        'on:begin': (m) => {
+            const start = lineStartBefore(m.input, m.index);
+            const text = m.input.slice(start, m.index).trim() !== '' && markerIsParagraphText({ input: m.input, index: start });
+            m.rule.scope = text ? undefined : 'quote';
+        },
         end: /$(?![^\r\n])/,
         // The ONE construct a quote line contains: a comment fence opened on
         // the marker line, which outlives the `$` that ends every other quote.
@@ -1157,6 +1580,32 @@
         // the marker line, which outlives the `$` that ends every other quote,
         // and the unterminated form of the same run, which does not (it is a
         // line comment, so it ends where the quote line does).
+        contains: [BLOCK_COMMENT_ON_QUOTE_MARKER_LINE, UNTERMINATED_BLOCK_COMMENT],
+        relevance: 0,
+    };
+    // A quoted line block (`> ::: |`) holds text lines, so no quoted block
+    // marker scopes in it (carve-grammars#853). It ends at its closer, at the
+    // same prefix, or with the quote.
+    const QUOTED_LINE_BLOCK = {
+        className: 'quote',
+        begin: RegExp(
+            '(?:^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*|(?=>)(?<=' + LIST_MARKER_BEFORE_BLOCK + '))'
+            + '>((?: >)*) (:{3,}) +\\|[ \\t]*$(?![^\\r\\n])',
+        ),
+        // A marker line that continues a paragraph opens nothing: the mode
+        // then ends with its line, unscoped.
+        'on:begin': (m, resp) => {
+            resp.data.prefix = m[1];
+            resp.data.width = m[2].length;
+            resp.data.refused = quotedMarkerIsParagraphText(m);
+            m.rule.scope = resp.data.refused ? undefined : 'quote';
+        },
+        end: /\n|^(?<![^\r\n])[ \t]*>((?: >)*) (:{3,})[ \t]*$(?![^\r\n])/,
+        'on:end': (m, resp) => {
+            if (m[2] === undefined) {
+                if (!resp.data.refused && /^[ \t]*>/.test(m.input.slice(m.index + 1))) resp.ignoreMatch();
+            } else if (m[1] !== resp.data.prefix || m[2].length !== resp.data.width) resp.ignoreMatch();
+        },
         contains: [BLOCK_COMMENT_ON_QUOTE_MARKER_LINE, UNTERMINATED_BLOCK_COMMENT],
         relevance: 0,
     };
@@ -1169,64 +1618,59 @@
      * below still see the text. Inline formatting stays out: those modes may
      * span lines and would carry the next line's `>` into their run.
      */
-    // A quoted term indented past the quote's column 0 opens a list only at or
-    // right of the content column of a quoted list item or description above
-    // it at the same quote prefix, as `TERM_HOSTED` reads an unquoted one. Each
-    // call names its groups by `tag`, since one regex may hold several.
-    function quotedTermHostedSource(tag, opener) {
-        var list = '(?:[-*]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]|\\.)(?: \\[[ xX\\-_>\\/!?]\\])?';
-        // A description hosts only at column 0 or after list markers on its
-        // line, and two blank lines end it.
-        var leads = ['[ \\t]*' + list + ' +', '(?:' + list + ' +)*: +'];
-        var at = [];
-        for (var h = 0; h < 2; h++) {
-            for (var n = 1; n <= 12; n++) {
-                var g = 'qh' + tag + h + 'n' + n;
-                var prefix = '(?:\\k<' + g + '>|[ \\t]*(?:[-*]|[0-9]+[.)]) +>(?: >)*)';
-                var host = '(?<![^\\n])(?:(?<![\\s\\S])\\uFEFF)?' + prefix + ' (?=[^\\n]{0,' + n + '}(?=[^ \\t\\r\\n])(?<=(?<![^\\n])(?:(?<![\\s\\S])\\uFEFF)?'
-                    + prefix + ' ' + leads[h] + ')[^ \\t\\r\\n])[^\\n]*\\n';
-                var line = '(?<![^\\n])\\k<' + g + '>(?:[ \\t]*\\r?'
-                    + '| ' + (n > 1 ? '(?! {1,' + (n - 1) + '}:: )' : '') + '[ \\t]+[^ \\t\\r\\n][^\\n]*'
-                    + '| (?=[^ \\t\\r\\n])(?<![ \\t>]\\r?\\n\\k<' + g + '> )(?!' + opener + ')(?!::? )[^\\n]*)\\n'
-                    + (h ? '(?<!(?<![^\\n])\\k<' + g + '>[ \\t]*\\r?\\n\\k<' + g + '>[ \\t]*\\r?\\n)' : '');
-                at.push('(?=::)(?<=' + host + '(?:' + line + '){0,64}(?<![^\\n])(?:(?<![\\s\\S])\\uFEFF)?(?<' + g + '>[ \\t]*>(?: >)*) {' + (n + 1) + '})');
-            }
-        }
-        // Any quoted host within reach first: most quoted terms have none.
-        var any = '(?=::)(?<=(?<![^\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(?:(?:[-*]|[0-9]+[.)]) +)?>(?: >)* (?:' + leads.join('|') + ')[^\\n]*\\n(?:[^\\n]*\\n){0,64}[ \\t]*>(?: >)*   +)';
-        return any + '(?:' + at.join('|') + ')';
-    }
-
     const QUOTED = '(?<=(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*>(?: >)* )';
     const NO_EMPTY = '(?![ \\t]*$(?![^\\r\\n]))';
     BLOCKQUOTE.contains.push(
-        { className: 'section', begin: RegExp('(?=#)' + QUOTED + '#{1,6}(?= )' + NO_EMPTY) },
-        { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '[-*] \\[[ xX\\-_>\\/!?]\\](?= )' + NO_EMPTY) },
-        { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '(?:[-*] +)*[-*](?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY) },
-        { className: 'bullet', begin: RegExp('(?=[\\dA-Za-z.])' + QUOTED + '(?:\\d+[.)]|[a-zA-Z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.)(?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY) },
+        { className: 'section', begin: RegExp('(?=[#=])' + QUOTED.slice(0, -1) + '(?:' + MARKER_LINE_PREFIX + ')?)(?:#{1,6}|={1,6})(?= )' + NO_EMPTY) },
+        { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '[-*] \\[[ xX\\-_>\\/!?]\\](?= )' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
+        { className: 'bullet', begin: RegExp('(?=[-*])' + QUOTED + '(?:[-*] +)*[-*](?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
+        { className: 'bullet', begin: RegExp('(?=[\\dA-Za-z.])' + QUOTED + '(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:(?= )|' + GLUED_ATTR_BLOCK + ')' + NO_EMPTY), 'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'bullet'; } },
         // The `+` continuation marker: after a quoted list marker always, and
         // a lone `+` in a quote where the lines around it prove it.
         {
             className: 'punctuation',
             begin: RegExp('(?=\\+)' + QUOTED.slice(0, -1)
-                + '(?:[-*] \\[[ xX\\-_>\\/!?]\\] +|(?:[-*] +)+|(?:\\d+[.)]|[a-zA-Z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.) +|'
+                + '(?:[-*] \\[[ xX\\-_>\\/!?]\\] +|(?:[-*] +)+|(?:\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. )) +|'
                 + GLUED_MARKER + '))\\+[ \\t]*$(?![^\\r\\n])'),
         },
         { className: 'punctuation', begin: RegExp(relativePlusSource(1)) },
-        // A quoted definition list: the `::` of a term, and a `:` at the column of
-        // a term or description above it, under a quoted term.
-        { className: 'punctuation', begin: /(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: >)* )::(?= +[^ \t\r\n])/ },
-        { className: 'punctuation', begin: RegExp('(?=::)' + quotedTermHostedSource('t', OTHER_BLOCK_OPENER_SOURCE) + '::(?= +[^ \\t\\r\\n])') },
+        // A quoted definition list: the `::` of a term at any indent, and a `:`
+        // that definitionListLines reads as a marker.
         {
             className: 'punctuation',
-            begin: RegExp(/(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: >)* ::[ ][^\n]*\n(?:[ \t]*>[^\n]*\n){0,64}[^\n]*)(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: >)* (?:\k<dcol>: |\k<dcol>:: (?<=> :: )|\k<dcol>(?=::)QHOSTDESC:: )[^\n]*\n(?:[ \t]*>[^\n]*\n){0,64}(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: >)* (?<dcol> *)):(?= +[^ \t\r\n])/.source.replaceAll('[^ \\t\\r\\n]', 'NONSPACE_CHAR').replaceAll('[^\\r\\n]', 'LINE_BOUNDARY').replaceAll('[^\\n]', 'LINE_CHARS').replaceAll('\\n', '(?:\\r\\n|\\r|\\n)').replaceAll('NONSPACE_CHAR', '[^ \\t\\r\\n]').replaceAll('LINE_BOUNDARY', '[^\\r\\n]').replaceAll('LINE_CHARS', '[^\\r\\n]').replace('QHOSTDESC', quotedTermHostedSource('c', OTHER_BLOCK_OPENER_SOURCE))),
+            begin: RegExp('(?=:)(?<=(?:' + LIST_MARKER_BEFORE_BLOCK + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*)>(?: >)* [ \\t]*'
+                + '(?:(?:[-*]|[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]) +)*)::(?= +[^ \\t\\r\\n])'),
+            'on:begin': (m) => { m.rule.scope = quotedMarkerIsParagraphText(m) ? undefined : 'punctuation'; },
         },
-        // A description at the column of the nearest term above it that a quoted
-        // list item or description hosts.
         {
             className: 'punctuation',
-            begin: RegExp('(?=:)(?<=(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*>(?: >)* \\k<dc>(?=::)' + quotedTermHostedSource('d', OTHER_BLOCK_OPENER_SOURCE)
-                + '::[^\\n]*\\n(?:(?<![^\\n])[ \\t]*>(?: >)*(?! \\k<dc>:: )[^\\n]*\\n){0,64}(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*>(?: >)* (?<dc> +)):(?= +[^ \\t\\r\\n])'),
+            begin: /(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: >)* [ \t]*):(?= +[^ \t\r\n])/,
+            'on:begin': (m) => {
+                m.rule.scope = definitionListLines(m.input).markers.has(m.index) ? 'punctuation' : undefined;
+            },
+        },
+        // An abbreviation definition, behind the prefix and any item markers or
+        // a real description marker, as the document collects it (carve-grammars#845).
+        {
+            className: 'symbol',
+            begin: RegExp('(?=\\*\\[)(?<=(?:' + LIST_MARKER_BEFORE_BLOCK + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*)>(?: >(?= ))*'
+                + '(?: [ \\t]*(?:(?:[-*] +)*[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}))) +|(?:[-*]|[0-9]+[.)])\\{[^{}\\r\\n]*\\} +|> )*(:(?= ) +)?)? *)'
+                + '\\*\\[[A-Za-z0-9]+\\]: +(?=[^\\r\\n]*[^ \\t\\r\\n])[^\\r\\n]*'),
+            end: /$(?![^\r\n])/,
+            'on:begin': (m) => {
+                const before = m.input.slice(0, m.index).trimEnd();
+                const marker = before.endsWith(':') && before.length - 1;
+                const lines = definitionListLines(m.input);
+                const fenced = lines.fenced.has(before.lastIndexOf('\n') + 1);
+                // A quote opened on a marker line that continues a paragraph opens nothing (carve-grammars#856).
+                const start = lineStartBefore(m.input, m.index);
+                const above = previousLineStart(m.input, start);
+                const lazy = !/^﻿?[ \t]*>/.test(m.input.slice(start, m.index))
+                    && above !== -1 && !/^﻿?[ \t]*(?:>[ \t]*)*$/.test(lineAt(m.input, above))
+                    && markerIsParagraphText({ input: m.input, index: start });
+                m.rule.scope = !fenced && !lazy && (marker === false || lines.markers.has(marker)) && !quotedMarkerIsParagraphText(m) ? 'symbol' : undefined;
+            },
+            relevance: 0,
         },
     );
 
@@ -1266,9 +1710,36 @@
     const lineAt = (input, start) => input.slice(start, lineEndFrom(input, start));
     const previousLineStart = (input, start) => start === 0 ? -1
         : lineStartBefore(input, start - (input[start - 1] === '\n' && input[start - 2] === '\r' ? 2 : 1));
+    const columnOf = (lead) => {
+        let col = 0;
+        for (const ch of lead) col = ch === '\t' ? col + 4 - (col % 4) : col + 1;
+        return col;
+    };
+    // A fence, a table row, a `***` break or a block comment ends a label even when indented (C2-B-234).
+    const LABEL_END_LINE = /^[ \t]*(?:`{3,}|:{3,}|%|\|[^\r\n]*\||\*{3,}[ \t]*$)/;
+    const COMMENT_ONLY_LINE = /^[ \t]*%%(?!%)(?![ \t]*#(?:region|endregion)\b)/;
+    // Whether the line starting at `at` continues a label whose marker stands at
+    // `column`: indented past it, after any comment-only lines when `comments`.
+    // `data.until` keeps the line found, so a run of comment lines is read once.
+    const labelContinues = (input, at, data, comments) => {
+        if (at <= data.until) return true;
+        while (at < input.length) {
+            const line = lineAt(input, at);
+            if (!(comments && COMMENT_ONLY_LINE.test(line))) {
+                const lead = /^[ \t]*/.exec(line)[0];
+                const held = lead.length < line.length && columnOf(lead) > data.column && !LABEL_END_LINE.test(line);
+                if (held) data.until = at;
+                return held;
+            }
+            at += line.length;
+            at += input[at] === '\r' && input[at + 1] === '\n' ? 2 : 1;
+        }
+        return false;
+    };
+    const markerColumn = (input, index) => columnOf(/^\uFEFF?([ \t]*)/.exec(lineAt(input, lineStartBefore(input, index + 1)))[1]);
     // A line after which a new block starts: it ends any paragraph above.
     const BLOCK_BOUNDARY_LINE = /^\uFEFF?(?:[ \t]*(?:#{1,6}(?: |$)|`{3,}|~{3,}|:{3,}|%{3,}|(?:-{3,}|\*{3,}|_{3,})[ \t]*$|\|.*\|(?:\{[^{}]*\})?[ \t]*$|\{[^{}]*\}[ \t]*$|%%|\[\^?[^\]]+\]:(?: |$)|\*\[[A-Za-z0-9]+\]:|:: )|\+[ \t]*$)/;
-    const LIST_ITEM_LINE = /^\uFEFF?[ \t]*(?:[-*]|\d{1,9}[.)]|[A-Za-z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\.)(?: +[^ \t]|\{)/;
+    const LIST_ITEM_LINE = /^\uFEFF?[ \t]*(?:[-*]|\d{1,9}[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\)|\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. ))(?: +[^ \t]|\{)/;
     const lineKind = (line) => {
         if (/^\uFEFF?[ \t]*$/.test(line)) return 'blank';
         // So is one in a quote or a description (`> # h`, `:  [^n]: x`).
@@ -1284,6 +1755,37 @@
             if (LINE_MEMO.size > 4) LINE_MEMO.delete(LINE_MEMO.keys().next().value);
         }
         return memo;
+    };
+    // Whether a `:: ` term reaches the `: ` line at `start`, so it is a
+    // description; with none above it is paragraph text. Memoized per
+    // non-blank line, so the walk is linear in the document.
+    const termAbove = (input, start) => {
+        const memo = memoFor(input);
+        const path = [];
+        let found = false;
+        let at = previousLineStart(input, start);
+        // Three blank lines end the list.
+        for (let blanks = 0; at !== -1; ) {
+            const line = lineAt(input, at);
+            const blank = lineKind(line) === 'blank';
+            if (!blank && memo.has('t' + at)) {
+                found = memo.get('t' + at);
+                break;
+            }
+            if (/^\uFEFF?[ \t]*:: /.test(line)) {
+                found = true;
+                path.push(at);
+                break;
+            }
+            const above = previousLineStart(input, at);
+            blanks = blank ? blanks + 1 : 0;
+            const lazy = /^\uFEFF?[^ \t\r\n]/.test(line) && above !== -1 && lineKind(lineAt(input, above)) !== 'blank';
+            if (blanks >= 3 || !(blank || /^\uFEFF?(?:[ \t]|: )/.test(line) || lazy)) break;
+            if (!blank) path.push(at);
+            at = above;
+        }
+        for (const line of path) memo.set('t' + line, found);
+        return found;
     };
     // Whether the paragraph holding line `start` sits outside any list item:
     // it opens at column 0 on a line that is no item, and no `+` above it
@@ -1305,7 +1807,9 @@
                 const line = lineAt(input, at);
                 let attach = above;
                 while (attach !== -1 && /^[ \t]*\{[^{}]*\}[ \t]*$/.test(lineAt(input, attach))) attach = previousLineStart(input, attach);
+                // A description body holds its paragraph like an item does.
                 kind = lineKind(line) === 'text' && !/^\uFEFF?[ \t]/.test(line)
+                    && !(/^\uFEFF?: /.test(line) && termAbove(input, at))
                     && !(attach !== -1 && /^\+[ \t]*$/.test(lineAt(input, attach)));
                 break;
             }
@@ -1321,12 +1825,52 @@
         const kind = lineKind(lineAt(m.input, above));
         return kind !== 'blank' && kind !== 'boundary' && outsideAnyItem(m.input, above);
     };
+    // A quoted marker line asks the same of the quote's content: the quoted
+    // lines above, prefixes stripped, at most 32 of them (carve-grammars#851).
+    const QUOTE_PREFIX = /^\uFEFF?[ \t]*>(?: ?>)* ?/;
+    const quotedMarkerIsParagraphText = (m) => {
+        const start = lineStartBefore(m.input, m.index);
+        const strip = (line) => line.replace(QUOTE_PREFIX, '');
+        const depth = (line) => (/^\uFEFF?[ \t]*>(?: ?>)*/.exec(line)?.[0].match(/>/g) ?? []).length;
+        const ownLine = lineAt(m.input, start);
+        const own = strip(ownLine);
+        if (!LIST_ITEM_LINE.test(own)) return false;
+        const lines = [own];
+        for (let at = start, n = 0; n < 32; n++) {
+            at = previousLineStart(m.input, at);
+            if (at === -1) break;
+            const line = lineAt(m.input, at);
+            // A deeper marker line opens a quote of its own.
+            if (depth(line) < depth(ownLine)) {
+                // The quote's first line, behind an item marker (`- > :: t`).
+                const opener = line.replace(/^\uFEFF?[ \t]*(?:(?:[-*]|\d{1,9}[.)]) +)+/, '');
+                if (depth(opener) === depth(ownLine)) lines.unshift(strip(opener));
+                break;
+            }
+            lines.unshift(strip(line));
+        }
+        const input = lines.join('\n');
+        return markerIsParagraphText({ input, index: input.length - own.length });
+    };
 
     // Bullet list items: - or *
     // A BULLET MAY BE GLUED TO AN ATTRIBUTE BLOCK, and then the required space
     // comes after the block - `-{#x} item` went uncoloured while LIST_NUMBER
     // already had the guard (#126). Same guard, spelled out rather than a
     // `\{[^}]*\}` run, because a quoted value may hold a `}`.
+    // An abbreviation definition on an item's marker line, behind a glued
+    // attribute block too (carve-grammars#850).
+    const ABBREVIATION_ON_MARKER_LINE = {
+        className: 'symbol',
+        begin: RegExp('(?=\\*\\[)(?<=' + LIST_MARKER_BEFORE_BLOCK + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + GLUED_MARKER + ')'
+            + '\\*\\[[A-Za-z0-9]+\\]:(?= +[^\\r\\n]*[^ \\t\\r\\n])'),
+        'on:begin': (m) => {
+            m.rule.scope = markerIsParagraphText({ input: m.input, index: lineStartBefore(m.input, m.index) }) ? undefined : 'symbol';
+        },
+        end: /$(?![^\r\n])/,
+        relevance: 0,
+    };
+
     const LIST_BULLET = {
         className: 'bullet',
         // A marker line may carry several markers (`- - A`, corpus 103).
@@ -1350,7 +1894,7 @@
     const LIST_NUMBER = {
         className: 'bullet',
         begin: RegExp(
-            '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(\\d+[.)]|[a-zA-Z][.)]|[ivxlcdm]+[.)]|[IVXLCDM]+[.)]|\\.)(?:(?= )|' + GLUED_ATTR_BLOCK + ')(?![ \\t]*$(?![^\\r\\n]))',
+            '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(\\d+[.)]|(?:[a-zA-Z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ))(?:(?= )|' + GLUED_ATTR_BLOCK + ')(?![ \\t]*$(?![^\\r\\n]))',
         ),
         'on:begin': scopeUnless('bullet', markerIsParagraphText),
         relevance: 0,
@@ -1373,9 +1917,371 @@
         className: 'punctuation',
         begin: RegExp('(?=\\+)(?<=' + LIST_MARKER_BEFORE_BLOCK + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*'
             + GLUED_MARKER + '|^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*(?:(?:[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?'
-            + '|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)] +|\\. +))+)\\+[ \\t]*$(?![^\\r\\n])'),
+            + '|(?:[0-9]+[.)]|(?:[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2}))) +|\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ) +))+)\\+[ \\t]*$(?![^\\r\\n])'),
         relevance: 0,
     };
+
+    /*
+     * DEFINITION-LIST LINES BY OWNER (PART 0 CARVE-P0-003, CARVE-P0-024 S2/S3).
+     *
+     * A `: ` line is a description marker when the deepest open frame it
+     * reaches (item, description, footnote body or quote) holds a definition
+     * list; a `:: ` term opens or continues one there, and any other block in
+     * that frame ends it. One forward pass per input, memoized; a tab in the
+     * indentation counts from each frame's column (PART 9 §24 C5).
+     * `terms` and `markers` hold the offsets of the `::` and `:`, and `lists`
+     * the [start, end) of each outermost list from its first term. `fences`
+     * holds each fence the walk opened: its run's offset, the end of its last
+     * line, its character, whether it closed and whether a quote marker
+     * stands before it on its line.
+     * Keep this block identical in prism/carve.js and highlightjs/carve.js.
+     */
+    var definitionListMemo = [];
+    function definitionListLines(text) {
+        for (var m = 0; m < definitionListMemo.length; m++) {
+            if (definitionListMemo[m].text === text) return definitionListMemo[m];
+        }
+        var result = { text: text, terms: new Set(), markers: new Set(), termEnds: new Map(), termLines: new Set(), lists: [], fenced: new Set(), fences: [] };
+        definitionListMemo.unshift(result);
+        if (definitionListMemo.length > 4) definitionListMemo.pop();
+
+        var frames = [{ kind: 'document', width: 0, list: null }];
+        var para = -1;
+        var fence = null;
+        // The open term: its frame, the column of its `::` and the offset of the mark.
+        var openTerm = null;
+        // A line block's span pairing is not modeled here, so a fence after
+        // one in the same frame is not reported in `fences`; nor is one in a
+        // frame a `+` shifted.
+        var lineBlock = null;
+        var region = null;
+        // A `+` that hands the next visible line to a frame, and the blank run.
+        var attach = null;
+        var blanks = 0;
+        var lineRe = /[^\r\n]*(?:\r\n|\r|\n)?/g;
+        var start = text.charCodeAt(0) === 0xFEFF ? 1 : 0;
+        lineRe.lastIndex = start;
+        var listMarker = /^(?:[-*]|\.(?! [ \t]*\. |\{[^}\r\n]{0,4096}\}[ \t]+\. )|[0-9]+[.)]|[A-Za-z]+\)|[A-Za-z]+\.(?= {2}|\{[^}\r\n]{0,4096}\} {2}))( +(?=[^ \t])|$)/;
+        var opener = /^(?:#{1,6}(?:[ \t]|$)|`{3,}|~{3,}|%{3,}|:{3,}|>|\[\^[^\]\r\n]+\]:|\|[^\r\n]*\|(?:\{[^{}\r\n]*\})?[ \t]*$|\^ |(?:-[ \t]*){3,}$|(?:\*[ \t]*){3,}$|(?:_[ \t]*){3,}$)/;
+        // The lines that end a label even indented past its marker (C2-B-234).
+        var labelEnd = /^(?:`{3,}|:{3,}|%{3,}|%%[ \t]*#(?:region|endregion)\b|\|[^\r\n]*\||\*{3,}[ \t]*$)/;
+        var line, at, end;
+        // Closerless front matter runs to the end of the text.
+        var frontMatter = start === lineRe.lastIndex && /^---(?:[ \t][^\r\n]*)?(?:\r\n|\r|\n|$)/.test(text.slice(start));
+
+        function closeTo(depth) {
+            while (frames.length - 1 > depth) frames.pop();
+            if (para > depth) para = -1;
+        }
+        function endList(frame) {
+            frame.list = null;
+        }
+        function extend(to) {
+            if (region) region[1] = to;
+        }
+        function openList(frame, offset) {
+            if (frame.list) return;
+            frame.list = {};
+            var inside = false;
+            for (var f = 0; f < frames.length; f++) if (frames[f] !== frame && frames[f].list) inside = true;
+            if (!inside || !region) {
+                region = [offset, offset];
+                result.lists.push(region);
+            }
+        }
+        function walk(line, plain) {
+            var i = 0;
+            var carry = 0;
+            var reached = 0;
+            var shifted = -1;
+            var starts = [0];
+            for (var k = 1; k < frames.length; k++) {
+                var frame = frames[k];
+                starts[k] = i;
+                var useShift = frame.shift !== undefined && (frame.list || k + 1 < frames.length) && k !== plain && shifted === -1;
+                if (frame.kind === 'quote') {
+                    var q = /^[ \t]*>/.exec(line.slice(i));
+                    if (!q) {
+                        if (!useShift) break;
+                        shifted = k;
+                        reached = k;
+                        continue;
+                    }
+                    i += q[0].length;
+                    carry = 0;
+                    if (line.charAt(i) === ' ') i++;
+                    reached = k;
+                    continue;
+                }
+                if (/^[ \t]*$/.test(line.slice(i))) {
+                    reached = k;
+                    continue;
+                }
+                var need = useShift ? frame.shift : frame.width;
+                var col = carry;
+                var j = i;
+                while (col < need && j < line.length && (line.charAt(j) === ' ' || line.charAt(j) === '\t')) {
+                    col = line.charAt(j) === '\t' ? col + 4 - (col % 4) : col + 1;
+                    j++;
+                }
+                if (col < need) break;
+                if (useShift) shifted = k;
+                i = j;
+                carry = col - need;
+                reached = k;
+            }
+            return { i: i, carry: carry, reached: reached, shifted: shifted, starts: starts };
+        }
+        function anyList() {
+            for (var f = 0; f < frames.length; f++) if (frames[f].list) return true;
+            return false;
+        }
+
+        while (lineRe.lastIndex < text.length) {
+            at = lineRe.lastIndex;
+            line = lineRe.exec(text)[0];
+            if (!line) break;
+            end = at + line.replace(/(?:\r\n|\r|\n)$/, '').length;
+            line = text.slice(at, end);
+            if (frontMatter) {
+                if (at !== start && /^(?:---|\.\.\.)[ \t]*$/.test(line)) frontMatter = false;
+                continue;
+            }
+
+            // S2: walk the open frames from the outside in. A frame holding a
+            // list that a `+` attached reads that list's lines from the
+            // attached column first.
+            var blank = /^[ \t]*$/.test(line);
+            var walked = walk(line, -1);
+            if (walked.shifted !== -1) {
+                var shiftedRest = line.slice(walked.i).replace(/^[ \t]*/, '');
+                if (!(walked.reached > walked.shifted || (frames[walked.shifted].list && /^::? +[^ \t]/.test(shiftedRest)))) walked = walk(line, walked.shifted);
+            }
+            var i = walked.i;
+            var carry = walked.carry;
+            var reached = walked.reached;
+            var lead = /^[ \t]*/.exec(line.slice(i))[0];
+            var indent = carry;
+            for (var c = 0; c < lead.length; c++) indent = lead.charAt(c) === '\t' ? indent + 4 - (indent % 4) : indent + 1;
+            var rest = line.slice(i + lead.length);
+            var restAt = at + i + lead.length;
+
+            if (fence) {
+                // A fence ends with its frame. A comment fence closes on an
+                // exact-width run anywhere, a lazy one included.
+                var closes = fence.ch === '%'
+                    ? /^%{3,}/.test(rest) && /^%+/.exec(rest)[0].length === fence.len
+                    : reached === fence.owner && indent <= fence.indent && /^(`{3,}|~{3,})[ \t]*$/.test(rest)
+                        && rest.charAt(0) === fence.ch && /^[`~]+/.exec(rest)[0].length >= fence.len;
+                if (reached >= fence.owner || closes) {
+                    if (!blank) fence.run.end = end;
+                    if (closes) {
+                        fence.run.closed = true;
+                        fence = null;
+                    }
+                    result.fenced.add(at);
+                    if (anyList()) extend(end);
+                    continue;
+                }
+                fence = null;
+            }
+            // A term holds the lines indented past its `::`; a comment-only line between is not seen (C2-B-069, C2-B-234).
+            if (openTerm && /^%%(?!%)(?![ \t]*#(?:region|endregion)\b)/.test(rest)) openTerm.comments.push(at);
+            else if (openTerm) {
+                if (!blank && rest && reached >= openTerm.depth && indent > openTerm.indent && !labelEnd.test(rest)) {
+                    result.termEnds.set(openTerm.at, end);
+                    openTerm.comments.push(at);
+                    openTerm.comments.forEach(function (line) { result.termLines.add(line); });
+                    openTerm.comments = [];
+                    blanks = 0;
+                    extend(end);
+                    continue;
+                }
+                openTerm = null;
+            }
+            // S1: a line comment and a one-line link definition are erased.
+            if (/^%%(?!%)/.test(rest) || /^\[(?!\^)[^\]\r\n]+\]:(?:[ \t]+[^ \t]+)?[ \t]*$/.test(rest)) {
+                blanks = 0;
+                continue;
+            }
+            // A `%%%` comment span ends the paragraph and leaves every frame open.
+            if (/^%{3,}/.test(rest)) {
+                fence = { owner: reached, indent: indent, ch: '%', len: /^%+/.exec(rest)[0].length };
+                fence.run = { at: restAt, end: end, ch: '%', closed: false, quoted: line.slice(0, restAt - at).indexOf('>') !== -1, depth: reached };
+                result.fences.push(fence.run);
+                para = -1;
+                blanks = 0;
+                if (anyList()) extend(end);
+                continue;
+            }
+            if (blank || !rest) {
+                para = -1;
+                attach = null;
+                closeTo(reached);
+                // Three blank lines end every open list.
+                if (++blanks >= 3) {
+                    for (var b = 0; b < frames.length; b++) endList(frames[b]);
+                    region = null;
+                }
+                continue;
+            }
+            blanks = 0;
+            var owner = frames[reached];
+            var term = /^::( +)(?![ \t]*$)(?!:)/.test(rest);
+            var marker = /^:( +)(?![ \t]*$)/.test(rest) && !/^::/.test(rest);
+            // The line after an accepted `+` belongs to its host whatever its
+            // column, unless it is a term, a marker or an attribute line.
+            if (attach) {
+                var host = attach;
+                attach = null;
+                if (host.frame.kind === 'quote' && frames[host.depth] === host.frame && reached >= host.depth) {
+                    // A quoted line after it is the quote's first block as written, marker and all.
+                    var from = walked.starts[host.depth];
+                    lead = /^[ \t]*/.exec(line.slice(from))[0];
+                    rest = line.slice(from + lead.length);
+                    restAt = at + from + lead.length;
+                    indent = 0;
+                    reached = host.depth;
+                    owner = host.frame;
+                    endList(owner);
+                    term = marker = false;
+                } else if (frames[host.depth] === host.frame && reached >= host.parent && reached < host.depth
+                    && (reached > host.parent || indent >= host.column)
+                    && !(host.frame.kind === 'description' && /^::? /.test(rest)) && !/^\{[^\r\n]*\}[ \t]*$/.test(rest)) {
+                    // An attached block keeps its later lines at the attached column.
+                    if (reached === host.parent) host.frame.shift = host.frame.kind === 'quote' ? 0 : host.column;
+                    reached = host.depth;
+                    owner = host.frame;
+                    indent = 0;
+                    if (para !== -1 && para < host.depth) para = -1;
+                }
+            }
+            // A lone `+` at the marker column of the frame just past its owner
+            // hands that frame the next line; any other `+` is a letter.
+            if (/^\+[ \t]*$/.test(rest) && reached + 1 < frames.length && frames[reached + 1].column === indent) {
+                attach = { frame: frames[reached + 1], depth: reached + 1, parent: reached, column: indent };
+                para = -1;
+                continue;
+            }
+            // A line short of the open paragraph's frames is lazy text unless it opens a block there.
+            if (reached < frames.length - 1 && para !== -1 && !term && !(marker && owner.list)
+                && !opener.test(rest) && !(listMarker.test(rest) && frames[para].kind !== 'document' && frames[para].kind !== 'quote')) {
+                if (anyList()) extend(end);
+                continue;
+            }
+            closeTo(reached);
+            if (!anyList()) region = null;
+
+            // S3: read the line's form in its owner, opening containers in turn.
+            for (var guard = 0; guard < 64; guard++) {
+                owner = frames[frames.length - 1];
+                var depth = frames.length - 1;
+                var termMatch = /^::( +)(?![ \t]*$)(?!:)/.exec(rest);
+                var markerMatch = !termMatch && !/^::/.test(rest) && /^:( +)(?![ \t]*$)/.exec(rest);
+                var item = !termMatch && !markerMatch && listMarker.exec(rest);
+                if (termMatch) {
+                    openList(owner, restAt);
+                    result.terms.add(restAt);
+                    openTerm = { depth: depth, indent: indent, at: restAt, comments: [] };
+                    para = -1;
+                    break;
+                }
+                if (markerMatch && owner.list) {
+                    result.markers.add(restAt);
+                    var width = indent + 1 + markerMatch[1].length;
+                    frames.push({ kind: 'description', width: width, column: indent, list: null });
+                    rest = rest.slice(1 + markerMatch[1].length);
+                    restAt += 1 + markerMatch[1].length;
+                    indent = 0;
+                    para = frames.length - 1;
+                    if (/^\+[ \t]*$/.test(rest)) {
+                        attach = { frame: frames[frames.length - 1], depth: frames.length - 1, parent: depth, column: frames[frames.length - 1].column };
+                        para = -1;
+                        break;
+                    }
+                    if (/^::( +)(?![ \t]*$)(?!:)/.test(rest)) continue;
+                    break;
+                }
+                if (!termMatch && !markerMatch && /^(?:(?:-[ \t]*){3,}|(?:\*[ \t]*){3,}|(?:_[ \t]*){3,})$/.test(rest)) {
+                    endList(owner);
+                    para = -1;
+                    break;
+                }
+                if (item && !((owner.kind === 'document' || owner.kind === 'quote') && para === depth)) {
+                    endList(owner);
+                    frames.push({ kind: 'item', width: indent + item[0].length, column: indent, list: null });
+                    rest = rest.slice(item[0].length);
+                    restAt += item[0].length;
+                    indent = 0;
+                    para = -1;
+                    // A task box is content: the item's column stays at its marker's.
+                    var box = /^\[[ xX\-_>\/!?]\]( +(?=[^ \t])|$)/.exec(rest);
+                    if (box) {
+                        rest = rest.slice(box[0].length);
+                        restAt += box[0].length;
+                        indent = box[0].length;
+                    }
+                    if (/^\+[ \t]*$/.test(rest)) attach = { frame: frames[frames.length - 1], depth: frames.length - 1, parent: depth, column: frames[frames.length - 1].column };
+                    if (!rest || attach) break;
+                    continue;
+                }
+                if (/^>/.test(rest)) {
+                    endList(owner);
+                    frames.push({ kind: 'quote', width: 0, column: indent, list: null });
+                    var after = rest.charAt(1) === ' ' ? 2 : 1;
+                    rest = rest.slice(after);
+                    restAt += after;
+                    if (/^%%(?!%)/.test(rest) || /^\[(?!\^)[^\]\r\n]+\]:(?:[ \t]+[^ \t]+)?[ \t]*$/.test(rest)) rest = '';
+                    lead = /^[ \t]*/.exec(rest)[0];
+                    indent = 0;
+                    for (var d = 0; d < lead.length; d++) indent = lead.charAt(d) === '\t' ? indent + 4 - (indent % 4) : indent + 1;
+                    rest = rest.slice(lead.length);
+                    restAt += lead.length;
+                    para = -1;
+                    if (!rest) break;
+                    continue;
+                }
+                var footnote = /^\[\^[^\]\r\n]+\]:/.exec(rest);
+                if (footnote) {
+                    endList(owner);
+                    frames.push({ kind: 'footnote', width: indent + 2, column: indent, list: null });
+                    var body = /^[ \t]*/.exec(rest.slice(footnote[0].length))[0].length;
+                    rest = rest.slice(footnote[0].length + body);
+                    restAt += footnote[0].length + body;
+                    indent = 0;
+                    para = -1;
+                    if (!rest) break;
+                    continue;
+                }
+                var fenceOpen = /^(`{3,}|~{3,}|%{3,})/.exec(rest);
+                if (fenceOpen) {
+                    // A `%%%` comment span is invisible to the list around it.
+                    if (fenceOpen[1].charAt(0) !== '%') endList(owner);
+                    fence = { owner: depth, indent: indent, ch: fenceOpen[1].charAt(0), len: fenceOpen[1].length };
+                    fence.run = { at: restAt, end: end, ch: fence.ch, closed: false, quoted: line.slice(0, restAt - at).indexOf('>') !== -1, depth: depth };
+                    var shiftedFrame = false;
+                    for (var sf = 0; sf <= depth; sf++) if (frames[sf].shift !== undefined) shiftedFrame = true;
+                    if (!shiftedFrame && !(lineBlock && frames[lineBlock.owner] === lineBlock.frame && lineBlock.owner <= depth)) result.fences.push(fence.run);
+                    para = -1;
+                    break;
+                }
+                if (opener.test(rest) || /^\{[^\r\n]*\}[ \t]*$/.test(rest)) {
+                    if (/^:{3,} +\|[ \t]*$/.test(rest)) lineBlock = { owner: depth, frame: owner };
+                    endList(owner);
+                    para = -1;
+                    break;
+                }
+                if (para !== depth) {
+                    endList(owner);
+                    para = depth;
+                }
+                break;
+            }
+            if (anyList()) extend(end);
+            else region = null;
+        }
+        return result;
+    }
 
     // Definition-list description marker: `:  def`. Reused as a nested mode
     // inside DEFINITION_LIST_ENTRY - not registered as a top-level mode. The
@@ -1383,194 +2289,11 @@
     // The open description's content column, which DEFINITION_LIST_ENTRY's
     // end reads; a term resets it, so no list inherits another's.
     let descriptionColumn = Infinity;
-    // The open entry's term column: a `:` left of it is no marker of that list.
-    let entryColumn = 0;
-    // The column of the last term the entry accepted.
-    let termColumn = 0;
-    const indentColumns = (text) => [...text].reduce((col, ch) => (ch === '\t' ? col + 4 - (col % 4) : col + 1), 0);
-    // The column-0 line that opens the container a line sits in: an item, a
-    // description or a footnote. `nested` is set past an indented item marker.
-    // Memoized per line, so a long run of indented lines is walked once.
-    const CONTAINER_MEMO = new Map();
-    const containerAbove = (input, lineStart) => {
-        let memo = CONTAINER_MEMO.get(input);
-        if (!memo) {
-            memo = new Map();
-            CONTAINER_MEMO.set(input, memo);
-            if (CONTAINER_MEMO.size > 4) CONTAINER_MEMO.delete(CONTAINER_MEMO.keys().next().value);
-        }
-        const path = [];
-        let at = lineStart;
-        let found = null;
-        while (at > 0) {
-            if (memo.has(at)) {
-                found = memo.get(at);
-                break;
-            }
-            const above = previousLineStart(input, at);
-            const line = lineAt(input, above);
-            if (/^[^ \t]/.test(line) && !line.startsWith('%%')) {
-                const marker = /^((?:[-*]|\d+[.)]) +)?\[\^[^\]\r\n]+\]:/.exec(line);
-                if (marker) {
-                    // After an ordered marker the spec model measures a tab from the line start.
-                    const widths = !marker[1] ? [2] : /^[-*] $/.test(marker[1]) ? [2, 2] : null;
-                    found = { kind: 'footnote', widths, body: (marker[1] ? marker[1].length : 0) + 2, nested: false };
-                } else if (/^: (?! )/.test(line)) found = { kind: 'description', widths: [2], nested: false };
-                else if (/^[-*] (?! )/.test(line)) found = { kind: 'item', widths: [2], nested: false };
-                path.push([at, null]);
-                break;
-            }
-            path.push([at, /^[ \t]+(?:[-*] |\w+[.)] )/.test(line) ? line : null]);
-            at = above;
-        }
-        for (let i = path.length - 1; i >= 0; i--) {
-            const marker = path[i][1];
-            if (found && marker !== null && !found.nested) {
-                // An item at a footnote body's column is one more container.
-                const atBody = found.kind === 'footnote' && found.widths && found.widths.length < 3
-                    && /^ */.exec(marker)[0].length === found.widths.reduce((a, b) => a + b);
-                if (!atBody) found = { ...found, nested: true };
-                else if (/^ +[-*] (?! )/.test(marker)) found = { ...found, widths: [...found.widths, 2] };
-            }
-            memo.set(path[i][0], found);
-        }
-        return found;
-    };
-    // Inside a footnote body or a description a tab is measured from the
-    // container's column (PART 9 §24 C5), so `  \t` stands at column 6, not 4.
-    // In a description the spec model does so only for a tab at column 2 or 3;
-    // in a list item the engines and the model disagree (markup-carve/carve#3550).
-    const lineColumns = (input, lineStart, indent) => {
-        if (!indent.includes('\t')) return indentColumns(indent);
-        const container = containerAbove(input, lineStart);
-        if (!container || container.nested || container.kind === 'item' || !container.widths
-            || (container.kind === 'description' && !/^ {2,3}\t *$/.test(indent))) return indentColumns(indent);
-        return relativeColumns(indent, container.widths);
-    };
-    // The column of an indentation inside containers of the given widths: each
-    // dedents its columns in turn, and a tab straddling one keeps its residual.
-    function relativeColumns(indent, widths) {
-        let rest = indent;
-        let base = 0;
-        for (const width of widths) {
-            let col = 0;
-            let i = 0;
-            while (i < rest.length && col < width) col = rest[i++] === '\t' ? col + 4 - (col % 4) : col + 1;
-            if (col < width) return base + col;
-            rest = ' '.repeat(col - width) + rest.slice(i);
-            base += width;
-        }
-        return base + indentColumns(rest);
-    }
-    // A quoted line's `>` depth and its text after the prefix and one space.
-    const quotedLine = (line) => {
-        const prefix = /^\uFEFF?[ \t]*>(?: ?>)*/.exec(line);
-        if (!prefix) return null;
-        const rest = line.slice(prefix[0].length);
-        return { depth: prefix[0].split('>').length - 1, content: rest.startsWith(' ') ? rest.slice(1) : rest };
-    };
-    // Whether a quoted line sits in a footnote body at the same quote depth:
-    // only blank, indented or comment lines between it and the footnote line.
-    const inQuotedFootnote = (input, lineStart, depth) => {
-        let at = lineStart;
-        for (let n = 0; n < 130 && at > 0; n++) {
-            at = previousLineStart(input, at);
-            const quoted = quotedLine(lineAt(input, at));
-            if (!quoted || quoted.depth !== depth) return false;
-            const text = quoted.content;
-            if (/^[ \t]*$|^[ \t]+\S|^%%/.test(text)) continue;
-            return /^\[\^[^\]\r\n]+\]:/.test(text);
-        }
-        return false;
-    };
-    // A quoted term indented into a footnote body is hosted by it.
-    const quotedFootnoteTerm = (input, lineStart) => {
-        const quoted = quotedLine(lineAt(input, lineStart));
-        const indent = /^[ \t]*/.exec(quoted.content)[0];
-        return relativeColumns(indent, [2]) >= 2 && inQuotedFootnote(input, lineStart, quoted.depth) ? indent : null;
-    };
-    // A quoted description below such a term: at the term's column or the
-    // footnote body's, a tab counting from the body's column.
-    const quotedFootnoteDescription = (input, lineStart) => {
-        const quoted = quotedLine(lineAt(input, lineStart));
-        const indent = /^[ \t]*/.exec(quoted.content)[0];
-        let at = lineStart;
-        for (let n = 0; n < 130 && at > 0; n++) {
-            at = previousLineStart(input, at);
-            const above = quotedLine(lineAt(input, at));
-            if (!above || above.depth !== quoted.depth) return false;
-            if (/^[ \t]*:: /.test(above.content)) {
-                const term = quotedFootnoteTerm(input, at);
-                return term !== null && (indent === '  ' || relativeColumns(indent, [2]) === relativeColumns(term, [2]));
-            }
-            if (!/^[ \t]*(?:: |$)|^[ \t]+\S/.test(above.content)) return false;
-        }
-        return false;
-    };
-    // Inside a two-column container (`- x`, `: d`) a tab is measured from the
-    // container's column, so `  \t:: t` stands at its column 4 and a description
-    // at 4 columns or a tab is not its column (PART 9 §24 C5).
-    const relativeTabTerm = (input, at) => {
-        let end = at - 1;
-        let sawTerm = false;
-        for (let n = 0; n < 130 && end > 0; n++) {
-            const start = previousLineStart(input, end + 1);
-            const line = input.slice(start, end).replace(/\r$/, '');
-            end = start - 1;
-            if (!sawTerm) {
-                if (/^  \t:: /.test(line)) sawTerm = true;
-                else if (/^(?: {4}|\t): /.test(line)) continue;
-                else if (/^[ \t]*::? |^[^ \t]/.test(line)) return false;
-            } else if (/^[^ \t]/.test(line)) {
-                return /^(?:: |[-*] )(?! )/.test(line);
-            } else if (/^[ \t]+(?:[-*] |\w+[.)] |::? )/.test(line)) {
-                return false;
-            }
-        }
-        return false;
-    };
-    // A footnote body's entry also takes a description at the body's column.
-    let entryFootnoteBody = -1;
-    // Whether the last term's indentation holds a tab.
-    let lastTermTabbed = false;
-    // The start of the last term line folded into a paragraph: a `:` right
-    // below it is that paragraph's text too.
-    let foldedTermLine = -1;
-    // A description marker sits at the column of a term or description within
-    // 64 lines above it, which may follow list or description markers on its
-    // line (markup-carve/carve#3458); any other `:` line is no marker.
-    const DESCRIPTION_ALIGNED = (function () {
-        var unit = '(?:[ \\t]|[-*+] |[0-9A-Za-z]+[.)] |\\[[ xX\\-_>\\/!?]\\] |::? )';
-        var lines = '[^\\r\\n]*(?:\\r\\n|\\r|\\n)(?:[^\\r\\n]*(?:\\r\\n|\\r|\\n)){0,64}';
-        var at = ['\\1::? '];
-        // n columns, a tab running to the next multiple of 4.
-        var cols = function (n, ch) {
-            return '(?:' + ch + '{4}|' + ch + '{0,3}\\t){' + (n >> 2) + '}' + ch + '{' + (n & 3) + '}';
-        };
-        for (var n = 0; n <= 12; n++) {
-            at.push(unit + '*(?=:)(?<=(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?' + cols(n, '[^\\t\\r\\n]') + ')::? ' + lines + cols(n, ' ') + '(?<![^\\r\\n]' + cols(n, ' ') + ')');
-        }
-        // Past 64 lines with no marker line the column cannot be read: accept it.
-        at.push('(?:(?![ \\t]*::? )[^\\r\\n]*(?:\\r\\n|\\r|\\n)){64}[ \\t]*');
-        // Below a tab-indented marker the column is relative to a container;
-        // `on:begin` compares it. A footnote body also takes its own column.
-        at.push('[ \\t]*\\t[ \\t]*::? ' + lines + '[ \\t]*', '(?:(?:[-*]|\\d+[.)]) +)?\\[\\^[^\\]\\r\\n]+\\]:[^\\r\\n]*(?:\\r\\n|\\r|\\n)(?:(?:[ \\t]*\\r?|[ \\t]+[^ \\t\\r\\n][^\\r\\n]*|%%[^\\r\\n]*)(?:\\r\\n|\\r|\\n)){0,64}(?:  | {4,5}| {0,3}\\t)');
-        return '(?<=(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?(?:' + at[0] + lines + '\\1|' + at.slice(1).join('|') + '))';
-    })();
     const DESCRIPTION_MARKER = {
         className: 'punctuation',
-        begin: RegExp('^(?<![^\\r\\n])([ \\t]*)(?=:)' + DESCRIPTION_ALIGNED + ':(?= +(?![ \\t]*$(?![^\\r\\n])))'),
+        begin: RegExp('^(?<![^\\r\\n])([ \\t]*)(?=:)' + ':(?= +(?![ \\t]*$(?![^\\r\\n])))'),
         'on:begin': (match) => {
-            const indent = lineColumns(match.input, match.index, match[1]);
-            const tabbed = match[1].includes('\t') || lastTermTabbed;
-            if (foldedTermLine !== -1 && previousLineStart(match.input, match.index) === foldedTermLine) {
-                match.rule.scope = undefined;
-                return;
-            }
-            if (!(indent === entryFootnoteBody && termColumn >= entryFootnoteBody)
-                && (indent < entryColumn || (indent > entryColumn && indent < descriptionColumn && indent !== termColumn)
-                    || (tabbed && indent !== termColumn && indent !== entryColumn)
-                    || ((match[1] === '    ' || match[1] === '\t') && relativeTabTerm(match.input, match.index)))) {
+            if (!definitionListLines(match.input).markers.has(match.index + match[1].length)) {
                 match.rule.scope = undefined;
                 return;
             }
@@ -1578,9 +2301,29 @@
             const separator = / */y;
             separator.lastIndex = match.index + match[0].length;
             separator.test(match.input);
-            descriptionColumn = separator.lastIndex - match.index;
+            descriptionColumn = match.input.startsWith(':: ', separator.lastIndex) ? Infinity : separator.lastIndex - match.index;
         },
         relevance: 5,
+    };
+    // An abbreviation definition on the description's own `: ` line. The opener
+    // starts the inert expansion only behind a real marker, so a `:` that is no
+    // marker leaves the rest of its line to the inline modes (highlight.js reads
+    // `starts` when the opener ends). Outside an entry it serves one an item's
+    // marker line opened, so it needs an indent there.
+    const abbreviationOnDescription = (indent) => {
+        const expansion = { className: 'symbol', end: /$(?![^\r\n])/ };
+        return {
+            className: 'symbol',
+            begin: RegExp('(?=\\*\\[)(?<=^(?<![^\\r\\n])' + indent + ': +)\\*\\[[A-Za-z0-9]+\\]:(?= +[^\\r\\n]*[^ \\t\\r\\n])'),
+            starts: expansion,
+            'on:begin': (match) => {
+                const marker = match.input.lastIndexOf(':', match.index - 1);
+                const isMarker = definitionListLines(match.input).markers.has(marker);
+                match.rule.scope = isMarker ? 'symbol' : undefined;
+                match.rule.starts = isMarker ? expansion : null;
+            },
+            relevance: 0,
+        };
     };
     const DESCRIPTION_CONTINUATION = {
         className: 'punctuation',
@@ -1603,47 +2346,8 @@
     // OTHER_BLOCK_OPENER_SOURCE above). `begin` is a zero-width lookahead so
     // DEFINITION_TERM/DESCRIPTION_MARKER (below, in `contains`) do the actual
     // per-line matching and coloring themselves.
-    // A term indented past column 0 opens a list only at or right of the
-    // content column of a list item or description above it whose lines reach
-    // down to it; anywhere else the engines fold it into a paragraph.
-    const TERM_HOSTED = (function () {
-        var list = '(?:[-*]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)]|\\.)(?: \\[[ xX\\-_>\\/!?]\\])?';
-        // A description hosts only at column 0 or after list markers on its line.
-        var hostLead = '(?:[ \\t]*' + list + ' +|(?:' + list + ' +)*: +)';
-        // A column-0 lazy line right under a non-blank line keeps the item open.
-        var dlHostLazy = '(?=[^ \\t\\r\\n])(?<=[^ \\t\\r\\n][^\\r\\n]*\\r?\\n)(?!' + OTHER_BLOCK_OPENER_SOURCE + ')(?!:: |\\{[^\\n]*\\}[ \\t]*\\r?(?![^\\n]))[^ \\t\\r\\n][^\\n]*';
-        // A marker line right under paragraph text is that paragraph's lazy
-        // text, so it hosts only below a blank or block line, at the top, or
-        // in a paragraph that an item or description line opened.
-        // A `: ` line is a description only under a term; elsewhere it is text.
-        var dlAbove = '(?<![^\\n])(?:> ?)*[ \\t]*:: [^\\n]*\\n(?:[^\\n]*\\n){0,64}(?:> ?)*[ \\t]*: ';
-        // An indented line continues an item, description or footnote above it,
-        // past a blank line only from two columns in; elsewhere it is text.
-        var inItem = '(?<![^\\n])[ \\t]*(?:(?:[-*]|\\w+[.)]|::?) +\\S|\\[\\^)[^\\n]*\\n(?:(?:[ \\t]+\\S[^\\n]*\\n)*[ \\t]+|(?:(?:[ \\t]*\\r?|[ \\t]+\\S[^\\n]*)\\n){0,64}(?:  | ?\\t)[ \\t]*)\\S';
-        var prevOk = '(?=[^\\n])(?<=(?:(?<![\\s\\S])|(?<![^\\n])(?=(?:> ?)*[ \\t]*(?:[\\r\\n]|(?:-{3,}|\\*{3,}|_{3,})[ \\t]*(?=\\r?\\n)|%%|[`~]{3}|(?::{3}|:: |: (?=[\\s\\S])(?<=' + dlAbove + '))|#{1,6} |\\[[^\\]^\\n]*\\]:(?=\\s)|'
-            + '(?:\\|.*\\||\\{.*\\})(?=[ \\t]*\\r?\\n))|(?:(?:> ?)*\\[\\^|[ \\t]+\\S(?=[\\s\\S])(?<=' + inItem + ')).*\\n[ \\t]*[-*\\d]).*\\n)'
-            + '(?:(?:[ \\t]*(?:[-*.] |\\w+[.)] )[ \\t]*\\S|(?:> ?)*[ \\t]*: (?=[\\s\\S])(?<=' + dlAbove + ')).*\\n(?:(?:> ?)*[ \\t]*\\S.*\\n){0,64}(?!:))?)';
-        // n columns of indentation, a tab running to the next multiple of 4.
-        var wsCols = function (n) {
-            return '(?: {4}| {0,3}\\t){' + (n >> 2) + '} {' + (n & 3) + '}';
-        };
-        var at = [];
-        for (var n = 1; n <= 12; n++) {
-            at.push('(?=::)(?<=(?<![^\\n])(?=[^\\n]{0,' + n + '}(?=[^ \\t\\r\\n])(?<=' + prevOk + '(?<![^\\n])' + hostLead + ')[^ \\t\\r\\n])'
-                + '[^\\n]*\\n(?:(?:[ \\t]*\\r?|[ \\t]+[^ \\t\\r\\n][^\\n]*|' + dlHostLazy + ')\\n){0,64}' + wsCols(n) + ')');
-        }
-        // Past column 12 the column is not compared (a branch per column costs
-        // too much): any host above accepts it.
-        at.push('(?=::)(?<=' + prevOk + '(?<![^\\n])' + hostLead + '[^\\n]*\\n(?:(?:[ \\t]*\\r?|[ \\t]+[^ \\t\\r\\n][^\\n]*|' + dlHostLazy + ')\\n){0,64}' + wsCols(12) + '[ \\t]+)');
-        // Past 64 lines with nothing that ends a container the host cannot be
-        // read: accept the term.
-        at.push('(?=::)(?<=(?<![^\\n])(?:(?:[ \\t]*\\r?|[ \\t]+[^ \\t\\r\\n][^\\n]*|' + dlHostLazy + ')\\n){64}[ \\t]+)');
-        // A footnote body holds blocks at any indentation.
-        at.push('(?=::)(?<=(?<![^\\n])\\[\\^[^\\]\\r\\n]+\\]:[^\\n]*\\n(?:(?:[ \\t]*\\r?|[ \\t]+[^ \\t\\r\\n][^\\n]*|%%[^\\n]*)\\n){0,64}(?:  | ?\\t)[ \\t]*)');
-        return '(?:' + at.join('|') + ')';
-    })();
     const DEFINITION_LIST_ENTRY = {
-        begin: RegExp('^(?<![^\\r\\n])(?=(?:(?<![\\s\\S])\\uFEFF)?(?:[ \\t]+' + TERM_HOSTED + ')?:: (?![ \\t]*$(?![^\\r\\n])))'),
+        begin: RegExp('^(?<![^\\r\\n])(?=(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*:: (?![ \\t]*$(?![^\\r\\n])))'),
         // Also ends at blank lines followed by a line no entry holds: not a
         // marker, and not indented to the open description's content column,
         // as carve-js reads it. It consumes the blank lines, since highlight.js
@@ -1652,15 +2356,8 @@
             + '|\\n(?:[ \\t\\r]*\\n)+(?![ \\t]*::? +(?![ \\t]*$(?![^\\r\\n])))(?=([ \\t]*)[^\\s])'
             // An inline rule takes `---` or `{.c}` at the line start first, so the entry ends on the newline before it.
             + '|\\n(?=(?:-{3,}|\\*{3,}|_{3,}|\\{[^\\n]*\\})[ \\t]*\\r?$(?![^\\r\\n]))'),
-        'on:begin': (match) => {
-            const lead = /\uFEFF?([ \t]*)/y;
-            lead.lastIndex = match.index;
-            const indent = lead.exec(match.input)[1];
-            entryColumn = termColumn = lineColumns(match.input, match.index, indent);
-            lastTermTabbed = indent.includes('\t');
-            foldedTermLine = -1;
-            const container = indent && containerAbove(match.input, match.index);
-            entryFootnoteBody = container && container.kind === 'footnote' ? container.body : -1;
+        'on:begin': () => {
+            descriptionColumn = Infinity;
         },
         'on:end': (match, response) => {
             if (match[1] !== undefined && match[1].length >= descriptionColumn) response.ignoreMatch();
@@ -1721,12 +2418,11 @@
      * opener at the next line; leaving N openers unmatched needs strictly
      * DECREASING widths, which costs O(N^2) characters to write down.
      *
-     * AN UNTERMINATED FENCE runs to the end of the document (grammar.ebnf, A
-     * CLOSER IS REQUIRED), or to its container's closer. `UNCLOSED_CODE_BLOCK`
-     * below takes that shape at column 0, where the colon-fence stack knows the
-     * container; an indented one falls to `LONE_CODE_FENCE`, which colours the
-     * delimiter line only, since this grammar cannot see the list item or quote
-     * that would end it.
+     * AN UNTERMINATED FENCE runs to the end of the document, closers of the
+     * containers around it included (PART 0 S1). `UNCLOSED_CODE_BLOCK` below
+     * takes that shape at column 0; an indented one falls to `LONE_CODE_FENCE`,
+     * which colours the delimiter line only, since this grammar cannot see the
+     * list item or quote that would end it.
      *
      * THE CLOSER MATCHES ITS OPENER, and the rule is not the colon fence's.
      * A code fence closes on the SAME fence character at a length >= the
@@ -1771,10 +2467,10 @@
     // checked here and scoped by the block's own modes below.
     const fenceOpener = (info) =>
         '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?([ \\t]*)(([`~])\\3{2,})(?=(?: ?' + info + ')?[ \\t]*$(?![^\\r\\n]))'
-        // The closer, required ahead, on a line of its own: the opener's own
-        // indent (`\1`), then the same character (`\3`) at a length at least
-        // the opener's (`\2`, then any number more of it).
-        + '(?=[\\s\\S]{0,32768}?\\n\\1\\2\\3*[ \\t]*$(?![^\\r\\n]))';
+        // The closer, required ahead, on a line of its own: at or left of the
+        // opener's indent (`\1`), then the same character (`\3`) at a length
+        // at least the opener's (`\2`, then any number more of it).
+        + '(?=[\\s\\S]{0,32768}?\\n(?:\\1|(?!\\1[ \\t])[ ]*)\\2\\3*[ \\t]*$(?![^\\r\\n]))';
 
     /*
      * THE BODY IS HIGHLIGHTED IN THE LANGUAGE ITS INFO STRING NAMES, when that
@@ -1852,7 +2548,11 @@
     const codeFence = (m) => docState(CODE_FENCES, m);
     const closesFence = (m) => {
         const open = codeFence(m);
-        return m[1] === open.indent && m[2][0] === open.run[0] && m[2].length >= open.run.length;
+        // A closer at or left of a plain opener's column closes it; a marker-line
+        // opener knows its item, so its closer sits at the item's content column.
+        const column = m[1] === open.indent
+            || (!open.exact && !m[1].includes('\t') && !(m[1].startsWith(open.indent) && m[1].length > open.indent.length));
+        return column && m[2][0] === open.run[0] && m[2].length >= open.run.length;
     };
     // The opener line a body reads its language off, in a lookbehind checked
     // only at that line's end. Words match case-insensitively.
@@ -1899,7 +2599,7 @@
         beginScope: 'keyword',
         begin: new RegExp(fenceOpener(info)),
         'on:begin': (m) => {
-            Object.assign(codeFence(m), { indent: m[1], run: m[2] });
+            Object.assign(codeFence(m), { indent: m[1], run: m[2], exact: false });
         },
         endScope: 'keyword',
         // The closer is a HOMOGENEOUS run: ONE fence character repeated, not a
@@ -1907,8 +2607,8 @@
         // engine calls it - a backtick fence is not closed by a run of three
         // backticks and a tilde.
         end: /^(?<![^\r\n])([ \t]*)(`{3,}|~{3,})[ \t]*$(?![^\r\n])/,
-        // THE CLOSER SITS AT THE OPENER'S OWN COLUMN, and a run indented past it
-        // is payload. That is what lets a fence hold a fence as sample text -
+        // THE CLOSER SITS AT OR LEFT OF THE OPENER'S COLUMN, and a run indented
+        // past it is payload. That is what lets a fence hold a fence as sample text -
         // the shape every document describing Carve in Carve is made of:
         //
         //     ```
@@ -1942,10 +2642,11 @@
         MARKER_CODE_FORMS.push(['[0-9]{' + digits + '}[.)] ', digits + 2]);
     }
     for (let roman = 2; roman <= 6; roman++) {
-        MARKER_CODE_FORMS.push(['(?:[ivxlcdm]{' + roman + '}|[IVXLCDM]{' + roman + '})[.)] ', roman + 2]);
+        MARKER_CODE_FORMS.push(['(?:[ivxlcdm]{' + roman + '}|[IVXLCDM]{' + roman + '})\\) ', roman + 2]);
+        MARKER_CODE_FORMS.push(['(?:[ivxlcdm]{' + roman + '}|[IVXLCDM]{' + roman + '})\\.  ', roman + 3]);
     }
-    MARKER_CODE_FORMS.push(['[A-Za-z][.)] ', 3], ['\\. ', 2]);
-    const PLAIN_LINE_BEFORE_MARKER = '(?<![^\\n])(?!(?:[-*] +|[0-9]+[.)] +|(?:[ivxlcdm]+|[IVXLCDM]+)[.)] +|[A-Za-z][.)] +|\\. +|> |#{1,6} |:{2,}|\\||[-*_]{3,}|[`~]{3,}|%%|\\+))[\\S][^\\n]*\\n';
+    MARKER_CODE_FORMS.push(['[A-Za-z]\\) ', 3], ['[A-Za-z]\\.  ', 4], ['\\.(?! [ \\t]*\\. |\\{[^}\\r\\n]{0,4096}\\}[ \\t]+\\. ) ', 2]);
+    const PLAIN_LINE_BEFORE_MARKER = '(?<![^\\n])(?!(?:[-*] +|[0-9]+[.)] +|(?:[ivxlcdm]+|[IVXLCDM]+)(?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|[A-Za-z](?:\\)|\\.(?= {2}|\\{[^}\\r\\n]{0,4096}\\} {2})) +|\\.(?! [ \\t]*\\. ) +|> |#{1,6} |:{2,}|\\||[-*_]{3,}|[`~]{3,}|%%|\\+))[\\S][^\\n]*\\n';
     const markerLineFence = (info, marker, width) => ({
         className: 'code',
         beginScope: 'keyword',
@@ -1957,7 +2658,7 @@
             + '}[ \\t]*[^ \\t\\r\\n][^\\r\\n]*\\r?)*?\\n\\1[ ]{' + width
             + '}\\2\\3*[ \\t]*\\r?$(?![^\\r\\n]))'),
         'on:begin': (m) => {
-            Object.assign(codeFence(m), { indent: m[1] + ' '.repeat(width), run: m[2] });
+            Object.assign(codeFence(m), { indent: m[1] + ' '.repeat(width), run: m[2], exact: true });
         },
         endScope: 'keyword',
         end: /^(?<![^\r\n])([ \t]*)(`{3,}|~{3,})[ \t]*\r?$(?![^\r\n])/,
@@ -2001,20 +2702,15 @@
     //
     // A real begin/end mode (carve-grammars#125), not two independent
     // single-line modes: a per-line match left the body wide open to the
-    // full top-level mode list, which incorrectly let ABBREVIATION_DEF fire
-    // inside a div (PART 9: abbreviation definitions are recognized at
-    // document level only). highlight.js has no begin->end backreference, so
+    // full top-level mode list. highlight.js has no begin->end backreference, so
     // the closer's width is checked the same way BLOCK_COMMENT already does
     // above: captured on `on:begin`, compared on `on:end`, and rejected with
     // `ignoreMatch()` on a mismatch - so the closer matches the opener's
     // colon run EXACTLY (PART 9's colon-fence depth rule: a longer or
     // shorter run does not close it, which is what lets equal-length fences
     // nest and `::::` hold `:::`). `contains` is assigned below, once the
-    // full top-level mode list is known, to the same list minus
-    // ABBREVIATION_DEF plus `'self'` (for nested divs) - so everything else
-    // that already worked inside a div body (headings, nested lists,
-    // blockquotes) keeps working; only the one construct this fix targets is
-    // suppressed.
+    // full top-level mode list is known, to that list plus `'self'` (for
+    // nested divs).
     /*
      * ONE STACK FOR EVERY LINE-START COLON FENCE. highlight.js tries a mode's
      * `contains` before its `end`, so a bare fence line used to open a nested
@@ -2063,50 +2759,30 @@
         state.closed = { at: m.index, kind: top.kind };
     };
 
-    // A fence does not interrupt a paragraph: one at column 0 opens a block only
-    // at the start, after a blank line, after a one-line block (Prism's `oneLineBlock`),
-    // or after a list item whose only content is a comment. A marker line that
-    // continues open text is that text, so the last branch takes Prism's
-    // continuation guard; `on:begin` may not veto (hljs-block-context-test).
-    const ONE_LINE_BLOCK = '[ \\t]*(?:> ?)*(?:#{1,6} |\\+[ \\t\\r]*(?=\\n)|(?:-{3,}|\\*{3,}|_{3,})[ \\t\\r]*(?=\\n)|\\||:{2,}|`{3,}|~{3,}|\\{|%%|\\^ |\\*?\\[[^\\]\\n]*\\]: )';
-    const MARKER_LINE = '(?:: +|[-*][ {]|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)][ {]|\\.[ {])';
-    const MARKER_STARTS_A_BLOCK = '(?<!(?:(?<![\\s\\S])|(?<![^\\n])[ \\t\\r>]*\\n'
-        + '|(?![ \\t]*\\+[ \\t\\r]*\\n)(?!(?=[ \\t{])(?<=(?<![^\\n])[ \\t]*\\+[ \\t\\r]*\\n)[ \\t]*\\{)(?=' + ONE_LINE_BLOCK + ')(?<![^\\n])[^\\n]*\\n)'
-        + '(?![ \\t\\r]|' + MARKER_LINE + '|' + ONE_LINE_BLOCK + ')(?<![^\\n])[^\\n]+\\n'
-        + '(?:(?![ \\t\\r]*\\n)(?!' + ONE_LINE_BLOCK + ')(?<![^\\n])[^\\n]*\\n){0,16})';
-    const COMMENT_ONLY_ITEM = MARKER_STARTS_A_BLOCK
-        + '[ \\t]*(?:(?:[-*] +)*[-*] +(?:\\[[ xX\\-_>\\/!?]\\] +)?|(?:[0-9]+|[A-Za-z]|[ivxlcdm]+|[IVXLCDM]+)[.)] +|\\. +)%%';
-    const FENCE_AFTER_BLOCK = '(?:(?<![\\s\\S])\\uFEFF?(?=[`~]{3})|(?=[`~]{3})(?<=(?<![^\\n])(?:[ \\t\\r]*|(?:' + ONE_LINE_BLOCK + '|' + COMMENT_ONLY_ITEM + ')[^\\n]{0,4096})\\n))';
-    // An unclosed fence at column 0: code to the end of the document, or to the
-    // closer of the innermost open colon fence, whose width must match exactly.
-    // A fence whose closer lies past the bounded lookahead above lands here
-    // too, so its own closer still ends it.
+    // An unclosed fence at column 0 interrupts a paragraph: code to the end of the
+    // document, closers of the colon fences around it included (PART 0 S1). A fence
+    // whose closer lies past the bounded lookahead above lands here too, so its own
+    // closer still ends it.
     const UNCLOSED_CODE_BLOCK = {
         className: 'code',
         beginScope: 'keyword',
         begin: new RegExp(
-            FENCE_AFTER_BLOCK + '(`{3,}|~{3,})'
+            '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?(`{3,}|~{3,})'
             + '(?: ?(?:' + CODE_FENCE_INFO + '|' + RAW_FENCE_INFO + '))?[ \\t]*$(?![^\\r\\n])',
         ),
         'on:begin': (m) => {
             Object.assign(codeFence(m), { indent: '', run: m[1] });
         },
-        end: /^(?<![^\r\n])(?:[ \t]*(:{3,})|([ \t]*)(`{3,}|~{3,}))[ \t]*$(?![^\r\n])/,
+        end: /^(?<![^\r\n])([ \t]*)(`{3,}|~{3,})[ \t]*$(?![^\r\n])/,
         returnEnd: true,
         'on:end': (m, resp) => {
-            if (m[1] === undefined) {
-                const open = codeFence(m);
-                if (m[2] !== open.indent || m[3][0] !== open.run[0] || m[3].length < open.run.length) resp.ignoreMatch();
-                return;
-            }
-            const stack = docState(COLON_FENCES, m).stack;
-            if (stack[stack.length - 1]?.width !== m[1].length) resp.ignoreMatch();
+            const open = codeFence(m);
+            if (m[1] !== open.indent || m[2][0] !== open.run[0] || m[2].length < open.run.length) resp.ignoreMatch();
         },
-        // Left in place by `returnEnd`, a code closer is taken here, so it
-        // cannot open a fence; a colon closer is left to its container.
+        // Left in place by `returnEnd`, the closer is taken here, so it cannot open a fence.
         starts: {
             endScope: 'keyword',
-            end: /[ \t]*(?:`{3,}|~{3,})[ \t]*$(?![^\r\n])|(?=[ \t]*:)/,
+            end: /[ \t]*(?:`{3,}|~{3,})[ \t]*$(?![^\r\n])/,
         },
         contains: [],
         relevance: 0,
@@ -2119,6 +2795,19 @@
         endScope: 'keyword',
         end: /^(?<![^\r\n])[ \t]*(:{3,})[ \t]*$(?![^\r\n])/,
         'on:end': closeColonFence,
+        relevance: 10,
+    };
+
+    // A line block (`::: |`) holds lines of text with hard breaks, so its body
+    // is inline only (PART 9 line block, carve-grammars#853). It nests nothing,
+    // so the first colon line of the opener's exact length closes it.
+    const LINE_BLOCK = {
+        beginScope: 'keyword',
+        begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*(:{3,}) +\|[ \t]*$(?![^\r\n])/,
+        'on:begin': (m, resp) => { resp.data.width = m[1].length; },
+        endScope: 'keyword',
+        end: /^(?<![^\r\n])[ \t]*(:{3,})[ \t]*$(?![^\r\n])/,
+        'on:end': (m, resp) => { if (m[1].length !== resp.data.width) resp.ignoreMatch(); },
         relevance: 10,
     };
 
@@ -2243,7 +2932,7 @@
     // an indented bare fence of another width is a fence line that ends
     // nothing, and a folding opener keeps its text, drops its scope and ends
     // at its own line end.
-    const markerLineContainer = (scope, opener) => {
+    const markerLineContainer = (scope, opener, refused = () => false) => {
         const data = {};
         const closer = {
             scope,
@@ -2262,7 +2951,7 @@
             data,
             begin: RegExp('(?=:)(?<=' + LIST_MARKER_BEFORE_BLOCK + ')(:{3,})' + opener),
             'on:begin': (m) => {
-                const folds = foldsIntoItem(m);
+                const folds = foldsIntoItem(m) || refused(m);
                 m.rule.beginScope = folds ? undefined : { _wrap: scope };
                 fencesOf(data, m).push({ width: m[1].length, folds });
             },
@@ -2285,6 +2974,8 @@
         return [container, closer];
     };
     const [FIGURE_GROUP_ON_MARKER_LINE, FIGURE_GROUP_MARKER_LINE_CLOSER] = markerLineContainer('section', ' +figure[ \\t]*$(?![^\\r\\n])');
+    const [LINE_BLOCK_ON_MARKER_LINE, LINE_BLOCK_MARKER_LINE_CLOSER] = markerLineContainer('keyword', ' +\\|[ \\t]*$(?![^\\r\\n])',
+        (m) => markerIsParagraphText({ input: m.input, index: lineStartBefore(m.input, m.index) }));
     // A trailing comment is left to the container's own modes, so it stays a
     // comment whether the opener holds or folds into the item as text.
     const MARKER_LINE_TAIL_COMMENT = '[ \\t]+%%|[ \\t]*\\{%';
@@ -2466,9 +3157,20 @@
 
     // Mentions and tags: @name / #name (a heading `#` is line-anchored and is
     // matched earlier, so an inline `#tag` is unambiguous).
+    // A mention or tag name (C2-I-092): runs of letters, digits, `_` and `-`
+    // joined by single dots, holding a letter, not ending in a hyphen. A run
+    // directly followed by a Unicode letter, number or mark is text, which
+    // needs `u`, so 'on:begin' tests it.
+    const TAG_NAME = '(?=(?:[A-Za-z0-9_-]|\\.(?=[A-Za-z0-9_-]))*[A-Za-z])[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*(?<!-)';
+    const TAG_RUN_FOLLOWER = /[A-Za-z0-9_.-]*([\p{L}\p{N}\p{M}])?/uy;
+    const refuseGluedName = (m, resp) => {
+        TAG_RUN_FOLLOWER.lastIndex = m.index + 1;
+        if (TAG_RUN_FOLLOWER.exec(m.input)[1]) resp.ignoreMatch();
+    };
     const MENTION = {
         className: 'symbol',
-        begin: /(?<![\w@])@[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w@])@' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
     /*
@@ -2497,7 +3199,8 @@
     };
     const TAG = {
         className: 'symbol',
-        begin: /(?<![\w#])#[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w#])#' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
     // Used only inside HEADING (carve-grammars#125), not TAG itself: a
@@ -2508,7 +3211,8 @@
     // corpus 118 (`# A </#a>`), which pins the whole thing staying unscoped.
     const HEADING_TAG = {
         className: 'symbol',
-        begin: /(?<![\w#])(?<!<\/)#[A-Za-z0-9][\w-]*(?:\.[\w-]+)*/,
+        begin: new RegExp('(?<![\\w#])(?<!<\\/)#' + TAG_NAME),
+        'on:begin': refuseGluedName,
         relevance: 5,
     };
 
@@ -2558,6 +3262,11 @@
                 beginScope: { 1: 'table-boundary', 2: 'table-header', 3: 'table-alignment' },
             },
             { begin: [/\|/, /=(?= |\{)/], beginScope: { 1: 'table-boundary', 2: 'table-header' } },
+            // Braced cell alignment leads the cell's attribute block (carve#5091 D3).
+            {
+                begin: [/(?<=(?<!\\)(?:\\\\)*\|=?)\{/, /(?:[<>~][\^~v]?|\?[\^~v])/, /(?=(?:[ \t]+(?::[\w-]*|[.#]?[\w-]+(?:=(?:"(?:\\.|[^"\\\n]){0,256}"|'(?:\\.|[^'\\\n]){0,256}'|[^\s"'{}|\\]{1,256}))?))*[ \t]*\})/],
+                beginScope: { 2: 'table-alignment' },
+            },
             { className: 'table-span', begin: /(?<=\|)[ \t]*[<^](?=[ \t]*\|)/ },
             { className: 'table-alignment', begin: /(?<=\|)(?:[<~>](?:[\^~v])?|\?[\^~v])(?= |\{)/ },
             { className: 'table-boundary', begin: /\|(?!(?:\{[^}\n]*\})?[ \t]*$(?![^\r\n]))(?=[^\n]*\|(?:\{[^}\n]*\})?[ \t]*$(?![^\r\n]))/ },
@@ -2623,8 +3332,17 @@
         className: 'title.caption',
         begin: /^(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*(?=\^ (?![ \t]*$(?![^\r\n])))/,
         // Without a host the line is paragraph text, inline runs and all.
-        'on:begin': scopeUnless('title.caption', (m) => !captionHost(m.input, m.index)),
-        end: /$(?![^\r\n])/,
+        'on:begin': (m, resp) => {
+            scopeUnless('title.caption', (m) => !captionHost(m.input, m.index))(m);
+            resp.data.column = markerColumn(m.input, m.index);
+            resp.data.until = -1;
+        },
+        // A caption is a label (C2-B-148, C2-B-234).
+        end: LINE_BREAK_END,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            if (m[0] && labelContinues(m.input, m.index + m[0].length, resp.data, true)) resp.ignoreMatch();
+        },
         relevance: 5,
     };
 
@@ -2816,6 +3534,7 @@
         // line, so the child popped past the parent's `$` and carried the block
         // scope onward.
         end: new RegExp(`(?=\\n)|${mode.end.source}`),
+        'on:begin': runOpener(() => LINE_END),
         'on:end': (match, response) => {
             // The line boundary is an end in its own right, never width-checked.
             if (match[0] === '') return;
@@ -2837,9 +3556,10 @@
         INLINE_FOOTNOTE, FOOTNOTE_REF, IMAGE, REFERENCE_IMAGE, SPAN, REFERENCE_LINK, CITATION, INLINE_EXTENSION,
         LINK, AUTOLINK, EMAIL_AUTOLINK, INSERT, DELETE, CRITIC_SUB, CRITIC_COMMENT, MENTION, CROSS_REF,
         HIGHLIGHT, SUBSCRIPT, SUPERSCRIPT, BOLD_ITALIC, STRONG, EMPHASIS, UNDERLINE, STRIKETHROUGH,
-        FORCED_STRONG, FORCED_EMPHASIS, FORCED_UNDERLINE, FORCED_STRIKE, FORCED_HIGHLIGHT, TYPOGRAPHY,
+        FORCED_STRONG, FORCED_EMPHASIS, FORCED_UNDERLINE, FORCED_STRIKE, FORCED_HIGHLIGHT, TYPOGRAPHY_FLAG, TYPOGRAPHY,
     ];
-    HEADING.contains = [ESCAPE, ...ONE_LINE_VERBATIM, RAW_FORMAT, LINE_COMMENT, HEADING_TAG, ...LINE_INLINE];
+    // A block glued to an inline host is its attributes (`# *a b*{.q}`); a trailing `{#id}` stays text.
+    HEADING.contains = [ESCAPE, ...ONE_LINE_VERBATIM, RAW_FORMAT, LINE_COMMENT, HEADING_TAG, ATTRIBUTE, ...LINE_INLINE];
     // A CAPTION'S CONTENT IS AN INLINE RUN TOO, and it was flat for the same
     // reason: `^ cap %% hidden` renders `<figcaption>cap</figcaption>` and
     // `^ cap `x %% b` c` keeps the span. No `HEADING_TAG` here - a caption takes
@@ -2883,29 +3603,18 @@
         {
             className: 'punctuation',
             begin: /(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: ?>)*[ \t]+)::(?= +[^ \t\r\n])/,
-            'on:begin': scopeUnless('punctuation', (m) => quotedFootnoteTerm(m.input, lineStartBefore(m.input, m.index)) === null),
+            'on:begin': scopeUnless('punctuation', (m) => !definitionListLines(m.input).terms.has(m.index)),
         },
         {
             className: 'punctuation',
             begin: /(?=:)(?<=(?<![^\r\n])(?:(?<![\s\S])\uFEFF)?[ \t]*>(?: ?>)*[ \t]*):(?= +[^ \t\r\n])/,
-            'on:begin': scopeUnless('punctuation', (m) => !quotedFootnoteDescription(m.input, lineStartBefore(m.input, m.index))),
+            'on:begin': scopeUnless('punctuation', (m) => !definitionListLines(m.input).markers.has(m.index)),
         },
     );
-    // A term indented into an open description's paragraph is its lazy text,
-    // unless a column-0 comment line right above closed that paragraph.
+    // A term takes no lazy line and is never folded into a description, so it
+    // always opens an entry (the 0.1.14 layout readings).
     DEFINITION_TERM['on:begin'] = (match) => {
-        const lead = /^\uFEFF?([ \t]*)/.exec(match[0])[1];
-        const indent = lineColumns(match.input, match.index, lead);
-        if (indent > entryColumn && indent < descriptionColumn
-            && !(match.index > 0 && match.input.startsWith('%%', previousLineStart(match.input, match.index)))) {
-            match.rule.scope = undefined;
-            foldedTermLine = match.index;
-            return;
-        }
         match.rule.scope = 'title';
-        termColumn = indent;
-        lastTermTabbed = lead.includes('\t');
-        foldedTermLine = -1;
         descriptionColumn = Infinity;
     };
     // The content of a quoted heading or caption line: entered right after
@@ -2916,6 +3625,12 @@
         end: /$(?![^\r\n])/,
         contains: [ESCAPE, ...ONE_LINE_VERBATIM, { ...LINE_COMMENT, begin: /(?<=[ \t])%%/ }],
     });
+    // A glued attribute block attaches on a quoted line too (carve-grammars#865);
+    // a verbatim span or an escape keeps its brace out of it, and stays unscoped.
+    BLOCKQUOTE.contains.push(
+        ...[ESCAPE, ...ONE_LINE_VERBATIM].map(({ className, ...sink }) => sink),
+        ATTRIBUTE_EMPTY, SPAN_ATTRIBUTE, ATTRIBUTE,
+    );
 
 
     const substitutionContent = (boundary, openCode) => [
@@ -2925,12 +3640,12 @@
         FORCED_STRONG, FORCED_EMPHASIS, FORCED_UNDERLINE, FORCED_STRIKE, FORCED_HIGHLIGHT,
         // An emphasis opener whose closer lies only past the boundary is text.
         { begin: new RegExp(`([*/_=])(?!(?:(?!${boundary}).){0,4096}?\\1)`), relevance: 0 },
-        HIGHLIGHT, SUBSCRIPT, SUPERSCRIPT, BOLD_ITALIC, STRONG, EMPHASIS, UNDERLINE, TYPOGRAPHY,
+        HIGHLIGHT, SUBSCRIPT, SUPERSCRIPT, BOLD_ITALIC, STRONG, EMPHASIS, UNDERLINE, TYPOGRAPHY_FLAG, TYPOGRAPHY,
     ];
     // A bare run holds inline content. Inside it, a same-kind braced span nests
     // and `{**}` is text, and so is a bare opener whose closer lies only past
     // this run's.
-    // Once a highlight is open its closer beats smart typography (`x =y z<= w`).
+    // Once a highlight is open its closer beats an arrow; a comparison is no closer.
     // A link whose label the LINK mode cannot read, or an autolink, is still
     // opaque to a bare closer.
     const OPAQUE_DESTINATION = { begin: new RegExp(OPAQUE_INLINE_SOURCE.replace(OPAQUE_BRACED_SOURCE + '|', '')), relevance: 0 };
@@ -2951,7 +3666,9 @@
         const content = bareContent(d, mode);
         const at = content.findIndex((m) => m === HIGHLIGHT || m === STRONG || m === EMPHASIS);
         content.splice(at, 0, crossing);
-        mode.contains = [{ begin: new RegExp(`\\s${d}`), relevance: 0 }, DELIMITED_COMMENT, ...content];
+        // The `=` of a comparison is no closer (PART 9 §9).
+        const comparison = d === '=' ? [{ className: 'literal', begin: /[>!]=|<=(?![=>])/, relevance: 0 }] : [];
+        mode.contains = [{ begin: new RegExp(`\\s${d}`), relevance: 0 }, DELIMITED_COMMENT, ...comparison, ...content];
     }
 
     // A braced span holds inline content. Its own bare delimiter is text inside
@@ -3001,19 +3718,66 @@
         ...substitutionContent('~>', []),
     ];
 
+    /*
+     * A fence inside a container (an item, a description, a footnote or a
+     * quote), as definitionListLines reads it: it runs to its closer or to the
+     * end of its container and takes no lazy line (PART 0 S1, S2;
+     * carve-grammars#871, #873, #874). `quoted` picks the fences behind a quote
+     * marker, reached through BLOCKQUOTE; the others begin at their line start,
+     * so they outrank LONE_CODE_FENCE and UNTERMINATED_BLOCK_COMMENT there.
+     */
+    const containerFenceRun = (m, at, quoted) => {
+        const lines = definitionListLines(m.input);
+        if (!lines.fenceIndex) lines.fenceIndex = new Map(lines.fences.map((run) => [run.at, run]));
+        const run = lines.fenceIndex.get(at);
+        return run && run.depth > 0 && run.quoted === quoted && (quoted || !run.closed) ? run : null;
+    };
+    const CODE_FENCE_LINE = '(?:`{3,}|~{3,})(?: ?(?:' + CODE_FENCE_INFO + '|' + RAW_FENCE_INFO + '))?[ \\t]*$(?![^\\r\\n])';
+    const CONTAINER_FENCE_LINE = '(?:' + CODE_FENCE_LINE + '|%{3,})';
+    // A fence the walk did not report keeps its line, scoped as the line-only
+    // rules would scope it (no `on:begin` veto, see hljs-block-context-test).
+    const containerFence = (quoted, line) => ({
+        className: 'code',
+        begin: RegExp(quoted
+            ? '(?=[`~%])(?<=>[ \\t]*)' + line
+            : '^(?<![^\\r\\n])(?:(?<![\\s\\S])\\uFEFF)?[ \\t]*' + line),
+        'on:begin': (m, resp) => {
+            const at = m.index + m[0].search(/[`~%]/);
+            const run = containerFenceRun(m, at, quoted);
+            const comment = m.input.charAt(at) === '%';
+            m.rule.scope = run ? (comment ? 'comment' : 'code') : (comment ? 'comment' : quoted ? undefined : 'keyword');
+            resp.data.fenceEnd = run ? run.end : -1;
+        },
+        // The line break is left to the quote, which ends there.
+        end: /\r?\n|\r|$(?![\s\S])/,
+        returnEnd: true,
+        'on:end': (m, resp) => {
+            if (m.index < resp.data.fenceEnd) resp.ignoreMatch();
+        },
+        relevance: 0,
+    });
+    const CONTAINER_FENCE = containerFence(false, CODE_FENCE_LINE);
+    // After BLOCK_COMMENT, which takes a closed comment fence first.
+    const CONTAINER_COMMENT_FENCE = containerFence(false, '%{3,}');
+    BLOCKQUOTE.contains.splice(BLOCKQUOTE.contains.indexOf(UNTERMINATED_BLOCK_COMMENT), 0, containerFence(true, CONTAINER_FENCE_LINE));
+
     const CONTAINS = [
         // Block-level elements (order matters - more specific first)
         ...FRONT_MATTER,
+        ...LATER_METADATA,
         HEADING,
         CODE_BLOCK,        // ``` ... ``` - before the delimiter-only fallback
         RAW_BLOCK,         // ```=html ... ``` - same, with the raw info string
         ...CODE_BLOCK_ON_MARKER_LINE,
         ...RAW_BLOCK_ON_MARKER_LINE,
-        UNCLOSED_CODE_BLOCK,  // an unpaired fence at column 0: to its container's end
+        UNCLOSED_CODE_BLOCK,  // an unpaired fence at column 0: to the end of the document
+        CONTAINER_FENCE,   // an unclosed fence in a container: to the end of it
         LONE_CODE_FENCE,   // a fence line neither of those paired: the line only
+        LINE_BLOCK,        // Must be before DIV_BLOCK (both match `::: |`)
         FIGURE_GROUP_BLOCK,  // Must be before DIV_BLOCK (both match `::: figure`)
         DIV_BLOCK,
         BARE_DIV_BLOCK,    // document level only - every container list drops it
+        LINE_BLOCK_ON_MARKER_LINE,    // Must be before DIV_ON_MARKER_LINE, as above
         FIGURE_GROUP_ON_MARKER_LINE,  // Must be before DIV_ON_MARKER_LINE, as above
         DIV_ON_MARKER_LINE,
         HORIZONTAL_RULE,
@@ -3022,6 +3786,7 @@
         TABLE_CONTINUATION_ROW,
         TABLE_HEADER_ROW,
         TABLE_ROW,
+        QUOTED_LINE_BLOCK,  // Must be before BLOCKQUOTE (both match `> ::: |`)
         BLOCKQUOTE,
         CAPTION,
         TASK_LIST,         // Must be before LIST_BULLET
@@ -3029,8 +3794,12 @@
         LIST_NUMBER,
         MARKER_LINE_CONTINUATION,
         DEFINITION_LIST_ENTRY,  // `:: term` / `:  definition` (carve-grammars#91)
+        // A marker after a block inside the list (an item, a fence) ended the entry.
+        DESCRIPTION_MARKER,
+        abbreviationOnDescription('[ \\t]+'),
         FOOTNOTE_DEF,      // Must be before REFERENCE_DEF
         ABBREVIATION_DEF,  // Must be before REFERENCE_DEF (*[ABBR]: vs [ref]:)
+        ABBREVIATION_ON_MARKER_LINE,
         REFERENCE_DEF,
 
         // Inline elements (order matters - more specific first)
@@ -3053,6 +3822,7 @@
         DELETE,            // {-text-}
         BLOCK_COMMENT,     // %%% fence - before LINE_COMMENT
         BLOCK_COMMENT_ON_MARKER_LINE,  // `- %%%` - the marker is left to the list rules
+        CONTAINER_COMMENT_FENCE,       // an unclosed `%%%` run in a container: to the end of it
         UNTERMINATED_BLOCK_COMMENT,    // a `%%%` run with no closer - AFTER both fences
         DELIMITED_COMMENT, // {% ... %}
         LINE_COMMENT,      // %% to end of line
@@ -3089,18 +3859,23 @@
         ATTRIBUTE,
         ESCAPE,
         HARD_BREAK,
-        TYPOGRAPHY,        // dashes/arrows - after the structural rules
+        TYPOGRAPHY_FLAG, TYPOGRAPHY,        // dashes/arrows - after the structural rules
     ];
 
-    // A term's lazy lines and a description's body read as a paragraph does.
-    DEFINITION_LIST_ENTRY.contains.push(...CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE)));
+    // A term's lazy lines and a description's body read as a paragraph does;
+    // a reference definition there still registers.
+    // A description body collects abbreviation definitions, on its `: ` line too (carve-grammars#842).
+    DEFINITION_LIST_ENTRY.contains.push(ABBREVIATION_DEF, abbreviationOnDescription('[ \\t]*'), FOOTNOTE_DEF, REFERENCE_DEF, ...CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE)));
     FOOTNOTE_DEF.contains.push(...CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE)));
+    LINE_BLOCK.contains = CONTAINS.slice(CONTAINS.indexOf(INLINE_FOOTNOTE));
+    LINE_BLOCK_ON_MARKER_LINE.contains = [LINE_BLOCK_MARKER_LINE_CLOSER, ...LINE_BLOCK.contains];
 
-    // A div's body holds the full top-level mode list minus ABBREVIATION_DEF
-    // (carve-grammars#125 - see the comment on DIV_BLOCK above) and minus the
+    // A div's body holds the full top-level mode list, abbreviation definitions
+    // included (markup-carve/carve#4874, carve-grammars#852), minus the
     // bare opener, which BARE_FENCE_LINE stands in for. DIV_BLOCK is in that
     // list, so a div nests in a div.
-    const IN_CONTAINER = CONTAINS.filter((mode) => mode !== ABBREVIATION_DEF)
+    const IN_CONTAINER = CONTAINS
+        .filter((mode) => !LATER_METADATA.includes(mode))
         .map((mode) => (mode === BARE_DIV_BLOCK ? BARE_FENCE_LINE : mode));
     DIV_BLOCK.contains = IN_CONTAINER;
     BARE_DIV_BLOCK.contains = IN_CONTAINER;
@@ -3137,6 +3912,27 @@
     DIV_ON_MARKER_LINE.contains = [DIV_MARKER_LINE_CLOSER, ...IN_CONTAINER];
     FIGURE_GROUP_ON_MARKER_LINE.contains = [FIGURE_GROUP_MARKER_LINE_CLOSER, ...IN_GROUP];
     DIV_ON_MARKER_LINE_IN_GROUP.contains = [DIV_IN_GROUP_MARKER_LINE_CLOSER, ...IN_GROUP];
+
+    // Every inline list that reads a tag reads an unattached block as one atom
+    // first: after the attached-block rules, before a sink that takes a lone `{`.
+    {
+        const attached = [ATTRIBUTE, ATTRIBUTE_EMPTY, SPAN_ATTRIBUTE];
+        const tagish = [TAG, HEADING_TAG, MENTION];
+        const braceSink = (mode) => mode && !mode.className && mode.begin instanceof RegExp && mode.begin.source.startsWith('\\{(?=(');
+        const seen = new Set();
+        const visit = (mode) => {
+            if (!mode || typeof mode !== 'object' || seen.has(mode)) return;
+            seen.add(mode);
+            for (const child of [].concat(mode.contains || [], mode.starts || [], mode.variants || [])) visit(child);
+            const list = mode.contains;
+            if (!Array.isArray(list) || list.includes(ATTRIBUTE_UNATTACHED) || !list.some((m) => tagish.includes(m))) return;
+            const last = Math.max(...attached.map((m) => list.indexOf(m)));
+            const first = list.findIndex((m) => tagish.includes(m) || braceSink(m));
+            list.splice(last >= 0 ? last + 1 : first, 0, ATTRIBUTE_UNATTACHED);
+        };
+        CONTAINS.forEach(visit);
+        visit({ contains: CONTAINS });
+    }
 
     return {
         // `crv` is the canonical file extension, and every surface this package

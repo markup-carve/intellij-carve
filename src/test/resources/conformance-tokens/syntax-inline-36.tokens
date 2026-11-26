@@ -1,0 +1,16 @@
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+emphasis -> source.carve markup.italic.carve markup.italic.carve
+/ -> source.carve markup.italic.carve keyword.control.italic.carve
+ and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+strong -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a\n -> source.carve markup.bold.carve markup.bold.carve
+b -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+ and * a* and  -> source.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a  -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve markup.bold.carve

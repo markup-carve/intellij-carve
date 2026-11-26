@@ -1,8 +1,8 @@
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-a  -> text.carve markup.bold.carve markup.bold.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
-x -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
-` -> text.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
- b -> text.carve markup.bold.carve markup.bold.carve
-* -> text.carve markup.bold.carve keyword.control.bold.carve
-\n -> text.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+a  -> source.carve markup.bold.carve markup.bold.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+x -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.bold.carve markup.bold.carve markup.raw.inline.carve keyword.control.raw.carve
+ b -> source.carve markup.bold.carve markup.bold.carve
+* -> source.carve markup.bold.carve keyword.control.bold.carve
+\n -> source.carve

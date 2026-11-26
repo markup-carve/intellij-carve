@@ -1,0 +1,26 @@
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+k -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+v -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+#i -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+a\n -> source.carve
+\n -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+t -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+z -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+1 -> source.carve meta.attributes.carve string.unquoted.attribute.carve
+  -> source.carve meta.attributes.carve
+.x -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+  -> source.carve meta.attributes.carve
+#y -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve

@@ -1,9 +1,9 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-tip -> text.carve markup.other.div.carve entity.name.type.div.carve
-  -> text.carve markup.other.div.carve
-"Pro Tip" -> text.carve markup.other.div.carve string.quoted.double.carve
-\n -> text.carve
-Save early, save often.\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+tip -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Pro Tip" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+Save early, save often.\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

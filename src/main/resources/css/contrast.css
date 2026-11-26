@@ -1,6 +1,6 @@
 /*
  * VENDORED from markup-carve/carve-css src/contrast.css
- * version 0.1.10, commit 6370272
+ * version 0.1.10, commit ad402980774f107c239cc03afc13f8e18c634eb8
  *
  * Do not edit here. Change it upstream and re-copy, so the preview keeps
  * showing what every other Carve consumer sees.
@@ -103,10 +103,7 @@
      * pair was a system colour on a hex the UA overrides anyway. Canvas is what
      * forced colors paints that background, said out loud. */
     --carve-accent-soft: Canvas;
-    /* Remapped with the accent, not left behind it. A code-callout badge is
-     * ink-inverse ON accent, so leaving this as CanvasText put black on
-     * LinkText - 1.50:1 in the Windows high-contrast #1 palette. Canvas is the
-     * system's own counterpart to LinkText and is guaranteed to contrast. */
+    /* Keep inverse ink paired with the accent in forced colors. */
     --carve-ink-inverse: Canvas;
   }
   .carve :focus-visible {

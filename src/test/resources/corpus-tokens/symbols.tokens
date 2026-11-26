@@ -1,9 +1,9 @@
-Great  -> text.carve
-:rocket: -> text.carve constant.language.symbol.carve
- and  -> text.carve
-: -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-widget -> text.carve meta.extension.inline.carve entity.name.function.extension.carve
-[ -> text.carve meta.extension.inline.carve keyword.control.extension.carve
-Ctrl -> text.carve meta.extension.inline.carve string.unquoted.extension.carve
-] -> text.carve meta.extension.inline.carve keyword.control.extension.carve
- is an extension.\n -> text.carve
+Great  -> source.carve
+:rocket: -> source.carve constant.language.symbol.carve
+ and  -> source.carve
+: -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+widget -> source.carve meta.extension.inline.carve entity.name.function.extension.carve
+[ -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+Ctrl -> source.carve meta.extension.inline.carve string.unquoted.extension.carve
+] -> source.carve meta.extension.inline.carve keyword.control.extension.carve
+ is an extension.\n -> source.carve

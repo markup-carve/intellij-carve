@@ -1,11 +1,11 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-t\n -> text.carve
-\n -> text.carve
-    -> text.carve
-![ -> text.carve meta.image.inline.carve keyword.control.image.begin.carve
-Apollo -> text.carve meta.image.inline.carve string.other.image.alt.carve
-]( -> text.carve meta.image.inline.carve
-a.jpg -> text.carve meta.image.inline.carve markup.underline.link.image.carve
-) -> text.carve meta.image.inline.carve
-\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+t\n -> source.carve
+\n -> source.carve
+    -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+Apollo -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+a.jpg -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve

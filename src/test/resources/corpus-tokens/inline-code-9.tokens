@@ -1,47 +1,47 @@
-[ -> text.carve meta.span.inline.carve keyword.control.span.begin.carve
-a -> text.carve meta.span.inline.carve string.other.span.carve
-] -> text.carve meta.span.inline.carve keyword.control.span.end.carve
-{ -> text.carve meta.attributes.carve
-title -> text.carve meta.attributes.carve entity.other.attribute-name.carve
-= -> text.carve meta.attributes.carve
-"`" -> text.carve meta.attributes.carve string.quoted.double.attribute.carve
-} -> text.carve meta.attributes.carve
- and  -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-n -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-u -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
-\n -> text.carve
-\n -> text.carve
-{% a ` %} -> text.carve comment.block.inline.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-n -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-u -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
-\n -> text.carve
-\n -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-m -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-u` -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
- and  -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-m -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-`v -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
- and  -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-n -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-w -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
-\n -> text.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+a -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+title -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"`" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+n -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> source.carve
+\n -> source.carve
+{% a ` %} -> source.carve comment.block.inline.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+n -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> source.carve
+\n -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+m -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+u` -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+m -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+`v -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+n -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+w -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+\n -> source.carve

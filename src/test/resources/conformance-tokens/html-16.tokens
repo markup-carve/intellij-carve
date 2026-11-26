@@ -1,0 +1,40 @@
+Press  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+Tab -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{kbd} -> source.carve meta.attributes.carve
+ for  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+HTML -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+abbr -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"HyperText Markup Language" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+} -> source.carve meta.attributes.carve
+ at  -> source.carve
+[ -> source.carve meta.span.inline.carve keyword.control.span.begin.carve
+noon -> source.carve meta.span.inline.carve string.other.span.carve
+] -> source.carve meta.span.inline.carve keyword.control.span.end.carve
+{ -> source.carve meta.attributes.carve
+time -> source.carve meta.attributes.carve entity.other.attribute-name.carve
+= -> source.carve meta.attributes.carve
+"12:00" -> source.carve meta.attributes.carve string.quoted.double.attribute.carve
+  -> source.carve meta.attributes.carve
+#t -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+.\n -> source.carve
+\n -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+q -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+  -> source.carve
+-- -> source.carve constant.character.entity.typography.carve
+ a  -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+ b  -> source.carve
+... -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+--> -> source.carve constant.character.entity.typography.carve
+  -> source.carve
+(tm) -> source.carve constant.character.entity.typography.carve

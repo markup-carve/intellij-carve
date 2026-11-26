@@ -1,0 +1,7 @@
+" -> source.carve keyword.control.smartquote.carve
+double -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+ and 'single' and it's and '90s and  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+'nested' -> source.carve
+" -> source.carve keyword.control.smartquote.carve

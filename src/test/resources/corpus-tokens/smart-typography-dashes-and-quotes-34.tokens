@@ -1,5 +1,5 @@
-a　 -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-q -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
+a　 -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+q -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve

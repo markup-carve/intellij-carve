@@ -1,0 +1,6 @@
+Some text\n -> source.carve
+# not a heading\n -> source.carve
+> not a quote\n -> source.carve
+{ -> source.carve meta.attributes.carve
+.x -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve

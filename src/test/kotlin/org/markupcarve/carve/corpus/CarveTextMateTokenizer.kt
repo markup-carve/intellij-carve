@@ -26,7 +26,7 @@ object CarveTextMateTokenizer {
     private const val GRAMMAR_RESOURCE = "/textmate/carve.tmLanguage.json"
 
     /** The grammar's root scope; every token scope is rooted here. */
-    const val ROOT_SCOPE: String = "text.carve"
+    const val ROOT_SCOPE: String = "source.carve"
 
     private val descriptor: TextMateLanguageDescriptor by lazy { loadDescriptor() }
 

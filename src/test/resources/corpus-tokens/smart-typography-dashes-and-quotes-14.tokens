@@ -1,9 +1,9 @@
-end- -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-\n -> text.carve
-\n -> text.carve
-end- -> text.carve
-" -> text.carve keyword.control.smartquote.carve
-.\n -> text.carve
-\n -> text.carve
-end-'!\n -> text.carve
+end- -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+\n -> source.carve
+\n -> source.carve
+end- -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+.\n -> source.carve
+\n -> source.carve
+end-'!\n -> source.carve

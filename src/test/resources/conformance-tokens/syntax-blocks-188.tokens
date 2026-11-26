@@ -1,0 +1,6 @@
+a\n -> source.carve
+\n -> source.carve
+*** -> source.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
+\n -> source.carve meta.separator.thematic-break.carve
+\n -> source.carve
+b -> source.carve

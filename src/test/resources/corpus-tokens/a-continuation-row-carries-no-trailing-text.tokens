@@ -1,8 +1,8 @@
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- a  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
- b  -> text.carve markup.table.row.carve
-| -> text.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve
-+ -> text.carve markup.table.continuation.carve keyword.control.table.continuation.carve
- c | d |\n -> text.carve markup.table.continuation.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ a  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+ b  -> source.carve markup.table.row.carve
+| -> source.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve
++ -> source.carve markup.table.continuation.carve keyword.control.table.continuation.carve
+ c | d |\n -> source.carve markup.table.continuation.carve

@@ -1,29 +1,8 @@
 name: Spec drift
 
-# The `spec` submodule is a pin, and nothing watches it. carve-js and carve-rs
-# get bump PRs from carve's bump-downstream workflow; this repo does not, so its
-# corpus fell 178 commits behind - three weeks - while the coverage matrix and
-# 286 golden token streams kept a green tick over an old language (#38).
-#
-# DISTANCE IS REPORTED; AGE IS GATED. Those are two different questions and the
-# original version of this file only asked the first one, which is why a green
-# tick here meant no more than "the pinned revision exists and is on main".
-#
-# Failing on distance would be wrong. Bumping the spec is a deliberate review -
-# new categories need a COVERED/SKIP decision and the regenerated goldens want
-# reading - and carve merges through the day, so a distance gate goes red the
-# morning after every upstream commit for something nobody should drop what they
-# are doing to chase. A gate that is red every day is not read.
-#
-# Age is a different claim, and it is one this repository can act on: the pin is
-# in this repository, the review is a job for this repository, and nothing
-# upstream has to happen first. So the pin may fall any number of commits behind
-# and still pass, and it may not go STALE. That is the failure the reported
-# state needed and did not get: 318 commits and twelve days behind, with a green
-# tick on every run (#69).
-#
-# It still fails if the pin is not a commit on carve main - carve has rewritten
-# history before, and an unreachable pin is a fresh clone that cannot build.
+# The 0.2 spec submodule is a reviewed pin. Report its distance from carve
+# next2, and fail only when its commit is unreachable or older than the age
+# limit. The render-example count comes from the 0.2 conformance JSON.
 
 on:
   schedule:
@@ -57,7 +36,7 @@ jobs:
           path: carve-spec
           fetch-depth: 0
 
-      - name: Compare the spec submodule against carve main
+      - name: Compare the spec submodule against carve next2
         run: |
           set -euo pipefail
           rev="$(git rev-parse HEAD:spec)"
@@ -65,26 +44,26 @@ jobs:
             echo "::error::the spec submodule pins ${rev}, which is not a commit in markup-carve/carve"
             exit 1
           fi
-          if ! git -C carve-spec merge-base --is-ancestor "${rev}" origin/main; then
-            echo "::error::spec ${rev} is not on main, so the pin came from an unmerged or rewritten branch"
+          if ! git -C carve-spec merge-base --is-ancestor "${rev}" origin/next2; then
+            echo "::error::spec ${rev} is not on next2, so the pin came from an unmerged or rewritten branch"
             exit 1
           fi
-          behind="$(git -C carve-spec rev-list --count "${rev}..origin/main")"
-          corpus="$(git -C carve-spec ls-tree -r --name-only "${rev}" tests/corpus | grep -c '\.crv$' || true)"
-          latest="$(git -C carve-spec ls-tree -r --name-only origin/main tests/corpus | grep -c '\.crv$' || true)"
+          behind="$(git -C carve-spec rev-list --count "${rev}..origin/next2")"
+          corpus="$(git -C carve-spec show "${rev}:spec/0.2/conformance/examples.json" | python3 -c 'import json,sys; print(sum(e.get("kind") == "render" and not e.get("options") and isinstance(e.get("expected", {}).get("html"), str) for e in json.load(sys.stdin)["examples"]))' )"
+          latest="$(git -C carve-spec show origin/next2:spec/0.2/conformance/examples.json | python3 -c 'import json,sys; print(sum(e.get("kind") == "render" and not e.get("options") and isinstance(e.get("expected", {}).get("html"), str) for e in json.load(sys.stdin)["examples"]))' )"
           echo "spec pin: ${rev} ($(git -C carve-spec log -1 --format=%s "${rev}"))"
-          echo "carve main is ${behind} commit(s) ahead; corpus ${corpus} -> ${latest} documents"
+          echo "carve next2 is ${behind} commit(s) ahead; render examples ${corpus} -> ${latest}"
           if [ "${behind}" -gt 0 ]; then
-            echo "::warning::the spec submodule is ${behind} commit(s) behind carve main (corpus ${corpus} vs ${latest})"
+            echo "::warning::the spec submodule is ${behind} commit(s) behind carve next2 (render examples ${corpus} vs ${latest})"
           fi
 
           # The committer date, not the author date: a rebased or cherry-picked
           # commit keeps its author date and would report an age it never had on
-          # main.
+          # next2.
           committed="$(git -C carve-spec log -1 --format=%ct "${rev}")"
           age_days=$(( ( $(date -u +%s) - committed ) / 86400 ))
           echo "the pinned commit is ${age_days} day(s) old (limit ${SPEC_MAX_AGE_DAYS})"
           if [ "${age_days}" -gt "${SPEC_MAX_AGE_DAYS}" ]; then
-            echo "::error::the spec submodule pins a commit ${age_days} days old, over the limit of ${SPEC_MAX_AGE_DAYS}. Bump it and work through what the bump surfaces: 'git -C spec fetch origin && git -C spec checkout origin/main && git add spec && ./gradlew test' resolves the coverage matrix, then regenerate the goldens with -Dcarve.updateGoldens=true and read the diff. The corpus is ${corpus} documents here against ${latest} on main."
+            echo "::error::the spec submodule pins a commit ${age_days} days old, over the limit of ${SPEC_MAX_AGE_DAYS}. Bump it and work through what the bump surfaces: 'git -C spec fetch origin && git -C spec checkout origin/next2 && git add spec && ./gradlew test' resolves the coverage matrix, then regenerate the goldens with -Dcarve.updateGoldens=true and read the diff. The 0.2 render corpus has ${corpus} examples here against ${latest} on next2."
             exit 1
           fi

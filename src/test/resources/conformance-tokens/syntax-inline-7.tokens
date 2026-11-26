@@ -1,0 +1,14 @@
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+a\\*b -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+x -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+/a\\(b -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ and  -> source.carve
+\\[ -> source.carve constant.character.escape.carve
+not a span -> source.carve
+]{.c} -> source.carve

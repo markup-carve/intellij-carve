@@ -1,61 +1,61 @@
-{ -> text.carve meta.attributes.carve
-#fig-m -> text.carve meta.attributes.carve entity.other.attribute-name.id.carve
-} -> text.carve meta.attributes.carve
-\n -> text.carve
-::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
-  -> text.carve markup.other.figure-group.carve
-figure -> text.carve markup.other.figure-group.carve entity.name.type.figure-group.carve
-\n -> text.carve markup.other.figure-group.carve
-|= -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.table.header.carve
- Kind  -> text.carve markup.other.figure-group.carve markup.table.row.carve
-|= -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.table.header.carve
- N  -> text.carve markup.other.figure-group.carve markup.table.row.carve
-| -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve markup.other.figure-group.carve
-| -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
- a     -> text.carve markup.other.figure-group.carve markup.table.row.carve
-| -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
- 1  -> text.carve markup.other.figure-group.carve markup.table.row.carve
-| -> text.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
-\n -> text.carve markup.other.figure-group.carve
-\n -> text.carve markup.other.figure-group.carve
-``` -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
-js -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
-\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
-const x = 1\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
-``` -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
-\n -> text.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve
-^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.other.figure-group.carve markup.table.caption.carve
-A listing panel -> text.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve markup.other.figure-group.carve
-\n -> text.carve markup.other.figure-group.carve
-$$ -> text.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.math.carve
-` -> text.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.raw.carve
-E = mc^2 -> text.carve markup.other.figure-group.carve markup.other.math.display.carve markup.other.math.content.carve
-` -> text.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.raw.carve
-\n -> text.carve markup.other.figure-group.carve
-^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.other.figure-group.carve markup.table.caption.carve
-An equation panel -> text.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve markup.other.figure-group.carve
-\n -> text.carve markup.other.figure-group.carve
-> -> text.carve markup.other.figure-group.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.other.figure-group.carve markup.quote.carve
-Measured twice. -> text.carve markup.other.figure-group.carve markup.quote.carve
-\n -> text.carve markup.other.figure-group.carve
-\n -> text.carve markup.other.figure-group.carve
-> -> text.carve markup.other.figure-group.carve markup.quote.carve keyword.control.quote.carve
-  -> text.carve markup.other.figure-group.carve markup.quote.carve
-Brevity. -> text.carve markup.other.figure-group.carve markup.quote.carve
-\n -> text.carve markup.other.figure-group.carve
-^ -> text.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.other.figure-group.carve markup.table.caption.carve
-A quoted panel -> text.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve markup.other.figure-group.carve
-::: -> text.carve markup.other.figure-group.carve keyword.control.div.carve
-\n -> text.carve
-^ -> text.carve markup.table.caption.carve keyword.control.caption.carve
-  -> text.carve markup.table.caption.carve
-Figure #: Mixed panels -> text.carve markup.table.caption.carve string.unquoted.caption.carve
-\n -> text.carve
+{ -> source.carve meta.attributes.carve
+#fig-m -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+::: -> source.carve markup.other.figure-group.carve keyword.control.div.carve
+  -> source.carve markup.other.figure-group.carve
+figure -> source.carve markup.other.figure-group.carve entity.name.type.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+|= -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.table.header.carve
+ Kind  -> source.carve markup.other.figure-group.carve markup.table.row.carve
+|= -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.table.header.carve
+ N  -> source.carve markup.other.figure-group.carve markup.table.row.carve
+| -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve markup.other.figure-group.carve
+| -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
+ a     -> source.carve markup.other.figure-group.carve markup.table.row.carve
+| -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
+ 1  -> source.carve markup.other.figure-group.carve markup.table.row.carve
+| -> source.carve markup.other.figure-group.carve markup.table.row.carve keyword.control.separator.table.carve
+\n -> source.carve markup.other.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+``` -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+js -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+const x = 1\n -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+``` -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.other.figure-group.carve markup.raw.block.fenced.code.carve
+^ -> source.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.other.figure-group.carve markup.table.caption.carve
+A listing panel -> source.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve markup.other.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+$$ -> source.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.raw.carve
+E = mc^2 -> source.carve markup.other.figure-group.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.figure-group.carve markup.other.math.display.carve keyword.control.raw.carve
+\n -> source.carve markup.other.figure-group.carve
+^ -> source.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.other.figure-group.carve markup.table.caption.carve
+An equation panel -> source.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve markup.other.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+> -> source.carve markup.other.figure-group.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.other.figure-group.carve markup.quote.carve
+Measured twice. -> source.carve markup.other.figure-group.carve markup.quote.carve
+\n -> source.carve markup.other.figure-group.carve
+\n -> source.carve markup.other.figure-group.carve
+> -> source.carve markup.other.figure-group.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.other.figure-group.carve markup.quote.carve
+Brevity. -> source.carve markup.other.figure-group.carve markup.quote.carve
+\n -> source.carve markup.other.figure-group.carve
+^ -> source.carve markup.other.figure-group.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.other.figure-group.carve markup.table.caption.carve
+A quoted panel -> source.carve markup.other.figure-group.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve markup.other.figure-group.carve
+::: -> source.carve markup.other.figure-group.carve keyword.control.div.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Figure #: Mixed panels -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve

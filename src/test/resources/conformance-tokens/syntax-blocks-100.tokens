@@ -1,0 +1,6 @@
+:: -> source.carve
+{ -> source.carve meta.attributes.carve
+.c -> source.carve meta.attributes.carve entity.other.attribute-name.class.carve
+} -> source.carve meta.attributes.carve
+ t\n -> source.carve
+: d -> source.carve

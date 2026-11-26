@@ -1,6 +1,6 @@
-- -> text.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
-  -> text.carve markup.list.unnumbered.carve
-a\n -> text.carve
- %% c -> text.carve comment.line.percent.carve
-\n -> text.carve
-b\n -> text.carve
+- -> source.carve markup.list.unnumbered.carve keyword.control.list.begin.carve
+  -> source.carve markup.list.unnumbered.carve
+a\n -> source.carve
+ %% c -> source.carve comment.line.percent.carve
+\n -> source.carve
+b\n -> source.carve

@@ -1,5 +1,5 @@
-a  -> text.carve
-{% -> text.carve comment.block.inline.carve keyword.control.comment.carve
- one\n -> text.carve comment.block.inline.carve
-two %} -> text.carve comment.block.inline.carve
- b\n -> text.carve
+a  -> source.carve
+{% -> source.carve comment.block.inline.carve keyword.control.comment.carve
+ one\n -> source.carve comment.block.inline.carve
+two %} -> source.carve comment.block.inline.carve
+ b\n -> source.carve

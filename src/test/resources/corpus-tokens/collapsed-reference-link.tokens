@@ -1,10 +1,10 @@
-See  -> text.carve
-[ -> text.carve meta.link.reference.carve
-Other Page -> text.carve meta.link.reference.carve string.other.link.title.carve
-][] -> text.carve meta.link.reference.carve
- for details.\n -> text.carve
-\n -> text.carve
-[Other Page]: -> text.carve meta.link.reference.definition.carve entity.name.reference.link.carve
-  -> text.carve meta.link.reference.definition.carve
-/other-page -> text.carve meta.link.reference.definition.carve markup.underline.link.carve
-\n -> text.carve
+See  -> source.carve
+[ -> source.carve meta.link.reference.carve
+Other Page -> source.carve meta.link.reference.carve string.other.link.title.carve
+][] -> source.carve meta.link.reference.carve
+ for details.\n -> source.carve
+\n -> source.carve
+[Other Page]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/other-page -> source.carve meta.link.reference.definition.carve markup.underline.link.carve
+\n -> source.carve

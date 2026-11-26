@@ -1,0 +1,17 @@
+x -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+n -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+\n -> source.carve
+\n -> source.carve
+[^n]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ a -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+[^n]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ [x][d] -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+[d]: -> source.carve meta.link.reference.definition.carve entity.name.reference.link.carve
+  -> source.carve meta.link.reference.definition.carve
+/u -> source.carve meta.link.reference.definition.carve markup.underline.link.carve

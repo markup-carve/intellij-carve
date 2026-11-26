@@ -1,7 +1,7 @@
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-  -> text.carve markup.other.div.carve
-_box -> text.carve markup.other.div.carve entity.name.type.div.carve
-\n -> text.carve
-content\n -> text.carve
-::: -> text.carve markup.other.div.carve keyword.control.div.carve
-\n -> text.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+_box -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+content\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve

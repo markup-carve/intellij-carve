@@ -1,0 +1,11 @@
+a  -> source.carve
+!= -> source.carve constant.character.entity.typography.carve
+ b, a  -> source.carve
+<= -> source.carve constant.character.entity.typography.carve
+ b, a  -> source.carve
+>= -> source.carve constant.character.entity.typography.carve
+ b, 5  -> source.carve
++- -> source.carve constant.character.entity.typography.carve
+ 1, Carve -> source.carve
+(tm) -> source.carve constant.character.entity.typography.carve
+, (c), x -> y, k => v -> source.carve

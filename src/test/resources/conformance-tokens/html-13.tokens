@@ -1,0 +1,70 @@
+{ -> source.carve meta.attributes.carve
+#fig-sun -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+![ -> source.carve meta.image.inline.carve keyword.control.image.begin.carve
+a -> source.carve meta.image.inline.carve string.other.image.alt.carve
+]( -> source.carve meta.image.inline.carve
+x.png -> source.carve meta.image.inline.carve markup.underline.link.image.carve
+) -> source.carve meta.image.inline.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Figure #: The sun -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+#l1 -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.begin.carve
+js -> source.carve markup.raw.block.fenced.code.carve entity.name.type.language.carve
+\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+x\n -> source.carve markup.raw.block.fenced.code.carve meta.embedded.block.javascript
+``` -> source.carve markup.raw.block.fenced.code.carve keyword.control.raw.end.carve
+\n -> source.carve markup.raw.block.fenced.code.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Listing #: Code -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+> -> source.carve markup.quote.carve keyword.control.quote.carve
+  -> source.carve markup.quote.carve
+q -> source.carve markup.quote.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Someone -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+{ -> source.carve meta.attributes.carve
+#e1 -> source.carve meta.attributes.carve entity.other.attribute-name.id.carve
+} -> source.carve meta.attributes.carve
+\n -> source.carve
+$$ -> source.carve markup.other.math.display.carve keyword.control.math.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+E=mc^2 -> source.carve markup.other.math.display.carve markup.other.math.content.carve
+` -> source.carve markup.other.math.display.carve keyword.control.raw.carve
+\n -> source.carve
+^ -> source.carve markup.table.caption.carve keyword.control.caption.carve
+  -> source.carve markup.table.caption.carve
+Equation #: Mass -> source.carve markup.table.caption.carve string.unquoted.caption.carve
+\n -> source.carve
+\n -> source.carve
+See  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+fig-sun -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+,  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+l1 -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+,  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+e1 -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+ and  -> source.carve
+</# -> source.carve keyword.control.link.begin.carve
+none -> source.carve markup.underline.link.cross-reference.carve
+> -> source.carve keyword.control.link.end.carve
+. -> source.carve

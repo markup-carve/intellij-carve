@@ -1,14 +1,14 @@
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-x -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-a(b(c))d -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
- and  -> text.carve
-[ -> text.carve meta.link.inline.carve keyword.control.link.begin.carve
-y -> text.carve meta.link.inline.carve string.other.link.title.carve
-] -> text.carve meta.link.inline.carve keyword.control.link.end.carve
-( -> text.carve meta.link.inline.carve keyword.control.metadata.begin.carve
-e -> text.carve meta.link.inline.carve markup.underline.link.carve
-) -> text.carve meta.link.inline.carve keyword.control.metadata.end.carve
-f)\n -> text.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+x -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+a(b(c))d -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+ and  -> source.carve
+[ -> source.carve meta.link.inline.carve keyword.control.link.begin.carve
+y -> source.carve meta.link.inline.carve string.other.link.title.carve
+] -> source.carve meta.link.inline.carve keyword.control.link.end.carve
+( -> source.carve meta.link.inline.carve keyword.control.metadata.begin.carve
+e -> source.carve meta.link.inline.carve markup.underline.link.carve
+) -> source.carve meta.link.inline.carve keyword.control.metadata.end.carve
+f)\n -> source.carve

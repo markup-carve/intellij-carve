@@ -61,7 +61,7 @@ object CarveConverter {
             return errorHtml("Carve PHP error", error)
         }
 
-        return renderWithJs(carve, "carveToHtml", sourceLine, allowRawHtml)
+        return renderWithJs(carve, RENDER_HTML_JS, sourceLine, allowRawHtml)
     }
 
     /**
@@ -72,7 +72,7 @@ object CarveConverter {
      * through the bundled JS build. A `CarveRenderer.CARVE_PHP` project still
      * exports Markdown, from the bundle, rather than failing.
      */
-    fun toMarkdown(carve: String): String = renderWithJs(carve, "carveToMarkdown")
+    fun toMarkdown(carve: String): String = renderWithJs(carve, RENDER_MARKDOWN_JS)
 
     /**
      * Render to HTML with `{{ path }}` includes expanded (spec PART 9 section 19).
@@ -173,24 +173,22 @@ object CarveConverter {
                 .use { context ->
                     context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
                     val engine = context.getBindings("js").getMember("carve")
-                    val fn = engine?.getMember(format.jsFunction)
-                        ?: return Result.failure(IllegalStateException("'${format.jsFunction}' not found in bundle."))
-                    val result = fn.execute(source)
-                    // htmlToCarve returns { value, report }, markdownToCarve a plain string.
-                    val carve = if (result.isString) result.asString() else result.getMember("value").asString()
-                    // The importers copy source layout such as table padding; `carve fmt` would rewrite it.
-                    val formatted = engine.getMember("carveToCarve")?.execute(carve)?.asString() ?: carve
-                    Result.success(formatted)
+                    val importers = engine?.getMember("importers")
+                        ?: return Result.failure(IllegalStateException("'carve.importers' not found in bundle."))
+                    val options = context.eval("js", "(function (from) { return { from: from }; })").execute(format.from)
+                    // importDocument writes canonical Carve source already.
+                    val result = importers.getMember("importDocument").execute(source, options)
+                    Result.success(result.getMember("source").asString())
                 }
         } catch (e: Exception) {
-            LOG.warn("Carve import (${format.jsFunction}) failed", e)
+            LOG.warn("Carve import (${format.from}) failed", e)
             Result.failure(e)
         }
     }
 
     private fun renderWithJs(
         carve: String,
-        fnName: String,
+        renderJs: String,
         sourceLine: Boolean = false,
         allowRawHtml: Boolean = true,
     ): String {
@@ -205,20 +203,14 @@ object CarveConverter {
                 .build()
                 .use { context ->
                     context.eval(Source.newBuilder("js", carveJs, "carve.iife.js").build())
-                    val carveGlobal = context.getBindings("js").getMember("carve")
+                    context.getBindings("js").getMember("carve")
                         ?: return errorHtml("Carve renderer error", "Global 'carve' not found in bundle.")
-                    val fn = carveGlobal.getMember(fnName)
-                        ?: return errorHtml("Carve renderer error", "'$fnName' not found in bundle.")
-                    // Build the options object (with the showcase extension set) inside
-                    // the bundle's own context, so the extension factories come from the
-                    // same Carve build that renders. Defined as a global helper once per
-                    // context, then invoked with the source as a polyglot argument - no
-                    // string interpolation of the user's Carve, so no injection.
                     val optionsBuilder = context.eval(
                         Source.newBuilder("js", CARVE_OPTIONS_JS, "carve-options.js").build(),
                     )
                     val options = optionsBuilder.execute(sourceLine, allowRawHtml)
-                    fn.execute(carve, options).asString()
+                    val render = context.eval(Source.newBuilder("js", renderJs, "carve-render.js").build())
+                    render.execute(carve, options).asString()
                 }
         } catch (e: Exception) {
             LOG.warn("Carve JS render failed", e)
@@ -226,40 +218,46 @@ object CarveConverter {
         }
     }
 
+    /** `(source, options) -> html`: parse with the extension set, decorate links, render. */
+    private val RENDER_HTML_JS = """
+        (function (source, options) {
+          var tree = carve.parse(source, { extensions: options.extensions });
+          return carve.renderPreview(carve.decorateLinks(tree), options);
+        })
+    """.trimIndent()
+
+    /** `(source) -> markdown`: the engine's own Markdown export, with no extension set. */
+    private val RENDER_MARKDOWN_JS = """
+        (function (source) {
+          return carve.exporters.toMarkdown(carve.parse(source)).output;
+        })
+    """.trimIndent()
+
     /**
-     * Returns a `carveToHtml` options object enabling the showcase extension
-     * set the Carve docs site renders with (see carve-js
-     * `docs/.vitepress/carve-extensions.js`): authoring constructs and inline
-     * sugar that work zero-config and are safe in an embedded preview.
+     * Returns the render options: the standard Carve 0.2 extensions an embedded
+     * preview can draw zero-config (from `carve.extensions`, tabs from the root),
+     * scroll anchors and the raw-HTML switch. Heading permalinks and the
+     * `heading-ref` class on `[Heading][]` links are document transforms (C2-X-053).
      *
-     * One deliberate deviation from the docs-site list: this plugin uses
-     * `headingReference` rather than `wikilinks` for `[[Heading]]`. The plugin's
-     * own `cwiki` live template and README document `[[Heading]]` as an implicit
-     * heading reference (resolving to the local `#id`), whereas `wikilinks`
-     * would render it as an off-document wiki page link - making the plugin's
-     * own template produce a broken-looking link in preview.
-     *
-     * Each factory is called fresh per render. Diagram presets that need a
-     * client-side JS library to paint (mermaid, chart) emit their container
-     * markup here; the preview surface decides whether to load those libraries.
-     * Factories absent from the bundle are skipped so an older bundle still
-     * renders core Carve rather than throwing.
+     * Bare URLs and off-site links are decorated by `carve.decorateLinks`.
+     * `citations`, `glossary` and `index` resolve through document transforms,
+     * which `carve.renderPreview` runs. Each factory is called fresh per render.
      */
     private val CARVE_OPTIONS_JS = """
         (function (sourceLine, allowRawHtml) {
-          var names = [
-            'details', 'mermaid', 'mathBlock', 'spoiler', 'chart',
-            'headingReference', 'autolink', 'codeGroup', 'tabs', 'listTable',
-            'headingPermalinks', 'citations', 'externalLinks'
-          ];
-          var exts = [];
-          for (var i = 0; i < names.length; i++) {
-            var factory = carve[names[i]];
-            if (typeof factory === 'function') {
-              exts.push(factory());
-            }
-          }
-          return { extensions: exts, sourceLine: !!sourceLine, allowRawHtml: allowRawHtml !== false };
+          var e = carve.extensions;
+          var set = e.withExtensions(
+            e.details(), e.mermaid(), e.mathBlock(), e.spoiler(), e.chart(), e.codeGroup(), e.listTable(),
+            e.citations(), e.glossary(), e.index(), e.imgFence(),
+            { extensions: carve.tabsExtensions, renderers: { 'carve.tabs': carve.tabsRenderer } }
+          );
+          return {
+            extensions: set.extensions.concat([e.headingPermalinks(), e.headingReference()]),
+            renderers: set.renderers,
+            transforms: set.transforms || [],
+            sourceLines: !!sourceLine,
+            rawHtml: allowRawHtml !== false
+          };
         })
     """.trimIndent()
 

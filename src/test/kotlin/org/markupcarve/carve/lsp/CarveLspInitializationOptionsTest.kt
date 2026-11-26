@@ -77,6 +77,16 @@ class CarveLspInitializationOptionsTest {
         assertFalse(carve.get("exportActions").asBoolean)
     }
 
+    @Test
+    fun `lint upgrade mode is sent only when it is on`() {
+        assertFalse(build(CarveIncludeMode.AUTO).getAsJsonObject("carve").has("lint"))
+
+        val carve = CarveLspInitializationOptions.build(CarveIncludeMode.AUTO, "", true, lintUpgrade = true)
+            .getAsJsonObject("carve")
+
+        assertTrue(carve.getAsJsonObject("lint").get("upgrade").asBoolean)
+    }
+
     private fun build(mode: CarveIncludeMode): JsonObject =
         CarveLspInitializationOptions.build(mode, "", workspaceTrusted = true)
 }

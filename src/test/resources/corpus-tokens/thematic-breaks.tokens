@@ -1,14 +1,12 @@
-a\n -> text.carve
-\n -> text.carve
---- -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve meta.separator.thematic-break.carve
-\n -> text.carve
-b\n -> text.carve
-\n -> text.carve
-*** -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve meta.separator.thematic-break.carve
-\n -> text.carve
-c\n -> text.carve
-\n -> text.carve
-___ -> text.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
-\n -> text.carve meta.separator.thematic-break.carve
+a\n -> source.carve
+\n -> source.carve
+---\n -> source.carve
+\n -> source.carve
+b\n -> source.carve
+\n -> source.carve
+*** -> source.carve meta.separator.thematic-break.carve keyword.control.thematic-break.carve
+\n -> source.carve meta.separator.thematic-break.carve
+\n -> source.carve
+c\n -> source.carve
+\n -> source.carve
+___\n -> source.carve

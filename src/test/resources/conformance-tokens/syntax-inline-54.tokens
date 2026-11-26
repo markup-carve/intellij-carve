@@ -1,0 +1,5 @@
+{+ -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+a  -> source.carve markup.inserted.critic.carve markup.inserted.carve
+{*b -> source.carve markup.inserted.critic.carve markup.inserted.carve
++} -> source.carve markup.inserted.critic.carve keyword.control.critic.carve
+ c*} -> source.carve

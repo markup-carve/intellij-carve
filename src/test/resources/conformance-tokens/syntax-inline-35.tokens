@@ -1,0 +1,9 @@
+a {'x'} b and { -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+a -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+:  -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+b -> source.carve
+" -> source.carve keyword.control.smartquote.carve
+} -> source.carve

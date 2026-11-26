@@ -1,0 +1,25 @@
+Text -> source.carve
+[ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+^ -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+1 -> source.carve entity.name.reference.footnote.carve variable.parameter.footnote.carve
+] -> source.carve entity.name.reference.footnote.carve keyword.control.footnote.carve
+.\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+footnotes -> source.carve markup.other.div.carve entity.name.type.div.carve
+  -> source.carve markup.other.div.carve
+"Notes" -> source.carve markup.other.div.carve string.quoted.double.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+\n -> source.carve
+\n -> source.carve
+[^1]: -> source.carve meta.footnote.definition.carve entity.name.reference.footnote.carve
+ A note. -> source.carve meta.footnote.definition.carve
+\n -> source.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve
+  -> source.carve markup.other.div.carve
+footnotes -> source.carve markup.other.div.carve entity.name.type.div.carve
+\n -> source.carve
+::: -> source.carve markup.other.div.carve keyword.control.div.carve

@@ -1,0 +1,13 @@
+pages 1 -> source.carve
+-- -> source.carve constant.character.entity.typography.carve
+10 and a -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+b and a -> source.carve
+---- -> source.carve constant.character.entity.typography.carve
+b and  -> source.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+git log --oneline -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+ and x  -> source.carve
+--- -> source.carve constant.character.entity.typography.carve
+ y -> source.carve

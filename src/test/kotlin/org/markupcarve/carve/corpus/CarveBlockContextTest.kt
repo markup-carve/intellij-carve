@@ -67,9 +67,13 @@ class CarveBlockContextTest {
 
     @Test
     fun aParagraphEndsAtALineThatInterruptsIt() {
-        assertTrue(scopesOf("para\n# Heading\n", "#").contains("markup.heading.carve"))
-        assertTrue(scopesOf("para\n> quote\n", ">").contains("keyword.control.quote.carve"))
+        // Carve 0.2: a heading or quote line under prose is paragraph text (U-001, U-002);
+        // a table row, a fence and a star break interrupt (U-013).
+        assertFalse(scopesOf("para\n# Heading\n", "#").contains("markup.heading.carve"))
+        assertFalse(scopesOf("para\n> quote\n", ">").contains("keyword.control.quote.carve"))
         assertTrue(scopesOf("para\n| a | b |\n", "| b").contains(tableRow))
+        assertTrue(scopesOf("para\n***\n", "***").contains("meta.separator.thematic-break.carve"))
+        assertTrue(scopesOf("para\n\n# Heading\n", "#").contains("markup.heading.carve"))
     }
 
     @Test
@@ -103,11 +107,13 @@ class CarveBlockContextTest {
     fun aTableRowNeedsItsClosingPipe() {
         assertFalse(scopesOf("| a | b\n", "| b").contains(tableRow))
         assertFalse(scopesOf("> | a | b\n", "| b").contains(tableRow))
-        assertFalse(scopesOf("| a | b | %% note\n", "| b").contains(tableRow))
+        assertFalse(scopesOf("| a | b |%% note\n", "| b").contains(tableRow))
         assertTrue(scopesOf("| a | b |\n", "| b").contains(tableRow))
         assertTrue(scopesOf("| a | b |{.x}\n", "| b").contains(tableRow))
         assertTrue(scopesOf("> | a | b |\n", "| b").contains(tableRow))
         assertTrue(scopesOf("- | a | b |\n", "| b").contains(tableRow))
+        assertTrue(scopesOf("| a | b | %% note\n", "| b").contains(tableRow))
+        assertTrue(scopesOf("> | a | b |  %% note\n", "| b").contains(tableRow))
     }
 
     @Test

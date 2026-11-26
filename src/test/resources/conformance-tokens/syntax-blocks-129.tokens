@@ -1,0 +1,4 @@
+``` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
+js title\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+code\n -> source.carve markup.raw.inline.carve markup.raw.inline.content.carve
+``` -> source.carve markup.raw.inline.carve keyword.control.raw.carve
