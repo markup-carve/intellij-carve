@@ -12,9 +12,9 @@ if [[ ! "$commit" =~ ^[0-9a-f]{40}$ ]]; then
   exit 1
 fi
 
-head="$(git ls-remote https://github.com/markup-carve/carve-css.git refs/heads/next2 | cut -f1)"
+head="$(git ls-remote https://github.com/markup-carve/carve-css.git refs/heads/main | cut -f1)"
 if [[ "$head" != "$commit" ]]; then
-  echo "carve-css next2 moved: vendored $commit, current $head" >&2
+  echo "carve-css main moved: vendored $commit, current $head" >&2
   exit 1
 fi
 
@@ -26,4 +26,4 @@ for name in tokens recipes contrast extensions; do
     exit 1
   fi
 done
-printf 'check-carve-css-drift: all four layers match carve-css next2 %s.\n' "$commit"
+printf 'check-carve-css-drift: all four layers match carve-css main %s.\n' "$commit"

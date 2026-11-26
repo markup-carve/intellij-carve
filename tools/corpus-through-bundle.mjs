@@ -104,7 +104,7 @@ const attributable = [...vendored.wrong.keys()].filter(
 
 if (list) {
   for (const [name, why] of vendored.wrong) {
-    const upstream = reference && reference.wrong.has(name) ? ' [also wrong in carve-js next2]' : ''
+    const upstream = reference && reference.wrong.has(name) ? ' [also wrong in carve-js main]' : ''
     console.log(why === 'differs' ? `${name}${upstream}` : `${name} (${why})${upstream}`)
   }
 }

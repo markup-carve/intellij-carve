@@ -1,7 +1,7 @@
 name: Spec drift
 
 # The 0.2 spec submodule is a reviewed pin. Report its distance from carve
-# next2, and fail only when its commit is unreachable or older than the age
+# main, and fail only when its commit is unreachable or older than the age
 # limit. The render-example count comes from the 0.2 conformance JSON.
 
 on:
@@ -36,7 +36,7 @@ jobs:
           path: carve-spec
           fetch-depth: 0
 
-      - name: Compare the spec submodule against carve next2
+      - name: Compare the spec submodule against carve main
         run: |
           set -euo pipefail
           rev="$(git rev-parse HEAD:spec)"
@@ -44,26 +44,26 @@ jobs:
             echo "::error::the spec submodule pins ${rev}, which is not a commit in markup-carve/carve"
             exit 1
           fi
-          if ! git -C carve-spec merge-base --is-ancestor "${rev}" origin/next2; then
-            echo "::error::spec ${rev} is not on next2, so the pin came from an unmerged or rewritten branch"
+          if ! git -C carve-spec merge-base --is-ancestor "${rev}" origin/main; then
+            echo "::error::spec ${rev} is not on main, so the pin came from an unmerged or rewritten branch"
             exit 1
           fi
-          behind="$(git -C carve-spec rev-list --count "${rev}..origin/next2")"
+          behind="$(git -C carve-spec rev-list --count "${rev}..origin/main")"
           corpus="$(git -C carve-spec show "${rev}:spec/0.2/conformance/examples.json" | python3 -c 'import json,sys; print(sum(e.get("kind") == "render" and not e.get("options") and isinstance(e.get("expected", {}).get("html"), str) for e in json.load(sys.stdin)["examples"]))' )"
-          latest="$(git -C carve-spec show origin/next2:spec/0.2/conformance/examples.json | python3 -c 'import json,sys; print(sum(e.get("kind") == "render" and not e.get("options") and isinstance(e.get("expected", {}).get("html"), str) for e in json.load(sys.stdin)["examples"]))' )"
+          latest="$(git -C carve-spec show origin/main:spec/0.2/conformance/examples.json | python3 -c 'import json,sys; print(sum(e.get("kind") == "render" and not e.get("options") and isinstance(e.get("expected", {}).get("html"), str) for e in json.load(sys.stdin)["examples"]))' )"
           echo "spec pin: ${rev} ($(git -C carve-spec log -1 --format=%s "${rev}"))"
-          echo "carve next2 is ${behind} commit(s) ahead; render examples ${corpus} -> ${latest}"
+          echo "carve main is ${behind} commit(s) ahead; render examples ${corpus} -> ${latest}"
           if [ "${behind}" -gt 0 ]; then
-            echo "::warning::the spec submodule is ${behind} commit(s) behind carve next2 (render examples ${corpus} vs ${latest})"
+            echo "::warning::the spec submodule is ${behind} commit(s) behind carve main (render examples ${corpus} vs ${latest})"
           fi
 
           # The committer date, not the author date: a rebased or cherry-picked
           # commit keeps its author date and would report an age it never had on
-          # next2.
+          # main.
           committed="$(git -C carve-spec log -1 --format=%ct "${rev}")"
           age_days=$(( ( $(date -u +%s) - committed ) / 86400 ))
           echo "the pinned commit is ${age_days} day(s) old (limit ${SPEC_MAX_AGE_DAYS})"
           if [ "${age_days}" -gt "${SPEC_MAX_AGE_DAYS}" ]; then
-            echo "::error::the spec submodule pins a commit ${age_days} days old, over the limit of ${SPEC_MAX_AGE_DAYS}. Bump it and work through what the bump surfaces: 'git -C spec fetch origin && git -C spec checkout origin/next2 && git add spec && ./gradlew test' resolves the coverage matrix, then regenerate the goldens with -Dcarve.updateGoldens=true and read the diff. The 0.2 render corpus has ${corpus} examples here against ${latest} on next2."
+            echo "::error::the spec submodule pins a commit ${age_days} days old, over the limit of ${SPEC_MAX_AGE_DAYS}. Bump it and work through what the bump surfaces: 'git -C spec fetch origin && git -C spec checkout origin/main && git add spec && ./gradlew test' resolves the coverage matrix, then regenerate the goldens with -Dcarve.updateGoldens=true and read the diff. The 0.2 render corpus has ${corpus} examples here against ${latest} on main."
             exit 1
           fi

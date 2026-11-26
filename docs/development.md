@@ -92,7 +92,7 @@ launched as `node lsp/server.js --stdio`. Only a `node` binary is needed at
 runtime - no `node_modules` are shipped.
 
 The server bundle is built from the pins in `tools/lsp-bundle/package.json`:
-exact npm versions, or on `next2` a commit (`github:markup-carve/carve-lsp#<sha>`),
+exact npm versions, or a commit (`github:markup-carve/carve-lsp#<sha>`),
 whose commit the build stamps directly. The lockfile and generated `server.js` and
 `VERSION` files are committed together. To bump the server and its engine:
 
@@ -309,7 +309,7 @@ To move the spec pin, update the vendored render subset, regenerate any changed
 token goldens, and run the corpus tests:
 
 ```bash
-git -C spec fetch origin next2 && git -C spec checkout origin/next2
+git -C spec fetch origin main && git -C spec checkout origin/main
 node tools/vendor-conformance.mjs spec
 ./gradlew test --tests "*CarveCorpus*" -Dcarve.updateGoldens=true
 ```
