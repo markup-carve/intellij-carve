@@ -22,6 +22,7 @@ object CarveLspBundle {
 
     private const val RESOURCE_DIR = "/lsp"
     private const val SERVER_FILE = "server.js"
+    private const val WORKER_FILE = "analysis-worker.js"
     private const val VERSION_FILE = "VERSION"
 
     /**
@@ -34,20 +35,26 @@ object CarveLspBundle {
             LOG.warn("Bundled carve-lsp server.js not found on the plugin classpath")
             return null
         }
+        val workerBytes = readResource(WORKER_FILE) ?: run {
+            LOG.warn("Bundled carve-lsp analysis-worker.js not found on the plugin classpath")
+            return null
+        }
         val version = readResourceText(VERSION_FILE) ?: ""
 
         val targetDir = Path.of(PathManager.getSystemPath(), "carve-lsp")
         val targetServer = targetDir.resolve(SERVER_FILE)
+        val targetWorker = targetDir.resolve(WORKER_FILE)
         val targetVersion = targetDir.resolve(VERSION_FILE)
 
         // Re-extract only when the vendored VERSION differs from what is on disk,
         // so an IDE restart does not rewrite an identical file every launch.
         val onDisk = runCatching { Files.readString(targetVersion) }.getOrNull()
-        if (Files.exists(targetServer) && onDisk == version) {
+        if (Files.exists(targetServer) && Files.exists(targetWorker) && onDisk == version) {
             return targetServer
         }
 
         Files.createDirectories(targetDir)
+        Files.write(targetWorker, workerBytes)
         Files.write(targetServer, serverBytes)
         Files.writeString(targetVersion, version)
         LOG.info("Extracted bundled carve-lsp to $targetServer ($version)")
