@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      # carve-js next2 builds on install and runs scripts/*.ts directly, which needs Node 22.
+      # carve-js builds on install and runs scripts/*.ts directly, which needs Node 22.
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
