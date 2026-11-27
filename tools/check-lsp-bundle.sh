@@ -6,6 +6,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 "$here/tools/build-lsp-bundle.sh" --out "$tmp/server.js"
 if ! cmp -s "$tmp/server.js" "$here/src/main/resources/lsp/server.js" || \
+   ! cmp -s "$tmp/analysis-worker.js" "$here/src/main/resources/lsp/analysis-worker.js" || \
    ! diff -q "$tmp/VERSION" "$here/src/main/resources/lsp/VERSION" >/dev/null; then
   echo "Pinned tools/lsp-bundle build differs from committed LSP bundle. Run tools/build-lsp-bundle.sh" >&2
   exit 1

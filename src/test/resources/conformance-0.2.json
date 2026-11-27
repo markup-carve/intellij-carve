@@ -1,5 +1,5 @@
 {
- "commit": "1c8d567927ff22e99cb4950e226dbee29b127fd7",
+ "commit": "dbcbbe12d8eae9e68acf0c783f0ca14d2e05fd63",
  "examples": [
   {
    "id": "syntax-blocks-1",
@@ -1429,7 +1429,7 @@
   {
    "id": "syntax-blocks-219",
    "input": "{header-rows=1}\n| a |\n| b |",
-   "html": "<table>\n  <tbody>\n    <tr><td>a</td></tr>\n    <tr><td>b</td></tr>\n  </tbody>\n</table>"
+   "html": "<table>\n  <thead>\n    <tr><td>a</td></tr>\n  </thead>\n  <tbody>\n    <tr><td>b</td></tr>\n  </tbody>\n</table>"
   },
   {
    "id": "syntax-blocks-220",
