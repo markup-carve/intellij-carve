@@ -45,7 +45,7 @@ class CarveLineInlineGenerationTest {
     fun headingRootIncludesAllSupportedInlineConstructs() {
         val expected = listOf("raw-inline", "inline-literal", "inline-code", "links", "images", "footnotes",
             "citations", "critic-markup", "emphasis", "heading-span-attributes", "inline-comment", "math",
-            "cross-reference", "autolink", "extension-inline", "include-directive", "mentions-tags",
+            "cross-reference", "autolink", "extension-inline", "snippet-use", "include-directive", "mentions-tags",
             "smart-typography", "hard-break", "trailing-comment")
         val root = repository.getValue("heading-inline") as Map<String, Any?>
         val patterns = root.getValue("patterns") as List<Map<String, String>>
