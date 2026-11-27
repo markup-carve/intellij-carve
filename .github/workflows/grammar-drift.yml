@@ -93,4 +93,6 @@ jobs:
 
       - name: The vendored carve-css layers still match the newest release
         if: always()
-        run: ./tools/check-carve-css-drift.sh
+        run: |
+          node --test tools/check-carve-css-drift.test.mjs
+          ./tools/check-carve-css-drift.sh
