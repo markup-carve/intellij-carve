@@ -20,7 +20,7 @@ plugins {
 }
 
 group = "org.markupcarve"
-version = "0.1.20"
+version = "0.2.0"
 
 repositories {
     mavenCentral()
@@ -177,6 +177,7 @@ intellijPlatform {
             create(IntelliJPlatformType.IntellijIdea, "2025.3")
             create(IntelliJPlatformType.IntellijIdea, "2026.1")
             create(IntelliJPlatformType.IntellijIdea, "2026.2")
+            create(IntelliJPlatformType.IntellijIdea, "2026.3")
         }
     }
 
