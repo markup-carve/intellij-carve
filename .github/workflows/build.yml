@@ -25,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
-      # The pins are git commits on next2, which the lockfile records as SSH URLs.
+      # The pins are git commits on main, which the lockfile records as SSH URLs.
       - name: Prefer HTTPS for Git dependencies
         run: |
           git config --global --add url."https://github.com/".insteadOf ssh://git@github.com/
