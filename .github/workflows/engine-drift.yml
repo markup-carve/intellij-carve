@@ -265,7 +265,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -q -B "${branch}"
-          git add tools/lsp-bundle/package.json tools/lsp-bundle/package-lock.json src/main/resources/js/carve.iife.js src/main/resources/lsp/server.js src/main/resources/lsp/VERSION spec
+          git add tools/lsp-bundle/package.json tools/lsp-bundle/package-lock.json src/main/resources/js/carve.iife.js src/main/resources/lsp/server.js src/main/resources/lsp/analysis-worker.js src/main/resources/lsp/VERSION spec
           git commit -q -m "${title}"
           git push -q --force "${remote}" "${branch}"
 

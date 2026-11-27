@@ -52,6 +52,9 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Check bundled renderer against the pinned render corpus
+        run: node --test tools/carve-bundle-conformance.test.mjs
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
 
