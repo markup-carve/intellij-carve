@@ -7,11 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-27
+
+The plugin reads, previews and edits documents as Carve 0.2.
+
 ### Breaking
 
-- Preview, export, import and the bundled language server run on the Carve 0.2 engine (carve-js and carve-lsp `next2`). Carve 0.1 source can read differently; `carve upgrade` rewrites it.
-- The grammar's root scope is `source.carve`, as in carve-grammars and vscode-carve (#309).
-- The preview no longer renders `[@key]` citations or `[[Heading]]` references: Carve 0.2 has no citation extension yet (carve-js#5082), and a heading reference is `[Heading][]`, which the `cwiki` template now writes.
+- Preview, export, import and the bundled language server run on the Carve 0.2 engine (carve-js and carve-lsp 0.2). Carve 0.1 source can read differently; `carve upgrade` rewrites it (#307, #310).
+- The grammar's root scope is `source.carve`, as in carve-grammars and vscode-carve (#309, #310).
+- The preview renders 0.2 citations, written `:cite[key]` with a references directive; `[@key]` and `[[Heading]]` are text. A heading reference is `[Heading][]`, which the `cwiki` template now writes (#310, #311).
+- The `cu`, `cs` and `chl` live templates insert braced `{_x_}`, `{~x~}` and `{=x=}`, since Carve 0.2 reads a bare `_x_`, `~x~` or `=x=` as text. The guide and the color settings demo use the same spellings (#322).
+
+### Fixes
+
+- A table row that ends in a `%%` comment is highlighted as a row (#312).
+- A line of many unclosed inline openers highlights in linear time instead of rescanning the line for each opener (#312).
+- Preview headings have their permalinks and heading-reference classes again (#313).
+
+### Improvements
+
+- The preview renders image fences (`imgFence`) (#313).
+- A **Lint upgrade mode** setting in the Language Server group runs the 0.1 migration rules and offers their quick fixes, for moving a 0.1 document to 0.2 (#323).
+- The Plugin Verifier also checks IntelliJ IDEA 2026.3.
+
+**Full Changelog**: https://github.com/markup-carve/intellij-carve/compare/0.1.20...0.2.0
 
 ## [0.1.20] - 2026-11-26
 
